@@ -79,7 +79,14 @@
       "xutility": "cpp",
       "qabstractitemmodel": "cpp",
       "qtextedit": "cpp",
-      "qnetworkreply": "cpp"
+      "qnetworkreply": "cpp",
+      "bitset": "cpp",
+      "execution": "cpp",
+      "condition_variable": "cpp",
+      "cstdarg": "cpp",
+      "future": "cpp",
+      "set": "cpp",
+      "unordered_set": "cpp"
     },
     "cmake.configureArgs": [
         "-DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake",
@@ -100,5 +107,10 @@
               }
             ]
           }
+        ],
+        "C_Cpp.codeAnalysis.clangTidy.checks.disabled": [
+          "clang-diagnostic-dangling-gsl",
+          "clang-diagnostic-error",
+          "clang-analyzer-optin.cplusplus.VirtualCall"
         ]
 }

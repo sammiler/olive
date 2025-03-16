@@ -9,11 +9,7 @@ const baseConfig = {
     cwd: "${workspaceFolder}/build/bin/Debug",
     environment: [],
     console: "externalTerminal",
-    setupCommands: [
-        { description: "Enable pretty-printing for gdb", text: "-enable-pretty-printing", ignoreFailures: true },
-        { description: "Set charset to UTF-8", text: "set charset UTF-8", ignoreFailures: true } ,
-        { description: "将反汇编风格设置为 Intel", text: "-gdb-set disassembly-flavor intel",ignoreFailures: true}
-    ],
+    visualizerFile: "C:/Users/sammiler/MyFile/My Doc/Visual Studio 2022/Visualizers/qt5.natvis",
     environment: [
         {
             "name": "PATH",

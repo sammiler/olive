@@ -28,27 +28,13 @@
                 }
             ],
             "console": "integratedTerminal",
-            "setupCommands": [
-                {
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                },
-                {
-                    "description": "Set charset to UTF-8",
-                    "text": "set charset UTF-8",
-                    "ignoreFailures": true
-                },
-                {
-                    "description": "将反汇编风格设置为 Intel",
-                    "text": "-gdb-set disassembly-flavor intel",
-                    "ignoreFailures": true
-                }
-            ],
+            "visualizerFile": "C:/Users/sammiler/MyFile/My Doc/Visual Studio 2022/Visualizers/qt5.natvis",
             "preLaunchTask": "cmake-build",
             "sourceFileMap": {
-                "C:/vcpkg/installed/x64-windows/debug": "C:/vcpkg/buildtrees/qtbase/src/here-src-6-c23658a936.clean/src",
-                "C:/vcpkg/installed/x64-windows": "C:/vcpkg/buildtrees/qtbase/src/here-src-6-c23658a936.clean/src"
+                // "C:/vcpkg/installed/x64-windows/debug": "C:/vcpkg/buildtrees/qtbase/src/here-src-6-c23658a936.clean/src",
+                // "C:/vcpkg/installed/x64-windows": "C:/vcpkg/buildtrees/qtbase/src/here-src-6-c23658a936.clean/src",
+                "C:/vcpkg/installed/x64-windows/debug": "C:/vcpkg/buildtrees/opencolorio/src/v2.1.1-2eff5bc6b9.clean/src",
+                "C:/vcpkg/installed/x64-windows": "C:/vcpkg/buildtrees/opencolorio/src/v2.1.1-2eff5bc6b9.clean/src"
             }
         }
     ]
