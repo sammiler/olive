@@ -2,21 +2,21 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug WBOARD",
-            "program": "${workspaceFolder}/build/bin/Debug/WBOARD.exe",
+            "name": "Debug olive-editor",
+            "program": "${workspaceFolder}/build/bin/Debug/olive-editor.exe",
             "type": "cppvsdbg",
             "request": "launch",
             "args": [],
             "stopAtEntry": true,
-            "cwd": "${workspaceFolder}/build/bin",
+            "cwd": "${workspaceFolder}/build/bin/Debug",
             "environment": [
                 {
                     "name": "PATH",
-                    "value": "C:/Qt/Qt5.9.5/5.9.5/msvc2017_64/bin;${workspaceFolder}/ThirdParty/quazip/Debug/bin;${workspaceFolder}/ThirdParty/openssl/bin;"
+                    "value": "${env:PATH};C:/vcpkg/installed/x64-windows/debug/bin;C:/vcpkg/installed/x64-windows/bin;"
                 },
                 {
                     "name": "QT_PLUGIN_PATH",
-                    "value": "C:/Qt/Qt5.9.5/5.9.5/msvc2017_64/plugins"
+                    "value": "C:/vcpkg/installed/x64-windows/debug/plugins"
                 },
                 {
                     "name": "QML_PATH",
@@ -24,7 +24,7 @@
                 },
                 {
                     "name": "QML2_IMPORT_PATH",
-                    "value": "C:/vcpkg/installed/x64-windows/debug/Qt6/qml"
+                    "value": "C:/vcpkg/installed/x64-windows/debug/qml"
                 }
             ],
             "console": "integratedTerminal",
@@ -45,6 +45,7 @@
                     "ignoreFailures": true
                 }
             ],
+            "preLaunchTask": "cmake-build",
             "sourceFileMap": {
                 "C:/vcpkg/installed/x64-windows/debug": "C:/vcpkg/buildtrees/qtbase/src/here-src-6-c23658a936.clean/src",
                 "C:/vcpkg/installed/x64-windows": "C:/vcpkg/buildtrees/qtbase/src/here-src-6-c23658a936.clean/src"

@@ -10,7 +10,10 @@
                 "C:/vcpkg/installed/x64-windows/include/qt5/QtWidgets",
                 "C:/vcpkg/installed/x64-windows/include/qt5/QtCore",
                 "C:/vcpkg/installed/x64-windows/include/qt5",
-                "C:/vcpkg/installed/x64-windows/include/qt5/QtGui"
+                "C:/vcpkg/installed/x64-windows/include/qt5/QtGui",
+                "${workspaceFolder}/ext/KDDockWidgets/src/fwd_headers",
+                "C:/vcpkg/installed/x64-windows/include/qt5/QtCore/5.15.16/QtCore",
+                "C:/vcpkg/installed/x64-windows/include/qt5/QtCore/5.15.16"
             ],
             "defines": [
                 "_DEBUG"
