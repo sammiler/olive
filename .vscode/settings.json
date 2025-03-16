@@ -94,6 +94,10 @@
     ],
   "editor.snippetSuggestions": "inline",
   "editor.tabCompletion": "on",
+  "files.exclude": {
+    "vcpkg*.json": false,
+    "**/.svn": true,
+  },
     "search.exclude": {
     "**/build": true,
     },
