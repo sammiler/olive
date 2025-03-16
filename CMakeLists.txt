@@ -43,6 +43,7 @@ list(APPEND OLIVE_LIBRARIES olive-sanitizers)
 
 # Set compiler options
 if(MSVC)
+  add_compile_options(/utf-8)
   set(OLIVE_COMPILE_OPTIONS
     /wd4267
     /wd4244

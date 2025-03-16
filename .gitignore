@@ -7,7 +7,7 @@
 # Visual Studio (Code)
 .localhistory/
 .history/
-.vscode/
+
 .vs/
 /out/
 CmakeSettings.json
@@ -98,3 +98,6 @@ compile_flags.txt
 *creator.user*
 
 *_qmlcache.qrc
+
+
+vcpkg_installed/
