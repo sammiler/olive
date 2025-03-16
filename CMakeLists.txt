@@ -50,8 +50,6 @@ if(MSVC)
     /experimental:external
     /external:anglebrackets
     /external:W0
-    "$<$<CONFIG:RELEASE>:/O2>"
-    "$<$<COMPILE_LANGUAGE:CXX>:/MP>"
   )
   if (USE_WERROR)
     list(APPEND OLIVE_COMPILE_OPTIONS "/WX")

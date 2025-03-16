@@ -1,0 +1,21 @@
+{
+    "name": "olive",
+    "version": "1.0.0",
+    "builtin-baseline": "782ccc18d8b819cdef6794a6c03eb3d9f7cd04aa",
+    "dependencies": [
+          { "name": "qt5-base" },
+          { "name": "qt5-declarative" },
+          { "name": "qt5-multimedia" },
+          { "name": "qt5-quickcontrols2" },
+          { "name": "qt5-tools" },
+          { "name": "qt5-xmlpatterns" }
+        ],
+        "overrides": [
+          { "name": "qt5-base", "version": "5.15.2", "port-version": 20 },
+          { "name": "qt5-declarative", "version": "5.15.2", "port-version": 3 },
+          { "name": "qt5-multimedia", "version": "5.15.2", "port-version": 1 },
+          { "name": "qt5-quickcontrols2", "version": "5.15.2", "port-version": 0 },
+          { "name": "qt5-tools", "version": "5.15.2", "port-version": 1 },
+          { "name": "qt5-xmlpatterns", "version": "5.15.2", "port-version": 1 }
+        ]
+  }
