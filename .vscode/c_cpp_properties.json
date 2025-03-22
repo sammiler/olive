@@ -3,11 +3,6 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/app/",
-                "${workspaceFolder}/ext/core/include/olive/core",
-                "${workspaceFolder}/ext/core/include",
-                "C:/Users/sammiler/.conan2/p/b/ffmpe3f188fc757482/p/include",
-                "C:/Users/sammiler/.conan2/p/b/qt2c11cdd05279f/p/include"
             ],
             "defines": [
                 "_DEBUG"

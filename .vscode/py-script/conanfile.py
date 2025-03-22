@@ -12,7 +12,7 @@ class MyProjectConan(ConanFile):
 
     def layout(self):
         generators = "CMakeDeps", "CMakeToolchain"
-        cmake_layout(self,generators,".","build")  # 使用标准的 cmake_layout 函数
+        cmake_layout(self,generators,"../../","build")  # 使用标准的 cmake_layout 函数
     def requirements(self):
         self.requires("ffmpeg/6.1")
         self.requires("openimageio/2.5.18.0")
@@ -56,6 +56,7 @@ class MyProjectConan(ConanFile):
         tc.generate()
 
         deps = CMakeDeps(self)
+
         deps.generate()
 
         # 使用 VirtualRunEnv 设置运行时环境
@@ -68,15 +69,9 @@ class MyProjectConan(ConanFile):
             "C:/Tools",
             "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.43.34808/bin/Hostx64/x64",
             "C:/Program Files (x86)/Windows Kits/10/bin/10.0.22621.0/x64",
-            "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.43.34808/include",
-            "C:/Program Files (x86)/Windows Kits/10/Include/10.0.22621.0/ucrt",
-            "C:/Program Files (x86)/Windows Kits/10/Include/10.0.22621.0/um",
-            "C:/Program Files (x86)/Windows Kits/10/Include/10.0.22621.0/shared",
             "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.43.34808/lib/x64",
-            "C:/Program Files (x86)/Windows Kits/10/Lib/10.0.22621.0/ucrt/x64",
-            "C:/Program Files (x86)/Windows Kits/10/Lib/10.0.22621.0/um/x64",
         ]
-
+        
         # 遍历并追加所有路径到 PATH
         for path in custom_paths:
             env_vars.prepend_path("PATH", path)  # 使用 append_path 追加到 PATH

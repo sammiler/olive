@@ -4,21 +4,18 @@
         {
             "label": "cmake-configure",
             "type": "shell",
-            "command": "powershell",
+            "command": "python",
             "args": [
-                "-File",
-                "${workspaceFolder}/.vscode/ps-script/configure.ps1",
-                "-BuildType",
+                ".vscode/py-script/main.py",
+                "--task",
+                "cmake-configure",
+                "--build-type",
                 "${input:buildType}",
-                "-CMakeFlags",
+                "--cmake-flags",
                 "${input:cmakeFlags}"
             ],
             "options": {
                 "cwd": "${workspaceFolder}",
-                "shell": {
-                    "executable": "powershell.exe",
-                    "args": ["-NoProfile"]
-                }
             },
             "group": {
                 "kind": "build",
@@ -32,20 +29,17 @@
         {
             "label": "cmake-build",
             "type": "shell",
-            "command": "powershell",
+            "command": "python",
             "args": [
-                "-File",
-                "${workspaceFolder}/.vscode/ps-script/build.ps1",
-                "-BuildType",
+                ".vscode/py-script/main.py",
+                "--task",
+                "cmake-build",
+                "--build-type",
                 "${input:buildType}"
             ],
             "options": {
                 
                 "cwd": "${workspaceFolder}",
-                "shell": {
-                    "executable": "powershell.exe",
-                    "args": ["-NoProfile"]
-                }
             },
             "group": {
                 "kind": "build",
@@ -59,19 +53,16 @@
         },{
             "label": "cmake-install",
             "type": "shell",
-            "command": "powershell",
+            "command": "python",
             "args": [
-                "-File",
-                "${workspaceFolder}/.vscode/ps-script/install.ps1",
-                "-BuildType",
+                ".vscode/py-script/main.py",
+                "--task",
+                "cmake-build",
+                "--build-type",
                 "${input:buildType}"
             ],
             "options": {
                 "cwd": "${workspaceFolder}",
-                "shell": {
-                    "executable": "powershell.exe",
-                    "args": ["-NoProfile"]
-                }
             },
             "group": "build",
             "detail": "Use cmake to install the project"
@@ -79,19 +70,16 @@
         {
             "label": "cmake-clean",
             "type": "shell",
-            "command": "powershell",
+            "command": "python",
             "args": [
-                "-File",
-                "${workspaceFolder}/.vscode/ps-script/clean.ps1",
-                "-BuildType",
+                ".vscode/py-script/main.py",
+                "--task",
+                "cmake-clean",
+                "--build-type",
                 "${input:buildType}"
             ],
             "options": {
                 "cwd": "${workspaceFolder}",
-                "shell": {
-                    "executable": "powershell.exe",
-                    "args": ["-NoProfile"]
-                }
             },
             "group": {
                 "kind": "build",
@@ -101,6 +89,26 @@
                 "$msCompile"
             ],
             "detail": "Use cmake to clean the project"
+        },
+        {
+            "label": "Generate Conan Files",
+            "type": "shell",
+            "command": "python",
+            "args": [
+                ".vscode/py-script/main.py",
+                "--task",
+                "generate_conan"
+            ],
+            "group": "build",
+            "problemMatcher": [],
+            "options": {
+                "cwd": "${workspaceFolder}",
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false
+            }
         },
         {
             "label": "generate-launch",
@@ -125,10 +133,6 @@
             ],
             "options": {
                 "cwd": "${workspaceFolder}",
-                "shell": {
-                    "executable": "powershell.exe",
-                    "args": ["-NoProfile"]
-                }
             },
             "problemMatcher": [],
             "group": {
@@ -137,16 +141,13 @@
             },
             "detail": "Generate Qt's resource compiler"
         },
+
         {
             "label": "Copy DLLs",
             "type": "shell",
             "command": "node ${workspaceFolder}/.vscode/node-script/copy-dll.js",
             "options": {
                 "cwd": "${workspaceFolder}",
-                "shell": {
-                    "executable": "powershell.exe",
-                    "args": ["-NoProfile"]
-                }
             },
             "group": {
                 "kind": "build",
@@ -154,6 +155,23 @@
             },
             "problemMatcher": []
         },
+        {
+            "label": "Launch Terminal (Full Env)",
+            "type": "shell",
+            "command": "python",
+            "args": [
+                ".vscode/py-script/main.py",
+                "--task",
+                "launch-terminal",
+                "--param",
+                "full"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        }
     ],
     "inputs": [
         {
@@ -168,10 +186,10 @@
             "type": "pickString",
             "description": "Select compiler flags",
             "options": [
-                "-DCMAKE_CXX_FLAGS=/EHsc /W3 /MP6 /Zi /FS /MDd /D_ITERATOR_DEBUG_LEVEL=2 -DCMAKE_C_FLAGS=/EHsc /W3 /MP6 /Zi /FS /MDd /D_ITERATOR_DEBUG_LEVEL=2",
-                "-DCMAKE_CXX_FLAGS=/EHsc /W3 /MP6 /O2 /FS /MD -DCMAKE_C_FLAGS=/EHsc /W3 /MP6 /O2 /FS /MD"
+                "-DCMAKE_CXX_FLAGS=\"/EHsc /W3 /MP6 /Zi /FS /MDd /D_ITERATOR_DEBUG_LEVEL=2\" -DCMAKE_C_FLAGS=\"/EHsc /W3 /MP6 /Zi /FS /MDd /D_ITERATOR_DEBUG_LEVEL=2\"",
+                "-DCMAKE_CXX_FLAGS=\"/EHsc /W3 /MP6 /O2 /FS /MD -DCMAKE_C_FLAGS=/EHsc /W3 /MP6 /O2 /FS /MD\""
             ],
-            "default": "-DCMAKE_CXX_FLAGS=/EHsc /W3 /MP6 /Zi /FS /MDd /D_ITERATOR_DEBUG_LEVEL=2 -DCMAKE_C_FLAGS=/EHsc /W3 /MP6 /Zi /FS /MDd /D_ITERATOR_DEBUG_LEVEL=2"
+            "default": "-DCMAKE_CXX_FLAGS=\"/EHsc /W3 /MP6 /Zi /FS /MDd /D_ITERATOR_DEBUG_LEVEL=2\" -DCMAKE_C_FLAGS=\"/EHsc /W3 /MP6 /Zi /FS /MDd /D_ITERATOR_DEBUG_LEVEL=2\""
         }
     ]
 }

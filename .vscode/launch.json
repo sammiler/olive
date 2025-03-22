@@ -1,6 +1,7 @@
 {
     "version": "0.2.0",
     "configurations": [
+        
         {
             "name": "Debug olive-editor",
             "program": "${workspaceFolder}/build/bin/olive-editor.exe",
@@ -35,10 +36,7 @@
             "visualizerFile": "C:/Users/sammiler/MyFile/My Doc/Visual Studio 2022/Visualizers/qt5.natvis",
             "preLaunchTask": "cmake-build",
             "sourceFileMap": {
-                // "C:/vcpkg/installed/x64-windows/debug": "C:/vcpkg/buildtrees/qtbase/src/here-src-6-c23658a936.clean/src",
-                // "C:/vcpkg/installed/x64-windows": "C:/vcpkg/buildtrees/qtbase/src/here-src-6-c23658a936.clean/src",
-                "C:/vcpkg/installed/x64-windows/debug": "C:/vcpkg/buildtrees/opencolorio/src/v2.1.1-2eff5bc6b9.clean/src",
-                "C:/vcpkg/installed/x64-windows": "C:/vcpkg/buildtrees/opencolorio/src/v2.1.1-2eff5bc6b9.clean/src"
+
             }
         }
     ]
