@@ -57,7 +57,7 @@
             "args": [
                 ".vscode/py-script/main.py",
                 "--task",
-                "cmake-build",
+                "cmake-install",
                 "--build-type",
                 "${input:buildType}"
             ],
