@@ -193,7 +193,7 @@ list(APPEND OLIVE_LIBRARIES
 )
 
 # Link PortAudio
-find_package(PortAudio REQUIRED)
+find_package(portaudio REQUIRED)
 set(CMAKE_REQUIRED_INCLUDES ${PORTAUDIO_INCLUDE_DIRS})
 include(CheckIncludeFileCXX)
 check_include_file_cxx( "pa_jack.h" PA_HAS_JACK)
@@ -210,6 +210,7 @@ if (OpenTimelineIO_FOUND)
   list(APPEND OLIVE_DEFINITIONS USE_OTIO)
   list(APPEND OLIVE_INCLUDE_DIRS ${OTIO_INCLUDE_DIRS})
   list(APPEND OLIVE_LIBRARIES ${OTIO_LIBRARIES})
+  message(STATUS "Test:::::    ${OTIO_LIBRARIES}")
 else()
   message("   OpenTimelineIO interchange will be disabled.")
 endif()

@@ -68,15 +68,11 @@ class MyProjectConan(ConanFile):
             "C:/Tools",
             "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.43.34808/bin/Hostx64/x64",
             "C:/Program Files (x86)/Windows Kits/10/bin/10.0.22621.0/x64",
-            "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.43.34808/include",
-            "C:/Program Files (x86)/Windows Kits/10/Include/10.0.22621.0/ucrt",
-            "C:/Program Files (x86)/Windows Kits/10/Include/10.0.22621.0/um",
-            "C:/Program Files (x86)/Windows Kits/10/Include/10.0.22621.0/shared",
             "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.43.34808/lib/x64",
-            "C:/Program Files (x86)/Windows Kits/10/Lib/10.0.22621.0/ucrt/x64",
-            "C:/Program Files (x86)/Windows Kits/10/Lib/10.0.22621.0/um/x64",
         ]
-
+        a =   env_vars.vars(self)
+        self.output.info("1111")
+        self.output.info(a.get("PATH"))
         # 遍历并追加所有路径到 PATH
         for path in custom_paths:
             env_vars.prepend_path("PATH", path)  # 使用 append_path 追加到 PATH

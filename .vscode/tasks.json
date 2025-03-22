@@ -103,23 +103,6 @@
             "detail": "Use cmake to clean the project"
         },
         {
-            "label": "add-env-to-cmakelists",
-            "type": "shell",
-            "command": "node",
-            "args": [
-                ".vscode/node-script/add_to_cmake.js"
-            ],
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
-            "group": {
-                "kind": "build",
-                "isDefault": false
-            },
-            "problemMatcher": [],
-            "detail": "Add include_directories and link_directories to CMakeLists.txt"
-        },
-        {
             "label": "generate-launch",
             "type": "shell",
             "command": "node",
@@ -140,6 +123,13 @@
             "args": [
                 "${workspaceFolder}/.vscode/node-script/qrc-snippets.js"
             ],
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "shell": {
+                    "executable": "powershell.exe",
+                    "args": ["-NoProfile"]
+                }
+            },
             "problemMatcher": [],
             "group": {
                 "kind": "build",
@@ -151,6 +141,13 @@
             "label": "Copy DLLs",
             "type": "shell",
             "command": "node ${workspaceFolder}/.vscode/node-script/copy-dll.js",
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "shell": {
+                    "executable": "powershell.exe",
+                    "args": ["-NoProfile"]
+                }
+            },
             "group": {
                 "kind": "build",
                 "isDefault": true

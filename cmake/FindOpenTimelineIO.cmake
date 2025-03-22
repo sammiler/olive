@@ -14,6 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+
 if(UNIX)
     find_path(OTIO_BASE_DIR
             include/opentimelineio/timeline.h
@@ -80,6 +81,7 @@ find_path(OTIO_DEPS_INCLUDE_DIR
 )
 
 list(APPEND OTIO_INCLUDE_DIRS ${OTIO_DEPS_INCLUDE_DIR})
+message(STATUS "includeinclude  ${OTIO_DEPS_INCLUDE_DIR}")
 
 find_path(OT_INCLUDE_DIR
         opentime/rationalTime.h
@@ -95,8 +97,21 @@ find_path(OT_INCLUDE_DIR
 
 list(APPEND OTIO_INCLUDE_DIRS ${OT_INCLUDE_DIR})
 
-find_library(OTIO_LIBRARY
-        opentimelineio
+if(CMAKE_BUILD_TYPE MATCHES "Debug")
+    find_library(OTIO_LIBRARY
+        opentimelineiod  # 尝试直接查找带 "d" 的库
+        HINTS
+            "${OTIO_LOCATION}"
+            "$ENV{OTIO_LOCATION}"
+            "${OTIO_BASE_DIR}"
+        PATH_SUFFIXES
+            lib/
+        DOC
+            "OTIO's ${OTIO_LIB} library path"
+    )
+    list(APPEND OTIO_LIBRARIES ${OTIO_LIBRARY})
+        find_library(OT_LIBRARY
+        opentimed
     HINTS
         "${OTIO_LOCATION}"
         "$ENV{OTIO_LOCATION}"
@@ -104,12 +119,26 @@ find_library(OTIO_LIBRARY
     PATH_SUFFIXES
         lib/
     DOC
-        "OTIO's ${OTIO_LIB} library path"
+        "OpenTime's ${OTIO_LIB} library path"
 )
+    list(APPEND OTIO_LIBRARIES ${OT_LIBRARY})
 
-list(APPEND OTIO_LIBRARIES ${OTIO_LIBRARY})
+else()
+    find_library(OTIO_LIBRARY
+        opentimelineio  # 查找不带 "d" 的库
+        HINTS
+            "${OTIO_LOCATION}"
+            "$ENV{OTIO_LOCATION}"
+            "${OTIO_BASE_DIR}"
+        PATH_SUFFIXES
+            lib/
+        DOC
+            "OTIO's ${OTIO_LIB} library path"
+    )
+    list(APPEND OTIO_LIBRARIES ${OTIO_LIBRARY})
 
-find_library(OT_LIBRARY
+
+    find_library(OT_LIBRARY
         opentime
     HINTS
         "${OTIO_LOCATION}"
@@ -120,8 +149,10 @@ find_library(OT_LIBRARY
     DOC
         "OpenTime's ${OTIO_LIB} library path"
 )
+    list(APPEND OTIO_LIBRARIES ${OT_LIBRARY})
+endif()
 
-list(APPEND OTIO_LIBRARIES ${OT_LIBRARY})
+
 
 include(FindPackageHandleStandardArgs)
 
