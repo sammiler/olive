@@ -19,6 +19,7 @@
 ***/
 
 #include "renderer.h"
+#include <OpenColorIO/OpenColorIO.h>
 
 #include <QDateTime>
 #include <QThread>
@@ -241,9 +242,8 @@ bool Renderer::GetColorContext(const ColorTransformJob &color_job, Renderer::Col
       unsigned int width = 0, height = 0;
       OCIO::GpuShaderDesc::TextureType channel = OCIO::GpuShaderDesc::TEXTURE_RGB_CHANNEL;
       OCIO::Interpolation interpolation = OCIO::INTERP_LINEAR;
-
-      shader_desc->getTexture(i, tex_name, sampler_name, width, height, channel, interpolation);
-
+      OCIO::GpuShaderCreator::TextureDimensions d = OCIO::GpuShaderCreator::TextureDimensions::TEXTURE_2D;
+      shader_desc->getTexture(i, tex_name, sampler_name, width, height, channel,d, interpolation);
       if (!tex_name || !*tex_name
           || !sampler_name || !*sampler_name
           || !width) {

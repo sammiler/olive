@@ -16,6 +16,14 @@
 
 include(FindPackageHandleStandardArgs)
 
+
+# 根据构建类型设置 Crashpad 的输出目录
+if(CMAKE_BUILD_TYPE MATCHES "Debug")
+    set(CRASHPAD_BUILD_TYPE "Debug")
+else()
+    set(CRASHPAD_BUILD_TYPE "Release")
+endif()
+
 # Try to find include files
 find_path(CRASHPAD_CLIENT_INCLUDE_DIR
     client/crashpad_client.h
@@ -33,8 +41,9 @@ find_path(CRASHPAD_BUILD_INCLUDE_DIR
     "$ENV{CRASHPAD_LOCATION}"
     "${CRASHPAD_BASE_DIR}"
   PATH_SUFFIXES
-    "out/Default/gen"
+    "out/${CRASHPAD_BUILD_TYPE}/gen"
 )
+message(STATUS "Found Crashpad build include directory: ${CRASHPAD_BUILD_INCLUDE_DIR}")
 list(APPEND CRASHPAD_INCLUDE_DIRS ${CRASHPAD_BUILD_INCLUDE_DIR})
 
 find_path(CRASHPAD_BASE_INCLUDE_DIR
@@ -57,8 +66,9 @@ if (WIN32)
       "$ENV{CRASHPAD_LOCATION}"
       "${CRASHPAD_BASE_DIR}"
     PATH_SUFFIXES
-      "out/Default"
+      "out/${CRASHPAD_BUILD_TYPE}"
   )
+  message(STATUS "Found Crashpad build directory71: ${CRASHPAD_LIBRARY_DIRS}")
 elseif(UNIX)
   find_path(CRASHPAD_LIBRARY_DIRS
       obj/client/libclient.a
@@ -67,7 +77,7 @@ elseif(UNIX)
       "$ENV{CRASHPAD_LOCATION}"
       "${CRASHPAD_BASE_DIR}"
     PATH_SUFFIXES
-      "out/Default"
+      "out/${CRASHPAD_BUILD_TYPE}"
   )
 endif()
 
@@ -109,7 +119,7 @@ foreach (COMPONENT ${_crashpad_components})
       ${SHORT_COMPONENT}
     HINTS
       "${CRASHPAD_LIBRARY_DIRS}/obj/${LOCATION}"
-    NO_DEFAULT_PATH
+    NO_${CRASHPAD_BUILD_TYPE}_PATH
   )
 
   list(APPEND CRASHPAD_LIBRARIES ${CRASHPAD_${UPPER_COMPONENT}_LIB})

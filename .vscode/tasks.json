@@ -4,38 +4,26 @@
         {
             "label": "cmake-configure",
             "type": "shell",
-            "command": "cmake",
+            "command": "powershell",
             "args": [
-				"-S",
-                ".",
-                "-B",
-                "build",
-                "-G",
-                "Visual Studio 17 2022", // 指定 MSVC 的生成器（根据你的 VS 版本调整）
-                "-A",
-                "x64",                   // 指定目标架构（如 x64）
-                "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
-                "-DCMAKE_BUILD_TYPE=Debug",
-                "-DCMAKE_CXX_FLAGS=/EHsc /W3 /MP6 /Zi /FS  /MDd /D_ITERATOR_DEBUG_LEVEL=2", // Add /MDd here too
-                "-DCMAKE_C_FLAGS=/EHsc /W3 /MP6 /Zi /FS  /MDd /D_ITERATOR_DEBUG_LEVEL=2",   // Add for consistency
-                "-DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake",
-                "-DVCPKG_TARGET_TRIPLET=x64-windows",
-				"-DCMAKE_RUNTIME_OUTPUT_DIRECTORY=${workspaceFolder}/build/bin",
-				"-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=${workspaceFolder}/build/lib",
-				"-DCMAKE_ARCHIVE_OUTPUT_DIRECTORY=${workspaceFolder}/build/lib",
-                
+                "-File",
+                "${workspaceFolder}/.vscode/ps-script/configure.ps1",
+                "-BuildType",
+                "${input:buildType}",
+                "-CMakeFlags",
+                "${input:cmakeFlags}"
             ],
             "options": {
                 "cwd": "${workspaceFolder}",
-                "env": {
-                    "PATH": "C:/Program Files/CMake/bin;C:/Windows/System32/WindowsPowerShell/v1.0/;",
+                "shell": {
+                    "executable": "powershell.exe",
+                    "args": ["-NoProfile"]
                 }
             },
             "group": {
                 "kind": "build",
                 "isDefault": false
             },
-            // "dependsOn": "Generate Qt Resources",
             "problemMatcher": [
                 "$msCompile"
             ],
@@ -44,16 +32,19 @@
         {
             "label": "cmake-build",
             "type": "shell",
-            "command": "cmake",
+            "command": "powershell",
             "args": [
-                    "--build",
-                    "build"          // 构建目录 
+                "-File",
+                "${workspaceFolder}/.vscode/ps-script/build.ps1",
+                "-BuildType",
+                "${input:buildType}"
             ],
             "options": {
                 
                 "cwd": "${workspaceFolder}",
-                "env": {
-                    "PATH": "C:/Program Files/CMake/bin;C:/Windows/System32/WindowsPowerShell/v1.0/;",
+                "shell": {
+                    "executable": "powershell.exe",
+                    "args": ["-NoProfile"]
                 }
             },
             "group": {
@@ -65,19 +56,42 @@
                 "$msCompile"
             ],
             "detail": "Build the project by cmake"
+        },{
+            "label": "cmake-install",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-File",
+                "${workspaceFolder}/.vscode/ps-script/install.ps1",
+                "-BuildType",
+                "${input:buildType}"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "shell": {
+                    "executable": "powershell.exe",
+                    "args": ["-NoProfile"]
+                }
+            },
+            "group": "build",
+            "detail": "Use cmake to install the project"
         },
         {
             "label": "cmake-clean",
             "type": "shell",
-            "command": "cmake",
+            "command": "powershell",
             "args": [
-                    "--build",
-                    "build",           // 构建目录
-                    "--target",
-                    "clean",           // MSBuild 的 clean 目标
+                "-File",
+                "${workspaceFolder}/.vscode/ps-script/clean.ps1",
+                "-BuildType",
+                "${input:buildType}"
             ],
             "options": {
-                "cwd": "${workspaceFolder}"
+                "cwd": "${workspaceFolder}",
+                "shell": {
+                    "executable": "powershell.exe",
+                    "args": ["-NoProfile"]
+                }
             },
             "group": {
                 "kind": "build",
@@ -142,6 +156,25 @@
                 "isDefault": true
             },
             "problemMatcher": []
+        },
+    ],
+    "inputs": [
+        {
+            "id": "buildType",
+            "type": "pickString",
+            "description": "Select build type",
+            "options": ["Debug", "Release"],
+            "default": "Debug"
+        },
+        {
+            "id": "cmakeFlags",
+            "type": "pickString",
+            "description": "Select compiler flags",
+            "options": [
+                "-DCMAKE_CXX_FLAGS=/EHsc /W3 /MP6 /Zi /FS /MDd /D_ITERATOR_DEBUG_LEVEL=2 -DCMAKE_C_FLAGS=/EHsc /W3 /MP6 /Zi /FS /MDd /D_ITERATOR_DEBUG_LEVEL=2",
+                "-DCMAKE_CXX_FLAGS=/EHsc /W3 /MP6 /O2 /FS /MD -DCMAKE_C_FLAGS=/EHsc /W3 /MP6 /O2 /FS /MD"
+            ],
+            "default": "-DCMAKE_CXX_FLAGS=/EHsc /W3 /MP6 /Zi /FS /MDd /D_ITERATOR_DEBUG_LEVEL=2 -DCMAKE_C_FLAGS=/EHsc /W3 /MP6 /Zi /FS /MDd /D_ITERATOR_DEBUG_LEVEL=2"
         }
     ]
 }

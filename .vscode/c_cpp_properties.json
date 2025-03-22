@@ -5,16 +5,9 @@
             "includePath": [
                 "${workspaceFolder}/app/",
                 "${workspaceFolder}/ext/core/include/olive/core",
-                "C:/vcpkg/installed/x64-windows/include",
                 "${workspaceFolder}/ext/core/include",
-                "C:/vcpkg/installed/x64-windows/include/qt5/QtWidgets",
-                "C:/vcpkg/installed/x64-windows/include/qt5/QtCore",
-                "C:/vcpkg/installed/x64-windows/include/qt5",
-                "C:/vcpkg/installed/x64-windows/include/qt5/QtGui",
-                "${workspaceFolder}/ext/KDDockWidgets/src/fwd_headers",
-                "C:/vcpkg/installed/x64-windows/include/qt5/QtNetwork",
-                "C:/vcpkg/installed/x64-windows/include/qt5/QtCore/5.15.2",
-                "C:/vcpkg/installed/x64-windows/include/qt5/QtCore/5.15.2/QtCore"
+                "C:/Users/sammiler/.conan2/p/b/ffmpe3f188fc757482/p/include",
+                "C:/Users/sammiler/.conan2/p/b/qt2c11cdd05279f/p/include"
             ],
             "defines": [
                 "_DEBUG"
@@ -23,6 +16,7 @@
             "compilerPath": "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.43.34808/bin/Hostx64/x64/cl.exe",
             "cppStandard": "c++17",
             "cStandard": "c11",
+            "configurationProvider": "ms-vscode.cmake-tools",
             "mergeConfigurations": false
         }
     ],
