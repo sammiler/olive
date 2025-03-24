@@ -2,6 +2,13 @@ conan remove "*" -c                      删除所有库
 conan install . -of=conan_debug --build=missing -s build_type=Debug -s arch=x86_64 -s compiler=msvc -s compiler.version=194  安装命令
 conan graph info --format=html > graph.html .                  导出html
 conan remove  "libpq/*"     删除
-conan search  "libpq/*"     搜索
+conan search  "libpq/*"     搜索远程
 conan create . -s build_type=Release -s arch=x86_64 -s compiler=msvc -s compiler.version=194 自己打包
 conan cache path portaudio/19.8.0   搜索本地缓存
+conan remote enable conancenter  开启
+conan remote disable conancenter 禁用
+conan export . --name libde265 --version 1.0.12 打包
+conan list "libde265*"  搜索
+
+
+

@@ -48,6 +48,7 @@ class MyProjectConan(ConanFile):
 
 
     def generate(self):
+        
         tc = CMakeToolchain(self)
         tc.generator = "Ninja"
         tc.cache_variables["CMAKE_CXX_STANDARD"] = "17"
@@ -69,7 +70,6 @@ class MyProjectConan(ConanFile):
             "C:/Tools",
             "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.43.34808/bin/Hostx64/x64",
             "C:/Program Files (x86)/Windows Kits/10/bin/10.0.22621.0/x64",
-            "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.43.34808/lib/x64",
         ]
         
         # 遍历并追加所有路径到 PATH
