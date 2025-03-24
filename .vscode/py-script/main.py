@@ -17,6 +17,19 @@ class BaseTask:
             self.rc_compiler = "C:/Program Files (x86)/Windows Kits/10/bin/10.0.22621.0/x64/rc.exe"
             self.mt = "C:/Program Files (x86)/Windows Kits/10/bin/10.0.22621.0/x64/mt.exe"
             self.mc_compiler = "C:/Program Files (x86)/Windows Kits/10/bin/10.0.22621.0/x64/mc.exe"
+        elif self.system == "Linux":
+            self.compiler_path = "/usr/bin/gcc"
+            self.linker_path = "/usr/bin/ld"
+            self.rc_compiler = "/usr/bin/windres"  # 仅在 MinGW 可用，可选
+            self.mt = "/usr/bin/objcopy"  # 类似的工具
+            self.mc_compiler = "/usr/bin/msgfmt"  # 近似工具，用于消息编译
+        elif self.system == "Darwin":  # macOS
+            self.compiler_path = "/usr/bin/clang"
+            self.linker_path = "/usr/bin/ld"
+            self.rc_compiler = "/usr/bin/rez"  # macOS 资源编译器
+            self.mt = "/usr/bin/install_name_tool"  # macOS 处理二进制依赖的工具
+            self.mc_compiler = "/usr/bin/msgfmt"  # 近似工具
+
         if self.system == "Windows" and not os.path.exists(self.shell_path):
             raise FileNotFoundError("Git Bash not found. Please adjust shell_path.")
         elif self.system in ("Linux", "Darwin") and not os.path.exists(self.shell_path):
@@ -34,7 +47,7 @@ class BaseTask:
             return YELLOW + line + RESET
         return line
     
-    
+
     def stream_output(self,stream, color_func):
         for line in iter(stream.readline, ""):
             sys.stdout.write(color_func(line))
@@ -107,7 +120,8 @@ class TerminalLauncher(BaseTask):
         sys.stdout.reconfigure(encoding='utf-8')
         sys.stderr.reconfigure(encoding='utf-8')
         os.environ['PYTHONIOENCODING'] = 'utf-8'
-
+        if self.system == "Windows":
+            self.setup_windows_env(env)
         env = self.get_conanrun_env() if profile == "full" else os.environ.copy()
         env["LC_ALL"] = "en_US.UTF-8"
         env["LANG"] = "en_US.UTF-8"

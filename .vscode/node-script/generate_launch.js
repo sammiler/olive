@@ -31,8 +31,7 @@ const baseConfig = {
     preLaunchTask: "cmake-build",
     console: "integratedTerminal",
     sourceFileMap: {
-        "C:/vcpkg/installed/x64-windows/debug": "C:/vcpkg/buildtrees/qtbase/src/here-src-6-c23658a936.clean/src",
-        "C:/vcpkg/installed/x64-windows": "C:/vcpkg/buildtrees/qtbase/src/here-src-6-c23658a936.clean/src"
+
     }
 };
 
