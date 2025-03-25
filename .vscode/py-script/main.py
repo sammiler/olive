@@ -308,8 +308,8 @@ class ConanConfigurer(BaseTask):
             "--build=missing "
             "-s build_type=Debug "
             "-s arch=x86_64 "
-            "-s compiler=msvc "
-            "-s compiler.version=194"
+            f"-s compiler={self.compiler['NAME']} "
+            f"-s compiler.version={self.compiler['VERSION']}"
         )
         print(f"Conan command: {conan_cmd}")
 

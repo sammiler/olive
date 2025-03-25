@@ -96,6 +96,7 @@
         "compiler" :
        {
             "NAME" : "msvc",
+            "VERSION": "194",
             "CMAKE_CXX_STANDARD" : "17",
             "CMAKE_C_COMPILER" :  "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.43.34808/bin/Hostx64/x64/cl.exe",
             "CMAKE_CXX_COMPILER" : "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.43.34808/bin/Hostx64/x64/cl.exe",
@@ -107,6 +108,7 @@
             "MSVC_PATH" : "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.43.34808",
             "WINDOWS_SDK_PATH" : "C:/Program Files (x86)/Windows Kits/10",
             "WINDOWS_SDK_VERSION" : "10.0.22621.0"
+            
        },
        "shell_path" : "C:/Program Files/Git/bin/bash.exe",
        "envPath":
