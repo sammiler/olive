@@ -21,10 +21,6 @@
   ],
   "resources": [
     {
-      "path": "src",
-      "prefix": "/"
-    },
-    {
       "path": "icons",
       "prefix": "/icons"
     }

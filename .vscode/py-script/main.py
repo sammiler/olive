@@ -1,5 +1,8 @@
+import json
 import os
+from pathlib import Path
 import re
+import shutil
 import sys
 import subprocess
 import platform
@@ -305,9 +308,205 @@ class ConanConfigurer(BaseTask):
         process = subprocess.Popen(cmd, env=env, cwd=conan_dir, shell=True)
         process.wait()
 
+
+class CopyDllTask(BaseTask):
+    """负责复制动态链接库文件的任务类"""
+    def __init__(self):
+        super().__init__()
+        # 定义源目录和目标目录
+        self.source_dir = Path(__file__).resolve().parents[2]  # 回到根目录
+        print(self.source_dir)
+        self.target_dir = self.source_dir / "build" / "bin" / "Debug"
+        
+        # 根据操作系统设置文件扩展名
+        self.lib_extension = {
+            "Windows": ".dll",
+            "Linux": ".so",
+            "Darwin": ".dylib"
+        }.get(self.system, ".dll")  # 默认使用 .dll 如果系统未识别
+        
+    def ensure_target_dir(self):
+        """确保目标目录存在"""
+        try:
+            self.target_dir.mkdir(parents=True, exist_ok=True)
+            print(f"目标目录已准备: {self.target_dir}")
+        except Exception as e:
+            print(f"创建目标目录失败: {e}")
+            raise
+
+    def find_lib_files(self, directory):
+        """递归查找指定类型的动态链接库文件"""
+        lib_files = []
+        try:
+            for entry in directory.iterdir():
+                if entry.is_dir():
+                    # 递归处理子目录
+                    lib_files.extend(self.find_lib_files(entry))
+                elif (entry.is_file() and 
+                      entry.suffix.lower() == self.lib_extension):
+                    # 添加匹配的动态链接库文件
+                    lib_files.append(entry)
+            return lib_files
+        except Exception as e:
+            print(f"读取目录 {directory} 时出错: {e}")
+            return lib_files
+
+    def copy_lib_files(self):
+        """复制动态链接库文件到目标目录"""
+        try:
+            # 获取所有匹配的动态链接库文件
+            lib_files = self.find_lib_files(self.source_dir)
+
+            if not lib_files:
+                print(f"未找到任何 {self.lib_extension} 文件")
+                return
+
+            # 复制每个文件
+            for source_path in lib_files:
+                target_path = self.target_dir / source_path.name
+                shutil.copy2(source_path, target_path)
+                print(f"已复制: {source_path} -> {target_path}")
+
+            print(f"完成！共复制 {len(lib_files)} 个 {self.lib_extension} 文件")
+        except Exception as e:
+            print(f"复制 {self.lib_extension} 文件时出错: {e}")
+            raise
+
+    def execute(self):
+        """执行任务的主方法"""
+        print(f"开始复制 {self.lib_extension} 文件...")
+        print(f"源目录: {self.source_dir}")
+        print(f"目标目录: {self.target_dir}")
+        
+        self.ensure_target_dir()
+        self.copy_lib_files()
+
+
+class GenerateQrcTask(BaseTask):
+    """生成 Qt 资源文件 (.qrc) 和代码片段的任务类"""
+    def __init__(self):
+        super().__init__()
+        self.root_dir = Path(__file__).resolve().parents[2]  # 从 .vscode/py-script 回到根目录
+        
+    def is_qt_project(self):
+        """检查是否为 Qt 项目"""
+        cmake_path = self.root_dir / "CMakeLists.txt"
+        try:
+            with open(cmake_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+                if "find_package(Qt" not in content:
+                    print("不是Qt项目，未找到find_package(Qt)")
+                    return False
+            return True
+        except (FileNotFoundError, IOError):
+            print("未找到CMakeLists.txt或读取失败")
+            return False
+
+    def load_qrc_config(self):
+        """加载或创建 qrc-snippets.json 配置文件"""
+        util_dir = self.root_dir / ".vscode" / "util"
+        qrc_json_path = util_dir / "qrc-snippets.json"
+        
+        default_qrc = {
+            "run": True,
+            "ignore": ["h", "cpp", "c", "hpp", "mm", "qml", "js", "ui", "json", "sh", "webp", "txt", ".qrc"],
+            "ignoreName": ["忽略的文件名1", "忽略的文件名2"],
+            "resources": [
+                {"path": "是相对于根目录的路径1", "prefix": "/"},
+                {"path": "是相对于根目录的路径2", "prefix": "/"}
+            ]
+        }
+
+        try:
+            with open(qrc_json_path, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except FileNotFoundError:
+            util_dir.mkdir(parents=True, exist_ok=True)
+            with open(qrc_json_path, 'w', encoding='utf-8') as f:
+                json.dump(default_qrc, f, indent=2, ensure_ascii=False)
+            return default_qrc
+
+    def get_files_recursively(self, directory, ignore_exts, ignore_names):
+        """递归获取目录中的文件，排除忽略的扩展名和文件名"""
+        results = []
+        try:
+            for entry in directory.iterdir():
+                if entry.is_dir():
+                    results.extend(self.get_files_recursively(entry, ignore_exts, ignore_names))
+                else:
+                    relative_path = entry.relative_to(self.root_dir).as_posix()  # 跨平台路径，使用 /
+                    ext = entry.suffix[1:] if entry.suffix else ""
+                    if ext not in ignore_exts and entry.name not in ignore_names:
+                        results.append(relative_path)
+        except Exception as e:
+            print(f"读取目录 {directory} 时出错: {e}")
+        return results
+
+    def generate_qrc_and_snippets(self):
+        """生成 .qrc 文件和代码片段"""
+        qrc_config = self.load_qrc_config()
+        
+        if not qrc_config.get("run", False):
+            print("run属性为false，脚本退出")
+            return
+
+        new_snippets = {}
+        for resource in qrc_config["resources"]:
+            source_dir = self.root_dir / resource["path"]
+            files = self.get_files_recursively(source_dir, qrc_config["ignore"], qrc_config["ignoreName"])
+            
+            xml_content = "<RCC>\n"
+            xml_content += f'    <qresource prefix="{resource["prefix"]}">\n'
+            
+            for file in files:
+                relative_path = Path(file).relative_to(resource["path"]).as_posix()
+                xml_content += f"        <file>{relative_path}</file>\n"
+
+                # 生成资源路径
+                resource_path = f'":/{relative_path}"' if resource["prefix"] == "/" else f'":{resource["prefix"]}/{relative_path}"'
+                file_name = Path(relative_path).name
+                snippet_name = f"qrc_{relative_path.replace('/', '_')}"
+                new_snippets[snippet_name] = {
+                    "prefix": file_name,
+                    "body": [resource_path],
+                    "description": f"Qt resource path for {relative_path}",
+                    "scope": "cpp,qml"
+                }
+            
+            xml_content += "    </qresource>\n"
+            xml_content += "</RCC>\n"
+
+            output_path = source_dir / "resources.qrc"
+            with open(output_path, 'w', encoding='utf-8') as f:
+                f.write(xml_content)
+            print(f"已生成: {output_path}")
+
+        # 更新代码片段文件
+        snippets_dir = self.root_dir / ".vscode"
+        snippets_path = snippets_dir / "qrc.code-snippets"
+        existing_snippets = {}
+        
+        try:
+            with open(snippets_path, 'r', encoding='utf-8') as f:
+                existing_snippets = json.load(f)
+        except FileNotFoundError:
+            print("未找到现有snippets文件，将创建新的")
+
+        updated_snippets = {**existing_snippets, **new_snippets}
+        snippets_dir.mkdir(parents=True, exist_ok=True)
+        with open(snippets_path, 'w', encoding='utf-8') as f:
+            json.dump(updated_snippets, f, indent=2, ensure_ascii=False)
+        print(f"已更新代码片段: {snippets_path}")
+
+    def execute(self):
+        """执行任务的主方法"""
+        if not self.is_qt_project():
+            return
+        self.generate_qrc_and_snippets()
+
 def main():
     parser = argparse.ArgumentParser(description="Terminal Manager for Multiple Platforms")
-    parser.add_argument("--task", choices=["launch-terminal", "cmake-configure", "cmake-build", "cmake-install", "cmake-clean", "generate_conan"], required=True, help="Task to execute")
+    parser.add_argument("--task", choices=["launch-terminal", "cmake-configure", "cmake-build", "cmake-install", "cmake-clean", "generate_conan","copy-dll","generate-qrc"], required=True, help="Task to execute")
     parser.add_argument("--param", help="Parameter for launch-terminal")
     parser.add_argument("--build-type", default="Debug", help="Build type for cmake-configure")
     parser.add_argument(
@@ -338,6 +537,12 @@ def main():
     elif args.task == "generate_conan":
         conan_configurer = ConanConfigurer()
         conan_configurer.configure()
+    elif args.task == "copy-dll":
+        copy_task = CopyDllTask()
+        copy_task.execute()
+    elif args.task == "generate-qrc":
+        generate_arc = GenerateQrcTask()
+        generate_arc.execute()
 
 if __name__ == "__main__":
     main()

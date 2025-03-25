@@ -110,7 +110,6 @@
                 "focus": false
             }
         },
-
         {
             "label": "Generate Qt Resources",
             "type": "shell",
@@ -180,10 +179,10 @@
             "type": "pickString",
             "description": "Select compiler flags",
             "options": [
-                "-DCMAKE_CXX_FLAGS=\"/EHsc /W3 /MP6 /Zi /FS /MDd /D_ITERATOR_DEBUG_LEVEL=2\" -DCMAKE_C_FLAGS=\"/EHsc /W3 /MP6 /Zi /FS /MDd /D_ITERATOR_DEBUG_LEVEL=2\"",
-                "-DCMAKE_CXX_FLAGS=\"/EHsc /W3 /MP6 /O2 /FS /MD -DCMAKE_C_FLAGS=/EHsc /W3 /MP6 /O2 /FS /MD\""
+                "${debug_flag}",
+                "${rel_flag}"
             ],
-            "default": "-DCMAKE_CXX_FLAGS=\"/EHsc /W3 /MP6 /Zi /FS /MDd /D_ITERATOR_DEBUG_LEVEL=2\" -DCMAKE_C_FLAGS=\"/EHsc /W3 /MP6 /Zi /FS /MDd /D_ITERATOR_DEBUG_LEVEL=2\""
+            "default": "${debug_flag}"
         }
     ]
 }
