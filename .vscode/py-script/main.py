@@ -13,30 +13,35 @@ class BaseTask:
     """基类，包含公共方法和属性"""
     def __init__(self):
         self.system = platform.system()
-        self.shell_path = "C:/Program Files/Git/bin/bash.exe" if self.system == "Windows" else "/bin/bash"
+        root_dir = Path(__file__).resolve().parents[2]
+        # 构建 template.json 的路径（从根目录到 .vscode/template/template.json）
+        template_path = root_dir / '.vscode' / 'template' / 'template.json'
+        # 检查文件是否存在
+        if not template_path.exists():
+            raise FileNotFoundError(f"无法找到文件: {template_path}")
+                
+                # 读取和解析 JSON 文件
+        with open(template_path, 'r', encoding='utf-8') as file:
+            self.data = json.load(file)
+        # 获取 "platform" 部分
+        self.platformdata = self.data['platform']
+        self.compiler = self.platformdata['compiler']
         if self.system == "Windows":
-            self.compiler_path = "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.43.34808/bin/Hostx64/x64/cl.exe"
-            self.linker_path = "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.43.34808/bin/Hostx64/x64/link.exe"
-            self.rc_compiler = "C:/Program Files (x86)/Windows Kits/10/bin/10.0.22621.0/x64/rc.exe"
-            self.mt = "C:/Program Files (x86)/Windows Kits/10/bin/10.0.22621.0/x64/mt.exe"
-            self.mc_compiler = "C:/Program Files (x86)/Windows Kits/10/bin/10.0.22621.0/x64/mc.exe"
-        elif self.system == "Linux":
-            self.compiler_path = "/usr/bin/gcc"
-            self.linker_path = "/usr/bin/ld"
-            self.rc_compiler = "/usr/bin/windres"  # 仅在 MinGW 可用，可选
-            self.mt = "/usr/bin/objcopy"  # 类似的工具
-            self.mc_compiler = "/usr/bin/msgfmt"  # 近似工具，用于消息编译
-        elif self.system == "Darwin":  # macOS
-            self.compiler_path = "/usr/bin/clang"
-            self.linker_path = "/usr/bin/ld"
-            self.rc_compiler = "/usr/bin/rez"  # macOS 资源编译器
-            self.mt = "/usr/bin/install_name_tool"  # macOS 处理二进制依赖的工具
-            self.mc_compiler = "/usr/bin/msgfmt"  # 近似工具
-
+            self.shell_path = self.platformdata['shell_path']
+        elif self.platformdata['shell_path'] == "":
+            self.shell_path = "/bin/bash"
+        else:
+            self.shell_path = self.platformdata['shell_path']
+        #不需要的可以为空
+        self.compiler_path = self.compiler['COMPILER_PATH']
+        self.linker_path = self.compiler['LINK_PATH']
+        self.rc_compiler = self.compiler['RC_COMPILER']
+        self.mt = self.compiler['MT']
+        self.mc_compiler = self.compiler['MC_COMPILER']
         if self.system == "Windows" and not os.path.exists(self.shell_path):
-            raise FileNotFoundError("Git Bash not found. Please adjust shell_path.")
+            raise FileNotFoundError("Unix Like Bash not found. Please adjust shell_path.")
         elif self.system in ("Linux", "Darwin") and not os.path.exists(self.shell_path):
-            raise FileNotFoundError("Bash not found. Please adjust shell_path.")
+            raise FileNotFoundError("Bash not found. Please fill the right path in template.json.")
 
 # ANSI 转义码着色函数
     def color_line(self,line):
@@ -100,20 +105,24 @@ class BaseTask:
 
     def setup_windows_env(self, env):
         """设置 Windows 特定的环境变量"""
-        msvc_path = "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.43.34808"
-        windows_sdk_path = "C:/Program Files (x86)/Windows Kits/10"
-        windows_sdk_version = "10.0.22621.0"
-        additional_path = "C:/Program Files/CMake/bin;C:/Tools"
+        env["MSYS_NO_PATHCONV"] = "1"
+        additional_path = self.platformdata['envPath']
+        combined_path = ';'.join(additional_path)
+        if self.compiler['NAME'] != "msvc":
+            env["PATH"] = f"{combined_path};{env['PATH']}"
+            return
+        msvc_path = self.compiler['MSVC_PATH']
+        windows_sdk_path = self.compiler['WINDOWS_SDK_PATH']
+        windows_sdk_version = self.compiler['WINDOWS_SDK_VERSION']
 
         if not os.path.exists(msvc_path):
             raise FileNotFoundError(f"MSVC path not found: {msvc_path}")
         if not os.path.exists(windows_sdk_path):
             raise FileNotFoundError(f"Windows SDK path not found: {windows_sdk_path}")
-
-        env["PATH"] = f"{additional_path};{msvc_path}/bin/Hostx64/x64;{env['PATH']}"
+        env["PATH"] = f"{combined_path};{msvc_path}/bin/Hostx64/x64;{env['PATH']}"
         env["INCLUDE"] = f"{msvc_path}/include;{windows_sdk_path}/Include/{windows_sdk_version}/ucrt;{windows_sdk_path}/Include/{windows_sdk_version}/um;{windows_sdk_path}/Include/{windows_sdk_version}/shared;"
         env["LIB"] = f"{msvc_path}/lib/x64;{windows_sdk_path}/Lib/{windows_sdk_version}/ucrt/x64;{windows_sdk_path}/Lib/{windows_sdk_version}/um/x64;"
-        env["MSYS_NO_PATHCONV"] = "1"
+        
 
 
 class TerminalLauncher(BaseTask):

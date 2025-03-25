@@ -157,6 +157,19 @@
                 "isDefault": true
             },
             "detail": "使用Conan的环境变量打开Bash终端"
+        },
+        {
+            "label": "Generate VSCode Config File",
+            "type": "shell",
+            "command": "python",
+            "args": [
+                ".vscode/py-script/genconf.py"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "自动生成VSCode配置文件"
         }
     ],
     "inputs": [

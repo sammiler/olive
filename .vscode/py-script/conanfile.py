@@ -5,6 +5,10 @@ from conan.tools.files  import patch
 from conan.tools.cmake import CMakeToolchain, CMakeDeps
 from conan.tools.env import VirtualBuildEnv
 from conan.tools.env import VirtualRunEnv
+from pathlib import Path
+import json
+import os
+import platform
 class MyProjectConan(ConanFile):
     name = "myproject"
     version = "0.1"
@@ -51,10 +55,23 @@ class MyProjectConan(ConanFile):
     def generate(self):
         
         tc = CMakeToolchain(self)
-        tc.generator = "Ninja"
-        tc.cache_variables["CMAKE_CXX_STANDARD"] = "17"
-        tc.cache_variables["CMAKE_C_COMPILER"] = "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.43.34808/bin/Hostx64/x64/cl.exe"
-        tc.cache_variables["CMAKE_CXX_COMPILER"] = "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.43.34808/bin/Hostx64/x64/cl.exe"
+        root_dir = Path(__file__).resolve().parents[2]
+        # 构建 template.json 的路径（从根目录到 .vscode/template/template.json）
+        template_path = root_dir / '.vscode' / 'template' / 'template.json'
+        # 检查文件是否存在
+        if not template_path.exists():
+            raise FileNotFoundError(f"无法找到文件: {template_path}")
+                
+                # 读取和解析 JSON 文件
+        with open(template_path, 'r', encoding='utf-8') as file:
+            data = json.load(file)
+        # 获取 "platform" 部分
+        platform = data['platform']
+        compiler = platform['compiler']
+        tc.generator = platform['generator']
+        tc.cache_variables["CMAKE_CXX_STANDARD"] = compiler['CMAKE_CXX_STANDARD']
+        tc.cache_variables["CMAKE_C_COMPILER"] = compiler['CMAKE_C_COMPILER']
+        tc.cache_variables["CMAKE_CXX_COMPILER"] = compiler['CMAKE_CXX_COMPILER']
         tc.generate()
 
         deps = CMakeDeps(self)
@@ -66,12 +83,7 @@ class MyProjectConan(ConanFile):
         env_vars = env.environment()
 
         # 你的所有路径
-        custom_paths = [
-            "C:/Program Files/CMake/bin",
-            "C:/Tools",
-            "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.43.34808/bin/Hostx64/x64",
-            "C:/Program Files (x86)/Windows Kits/10/bin/10.0.22621.0/x64",
-        ]
+        custom_paths = platform['envPath']
         
         # 遍历并追加所有路径到 PATH
         for path in custom_paths:

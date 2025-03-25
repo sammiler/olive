@@ -11,6 +11,12 @@
 /out/
 CmakeSettings.json
 *.code-workspace
+#vscode config
+launch.json
+settings.json
+tasks.json
+c_cpp_properties.json
+
 
 # clangd's index and likely other things that need not be in the repository
 .cache/
