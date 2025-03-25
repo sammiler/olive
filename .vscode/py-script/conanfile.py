@@ -44,6 +44,7 @@ class MyProjectConan(ConanFile):
         self.options["qt"].qtmultimedia = True
         self.options["qt"].qtquickcontrols2 = True
         self.options["qt"].qtxmlpatterns = True
+        self.options["qt"].qtnetwork = True
         self.options["minizip-ng"].shared = False  # 强制静态库
 
 
