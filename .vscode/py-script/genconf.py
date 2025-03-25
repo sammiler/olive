@@ -5,7 +5,7 @@ from pathlib import Path
 
 class BaseGenerator:
     def __init__(self):
-        self.root_dir = Path(__file__).resolve().parents[3]
+        self.root_dir = Path(__file__).resolve().parents[2]
         self.template_dir = self.root_dir / ".vscode" / "template"
         self.output_dir = self.root_dir / ".vscode"
         self.system = platform.system()
@@ -129,9 +129,9 @@ class LaunchGenerator(BaseGenerator):
 def main():
     generators = [
         SettingsGenerator(),
-        # TasksGenerator(),
-        # CCppPropertiesGenerator(),
-        # LaunchGenerator()
+        TasksGenerator(),
+        CCppPropertiesGenerator(),
+        LaunchGenerator()
     ]
     for generator in generators:
         generator.generate()
