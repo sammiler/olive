@@ -2,8 +2,7 @@
     "configurations": [
         {
             "name": "Win32",
-            "includePath": [
-            ],
+            "includePath": [],
             "defines": [
                 "_DEBUG"
             ],

@@ -416,15 +416,15 @@ class GenerateQrcTask(BaseTask):
                 {"path": "是相对于根目录的路径2", "prefix": "/"}
             ]
         }
-
-        try:
+        if os.path.exists(qrc_json_path):
             with open(qrc_json_path, 'r', encoding='utf-8') as f:
                 return json.load(f)
-        except FileNotFoundError:
+        else:
+            print("即将创建默认配置文件")
             util_dir.mkdir(parents=True, exist_ok=True)
             with open(qrc_json_path, 'w', encoding='utf-8') as f:
                 json.dump(default_qrc, f, indent=2, ensure_ascii=False)
-            return default_qrc
+            exit(0)
 
     def get_files_recursively(self, directory, ignore_exts, ignore_names):
         """递归获取目录中的文件，排除忽略的扩展名和文件名"""

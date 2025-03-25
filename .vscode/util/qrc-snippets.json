@@ -13,16 +13,20 @@
     "sh",
     "webp",
     "txt",
-    "qrc"
+    ".qrc"
   ],
-  "ignoreName":
-  [
-    "qmldir"
+  "ignoreName": [
+    "忽略的文件名1",
+    "忽略的文件名2"
   ],
   "resources": [
     {
-      "path": "icons",
-      "prefix": "/icons"
+      "path": "是相对于根目录的路径1",
+      "prefix": "/"
+    },
+    {
+      "path": "是相对于根目录的路径2",
+      "prefix": "/"
     }
   ]
 }

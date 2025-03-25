@@ -7,7 +7,6 @@
             "program": "${exe_path}",
             "type": "${debug_type}",
             "request": "launch",
-            "args": [],
             "stopAtEntry": true,
             "cwd": "${workspaceFolder}/build/bin",
             "environment": [
@@ -28,10 +27,10 @@
                     "value": "${qml2_path}"
                 }
             ],
-            "console": "internalConsole", // 输出到调试控制台
+            "console": "internalConsole", 
             "logging": {
-                "moduleLoad": true, // 记录模块加载信息
-                "exceptions": true  // 记录异常详情
+                "moduleLoad": true, 
+                "exceptions": true 
             },
             "visualizerFile": "${qt5_natvis}",
             "preLaunchTask": "cmake-build",

@@ -15,16 +15,16 @@
                 "${input:cmakeFlags}"
             ],
             "options": {
-                "cwd": "${workspaceFolder}",
+                "cwd": "${workspaceFolder}"
             },
             "group": {
                 "kind": "build",
                 "isDefault": false
             },
             "problemMatcher": [
-                "$msCompile"
+                "${problemMatcher}"
             ],
-            "detail": "Cmake configure  build project"
+            "detail": "使用CMake配置项目"
         },
         {
             "label": "cmake-build",
@@ -39,17 +39,16 @@
             ],
             "options": {
                 
-                "cwd": "${workspaceFolder}",
+                "cwd": "${workspaceFolder}"
             },
             "group": {
                 "kind": "build",
                 "isDefault": true
             },
-            "dependsOn": "cmake-configure",
             "problemMatcher": [
-                "$msCompile"
+                "${problemMatcher}"
             ],
-            "detail": "Build the project by cmake"
+            "detail": "使用CMake编译项目"
         },{
             "label": "cmake-install",
             "type": "shell",
@@ -62,10 +61,10 @@
                 "${input:buildType}"
             ],
             "options": {
-                "cwd": "${workspaceFolder}",
+                "cwd": "${workspaceFolder}"
             },
             "group": "build",
-            "detail": "Use cmake to install the project"
+            "detail": "使用CMake安装项目"
         },
         {
             "label": "cmake-clean",
@@ -79,16 +78,16 @@
                 "${input:buildType}"
             ],
             "options": {
-                "cwd": "${workspaceFolder}",
+                "cwd": "${workspaceFolder}"
             },
             "group": {
                 "kind": "build",
                 "isDefault": false
             },
             "problemMatcher": [
-                "$msCompile"
+                "${problemMatcher}"
             ],
-            "detail": "Use cmake to clean the project"
+            "detail": "使用CMake清理项目"
         },
         {
             "label": "Generate Conan Files",
@@ -100,15 +99,10 @@
                 "generate_conan"
             ],
             "group": "build",
-            "problemMatcher": [],
             "options": {
-                "cwd": "${workspaceFolder}",
+                "cwd": "${workspaceFolder}"
             },
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": false
-            }
+            "detail": "生成Conan相关配置文件"
         },
         {
             "label": "Generate Qt Resources",
@@ -120,14 +114,13 @@
                 "generate-qrc"
             ],
             "options": {
-                "cwd": "${workspaceFolder}",
+                "cwd": "${workspaceFolder}"
             },
-            "problemMatcher": [],
             "group": {
                 "kind": "build",
                 "isDefault": true
             },
-            "detail": "Generate Qt's resource compiler"
+            "detail": "生成Qt项目Qrc相关配置"
         },
 
         {
@@ -140,13 +133,13 @@
                 "copy-dll"
             ],
             "options": {
-                "cwd": "${workspaceFolder}",
+                "cwd": "${workspaceFolder}"
             },
             "group": {
                 "kind": "build",
                 "isDefault": true
             },
-            "problemMatcher": []
+            "detail": "从项目中复制所有动态库到可执行目录"
         },
         {
             "label": "Launch Terminal (Full Env)",
@@ -163,7 +156,7 @@
                 "kind": "build",
                 "isDefault": true
             },
-            "problemMatcher": []
+            "detail": "使用Conan的环境变量打开Bash终端"
         }
     ],
     "inputs": [

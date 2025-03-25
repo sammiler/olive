@@ -28,15 +28,18 @@
    "tasks": {
        "Windows": {
            "debug_flag": "-DCMAKE_CXX_FLAGS=\"/EHsc /W3 /MP6 /Zi /FS /MDd /D_ITERATOR_DEBUG_LEVEL=2\" -DCMAKE_C_FLAGS=\"/EHsc /W3 /MP6 /Zi /FS /MDd /D_ITERATOR_DEBUG_LEVEL=2\"",
-           "rel_flag": "-DCMAKE_CXX_FLAGS=\"/EHsc /W3 /MP6 /O2 /FS /MD\" -DCMAKE_C_FLAGS=\"/EHsc /W3 /MP6 /O2 /FS /MD\""
+           "rel_flag": "-DCMAKE_CXX_FLAGS=\"/EHsc /W3 /MP6 /O2 /FS /MD\" -DCMAKE_C_FLAGS=\"/EHsc /W3 /MP6 /O2 /FS /MD\"" ,
+           "problemMatcher" : "$msCompile"
        },
        "Linux": {
            "debug_flag": "-DCMAKE_CXX_FLAGS=\"-g -Wall\" -DCMAKE_C_FLAGS=\"-g -Wall\"",
-           "rel_flag": "-DCMAKE_CXX_FLAGS=\"-O2 -Wall\" -DCMAKE_C_FLAGS=\"-O2 -Wall\""
+           "rel_flag": "-DCMAKE_CXX_FLAGS=\"-O2 -Wall\" -DCMAKE_C_FLAGS=\"-O2 -Wall\"" ,
+           "problemMatcher" : "$gcc"
        },
        "Mac": {
            "debug_flag": "-DCMAKE_CXX_FLAGS=\"-g -Wall\" -DCMAKE_C_FLAGS=\"-g -Wall\"",
-           "rel_flag": "-DCMAKE_CXX_FLAGS=\"-O2 -Wall\" -DCMAKE_C_FLAGS=\"-O2 -Wall\""
+           "rel_flag": "-DCMAKE_CXX_FLAGS=\"-O2 -Wall\" -DCMAKE_C_FLAGS=\"-O2 -Wall\"" ,
+           "problemMatcher" : "$gcc"
        }
    },
    "c_cpp_properties": {
@@ -79,5 +82,12 @@
            "qml2_path": "/Users/user/.conan2/p/b/qt2c11cdd05279f/p/qml",
            "qt5_natvis": ""
        }
-   }
+   },
+   "files":
+   [
+    {
+        "name" : ".clang-format",
+        "dst"  : "."
+    }
+   ]
 }

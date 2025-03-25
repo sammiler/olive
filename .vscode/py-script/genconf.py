@@ -2,6 +2,7 @@ import json
 import platform
 import re
 from pathlib import Path
+import shutil
 
 class BaseGenerator:
     def __init__(self):
@@ -29,6 +30,50 @@ class BaseGenerator:
             json.dump(data, f, indent=4, ensure_ascii=False)
         print(f"已生成: {output_path}")
 
+class CopyTemplate(BaseGenerator):
+    def normalize_path(self, path_str):
+        """将路径中的反斜杠转换为正斜杠，确保跨平台兼容"""
+        return path_str.replace("\\", "/")
+
+    def generate(self):
+        config = self.load_json("template.json")
+        files = config.get("files", [])
+        
+        if not files:
+            print("未在 template.json 中找到 'files' 配置，跳过复制")
+            return
+
+        for file_entry in files:
+            src_name = file_entry.get("name")
+            dst_rel_path = file_entry.get("dst")
+            
+            if not src_name or not dst_rel_path:
+                print(f"警告: 'files' 配置项缺少 'name' 或 'dst'，跳过: {file_entry}")
+                continue
+            
+            # 规范化路径
+            src_name_normalized = self.normalize_path(src_name)
+            dst_rel_path_normalized = self.normalize_path(dst_rel_path)
+            
+            # 源文件路径
+            src_path = self.template_dir / src_name_normalized
+            # 目标路径（相对于根目录）
+            dst_path = self.root_dir / dst_rel_path_normalized / src_name_normalized
+            
+            print(f"源路径: {src_path}")
+            print(f"目标路径: {dst_path}")
+            
+            if not src_path.exists():
+                print(f"错误: 源文件 {src_path} 不存在，跳过")
+                continue
+            
+            # 确保目标目录存在
+            dst_path.parent.mkdir(parents=True, exist_ok=True)
+            # 复制文件
+            shutil.copy2(src_path, dst_path)
+            print(f"已复制: {src_path} -> {dst_path}")
+
+
 class SettingsGenerator(BaseGenerator):
     def get_conan_path(self):
         conan_file = self.root_dir / "conan_debug" / "build" / "Debug" / "generators" / "conanrunenv-debug-x86_64.bat"
@@ -43,6 +88,15 @@ class SettingsGenerator(BaseGenerator):
             return ""
         return ""
 
+    def replace_placeholders(self, template, replacements):
+        result = template
+        for key, value in replacements.items():
+            placeholder = f"${{{key}}}"
+            # 确保值是字符串，且反斜杠正确转义
+            safe_value = str(value).replace("\\", "\\\\")
+            result = result.replace(placeholder, safe_value)
+        return result
+
     def generate(self):
         config = self.load_json("template.json")["settings"]
         template = self.load_template("settings.json.in")
@@ -52,21 +106,42 @@ class SettingsGenerator(BaseGenerator):
         if "conan_path" in dynamic:
             replacements["conan_path"] = self.get_conan_path()
 
-        for key, value in replacements.items():
-            template = template.replace(f"${{{key}}}", str(value))
+        template = self.replace_placeholders(template, replacements)
         
-        self.save_json("settings.json", json.loads(template))
+        try:
+            self.save_json("settings.json", json.loads(template))
+        except json.JSONDecodeError as e:
+            print(f"JSON 解析错误: {e}")
+            print(f"替换后的字符串: {template}")
+            raise
 
 class TasksGenerator(BaseGenerator):
+    def replace_placeholders(self, template, replacements):
+        result = template
+        for key, value in replacements.items():
+            placeholder = f"${{{key}}}"
+            # 将值转换为 JSON 安全的字符串，保留原始转义
+            safe_value = json.dumps(value)[1:-1]  # 去掉 json.dumps 添加的外层引号
+            result = result.replace(placeholder, safe_value)
+        return result
+
     def generate(self):
         config = self.load_json("template.json")["tasks"]
         template = self.load_template("tasks.json.in")
         replacements = config.get(self.current_os, {})
         
-        for key, value in replacements.items():
-            template = template.replace(f"${{{key}}}", str(value))
+        if not replacements:
+            print(f"警告: 未在 template.json 的 tasks 中找到 {self.current_os} 的配置")
+            return
+
+        template = self.replace_placeholders(template, replacements)
         
-        self.save_json("tasks.json", json.loads(template))
+        try:
+            self.save_json("tasks.json", json.loads(template))
+        except json.JSONDecodeError as e:
+            print(f"JSON 解析错误: {e}")
+            print(f"替换后的字符串: {template}")
+            raise
 
 class CCppPropertiesGenerator(BaseGenerator):
     def generate(self):
@@ -131,7 +206,8 @@ def main():
         SettingsGenerator(),
         TasksGenerator(),
         CCppPropertiesGenerator(),
-        LaunchGenerator()
+        LaunchGenerator(),
+        CopyTemplate()
     ]
     for generator in generators:
         generator.generate()
