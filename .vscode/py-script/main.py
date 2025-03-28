@@ -132,11 +132,13 @@ class TerminalLauncher(BaseTask):
         sys.stdout.reconfigure(encoding='utf-8')
         sys.stderr.reconfigure(encoding='utf-8')
         os.environ['PYTHONIOENCODING'] = 'utf-8'
-        if self.system == "Windows":
-            self.setup_windows_env(env)
+
         env = self.get_conanrun_env() if profile == "full" else os.environ.copy()
         env["LC_ALL"] = "en_US.UTF-8"
         env["LANG"] = "en_US.UTF-8"
+        if self.system == "Windows":
+            self.setup_windows_env(env)
+
 
         cmd = [self.shell_path, "-i"]
         process = subprocess.Popen(cmd, env=env, shell=True)
