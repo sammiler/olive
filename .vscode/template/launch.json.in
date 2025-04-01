@@ -12,7 +12,7 @@
             "environment": [
                 {
                     "name": "PATH",
-                    "value": "${conan_path};${env:PATH};"
+                    "value": "C:/vcpkg/installed/x64-win-llvm/bin;${env:PATH};"
                 },
                 {
                     "name": "QT_PLUGIN_PATH",

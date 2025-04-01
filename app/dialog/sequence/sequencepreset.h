@@ -69,9 +69,9 @@ public:
       } else if (reader->name() == QStringLiteral("height")) {
         height_ = reader->readElementText().toInt();
       } else if (reader->name() == QStringLiteral("framerate")) {
-        frame_rate_ = rational::fromString(reader->readElementText().toStdString());
+        frame_rate_ = rational::fromString(reader->readElementText().toUtf8().constData());
       } else if (reader->name() == QStringLiteral("pixelaspect")) {
-        pixel_aspect_ = rational::fromString(reader->readElementText().toStdString());
+        pixel_aspect_ = rational::fromString(reader->readElementText().toUtf8().constData());
       } else if (reader->name() == QStringLiteral("interlacing")) {
         interlacing_ = static_cast<VideoParams::Interlacing>(reader->readElementText().toInt());
       } else if (reader->name() == QStringLiteral("samplerate")) {

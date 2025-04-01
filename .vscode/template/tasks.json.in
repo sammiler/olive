@@ -90,21 +90,6 @@
             "detail": "使用CMake清理项目"
         },
         {
-            "label": "Generate Conan Files",
-            "type": "shell",
-            "command": "python",
-            "args": [
-                ".vscode/py-script/main.py",
-                "--task",
-                "generate_conan"
-            ],
-            "group": "build",
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
-            "detail": "生成Conan相关配置文件"
-        },
-        {
             "label": "Generate Qt Resources",
             "type": "shell",
             "command": "python",
@@ -140,23 +125,6 @@
                 "isDefault": true
             },
             "detail": "从项目中复制所有动态库到可执行目录"
-        },
-        {
-            "label": "Launch Terminal (Full Env)",
-            "type": "shell",
-            "command": "python",
-            "args": [
-                ".vscode/py-script/main.py",
-                "--task",
-                "launch-terminal",
-                "--param",
-                "full"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "detail": "使用Conan的环境变量打开Bash终端"
         },
         {
             "label": "Generate VSCode Config File",

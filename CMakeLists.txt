@@ -82,26 +82,19 @@ find_package(OpenGL REQUIRED)
 list(APPEND OLIVE_LIBRARIES OpenGL::GL)
 
 # Link OpenColorIO
-find_package(OpenColorIO 2.1.1 REQUIRED)
-list(APPEND OLIVE_LIBRARIES ${OpenColorIO_LIBRARIES})
-list(APPEND OLIVE_INCLUDE_DIRS ${OpenColorIO_INCLUDE_DIRS})
-
+find_package(OpenColorIO  REQUIRED)
+list(APPEND OLIVE_LIBRARIES OpenColorIO::OpenColorIO)
 # Link OpenImageIO
 find_package(OpenImageIO 2.1.12 REQUIRED)
-list(APPEND OLIVE_LIBRARIES ${OpenImageIO_LIBRARIES})
-list(APPEND OLIVE_INCLUDE_DIRS ${OpenImageIO_INCLUDE_DIRS})
-
+list(APPEND OLIVE_LIBRARIES OpenImageIO::OpenImageIO)
 # Link OpenEXR
 find_package(OpenEXR REQUIRED)
-list(APPEND OLIVE_LIBRARIES ${OpenEXR_LIBRARIES})
-list(APPEND OLIVE_INCLUDE_DIRS ${OpenEXR_INCLUDE_DIRS})
-
+list(APPEND OLIVE_LIBRARIES OpenEXR::OpenEXR)
 # Link Imath
 
 
 find_package(Imath REQUIRED)
-list(APPEND OLIVE_LIBRARIES ${Imath_LIBRARIES})
-list(APPEND OLIVE_INCLUDE_DIRS ${Imath_INCLUDE_DIRS})
+list(APPEND OLIVE_LIBRARIES Imath::Imath)
 
 
 # Link Olive
@@ -201,8 +194,7 @@ if (PA_HAS_JACK)
   list(APPEND OLIVE_DEFINITIONS PA_HAS_JACK)
 endif()
 
-list(APPEND OLIVE_INCLUDE_DIRS ${portaudio_INCLUDE_DIRS})
-list(APPEND OLIVE_LIBRARIES ${portaudio_LIBRARIES})
+list(APPEND OLIVE_LIBRARIES portaudio)
 
 # Optional: Link OpenTimelineIO
 find_package(OpenTimelineIO)

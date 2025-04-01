@@ -57,7 +57,7 @@ FootageDescription OIIODecoder::Probe(const QString &filename, CancelAtom *cance
     return desc;
   }
 
-  std::string std_filename = filename.toStdString();
+  std::string std_filename = filename.toUtf8().constData();
 
   auto in = OIIO::ImageInput::open(std_filename);
 
@@ -189,7 +189,7 @@ bool OIIODecoder::FileTypeIsSupported(const QString& fn)
 
 bool OIIODecoder::OpenImageHandler(const QString &fn, int subimage)
 {
-  image_ = OIIO::ImageInput::open(fn.toStdString());
+  image_ = OIIO::ImageInput::open(fn.toUtf8().constData());
 
   if (!image_) {
     return false;

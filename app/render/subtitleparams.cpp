@@ -125,9 +125,9 @@ void SubtitleParams::Load(QXmlStreamReader *reader)
 
           XMLAttributeLoop(reader, attr) {
             if (attr.name() == QStringLiteral("in")) {
-              in = rational::fromString(attr.value().toString().toStdString());
+              in = rational::fromString(attr.value().toString().toUtf8().constData());
             } else if (attr.name() == QStringLiteral("out")) {
-              out = rational::fromString(attr.value().toString().toStdString());
+              out = rational::fromString(attr.value().toString().toUtf8().constData());
             }
           }
 

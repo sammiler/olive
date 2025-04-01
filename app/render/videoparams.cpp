@@ -344,13 +344,13 @@ void VideoParams::Load(QXmlStreamReader *reader)
     } else if (reader->name() == QStringLiteral("depth")) {
       set_depth(reader->readElementText().toInt());
     } else if (reader->name() == QStringLiteral("timebase")) {
-      set_time_base(rational::fromString(reader->readElementText().toStdString()));
+      set_time_base(rational::fromString(reader->readElementText().toUtf8().constData()));
     } else if (reader->name() == QStringLiteral("format")) {
       set_format(static_cast<PixelFormat::Format>(reader->readElementText().toInt()));
     } else if (reader->name() == QStringLiteral("channelcount")) {
       set_channel_count(reader->readElementText().toInt());
     } else if (reader->name() == QStringLiteral("pixelaspectratio")) {
-      set_pixel_aspect_ratio(rational::fromString(reader->readElementText().toStdString()));
+      set_pixel_aspect_ratio(rational::fromString(reader->readElementText().toUtf8().constData()));
     } else if (reader->name() == QStringLiteral("interlacing")) {
       set_interlacing(static_cast<VideoParams::Interlacing>(reader->readElementText().toInt()));
     } else if (reader->name() == QStringLiteral("divider")) {
@@ -366,7 +366,7 @@ void VideoParams::Load(QXmlStreamReader *reader)
     } else if (reader->name() == QStringLiteral("videotype")) {
       set_video_type(static_cast<VideoParams::Type>(reader->readElementText().toInt()));
     } else if (reader->name() == QStringLiteral("framerate")) {
-      set_frame_rate(rational::fromString(reader->readElementText().toStdString()));
+      set_frame_rate(rational::fromString(reader->readElementText().toUtf8().constData()));
     } else if (reader->name() == QStringLiteral("starttime")) {
       set_start_time(reader->readElementText().toLongLong());
     } else if (reader->name() == QStringLiteral("duration")) {

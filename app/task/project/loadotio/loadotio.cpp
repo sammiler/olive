@@ -58,7 +58,7 @@ bool LoadOTIOTask::Run()
 {
   OTIO::ErrorStatus es;
 
-  auto root = OTIO::SerializableObjectWithMetadata::from_json_file(GetFilename().toStdString(), &es);
+  auto root = OTIO::SerializableObjectWithMetadata::from_json_file(GetFilename().toUtf8().constData(), &es);
 
   if (es.outcome != OTIO::ErrorStatus::Outcome::OK) {
     SetError(tr("Failed to load OpenTimelineIO from file \"%1\" \n\nOpenTimelineIO Error:\n\n%2")
@@ -108,7 +108,7 @@ bool LoadOTIOTask::Run()
       // If the otio timeline does not provide a name, create a default one here
       unnamed_sequence_count++;
       QString label = tr("Sequence %1").arg(unnamed_sequence_count);
-      sequence->SetLabel(QString::fromStdString(label.toStdString()));
+      sequence->SetLabel(QString::fromStdString(label.toUtf8().constData()));
     }
     // Set default params incase they aren't edited.
     sequence->set_default_parameters();

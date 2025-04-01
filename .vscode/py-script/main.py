@@ -37,7 +37,9 @@ class BaseTask:
         self.linker_path = self.compiler['LINK_PATH']
         self.rc_compiler = self.compiler['RC_COMPILER']
         self.mt = self.compiler['MT']
+        self.toolChain = self.platformdata['toolchain']
         self.mc_compiler = self.compiler['MC_COMPILER']
+        self.triplet = self.platformdata['triplet']
         if self.system == "Windows" and not os.path.exists(self.shell_path):
             raise FileNotFoundError("Unix Like Bash not found. Please adjust shell_path.")
         elif self.system in ("Linux", "Darwin") and not os.path.exists(self.shell_path):
@@ -84,31 +86,12 @@ class BaseTask:
         return process.wait()
         
 
-    def get_conanrun_env(self, build_type="Debug"):
-        """从 conan 运行脚本获取环境变量（跨平台）"""
-        env = os.environ.copy()
-        target_dir = os.path.abspath(os.path.join(os.getcwd(), f"conan_{build_type}", "build", build_type, "generators"))
-        if not os.path.exists(target_dir):
-            return env
-        if self.system == "Windows":
-            cmd = f'cmd.exe /c "cd /d {target_dir} && call conanrun.bat && set"'
-        elif self.system in ("Linux", "Darwin"):
-            cmd = f"bash -c 'cd {target_dir} && source conanbuild.sh && env'"
-        result = subprocess.run(cmd, shell=True, capture_output=True, text=True, encoding="utf-8")
-        if result.returncode != 0:
-            raise RuntimeError(f"Failed to run conan script: {result.stderr}")
-        for line in result.stdout.splitlines():
-            if '=' in line:
-                key, value = line.split('=', 1)
-                env[key] = value
-        return env
-
     def setup_windows_env(self, env):
         """设置 Windows 特定的环境变量"""
         env["MSYS_NO_PATHCONV"] = "1"
         additional_path = self.platformdata['envPath']
         combined_path = ';'.join(additional_path)
-        if self.compiler['NAME'] != "msvc":
+        if self.compiler['NAME'] == "gcc" or self.compiler['NAME'] == "g++" or self.system != "Windows":
             env["PATH"] = f"{combined_path};{env['PATH']}"
             return
         msvc_path = self.compiler['MSVC_PATH']
@@ -148,7 +131,7 @@ class CMakeConfigurer(BaseTask):
     """配置 CMake 环境并运行 cmake 命令"""
     def configure(self, build_type, cmake_flags):
         """设置环境变量并运行 cmake"""
-        env = self.get_conanrun_env(build_type)
+        env = os.environ.copy()
         if self.system == "Windows":
             print("Windows")
             self.setup_windows_env(env)
@@ -157,13 +140,13 @@ class CMakeConfigurer(BaseTask):
 
         env["LC_ALL"] = "en_US.UTF-8"
         env["LANG"] = "en_US.UTF-8"
-
+        print("111111" + cmake_flags)
         root_dir = os.getcwd()
         runtime_output_dir = os.path.join(root_dir, "build", "bin").replace("\\", "/")
         library_output_dir = os.path.join(root_dir, "build", "lib").replace("\\", "/")
         archive_output_dir = os.path.join(root_dir, "build", "lib").replace("\\", "/")
         install_prefix = os.path.join(root_dir, "install_dir").replace("\\", "/")
-        toolchain_file = os.path.join(root_dir, f"conan_{build_type}", "build", build_type, "generators", "conan_toolchain.cmake")
+        toolchain_file = self.toolChain
         cmake_cmd = []
         if  os.path.exists(toolchain_file):
             toolchain_file = toolchain_file.replace("\\", "/")
@@ -182,6 +165,7 @@ class CMakeConfigurer(BaseTask):
             f"-DCMAKE_MC_COMPILER={self.mc_compiler}",
             f"-DCMAKE_BUILD_TYPE={build_type}",
             f"-DCMAKE_TOOLCHAIN_FILE={toolchain_file}",
+            f"-DVCPKG_TARGET_TRIPLET={self.triplet}",
             cmake_flags,
             f"-DCMAKE_RUNTIME_OUTPUT_DIRECTORY={runtime_output_dir}",
             f"-DCMAKE_LIBRARY_OUTPUT_DIRECTORY={library_output_dir}",
@@ -221,11 +205,12 @@ class CMakeConfigurer(BaseTask):
 
 class CMakeBuilder(BaseTask):
     """执行 CMake 构建（ninja）"""
-    def build(self, build_type):
+    def build(self):
         """设置环境变量并运行 ninja 构建"""
-        env = self.get_conanrun_env(build_type)
-
+        env = os.environ.copy()
+        print("BBBBBBBBBBBBBBBB")
         if self.system == "Windows":
+            print("CCCCCCCCCCCCCCCC")
             self.setup_windows_env(env)
         elif self.system in ("Linux", "Darwin"):
             env["PATH"] = f"/usr/local/bin:/opt/cmake/bin:{env['PATH']}"
@@ -250,9 +235,9 @@ class CMakeBuilder(BaseTask):
     
 class CMakeInstaller(BaseTask):
     """执行 CMake 安装（ninja install）"""
-    def install(self, build_type):
+    def install(self):
         """设置环境变量并运行 ninja install"""
-        env = self.get_conanrun_env(build_type)
+        env = os.environ.copy()
 
         if self.system == "Windows":
             self.setup_windows_env(env)
@@ -271,9 +256,9 @@ class CMakeInstaller(BaseTask):
 
 class CMakeCleaner(BaseTask):
     """执行 CMake 清理（ninja clean）"""
-    def clean(self, build_type):
+    def clean(self):
         """设置环境变量并运行 ninja clean"""
-        env = self.get_conanrun_env(build_type)
+        env = os.environ.copy()
 
         if self.system == "Windows":
             self.setup_windows_env(env)
@@ -288,35 +273,6 @@ class CMakeCleaner(BaseTask):
 
         cmd = [self.shell_path, "-c", ninja_cmd]
         process = subprocess.Popen(cmd, env=env, cwd=root_dir, shell=True)
-        process.wait()
-
-class ConanConfigurer(BaseTask):
-    """执行 Conan 配置"""
-    def configure(self):
-        """运行 conan install 生成 Conan 文件"""
-        env = os.environ.copy()
-        if self.system == "Windows":
-            self.setup_windows_env(env)
-        env["LC_ALL"] = "en_US.UTF-8"
-        env["LANG"] = "en_US.UTF-8"
-
-        root_dir = os.getcwd()
-        conan_dir = os.path.join(root_dir, ".vscode", "py-script").replace("\\", "/")
-        output_dir = os.path.join(root_dir, "conan_debug").replace("\\", "/")
-
-        conan_cmd = (
-            "conan install . "
-            f"-of={output_dir} "
-            "--build=missing "
-            "-s build_type=Debug "
-            "-s arch=x86_64 "
-            f"-s compiler={self.compiler['NAME']} "
-            f"-s compiler.version={self.compiler['VERSION']}"
-        )
-        print(f"Conan command: {conan_cmd}")
-
-        cmd = [self.shell_path, "-c", conan_cmd]
-        process = subprocess.Popen(cmd, env=env, cwd=conan_dir, shell=True)
         process.wait()
 
 
@@ -517,7 +473,7 @@ class GenerateQrcTask(BaseTask):
 
 def main():
     parser = argparse.ArgumentParser(description="Terminal Manager for Multiple Platforms")
-    parser.add_argument("--task", choices=["launch-terminal", "cmake-configure", "cmake-build", "cmake-install", "cmake-clean", "generate_conan","copy-dll","generate-qrc"], required=True, help="Task to execute")
+    parser.add_argument("--task", choices=["launch-terminal", "cmake-configure", "cmake-build", "cmake-install", "cmake-clean","copy-dll","generate-qrc"], required=True, help="Task to execute")
     parser.add_argument("--param", help="Parameter for launch-terminal")
     parser.add_argument("--build-type", default="Debug", help="Build type for cmake-configure")
     parser.add_argument(
@@ -538,16 +494,13 @@ def main():
         configurer.configure(args.build_type, args.cmake_flags)
     elif args.task == "cmake-build":
         builder = CMakeBuilder()
-        builder.build(args.build_type)
+        builder.build()
     elif args.task == "cmake-install":
         installer = CMakeInstaller()
-        installer.install(args.build_type)
+        installer.install()
     elif args.task == "cmake-clean":
         cleaner = CMakeCleaner()
-        cleaner.clean(args.build_type)
-    elif args.task == "generate_conan":
-        conan_configurer = ConanConfigurer()
-        conan_configurer.configure()
+        cleaner.clean()
     elif args.task == "copy-dll":
         copy_task = CopyDllTask()
         copy_task.execute()

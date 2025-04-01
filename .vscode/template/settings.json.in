@@ -7,7 +7,7 @@
     "terminal.integrated.defaultProfile.${os}": "${bash}",
     "cmake.buildDirectory": "${workspaceFolder}/conan_debug/build/Debug",
     "cmake.configureEnvironment": {
-        "PATH": "${conan_path};%PATH%"
+        "PATH": "%PATH%"
     },
     "C_Cpp.intelliSenseEngine": "disabled",
     "clangd.arguments": [
@@ -19,7 +19,7 @@
     },
     "C_Cpp.default.compileCommands": "${workspaceFolder}/build/compile_commands.json",
     "cmake.buildEnvironment": {
-        "PATH": "${conan_path};%PATH%"
+        "PATH": "%PATH%"
     },
     "editor.snippetSuggestions": "inline",
     "editor.tabCompletion": "on",

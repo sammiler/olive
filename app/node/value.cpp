@@ -19,12 +19,14 @@
 ***/
 
 #include "value.h"
+#include <qchar.h>
 
 #include <QCoreApplication>
 #include <QMatrix4x4>
 #include <QVector2D>
 #include <QVector3D>
 #include <QVector4D>
+#include <string>
 
 #include "common/tohex.h"
 #include "render/subtitleparams.h"
@@ -244,7 +246,10 @@ QVariant NodeValue::StringToValue(Type data_type, const QString &string, bool va
   } else if (data_type == kInt) {
     return QVariant::fromValue(string.toLongLong());
   } else if (data_type == kRational) {
-    return QVariant::fromValue(rational::fromString(string.toStdString()));
+    QString str11("1223124");
+    std::string test1 = str11.toUtf8().constData();
+    std::string test = string.toUtf8().constData();
+    return QVariant::fromValue(rational::fromString(string.toUtf8().constData()));
   } else if (data_type == kBinary) {
     return QByteArray::fromBase64(string.toLatin1());
   } else {

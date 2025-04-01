@@ -1,6 +1,5 @@
 {
    "settings": {
-       "dynamic": ["conan_path"],
        "os": {
            "Windows": {
                "os": "windows",
@@ -27,9 +26,9 @@
    },
    "tasks": {
        "Windows": {
-           "debug_flag": "-DCMAKE_CXX_FLAGS=\"/EHsc /W3 /MP6 /Zi /FS /MDd /D_ITERATOR_DEBUG_LEVEL=2\" -DCMAKE_C_FLAGS=\"/EHsc /W3 /MP6 /Zi /FS /MDd /D_ITERATOR_DEBUG_LEVEL=2\"",
+           "debug_flag": "-DCMAKE_CXX_FLAGS=\"/EHsc /W3  /Zi /FS /MDd /D_ITERATOR_DEBUG_LEVEL=2 /O0  \" -DCMAKE_C_FLAGS=\"/EHsc /W3  /Zi /FS /MDd /D_ITERATOR_DEBUG_LEVEL=2 /O0 \"",
            "rel_flag": "-DCMAKE_CXX_FLAGS=\"/EHsc /W3 /MP6 /O2 /FS /MD\" -DCMAKE_C_FLAGS=\"/EHsc /W3 /MP6 /O2 /FS /MD\"" ,
-           "problemMatcher" : "$msCompile"
+           "problemMatcher" : "$gcc"
        },
        "Linux": {
            "debug_flag": "-DCMAKE_CXX_FLAGS=\"-g -Wall\" -DCMAKE_C_FLAGS=\"-g -Wall\"",
@@ -60,7 +59,7 @@
        }
    },
    "launch": {
-       "dynamic": ["exe_name", "exe_path", "conan_path"],
+       "dynamic": ["exe_name", "exe_path"],
        "Windows": {
            "debug_type": "cppvsdbg",
            "qt_plugins": "C:/Users/sammiler/.conan2/p/b/qt2c11cdd05279f/p/plugins",
@@ -95,13 +94,13 @@
         "generator": "Ninja" ,
         "compiler" :
        {
-            "NAME" : "msvc",
-            "VERSION": "194",
-            "CMAKE_CXX_STANDARD" : "17",
-            "CMAKE_C_COMPILER" :  "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.43.34808/bin/Hostx64/x64/cl.exe",
-            "CMAKE_CXX_COMPILER" : "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.43.34808/bin/Hostx64/x64/cl.exe",
-            "COMPILER_PATH" : "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.43.34808/bin/Hostx64/x64/cl.exe",
-            "LINK_PATH" : "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.43.34808/bin/Hostx64/x64/link.exe",
+            "NAME" : "clang",
+            "VERSION": "19",
+            "CMAKE_CXX_STANDARD" : "11",
+            "CMAKE_C_COMPILER" :  "C:/PROGRA~1/MIB055~1/2022/Enterprise/VC/Tools/Llvm/x64/bin/clang-cl.exe",
+            "CMAKE_CXX_COMPILER" : "C:/PROGRA~1/MIB055~1/2022/Enterprise/VC/Tools/Llvm/x64/bin/clang-cl.exe",
+            "COMPILER_PATH" : "C:/PROGRA~1/MIB055~1/2022/Enterprise/VC/Tools/Llvm/x64/bin/clang-cl.exe",
+            "LINK_PATH" : "C:/PROGRA~1/MIB055~1/2022/Enterprise/VC/Tools/Llvm/x64/bin/lld-link.exe",
             "RC_COMPILER": "C:/Program Files (x86)/Windows Kits/10/bin/10.0.22621.0/x64/rc.exe",
             "MT" : "C:/Program Files (x86)/Windows Kits/10/bin/10.0.22621.0/x64/mt.exe" ,
             "MC_COMPILER" : "C:/Program Files (x86)/Windows Kits/10/bin/10.0.22621.0/x64/mc.exe",
@@ -110,13 +109,16 @@
             "WINDOWS_SDK_VERSION" : "10.0.22621.0"
             
        },
+       "toolchain": "C:/vcpkg/scripts/buildsystems/vcpkg.cmake",
        "shell_path" : "C:/Program Files/Git/bin/bash.exe",
+       "triplet" : "x64-win-llvm",
        "envPath":
        [
         "C:/Program Files/CMake/bin",
         "C:/Tools",
         "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.43.34808/bin/Hostx64/x64",
-        "C:/Program Files (x86)/Windows Kits/10/bin/10.0.22621.0/x64"
+        "C:/Program Files (x86)/Windows Kits/10/bin/10.0.22621.0/x64",
+        "C:/vcpkg/installed/x64-win-llvm/bin"
        ]
    }
 }

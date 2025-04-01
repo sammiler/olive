@@ -32,7 +32,7 @@ AudioParams TypeSerializer::LoadAudioParams(QXmlStreamReader *reader)
     } else if (reader->name() == QStringLiteral("channellayout")) {
       a.set_channel_layout(reader->readElementText().toULongLong());
     } else if (reader->name() == QStringLiteral("format")) {
-      a.set_format(SampleFormat::from_string(reader->readElementText().toStdString()));
+      a.set_format(SampleFormat::from_string(reader->readElementText().toUtf8().constData()));
     } else if (reader->name() == QStringLiteral("enabled")) {
       a.set_enabled(reader->readElementText().toInt());
     } else if (reader->name() == QStringLiteral("streamindex")) {
@@ -40,7 +40,7 @@ AudioParams TypeSerializer::LoadAudioParams(QXmlStreamReader *reader)
     } else if (reader->name() == QStringLiteral("duration")) {
       a.set_duration(reader->readElementText().toLongLong());
     } else if (reader->name() == QStringLiteral("timebase")) {
-      a.set_time_base(rational::fromString(reader->readElementText().toStdString()));
+      a.set_time_base(rational::fromString(reader->readElementText().toUtf8().constData()));
     } else {
       reader->skipCurrentElement();
     }
