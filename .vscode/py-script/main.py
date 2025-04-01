@@ -37,7 +37,7 @@ class BaseTask:
         self.linker_path = self.compiler['LINK_PATH']
         self.rc_compiler = self.compiler['RC_COMPILER']
         self.mt = self.compiler['MT']
-        self.toolChain = self.platformdata['toolchain']
+        self.toolChain = self.platformdata['toolchain'] + "/scripts/buildsystems/vcpkg.cmake"
         self.mc_compiler = self.compiler['MC_COMPILER']
         self.triplet = self.platformdata['triplet']
         if self.system == "Windows" and not os.path.exists(self.shell_path):
@@ -140,7 +140,6 @@ class CMakeConfigurer(BaseTask):
 
         env["LC_ALL"] = "en_US.UTF-8"
         env["LANG"] = "en_US.UTF-8"
-        print("111111" + cmake_flags)
         root_dir = os.getcwd()
         runtime_output_dir = os.path.join(root_dir, "build", "bin").replace("\\", "/")
         library_output_dir = os.path.join(root_dir, "build", "lib").replace("\\", "/")
@@ -208,9 +207,7 @@ class CMakeBuilder(BaseTask):
     def build(self):
         """设置环境变量并运行 ninja 构建"""
         env = os.environ.copy()
-        print("BBBBBBBBBBBBBBBB")
         if self.system == "Windows":
-            print("CCCCCCCCCCCCCCCC")
             self.setup_windows_env(env)
         elif self.system in ("Linux", "Darwin"):
             env["PATH"] = f"/usr/local/bin:/opt/cmake/bin:{env['PATH']}"

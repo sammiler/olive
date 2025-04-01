@@ -4,22 +4,16 @@
            "Windows": {
                "os": "windows",
                "bash": "Git Bash",
-               "cmake_lib": "C://Program Files (x86)//Windows Kits//10//Lib//10.0.22621.0//um//x64;C:/Program Files (x86)/Windows Kits/10/Lib/10.0.22621.0/ucrt/x64;C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.43.34808/lib/x64",
-               "cmake_include": "C://Program Files (x86)//Windows Kits//10//Include//10.0.22621.0//um;C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.43.34808/include;C:/Program Files (x86)/Windows Kits/10/Include/10.0.22621.0/ucrt;C:/Program Files (x86)/Windows Kits/10/Include/10.0.22621.0/um;C:/Program Files (x86)/Windows Kits/10/Include/10.0.22621.0/shared",
                "qt_exe": "C:/Qt/Qt5.9.5/5.9.5/msvc2017_64/bin/designer.exe"
            },
            "Linux": {
                "os": "linux",
                "bash": "bash",
-               "cmake_lib": "/usr/lib/x86_64-linux-gnu;/usr/local/lib",
-               "cmake_include": "/usr/include;/usr/include/x86_64-linux-gnu;/usr/local/include",
                "qt_exe": "/opt/Qt5.15.2/5.15.2/gcc_64/bin/designer"
            },
            "Mac": {
                "os": "osx",
                "bash": "bash",
-               "cmake_lib": "/usr/lib;/usr/local/lib",
-               "cmake_include": "/usr/include;/usr/local/include",
                "qt_exe": "/Applications/Qt/5.15.2/clang_64/bin/designer"
            }
        }
@@ -109,7 +103,7 @@
             "WINDOWS_SDK_VERSION" : "10.0.22621.0"
             
        },
-       "toolchain": "C:/vcpkg/scripts/buildsystems/vcpkg.cmake",
+       "toolchain": "C:/vcpkg",
        "shell_path" : "C:/Program Files/Git/bin/bash.exe",
        "triplet" : "x64-win-llvm",
        "envPath":

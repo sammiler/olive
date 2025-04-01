@@ -12,7 +12,7 @@
             "environment": [
                 {
                     "name": "PATH",
-                    "value": "C:/vcpkg/installed/x64-win-llvm/bin;${env:PATH};"
+                    "value": "${env:PATH};"
                 },
                 {
                     "name": "QT_PLUGIN_PATH",
