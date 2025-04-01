@@ -13,6 +13,9 @@
     "clangd.arguments": [
         "--compile-commands-dir=${workspaceFolder}/build"
     ],
+    "clangd.fallbackFlags": [
+    "-I${workspaceFolder}/ext/core/include"
+    ],
     "cmake.environment": {
         "LIB": "${cmake_lib}",
         "INCLUDE": "${cmake_include}"
