@@ -206,21 +206,6 @@ else()
   message("   OpenTimelineIO interchange will be disabled.")
 endif()
 
-# Optional: Link Google Crashpad
-find_package(GoogleCrashpad)
-if (GoogleCrashpad_FOUND)
-  list(APPEND OLIVE_DEFINITIONS USE_CRASHPAD)
-  list(APPEND OLIVE_INCLUDE_DIRS ${CRASHPAD_INCLUDE_DIRS})
-  list(APPEND OLIVE_LIBRARIES ${CRASHPAD_LIBRARIES})
-else()
-  message("   Automatic crash reporting will be disabled.")
-
-  if (APPLE)
-    # Enables use of special functions for slider dragging, only linked if Crashpad isn't found
-    # because Crashpad links it itself and will cause duplicate references if we also link it
-    list(APPEND OLIVE_LIBRARIES "-framework ApplicationServices")
-  endif()
-endif()
 
 if (WIN32)
   list(APPEND OLIVE_DEFINITIONS "-DUNICODE -D_UNICODE")

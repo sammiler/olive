@@ -147,7 +147,4 @@ target_compile_definitions(libolive-editor PRIVATE ${OLIVE_DEFINITIONS})
 target_include_directories(olive-editor PRIVATE ${OLIVE_INCLUDE_DIRS})
 target_include_directories(libolive-editor PRIVATE ${OLIVE_INCLUDE_DIRS})
 
-# Add crash handler
-if (GoogleCrashpad_FOUND)
-  add_subdirectory(crashhandler)
-endif()
+
