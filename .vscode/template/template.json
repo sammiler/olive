@@ -1,5 +1,6 @@
 {
    "settings": {
+       "dynamic" : ["vcpkginclude"],
        "os": {
            "Windows": {
                "os": "windows",

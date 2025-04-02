@@ -10,7 +10,8 @@
         "--compile-commands-dir=${workspaceFolder}/build"
     ],
     "clangd.fallbackFlags": [
-    "-I${workspaceFolder}/ext/core/include"
+    "-I${workspaceFolder}/ext/core/include",
+    "-I${vcpkginclude}"
     ],
     "C_Cpp.default.compileCommands": "${workspaceFolder}/build/compile_commands.json",
     "cmake.buildEnvironment": {

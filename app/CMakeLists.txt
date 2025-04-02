@@ -125,10 +125,12 @@ elseif(UNIX)
   install(TARGETS olive-editor RUNTIME DESTINATION bin)
 endif()
 
-set_property(TARGET olive-editor PROPERTY CONFIGURATIONS Debug)
-set_property(TARGET olive-editor PROPERTY DEBUG_POSTFIX "d")
-set_property(TARGET libolive-editor PROPERTY CONFIGURATIONS Debug)
-set_property(TARGET libolive-editor PROPERTY DEBUG_POSTFIX "d")
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+  set_property(TARGET olive-editor PROPERTY CONFIGURATIONS Debug)
+  set_property(TARGET libolive-editor PROPERTY CONFIGURATIONS Debug)
+endif()
+
+
 # Set link libraries
 target_link_libraries(olive-editor PRIVATE ${OLIVE_LIBRARIES})
 target_link_libraries(libolive-editor PRIVATE ${OLIVE_LIBRARIES})

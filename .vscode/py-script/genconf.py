@@ -58,13 +58,14 @@ class SettingsGenerator(BaseGenerator):
 
     def generate(self):
         config = self.load_json("template.json")["settings"]
+        platformdata = self.load_json("template.json")["platform"]
         template = self.load_template("settings.json.in")
         replacements = config["os"].get(self.current_os, {})
         dynamic = config.get("dynamic", [])
-        
         if "conan_path" in dynamic:
             replacements["conan_path"] = self.get_conan_path()
-
+        if "vcpkginclude" in dynamic:
+            replacements["vcpkginclude"] = platformdata["toolchain"] + "/installed/" + platformdata["triplet"] + "/include"
         template = self.replace_placeholders(template, replacements)
         try:
             self.save_json("settings.json", json.loads(template))
