@@ -78,8 +78,8 @@ bool InitializeCrashpad()
     status = client->StartHandler(handler, reports_dir, metrics_dir,
                                   "https://olivevideoeditor.org/crashpad/report.php",
                                   annotations, arguments, true, true);
-    EXCEPTION_POINTERS * ex;
-    client->DumpAndCrash(ex);
+    // EXCEPTION_POINTERS * ex;
+    // client->DumpAndCrash(ex);
   }
 
   // Override Crashpad exception filter with our own
