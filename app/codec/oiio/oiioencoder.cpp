@@ -37,7 +37,7 @@ bool OIIOEncoder::Open()
 
 bool OIIOEncoder::WriteFrame(FramePtr frame, rational time)
 {
-  std::string filename = GetFilenameForFrame(time).toStdString();
+  std::string filename = GetFilenameForFrame(time).toUtf8().constData();
 
   auto output = OIIO::ImageOutput::create(filename);
   if (!output) {

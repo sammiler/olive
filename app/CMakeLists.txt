@@ -125,6 +125,12 @@ elseif(UNIX)
   install(TARGETS olive-editor RUNTIME DESTINATION bin)
 endif()
 
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+  set_property(TARGET olive-editor PROPERTY CONFIGURATIONS Debug)
+  set_property(TARGET libolive-editor PROPERTY CONFIGURATIONS Debug)
+endif()
+
+
 # Set link libraries
 target_link_libraries(olive-editor PRIVATE ${OLIVE_LIBRARIES})
 target_link_libraries(libolive-editor PRIVATE ${OLIVE_LIBRARIES})
@@ -142,6 +148,6 @@ target_include_directories(olive-editor PRIVATE ${OLIVE_INCLUDE_DIRS})
 target_include_directories(libolive-editor PRIVATE ${OLIVE_INCLUDE_DIRS})
 
 # Add crash handler
-if (GoogleCrashpad_FOUND AND Qt${QT_VERSION_MAJOR}Network_FOUND)
+if (GoogleCrashpad_FOUND)
   add_subdirectory(crashhandler)
 endif()

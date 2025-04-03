@@ -635,14 +635,14 @@ bool Core::StartHeadlessExport()
     if (items.size() > 1) {
       qInfo().noquote() << tr("This project has multiple sequences. Which do you wish to export?");
       for (int i=0;i<items.size();i++) {
-        std::cout << "[" << i << "] " << items.at(i)->GetLabel().toStdString();
+        std::cout << "[" << i << "] " << items.at(i)->GetLabel().toUtf8().constData();
       }
 
       QTextStream stream(stdin);
       QString sequence_read;
       int sequence_index = -1;
       QString quit_code = QStringLiteral("q");
-      std::string prompt = tr("Enter number (or %1 to cancel): ").arg(quit_code).toStdString();
+      std::string prompt = tr("Enter number (or %1 to cancel): ").arg(quit_code).toUtf8().constData();
       forever {
         std::cout << prompt;
 

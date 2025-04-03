@@ -43,6 +43,7 @@ endif ()
 find_package(OpenEXR CONFIG)
 
 if (TARGET OpenEXR::OpenEXR AND TARGET Imath::Imath)
+
     # OpenEXR 3.x if both of these targets are found
     set (FOUND_OPENEXR_WITH_CONFIG 1)
     if (NOT OpenEXR_FIND_QUIETLY)
@@ -51,7 +52,7 @@ if (TARGET OpenEXR::OpenEXR AND TARGET Imath::Imath)
 
     # Mimic old style variables
     set (OPENEXR_VERSION ${OpenEXR_VERSION})
-    get_target_property(IMATH_INCLUDES Imath::Imath INTERFACE_INCLUDE_DIRECTORIES)
+    get_target_property(IMATH_INCLUDES Imath::ImathConfig INTERFACE_INCLUDE_DIRECTORIES)
     get_target_property(ILMBASE_INCLUDES Imath::Imath INTERFACE_INCLUDE_DIRECTORIES)
     get_target_property(ILMBASE_IMATH_LIBRARY Imath::Imath INTERFACE_LINK_LIBRARIES)
     get_target_property(IMATH_LIBRARY Imath::Imath INTERFACE_LINK_LIBRARIES)
@@ -60,7 +61,7 @@ if (TARGET OpenEXR::OpenEXR AND TARGET Imath::Imath)
     set (ILMBASE_LIBRARIES ${ILMBASE_IMATH_LIBRARY})
     set (ILMBASE_FOUND true)
 
-    get_target_property(OPENEXR_INCLUDES OpenEXR::OpenEXR INTERFACE_INCLUDE_DIRECTORIES)
+    get_target_property(OPENEXR_INCLUDES OpenEXR::OpenEXRConfig INTERFACE_INCLUDE_DIRECTORIES)
     get_target_property(OPENEXR_ILMIMF_LIBRARY OpenEXR::OpenEXR INTERFACE_LINK_LIBRARIES)
     set (OPENEXR_LIBRARIES OpenEXR::OpenEXR ${OPENEXR_ILMIMF_LIBRARY} ${OPENEXR_IEX_LIBRARY} ${OPENEXR_ILMTHREAD_LIBRARY} ${ILMBASE_LIBRARIES})
     set (OPENEXR_FOUND true)
@@ -70,7 +71,8 @@ if (TARGET OpenEXR::OpenEXR AND TARGET Imath::Imath)
     if (CMAKE_USE_PTHREADS_INIT)
         list (APPEND ILMBASE_LIBRARIES ${CMAKE_THREAD_LIBS_INIT})
     endif ()
-
+    list(APPEND OLIVE_INCLUDE_DIRS ${IMATH_INCLUDES})
+    list(APPEND OLIVE_INCLUDE_DIRS ${OPENEXR_INCLUDES})
 elseif (TARGET OpenEXR::IlmImf AND TARGET IlmBase::Imath AND
         (OPENEXR_VERSION VERSION_GREATER_EQUAL 2.4 OR OpenEXR_VERSION VERSION_GREATER_EQUAL 2.4))
     # OpenEXR 2.4 or 2.5 with exported config

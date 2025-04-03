@@ -1,30 +1,46 @@
-# Olive Video Editor [![Build status](https://github.com/olive-editor/olive/workflows/CI/badge.svg?branch=master)](https://github.com/olive-editor/olive/actions?query=branch%3Amaster)
+#### 1. 小型个人项目
 
-Olive is a free non-linear video editor for Windows, macOS, and Linux.
+- **构建**：CMake。
+- **编辑**：VS Code + Clang-Format。
+- **调试**：GDB/LLDB + ASan。
+- **测试**：Google Test。
 
-![screen](https://olivevideoeditor.org/img/020-2.png)
+#### 2. 中型团队项目
 
-**Discover more:** [Website](https://www.olivevideoeditor.org/) | [Binaries](https://olivevideoeditor.org/download) | [Patreon](https://www.patreon.com/olivevideoeditor) | [Wiki](https://github.com/olive-editor/olive/wiki/Overview-Guide) | [Community Discord (Unofficial)](https://discord.gg/4Ae9KZn)
+- **构建**：CMake。
+- **静态分析**：Clang-Tidy + Cppcheck。
+- **调试**：Sanitizers (ASan, UBSan) + Valgrind。
+- **测试**：Google Test。
+- **格式**：Clang-Format（集成到 CI）。
 
-**NOTE: Olive is alpha software and is considered highly unstable. While we highly appreciate users testing and providing usage information, please use at your own risk.**
+#### 3. 大型商业项目
 
-## Binaries
+- **构建**：CMake 或 Bazel。
+- **静态分析**：Clang-Tidy + Coverity。
+- **调试**：Sanitizers (ASan, TSan, UBSan) + GDB/LLDB。
+- **崩溃捕获**：Crashpad。
+- **测试**：Google Test + CI 集成。
+- **性能**：Perf 或 VTune。
+- **格式**：Clang-Format。
 
-- [0.1.0 alpha](https://github.com/olive-editor/olive/releases/tag/0.1.0)
-- [0.2.0 unstable development build](https://github.com/olive-editor/olive/releases/tag/0.2.0-nightly)
+#### 4. 多线程或高并发项目
 
-## Support Olive
+- 额外工具：**TSan** + **Helgrind (Valgrind)**。
 
-Please consider supporting Olive:
+---
 
-<a href="https://www.patreon.com/olivevideoeditor" title="Become a Patron">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/f6fda794-a64f-46a7-86bd-9631207bf071" width="200" height="63">
-    <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/646de54d-1451-4873-b6b2-c63790a4671a" width="200" height="63">
-    <img alt="The Patreon logo" src="https://github.com/user-attachments/assets/2bcca96f-8462-4904-b879-f64b42e07567" width="200" height="63">
-  </picture>
-</a>
+### 五、为什么这些工具是“正常开发”必备？
 
-## Compiling from Source:
+1. **效率**：CMake 和 IDE 加快开发速度。
+2. **质量**：Clang-Tidy 和 Sanitizers 减少 Bug。
+3. **调试**：GDB/LLDB 和 Valgrind 定位问题。
+4. **稳定性**：Crashpad 监控生产环境。
+5. **可维护性**：Clang-Format 和测试框架保持代码健康。
 
-Compiling instructions for Windows, macOS, and Linux can be found [on the main site](https://olivevideoeditor.org/compile).
+---
+
+### 实际开发中的建议
+
+- **初学者**：从 CMake、ASan 和 GDB 开始，逐步加入 Clang-Format 和 Google Test。
+- **团队开发**：强制使用 Clang-Format 和 Sanitizers，集成到 CI（如 GitHub Actions）。
+- **生产部署**：加上 Crashpad 和 Perf，确保上线后可监控。

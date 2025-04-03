@@ -152,9 +152,9 @@ bool TimelineMarker::load(QXmlStreamReader *reader)
     if (attr.name() == QStringLiteral("name")) {
       this->set_name(attr.value().toString());
     } else if (attr.name() == QStringLiteral("in")) {
-      in = rational::fromString(attr.value().toString().toStdString());
+      in = rational::fromString(attr.value().toString().toUtf8().constData());
     } else if (attr.name() == QStringLiteral("out")) {
-      out = rational::fromString(attr.value().toString().toStdString());
+      out = rational::fromString(attr.value().toString().toUtf8().constData());
     } else if (attr.name() == QStringLiteral("color")) {
       this->set_color(attr.value().toInt());
     }

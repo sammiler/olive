@@ -220,7 +220,7 @@ bool NodeKeyframe::load(QXmlStreamReader *reader, NodeValue::Type data_type)
     if (attr.name() == QStringLiteral("input")) {
       key_input = attr.value().toString();
     } else if (attr.name() == QStringLiteral("time")) {
-      this->set_time(rational::fromString(attr.value().toString().toStdString()));
+      this->set_time(rational::fromString(attr.value().toString().toUtf8().constData()));
     } else if (attr.name() == QStringLiteral("type")) {
       this->set_type_no_bezier_adj(static_cast<NodeKeyframe::Type>(attr.value().toInt()));
     } else if (attr.name() == QStringLiteral("inhandlex")) {

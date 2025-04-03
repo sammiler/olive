@@ -380,9 +380,9 @@ bool EncodingParams::LoadV1(QXmlStreamReader *reader)
     } else if (reader->name() == QStringLiteral("range")) {
       has_custom_range_ = reader->readElementText().toInt();
     } else if (reader->name() == QStringLiteral("customrangein")) {
-      custom_range_in = rational::fromString(reader->readElementText().toStdString());
+      custom_range_in = rational::fromString(reader->readElementText().toUtf8().constData());
     } else if (reader->name() == QStringLiteral("customrangeout")) {
-      custom_range_out = rational::fromString(reader->readElementText().toStdString());
+      custom_range_out = rational::fromString(reader->readElementText().toUtf8().constData());
     } else if (reader->name() == QStringLiteral("video")) {
       XMLAttributeLoop(reader, attr) {
         if (attr.name() == QStringLiteral("enabled")) {
@@ -400,9 +400,9 @@ bool EncodingParams::LoadV1(QXmlStreamReader *reader)
         } else if (reader->name() == QStringLiteral("format")) {
           video_params_.set_format(static_cast<PixelFormat::Format>(reader->readElementText().toInt()));
         } else if (reader->name() == QStringLiteral("pixelaspect")) {
-          video_params_.set_pixel_aspect_ratio(rational::fromString(reader->readElementText().toStdString()));
+          video_params_.set_pixel_aspect_ratio(rational::fromString(reader->readElementText().toUtf8().constData()));
         } else if (reader->name() == QStringLiteral("timebase")) {
-          video_params_.set_time_base(rational::fromString(reader->readElementText().toStdString()));
+          video_params_.set_time_base(rational::fromString(reader->readElementText().toUtf8().constData()));
         } else if (reader->name() == QStringLiteral("divider")) {
           video_params_.set_divider(reader->readElementText().toInt());
         } else if (reader->name() == QStringLiteral("bitrate")) {
@@ -471,7 +471,7 @@ bool EncodingParams::LoadV1(QXmlStreamReader *reader)
         } else if (reader->name() == QStringLiteral("channellayout")) {
           audio_params_.set_channel_layout(reader->readElementText().toULongLong());
         } else if (reader->name() == QStringLiteral("format")) {
-          audio_params_.set_format(SampleFormat::from_string(reader->readElementText().toStdString()));
+          audio_params_.set_format(SampleFormat::from_string(reader->readElementText().toUtf8().constData()));
         } else if (reader->name() == QStringLiteral("bitrate")) {
           audio_bit_rate_ = reader->readElementText().toLongLong();
         } else {

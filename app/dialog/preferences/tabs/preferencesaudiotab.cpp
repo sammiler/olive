@@ -100,7 +100,7 @@ PreferencesAudioTab::PreferencesAudioTab()
 
         output_fmt_combo_ = new SampleFormatComboBox();
         output_fmt_combo_->SetPackedFormats();
-        output_fmt_combo_->SetSampleFormat(SampleFormat::from_string(OLIVE_CONFIG("AudioOutputSampleFormat").toString().toStdString()));
+        output_fmt_combo_->SetSampleFormat(SampleFormat::from_string(OLIVE_CONFIG("AudioOutputSampleFormat").toString().toUtf8().constData()));
         output_param_layout->addWidget(output_fmt_combo_, output_row, 1);
       }
     }
@@ -142,7 +142,7 @@ PreferencesAudioTab::PreferencesAudioTab()
       record_options_->sample_rate_combobox()->SetSampleRate(OLIVE_CONFIG("AudioRecordingSampleRate").toInt());
       record_options_->channel_layout_combobox()->SetChannelLayout(OLIVE_CONFIG("AudioRecordingChannelLayout").toULongLong());
       record_options_->bit_rate_slider()->SetValue(OLIVE_CONFIG("AudioRecordingBitRate").toInt());
-      record_options_->sample_format_combobox()->SetSampleFormat(SampleFormat::from_string(OLIVE_CONFIG("AudioRecordingSampleFormat").toString().toStdString()));
+      record_options_->sample_format_combobox()->SetSampleFormat(SampleFormat::from_string(OLIVE_CONFIG("AudioRecordingSampleFormat").toString().toUtf8().constData()));
       recording_layout->addWidget(record_options_);
 
       connect(record_format_combo_, &ExportFormatComboBox::FormatChanged, record_options_, &ExportAudioTab::SetFormat);

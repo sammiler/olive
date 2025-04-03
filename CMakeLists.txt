@@ -17,7 +17,6 @@
 cmake_minimum_required(VERSION 3.13 FATAL_ERROR)
 
 project(olive-editor VERSION 0.2.0 LANGUAGES CXX)
-
 option(BUILD_QT6 "Build with Qt 6 over 5 (experimental)" OFF)
 option(BUILD_DOXYGEN "Build Doxygen documentation" OFF)
 option(BUILD_TESTS "Build unit tests" OFF)
@@ -26,7 +25,6 @@ option(USE_WERROR "Error on compile warning" OFF)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
-
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
@@ -43,14 +41,13 @@ list(APPEND OLIVE_LIBRARIES olive-sanitizers)
 
 # Set compiler options
 if(MSVC)
+  add_compile_options(/utf-8)
   set(OLIVE_COMPILE_OPTIONS
     /wd4267
     /wd4244
     /experimental:external
     /external:anglebrackets
     /external:W0
-    "$<$<CONFIG:RELEASE>:/O2>"
-    "$<$<COMPILE_LANGUAGE:CXX>:/MP>"
   )
   if (USE_WERROR)
     list(APPEND OLIVE_COMPILE_OPTIONS "/WX")
@@ -85,19 +82,20 @@ find_package(OpenGL REQUIRED)
 list(APPEND OLIVE_LIBRARIES OpenGL::GL)
 
 # Link OpenColorIO
-find_package(OpenColorIO 2.1.1 REQUIRED)
-list(APPEND OLIVE_LIBRARIES ${OCIO_LIBRARIES})
-list(APPEND OLIVE_INCLUDE_DIRS ${OCIO_INCLUDE_DIRS})
-
+find_package(OpenColorIO  REQUIRED)
+list(APPEND OLIVE_LIBRARIES OpenColorIO::OpenColorIO)
 # Link OpenImageIO
 find_package(OpenImageIO 2.1.12 REQUIRED)
-list(APPEND OLIVE_LIBRARIES ${OIIO_LIBRARIES})
-list(APPEND OLIVE_INCLUDE_DIRS ${OIIO_INCLUDE_DIRS})
-
+list(APPEND OLIVE_LIBRARIES OpenImageIO::OpenImageIO)
 # Link OpenEXR
 find_package(OpenEXR REQUIRED)
-list(APPEND OLIVE_LIBRARIES ${OPENEXR_LIBRARIES})
-list(APPEND OLIVE_INCLUDE_DIRS ${OPENEXR_INCLUDES})
+list(APPEND OLIVE_LIBRARIES OpenEXR::OpenEXR)
+# Link Imath
+
+
+find_package(Imath REQUIRED)
+list(APPEND OLIVE_LIBRARIES Imath::Imath)
+
 
 # Link Olive
 list(APPEND OLIVE_LIBRARIES olivecore)
@@ -188,7 +186,7 @@ list(APPEND OLIVE_LIBRARIES
 )
 
 # Link PortAudio
-find_package(PortAudio REQUIRED)
+find_package(portaudio REQUIRED)
 set(CMAKE_REQUIRED_INCLUDES ${PORTAUDIO_INCLUDE_DIRS})
 include(CheckIncludeFileCXX)
 check_include_file_cxx( "pa_jack.h" PA_HAS_JACK)
@@ -196,15 +194,14 @@ if (PA_HAS_JACK)
   list(APPEND OLIVE_DEFINITIONS PA_HAS_JACK)
 endif()
 
-list(APPEND OLIVE_INCLUDE_DIRS ${PORTAUDIO_INCLUDE_DIRS})
-list(APPEND OLIVE_LIBRARIES ${PORTAUDIO_LIBRARIES})
+list(APPEND OLIVE_LIBRARIES portaudio)
 
 # Optional: Link OpenTimelineIO
 find_package(OpenTimelineIO)
 if (OpenTimelineIO_FOUND)
   list(APPEND OLIVE_DEFINITIONS USE_OTIO)
-  list(APPEND OLIVE_INCLUDE_DIRS ${OTIO_INCLUDE_DIRS})
-  list(APPEND OLIVE_LIBRARIES ${OTIO_LIBRARIES})
+  list(APPEND OLIVE_INCLUDE_DIRS ${OPENTIMELINEIO_INCLUDE_DIRS})
+  list(APPEND OLIVE_LIBRARIES OpenTimelineIO::OpenTimelineIO)
 else()
   message("   OpenTimelineIO interchange will be disabled.")
 endif()

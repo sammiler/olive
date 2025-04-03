@@ -125,7 +125,7 @@ QVariant RationalSlider::StringToValue(const QString &s, bool *ok) const
   switch (display_type_) {
   case kTime:
   {
-    r = Timecode::timecode_to_time(s.toStdString(), timebase_, Core::instance()->GetTimecodeDisplay(), ok);
+    r = Timecode::timecode_to_time(s.toUtf8().constData(), timebase_, Core::instance()->GetTimecodeDisplay(), ok);
     break;
   }
   case kFloat:
@@ -141,7 +141,7 @@ QVariant RationalSlider::StringToValue(const QString &s, bool *ok) const
     break;
   }
   case kRational:
-    r = rational::fromString(s.toStdString(), ok);
+    r = rational::fromString(s.toUtf8().constData(), ok);
     break;
   }
 

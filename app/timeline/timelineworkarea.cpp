@@ -72,9 +72,9 @@ bool TimelineWorkArea::load(QXmlStreamReader *reader)
     if (reader->name() == QStringLiteral("enabled")) {
       this->set_enabled(reader->readElementText() != QStringLiteral("0"));
     } else if (reader->name() == QStringLiteral("in")) {
-      range_in = rational::fromString(reader->readElementText().toStdString());
+      range_in = rational::fromString(reader->readElementText().toUtf8().constData());
     } else if (reader->name() == QStringLiteral("out")) {
-      range_out = rational::fromString(reader->readElementText().toStdString());
+      range_out = rational::fromString(reader->readElementText().toUtf8().constData());
     } else {
       reader->skipCurrentElement();
     }

@@ -3,15 +3,20 @@
 
 # Doxygen
 /docs/
-
 # Visual Studio (Code)
 .localhistory/
 .history/
-.vscode/
+
 .vs/
 /out/
 CmakeSettings.json
 *.code-workspace
+#vscode config
+launch.json
+settings.json
+tasks.json
+c_cpp_properties.json
+/vcpkg.json
 
 # clangd's index and likely other things that need not be in the repository
 .cache/
@@ -89,6 +94,7 @@ CMakeLists.txt.user*
 
 # QtCreator 4.8< compilation database 
 compile_commands.json
+CMakeUserPresets.json
 
 # Hand-written compilation database listing compilation flags for clangd to use when parsing the code, similarly to the compilation database above
 # https://clangd.llvm.org/design/compile-commands#where-do-compile-commands-come-from
@@ -98,3 +104,7 @@ compile_flags.txt
 *creator.user*
 
 *_qmlcache.qrc
+
+conan_debug/
+conan_release/
+vcpkg_installed/

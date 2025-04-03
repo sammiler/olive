@@ -77,12 +77,12 @@ bool SaveOTIOTask::Run()
   if (serialized.size() == 1) {
     // Serialize timeline on its own
     auto t = serialized.front();
-    t->to_json_file(project_->filename().toStdString(), &es);
+    t->to_json_file(project_->filename().toUtf8().constData(), &es);
     t->possibly_delete();
   } else {
     // Serialize all into a SerializableCollection
     auto collection = new OTIO::SerializableCollection("Sequences", serialized);
-    collection->to_json_file(project_->filename().toStdString(), &es);
+    collection->to_json_file(project_->filename().toUtf8().constData(), &es);
     collection->possibly_delete();
 
     // Delete all existing timelines
@@ -96,7 +96,7 @@ bool SaveOTIOTask::Run()
 
 OTIO::Timeline *SaveOTIOTask::SerializeTimeline(Sequence *sequence)
 {
-  auto otio_timeline = new OTIO::Timeline(sequence->GetLabel().toStdString());
+  auto otio_timeline = new OTIO::Timeline(sequence->GetLabel().toUtf8().constData());
   // Retainers clean themselves up when the final user is removed
   OTIO::Timeline::Retainer<OTIO::Timeline>* timeline_retainer = new OTIO::Timeline::Retainer<OTIO::Timeline>(otio_timeline);
   // Suppress unused variable warning
@@ -138,7 +138,7 @@ OTIO::Track *SaveOTIOTask::SerializeTrack(Track *track, double sequence_rate, ra
     OTIO::Composable* otio_block = nullptr;
 
     if (dynamic_cast<ClipBlock*>(block)) {
-      auto otio_clip = new OTIO::Clip(block->GetLabel().toStdString());
+      auto otio_clip = new OTIO::Clip(block->GetLabel().toUtf8().constData());
 
       otio_clip->set_source_range(OTIO::TimeRange(block->in().toRationalTime(sequence_rate),
                                                   block->length().toRationalTime(sequence_rate)));
@@ -159,7 +159,7 @@ OTIO::Track *SaveOTIOTask::SerializeTrack(Track *track, double sequence_rate, ra
                                   OTIO::RationalTime(media_nodes.first()->GetAudioParams().duration(),
                                                      media_nodes.first()->GetAudioParams().sample_rate()));
         }
-        auto media_ref = new OTIO::ExternalReference(media_nodes.first()->filename().toStdString(), available_range);
+        auto media_ref = new OTIO::ExternalReference(media_nodes.first()->filename().toUtf8().constData(), available_range);
         otio_clip->set_media_reference(media_ref);
       }
 
@@ -167,10 +167,10 @@ OTIO::Track *SaveOTIOTask::SerializeTrack(Track *track, double sequence_rate, ra
     } else if (dynamic_cast<GapBlock*>(block)) {
       otio_block = new OTIO::Gap(OTIO::TimeRange(block->in().toRationalTime(),
                                  block->length().toRationalTime()),
-                                 block->GetLabel().toStdString()
+                                 block->GetLabel().toUtf8().constData()
                                  );
     } else if (dynamic_cast<TransitionBlock*>(block)) {
-      auto otio_transition = new OTIO::Transition(block->GetLabel().toStdString());
+      auto otio_transition = new OTIO::Transition(block->GetLabel().toUtf8().constData());
 
       TransitionBlock* our_transition = static_cast<TransitionBlock*>(block);
 
