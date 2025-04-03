@@ -17,13 +17,15 @@
 include(FindPackageHandleStandardArgs)
 
 
+set(CRASHPAD_LOCATION "C:/Qt/crashpad/crashpad")
+set(BREAKPAD_BIN_DIR "C:/Qt/breakpad")
+
 # 根据构建类型设置 Crashpad 的输出目录
 if(CMAKE_BUILD_TYPE MATCHES "Debug")
     set(CRASHPAD_BUILD_TYPE "Debug")
 else()
     set(CRASHPAD_BUILD_TYPE "Release")
 endif()
-
 # Try to find include files
 find_path(CRASHPAD_CLIENT_INCLUDE_DIR
     client/crashpad_client.h

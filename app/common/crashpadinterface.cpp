@@ -42,7 +42,7 @@ bool InitializeCrashpad()
 {
   QString report_path = QDir(olive::FileFunctions::GetTempFilePath()).filePath(QStringLiteral("reports"));
 
-  QString handler_fn = olive::FileFunctions::GetFormattedExecutableForPlatform(QStringLiteral("crashpad_handler"));
+  QString handler_fn = olive::FileFunctions::GetFormattedExecutableForPlatform(QStringLiteral("olive-crashhandler"));
 
   // Generate absolute path
   QString handler_abs_path = QDir(QCoreApplication::applicationDirPath()).filePath(handler_fn);
@@ -78,6 +78,8 @@ bool InitializeCrashpad()
     status = client->StartHandler(handler, reports_dir, metrics_dir,
                                   "https://olivevideoeditor.org/crashpad/report.php",
                                   annotations, arguments, true, true);
+    EXCEPTION_POINTERS * ex;
+    client->DumpAndCrash(ex);
   }
 
   // Override Crashpad exception filter with our own
