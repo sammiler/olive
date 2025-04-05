@@ -18,6 +18,7 @@
 add_executable(
   olive-crashhandler
   crashhandler.cpp
+  FileWatcher.h
   crashhandler.h
   $<TARGET_OBJECTS:olive-version-obj>
 )

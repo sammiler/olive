@@ -37,7 +37,7 @@ extern "C" {
 #include <QCommandLineParser>
 #include <QMessageBox>
 #include <QSurfaceFormat>
-
+#include <QProcess>
 #include "core.h"
 #include "common/commandlineparser.h"
 #include "common/debug.h"
@@ -329,11 +329,21 @@ int main(int argc, char *argv[])
 
   // Enable Google Crashpad if compiled with it
 #ifdef USE_CRASHPAD
-  if (!InitializeCrashpad()) {
+    QProcess process;
+    Result resVal = InitializeCrashpad();
+  if (!resVal.success) {
     qWarning() << "Failed to initialize Crashpad handler";
   }
-#endif // USE_CRASHPAD
+  else
+  {
+       
+      process.start(resVal.processPath,resVal.args);
+      if (!process.waitForStarted(1000)) {
+          qDebug() << "Process Start Failed";
+      }
 
+  }
+#endif // USE_CRASHPAD
   // Start core
   olive::Core c(startup_params);
 

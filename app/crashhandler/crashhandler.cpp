@@ -19,6 +19,7 @@
 ***/
 
 #include "crashhandler.h"
+#include <qobject.h>
 
 #include <QApplication>
 #include <QCloseEvent>
@@ -35,14 +36,15 @@
 #include <QThread>
 #include <QTimer>
 #include <QVBoxLayout>
-
+#include <cstdlib>
+#include "FileWatcher.h"
 #include "common/crashpadutils.h"
 #include "common/filefunctions.h"
 #include "version.h"
 
 namespace olive {
 
-CrashHandlerDialog::CrashHandlerDialog(const QString& report_path)
+CrashHandlerDialog::CrashHandlerDialog(QObject * parent,const QString& report_path)
 {
   setWindowTitle(tr("Olive"));
   setWindowFlags(Qt::WindowStaysOnTopHint);
@@ -339,6 +341,7 @@ void CrashHandlerDialog::closeEvent(QCloseEvent* e)
   } else {
     e->accept();
   }
+  exit(0);
 }
 
 }
@@ -350,25 +353,13 @@ int main(int argc, char *argv[])
 #ifdef Q_OS_WINDOWS
   int num_args;
   LPWSTR *args = CommandLineToArgvW(GetCommandLineW(), &num_args);
-  if (num_args < 2) {
-    LocalFree(args);
-    return 1;
-  }
 
   report = QString::fromWCharArray(args[1]);
   LocalFree(args);
-#else
-  if (argc < 2) {
-    return 1;
-  }
-
-  report = argv[1];
 #endif
 
   QApplication a(argc, argv);
-
-  olive::CrashHandlerDialog chd(report);
-  chd.open();
+  olive::FileWatcher watcher (report);
 
   return a.exec();
 }

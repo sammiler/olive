@@ -19,6 +19,12 @@
 ***/
 
 #include "crashpadinterface.h"
+#include <qchar.h>
+#include <qdir.h>
+#include <qfileinfo.h>
+#include <qstringliteral.h>
+#include <winnt.h>
+#include <tuple>
 
 #ifdef USE_CRASHPAD
 
@@ -38,18 +44,19 @@
 
 crashpad::CrashpadClient *client;
 
-bool InitializeCrashpad()
+Result InitializeCrashpad()
 {
+  Result result = {false};
   QString report_path = QDir(olive::FileFunctions::GetTempFilePath()).filePath(QStringLiteral("reports"));
 
-  QString handler_fn = olive::FileFunctions::GetFormattedExecutableForPlatform(QStringLiteral("olive-crashhandler"));
-
-  // Generate absolute path
+  QString handler_fn = olive::FileFunctions::GetFormattedExecutableForPlatform(QStringLiteral("crashpad_handler"));
+  QString crash_dialog = olive::FileFunctions::GetFormattedExecutableForPlatform(QStringLiteral("olive-crashhandler"));// Generate absolute path
+  QString crash_dialog_abs_path = QDir(QCoreApplication::applicationDirPath()).filePath(crash_dialog);
   QString handler_abs_path = QDir(QCoreApplication::applicationDirPath()).filePath(handler_fn);
 
   bool status = false;
 
-  if (QFileInfo::exists(handler_abs_path)) {
+  if (QFileInfo::exists(handler_abs_path) && QFileInfo::exists(crash_dialog_abs_path)) {
     base::FilePath handler(QSTRING_TO_BASE_STRING(handler_abs_path));
 
     base::FilePath reports_dir(QSTRING_TO_BASE_STRING(report_path));
@@ -66,11 +73,11 @@ bool InitializeCrashpad()
 
     // Initialize Crashpad database
     std::unique_ptr<crashpad::CrashReportDatabase> database = crashpad::CrashReportDatabase::Initialize(reports_dir);
-    if (database == NULL) return false;
+    if (database == NULL) return result;
 
     // Disable automated crash uploads
     crashpad::Settings *settings = database->GetSettings();
-    if (settings == NULL) return false;
+    if (settings == NULL) return result;
     settings->SetUploadsEnabled(false);
 
     // Start crash handler
@@ -78,16 +85,17 @@ bool InitializeCrashpad()
     status = client->StartHandler(handler, reports_dir, metrics_dir,
                                   "https://olivevideoeditor.org/crashpad/report.php",
                                   annotations, arguments, true, true);
-    // EXCEPTION_POINTERS * ex;
-    // client->DumpAndCrash(ex);
-  }
+    auto ret = client->WaitForHandlerStart(500);
+    if (ret) {
+      result.success = true;
+      result.processPath = crash_dialog_abs_path;
+      auto finalPath = report_path.append(QDir().separator() + QStringLiteral("reports"));
+      result.args << finalPath;
 
-  // Override Crashpad exception filter with our own
-  if (!status) {
-    qWarning() << "Failed to start Crashpad, automatic crash reporting will be disabled";
+      return result;
+    }
+    return result;
   }
-
-  return status;
 }
 
 #endif // USE_CRASHPAD

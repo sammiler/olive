@@ -22,6 +22,7 @@
 #define CRASHHANDLERDIALOG_H
 
 #include <client/crash_report_database.h>
+#include <qobject.h>
 #include <QDialog>
 #include <QDialogButtonBox>
 #include <QNetworkReply>
@@ -36,7 +37,7 @@ class CrashHandlerDialog : public QDialog
 {
   Q_OBJECT
 public:
-  CrashHandlerDialog(const QString& report_path);
+  CrashHandlerDialog(QObject * parent,const QString& report_path);
 
 private:
   void SetGUIObjectsEnabled(bool e);
