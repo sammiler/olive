@@ -1,6 +1,5 @@
 {
    "settings": {
-       "dynamic" : ["vcpkginclude"],
        "os": {
            "Windows": {
                "os": "windows",
@@ -86,6 +85,7 @@
    ],
    "platform" :
    {
+        "os" : "windows",
         "generator": "Ninja" ,
         "compiler" :
        {

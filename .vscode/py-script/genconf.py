@@ -50,6 +50,7 @@ class SettingsGenerator(BaseGenerator):
         # 准备替换字典
         replacements = {
             "bash": os_config.get("bash", "bash"),  # 默认值
+            "os" : platform_data["os"],
             "qt_exe": os_config.get("qt_exe", ""),
             "toolchain": platform_data["toolchain"],
             "triplet": platform_data["triplet"],
@@ -59,9 +60,6 @@ class SettingsGenerator(BaseGenerator):
             # envPath 需要拼接为分号分隔的字符串
             "envPath": ";".join(platform_data["envPath"])
         }
-
-        if "vcpkginclude" in dynamic:
-            replacements["vcpkginclude"] = f"{platform_data['toolchain']}/installed/{platform_data['triplet']}/include"
 
         # 替换占位符
         template = self.replace_placeholders(template, replacements)

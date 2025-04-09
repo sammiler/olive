@@ -4,8 +4,8 @@
         "**/APP/ts/**/*.ts": "xml",
         "*.ui": "xml"
     },
-    "terminal.integrated.defaultProfile.windows": "${bash}",
-    "C_Cpp.intelliSenseEngine": "default",
+    "terminal.integrated.defaultProfile.${os}": "${bash}",
+    "C_Cpp.intelliSenseEngine": "disabled",
     "clangd.arguments": [
         "--compile-commands-dir=${workspaceFolder}/build",
         "--clang-tidy",
