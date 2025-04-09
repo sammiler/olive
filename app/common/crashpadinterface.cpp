@@ -24,7 +24,6 @@
 #include <qfileinfo.h>
 #include <qstringliteral.h>
 #include <winnt.h>
-#include <tuple>
 
 #ifdef USE_CRASHPAD
 
@@ -54,7 +53,6 @@ Result InitializeCrashpad()
   QString crash_dialog_abs_path = QDir(QCoreApplication::applicationDirPath()).filePath(crash_dialog);
   QString handler_abs_path = QDir(QCoreApplication::applicationDirPath()).filePath(handler_fn);
 
-  bool status = false;
 
   if (QFileInfo::exists(handler_abs_path) && QFileInfo::exists(crash_dialog_abs_path)) {
     base::FilePath handler(QSTRING_TO_BASE_STRING(handler_abs_path));
@@ -82,7 +80,7 @@ Result InitializeCrashpad()
 
     // Start crash handler
     client = new crashpad::CrashpadClient();
-    status = client->StartHandler(handler, reports_dir, metrics_dir,
+    client->StartHandler(handler, reports_dir, metrics_dir,
                                   "https://olivevideoeditor.org/crashpad/report.php",
                                   annotations, arguments, true, true);
     auto ret = client->WaitForHandlerStart(500);
@@ -94,8 +92,8 @@ Result InitializeCrashpad()
 
       return result;
     }
-    return result;
   }
+  return result;
 }
 
 #endif // USE_CRASHPAD

@@ -79,6 +79,7 @@ set_target_properties(libolive-editor PROPERTIES PREFIX "")
 
 # Add application
 add_executable(olive-editor
+  WIN32
   main.cpp
   $<TARGET_OBJECTS:libolive-editor>
   $<TARGET_OBJECTS:olive-version-obj>

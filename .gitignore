@@ -17,7 +17,7 @@ settings.json
 tasks.json
 c_cpp_properties.json
 /vcpkg.json
-
+CMakePresets.json
 # clangd's index and likely other things that need not be in the repository
 .cache/
 
