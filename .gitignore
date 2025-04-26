@@ -108,3 +108,6 @@ compile_flags.txt
 conan_debug/
 conan_release/
 vcpkg_installed/
+.idea
+.project
+qt5.natvis
