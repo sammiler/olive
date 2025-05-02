@@ -81,10 +81,9 @@ Result InitializeCrashpad()
 
     // Start crash handler
     client = new crashpad::CrashpadClient();
-    client->StartHandler(handler, reports_dir, metrics_dir,
+    auto ret = client->StartHandler(handler, reports_dir, metrics_dir,
                                   "https://olivevideoeditor.org/crashpad/report.php",
                                   annotations, arguments, true, true);
-    auto ret = client->WaitForHandlerStart(500);
     if (ret) {
       result.success = true;
       result.processPath = crash_dialog_abs_path;
