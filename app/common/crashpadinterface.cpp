@@ -23,7 +23,7 @@
 #include <qdir.h>
 #include <qfileinfo.h>
 #include <qstringliteral.h>
-#include <winnt.h>
+
 
 #ifdef USE_CRASHPAD
 
@@ -38,6 +38,7 @@
 #include "filefunctions.h"
 
 #if BUILDFLAG(IS_WIN)
+#include <winnt.h>
 #include <Windows.h>
 #endif
 
