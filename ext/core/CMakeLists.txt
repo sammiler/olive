@@ -38,7 +38,6 @@ if(UNIX AND NOT APPLE AND NOT DEFINED OpenGL_GL_PREFERENCE)
   set(OpenGL_GL_PREFERENCE LEGACY)
 endif()
 find_package(OpenGL REQUIRED)
-
 add_library(olivecore
   src/render/audioparams.cpp
   src/render/samplebuffer.cpp
@@ -72,8 +71,8 @@ target_link_libraries(olivecore PRIVATE
 find_package(OpenTimelineIO)
 if (OpenTimelineIO_FOUND)
   target_compile_definitions(olivecore PRIVATE USE_OTIO)
-  target_include_directories(olivecore PRIVATE ${OTIO_INCLUDE_DIRS})
-  target_link_libraries(olivecore PRIVATE ${OTIO_LIBRARIES})
+#  target_include_directories(olivecore PRIVATE ${OPENTIMELINEIO_INCLUDE_DIRS})
+#  target_link_libraries(olivecore PRIVATE OpenTimelineIO::OpenTimelineIO)
 else()
   message("   OpenTimelineIO interchange will be disabled.")
 endif()
