@@ -17,8 +17,8 @@
 include(FindPackageHandleStandardArgs)
 
 
-set(CRASHPAD_LOCATION "/home/sammiller/APP/crashpad/crashpad")
-set(BREAKPAD_BIN_DIR "/home/sammiller/APP/breakpad1")
+set(CRASHPAD_LOCATION "/home/sammiller/MyFile/crashpad")
+set(BREAKPAD_BIN_DIR "/home/sammiller/MyFile/breakpad_")
 
 # 根据构建类型设置 Crashpad 的输出目录
 if(CMAKE_BUILD_TYPE MATCHES "Debug")

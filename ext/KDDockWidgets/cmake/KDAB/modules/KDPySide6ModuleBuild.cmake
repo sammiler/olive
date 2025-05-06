@@ -20,7 +20,7 @@ else()
     set(PATH_SEP ":")
 endif()
 #Qt6 requires C++17
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #remove noisy compiler warnings (as the generated code is not necessarily super-warning-free)
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
