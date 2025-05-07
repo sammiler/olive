@@ -28,7 +28,7 @@
 #include <QMessageBox>
 
 #include "render/videoparams.h"
-
+#include "common/qtutils.h"
 namespace olive {
 
 class FrameRateComboBox : public QWidget

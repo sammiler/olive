@@ -15,11 +15,14 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # Create crash handler executable
+
+qt5_wrap_cpp(SOURCES crashhandler.h FileWatcher.h)
 add_executable(
         olive-crashhandler
         crashhandler.cpp
         FileWatcher.h
         crashhandler.h
+        ${SOURCES}
         $<TARGET_OBJECTS:olive-version-obj>
 )
 

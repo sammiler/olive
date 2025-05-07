@@ -20,6 +20,7 @@ set(OLIVE_SOURCES
         core.cpp
 )
 
+qt5_wrap_cpp(OLIVE_MOCS ${Q_HEADERS})
 #set(OLIVE_RESOURCES)
 
 # Add subdirectories, which will populate the above variables
@@ -72,6 +73,7 @@ add_library(libolive-editor
         OBJECT
         ${OLIVE_SOURCES}
         ${OLIVE_RESOURCES}
+        ${OLIVE_MOCS}
 )
 
 # Remove prefix - prevents CMake calling it "liblibolive-editor"

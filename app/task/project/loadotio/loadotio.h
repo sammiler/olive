@@ -21,7 +21,7 @@
 #ifndef OTIODECODER_H
 #define OTIODECODER_H
 
-#ifdef USE_OTIO
+
 
 #include "common/otioutils.h"
 #include "node/project.h"
@@ -42,6 +42,6 @@ protected:
 
 }
 
-#endif
+
 
 #endif // OTIODECODER_H

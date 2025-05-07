@@ -20,7 +20,6 @@
 
 #include "saveotio.h"
 
-#ifdef USE_OTIO
 
 #include <opentimelineio/clip.h>
 #include <opentimelineio/externalReference.h>
@@ -245,4 +244,4 @@ bool SaveOTIOTask::SerializeTrackList(TrackList *list, OTIO::Timeline* otio_time
 
 }
 
-#endif // USE_OTIO
+

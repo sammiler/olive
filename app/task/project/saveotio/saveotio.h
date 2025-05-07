@@ -21,7 +21,6 @@
 #ifndef PROJECTSAVEASOTIOTASK_H
 #define PROJECTSAVEASOTIOTASK_H
 
-#ifdef USE_OTIO
 
 #include <opentimelineio/timeline.h>
 #include <opentimelineio/track.h>
@@ -56,4 +55,3 @@ private:
 
 #endif
 
-#endif // PROJECTSAVEASOTIOTASK_H
