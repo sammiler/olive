@@ -19,6 +19,9 @@
 #ifndef KD_DOCKWIDGET_QUICK_H
 #define KD_DOCKWIDGET_QUICK_H
 
+
+
+#ifdef KDDOCKWIDGETS_QTQUICK
 #include "DockWidgetBase.h"
 
 QT_BEGIN_NAMESPACE
@@ -107,5 +110,7 @@ private:
 };
 
 }
+
+#endif //KDDOCKWIDGETS_QTQUICK
 
 #endif

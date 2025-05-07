@@ -8,6 +8,8 @@
 
   Contact KDAB at <info@kdab.com> for commercial licensing options.
 */
+#ifdef KDDOCKWIDGETS_QTQUICK
+
 
 #include "DockWidgetQuick.h"
 #include "FrameworkWidgetFactory.h"
@@ -162,3 +164,6 @@ Frame *DockWidgetQuick::frame() const
 {
     return qobject_cast<FrameQuick *>(DockWidgetBase::d->frame());
 }
+
+
+#endif // KDDOCKWIDGETS_QTQUICK
