@@ -73,30 +73,30 @@ cmake_minimum_required(VERSION 3.12)
 
 # Allow using a non-KDAB install location.
 set(KDAB_INSTALL
-    True
-    CACHE INTERNAL "Install to default KDAB Location"
+        True
+        CACHE INTERNAL "Install to default KDAB Location"
 )
-if(DEFINED CMAKE_INSTALL_PREFIX)
-    if(NOT "${CMAKE_INSTALL_PREFIX}" STREQUAL "")
+if (DEFINED CMAKE_INSTALL_PREFIX)
+    if (NOT "${CMAKE_INSTALL_PREFIX}" STREQUAL "")
         set(KDAB_INSTALL
-            False
-            CACHE INTERNAL "Install to non-KDAB Location"
+                False
+                CACHE INTERNAL "Install to non-KDAB Location"
         )
-    endif()
-endif()
+    endif ()
+endif ()
 
 project(
-    KDDockWidgets
-    DESCRIPTION "An advanced docking system for Qt"
-    HOMEPAGE_URL "https://github.com/KDAB/KDDockWidgets"
-    LANGUAGES CXX
+        KDDockWidgets
+        DESCRIPTION "An advanced docking system for Qt"
+        HOMEPAGE_URL "https://github.com/KDAB/KDDockWidgets"
+        LANGUAGES CXX
 )
 
 set(${PROJECT_NAME}_VERSION_MAJOR 1)
 set(${PROJECT_NAME}_VERSION_MINOR 6)
 set(${PROJECT_NAME}_VERSION_PATCH 95)
 set(${PROJECT_NAME}_VERSION
-    ${${PROJECT_NAME}_VERSION_MAJOR}.${${PROJECT_NAME}_VERSION_MINOR}.${${PROJECT_NAME}_VERSION_PATCH}
+        ${${PROJECT_NAME}_VERSION_MAJOR}.${${PROJECT_NAME}_VERSION_MINOR}.${${PROJECT_NAME}_VERSION_PATCH}
 )
 set(PROJECT_VERSION ${${PROJECT_NAME}_VERSION}) #PROJECT_VERSION is needed by some ECM modules
 set(${PROJECT_NAME}_SOVERSION "1.7")
@@ -113,8 +113,8 @@ option(${PROJECT_NAME}_EXAMPLES "Build the examples" ON)
 option(${PROJECT_NAME}_DOCS "Build the API documentation" OFF)
 option(${PROJECT_NAME}_WERROR "Use -Werror (will be true for developer-mode unconditionally)" OFF)
 option(${PROJECT_NAME}_X11EXTRAS
-       "Link with QtX11Extras to detect if the compositor supports transparency. Not applicable to non-Linux or Qt6."
-       ON
+        "Link with QtX11Extras to detect if the compositor supports transparency. Not applicable to non-Linux or Qt6."
+        ON
 )
 option(${PROJECT_NAME}_XLib "On Linux, link against XLib, for a more robust window z-order detection." OFF)
 
@@ -123,77 +123,77 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake/KDAB/modules")
 
 # Set a default build type if none was specified
 set(default_build_type "Release")
-if(EXISTS "${CMAKE_SOURCE_DIR}/.git" OR ${PROJECT_NAME}_DEVELOPER_MODE)
+if (EXISTS "${CMAKE_SOURCE_DIR}/.git" OR ${PROJECT_NAME}_DEVELOPER_MODE)
     set(default_build_type "Debug")
-endif()
-if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+endif ()
+if (NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
     message(STATUS "Setting build type to ${default_build_type} as none was specified.")
     set(CMAKE_BUILD_TYPE
-        "${default_build_type}"
-        CACHE STRING "Choose the type of build." FORCE
+            "${default_build_type}"
+            CACHE STRING "Choose the type of build." FORCE
     )
     # Set the possible values of build type for cmake-gui
     set_property(
-        CACHE CMAKE_BUILD_TYPE
-        PROPERTY STRINGS
-                 "Debug"
-                 "Release"
-                 "MinSizeRel"
-                 "RelWithDebInfo"
+            CACHE CMAKE_BUILD_TYPE
+            PROPERTY STRINGS
+            "Debug"
+            "Release"
+            "MinSizeRel"
+            "RelWithDebInfo"
     )
-endif()
+endif ()
 
-if(${PROJECT_NAME}_XLib)
+if (${PROJECT_NAME}_XLib)
     add_definitions(-DKDDockWidgets_XLIB)
-endif()
+endif ()
 
-if(${PROJECT_NAME}_QT6)
+if (${PROJECT_NAME}_QT6)
     set(Qt_VERSION_MAJOR 6)
     set(QT_MIN_VERSION "6.2.0")
     set(${PROJECT_NAME}_LIBRARY_QTID "-qt6")
-else()
+else ()
     set(Qt_VERSION_MAJOR 5)
     set(QT_MIN_VERSION "5.15")
     set(${PROJECT_NAME}_LIBRARY_QTID "")
-endif()
+endif ()
 find_package(Qt${Qt_VERSION_MAJOR} ${QT_MIN_VERSION} NO_MODULE REQUIRED COMPONENTS Widgets Test)
 include(KDQtInstallPaths) #to set QT_INSTALL_FOO variables
 
 set(${PROJECT_NAME}_DEPS "widgets")
-if(${PROJECT_NAME}_QTQUICK)
+if (${PROJECT_NAME}_QTQUICK)
     find_package(Qt${Qt_VERSION_MAJOR} NO_MODULE REQUIRED COMPONENTS Quick QuickControls2)
     add_definitions(-DKDDOCKWIDGETS_QTQUICK)
     set(${PROJECT_NAME}_DEPS "${${PROJECT_NAME}_DEPS} quick quickcontrols2")
-else()
+else ()
     add_definitions(-DKDDOCKWIDGETS_QTWIDGETS)
-endif()
+endif ()
 
-if(NOT WIN32
-   AND NOT APPLE
-   AND NOT EMSCRIPTEN
-   AND NOT ${PROJECT_NAME}_QT6
-   AND ${PROJECT_NAME}_X11EXTRAS
+if (NOT WIN32
+        AND NOT APPLE
+        AND NOT EMSCRIPTEN
+        AND NOT ${PROJECT_NAME}_QT6
+        AND ${PROJECT_NAME}_X11EXTRAS
 )
     set(${PROJECT_NAME}_DEPS "${${PROJECT_NAME}_DEPS} x11extras")
-endif()
+endif ()
 
 #Always build the test harness in developer-mode
-if(${PROJECT_NAME}_DEVELOPER_MODE)
+if (${PROJECT_NAME}_DEVELOPER_MODE)
     set(${PROJECT_NAME}_TESTS ON)
     set(${PROJECT_NAME}_WERROR ON)
     include(ECMEnableSanitizers)
-endif()
+endif ()
 
-if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     set(IS_CLANG_BUILD TRUE)
-else()
+else ()
     set(IS_CLANG_BUILD FALSE)
-endif()
+endif ()
 
-if(${PROJECT_NAME}_QTQUICK)
+if (${PROJECT_NAME}_QTQUICK)
     set(CMAKE_CXX_STANDARD 20)
     set(CMAKE_CXX_STANDARD_REQUIRED ON)
-endif()
+endif ()
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
@@ -205,81 +205,81 @@ set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
 
 # Sets compiler flags for the specified target, taking platform into consideration.
 macro(set_compiler_flags targetName)
-    if(${PROJECT_NAME}_DEVELOPER_MODE)
+    if (${PROJECT_NAME}_DEVELOPER_MODE)
         target_compile_definitions(
-            ${targetName}
-            PUBLIC DOCKS_DEVELOPER_MODE
-            PRIVATE QT_FORCE_ASSERTS
+                ${targetName}
+                PUBLIC DOCKS_DEVELOPER_MODE
+                PRIVATE QT_FORCE_ASSERTS
         )
 
-        if(NOT MSVC)
+        if (NOT MSVC)
             target_compile_options(${targetName} PRIVATE -Wall -Wextra)
-        endif()
+        endif ()
 
-        if(APPLE)
+        if (APPLE)
             target_compile_options(${targetName} PRIVATE -Wweak-vtables)
-        endif()
-    endif()
+        endif ()
+    endif ()
 
     # Enable -Werror
-    if(${PROJECT_NAME}_WERROR AND (NOT MSVC OR IS_CLANG_BUILD)) # clang-cl accepts these too
+    if (${PROJECT_NAME}_WERROR AND (NOT MSVC OR IS_CLANG_BUILD)) # clang-cl accepts these too
         target_compile_options(${targetName} PRIVATE -Werror -Wundef -Wno-error=deprecated-declarations)
-    endif()
+    endif ()
 endmacro()
 
-if((CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND NOT APPLE)
-   OR (CMAKE_CXX_COMPILER_ID MATCHES "Clang" AND NOT APPLE)
-   OR (CMAKE_CXX_COMPILER_ID STREQUAL "Intel" AND NOT WIN32)
+if ((CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND NOT APPLE)
+        OR (CMAKE_CXX_COMPILER_ID MATCHES "Clang" AND NOT APPLE)
+        OR (CMAKE_CXX_COMPILER_ID STREQUAL "Intel" AND NOT WIN32)
 )
     # Linker warnings should be treated as errors
     set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--fatal-warnings ${CMAKE_SHARED_LINKER_FLAGS}")
     set(CMAKE_MODULE_LINKER_FLAGS "-Wl,--fatal-warnings ${CMAKE_MODULE_LINKER_FLAGS}")
 
     string(TOUPPER "CMAKE_CXX_FLAGS_${CMAKE_BUILD_TYPE}" compileflags)
-    if("${CMAKE_CXX_FLAGS} ${${compileflags}}" MATCHES "-fsanitize")
+    if ("${CMAKE_CXX_FLAGS} ${${compileflags}}" MATCHES "-fsanitize")
         set(sanitizers_enabled TRUE)
-    else()
+    else ()
         set(sanitizers_enabled FALSE)
-    endif()
+    endif ()
 
-    if(APPLE OR LINUX)
+    if (APPLE OR LINUX)
         # cannot enable this for clang + sanitizers
-        if(NOT sanitizers_enabled OR NOT CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+        if (NOT sanitizers_enabled OR NOT CMAKE_CXX_COMPILER_ID MATCHES "Clang")
             # Do not allow undefined symbols, even in non-symbolic shared libraries
             set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined ${CMAKE_SHARED_LINKER_FLAGS}")
             set(CMAKE_MODULE_LINKER_FLAGS "-Wl,--no-undefined ${CMAKE_MODULE_LINKER_FLAGS}")
-        endif()
-    endif()
-endif()
+        endif ()
+    endif ()
+endif ()
 
-if(${PROJECT_NAME}_STATIC)
+if (${PROJECT_NAME}_STATIC)
     set(${PROJECT_NAME}_LIBRARY_MODE "STATIC")
-else()
+else ()
     set(${PROJECT_NAME}_LIBRARY_MODE "SHARED")
-endif()
+endif ()
 
-if(KDAB_INSTALL)
-    if(UNIX)
+if (KDAB_INSTALL)
+    if (UNIX)
         set(CMAKE_INSTALL_PREFIX
-            "/usr/local/KDAB/${PROJECT_NAME}-${${PROJECT_NAME}_VERSION}"
-            CACHE INTERNAL "Install to default KDAB Location"
+                "/usr/local/KDAB/${PROJECT_NAME}-${${PROJECT_NAME}_VERSION}"
+                CACHE INTERNAL "Install to default KDAB Location"
         )
-    elseif(WIN32)
+    elseif (WIN32)
         set(CMAKE_INSTALL_PREFIX
-            "C:\\KDAB\\${PROJECT_NAME}-${${PROJECT_NAME}_VERSION}"
-            CACHE INTERNAL "Install to default KDAB Location"
+                "C:\\KDAB\\${PROJECT_NAME}-${${PROJECT_NAME}_VERSION}"
+                CACHE INTERNAL "Install to default KDAB Location"
         )
-    endif()
-endif()
+    endif ()
+endif ()
 
 # setup default install locations
 include(KDInstallLocation)
 
-if(CMAKE_SOURCE_DIR STREQUAL PROJECT_SOURCE_DIR)
+if (CMAKE_SOURCE_DIR STREQUAL PROJECT_SOURCE_DIR)
     set(${PROJECT_NAME}_IS_ROOT_PROJECT TRUE)
 
     message(STATUS "Building ${PROJECT_NAME} ${${PROJECT_NAME}_VERSION} in ${CMAKE_BUILD_TYPE} mode. "
-                   "Installing to ${CMAKE_INSTALL_PREFIX}"
+            "Installing to ${CMAKE_INSTALL_PREFIX}"
     )
 
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/bin")
@@ -290,55 +290,55 @@ if(CMAKE_SOURCE_DIR STREQUAL PROJECT_SOURCE_DIR)
     install(DIRECTORY LICENSES DESTINATION ${INSTALL_DOC_DIR})
 
     # Generate .pri file for qmake users (except when using the VS generator)
-    if(NOT CMAKE_CONFIGURATION_TYPES)
-        if(Qt_VERSION_MAJOR EQUAL 5 OR (Qt_VERSION_MAJOR EQUAL 6 AND Qt6Core_VERSION VERSION_GREATER "6.2"))
+    if (NOT CMAKE_CONFIGURATION_TYPES)
+        if (Qt_VERSION_MAJOR EQUAL 5 OR (Qt_VERSION_MAJOR EQUAL 6 AND Qt6Core_VERSION VERSION_GREATER "6.2"))
             include(ECMGeneratePriFile)
             set(PROJECT_VERSION_STRING ${${PROJECT_NAME}_VERSION})
             ecm_generate_pri_file(
-                BASE_NAME
-                KDDockWidgets
-                LIB_NAME
-                kddockwidgets${${PROJECT_NAME}_LIBRARY_QTID}
-                DEPS
-                ${${PROJECT_NAME}_DEPS}
-                FILENAME_VAR
-                pri_filename
-                INCLUDE_INSTALL_DIR
-                ${CMAKE_INSTALL_INCLUDEDIR}
+                    BASE_NAME
+                    KDDockWidgets
+                    LIB_NAME
+                    kddockwidgets${${PROJECT_NAME}_LIBRARY_QTID}
+                    DEPS
+                    ${${PROJECT_NAME}_DEPS}
+                    FILENAME_VAR
+                    pri_filename
+                    INCLUDE_INSTALL_DIR
+                    ${CMAKE_INSTALL_INCLUDEDIR}
             )
             install(FILES ${pri_filename} DESTINATION ${ECM_MKSPECS_INSTALL_DIR})
-        endif()
-    endif()
-else()
+        endif ()
+    endif ()
+else ()
     #Always disable tests, examples, docs when used as a submodule
     set(${PROJECT_NAME}_IS_ROOT_PROJECT FALSE)
     set(${PROJECT_NAME}_TESTS FALSE)
     set(${PROJECT_NAME}_EXAMPLES FALSE)
     set(${PROJECT_NAME}_DOCS FALSE)
-endif()
+endif ()
 
-if(${PROJECT_NAME}_TESTS)
+if (${PROJECT_NAME}_TESTS)
     enable_testing()
-endif()
+endif ()
 
 add_subdirectory(src)
 
-if(${PROJECT_NAME}_PYTHON_BINDINGS)
-    if(CMAKE_BUILD_TYPE MATCHES "^[Dd]eb" OR ${PROJECT_NAME}_STATIC)
+if (${PROJECT_NAME}_PYTHON_BINDINGS)
+    if (CMAKE_BUILD_TYPE MATCHES "^[Dd]eb" OR ${PROJECT_NAME}_STATIC)
         message(FATAL_ERROR "** Python Bindings are disabled in debug or static builds.")
-    endif()
-    if(CMAKE_UNITY_BUILD)
+    endif ()
+    if (CMAKE_UNITY_BUILD)
         message(FATAL_ERROR "** Python Bindings are disabled in Unity builds. " "Try again with CMAKE_UNITY_BUILD=OFF")
-    endif()
-endif()
-if(${PROJECT_NAME}_PYTHON_BINDINGS)
+    endif ()
+endif ()
+if (${PROJECT_NAME}_PYTHON_BINDINGS)
     add_subdirectory(python)
-endif()
+endif ()
 
-if(${PROJECT_NAME}_EXAMPLES)
-    if(${PROJECT_NAME}_QTQUICK)
+if (${PROJECT_NAME}_EXAMPLES)
+    if (${PROJECT_NAME}_QTQUICK)
         add_subdirectory(examples/qtquick)
-    else()
+    else ()
         add_subdirectory(examples/dockwidgets)
         add_subdirectory(examples/minimal)
         add_subdirectory(examples/minimal-mdi)
@@ -346,11 +346,11 @@ if(${PROJECT_NAME}_EXAMPLES)
         set_compiler_flags(kddockwidgets_example)
         set_compiler_flags(kddockwidgets_minimal_example)
         set_compiler_flags(kddockwidgets_mdi_with_docking_example)
-    endif()
-endif()
+    endif ()
+endif ()
 
-if(${PROJECT_NAME}_TESTS)
-    if(${PROJECT_NAME}_DEVELOPER_MODE)
+if (${PROJECT_NAME}_TESTS)
+    if (${PROJECT_NAME}_DEVELOPER_MODE)
         add_subdirectory(tests)
 
         # tst_docks.exe is pretty big (160 tests), so split it in more runs so we can use threads.
@@ -377,32 +377,32 @@ if(${PROJECT_NAME}_TESTS)
         add_test(NAME tst_docks20 COMMAND tests_launcher 19 5)
         add_test(NAME tst_docks21 COMMAND tests_launcher 20 5) # one more for rounding leftovers
 
-        if(NOT ${PROJECT_NAME}_QTQUICK)
+        if (NOT ${PROJECT_NAME}_QTQUICK)
             # tst_multisplitter depends on QWidget
             add_test(NAME tst_multisplitter COMMAND tst_multisplitter)
-        endif()
+        endif ()
 
-    endif()
-endif()
+    endif ()
+endif ()
 
-if(${PROJECT_NAME}_DOCS)
+if (${PROJECT_NAME}_DOCS)
     add_subdirectory(docs) # needs to go last, in case there are build source files
-endif()
+endif ()
 
-if(${PROJECT_NAME}_IS_ROOT_PROJECT)
+if (${PROJECT_NAME}_IS_ROOT_PROJECT)
     # Add uninstall target (not for submodules since parent projects typically have uninstall too)
     include(ECMUninstallTarget)
-endif()
+endif ()
 
 # Deployment
-if(WIN32)
+if (WIN32)
     add_custom_target(
-        createZipDemo
-        COMMAND cmd /c ${CMAKE_CURRENT_SOURCE_DIR}\\deploy\\create-demo-win-zip.bat
-                ${CMAKE_PROJECT_NAME}-Demo-${${PROJECT_NAME}_VERSION}
-        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-        COMMENT "Target to generate the Zip demo installer for Windows"
+            createZipDemo
+            COMMAND cmd /c ${CMAKE_CURRENT_SOURCE_DIR}\\deploy\\create-demo-win-zip.bat
+            ${CMAKE_PROJECT_NAME}-Demo-${${PROJECT_NAME}_VERSION}
+            WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+            COMMENT "Target to generate the Zip demo installer for Windows"
     )
-endif()
+endif ()
 
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)

@@ -18,20 +18,20 @@ add_subdirectory(ffmpeg)
 add_subdirectory(oiio)
 
 set(OLIVE_SOURCES
-  ${OLIVE_SOURCES}
-  codec/conformmanager.cpp
-  codec/conformmanager.h
-  codec/decoder.cpp
-  codec/decoder.h
-  codec/encoder.cpp
-  codec/encoder.h
-  codec/exportcodec.cpp
-  codec/exportcodec.h
-  codec/exportformat.cpp
-  codec/exportformat.h
-  codec/frame.cpp
-  codec/frame.h
-  codec/planarfiledevice.cpp
-  codec/planarfiledevice.h
-  PARENT_SCOPE
+        ${OLIVE_SOURCES}
+        codec/conformmanager.cpp
+        codec/conformmanager.h
+        codec/decoder.cpp
+        codec/decoder.h
+        codec/encoder.cpp
+        codec/encoder.h
+        codec/exportcodec.cpp
+        codec/exportcodec.h
+        codec/exportformat.cpp
+        codec/exportformat.h
+        codec/frame.cpp
+        codec/frame.h
+        codec/planarfiledevice.cpp
+        codec/planarfiledevice.h
+        PARENT_SCOPE
 )

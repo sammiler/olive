@@ -16,8 +16,8 @@
 
 # Set Olive sources and resources
 set(OLIVE_SOURCES
-  core.h
-  core.cpp
+        core.h
+        core.cpp
 )
 
 #set(OLIVE_RESOURCES)
@@ -47,31 +47,31 @@ add_subdirectory(window)
 qt_add_translation(OLIVE_QM_FILES ${OLIVE_TS_FILES})
 
 set(QRC_BODY "")
-foreach(QM_FILE ${OLIVE_QM_FILES})
-  get_filename_component(QM_FILENAME_COMPONENT ${QM_FILE} NAME_WE)
-  string(APPEND QRC_BODY "<file alias=\"${QM_FILENAME_COMPONENT}\">${QM_FILE}</file>\n")
-endforeach()
+foreach (QM_FILE ${OLIVE_QM_FILES})
+    get_filename_component(QM_FILENAME_COMPONENT ${QM_FILE} NAME_WE)
+    string(APPEND QRC_BODY "<file alias=\"${QM_FILENAME_COMPONENT}\">${QM_FILE}</file>\n")
+endforeach ()
 configure_file(ts/translations.qrc.in ts/translations.qrc @ONLY)
 
 set(OLIVE_RESOURCES
-  ${OLIVE_RESOURCES}
-  ${CMAKE_CURRENT_BINARY_DIR}/ts/translations.qrc
+        ${OLIVE_RESOURCES}
+        ${CMAKE_CURRENT_BINARY_DIR}/ts/translations.qrc
 )
 
 # Add version object
 add_library(olive-version-obj
-  OBJECT
-  version.cpp
-  version.h
+        OBJECT
+        version.cpp
+        version.h
 )
 target_link_libraries(olive-version-obj PRIVATE Qt${QT_VERSION_MAJOR}::Core)
-target_compile_options(olive-version-obj PRIVATE -DAPPVERSION="${PROJECT_VERSION}" -DAPPVERSIONLONG="${PROJECT_LONG_VERSION}" )
+target_compile_options(olive-version-obj PRIVATE -DAPPVERSION="${PROJECT_VERSION}" -DAPPVERSIONLONG="${PROJECT_LONG_VERSION}")
 
 # Add main library
 add_library(libolive-editor
-  OBJECT
-  ${OLIVE_SOURCES}
-  ${OLIVE_RESOURCES}
+        OBJECT
+        ${OLIVE_SOURCES}
+        ${OLIVE_RESOURCES}
 )
 
 # Remove prefix - prevents CMake calling it "liblibolive-editor"
@@ -79,57 +79,57 @@ set_target_properties(libolive-editor PROPERTIES PREFIX "")
 
 # Add application
 add_executable(olive-editor
-  WIN32
-  main.cpp
-  $<TARGET_OBJECTS:libolive-editor>
-  $<TARGET_OBJECTS:olive-version-obj>
+        WIN32
+        main.cpp
+        $<TARGET_OBJECTS:libolive-editor>
+        $<TARGET_OBJECTS:olive-version-obj>
 )
 
 # Create docs if doxygen was found
-if(DOXYGEN_FOUND)
-  set(DOXYGEN_PROJECT_NAME "Olive")
-  set(DOXYGEN_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/docs")
-  set(DOXYGEN_EXTRACT_ALL "YES")
-  set(DOXYGEN_EXTRACT_PRIVATE "YES")
-  doxygen_add_docs(docs ALL ${OLIVE_SOURCES})
-endif()
+if (DOXYGEN_FOUND)
+    set(DOXYGEN_PROJECT_NAME "Olive")
+    set(DOXYGEN_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/docs")
+    set(DOXYGEN_EXTRACT_ALL "YES")
+    set(DOXYGEN_EXTRACT_PRIVATE "YES")
+    doxygen_add_docs(docs ALL ${OLIVE_SOURCES})
+endif ()
 
 # Platform-specific deployment preferences
 if (WIN32)
-  # Set Windows application icon
-  target_sources(olive-editor PRIVATE packaging/windows/resources.rc)
+    # Set Windows application icon
+    target_sources(olive-editor PRIVATE packaging/windows/resources.rc)
 
-  # Preserve folder structure in visual studio
-  source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${OLIVE_SOURCES})
+    # Preserve folder structure in visual studio
+    source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${OLIVE_SOURCES})
 
-elseif(APPLE)
-  # Set Mac application icon
-  set(OLIVE_ICON packaging/macos/olive.icns)
-  target_sources(olive-editor PRIVATE ${OLIVE_ICON})
+elseif (APPLE)
+    # Set Mac application icon
+    set(OLIVE_ICON packaging/macos/olive.icns)
+    target_sources(olive-editor PRIVATE ${OLIVE_ICON})
 
-  # Set Mac bundle properties
-  set_target_properties(olive-editor PROPERTIES
-    MACOSX_BUNDLE TRUE
-    MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/packaging/macos/MacOSXBundleInfo.plist.in
-    MACOSX_BUNDLE_GUI_IDENTIFIER org.olivevideoeditor.Olive
-    MACOSX_BUNDLE_ICON_FILE olive.icns
-    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
-    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION}
-    MACOSX_BUNDLE_BUNDLE_NAME "Olive"
-    MACOSX_BUNDLE_INFO_STRING "Olive ${PROJECT_LONG_VERSION}"
-    MACOSX_BUNDLE_COPYRIGHT "©2018-2021 Olive Studios LLC and others. Published under the GNU General Public License version 3.0."
-    RESOURCE "${OLIVE_ICON}"
-    OUTPUT_NAME "Olive"
-  )
-elseif(UNIX)
-  # Set Linux-specific properties for application
-  install(TARGETS olive-editor RUNTIME DESTINATION bin)
-endif()
+    # Set Mac bundle properties
+    set_target_properties(olive-editor PROPERTIES
+            MACOSX_BUNDLE TRUE
+            MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/packaging/macos/MacOSXBundleInfo.plist.in
+            MACOSX_BUNDLE_GUI_IDENTIFIER org.olivevideoeditor.Olive
+            MACOSX_BUNDLE_ICON_FILE olive.icns
+            MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
+            MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION}
+            MACOSX_BUNDLE_BUNDLE_NAME "Olive"
+            MACOSX_BUNDLE_INFO_STRING "Olive ${PROJECT_LONG_VERSION}"
+            MACOSX_BUNDLE_COPYRIGHT "©2018-2021 Olive Studios LLC and others. Published under the GNU General Public License version 3.0."
+            RESOURCE "${OLIVE_ICON}"
+            OUTPUT_NAME "Olive"
+    )
+elseif (UNIX)
+    # Set Linux-specific properties for application
+    install(TARGETS olive-editor RUNTIME DESTINATION bin)
+endif ()
 
-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-  set_property(TARGET olive-editor PROPERTY CONFIGURATIONS Debug)
-  set_property(TARGET libolive-editor PROPERTY CONFIGURATIONS Debug)
-endif()
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    set_property(TARGET olive-editor PROPERTY CONFIGURATIONS Debug)
+    set_property(TARGET libolive-editor PROPERTY CONFIGURATIONS Debug)
+endif ()
 
 
 # Set link libraries
@@ -150,5 +150,5 @@ target_include_directories(libolive-editor PRIVATE ${OLIVE_INCLUDE_DIRS})
 
 # Add crash handler
 if (GoogleCrashpad_FOUND)
-  add_subdirectory(crashhandler)
-endif()
+    add_subdirectory(crashhandler)
+endif ()

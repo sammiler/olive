@@ -15,12 +15,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 set(OLIVE_SOURCES
-  ${OLIVE_SOURCES}
-  audio/audiomanager.cpp
-  audio/audiomanager.h
-  audio/audioprocessor.cpp
-  audio/audioprocessor.h
-  audio/audiovisualwaveform.cpp
-  audio/audiovisualwaveform.h
-  PARENT_SCOPE
+        ${OLIVE_SOURCES}
+        audio/audiomanager.cpp
+        audio/audiomanager.h
+        audio/audioprocessor.cpp
+        audio/audioprocessor.h
+        audio/audiovisualwaveform.cpp
+        audio/audiovisualwaveform.h
+        PARENT_SCOPE
 )

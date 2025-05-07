@@ -12,13 +12,13 @@
 # Doxygen
 find_package(Doxygen)
 set_package_properties(
-    Doxygen PROPERTIES
-    TYPE OPTIONAL
-    DESCRIPTION "API Documentation system"
-    URL "https://www.doxygen.org"
-    PURPOSE "Needed to build the API documentation."
+        Doxygen PROPERTIES
+        TYPE OPTIONAL
+        DESCRIPTION "API Documentation system"
+        URL "https://www.doxygen.org"
+        PURPOSE "Needed to build the API documentation."
 )
 
-if(DOXYGEN_FOUND)
+if (DOXYGEN_FOUND)
     add_subdirectory(api)
-endif()
+endif ()

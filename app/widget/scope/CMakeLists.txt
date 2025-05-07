@@ -19,6 +19,6 @@ add_subdirectory(scopebase)
 add_subdirectory(waveform)
 
 set(OLIVE_SOURCES
-  ${OLIVE_SOURCES}
-  PARENT_SCOPE
+        ${OLIVE_SOURCES}
+        PARENT_SCOPE
 )

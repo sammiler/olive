@@ -10,12 +10,12 @@
 #
 
 add_executable(
-    fuzzer
-    ../Testing.cpp Fuzzer.cpp main.cpp Operations.cpp
+        fuzzer
+        ../Testing.cpp Fuzzer.cpp main.cpp Operations.cpp
 )
 
 set_property(TARGET fuzzer PROPERTY CXX_STANDARD 17)
 target_link_libraries(
-    fuzzer kddockwidgets Qt${Qt_VERSION_MAJOR}::Widgets Qt${Qt_VERSION_MAJOR}::Test
+        fuzzer kddockwidgets Qt${Qt_VERSION_MAJOR}::Widgets Qt${Qt_VERSION_MAJOR}::Test
 )
 set_compiler_flags(fuzzer)

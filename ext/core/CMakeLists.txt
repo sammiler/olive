@@ -28,74 +28,73 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 # Link avutil
 find_package(FFMPEG 3.0 REQUIRED
-  COMPONENTS avutil
+        COMPONENTS avutil
 )
 
 
-
 # Link OpenGL
-if(UNIX AND NOT APPLE AND NOT DEFINED OpenGL_GL_PREFERENCE)
-  set(OpenGL_GL_PREFERENCE LEGACY)
-endif()
+if (UNIX AND NOT APPLE AND NOT DEFINED OpenGL_GL_PREFERENCE)
+    set(OpenGL_GL_PREFERENCE LEGACY)
+endif ()
 find_package(OpenGL REQUIRED)
 add_library(olivecore
-  src/render/audioparams.cpp
-  src/render/samplebuffer.cpp
-  src/util/bezier.cpp
-  src/util/color.cpp
-  src/util/rational.cpp
-  src/util/stringutils.cpp
-  src/util/tests.cpp
-  src/util/timecodefunctions.cpp
-  src/util/timerange.cpp
-  src/util/value.cpp
+        src/render/audioparams.cpp
+        src/render/samplebuffer.cpp
+        src/util/bezier.cpp
+        src/util/color.cpp
+        src/util/rational.cpp
+        src/util/stringutils.cpp
+        src/util/tests.cpp
+        src/util/timecodefunctions.cpp
+        src/util/timerange.cpp
+        src/util/value.cpp
 )
 
 # Link Imath
 find_package(Imath REQUIRED CONFIG)
 target_include_directories(olivecore PRIVATE
-${Imath_INCLUDE_DIRS})
+        ${Imath_INCLUDE_DIRS})
 
 target_include_directories(olivecore PRIVATE
-  ${FFMPEG_INCLUDE_DIRS}
-  "${CMAKE_CURRENT_SOURCE_DIR}/include/olive/core"
+        ${FFMPEG_INCLUDE_DIRS}
+        "${CMAKE_CURRENT_SOURCE_DIR}/include/olive/core"
 )
 
 target_link_libraries(olivecore PRIVATE
-  OpenGL::GL
-  Imath::Imath
-  FFMPEG::avutil
+        OpenGL::GL
+        Imath::Imath
+        FFMPEG::avutil
 )
 
 # Link OpenTimelineIO (optional)
 find_package(OpenTimelineIO)
 if (OpenTimelineIO_FOUND)
-  target_compile_definitions(olivecore PRIVATE USE_OTIO)
-#  target_include_directories(olivecore PRIVATE ${OPENTIMELINEIO_INCLUDE_DIRS})
-#  target_link_libraries(olivecore PRIVATE OpenTimelineIO::OpenTimelineIO)
-else()
-  message("   OpenTimelineIO interchange will be disabled.")
-endif()
+    target_compile_definitions(olivecore PRIVATE USE_OTIO)
+    #  target_include_directories(olivecore PRIVATE ${OPENTIMELINEIO_INCLUDE_DIRS})
+    #  target_link_libraries(olivecore PRIVATE OpenTimelineIO::OpenTimelineIO)
+else ()
+    message("   OpenTimelineIO interchange will be disabled.")
+endif ()
 
 install(TARGETS olivecore)
 install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/olive" DESTINATION "${CMAKE_INSTALL_PREFIX}/include")
 
 if (OLIVECORE_BUILD_TESTS)
-  enable_testing()
+    enable_testing()
 
-  function(make_test name)
-    add_executable(${name}
-      tests/${name}.cpp
-    )
-    target_link_libraries(${name} PRIVATE olivecore)
-    target_include_directories(${name} PRIVATE
-      "${CMAKE_CURRENT_SOURCE_DIR}/include/olive/core"
-    )
-    add_test(${name} ${name})
-  endfunction()
+    function(make_test name)
+        add_executable(${name}
+                tests/${name}.cpp
+        )
+        target_link_libraries(${name} PRIVATE olivecore)
+        target_include_directories(${name} PRIVATE
+                "${CMAKE_CURRENT_SOURCE_DIR}/include/olive/core"
+        )
+        add_test(${name} ${name})
+    endfunction()
 
-  make_test(rational-test)
-  make_test(stringutils-test)
-  make_test(timecode-test)
-  make_test(timerange-test)
-endif()
+    make_test(rational-test)
+    make_test(stringutils-test)
+    make_test(timecode-test)
+    make_test(timerange-test)
+endif ()

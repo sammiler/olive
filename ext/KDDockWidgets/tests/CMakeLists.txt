@@ -13,9 +13,9 @@
 # 1. tst_docks      - The KDDockWidge tests. Compatible with QtWidgets and QtQuick.
 # 2. tests_launcher - helper executable to paralelize the execution of tests
 
-if(POLICY CMP0043)
+if (POLICY CMP0043)
     cmake_policy(SET CMP0043 NEW)
-endif()
+endif ()
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../src)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
@@ -34,28 +34,28 @@ option(KDDockWidgets_FUZZER "Builds the fuzzer" ON)
 # tst_docks
 set(TESTING_RESOURCES ${CMAKE_CURRENT_SOURCE_DIR}/test_resources.qrc)
 add_executable(
-    tst_docks
-    ${TESTING_RESOURCES} ${TESTING_SRCS} tst_docks.cpp
+        tst_docks
+        ${TESTING_RESOURCES} ${TESTING_SRCS} tst_docks.cpp
 )
 target_link_libraries(
-    tst_docks kddockwidgets Qt${Qt_VERSION_MAJOR}::Test
+        tst_docks kddockwidgets Qt${Qt_VERSION_MAJOR}::Test
 )
 set_compiler_flags(tst_docks)
 
-if(NOT ${PROJECT_NAME}_QTQUICK)
+if (NOT ${PROJECT_NAME}_QTQUICK)
     add_executable(tst_multisplitter tst_multisplitter.cpp)
     target_link_libraries(tst_multisplitter kddockwidgets Qt${Qt_VERSION_MAJOR}::Test)
     set_compiler_flags(tst_multisplitter)
-    if(KDDockWidgets_FUZZER)
+    if (KDDockWidgets_FUZZER)
         add_subdirectory(fuzzer)
-    endif()
-endif()
+    endif ()
+endif ()
 
 # tests_launcher
 add_executable(
-    tests_launcher
-    tests_launcher.cpp
+        tests_launcher
+        tests_launcher.cpp
 )
 target_link_libraries(
-    tests_launcher Qt${Qt_VERSION_MAJOR}::Core
+        tests_launcher Qt${Qt_VERSION_MAJOR}::Core
 )

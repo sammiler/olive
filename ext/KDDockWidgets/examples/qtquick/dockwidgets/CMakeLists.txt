@@ -16,22 +16,22 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_INCLUDE_CURRENT_DIRS ON)
 
-if(NOT TARGET kddockwidgets)
+if (NOT TARGET kddockwidgets)
     # This will look for Qt, do find_package yourself manually before
     # if you want to look for a specific Qt version for instance.
     find_package(KDDockWidgets REQUIRED)
-endif()
+endif ()
 
 set(RESOURCES_EXAMPLE_SRC ${CMAKE_CURRENT_SOURCE_DIR}/resources_qtquick_example.qrc
-                          ${CMAKE_CURRENT_SOURCE_DIR}/../../dockwidgets/resources_example.qrc
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../dockwidgets/resources_example.qrc
 )
 
 add_executable(
-    kddockwidgets_example_quick
-    ${RESOURCES_EXAMPLE_SRC} main.cpp
+        kddockwidgets_example_quick
+        ${RESOURCES_EXAMPLE_SRC} main.cpp
 )
 
 target_link_libraries(
-    kddockwidgets_example_quick
-    PRIVATE KDAB::kddockwidgets
+        kddockwidgets_example_quick
+        PRIVATE KDAB::kddockwidgets
 )
