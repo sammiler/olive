@@ -16,6 +16,9 @@
  * @author Sérgio Martins \<sergio.martins@kdab.com\>
  */
 
+#ifdef KDDOCKWIDGETS_QTQUICK
+
+
 #include "FrameQuick_p.h"
 #include "Config.h"
 #include "FrameworkWidgetFactory.h"
@@ -203,3 +206,5 @@ int FrameQuick::nonContentsHeight() const
 {
     return m_visualItem->property("nonContentsHeight").toInt();
 }
+
+#endif

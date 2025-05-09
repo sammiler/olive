@@ -8,7 +8,7 @@
 
   Contact KDAB at <info@kdab.com> for commercial licensing options.
 */
-
+#ifdef KDDOCKWIDGETS_QTWIDGETS
 #include "DockWidget.h"
 
 #include <QCloseEvent>
@@ -70,3 +70,5 @@ void DockWidget::closeEvent(QCloseEvent *e)
 {
     onCloseEvent(e);
 }
+
+#endif

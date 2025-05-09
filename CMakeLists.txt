@@ -20,6 +20,7 @@ project(olive-editor VERSION 0.2.0 LANGUAGES CXX)
 option(BUILD_QT6 "Build with Qt 6 over 5 (experimental)" OFF)
 option(BUILD_DOXYGEN "Build Doxygen documentation" OFF)
 option(BUILD_TESTS "Build unit tests" OFF)
+option(${PROJECT_NAME}_QTQUICK "Build for QtQuick instead of QtWidgets" OFF)
 option(USE_WERROR "Error on compile warning" OFF)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -74,6 +75,13 @@ set(OLIVE_DEFINITIONS -DQT_DEPRECATED_WARNINGS)
 if (WIN32)
     list(APPEND OLIVE_DEFINITIONS -DUNICODE -D_UNICODE)
 endif ()
+
+if (${PROJECT_NAME}_QTQUICK)
+    list(APPEND OLIVE_DEFINITIONS -DKDDOCKWIDGETS_QTQUICK)
+else ()
+    list(APPEND OLIVE_DEFINITIONS -DKDDOCKWIDGETS_QTWIDGETS)
+endif ()
+
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 

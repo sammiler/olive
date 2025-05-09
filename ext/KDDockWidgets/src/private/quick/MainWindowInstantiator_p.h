@@ -11,6 +11,8 @@
 
 #ifndef KD_MAIN_WINDOW_INSTANTIATOR_P_H
 #define KD_MAIN_WINDOW_INSTANTIATOR_P_H
+#ifdef KDDOCKWIDGETS_QTQUICK
+
 
 #include "kddockwidgets/docks_export.h"
 #include "kddockwidgets/KDDockWidgets.h"
@@ -85,5 +87,8 @@ private:
 };
 
 }
+
+
+#endif
 
 #endif

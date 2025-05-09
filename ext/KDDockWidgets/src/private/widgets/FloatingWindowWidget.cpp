@@ -8,7 +8,7 @@
 
   Contact KDAB at <info@kdab.com> for commercial licensing options.
 */
-
+#ifdef KDDOCKWIDGETS_QTWIDGETS
 #include "FloatingWindowWidget_p.h"
 #include "../DockRegistry_p.h"
 #include "../DropArea_p.h"
@@ -124,3 +124,6 @@ void FloatingWindowWidget::updateMargins()
 {
     m_vlayout->setContentsMargins(QMargins(4, 4, 4, 4) * logicalDpiFactor(this));
 }
+
+
+#endif

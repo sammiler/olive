@@ -9,6 +9,8 @@
   Contact KDAB at <info@kdab.com> for commercial licensing options.
 */
 
+#ifdef KDDOCKWIDGETS_QTQUICK
+
 #include "Separator_quick.h"
 #include "Widget_quick.h"
 #include "Logging_p.h"
@@ -70,3 +72,5 @@ void SeparatorQuick::onMouseDoubleClicked()
 {
     Separator::onMouseDoubleClick();
 }
+
+#endif

@@ -8,7 +8,7 @@
 
   Contact KDAB at <info@kdab.com> for commercial licensing options.
 */
-
+#ifdef KDDOCKWIDGETS_QTWIDGETS
 /**
  * @file
  * @brief The GUI counterpart of Frame. Inherits Frame and implements paintEvent().
@@ -192,3 +192,6 @@ QSize FrameWidget::minimumSizeHint() const
 
   return w->style()->sizeFromContents(QStyle::CT_TabWidget, &opt, s, w);
 }
+
+
+#endif

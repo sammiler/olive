@@ -12,6 +12,9 @@
 #ifndef KD_DOCKWIDGET_INSTANTIATOR_P_H
 #define KD_DOCKWIDGET_INSTANTIATOR_P_H
 
+#ifdef KDDOCKWIDGETS_QTQUICK
+
+
 #include "DockWidgetQuick.h"
 
 #include <QQmlParserStatus>
@@ -114,5 +117,6 @@ private:
     DockWidgetQuick *m_dockWidget = nullptr;
 };
 }
+#endif
 
 #endif

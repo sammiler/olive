@@ -20,6 +20,9 @@
 #ifndef KD_TABBAR_QUICK_P_H
 #define KD_TABBAR_QUICK_P_H
 
+#ifdef KDDOCKWIDGETS_QTQUICK
+
+
 #include "../TabWidget_p.h"
 
 
@@ -58,5 +61,8 @@ private:
     QPointer<QQuickItem> m_tabBarQmlItem;
 };
 }
+
+#endif
+
 
 #endif

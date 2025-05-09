@@ -8,6 +8,7 @@
 
   Contact KDAB at <info@kdab.com> for commercial licensing options.
 */
+#ifdef KDDOCKWIDGETS_QTQUICK
 
 /**
  * @file
@@ -40,3 +41,5 @@ bool LayoutSaverInstantiator::restoreFromFile(const QString &jsonFilename)
 {
     return LayoutSaver::restoreFromFile(jsonFilename);
 }
+
+#endif

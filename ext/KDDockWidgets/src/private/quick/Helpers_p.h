@@ -12,6 +12,9 @@
 #ifndef KD_QTQUICK_HELPERS_P_H
 #define KD_QTQUICK_HELPERS_P_H
 
+#ifdef KDDOCKWIDGETS_QTQUICK
+
+
 #include <QObject>
 
 class QQuickItem;
@@ -26,5 +29,7 @@ public:
     Q_INVOKABLE qreal logicalDpiFactor(const QQuickItem *item) const;
 };
 }
+
+#endif
 
 #endif

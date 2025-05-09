@@ -21,6 +21,9 @@
 #ifndef KDDOCKWIDGETS_QWIDGETADAPTERQUICK_P_H
 #define KDDOCKWIDGETS_QWIDGETADAPTERQUICK_P_H
 
+#ifdef KDDOCKWIDGETS_QTQUICK
+
+
 #include "kddockwidgets/docks_export.h"
 #include "kddockwidgets/Qt5Qt6Compat_p.h"
 
@@ -289,5 +292,8 @@ inline qreal logicalDpiFactor(const QQuickItem *item)
 }
 
 }
+
+
+#endif
 
 #endif

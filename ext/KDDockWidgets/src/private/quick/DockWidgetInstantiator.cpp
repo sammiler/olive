@@ -10,6 +10,10 @@
 */
 
 #include "DockWidgetInstantiator_p.h"
+
+#ifdef KDDOCKWIDGETS_QTQUICK
+
+
 #include "DockWidgetQuick.h"
 #include "../DockRegistry_p.h"
 
@@ -221,3 +225,5 @@ void DockWidgetInstantiator::componentComplete()
 
     Q_EMIT dockWidgetChanged();
 }
+
+#endif

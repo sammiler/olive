@@ -11,7 +11,7 @@
 
 #ifndef KD_SIDEBARWIDGET_P_H
 #define KD_SIDEBARWIDGET_P_H
-
+#ifdef KDDOCKWIDGETS_QTWIDGETS
 #include "kddockwidgets/docks_export.h"
 #include "../SideBar_p.h"
 
@@ -61,5 +61,8 @@ private:
 };
 
 }
+
+#endif
+
 
 #endif

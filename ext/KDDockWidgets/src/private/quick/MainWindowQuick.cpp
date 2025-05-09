@@ -8,6 +8,7 @@
 
   Contact KDAB at <info@kdab.com> for commercial licensing options.
 */
+#ifdef KDDOCKWIDGETS_QTQUICK
 
 #include "MainWindowQuick_p.h"
 #include "../LayoutWidget_p.h"
@@ -76,3 +77,5 @@ void MainWindowQuick::onMultiSplitterGeometryUpdated()
         }
     }
 }
+
+#endif

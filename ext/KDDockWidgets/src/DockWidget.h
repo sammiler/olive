@@ -19,6 +19,8 @@
 #ifndef KD_DOCKWIDGET_H
 #define KD_DOCKWIDGET_H
 
+#ifdef KDDOCKWIDGETS_QTWIDGETS
+
 #include "DockWidgetBase.h"
 
 QT_BEGIN_NAMESPACE
@@ -65,5 +67,8 @@ private:
 };
 
 }
+
+
+#endif
 
 #endif

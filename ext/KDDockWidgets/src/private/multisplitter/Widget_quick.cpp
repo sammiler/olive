@@ -8,7 +8,7 @@
 
   Contact KDAB at <info@kdab.com> for commercial licensing options.
 */
-
+#ifdef KDDOCKWIDGETS_QTQUICK
 #include "Widget_quick.h"
 #include "Item_p.h"
 
@@ -151,3 +151,4 @@ QQuickItem *Widget_quick::createQQuickItem(const QString &filename, QQuickItem *
 
     return qquickitem;
 }
+#endif

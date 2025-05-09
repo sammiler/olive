@@ -13,6 +13,8 @@
 #ifndef KD_FRAME_WIDGET_P_H
 #define KD_FRAME_WIDGET_P_H
 
+#ifdef KDDOCKWIDGETS_QTWIDGETS
+
 #include "../Frame_p.h"
 
 QT_BEGIN_NAMESPACE
@@ -61,5 +63,8 @@ private:
 
 
 }
+
+#endif
+
 
 #endif

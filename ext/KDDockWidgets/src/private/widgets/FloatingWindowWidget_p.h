@@ -11,7 +11,7 @@
 
 #ifndef KD_FLOATING_WINDOWWIDGET_P_H
 #define KD_FLOATING_WINDOWWIDGET_P_H
-
+#ifdef KDDOCKWIDGETS_QTWIDGETS
 #include "../FloatingWindow_p.h"
 
 QT_BEGIN_NAMESPACE
@@ -44,5 +44,8 @@ private:
 };
 
 }
+
+#endif
+
 
 #endif

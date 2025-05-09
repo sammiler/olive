@@ -21,6 +21,8 @@
 #ifndef KDDOCKWIDGETS_QWIDGETADAPTERWIDGETS_P_H
 #define KDDOCKWIDGETS_QWIDGETADAPTERWIDGETS_P_H
 
+#ifdef KDDOCKWIDGETS_QTWIDGETS
+
 #include "kddockwidgets/docks_export.h"
 
 #include <QWindow>
@@ -128,5 +130,8 @@ inline qreal logicalDpiFactor(const QWidget *w)
 #endif
 }
 }
+
+#endif
+
 
 #endif

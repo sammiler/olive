@@ -8,7 +8,7 @@
 
   Contact KDAB at <info@kdab.com> for commercial licensing options.
 */
-
+#ifdef KDDOCKWIDGETS_QTWIDGETS
 #include "SideBarWidget_p.h"
 #include "DockWidgetBase.h"
 #include "MainWindowBase.h"
@@ -120,3 +120,5 @@ QSize SideBarButton::sizeHint() const
     return isVertical() ? (hint.transposed() + QSize(2, 0))
                         : (hint + QSize(0, 2));
 }
+
+#endif

@@ -8,7 +8,7 @@
 
   Contact KDAB at <info@kdab.com> for commercial licensing options.
 */
-
+#ifdef KDDOCKWIDGETS_QTWIDGETS
 #include "Separator_qwidget.h"
 #include "Widget_qwidget.h"
 #include "Logging_p.h"
@@ -100,3 +100,5 @@ Layouting::RubberBand::RubberBand(Widget *parent)
     , Layouting::Widget_qwidget(this)
 {
 }
+
+#endif

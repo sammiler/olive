@@ -12,6 +12,8 @@
 #ifndef KD_MULTISPLITTER_SEPARATORQWIDGET_P_H
 #define KD_MULTISPLITTER_SEPARATORQWIDGET_P_H
 
+#ifdef KDDOCKWIDGETS_QTWIDGETS
+
 #include "kddockwidgets/docks_export.h"
 #include "Separator_p.h"
 #include "Widget_qwidget.h"
@@ -52,5 +54,8 @@ public:
 };
 
 }
+
+#endif
+
 
 #endif

@@ -8,7 +8,7 @@
 
   Contact KDAB at <info@kdab.com> for commercial licensing options.
 */
-
+#ifdef KDDOCKWIDGETS_QTWIDGETS
 #include "TitleBarWidget_p.h"
 #include "../DragController_p.h"
 #include "../Frame_p.h"
@@ -317,5 +317,9 @@ bool TitleBarWidget::isFloatButtonEnabled() const
 {
     return m_floatButton->isEnabled();
 }
+
+
+
+#endif
 
 #endif

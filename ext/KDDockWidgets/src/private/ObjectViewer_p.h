@@ -19,6 +19,8 @@
 #ifndef OBJECTVIEWER_H
 #define OBJECTVIEWER_H
 
+#ifdef KDDOCKWIDGETS_QTWIDGETS
+
 #include <QWidget>
 #include <QStandardItemModel>
 #include <QTreeView>
@@ -76,5 +78,8 @@ protected:
 };
 }
 }
+
+
+#endif
 
 #endif

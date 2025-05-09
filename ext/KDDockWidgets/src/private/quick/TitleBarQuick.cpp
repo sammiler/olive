@@ -8,6 +8,7 @@
 
   Contact KDAB at <info@kdab.com> for commercial licensing options.
 */
+#ifdef KDDOCKWIDGETS_QTQUICK
 
 #include "TitleBarQuick_p.h"
 
@@ -103,3 +104,5 @@ QQuickItem *TitleBarQuick::closeButton() const
     return m_titleBarQmlItem ? m_titleBarQmlItem->property("closeButton").value<QQuickItem *>()
                              : nullptr;
 }
+
+#endif

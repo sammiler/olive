@@ -8,7 +8,7 @@
 
   Contact KDAB at <info@kdab.com> for commercial licensing options.
 */
-
+#ifdef KDDOCKWIDGETS_QTQUICK
 #include "Rubberband_quick.h"
 
 using namespace Layouting;
@@ -20,3 +20,6 @@ RubberBand::RubberBand(Layouting::Widget *parent)
 }
 
 RubberBand::~RubberBand() = default;
+
+
+#endif

@@ -9,6 +9,9 @@
   Contact KDAB at <info@kdab.com> for commercial licensing options.
 */
 
+#ifdef KDDOCKWIDGETS_QTQUICK
+
+
 /**
  * @file
  * @brief A class that is QWidget when building for QtWidgets, and QObject when building for QtQuick.
@@ -844,3 +847,6 @@ bool QWidgetAdapter::isWrapper() const
 LayoutGuestWidget::~LayoutGuestWidget() = default;
 
 #include "QWidgetAdapter_quick.moc"
+
+
+#endif

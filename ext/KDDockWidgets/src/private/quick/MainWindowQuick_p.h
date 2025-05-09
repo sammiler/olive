@@ -12,6 +12,9 @@
 #ifndef KD_MAIN_WINDOW_QUICK_P_H
 #define KD_MAIN_WINDOW_QUICK_P_H
 
+#ifdef KDDOCKWIDGETS_QTQUICK
+
+
 #include "kddockwidgets/MainWindowBase.h"
 
 namespace KDDockWidgets {
@@ -45,5 +48,8 @@ private:
 };
 
 }
+
+
+#endif
 
 #endif

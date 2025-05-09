@@ -12,6 +12,9 @@
 #ifndef KDDOCKWIDGETS_RUBBERBANDQUICK_H
 #define KDDOCKWIDGETS_RUBBERBANDQUICK_H
 
+#ifdef KDDOCKWIDGETS_QTQUICK
+
+
 #include "QWidgetAdapter.h"
 
 namespace KDDockWidgets {
@@ -24,5 +27,8 @@ public:
 };
 
 }
+
+
+#endif
 
 #endif

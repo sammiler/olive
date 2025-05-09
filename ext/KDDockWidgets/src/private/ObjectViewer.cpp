@@ -8,7 +8,7 @@
 
   Contact KDAB at <info@kdab.com> for commercial licensing options.
 */
-
+#ifdef KDDOCKWIDGETS_QTWIDGETS
 /**
  * @file
  * @brief Tree Widget to show the object tree. Used for debugging only, for apps that don't support GammaRay.
@@ -298,3 +298,6 @@ bool ObjectViewer::eventFilter(QObject *watched, QEvent *event)
 
     return true;
 }
+
+
+#endif

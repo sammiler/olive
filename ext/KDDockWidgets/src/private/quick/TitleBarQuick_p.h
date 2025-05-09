@@ -8,6 +8,7 @@
 
   Contact KDAB at <info@kdab.com> for commercial licensing options.
 */
+#ifdef KDDOCKWIDGETS_QTQUICK
 
 #ifndef KD_TITLEBARQUICK_P_H
 #define KD_TITLEBARQUICK_P_H
@@ -58,5 +59,7 @@ private:
 };
 
 }
+
+#endif
 
 #endif

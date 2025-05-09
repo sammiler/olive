@@ -8,7 +8,7 @@
 
   Contact KDAB at <info@kdab.com> for commercial licensing options.
 */
-
+#ifdef KDDOCKWIDGETS_QTWIDGETS
 /**
  * @file
  * @brief Window to show debug information. Used for debugging only, for apps that don't support GammaRay.
@@ -346,3 +346,6 @@ void DebugWindow::mousePressEvent(QMouseEvent *event)
     if (m_isPickingWidget)
         m_isPickingWidget->quit();
 }
+
+
+#endif

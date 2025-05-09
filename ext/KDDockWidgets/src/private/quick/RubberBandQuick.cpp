@@ -9,6 +9,9 @@
   Contact KDAB at <info@kdab.com> for commercial licensing options.
 */
 
+#ifdef KDDOCKWIDGETS_QTQUICK
+
+
 #include "RubberBandQuick.h"
 #include "Config.h"
 
@@ -23,3 +26,5 @@ RubberBandQuick::RubberBandQuick(QQuickItem *parent)
     visualItem->setParent(this);
     visualItem->setParentItem(this);
 }
+
+#endif

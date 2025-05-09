@@ -8,7 +8,7 @@
 
   Contact KDAB at <info@kdab.com> for commercial licensing options.
 */
-
+#ifdef KDDOCKWIDGETS_QTWIDGETS
 /**
  * @file
  * @brief Implements a QTabWidget derived class with support for docking and undocking
@@ -181,3 +181,5 @@ void TabBarWidget::tabRemoved(int index)
     QTabBar::tabRemoved(index);
     Q_EMIT dockWidgetRemoved(index);
 }
+
+#endif

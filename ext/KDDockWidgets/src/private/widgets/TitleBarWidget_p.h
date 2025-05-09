@@ -11,7 +11,7 @@
 
 #ifndef KD_TITLEBARWIDGET_P_H
 #define KD_TITLEBARWIDGET_P_H
-
+#ifdef KDDOCKWIDGETS_QTWIDGETS
 #include "kddockwidgets/docks_export.h"
 #include "kddockwidgets/private/TitleBar_p.h"
 
@@ -95,5 +95,7 @@ public:
 };
 
 }
+
+#endif
 
 #endif

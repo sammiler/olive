@@ -9,6 +9,10 @@
   Contact KDAB at <info@kdab.com> for commercial licensing options.
 */
 
+#ifdef KDDOCKWIDGETS_QTQUICK
+
+
+
 #include "FloatingWindowQuick_p.h"
 #include "MainWindowBase.h"
 #include "Config.h"
@@ -215,3 +219,6 @@ void FloatingWindowQuick::init()
 }
 
 #include "FloatingWindowQuick.moc"
+
+
+#endif

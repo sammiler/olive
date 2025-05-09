@@ -19,6 +19,8 @@
 #ifndef KD_MAINWINDOW_H
 #define KD_MAINWINDOW_H
 
+#ifdef KDDOCKWIDGETS_QTWIDGETS
+
 #include "MainWindowBase.h"
 
 QT_BEGIN_NAMESPACE
@@ -78,5 +80,8 @@ private:
 };
 
 }
+
+#endif
+
 
 #endif

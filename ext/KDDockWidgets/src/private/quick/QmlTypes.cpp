@@ -8,6 +8,8 @@
 
   Contact KDAB at <info@kdab.com> for commercial licensing options.
 */
+#ifdef KDDOCKWIDGETS_QTQUICK
+
 
 #include "QmlTypes.h"
 #include "DockWidgetBase.h"
@@ -39,3 +41,6 @@ void KDDockWidgets::registerQmlTypes()
     qRegisterMetaType<DockWidgetBase *>();
     qRegisterMetaType<ClassicIndicators *>();
 }
+
+
+#endif

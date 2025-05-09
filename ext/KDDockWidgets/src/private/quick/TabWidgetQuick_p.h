@@ -9,6 +9,9 @@
   Contact KDAB at <info@kdab.com> for commercial licensing options.
 */
 
+#ifdef KDDOCKWIDGETS_QTQUICK
+
+
 /**
  * @file
  * @brief The QQuickItem counter part of TabWidgetQuick. Handles GUI while TabWidget handles state.
@@ -106,5 +109,8 @@ private:
 };
 
 }
+
+
+#endif
 
 #endif

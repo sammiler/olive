@@ -10,7 +10,7 @@
 */
 
 #pragma once
-
+#ifdef KDDOCKWIDGETS_QTQUICK
 #include "Widget.h"
 
 #include <QQuickItem>
@@ -68,3 +68,5 @@ private:
 };
 
 }
+
+#endif

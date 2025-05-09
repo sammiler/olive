@@ -13,6 +13,9 @@
 #ifndef KD_LAYOUT_SAVER_INSTANTIATOR_P_H
 #define KD_LAYOUT_SAVER_INSTANTIATOR_P_H
 
+
+#ifdef KDDOCKWIDGETS_QTQUICK
+
 #include "LayoutSaver.h"
 
 #include <QObject>
@@ -41,5 +44,8 @@ public:
 };
 
 }
+
+
+#endif
 
 #endif

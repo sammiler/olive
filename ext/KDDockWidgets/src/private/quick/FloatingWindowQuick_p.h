@@ -12,6 +12,9 @@
 #ifndef KD_FLOATING_WINDOWQUICK_P_H
 #define KD_FLOATING_WINDOWQUICK_P_H
 
+#ifdef KDDOCKWIDGETS_QTQUICK
+
+
 #include "../FloatingWindow_p.h"
 
 class QQuickView;
@@ -42,5 +45,7 @@ private:
 };
 
 }
+
+#endif
 
 #endif

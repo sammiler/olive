@@ -12,6 +12,8 @@
 #ifndef KD_MULTISPLITTER_SEPARATOR_QUICK_H
 #define KD_MULTISPLITTER_SEPARATOR_QUICK_H
 
+#ifdef KDDOCKWIDGETS_QTQUICK
+
 #include "kddockwidgets/docks_export.h"
 #include "Separator_p.h"
 #include "Widget_quick.h"
@@ -48,5 +50,6 @@ Q_SIGNALS:
 };
 
 }
+#endif
 
 #endif

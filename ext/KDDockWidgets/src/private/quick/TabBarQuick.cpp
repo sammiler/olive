@@ -9,6 +9,9 @@
   Contact KDAB at <info@kdab.com> for commercial licensing options.
 */
 
+#ifdef KDDOCKWIDGETS_QTQUICK
+
+
 /**
  * @file
  * @brief Implements a QTabWidget derived class with support for docking and undocking
@@ -137,3 +140,6 @@ void TabBarQuick::moveTabTo(int from, int to)
     Q_UNUSED(to);
     // Not implemented yet
 }
+
+
+#endif

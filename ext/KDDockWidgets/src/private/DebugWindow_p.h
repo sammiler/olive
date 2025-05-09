@@ -18,6 +18,7 @@
 #ifndef DEBUGWINDOW_H
 #define DEBUGWINDOW_H
 
+#ifdef KDDOCKWIDGETS_QTWIDGETS
 #include "ObjectViewer_p.h"
 #include <QWidget>
 
@@ -51,5 +52,7 @@ protected:
 };
 }
 }
+
+#endif
 
 #endif

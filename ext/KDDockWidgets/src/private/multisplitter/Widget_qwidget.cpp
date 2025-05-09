@@ -9,6 +9,8 @@
   Contact KDAB at <info@kdab.com> for commercial licensing options.
 */
 
+#ifdef KDDOCKWIDGETS_QTWIDGETS
+
 #include "Widget_qwidget.h"
 #include "Item_p.h"
 
@@ -128,3 +130,5 @@ void Widget_qwidget::update()
 {
     m_thisWidget->update();
 }
+
+#endif

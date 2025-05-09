@@ -8,7 +8,7 @@
 
   Contact KDAB at <info@kdab.com> for commercial licensing options.
 */
-
+#ifdef KDDOCKWIDGETS_QTWIDGETS
 /**
  * @file
  * @brief QMainWindow wrapper to enable KDDockWidgets support.
@@ -175,3 +175,5 @@ QHBoxLayout *MainWindow::internalLayout() const
 {
     return d->m_layout;
 }
+
+#endif

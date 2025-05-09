@@ -8,6 +8,7 @@
 
   Contact KDAB at <info@kdab.com> for commercial licensing options.
 */
+#ifdef KDDOCKWIDGETS_QTQUICK
 
 #include "TabWidgetQuick_p.h"
 #include "Config.h"
@@ -241,3 +242,5 @@ bool DockWidgetModel::insert(DockWidgetBase *dw, int index)
     Q_EMIT countChanged();
     return true;
 }
+
+#endif

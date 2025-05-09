@@ -19,6 +19,7 @@
 #ifndef KDTABWIDGETWIDGET_P_H
 #define KDTABWIDGETWIDGET_P_H
 
+#ifdef KDDOCKWIDGETS_QTWIDGETS
 #include "../TabWidget_p.h"
 
 #include <QTabWidget>
@@ -79,5 +80,9 @@ private:
     QAbstractButton *m_closeButton = nullptr;
 };
 }
+
+#endif
+
+
 
 #endif

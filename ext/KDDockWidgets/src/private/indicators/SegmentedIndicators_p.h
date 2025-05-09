@@ -12,6 +12,8 @@
 #ifndef KD_SEGMENTED_INDICATORS_P_H
 #define KD_SEGMENTED_INDICATORS_P_H
 
+#ifdef KDDOCKWIDGETS_QTWIDGETS
+
 #include "../DropIndicatorOverlayInterface_p.h"
 
 #include <QHash>
@@ -53,5 +55,8 @@ private:
 };
 
 }
+
+#endif
+
 
 #endif

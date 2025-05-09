@@ -8,7 +8,7 @@
 
   Contact KDAB at <info@kdab.com> for commercial licensing options.
 */
-
+#ifdef KDDOCKWIDGETS_QTWIDGETS
 /**
  * @file
  * @brief The QWidget counter part of TabWidgetWidget. Handles GUI while TabWidget handles state.
@@ -238,3 +238,5 @@ void TabWidgetWidget::showContextMenu(QPoint pos)
     }
     menu.exec(mapToGlobal(pos));
 }
+
+#endif

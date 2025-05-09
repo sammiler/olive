@@ -8,7 +8,7 @@
 
   Contact KDAB at <info@kdab.com> for commercial licensing options.
 */
-
+#ifdef KDDOCKWIDGETS_QTWIDGETS
 #include "SegmentedIndicators_p.h"
 #include "../DropArea_p.h"
 #include "Config.h"
@@ -207,3 +207,5 @@ QPoint KDDockWidgets::SegmentedIndicators::posForIndicator(DropLocation) const
     /// Doesn't apply to segmented indicators, completely different concept
     return {};
 }
+
+#endif

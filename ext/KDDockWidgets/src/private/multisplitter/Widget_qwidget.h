@@ -11,6 +11,8 @@
 
 #pragma once
 
+#ifdef KDDOCKWIDGETS_QTWIDGETS
+
 #include "Widget.h"
 
 QT_BEGIN_NAMESPACE
@@ -62,3 +64,6 @@ private:
 };
 
 }
+
+
+#endif

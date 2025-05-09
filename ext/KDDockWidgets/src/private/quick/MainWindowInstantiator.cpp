@@ -8,6 +8,7 @@
 
   Contact KDAB at <info@kdab.com> for commercial licensing options.
 */
+#ifdef KDDOCKWIDGETS_QTQUICK
 
 #include "MainWindowInstantiator_p.h"
 #include "MainWindowQuick_p.h"
@@ -178,3 +179,6 @@ void MainWindowInstantiator::componentComplete()
     else
         m_mainWindow = new MainWindowQuick(m_uniqueName, mainWindowOptions, this);
 }
+
+
+#endif

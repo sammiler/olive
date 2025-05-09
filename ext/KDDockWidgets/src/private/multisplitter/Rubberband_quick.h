@@ -12,6 +12,8 @@
 #ifndef KD_MULTISPLITTER_RUBBERBAND_QUICK_H
 #define KD_MULTISPLITTER_RUBBERBAND_QUICK_H
 
+#ifdef KDDOCKWIDGETS_QTQUICK
+
 #include "kddockwidgets/docks_export.h"
 #include "Widget_quick.h"
 
@@ -31,5 +33,8 @@ public:
 };
 
 }
+
+
+#endif
 
 #endif
