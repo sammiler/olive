@@ -35,7 +35,6 @@ function(olive_add_test GROUP NAME SOURCE)
     )
 
     set(OUTPUT_FILE "${CMAKE_CURRENT_BINARY_DIR}/${SOURCE}")
-
     string(APPEND TEST_FILE_CONTENT "\n${TEST_BODY}")
     file(WRITE "${OUTPUT_FILE}" "${TEST_FILE_CONTENT}")
 
@@ -62,11 +61,10 @@ function(olive_add_test GROUP NAME SOURCE)
             PRIVATE
             ${OLIVE_COMPILE_OPTIONS}
     )
-    if (MSVC)
-        add_test("Olive.${GROUP}.${NAME}" ${NAME})
-    else ()
-        add_test(${NAME} ${NAME})
-    endif ()
+    # 修改 add_test 使用完整路径
+    add_test(NAME ${NAME} COMMAND "${CMAKE_BINARY_DIR}/bin/${NAME}")
+    set_tests_properties(${NAME} PROPERTIES WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
+    message(STATUS "Added test ${NAME} with command ${CMAKE_BINARY_DIR}/bin/${NAME}")
 endfunction()
 
 add_subdirectory(compositing)

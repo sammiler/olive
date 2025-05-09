@@ -87,6 +87,10 @@ add_executable(olive-editor
         $<TARGET_OBJECTS:olive-version-obj>
 )
 
+
+if (TESTS_VALGRIND)
+    add_test(NAME OliveTest COMMAND "$<TARGET_FILE:olive-editor>")
+endif()
 # Create docs if doxygen was found
 if (DOXYGEN_FOUND)
     set(DOXYGEN_PROJECT_NAME "Olive")

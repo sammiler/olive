@@ -9,6 +9,45 @@
       "dst": "."
     }
   ],
+  "workflows": [
+    {
+      "name": "clang-format",
+      "type": "build",
+      "option": {
+        "ENABLE_CLANG_FORMAT": false
+      }
+    },
+    {
+      "name": "clang-format-check",
+      "type": "build",
+      "option": {
+        "ENABLE_CLANG_FORMAT_CHECK": false
+      }
+    },
+    {
+      "name": "Valgrind",
+      "type": "test",
+      "option": {
+        "TESTS_VALGRIND": false
+      },
+      "args": {
+        "use_launcher": true,
+        "launcher_command": [
+          "valgrind",
+          "--leak-check=full",
+          "--show-leak-kinds=all",
+          "--error-exitcode=1"
+        ]
+      }
+    },
+    {
+      "name": "UnitTest",
+      "type": "test",
+      "option": {
+        "BUILD_TESTS": false
+      }
+    }
+  ],
   "platform": [
     {
       "os": "Windows",
@@ -79,7 +118,7 @@
         "CMAKE_C_FLAGS": "-O2 -DNDEBUG -fPIC"
       },
       "toolchain": "/home/sammiller/APP/vcpkg/scripts/buildsystems/vcpkg.cmake",
-      "triplet": "x64-osx-clang",
+      "triplet": "x64-osx-llvm",
       "macEnvPath": [
         "/usr/local/bin",
         "/opt/homebrew/bin"
