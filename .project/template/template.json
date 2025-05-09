@@ -52,6 +52,49 @@
           }
         }
       ]
+    },
+    {
+      "BuildAndFormat": [
+        {
+          "description": "ClangFormat",
+          "type": "build",
+          "target": "clang-format",
+          "option": {
+            "ENABLE_CLANG_FORMAT": true
+          }
+        },
+        {
+          "description": "ClangFormat Check",
+          "type": "build",
+          "target": "clang-format-check",
+          "option": {
+            "ENABLE_CLANG_FORMAT_CHECK": true
+          }
+        },
+        {
+          "description": "Valgrind",
+          "type": "test",
+          "option": {
+            "TESTS_VALGRIND": false
+          },
+          "args": {
+            "use_launcher": true,
+            "launcher_command": ["valgrind", "--leak-check=full", "--show-leak-kinds=all", "--error-exitcode=1", "--log-file=valgrind-%p.log"],
+            "launcher_test_preset_suffix": "-valgrind",
+            "apply_to_build_types": ["debug"]
+          }
+        },
+        {
+          "description": "Standard Unit-Tests",
+          "type": "test",
+          "option": {
+            "BUILD_TESTS": false
+          },
+          "args": {
+            "apply_to_build_types": ["debug", "release"]
+          }
+        }
+      ]
     }
   ],
   "platform": [
