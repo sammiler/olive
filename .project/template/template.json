@@ -11,41 +11,47 @@
   ],
   "workflows": [
     {
-      "name": "clang-format",
-      "type": "build",
-      "option": {
-        "ENABLE_CLANG_FORMAT": false
-      }
-    },
-    {
-      "name": "clang-format-check",
-      "type": "build",
-      "option": {
-        "ENABLE_CLANG_FORMAT_CHECK": false
-      }
-    },
-    {
-      "name": "Valgrind",
-      "type": "test",
-      "option": {
-        "TESTS_VALGRIND": false
-      },
-      "args": {
-        "use_launcher": true,
-        "launcher_command": [
-          "valgrind",
-          "--leak-check=full",
-          "--show-leak-kinds=all",
-          "--error-exitcode=1"
-        ]
-      }
-    },
-    {
-      "name": "UnitTest",
-      "type": "test",
-      "option": {
-        "BUILD_TESTS": false
-      }
+      "Custom": [
+        {
+          "description": "ClangFormat",
+          "type": "build",
+          "target": "clang-format",
+          "option": {
+            "ENABLE_CLANG_FORMAT": true
+          }
+        },
+        {
+          "description": "ClangFormat",
+          "type": "build",
+          "target": "clang-format-check",
+          "option": {
+            "ENABLE_CLANG_FORMAT_CHECK": false
+          }
+        },
+        {
+          "description": "Valgrind",
+          "type": "test",
+          "option": {
+            "TESTS_VALGRIND": false
+          },
+          "args": {
+            "use_launcher": true,
+            "launcher_command": ["valgrind", "--leak-check=full", "--show-leak-kinds=all", "--error-exitcode=1", "--log-file=valgrind-%p.log"],
+            "launcher_test_preset_suffix": "-valgrind",
+            "apply_to_build_types": ["debug"]
+          }
+        },
+        {
+          "description": "Standard Unit-Tests",
+          "type": "test",
+          "option": {
+            "BUILD_TESTS": true
+          },
+          "args": {
+            "apply_to_build_types": ["debug", "release"]
+          }
+        }
+      ]
     }
   ],
   "platform": [
