@@ -30,18 +30,17 @@
 
 namespace olive {
 
-class DiskCacheDialog : public QDialog
-{
+class DiskCacheDialog : public QDialog {
   Q_OBJECT
-public:
+ public:
   DiskCacheDialog(DiskCacheFolder* folder, QWidget* parent = nullptr);
 
-  static void ClearDiskCache(const QString &path, QWidget *parent, QPushButton *clear_btn = nullptr);
+  static void ClearDiskCache(const QString& path, QWidget* parent, QPushButton* clear_btn = nullptr);
 
-public slots:
+ public slots:
   virtual void accept() override;
 
-private:
+ private:
   DiskCacheFolder* folder_;
 
   FloatSlider* maximum_cache_slider_;
@@ -50,11 +49,10 @@ private:
 
   QPushButton* clear_cache_btn_;
 
-private slots:
+ private slots:
   void ClearDiskCache();
-
 };
 
-}
+}  // namespace olive
 
-#endif // DISKCACHEDIALOG_H
+#endif  // DISKCACHEDIALOG_H

@@ -26,28 +26,15 @@ namespace olive {
 
 const int TimelineTool::kDefaultDistanceFromOutput = -4;
 
-TimelineTool::TimelineTool(TimelineWidget *parent) :
-  dragging_(false),
-  parent_(parent)
-{
-}
+TimelineTool::TimelineTool(TimelineWidget *parent) : dragging_(false), parent_(parent) {}
 
-TimelineTool::~TimelineTool()
-{
-}
+TimelineTool::~TimelineTool() {}
 
-TimelineWidget *TimelineTool::parent()
-{
-  return parent_;
-}
+TimelineWidget *TimelineTool::parent() { return parent_; }
 
-Sequence *TimelineTool::sequence()
-{
-  return parent_->sequence();
-}
+Sequence *TimelineTool::sequence() { return parent_->sequence(); }
 
-Timeline::MovementMode TimelineTool::FlipTrimMode(const Timeline::MovementMode &trim_mode)
-{
+Timeline::MovementMode TimelineTool::FlipTrimMode(const Timeline::MovementMode &trim_mode) {
   if (trim_mode == Timeline::kTrimIn) {
     return Timeline::kTrimOut;
   }
@@ -59,8 +46,7 @@ Timeline::MovementMode TimelineTool::FlipTrimMode(const Timeline::MovementMode &
   return trim_mode;
 }
 
-rational TimelineTool::SnapMovementToTimebase(const rational &start, rational movement, const rational &timebase)
-{
+rational TimelineTool::SnapMovementToTimebase(const rational &start, rational movement, const rational &timebase) {
   rational proposed_position = start + movement;
   rational snapped = Timecode::snap_time_to_timebase(proposed_position, timebase);
 
@@ -71,11 +57,10 @@ rational TimelineTool::SnapMovementToTimebase(const rational &start, rational mo
   return movement;
 }
 
-rational TimelineTool::ValidateTimeMovement(rational movement)
-{
+rational TimelineTool::ValidateTimeMovement(rational movement) {
   bool first_ghost = true;
 
-  foreach (TimelineViewGhostItem* ghost, parent()->GetGhostItems()) {
+  foreach (TimelineViewGhostItem *ghost, parent()->GetGhostItems()) {
     if (ghost->GetMode() != Timeline::kMove) {
       continue;
     }
@@ -85,7 +70,8 @@ rational TimelineTool::ValidateTimeMovement(rational movement)
       movement = -ghost->GetIn();
     } else if (first_ghost) {
       // Ensure ghost is snapped to a grid
-      movement = SnapMovementToTimebase(ghost->GetIn(), movement, parent()->GetTimebaseForTrackType(ghost->GetTrack().type()));
+      movement =
+          SnapMovementToTimebase(ghost->GetIn(), movement, parent()->GetTimebaseForTrackType(ghost->GetTrack().type()));
 
       first_ghost = false;
     }
@@ -94,34 +80,29 @@ rational TimelineTool::ValidateTimeMovement(rational movement)
   return movement;
 }
 
-int TimelineTool::ValidateTrackMovement(int movement, const QVector<TimelineViewGhostItem*>& ghosts)
-{
-  foreach (TimelineViewGhostItem* ghost, ghosts) {
+int TimelineTool::ValidateTrackMovement(int movement, const QVector<TimelineViewGhostItem *> &ghosts) {
+  foreach (TimelineViewGhostItem *ghost, ghosts) {
     if (ghost->GetMode() != Timeline::kMove) {
       continue;
     }
 
     if (!ghost->GetCanMoveTracks()) {
-
       return 0;
 
     } else if (ghost->GetTrack().index() + movement < 0) {
-
       // Prevents any ghosts from going to a non-existent negative track
       movement = -ghost->GetTrack().index();
-
     }
   }
 
   return movement;
 }
 
-void TimelineTool::GetGhostData(rational *earliest_point, rational *latest_point)
-{
+void TimelineTool::GetGhostData(rational *earliest_point, rational *latest_point) {
   rational ep = RATIONAL_MAX;
   rational lp = RATIONAL_MIN;
 
-  foreach (TimelineViewGhostItem* ghost, parent()->GetGhostItems()) {
+  foreach (TimelineViewGhostItem *ghost, parent()->GetGhostItems()) {
     ep = qMin(ep, ghost->GetAdjustedIn());
     lp = qMax(lp, ghost->GetAdjustedOut());
   }
@@ -135,8 +116,7 @@ void TimelineTool::GetGhostData(rational *earliest_point, rational *latest_point
   }
 }
 
-void TimelineTool::InsertGapsAtGhostDestination(olive::MultiUndoCommand *command)
-{
+void TimelineTool::InsertGapsAtGhostDestination(olive::MultiUndoCommand *command) {
   rational earliest_point, latest_point;
 
   GetGhostData(&earliest_point, &latest_point);
@@ -144,4 +124,4 @@ void TimelineTool::InsertGapsAtGhostDestination(olive::MultiUndoCommand *command
   parent()->InsertGapsAt(earliest_point, latest_point - earliest_point, command);
 }
 
-}
+}  // namespace olive

@@ -38,10 +38,9 @@ using namespace core;
  * The aspect ratio is calculated width divided by height. If the aspect ratio is zero (either width or height == 0),
  * the widget is hidden until a valid size is provided.
  */
-class ViewerSizer : public QWidget
-{
+class ViewerSizer : public QWidget {
   Q_OBJECT
-public:
+ public:
   ViewerSizer(QWidget* parent = nullptr);
 
   /**
@@ -56,7 +55,7 @@ public:
   static constexpr int kZoomLevelCount = 10;
   static constexpr double kZoomLevels[kZoomLevelCount] = {0.05, 0.1, 0.25, 0.5, 0.75, 1.0, 1.5, 2.0, 4.0, 8.0};
 
-public slots:
+ public slots:
   /**
    * @brief Set resolution to use
    *
@@ -79,20 +78,20 @@ public slots:
 
   void HandDragMove(int x, int y);
 
-  virtual bool eventFilter(QObject *watched, QEvent *event) override;
+  virtual bool eventFilter(QObject* watched, QEvent* event) override;
 
-signals:
+ signals:
   void RequestScale(const QMatrix4x4& matrix);
 
   void RequestTranslate(const QMatrix4x4& matrix);
 
-protected:
+ protected:
   /**
    * @brief Listen for resize events to ensure the child widget remains correctly sized
    */
-  virtual void resizeEvent(QResizeEvent *event) override;
+  virtual void resizeEvent(QResizeEvent* event) override;
 
-private:
+ private:
   /**
    * @brief Main sizing function, resizes widget_ to fit aspect_ratio_ (or hides if aspect ratio is 0)
    */
@@ -126,11 +125,10 @@ private:
   QScrollBar* horiz_scrollbar_;
   QScrollBar* vert_scrollbar_;
 
-private slots:
+ private slots:
   void ScrollBarMoved();
-
 };
 
-}
+}  // namespace olive
 
-#endif // VIEWERSIZER_H
+#endif  // VIEWERSIZER_H

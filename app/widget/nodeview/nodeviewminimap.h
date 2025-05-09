@@ -27,21 +27,20 @@
 
 namespace olive {
 
-class NodeViewMiniMap : public QGraphicsView
-{
+class NodeViewMiniMap : public QGraphicsView {
   Q_OBJECT
-public:
+ public:
   NodeViewMiniMap(NodeViewScene *scene, QWidget *parent = nullptr);
 
-public slots:
+ public slots:
   void SetViewportRect(const QPolygonF &rect);
 
-signals:
+ signals:
   void Resized();
 
   void MoveToScenePoint(const QPointF &pos);
 
-protected:
+ protected:
   virtual void drawForeground(QPainter *painter, const QRectF &rect) override;
 
   virtual void resizeEvent(QResizeEvent *event) override;
@@ -49,14 +48,14 @@ protected:
   virtual void mousePressEvent(QMouseEvent *event) override;
   virtual void mouseMoveEvent(QMouseEvent *event) override;
   virtual void mouseReleaseEvent(QMouseEvent *event) override;
-  virtual void mouseDoubleClickEvent(QMouseEvent *event) override{}
+  virtual void mouseDoubleClickEvent(QMouseEvent *event) override {}
 
-private slots:
+ private slots:
   void SceneChanged(const QRectF &bounding);
 
   void SetDefaultSize();
 
-private:
+ private:
   bool MouseInsideResizeTriangle(QMouseEvent *event);
 
   void EmitMoveSignal(QMouseEvent *event);
@@ -68,9 +67,8 @@ private:
   bool resizing_;
 
   QPoint resize_anchor_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // NODEVIEWMINIMAP_H
+#endif  // NODEVIEWMINIMAP_H

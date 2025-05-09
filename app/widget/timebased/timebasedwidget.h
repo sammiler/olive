@@ -35,17 +35,16 @@ namespace olive {
 
 class TimeRuler;
 
-class TimeBasedWidget : public TimelineScaledWidget
-{
+class TimeBasedWidget : public TimelineScaledWidget {
   Q_OBJECT
-public:
-  TimeBasedWidget(bool ruler_text_visible = true, bool ruler_cache_status_visible = false, QWidget* parent = nullptr);
+ public:
+  TimeBasedWidget(bool ruler_text_visible = true, bool ruler_cache_status_visible = false, QWidget *parent = nullptr);
 
   void ZoomIn();
 
   void ZoomOut();
 
-  ViewerOutput* GetConnectedNode() const;
+  ViewerOutput *GetConnectedNode() const;
 
   void ConnectViewerNode(ViewerOutput *node);
 
@@ -54,9 +53,9 @@ public:
   void ConnectWorkArea(TimelineWorkArea *workarea);
   void ConnectMarkers(TimelineMarkerList *markers);
 
-  void SetScaleAndCenterOnPlayhead(const double& scale);
+  void SetScaleAndCenterOnPlayhead(const double &scale);
 
-  TimeRuler* ruler() const;
+  TimeRuler *ruler() const;
 
   using SnapMask = uint32_t;
   enum SnapPoints {
@@ -79,10 +78,10 @@ public:
 
   virtual bool Paste();
 
-public slots:
-  void SetTimebase(const rational& timebase);
+ public slots:
+  void SetTimebase(const rational &timebase);
 
-  void SetScale(const double& scale);
+  void SetScale(const double &scale);
 
   void GoToStart();
 
@@ -116,40 +115,40 @@ public slots:
 
   void DeleteSelected();
 
-protected:
-  ResizableTimelineScrollBar* scrollbar() const;
+ protected:
+  ResizableTimelineScrollBar *scrollbar() const;
 
-  virtual void TimebaseChangedEvent(const rational&) override;
+  virtual void TimebaseChangedEvent(const rational &) override;
 
-  virtual void TimeChangedEvent(const rational&){}
+  virtual void TimeChangedEvent(const rational &) {}
 
   virtual void ScaleChangedEvent(const double &) override;
 
-  virtual void ConnectedNodeChangeEvent(ViewerOutput*){}
+  virtual void ConnectedNodeChangeEvent(ViewerOutput *) {}
 
-  virtual void ConnectedWorkAreaChangeEvent(TimelineWorkArea *){}
-  virtual void ConnectedMarkersChangeEvent(TimelineMarkerList *){}
+  virtual void ConnectedWorkAreaChangeEvent(TimelineWorkArea *) {}
+  virtual void ConnectedMarkersChangeEvent(TimelineMarkerList *) {}
 
-  virtual void ConnectNodeEvent(ViewerOutput*){}
+  virtual void ConnectNodeEvent(ViewerOutput *) {}
 
-  virtual void DisconnectNodeEvent(ViewerOutput*){}
+  virtual void DisconnectNodeEvent(ViewerOutput *) {}
 
   void SetAutoMaxScrollBar(bool e);
 
   virtual void resizeEvent(QResizeEvent *event) override;
 
-  void ConnectTimelineView(TimeBasedView* base);
+  void ConnectTimelineView(TimeBasedView *base);
 
   void SetCatchUpScrollValue(QScrollBar *b, int v, int maximum);
   void StopCatchUpScrollTimer(QScrollBar *b);
 
-  virtual const QVector<Block*> *GetSnapBlocks() const { return nullptr; }
-  virtual const QVector<KeyframeViewInputConnection*> *GetSnapKeyframes() const { return nullptr; }
+  virtual const QVector<Block *> *GetSnapBlocks() const { return nullptr; }
+  virtual const QVector<KeyframeViewInputConnection *> *GetSnapKeyframes() const { return nullptr; }
   virtual const TimeTargetObject *GetKeyframeTimeTarget() const { return nullptr; }
-  virtual const std::vector<NodeKeyframe*> *GetSnapIgnoreKeyframes() const { return nullptr; }
-  virtual const std::vector<TimelineMarker*> *GetSnapIgnoreMarkers() const { return nullptr; }
+  virtual const std::vector<NodeKeyframe *> *GetSnapIgnoreKeyframes() const { return nullptr; }
+  virtual const std::vector<TimelineMarker *> *GetSnapIgnoreMarkers() const { return nullptr; }
 
-protected slots:
+ protected slots:
   /**
    * @brief Slot to center the horizontal scroll bar on the playhead's current position
    */
@@ -161,24 +160,21 @@ protected slots:
    */
   void SetAutoSetTimebase(bool e);
 
-  static void PageScrollInternal(QScrollBar* bar, int maximum, int screen_position, bool whole_page_scroll);
+  static void PageScrollInternal(QScrollBar *bar, int maximum, int screen_position, bool whole_page_scroll);
 
-  void StopCatchUpScrollTimer()
-  {
-    StopCatchUpScrollTimer(scrollbar_);
-  }
+  void StopCatchUpScrollTimer() { StopCatchUpScrollTimer(scrollbar_); }
 
   void SetCatchUpScrollValue(int v);
 
-signals:
-  void TimebaseChanged(const rational&);
+ signals:
+  void TimebaseChanged(const rational &);
 
-  void ConnectedNodeChanged(ViewerOutput* old, ViewerOutput* now);
+  void ConnectedNodeChanged(ViewerOutput *old, ViewerOutput *now);
 
-protected slots:
+ protected slots:
   virtual void SendCatchUpScrollEvent();
 
-private:
+ private:
   /**
    * @brief Set either in or out point to the current playhead
    *
@@ -203,15 +199,15 @@ private:
 
   bool UserIsDraggingPlayhead() const;
 
-  ViewerOutput* viewer_node_;
+  ViewerOutput *viewer_node_;
 
-  TimeRuler* ruler_;
+  TimeRuler *ruler_;
 
-  ResizableTimelineScrollBar* scrollbar_;
+  ResizableTimelineScrollBar *scrollbar_;
 
   bool auto_max_scrollbar_;
 
-  QList<TimeBasedView*> timeline_views_;
+  QList<TimeBasedView *> timeline_views_;
 
   bool toggle_show_all_;
 
@@ -234,9 +230,9 @@ private:
     int maximum;
     int value;
   };
-  QMap<QScrollBar*, CatchUpScrollData> catchup_scroll_values_;
+  QMap<QScrollBar *, CatchUpScrollData> catchup_scroll_values_;
 
-private slots:
+ private slots:
   void UpdateMaximumScroll();
 
   void ScrollBarResizeBegan(int current_bar_width, bool top_handle);
@@ -262,9 +258,8 @@ private slots:
   void ConnectedNodeRemovedFromGraph();
 
   void PlayheadTimeChanged(const rational &time);
-
 };
 
-}
+}  // namespace olive
 
-#endif // TIMEBASEDWIDGET_H
+#endif  // TIMEBASEDWIDGET_H

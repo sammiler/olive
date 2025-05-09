@@ -27,15 +27,14 @@
 #include "node/gizmo/line.h"
 #include "node/gizmo/path.h"
 #include "node/gizmo/point.h"
-#include "node/node.h"
 #include "node/inputdragger.h"
+#include "node/node.h"
 
 namespace olive {
 
-class PolygonGenerator : public GeneratorWithMerge
-{
+class PolygonGenerator : public GeneratorWithMerge {
   Q_OBJECT
-public:
+ public:
   PolygonGenerator();
 
   NODE_DEFAULT_FUNCTIONS(PolygonGenerator)
@@ -47,7 +46,7 @@ public:
 
   virtual void Retranslate() override;
 
-  virtual void Value(const NodeValueRow& value, const NodeGlobals &globals, NodeValueTable *table) const override;
+  virtual void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
 
   virtual void GenerateFrame(FramePtr frame, const GenerateJob &job) const override;
 
@@ -58,30 +57,29 @@ public:
   static const QString kPointsInput;
   static const QString kColorInput;
 
-protected:
+ protected:
   ShaderJob GetGenerateJob(const NodeValueRow &value, const VideoParams &params) const;
 
-protected slots:
+ protected slots:
   virtual void GizmoDragMove(double x, double y, const Qt::KeyboardModifiers &modifiers) override;
 
-private:
+ private:
   static void AddPointToPath(QPainterPath *path, const Bezier &before, const Bezier &after);
 
   static QPainterPath GeneratePath(const NodeValueArray &points, int size);
 
-  template<typename T>
-  void ValidateGizmoVectorSize(QVector<T*> &vec, int new_sz);
+  template <typename T>
+  void ValidateGizmoVectorSize(QVector<T *> &vec, int new_sz);
 
-  template<typename T>
+  template <typename T>
   NodeGizmo *CreateAppropriateGizmo();
 
   PathGizmo *poly_gizmo_;
-  QVector<PointGizmo*> gizmo_position_handles_;
-  QVector<PointGizmo*> gizmo_bezier_handles_;
-  QVector<LineGizmo*> gizmo_bezier_lines_;
-
+  QVector<PointGizmo *> gizmo_position_handles_;
+  QVector<PointGizmo *> gizmo_bezier_handles_;
+  QVector<LineGizmo *> gizmo_bezier_lines_;
 };
 
-}
+}  // namespace olive
 
-#endif // POLYGONGENERATOR_H
+#endif  // POLYGONGENERATOR_H

@@ -26,21 +26,18 @@ namespace olive {
 
 const int UndoStack::kMaxUndoCommands = 200;
 
-class EmptyCommand : public UndoCommand
-{
-public:
-  EmptyCommand(){}
+class EmptyCommand : public UndoCommand {
+ public:
+  EmptyCommand() {}
 
-  virtual Project* GetRelevantProject() const override {return nullptr;}
+  virtual Project *GetRelevantProject() const override { return nullptr; }
 
-protected:
+ protected:
   virtual void redo() override {}
   virtual void undo() override {}
-
 };
 
-UndoStack::UndoStack()
-{
+UndoStack::UndoStack() {
   undo_action_ = new QAction();
   connect(undo_action_, &QAction::triggered, this, &UndoStack::undo);
 
@@ -51,30 +48,27 @@ UndoStack::UndoStack()
   UpdateActions();
 }
 
-UndoStack::~UndoStack()
-{
+UndoStack::~UndoStack() {
   clear();
 
   delete undo_action_;
   delete redo_action_;
 }
 
-void UndoStack::push(UndoCommand *command, const QString &name)
-{
-  MultiUndoCommand *mcu = dynamic_cast<MultiUndoCommand*>(command);
+void UndoStack::push(UndoCommand *command, const QString &name) {
+  MultiUndoCommand *mcu = dynamic_cast<MultiUndoCommand *>(command);
   if (mcu && mcu->child_count() == 0) {
     delete command;
     return;
   }
 
-  if (this->rowCount(QModelIndex()) <= 0)
-  { 
-      return;
+  if (this->rowCount(QModelIndex()) <= 0) {
+    return;
   }
-    // Clear any redoable commands
+  // Clear any redoable commands
   this->beginRemoveRows(QModelIndex(), commands_.size(), commands_.size() + undone_commands_.size());
   if (CanRedo()) {
-    for (auto it=undone_commands_.cbegin(); it!=undone_commands_.cend(); it++) {
+    for (auto it = undone_commands_.cbegin(); it != undone_commands_.cend(); it++) {
       delete (*it).command;
     }
     undone_commands_.clear();
@@ -98,8 +92,7 @@ void UndoStack::push(UndoCommand *command, const QString &name)
   UpdateActions();
 }
 
-void UndoStack::jump(size_t index)
-{
+void UndoStack::jump(size_t index) {
   while (commands_.size() > index) {
     undo();
   }
@@ -108,8 +101,7 @@ void UndoStack::jump(size_t index)
   }
 }
 
-void UndoStack::undo()
-{
+void UndoStack::undo() {
   if (CanUndo()) {
     // Undo most recently done command
     commands_.back().command->undo_and_set_modified();
@@ -125,8 +117,7 @@ void UndoStack::undo()
   }
 }
 
-void UndoStack::redo()
-{
+void UndoStack::redo() {
   if (CanRedo()) {
     // Redo most recently undone command
     undone_commands_.front().command->redo_and_set_modified();
@@ -142,15 +133,14 @@ void UndoStack::redo()
   }
 }
 
-void UndoStack::clear()
-{
+void UndoStack::clear() {
   this->beginResetModel();
 
-  for (auto it=commands_.cbegin(); it!=commands_.cend(); it++) {
+  for (auto it = commands_.cbegin(); it != commands_.cend(); it++) {
     delete (*it).command;
   }
   commands_.clear();
-  for (auto it=undone_commands_.cbegin(); it!=undone_commands_.cend(); it++) {
+  for (auto it = undone_commands_.cbegin(); it != undone_commands_.cend(); it++) {
     delete (*it).command;
   }
   undone_commands_.clear();
@@ -160,52 +150,49 @@ void UndoStack::clear()
   push(new EmptyCommand(), tr("New/Open Project"));
 }
 
-bool UndoStack::CanUndo() const
-{
-  return !commands_.empty() && !dynamic_cast<EmptyCommand*>(commands_.back().command);
+bool UndoStack::CanUndo() const {
+  return !commands_.empty() && !dynamic_cast<EmptyCommand *>(commands_.back().command);
 }
 
-void UndoStack::UpdateActions()
-{
+void UndoStack::UpdateActions() {
   undo_action_->setEnabled(CanUndo());
   redo_action_->setEnabled(CanRedo());
 
-  undo_action_->setText(QCoreApplication::translate("UndoStack", "Undo %1").arg(CanUndo() ? commands_.back().name : QString()));
-  redo_action_->setText(QCoreApplication::translate("UndoStack", "Redo %1").arg(CanRedo() ? undone_commands_.front().name : QString()));
+  undo_action_->setText(
+      QCoreApplication::translate("UndoStack", "Undo %1").arg(CanUndo() ? commands_.back().name : QString()));
+  redo_action_->setText(
+      QCoreApplication::translate("UndoStack", "Redo %1").arg(CanRedo() ? undone_commands_.front().name : QString()));
 
   emit indexChanged(commands_.size());
 }
 
-int UndoStack::columnCount(const QModelIndex &parent) const
-{
+int UndoStack::columnCount(const QModelIndex &parent) const {
   if (parent.isValid()) {
     return 0;
   }
   return 2;
 }
 
-QVariant UndoStack::data(const QModelIndex &index, int role) const
-{
+QVariant UndoStack::data(const QModelIndex &index, int role) const {
   if (role == Qt::DisplayRole) {
     switch (index.column()) {
-    case 0:
-      return index.row() + 1;
-    case 1:
-    {
-      std::list<CommandEntry>::const_iterator it;
-      size_t real_index = index.row();
-      if (real_index < commands_.size()) {
-        it = commands_.cbegin();
-      } else {
-        real_index -= commands_.size();
-        it = undone_commands_.cbegin();
+      case 0:
+        return index.row() + 1;
+      case 1: {
+        std::list<CommandEntry>::const_iterator it;
+        size_t real_index = index.row();
+        if (real_index < commands_.size()) {
+          it = commands_.cbegin();
+        } else {
+          real_index -= commands_.size();
+          it = undone_commands_.cbegin();
+        }
+        for (size_t i = 0; i < real_index; i++) {
+          it++;
+        }
+        const QString &name = (*it).name;
+        return (name.isEmpty()) ? tr("Command") : name;
       }
-      for (size_t i = 0; i < real_index; i++) {
-        it++;
-      }
-      const QString &name = (*it).name;
-      return (name.isEmpty()) ? tr("Command") : name;
-    }
     }
   } else if (role == Qt::ForegroundRole) {
     if (size_t(index.row()) >= commands_.size()) {
@@ -216,18 +203,13 @@ QVariant UndoStack::data(const QModelIndex &index, int role) const
   return QVariant();
 }
 
-QModelIndex UndoStack::index(int row, int column, const QModelIndex &parent) const
-{
+QModelIndex UndoStack::index(int row, int column, const QModelIndex &parent) const {
   return createIndex(row, column, nullptr);
 }
 
-QModelIndex UndoStack::parent(const QModelIndex &index) const
-{
-  return QModelIndex();
-}
+QModelIndex UndoStack::parent(const QModelIndex &index) const { return QModelIndex(); }
 
-int UndoStack::rowCount(const QModelIndex &parent) const
-{
+int UndoStack::rowCount(const QModelIndex &parent) const {
   if (parent.isValid()) {
     return 0;
   }
@@ -235,23 +217,19 @@ int UndoStack::rowCount(const QModelIndex &parent) const
   return commands_.size() + undone_commands_.size();
 }
 
-QVariant UndoStack::headerData(int section, Qt::Orientation orientation, int role) const
-{
+QVariant UndoStack::headerData(int section, Qt::Orientation orientation, int role) const {
   if (role == Qt::DisplayRole) {
     switch (section) {
-    case 0:
-      return QStringLiteral("Number");
-    case 1:
-      return QStringLiteral("Action");
+      case 0:
+        return QStringLiteral("Number");
+      case 1:
+        return QStringLiteral("Action");
     }
   }
 
   return QVariant();
 }
 
-bool UndoStack::hasChildren(const QModelIndex &parent) const
-{
-  return !parent.isValid();
-}
+bool UndoStack::hasChildren(const QModelIndex &parent) const { return !parent.isValid(); }
 
-}
+}  // namespace olive

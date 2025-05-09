@@ -25,13 +25,12 @@
 
 namespace olive {
 
-class OIIOEncoder : public Encoder
-{
+class OIIOEncoder : public Encoder {
   Q_OBJECT
-public:
+ public:
   OIIOEncoder(const EncodingParams &params);
 
-public slots:
+ public slots:
   virtual bool Open() override;
 
   virtual bool WriteFrame(olive::FramePtr frame, olive::core::rational time) override;
@@ -39,9 +38,8 @@ public slots:
   virtual bool WriteSubtitle(const SubtitleBlock *sub_block) override;
 
   virtual void Close() override;
-
 };
 
-}
+}  // namespace olive
 
-#endif // OIIOENCODER_H
+#endif  // OIIOENCODER_H

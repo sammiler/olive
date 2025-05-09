@@ -35,8 +35,7 @@ const QString MatrixGenerator::kAnchorInput = QStringLiteral("anchor_in");
 
 #define super Node
 
-MatrixGenerator::MatrixGenerator()
-{
+MatrixGenerator::MatrixGenerator() {
   AddInput(kPositionInput, NodeValue::kVec2, QVector2D(0.0, 0.0));
 
   AddInput(kRotationInput, NodeValue::kFloat, 0.0);
@@ -46,38 +45,25 @@ MatrixGenerator::MatrixGenerator()
   SetInputProperty(kScaleInput, QStringLiteral("view"), FloatSlider::kPercentage);
   SetInputProperty(kScaleInput, QStringLiteral("disable1"), true);
 
-  AddInput(kUniformScaleInput, NodeValue::kBoolean, true, InputFlags(kInputFlagNotConnectable | kInputFlagNotKeyframable));
+  AddInput(kUniformScaleInput, NodeValue::kBoolean, true,
+           InputFlags(kInputFlagNotConnectable | kInputFlagNotKeyframable));
 
   AddInput(kAnchorInput, NodeValue::kVec2, QVector2D(0.0, 0.0));
 }
 
-QString MatrixGenerator::Name() const
-{
-  return tr("Orthographic Matrix");
-}
+QString MatrixGenerator::Name() const { return tr("Orthographic Matrix"); }
 
-QString MatrixGenerator::ShortName() const
-{
-  return tr("Ortho");
-}
+QString MatrixGenerator::ShortName() const { return tr("Ortho"); }
 
-QString MatrixGenerator::id() const
-{
-  return QStringLiteral("org.olivevideoeditor.Olive.ortho");
-}
+QString MatrixGenerator::id() const { return QStringLiteral("org.olivevideoeditor.Olive.ortho"); }
 
-QVector<Node::CategoryID> MatrixGenerator::Category() const
-{
-  return {kCategoryGenerator, kCategoryMath};
-}
+QVector<Node::CategoryID> MatrixGenerator::Category() const { return {kCategoryGenerator, kCategoryMath}; }
 
-QString MatrixGenerator::Description() const
-{
+QString MatrixGenerator::Description() const {
   return tr("Generate an orthographic matrix using position, rotation, and scale.");
 }
 
-void MatrixGenerator::Retranslate()
-{
+void MatrixGenerator::Retranslate() {
   super::Retranslate();
 
   SetInputName(kPositionInput, tr("Position"));
@@ -87,15 +73,14 @@ void MatrixGenerator::Retranslate()
   SetInputName(kAnchorInput, tr("Anchor Point"));
 }
 
-void MatrixGenerator::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const
-{
+void MatrixGenerator::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const {
   // Push matrix output
   QMatrix4x4 mat = GenerateMatrix(value, false, false, false, QMatrix4x4());
   table->Push(NodeValue::kMatrix, mat, this);
 }
 
-QMatrix4x4 MatrixGenerator::GenerateMatrix(const NodeValueRow &value, bool ignore_anchor, bool ignore_position, bool ignore_scale, const QMatrix4x4 &mat) const
-{
+QMatrix4x4 MatrixGenerator::GenerateMatrix(const NodeValueRow &value, bool ignore_anchor, bool ignore_position,
+                                           bool ignore_scale, const QMatrix4x4 &mat) const {
   QVector2D anchor;
   QVector2D position;
   QVector2D scale;
@@ -112,21 +97,12 @@ QMatrix4x4 MatrixGenerator::GenerateMatrix(const NodeValueRow &value, bool ignor
     position = value[kPositionInput].toVec2();
   }
 
-  return GenerateMatrix(position,
-                        value[kRotationInput].toDouble(),
-                        scale,
-                        value[kUniformScaleInput].toBool(),
-                        anchor,
+  return GenerateMatrix(position, value[kRotationInput].toDouble(), scale, value[kUniformScaleInput].toBool(), anchor,
                         mat);
 }
 
-QMatrix4x4 MatrixGenerator::GenerateMatrix(const QVector2D& pos,
-                                           const float& rot,
-                                           const QVector2D& scale,
-                                           bool uniform_scale,
-                                           const QVector2D& anchor,
-                                           QMatrix4x4 mat)
-{
+QMatrix4x4 MatrixGenerator::GenerateMatrix(const QVector2D &pos, const float &rot, const QVector2D &scale,
+                                           bool uniform_scale, const QVector2D &anchor, QMatrix4x4 mat) {
   // Position
   mat.translate(pos.x(), pos.y());
 
@@ -148,8 +124,7 @@ QMatrix4x4 MatrixGenerator::GenerateMatrix(const QVector2D& pos,
   return mat;
 }
 
-void MatrixGenerator::InputValueChangedEvent(const QString &input, int element)
-{
+void MatrixGenerator::InputValueChangedEvent(const QString &input, int element) {
   Q_UNUSED(element)
 
   if (input == kUniformScaleInput) {
@@ -157,4 +132,4 @@ void MatrixGenerator::InputValueChangedEvent(const QString &input, int element)
   }
 }
 
-}
+}  // namespace olive

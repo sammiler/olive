@@ -28,12 +28,11 @@ namespace OCIO = OCIO_NAMESPACE;
 
 namespace olive {
 
-class OCIOUtils
-{
-public:
+class OCIOUtils {
+ public:
   static OCIO::BitDepth GetOCIOBitDepthFromPixelFormat(PixelFormat format);
 };
 
-}
+}  // namespace olive
 
-#endif // OCIOUTILS_H
+#endif  // OCIOUTILS_H

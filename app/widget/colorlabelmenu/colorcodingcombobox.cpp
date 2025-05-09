@@ -24,14 +24,9 @@
 
 namespace olive {
 
-ColorCodingComboBox::ColorCodingComboBox(QWidget *parent) :
-  QComboBox(parent)
-{
-  SetColor(0);
-}
+ColorCodingComboBox::ColorCodingComboBox(QWidget* parent) : QComboBox(parent) { SetColor(0); }
 
-void ColorCodingComboBox::showPopup()
-{
+void ColorCodingComboBox::showPopup() {
   ColorLabelMenu menu(this);
 
   menu.setMinimumWidth(width());
@@ -43,11 +38,10 @@ void ColorCodingComboBox::showPopup()
   }
 }
 
-void ColorCodingComboBox::SetColor(int index)
-{
+void ColorCodingComboBox::SetColor(int index) {
   clear();
   addItem(ColorCoding::GetColorName(index));
   index_ = index;
 }
 
-}
+}  // namespace olive

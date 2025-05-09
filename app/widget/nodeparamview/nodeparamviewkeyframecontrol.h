@@ -29,29 +29,22 @@
 
 namespace olive {
 
-class NodeParamViewKeyframeControl : public QWidget, public TimeTargetObject
-{
+class NodeParamViewKeyframeControl : public QWidget, public TimeTargetObject {
   Q_OBJECT
-public:
+ public:
   NodeParamViewKeyframeControl(bool right_align, QWidget* parent = nullptr);
-  NodeParamViewKeyframeControl(QWidget* parent = nullptr) :
-    NodeParamViewKeyframeControl(true, parent)
-  {
-  }
+  NodeParamViewKeyframeControl(QWidget* parent = nullptr) : NodeParamViewKeyframeControl(true, parent) {}
 
-  const NodeInput& GetConnectedInput() const
-  {
-    return input_;
-  }
+  const NodeInput& GetConnectedInput() const { return input_; }
 
   void SetInput(const NodeInput& input);
 
-protected:
-  virtual void TimeTargetDisconnectEvent(ViewerOutput *v) override;
-  virtual void TimeTargetConnectEvent(ViewerOutput *v) override;
+ protected:
+  virtual void TimeTargetDisconnectEvent(ViewerOutput* v) override;
+  virtual void TimeTargetConnectEvent(ViewerOutput* v) override;
 
-private:
-  QPushButton* CreateNewToolButton(const QIcon &icon) const;
+ private:
+  QPushButton* CreateNewToolButton(const QIcon& icon) const;
 
   void SetButtonsEnabled(bool e);
 
@@ -66,7 +59,7 @@ private:
 
   NodeInput input_;
 
-private slots:
+ private slots:
   void ShowButtonsFromKeyframeEnable(bool e);
 
   void ToggleKeyframe(bool e);
@@ -80,9 +73,8 @@ private slots:
   void KeyframeEnableBtnClicked(bool e);
 
   void KeyframeEnableChanged(const NodeInput& input, bool e);
-
 };
 
-}
+}  // namespace olive
 
-#endif // NODEPARAMVIEWKEYFRAMECONTROL_H
+#endif  // NODEPARAMVIEWKEYFRAMECONTROL_H

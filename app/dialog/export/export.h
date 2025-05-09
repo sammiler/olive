@@ -39,31 +39,28 @@
 
 namespace olive {
 
-class ExportDialog : public QDialog
-{
+class ExportDialog : public QDialog {
   Q_OBJECT
-public:
+ public:
   ExportDialog(ViewerOutput* viewer_node, bool stills_only_mode, QWidget* parent = nullptr);
-  ExportDialog(ViewerOutput* viewer_node, QWidget* parent = nullptr) :
-    ExportDialog(viewer_node, false, parent)
-  {}
+  ExportDialog(ViewerOutput* viewer_node, QWidget* parent = nullptr) : ExportDialog(viewer_node, false, parent) {}
 
   rational GetSelectedTimebase() const;
-  void SetSelectedTimebase(const rational &r);
+  void SetSelectedTimebase(const rational& r);
 
   EncodingParams GenerateParams() const;
-  void SetParams(const EncodingParams &e);
+  void SetParams(const EncodingParams& e);
 
-  virtual bool eventFilter(QObject *o, QEvent *e) override;
+  virtual bool eventFilter(QObject* o, QEvent* e) override;
 
-public slots:
+ public slots:
   virtual void done(int r) override;
 
-signals:
-  void RequestImportFile(const QString &s);
+ signals:
+  void RequestImportFile(const QString& s);
 
-private:
-  void AddPreferencesTab(QWidget *inner_widget, const QString &title);
+ private:
+  void AddPreferencesTab(QWidget* inner_widget, const QString& title);
 
   void LoadPresets();
   void SetDefaultFilename();
@@ -79,10 +76,7 @@ private:
   rational GetExportLength() const;
   int64_t GetExportLengthInTimebaseUnits() const;
 
-  enum RangeSelection {
-    kRangeEntireSequence,
-    kRangeInToOut
-  };
+  enum RangeSelection { kRangeEntireSequence, kRangeInToOut };
 
   enum AutoPreset {
     kPresetDefault = -1,
@@ -112,14 +106,14 @@ private:
   ColorManager* color_manager_;
 
   QWidget* preferences_area_;
-  QCheckBox *export_bkg_box_;
-  QCheckBox *import_file_after_export_;
+  QCheckBox* export_bkg_box_;
+  QCheckBox* import_file_after_export_;
 
   bool stills_only_mode_;
 
   bool loading_presets_;
 
-private slots:
+ private slots:
   void BrowseFilename();
 
   void FormatChanged(ExportFormat::Format current_format);
@@ -137,9 +131,8 @@ private slots:
   void SavePreset();
 
   void PresetComboBoxChanged();
-
 };
 
-}
+}  // namespace olive
 
-#endif // EXPORTDIALOG_H
+#endif  // EXPORTDIALOG_H

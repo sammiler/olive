@@ -30,23 +30,21 @@
 
 namespace olive {
 
-class TrackView : public QScrollArea
-{
+class TrackView : public QScrollArea {
   Q_OBJECT
-public:
-  TrackView(Qt::Alignment vertical_alignment = Qt::AlignTop,
-            QWidget* parent = nullptr);
+ public:
+  TrackView(Qt::Alignment vertical_alignment = Qt::AlignTop, QWidget* parent = nullptr);
 
   void ConnectTrackList(TrackList* list);
   void DisconnectTrackList();
 
-signals:
-  void AboutToDeleteTrack(Track *track);
+ signals:
+  void AboutToDeleteTrack(Track* track);
 
-protected:
-  virtual void resizeEvent(QResizeEvent *e) override;
+ protected:
+  virtual void resizeEvent(QResizeEvent* e) override;
 
-private:
+ private:
   TrackList* list_;
 
   TrackViewSplitter* splitter_;
@@ -55,7 +53,7 @@ private:
 
   int last_scrollbar_max_;
 
-private slots:
+ private slots:
   void ScrollbarRangeChanged(int min, int max);
 
   void TrackHeightChanged(int index, int height);
@@ -63,9 +61,8 @@ private slots:
   void InsertTrack(Track* track);
 
   void RemoveTrack(Track* track);
-
 };
 
-}
+}  // namespace olive
 
-#endif // TRACKVIEW_H
+#endif  // TRACKVIEW_H

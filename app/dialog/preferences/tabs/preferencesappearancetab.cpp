@@ -27,14 +27,13 @@
 #include <QLabel>
 
 #include "node/node.h"
+#include "ui/colorcoding.h"
 #include "widget/colorbutton/colorbutton.h"
 #include "widget/menu/menushared.h"
-#include "ui/colorcoding.h"
 
 namespace olive {
 
-PreferencesAppearanceTab::PreferencesAppearanceTab()
-{
+PreferencesAppearanceTab::PreferencesAppearanceTab() {
   QVBoxLayout* layout = new QVBoxLayout(this);
 
   QGridLayout* appearance_layout = new QGridLayout();
@@ -50,11 +49,11 @@ PreferencesAppearanceTab::PreferencesAppearanceTab()
   {
     const QMap<QString, QString>& themes = StyleManager::available_themes();
     QMap<QString, QString>::const_iterator i;
-    for (i=themes.cbegin(); i!=themes.cend(); i++) {
+    for (i = themes.cbegin(); i != themes.cend(); i++) {
       style_combobox_->addItem(i.value(), i.key());
 
       if (StyleManager::GetStyle() == i.key()) {
-        style_combobox_->setCurrentIndex(style_combobox_->count()-1);
+        style_combobox_->setCurrentIndex(style_combobox_->count() - 1);
       }
     }
   }
@@ -69,7 +68,7 @@ PreferencesAppearanceTab::PreferencesAppearanceTab()
 
     QGridLayout* color_layout = new QGridLayout(color_group);
 
-    for (int i=0; i<Node::kCategoryCount; i++) {
+    for (int i = 0; i < Node::kCategoryCount; i++) {
       QString cat_name = Node::GetCategoryName(static_cast<Node::CategoryID>(i));
       color_layout->addWidget(new QLabel(cat_name), i, 0);
 
@@ -101,8 +100,7 @@ PreferencesAppearanceTab::PreferencesAppearanceTab()
   layout->addStretch();
 }
 
-void PreferencesAppearanceTab::Accept(MultiUndoCommand *command)
-{
+void PreferencesAppearanceTab::Accept(MultiUndoCommand* command) {
   Q_UNUSED(command)
 
   QString style_path = style_combobox_->currentData().toString();
@@ -112,11 +110,11 @@ void PreferencesAppearanceTab::Accept(MultiUndoCommand *command)
     OLIVE_CONFIG("Style") = style_path;
   }
 
-  for (int i=0; i<color_btns_.size(); i++) {
+  for (int i = 0; i < color_btns_.size(); i++) {
     OLIVE_CONFIG_STR(QStringLiteral("CatColor%1").arg(i)) = color_btns_.at(i)->GetSelectedColor();
   }
 
   OLIVE_CONFIG("MarkerColor") = marker_btn_->GetSelectedColor();
 }
 
-}
+}  // namespace olive

@@ -29,8 +29,7 @@ const QString SwirlDistortNode::kPositionInput = QStringLiteral("pos_in");
 
 #define super Node
 
-SwirlDistortNode::SwirlDistortNode()
-{
+SwirlDistortNode::SwirlDistortNode() {
   AddInput(kTextureInput, NodeValue::kTexture, InputFlags(kInputFlagNotKeyframable));
 
   AddInput(kRadiusInput, NodeValue::kFloat, 200);
@@ -45,34 +44,21 @@ SwirlDistortNode::SwirlDistortNode()
   SetEffectInput(kTextureInput);
 
   gizmo_ = AddDraggableGizmo<PointGizmo>({
-    NodeKeyframeTrackReference(NodeInput(this, kPositionInput), 0),
-    NodeKeyframeTrackReference(NodeInput(this, kPositionInput), 1),
+      NodeKeyframeTrackReference(NodeInput(this, kPositionInput), 0),
+      NodeKeyframeTrackReference(NodeInput(this, kPositionInput), 1),
   });
   gizmo_->SetShape(PointGizmo::kAnchorPoint);
 }
 
-QString SwirlDistortNode::Name() const
-{
-  return tr("Swirl");
-}
+QString SwirlDistortNode::Name() const { return tr("Swirl"); }
 
-QString SwirlDistortNode::id() const
-{
-  return QStringLiteral("org.oliveeditor.Olive.swirl");
-}
+QString SwirlDistortNode::id() const { return QStringLiteral("org.oliveeditor.Olive.swirl"); }
 
-QVector<Node::CategoryID> SwirlDistortNode::Category() const
-{
-  return {kCategoryDistort};
-}
+QVector<Node::CategoryID> SwirlDistortNode::Category() const { return {kCategoryDistort}; }
 
-QString SwirlDistortNode::Description() const
-{
-  return tr("Distorts an image along a sine wave.");
-}
+QString SwirlDistortNode::Description() const { return tr("Distorts an image along a sine wave."); }
 
-void SwirlDistortNode::Retranslate()
-{
+void SwirlDistortNode::Retranslate() {
   super::Retranslate();
 
   SetInputName(kTextureInput, tr("Input"));
@@ -81,14 +67,12 @@ void SwirlDistortNode::Retranslate()
   SetInputName(kPositionInput, tr("Position"));
 }
 
-ShaderCode SwirlDistortNode::GetShaderCode(const ShaderRequest &request) const
-{
+ShaderCode SwirlDistortNode::GetShaderCode(const ShaderRequest &request) const {
   Q_UNUSED(request)
   return ShaderCode(FileFunctions::ReadFileAsString(":/shaders/swirl.frag"));
 }
 
-void SwirlDistortNode::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const
-{
+void SwirlDistortNode::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const {
   // If there's no texture, no need to run an operation
   if (TexturePtr tex = value[kTextureInput].toTexture()) {
     // Only run shader if at least one of flip or flop are selected
@@ -103,15 +87,13 @@ void SwirlDistortNode::Value(const NodeValueRow &value, const NodeGlobals &globa
   }
 }
 
-void SwirlDistortNode::UpdateGizmoPositions(const NodeValueRow &row, const NodeGlobals &globals)
-{
-  QPointF half_res(globals.square_resolution().x()/2, globals.square_resolution().y()/2);
+void SwirlDistortNode::UpdateGizmoPositions(const NodeValueRow &row, const NodeGlobals &globals) {
+  QPointF half_res(globals.square_resolution().x() / 2, globals.square_resolution().y() / 2);
 
   gizmo_->SetPoint(half_res + row[kPositionInput].toVec2().toPointF());
 }
 
-void SwirlDistortNode::GizmoDragMove(double x, double y, const Qt::KeyboardModifiers &modifiers)
-{
+void SwirlDistortNode::GizmoDragMove(double x, double y, const Qt::KeyboardModifiers &modifiers) {
   NodeInputDragger &x_drag = gizmo_->GetDraggers()[0];
   NodeInputDragger &y_drag = gizmo_->GetDraggers()[1];
 
@@ -119,4 +101,4 @@ void SwirlDistortNode::GizmoDragMove(double x, double y, const Qt::KeyboardModif
   y_drag.Drag(y_drag.GetStartValue().toDouble() + y);
 }
 
-}
+}  // namespace olive

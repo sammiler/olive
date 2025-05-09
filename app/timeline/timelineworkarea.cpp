@@ -27,36 +27,23 @@ namespace olive {
 const rational TimelineWorkArea::kResetIn = 0;
 const rational TimelineWorkArea::kResetOut = RATIONAL_MAX;
 
-TimelineWorkArea::TimelineWorkArea(QObject *parent) :
-  QObject(parent),
-  workarea_enabled_(false)
-{
-}
+TimelineWorkArea::TimelineWorkArea(QObject *parent) : QObject(parent), workarea_enabled_(false) {}
 
-bool TimelineWorkArea::enabled() const
-{
-  return workarea_enabled_;
-}
+bool TimelineWorkArea::enabled() const { return workarea_enabled_; }
 
-void TimelineWorkArea::set_enabled(bool e)
-{
+void TimelineWorkArea::set_enabled(bool e) {
   workarea_enabled_ = e;
   emit EnabledChanged(workarea_enabled_);
 }
 
-const TimeRange &TimelineWorkArea::range() const
-{
-  return workarea_range_;
-}
+const TimeRange &TimelineWorkArea::range() const { return workarea_range_; }
 
-void TimelineWorkArea::set_range(const TimeRange &range)
-{
+void TimelineWorkArea::set_range(const TimeRange &range) {
   workarea_range_ = range;
   emit RangeChanged(workarea_range_);
 }
 
-bool TimelineWorkArea::load(QXmlStreamReader *reader)
-{
+bool TimelineWorkArea::load(QXmlStreamReader *reader) {
   rational range_in = this->in();
   rational range_out = this->out();
 
@@ -89,8 +76,7 @@ bool TimelineWorkArea::load(QXmlStreamReader *reader)
   return true;
 }
 
-void TimelineWorkArea::save(QXmlStreamWriter *writer) const
-{
+void TimelineWorkArea::save(QXmlStreamWriter *writer) const {
   writer->writeAttribute(QStringLiteral("version"), QString::number(1));
 
   writer->writeTextElement(QStringLiteral("enabled"), QString::number(this->enabled()));
@@ -98,19 +84,10 @@ void TimelineWorkArea::save(QXmlStreamWriter *writer) const
   writer->writeTextElement(QStringLiteral("out"), QString::fromStdString(this->out().toString()));
 }
 
-const rational &TimelineWorkArea::in() const
-{
-  return workarea_range_.in();
-}
+const rational &TimelineWorkArea::in() const { return workarea_range_.in(); }
 
-const rational &TimelineWorkArea::out() const
-{
-  return workarea_range_.out();
-}
+const rational &TimelineWorkArea::out() const { return workarea_range_.out(); }
 
-const rational &TimelineWorkArea::length() const
-{
-  return workarea_range_.length();
-}
+const rational &TimelineWorkArea::length() const { return workarea_range_.length(); }
 
-}
+}  // namespace olive

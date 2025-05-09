@@ -35,8 +35,7 @@ const QString CropDistortNode::kFeatherInput = QStringLiteral("feather_in");
 
 #define super Node
 
-CropDistortNode::CropDistortNode()
-{
+CropDistortNode::CropDistortNode() {
   AddInput(kTextureInput, NodeValue::kTexture, InputFlags(kInputFlagNotKeyframable));
 
   CreateCropSideInput(kLeftInput);
@@ -63,8 +62,7 @@ CropDistortNode::CropDistortNode()
   SetEffectInput(kTextureInput);
 }
 
-void CropDistortNode::Retranslate()
-{
+void CropDistortNode::Retranslate() {
   super::Retranslate();
 
   SetInputName(kTextureInput, tr("Texture"));
@@ -75,18 +73,16 @@ void CropDistortNode::Retranslate()
   SetInputName(kFeatherInput, tr("Feather"));
 }
 
-void CropDistortNode::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const
-{
+void CropDistortNode::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const {
   ShaderJob job;
   job.Insert(value);
 
   if (TexturePtr texture = job.Get(kTextureInput).toTexture()) {
-    job.Insert(QStringLiteral("resolution_in"), NodeValue(NodeValue::kVec2, QVector2D(texture->params().width(), texture->params().height()), this));
+    job.Insert(QStringLiteral("resolution_in"),
+               NodeValue(NodeValue::kVec2, QVector2D(texture->params().width(), texture->params().height()), this));
 
-    if (!qIsNull(job.Get(kLeftInput).toDouble())
-        || !qIsNull(job.Get(kRightInput).toDouble())
-        || !qIsNull(job.Get(kTopInput).toDouble())
-        || !qIsNull(job.Get(kBottomInput).toDouble())) {
+    if (!qIsNull(job.Get(kLeftInput).toDouble()) || !qIsNull(job.Get(kRightInput).toDouble()) ||
+        !qIsNull(job.Get(kTopInput).toDouble()) || !qIsNull(job.Get(kBottomInput).toDouble())) {
       table->Push(NodeValue::kTexture, texture->toJob(job), this);
     } else {
       table->Push(job.Get(kTextureInput));
@@ -94,14 +90,12 @@ void CropDistortNode::Value(const NodeValueRow &value, const NodeGlobals &global
   }
 }
 
-ShaderCode CropDistortNode::GetShaderCode(const ShaderRequest &request) const
-{
+ShaderCode CropDistortNode::GetShaderCode(const ShaderRequest &request) const {
   Q_UNUSED(request)
   return ShaderCode(FileFunctions::ReadFileAsString(QStringLiteral(":/shaders/crop.frag")));
 }
 
-void CropDistortNode::UpdateGizmoPositions(const NodeValueRow &row, const NodeGlobals &globals)
-{
+void CropDistortNode::UpdateGizmoPositions(const NodeValueRow &row, const NodeGlobals &globals) {
   if (TexturePtr tex = row[kTextureInput].toTexture()) {
     const QVector2D &resolution = tex->virtual_resolution();
     temp_resolution_ = resolution;
@@ -126,16 +120,15 @@ void CropDistortNode::UpdateGizmoPositions(const NodeValueRow &row, const NodeGl
   }
 }
 
-void CropDistortNode::GizmoDragMove(double x_diff, double y_diff, const Qt::KeyboardModifiers &modifiers)
-{
-  DraggableGizmo *gizmo = static_cast<DraggableGizmo*>(sender());
+void CropDistortNode::GizmoDragMove(double x_diff, double y_diff, const Qt::KeyboardModifiers &modifiers) {
+  DraggableGizmo *gizmo = static_cast<DraggableGizmo *>(sender());
 
   QVector2D res = temp_resolution_;
   x_diff /= res.x();
   y_diff /= res.y();
 
-  for (int j=0; j<gizmo->GetDraggers().size(); j++) {
-    NodeInputDragger& i = gizmo->GetDraggers()[j];
+  for (int j = 0; j < gizmo->GetDraggers().size(); j++) {
+    NodeInputDragger &i = gizmo->GetDraggers()[j];
     double s = i.GetStartValue().toDouble();
     if (i.GetInput().input().input() == kLeftInput) {
       i.Drag(s + x_diff);
@@ -149,12 +142,11 @@ void CropDistortNode::GizmoDragMove(double x_diff, double y_diff, const Qt::Keyb
   }
 }
 
-void CropDistortNode::CreateCropSideInput(const QString &id)
-{
+void CropDistortNode::CreateCropSideInput(const QString &id) {
   AddInput(id, NodeValue::kFloat, 0.0);
   SetInputProperty(id, QStringLiteral("min"), 0.0);
   SetInputProperty(id, QStringLiteral("max"), 1.0);
   SetInputProperty(id, QStringLiteral("view"), FloatSlider::kPercentage);
 }
 
-}
+}  // namespace olive

@@ -38,28 +38,20 @@ namespace olive {
  * By default, nothing takes this area meaning all subsequent clips are pushed backward, however you can specify
  * a block to insert at the `in` point. No checking is done to ensure `insert` is the same length as `in` to `out`.
  */
-class TrackRippleRemoveAreaCommand : public UndoCommand
-{
-public:
+class TrackRippleRemoveAreaCommand : public UndoCommand {
+ public:
   TrackRippleRemoveAreaCommand(Track* track, const TimeRange& range);
 
   virtual ~TrackRippleRemoveAreaCommand() override;
 
-  virtual Project* GetRelevantProject() const override
-  {
-    return track_->project();
-  }
+  virtual Project* GetRelevantProject() const override { return track_->project(); }
 
   /**
    * @brief Block to insert after if you want to insert something between this ripple
    */
-  Block* GetInsertionIndex() const
-  {
-    return insert_previous_;
-  }
+  Block* GetInsertionIndex() const { return insert_previous_; }
 
-  Block* GetSplicedBlock() const
-  {
+  Block* GetSplicedBlock() const {
     if (splice_split_command_) {
       return splice_split_command_->new_block();
     }
@@ -67,19 +59,16 @@ public:
     return nullptr;
   }
 
-  void SetAllowSplittingGaps(bool e)
-  {
-    allow_splitting_gaps_ = e;
-  }
+  void SetAllowSplittingGaps(bool e) { allow_splitting_gaps_ = e; }
 
-protected:
+ protected:
   virtual void prepare() override;
 
   virtual void redo() override;
 
   virtual void undo() override;
 
-private:
+ private:
   struct TrimOperation {
     Block* block;
     rational old_length;
@@ -102,36 +91,24 @@ private:
 
   BlockSplitCommand* splice_split_command_;
   QVector<UndoCommand*> remove_block_commands_;
-
 };
 
-class TrackListRippleRemoveAreaCommand : public UndoCommand
-{
-public:
-  TrackListRippleRemoveAreaCommand(TrackList* list, rational in, rational out) :
-    list_(list),
-    range_(in, out)
-  {
-  }
+class TrackListRippleRemoveAreaCommand : public UndoCommand {
+ public:
+  TrackListRippleRemoveAreaCommand(TrackList* list, rational in, rational out) : list_(list), range_(in, out) {}
 
-  virtual ~TrackListRippleRemoveAreaCommand() override
-  {
-    qDeleteAll(commands_);
-  }
+  virtual ~TrackListRippleRemoveAreaCommand() override { qDeleteAll(commands_); }
 
-  virtual Project* GetRelevantProject() const override
-  {
-    return list_->parent()->project();
-  }
+  virtual Project* GetRelevantProject() const override { return list_->parent()->project(); }
 
-protected:
+ protected:
   virtual void prepare() override;
 
   virtual void redo() override;
 
   virtual void undo() override;
 
-private:
+ private:
   TrackList* list_;
 
   QList<Track*> working_tracks_;
@@ -139,54 +116,36 @@ private:
   TimeRange range_;
 
   QVector<TrackRippleRemoveAreaCommand*> commands_;
-
 };
 
-class TimelineRippleRemoveAreaCommand : public MultiUndoCommand
-{
-public:
+class TimelineRippleRemoveAreaCommand : public MultiUndoCommand {
+ public:
   TimelineRippleRemoveAreaCommand(Sequence* timeline, rational in, rational out);
 
-  virtual Project* GetRelevantProject() const override
-  {
-    return timeline_->project();
-  }
+  virtual Project* GetRelevantProject() const override { return timeline_->project(); }
 
-private:
+ private:
   Sequence* timeline_;
-
 };
 
-class TrackListRippleToolCommand : public UndoCommand
-{
-public:
+class TrackListRippleToolCommand : public UndoCommand {
+ public:
   struct RippleInfo {
     Block* block;
     bool append_gap;
   };
 
-  TrackListRippleToolCommand(TrackList* track_list,
-                             const QHash<Track*, RippleInfo>& info,
-                             const rational& ripple_movement,
-                             const Timeline::MovementMode& movement_mode);
+  TrackListRippleToolCommand(TrackList* track_list, const QHash<Track*, RippleInfo>& info,
+                             const rational& ripple_movement, const Timeline::MovementMode& movement_mode);
 
-  virtual Project* GetRelevantProject() const override
-  {
-    return track_list_->parent()->project();
-  }
+  virtual Project* GetRelevantProject() const override { return track_list_->parent()->project(); }
 
-protected:
-  virtual void redo() override
-  {
-    ripple(true);
-  }
+ protected:
+  virtual void redo() override { ripple(true); }
 
-  virtual void undo() override
-  {
-    ripple(false);
-  }
+  virtual void undo() override { ripple(false); }
 
-private:
+ private:
   void ripple(bool redo);
 
   TrackList* track_list_;
@@ -205,55 +164,39 @@ private:
   QHash<Track*, WorkingData> working_data_;
 
   QObject memory_manager_;
-
 };
 
-class TimelineRippleDeleteGapsAtRegionsCommand : public UndoCommand
-{
-public:
+class TimelineRippleDeleteGapsAtRegionsCommand : public UndoCommand {
+ public:
   using RangeList = QVector<QPair<Track*, TimeRange> >;
 
-  TimelineRippleDeleteGapsAtRegionsCommand(Sequence* vo, const RangeList& regions) :
-    timeline_(vo),
-    regions_(regions)
-  {
-  }
+  TimelineRippleDeleteGapsAtRegionsCommand(Sequence* vo, const RangeList& regions) : timeline_(vo), regions_(regions) {}
 
-  virtual ~TimelineRippleDeleteGapsAtRegionsCommand() override
-  {
-    qDeleteAll(commands_);
-  }
+  virtual ~TimelineRippleDeleteGapsAtRegionsCommand() override { qDeleteAll(commands_); }
 
-  virtual Project* GetRelevantProject() const override
-  {
-    return timeline_->project();
-  }
+  virtual Project* GetRelevantProject() const override { return timeline_->project(); }
 
-  bool HasCommands() const
-  {
-    return !commands_.isEmpty();
-  }
+  bool HasCommands() const { return !commands_.isEmpty(); }
 
-protected:
+ protected:
   virtual void prepare() override;
 
   virtual void redo() override;
 
   virtual void undo() override;
 
-private:
+ private:
   Sequence* timeline_;
   RangeList regions_;
 
   QVector<UndoCommand*> commands_;
 
   struct RemovalRequest {
-    GapBlock *gap;
+    GapBlock* gap;
     TimeRange range;
   };
-
 };
 
-}
+}  // namespace olive
 
-#endif // TIMELINEUNDORIPPLE_H
+#endif  // TIMELINEUNDORIPPLE_H

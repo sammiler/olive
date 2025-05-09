@@ -30,15 +30,14 @@
 
 namespace olive {
 
-class PreferencesAudioTab : public ConfigDialogBaseTab
-{
+class PreferencesAudioTab : public ConfigDialogBaseTab {
   Q_OBJECT
-public:
+ public:
   PreferencesAudioTab();
 
   virtual void Accept(MultiUndoCommand* command) override;
 
-private:
+ private:
   QComboBox* audio_backend_combobox_;
 
   /**
@@ -61,15 +60,15 @@ private:
    */
   QPushButton* refresh_devices_btn_;
 
-  SampleRateComboBox *output_rate_combo_;
-  ChannelLayoutComboBox *output_ch_layout_combo_;
-  SampleFormatComboBox *output_fmt_combo_;
+  SampleRateComboBox* output_rate_combo_;
+  ChannelLayoutComboBox* output_ch_layout_combo_;
+  SampleFormatComboBox* output_fmt_combo_;
 
-  ExportFormatComboBox *record_format_combo_;
+  ExportFormatComboBox* record_format_combo_;
 
-  ExportAudioTab *record_options_;
+  ExportAudioTab* record_options_;
 
-private slots:
+ private slots:
   void RefreshBackends();
 
   void RefreshDevices();
@@ -77,9 +76,8 @@ private slots:
   void HardRefreshBackends();
 
   void AttemptToSetDevicesFromConfig();
-
 };
 
-}
+}  // namespace olive
 
-#endif // PREFERENCESAUDIOTAB_H
+#endif  // PREFERENCESAUDIOTAB_H

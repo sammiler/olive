@@ -27,25 +27,24 @@
 
 namespace olive {
 
-class MulticamWidget : public TimeBasedWidget
-{
+class MulticamWidget : public TimeBasedWidget {
   Q_OBJECT
-public:
+ public:
   explicit MulticamWidget(QWidget *parent = nullptr);
 
   MulticamDisplay *GetDisplayWidget() const { return display_; }
 
   void SetMulticamNode(ViewerOutput *viewer, MultiCamNode *n, ClipBlock *clip, const rational &time);
 
-protected:
+ protected:
   virtual void ConnectNodeEvent(ViewerOutput *n) override;
   virtual void DisconnectNodeEvent(ViewerOutput *n) override;
   virtual void TimeChangedEvent(const rational &t) override;
 
-signals:
+ signals:
   void Switched();
 
-private:
+ private:
   void SetMulticamNodeInternal(ViewerOutput *viewer, MultiCamNode *n, ClipBlock *clip);
 
   void Switch(int source, bool split_clip);
@@ -58,8 +57,7 @@ private:
 
   ClipBlock *clip_;
 
-  struct MulticamNodeQueue
-  {
+  struct MulticamNodeQueue {
     rational time;
     ViewerOutput *viewer;
     MultiCamNode *node;
@@ -68,11 +66,10 @@ private:
 
   std::list<MulticamNodeQueue> play_queue_;
 
-private slots:
+ private slots:
   void DisplayClicked(const QPoint &p);
-
 };
 
-}
+}  // namespace olive
 
-#endif // MULTICAMWIDGET_H
+#endif  // MULTICAMWIDGET_H

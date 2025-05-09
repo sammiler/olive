@@ -4,19 +4,13 @@
 
 namespace olive {
 
-RecordTool::RecordTool(TimelineWidget *parent) :
-  BeamTool(parent),
-  ghost_(nullptr)
-{
+RecordTool::RecordTool(TimelineWidget *parent) : BeamTool(parent), ghost_(nullptr) {}
 
-}
-
-void RecordTool::MousePress(TimelineViewMouseEvent *event)
-{
-  const Track::Reference& track = event->GetTrack();
+void RecordTool::MousePress(TimelineViewMouseEvent *event) {
+  const Track::Reference &track = event->GetTrack();
 
   // Check if track is locked
-  Track* t = parent()->GetTrackFromReference(track);
+  Track *t = parent()->GetTrackFromReference(track);
   if (t && t->IsLocked()) {
     return;
   }
@@ -37,8 +31,7 @@ void RecordTool::MousePress(TimelineViewMouseEvent *event)
   snap_points_.push_back(drag_start_point_);
 }
 
-void RecordTool::MouseMove(TimelineViewMouseEvent *event)
-{
+void RecordTool::MouseMove(TimelineViewMouseEvent *event) {
   if (!ghost_) {
     return;
   }
@@ -75,14 +68,14 @@ void RecordTool::MouseMove(TimelineViewMouseEvent *event)
   Q_UNUSED(snapped)
 }
 
-void RecordTool::MouseRelease(TimelineViewMouseEvent *event)
-{
+void RecordTool::MouseRelease(TimelineViewMouseEvent *event) {
   if (ghost_) {
-    emit parent()->RequestCaptureStart(TimeRange(ghost_->GetAdjustedIn(), ghost_->GetAdjustedOut()), ghost_->GetTrack());
+    emit parent() -> RequestCaptureStart(TimeRange(ghost_->GetAdjustedIn(), ghost_->GetAdjustedOut()),
+                                         ghost_->GetTrack());
     parent()->ClearGhosts();
     snap_points_.clear();
     ghost_ = nullptr;
   }
 }
 
-}
+}  // namespace olive

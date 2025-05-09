@@ -26,8 +26,7 @@ namespace olive {
 
 const QString SubtitleBlock::kTextIn = QStringLiteral("text_in");
 
-SubtitleBlock::SubtitleBlock()
-{
+SubtitleBlock::SubtitleBlock() {
   AddInput(kTextIn, NodeValue::kText, InputFlags(kInputFlagNotConnectable | kInputFlagNotKeyframable));
 
   SetInputFlag(kBufferIn, kInputFlagHidden);
@@ -41,8 +40,7 @@ SubtitleBlock::SubtitleBlock()
   SetFlag(kDontShowInParamView, false);
 }
 
-QString SubtitleBlock::Name() const
-{
+QString SubtitleBlock::Name() const {
   if (GetText().isEmpty()) {
     return tr("Subtitle");
   } else {
@@ -50,21 +48,16 @@ QString SubtitleBlock::Name() const
   }
 }
 
-QString SubtitleBlock::id() const
-{
-  return QStringLiteral("org.olivevideoeditor.Olive.subtitle");
-}
+QString SubtitleBlock::id() const { return QStringLiteral("org.olivevideoeditor.Olive.subtitle"); }
 
-QString SubtitleBlock::Description() const
-{
+QString SubtitleBlock::Description() const {
   return tr("A time-based node representing a single subtitle element for a certain period of time.");
 }
 
-void SubtitleBlock::Retranslate()
-{
+void SubtitleBlock::Retranslate() {
   super::Retranslate();
 
   SetInputName(kTextIn, tr("Text"));
 }
 
-}
+}  // namespace olive

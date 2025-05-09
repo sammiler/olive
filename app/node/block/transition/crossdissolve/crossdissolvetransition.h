@@ -25,10 +25,9 @@
 
 namespace olive {
 
-class CrossDissolveTransition : public TransitionBlock
-{
+class CrossDissolveTransition : public TransitionBlock {
   Q_OBJECT
-public:
+ public:
   CrossDissolveTransition();
 
   NODE_DEFAULT_FUNCTIONS(CrossDissolveTransition)
@@ -38,15 +37,15 @@ public:
   virtual QVector<CategoryID> Category() const override;
   virtual QString Description() const override;
 
-  //virtual void Retranslate() override;
+  // virtual void Retranslate() override;
 
   virtual ShaderCode GetShaderCode(const ShaderRequest &request) const override;
 
-protected:
-  virtual void SampleJobEvent(const SampleBuffer &from_samples, const SampleBuffer &to_samples, SampleBuffer &out_samples, double time_in) const override;
-
+ protected:
+  virtual void SampleJobEvent(const SampleBuffer &from_samples, const SampleBuffer &to_samples,
+                              SampleBuffer &out_samples, double time_in) const override;
 };
 
-}
+}  // namespace olive
 
-#endif // CROSSDISSOLVETRANSITION_H
+#endif  // CROSSDISSOLVETRANSITION_H

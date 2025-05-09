@@ -28,24 +28,22 @@
 
 namespace olive {
 
-class FootageRelinkDialog : public QDialog
-{
+class FootageRelinkDialog : public QDialog {
   Q_OBJECT
-public:
+ public:
   FootageRelinkDialog(const QVector<Footage*>& footage, QWidget* parent = nullptr);
 
-private:
+ private:
   void UpdateFootageItem(int index);
 
   QTreeWidget* table_;
 
   QVector<Footage*> footage_;
 
-private slots:
+ private slots:
   void BrowseForFootage();
-
 };
 
-}
+}  // namespace olive
 
-#endif // FOOTAGERELINKDIALOG_H
+#endif  // FOOTAGERELINKDIALOG_H

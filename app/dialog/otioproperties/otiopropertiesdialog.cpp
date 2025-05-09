@@ -29,14 +29,13 @@
 namespace olive {
 
 OTIOPropertiesDialog::OTIOPropertiesDialog(const QList<Sequence*>& sequences, Project* active_project, QWidget* parent)
-    :
-    QDialog(parent),
-    sequences_(sequences)
-{
+    : QDialog(parent), sequences_(sequences) {
   QVBoxLayout* layout = new QVBoxLayout(this);
 
-  QLabel *msg = new QLabel(tr("OpenTimelineIO files do not store sequence parameters (resolution, frame rate, etc.)\n\n"
-                              "Please set the correct parameters on the sequences below (they have been set to your default sequence parameters as a starting point)."));
+  QLabel* msg =
+      new QLabel(tr("OpenTimelineIO files do not store sequence parameters (resolution, frame rate, etc.)\n\n"
+                    "Please set the correct parameters on the sequences below (they have been set to your default "
+                    "sequence parameters as a starting point)."));
   msg->setWordWrap(true);
   layout->addWidget(msg);
 
@@ -70,7 +69,7 @@ OTIOPropertiesDialog::OTIOPropertiesDialog(const QList<Sequence*>& sequences, Pr
 
   layout->addWidget(table_);
 
-  QDialogButtonBox* buttons = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+  QDialogButtonBox* buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
   connect(buttons, &QDialogButtonBox::accepted, this, &OTIOPropertiesDialog::accept);
   connect(buttons, &QDialogButtonBox::rejected, this, &OTIOPropertiesDialog::reject);
   layout->addWidget(buttons);

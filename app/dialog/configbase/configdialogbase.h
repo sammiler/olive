@@ -29,32 +29,30 @@
 
 namespace olive {
 
-class ConfigDialogBase : public QDialog
-{
+class ConfigDialogBase : public QDialog {
   Q_OBJECT
-public:
+ public:
   ConfigDialogBase(QWidget* parent = nullptr);
 
-private slots:
+ private slots:
   /**
    * @brief Override of accept to save preferences to Config.
    */
   virtual void accept() override;
 
-protected:
+ protected:
   void AddTab(ConfigDialogBaseTab* tab, const QString& title);
 
-  virtual void AcceptEvent(){}
+  virtual void AcceptEvent() {}
 
-private:
+ private:
   QListWidget* list_widget_;
 
   QStackedWidget* preference_pane_stack_;
 
   QList<ConfigDialogBaseTab*> tabs_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // CONFIGBASE_H
+#endif  // CONFIGBASE_H

@@ -25,15 +25,15 @@
 
 namespace olive {
 
-class RollingTool : public PointerTool
-{
-public:
+class RollingTool : public PointerTool {
+ public:
   RollingTool(TimelineWidget* parent);
 
-protected:
-  virtual void InitiateDrag(Block* clicked_item, Timeline::MovementMode trim_mode, Qt::KeyboardModifiers modifiers) override;
+ protected:
+  virtual void InitiateDrag(Block* clicked_item, Timeline::MovementMode trim_mode,
+                            Qt::KeyboardModifiers modifiers) override;
 };
 
-}
+}  // namespace olive
 
-#endif // ROLLINGTIMELINETOOL_H
+#endif  // ROLLINGTIMELINETOOL_H

@@ -27,8 +27,8 @@
 #include <QTimer>
 #include <QTranslator>
 
-#include "node/project/footage/footage.h"
 #include "node/project.h"
+#include "node/project/footage/footage.h"
 #include "node/project/sequence/sequence.h"
 #include "task/task.h"
 #include "tool/tool.h"
@@ -48,72 +48,36 @@ class MainWindow;
  * The "public slots" are usually user-triggered actions and can be connected to UI elements (e.g. creating a folder,
  * opening the import dialog, etc.)
  */
-class Core : public QObject
-{
+class Core : public QObject {
   Q_OBJECT
-public:
-  class CoreParams
-  {
-  public:
+ public:
+  class CoreParams {
+   public:
     CoreParams();
 
-    enum RunMode {
-      kRunNormal,
-      kHeadlessExport,
-      kHeadlessPreCache
-    };
+    enum RunMode { kRunNormal, kHeadlessExport, kHeadlessPreCache };
 
-    bool fullscreen() const
-    {
-      return run_fullscreen_;
-    }
+    bool fullscreen() const { return run_fullscreen_; }
 
-    void set_fullscreen(bool e)
-    {
-      run_fullscreen_ = e;
-    }
+    void set_fullscreen(bool e) { run_fullscreen_ = e; }
 
-    RunMode run_mode() const
-    {
-      return mode_;
-    }
+    RunMode run_mode() const { return mode_; }
 
-    void set_run_mode(RunMode m)
-    {
-      mode_ = m;
-    }
+    void set_run_mode(RunMode m) { mode_ = m; }
 
-    const QString startup_project() const
-    {
-      return startup_project_;
-    }
+    const QString startup_project() const { return startup_project_; }
 
-    void set_startup_project(const QString& p)
-    {
-      startup_project_ = p;
-    }
+    void set_startup_project(const QString& p) { startup_project_ = p; }
 
-    const QString& startup_language() const
-    {
-      return startup_language_;
-    }
+    const QString& startup_language() const { return startup_language_; }
 
-    void set_startup_language(const QString& s)
-    {
-      startup_language_ = s;
-    }
+    void set_startup_language(const QString& s) { startup_language_ = s; }
 
-    bool crash_on_startup() const
-    {
-      return crash_;
-    }
+    bool crash_on_startup() const { return crash_; }
 
-    void set_crash_on_startup(bool e)
-    {
-      crash_ = true;
-    }
+    void set_crash_on_startup(bool e) { crash_ = true; }
 
-  private:
+   private:
     RunMode mode_;
 
     QString startup_project_;
@@ -123,7 +87,6 @@ public:
     bool run_fullscreen_;
 
     bool crash_;
-
   };
 
   /**
@@ -140,10 +103,7 @@ public:
    */
   static Core* instance();
 
-  const CoreParams& core_params() const
-  {
-    return core_params_;
-  }
+  const CoreParams& core_params() const { return core_params_; }
 
   /**
    * @brief Start Olive Core
@@ -181,7 +141,7 @@ public:
    *
    * @param urls
    */
-  void ImportFiles(const QStringList& urls, Folder *parent);
+  void ImportFiles(const QStringList& urls, Folder* parent);
 
   /**
    * @brief Get the currently active tool
@@ -243,19 +203,18 @@ public:
   /**
    * @brief Recursively count files in a file/directory list
    */
-  static int CountFilesInFileList(const QFileInfoList &filenames);
+  static int CountFilesInFileList(const QFileInfoList& filenames);
 
   /**
    * @brief Show a dialog to the user to rename a set of nodes
    */
-  bool LabelNodes(const QVector<Node *> &nodes, MultiUndoCommand *parent = nullptr);
+  bool LabelNodes(const QVector<Node*>& nodes, MultiUndoCommand* parent = nullptr);
 
   /**
    * @brief Create a new sequence named appropriately for the active project
    */
-  static Sequence* CreateNewSequenceForProject(const QString &format, Project *project);
-  static Sequence* CreateNewSequenceForProject(Project *project)
-  {
+  static Sequence* CreateNewSequenceForProject(const QString& format, Project* project);
+  static Sequence* CreateNewSequenceForProject(Project* project) {
     return CreateNewSequenceForProject(tr("Sequence %1"), project);
   }
 
@@ -277,7 +236,7 @@ public:
   /**
    * @brief Check each footage object for whether it still exists or has changed
    */
-  bool ValidateFootageInLoadedProject(Project* project, const QString &project_saved_url);
+  bool ValidateFootageInLoadedProject(Project* project, const QString& project_saved_url);
 
   /**
    * @brief Changes the current language
@@ -297,11 +256,11 @@ public:
 
   void OpenNodeInViewer(ViewerOutput* viewer);
 
-  void OpenExportDialogForViewer(ViewerOutput *viewer, bool start_still_image);
+  void OpenExportDialogForViewer(ViewerOutput* viewer, bool start_still_image);
 
   bool IsMagicEnabled() const { return magic_; }
 
-public slots:
+ public slots:
   /**
    * @brief Starts an open file dialog to load a project from file
    */
@@ -356,7 +315,7 @@ public slots:
    */
   void DialogExportShow();
 
-    /**
+  /**
    * @brief Show OTIO import dialog
    */
 #ifdef USE_OTIO
@@ -401,12 +360,9 @@ public slots:
 
   void WarnCacheFull();
 
-  void SetMagic(bool e)
-  {
-    magic_ = e;
-  }
+  void SetMagic(bool e) { magic_ = e; }
 
-signals:
+ signals:
   /**
    * @brief Signal emitted when the tool is changed from somewhere
    */
@@ -442,9 +398,9 @@ signals:
   /**
    * @brief A viewer with color picked enabled has emitted a color
    */
-  void ColorPickerColorEmitted(const Color &reference, const Color &display);
+  void ColorPickerColorEmitted(const Color& reference, const Color& display);
 
-private:
+ private:
   /**
    * @brief Get the file filter than can be used with QFileDialog to open and save compatible projects
    */
@@ -463,7 +419,7 @@ private:
   /**
    * @brief Adds a filename to the top of the recently opened projects list (or moves it if it already exists)
    */
-  void PushRecentlyOpenedProject(const QString &s);
+  void PushRecentlyOpenedProject(const QString& s);
 
   /**
    * @brief Declare custom types/classes for Qt's signal/slot system
@@ -484,12 +440,12 @@ private:
   /**
    * @brief Internal function for saving a project to a file
    */
-  void SaveProjectInternal(const QString &override_filename = QString());
+  void SaveProjectInternal(const QString& override_filename = QString());
 
   /**
    * @brief Retrieves the currently most active sequence for exporting
    */
-  ViewerOutput *GetSequenceToExport();
+  ViewerOutput* GetSequenceToExport();
 
   static QString GetAutoRecoveryIndexFilename();
 
@@ -506,7 +462,7 @@ private:
 
   bool AddOpenProjectFromTask(Task* task, bool add_to_recents);
 
-  void SetActiveProject(Project *p);
+  void SetActiveProject(Project* p);
 
   /**
    * @brief Internal main window object
@@ -516,7 +472,7 @@ private:
   /**
    * @brief List of currently open projects
    */
-  Project *open_project_;
+  Project* open_project_;
 
   /**
    * @brief Currently active tool
@@ -585,19 +541,16 @@ private:
 
   bool shown_cache_full_warning_;
 
-private slots:
+ private slots:
   void SaveAutorecovery();
 
-  void ProjectSaveSucceeded(Task *task);
+  void ProjectSaveSucceeded(Task* task);
 
-  bool AddOpenProjectFromTaskAndAddToRecents(Task* task)
-  {
-    return AddOpenProjectFromTask(task, true);
-  }
+  bool AddOpenProjectFromTaskAndAddToRecents(Task* task) { return AddOpenProjectFromTask(task, true); }
 
-  void ImportTaskComplete(Task *task);
+  void ImportTaskComplete(Task* task);
 
-  bool ConfirmImageSequence(const QString &filename);
+  bool ConfirmImageSequence(const QString& filename);
 
   void ProjectWasModified(bool e);
 
@@ -612,10 +565,9 @@ private slots:
    */
   void OpenProjectInternal(const QString& filename, bool recovery_project = false);
 
-  void ImportSingleFile(const QString &f);
-
+  void ImportSingleFile(const QString& f);
 };
 
-}
+}  // namespace olive
 
-#endif // CORE_H
+#endif  // CORE_H

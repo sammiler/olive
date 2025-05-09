@@ -28,30 +28,24 @@
 
 namespace olive {
 
-class NodeWidget : public QWidget
-{
+class NodeWidget : public QWidget {
   Q_OBJECT
-public:
+ public:
   NodeWidget(QWidget *parent = nullptr);
 
-  NodeView *view() const
-  {
-    return node_view_;
-  }
+  NodeView *view() const { return node_view_; }
 
-  void SetContexts(const QVector<Node*> &nodes)
-  {
+  void SetContexts(const QVector<Node *> &nodes) {
     node_view_->SetContexts(nodes);
     toolbar_->setEnabled(!nodes.isEmpty());
   }
 
-private:
+ private:
   NodeView *node_view_;
 
   NodeViewToolBar *toolbar_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // NODEWIDGET_H
+#endif  // NODEWIDGET_H

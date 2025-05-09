@@ -25,10 +25,9 @@
 
 namespace olive {
 
-class SolidGenerator : public Node
-{
+class SolidGenerator : public Node {
   Q_OBJECT
-public:
+ public:
   SolidGenerator();
 
   NODE_DEFAULT_FUNCTIONS(SolidGenerator)
@@ -40,13 +39,12 @@ public:
 
   virtual void Retranslate() override;
 
-  virtual void Value(const NodeValueRow& value, const NodeGlobals &globals, NodeValueTable *table) const override;
+  virtual void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
   virtual ShaderCode GetShaderCode(const ShaderRequest &request) const override;
 
   static const QString kColorInput;
-
 };
 
-}
+}  // namespace olive
 
-#endif // SOLIDGENERATOR_H
+#endif  // SOLIDGENERATOR_H

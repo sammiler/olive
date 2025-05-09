@@ -9,9 +9,7 @@ namespace olive {
 
 #define super QWidget
 
-NodeViewToolBar::NodeViewToolBar(QWidget *parent) :
-  QWidget(parent)
-{
+NodeViewToolBar::NodeViewToolBar(QWidget *parent) : QWidget(parent) {
   QHBoxLayout *layout = new QHBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
 
@@ -30,8 +28,7 @@ NodeViewToolBar::NodeViewToolBar(QWidget *parent) :
   UpdateIcons();
 }
 
-void NodeViewToolBar::changeEvent(QEvent *e)
-{
+void NodeViewToolBar::changeEvent(QEvent *e) {
   if (e->type() == QEvent::LanguageChange) {
     Retranslate();
   } else if (e->type() == QEvent::StyleChange) {
@@ -40,16 +37,14 @@ void NodeViewToolBar::changeEvent(QEvent *e)
   super::changeEvent(e);
 }
 
-void NodeViewToolBar::Retranslate()
-{
+void NodeViewToolBar::Retranslate() {
   add_node_btn_->setToolTip(tr("Add Node"));
   minimap_btn_->setToolTip(tr("Toggle Mini-Map"));
 }
 
-void NodeViewToolBar::UpdateIcons()
-{
+void NodeViewToolBar::UpdateIcons() {
   add_node_btn_->setIcon(icon::Add);
   minimap_btn_->setIcon(icon::MiniMap);
 }
 
-}
+}  // namespace olive

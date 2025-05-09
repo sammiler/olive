@@ -21,25 +21,20 @@
 #ifndef CRASHPAD_INTERFACE_H
 #define CRASHPAD_INTERFACE_H
 
-
-
-
-
 #ifdef USE_CRASHPAD
+#include <client/crash_report_database.h>
+#include <client/settings.h>
 #include <qchar.h>
 #include <qlist.h>
 #include <qobject.h>
-#include <client/crash_report_database.h>
-#include <client/settings.h>
 
-struct Result
-{
+struct Result {
   bool success;
   QString processPath;
   QStringList args;
 };
 Result InitializeCrashpad();
 
-#endif // USE_CRASHPAD
+#endif  // USE_CRASHPAD
 
-#endif // CRASHPAD_INTERFACE_H
+#endif  // CRASHPAD_INTERFACE_H

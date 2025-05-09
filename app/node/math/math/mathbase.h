@@ -25,22 +25,15 @@
 
 namespace olive {
 
-class MathNodeBase : public Node
-{
-public:
+class MathNodeBase : public Node {
+ public:
   MathNodeBase() = default;
 
-  enum Operation {
-    kOpAdd,
-    kOpSubtract,
-    kOpMultiply,
-    kOpDivide,
-    kOpPower
-  };
+  enum Operation { kOpAdd, kOpSubtract, kOpMultiply, kOpDivide, kOpPower };
 
   static QString GetOperationName(Operation o);
 
-protected:
+ protected:
   enum Pairing {
     kPairNone = -1,
 
@@ -63,8 +56,8 @@ protected:
   };
 
   class PairingCalculator {
-  public:
-    PairingCalculator(const NodeValueTable &table_a, const NodeValueTable &table_b);
+   public:
+    PairingCalculator(const NodeValueTable& table_a, const NodeValueTable& table_b);
 
     bool FoundMostLikelyPairing() const;
     Pairing GetMostLikelyPairing() const;
@@ -72,7 +65,7 @@ protected:
     const NodeValue& GetMostLikelyValueA() const;
     const NodeValue& GetMostLikelyValueB() const;
 
-  private:
+   private:
     static QVector<int> GetPairLikelihood(const NodeValueTable& table);
 
     Pairing most_likely_pairing_;
@@ -80,36 +73,36 @@ protected:
     NodeValue most_likely_value_a_;
 
     NodeValue most_likely_value_b_;
-
   };
 
-  template<typename T, typename U>
+  template <typename T, typename U>
   static T PerformAll(Operation operation, T a, U b);
 
-  template<typename T, typename U>
+  template <typename T, typename U>
   static T PerformMultDiv(Operation operation, T a, U b);
 
-  template<typename T, typename U>
+  template <typename T, typename U>
   static T PerformAddSub(Operation operation, T a, U b);
 
-  template<typename T, typename U>
+  template <typename T, typename U>
   static T PerformMult(Operation operation, T a, U b);
 
-  template<typename T, typename U>
+  template <typename T, typename U>
   static T PerformAddSubMult(Operation operation, T a, U b);
 
-  template<typename T, typename U>
+  template <typename T, typename U>
   static T PerformAddSubMultDiv(Operation operation, T a, U b);
 
-  static void PerformAllOnFloatBuffer(Operation operation, float *a, float b, int start, int end);
+  static void PerformAllOnFloatBuffer(Operation operation, float* a, float b, int start, int end);
 
 #if defined(Q_PROCESSOR_X86) || defined(Q_PROCESSOR_ARM)
-  static void PerformAllOnFloatBufferSSE(Operation operation, float *a, float b, int start, int end);
+  static void PerformAllOnFloatBufferSSE(Operation operation, float* a, float b, int start, int end);
 #endif
 
   static QString GetShaderUniformType(const NodeValue::Type& type);
 
-  static QString GetShaderVariableCall(const QString& input_id, const NodeValue::Type& type, const QString &coord_op = QString());
+  static QString GetShaderVariableCall(const QString& input_id, const NodeValue::Type& type,
+                                       const QString& coord_op = QString());
 
   static QVector4D RetrieveVector(const NodeValue& val);
 
@@ -117,16 +110,20 @@ protected:
 
   static bool NumberIsNoOp(const Operation& op, const float& number);
 
-  ShaderCode GetShaderCodeInternal(const QString &shader_id, const QString &param_a_in, const QString &param_b_in) const;
+  ShaderCode GetShaderCodeInternal(const QString& shader_id, const QString& param_a_in,
+                                   const QString& param_b_in) const;
 
   void PushVector(NodeValueTable* output, NodeValue::Type type, const QVector4D& vec) const;
 
-  void ValueInternal(Operation operation, Pairing pairing, const QString& param_a_in, const NodeValue &val_a, const QString& param_b_in, const NodeValue& val_b, const NodeGlobals &globals, NodeValueTable *output) const;
+  void ValueInternal(Operation operation, Pairing pairing, const QString& param_a_in, const NodeValue& val_a,
+                     const QString& param_b_in, const NodeValue& val_b, const NodeGlobals& globals,
+                     NodeValueTable* output) const;
 
-  void ProcessSamplesInternal(const NodeValueRow &values, Operation operation, const QString& param_a_in, const QString& param_b_in, const SampleBuffer &input, SampleBuffer &output, int index) const;
-
+  void ProcessSamplesInternal(const NodeValueRow& values, Operation operation, const QString& param_a_in,
+                              const QString& param_b_in, const SampleBuffer& input, SampleBuffer& output,
+                              int index) const;
 };
 
-}
+}  // namespace olive
 
-#endif // MATHNODEBASE_H
+#endif  // MATHNODEBASE_H

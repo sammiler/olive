@@ -26,10 +26,9 @@
 
 namespace olive {
 
-class TaskDialog : public ProgressDialog
-{
+class TaskDialog : public ProgressDialog {
   Q_OBJECT
-public:
+ public:
   /**
    * @brief TaskDialog Constructor
    *
@@ -37,48 +36,41 @@ public:
    * Connect to the Task::Succeeded() if you want to retrieve information from the task before it
    * gets destroyed.
    */
-  TaskDialog(Task *task, const QString &title, QWidget* parent = nullptr);
+  TaskDialog(Task* task, const QString& title, QWidget* parent = nullptr);
 
   /**
    * @brief Set whether TaskDialog should destroy itself (and the task) when it's closed
    *
    * This is TRUE by default.
    */
-  void SetDestroyOnClose(bool e)
-  {
-    destroy_on_close_ = e;
-  }
+  void SetDestroyOnClose(bool e) { destroy_on_close_ = e; }
 
   /**
    * @brief Returns this dialog's task
    */
-  Task* GetTask() const
-  {
-    return task_;
-  }
+  Task* GetTask() const { return task_; }
 
-protected:
+ protected:
   virtual void showEvent(QShowEvent* e) override;
 
   virtual void closeEvent(QCloseEvent* e) override;
 
-signals:
+ signals:
   void TaskSucceeded(Task* task);
 
   void TaskFailed(Task* task);
 
-private:
+ private:
   Task* task_;
 
   bool destroy_on_close_;
 
   bool already_shown_;
 
-private slots:
+ private slots:
   void TaskFinished();
-
 };
 
-}
+}  // namespace olive
 
-#endif // TASKDIALOG_H
+#endif  // TASKDIALOG_H

@@ -36,16 +36,15 @@ namespace olive {
  * is necessary since TaskViewItem will automatically delete itself (thus removing itself from the TaskView) when the
  * Task finishes.
  */
-class TaskView : public QScrollArea
-{
+class TaskView : public QScrollArea {
   Q_OBJECT
-public:
+ public:
   TaskView(QWidget* parent);
 
-signals:
+ signals:
   void TaskCancelled(Task* t);
 
-public slots:
+ public slots:
   /**
    * @brief Creates a TaskViewItem, connects it to a Task, and adds it to this widget
    *
@@ -57,15 +56,14 @@ public slots:
 
   void RemoveTask(Task* t);
 
-private:
+ private:
   QWidget* central_widget_;
 
   QVBoxLayout* layout_;
 
   QHash<Task*, TaskViewItem*> items_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // TASKVIEW_H
+#endif  // TASKVIEW_H

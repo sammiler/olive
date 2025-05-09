@@ -26,17 +26,15 @@
 
 namespace olive {
 
-ProjectSerializer210528::LoadData ProjectSerializer210528::Load(Project *project, QXmlStreamReader *reader, LoadType load_type, void *reserved) const
-{
+ProjectSerializer210528::LoadData ProjectSerializer210528::Load(Project *project, QXmlStreamReader *reader,
+                                                                LoadType load_type, void *reserved) const {
   XMLNodeData xml_node_data;
 
   while (XMLReadNextStartElement(reader)) {
     if (reader->name() == QStringLiteral("uuid")) {
-
       project->SetUuid(QUuid::fromString(reader->readElementText()));
 
     } else if (reader->name() == QStringLiteral("nodes")) {
-
       while (XMLReadNextStartElement(reader)) {
         if (reader->name() == QStringLiteral("node")) {
           bool is_root = false;
@@ -62,7 +60,7 @@ ProjectSerializer210528::LoadData ProjectSerializer210528::Load(Project *project
             qWarning() << "Failed to load node with empty ID";
             reader->skipCurrentElement();
           } else {
-            Node* node;
+            Node *node;
             bool handled_elsewhere = false;
 
             if (is_root) {
@@ -94,11 +92,8 @@ ProjectSerializer210528::LoadData ProjectSerializer210528::Load(Project *project
       }
 
     } else if (reader->name() == QStringLiteral("positions")) {
-
       while (XMLReadNextStartElement(reader)) {
-
         if (reader->name() == QStringLiteral("context")) {
-
           quintptr context_ptr = 0;
           XMLAttributeLoop(reader, attr) {
             if (attr.name() == QStringLiteral("ptr")) {
@@ -135,18 +130,13 @@ ProjectSerializer210528::LoadData ProjectSerializer210528::Load(Project *project
           }
 
         } else {
-
           reader->skipCurrentElement();
-
         }
-
       }
 
     } else {
-
       // Skip this
       reader->skipCurrentElement();
-
     }
   }
 
@@ -159,7 +149,7 @@ ProjectSerializer210528::LoadData ProjectSerializer210528::Load(Project *project
 
     if (Track *t = dynamic_cast<Track *>(n)) {
       for (int i = 0; i < t->InputArraySize(Track::kBlockInput); i++) {
-        Block *b = static_cast<Block*>(t->GetConnectedOutput(Track::kBlockInput, i));
+        Block *b = static_cast<Block *>(t->GetConnectedOutput(Track::kBlockInput, i));
         if (!b->track()) {
           t->AppendBlock(b);
         }
@@ -170,8 +160,7 @@ ProjectSerializer210528::LoadData ProjectSerializer210528::Load(Project *project
   return LoadData();
 }
 
-void ProjectSerializer210528::LoadNode(Node *node, XMLNodeData &xml_node_data, QXmlStreamReader *reader) const
-{
+void ProjectSerializer210528::LoadNode(Node *node, XMLNodeData &xml_node_data, QXmlStreamReader *reader) const {
   while (XMLReadNextStartElement(reader)) {
     if (IsCancelled()) {
       return;
@@ -194,7 +183,6 @@ void ProjectSerializer210528::LoadNode(Node *node, XMLNodeData &xml_node_data, Q
         }
       }
     } else if (reader->name() == QStringLiteral("custom")) {
-
       LoadNodeCustom(reader, node, xml_node_data);
 
     } else if (reader->name() == QStringLiteral("connections")) {
@@ -225,7 +213,8 @@ void ProjectSerializer210528::LoadNode(Node *node, XMLNodeData &xml_node_data, Q
             }
           }
 
-          xml_node_data.desired_connections.append({NodeInput(node, param_id, ele), output_node_id.toULongLong(), output_param_id});
+          xml_node_data.desired_connections.append(
+              {NodeInput(node, param_id, ele), output_node_id.toULongLong(), output_param_id});
         } else {
           reader->skipCurrentElement();
         }
@@ -259,8 +248,7 @@ void ProjectSerializer210528::LoadNode(Node *node, XMLNodeData &xml_node_data, Q
   node->LoadFinishedEvent();
 }
 
-void ProjectSerializer210528::LoadColorManager(QXmlStreamReader *reader, Project *project) const
-{
+void ProjectSerializer210528::LoadColorManager(QXmlStreamReader *reader, Project *project) const {
   while (XMLReadNextStartElement(reader)) {
     if (reader->name() == QStringLiteral("input")) {
       QString id;
@@ -270,7 +258,8 @@ void ProjectSerializer210528::LoadColorManager(QXmlStreamReader *reader, Project
         }
       }
 
-      if (id == QStringLiteral("config") || id == QStringLiteral("default_input") || id == QStringLiteral("reference_space")) {
+      if (id == QStringLiteral("config") || id == QStringLiteral("default_input") ||
+          id == QStringLiteral("reference_space")) {
         QString value;
 
         while (XMLReadNextStartElement(reader)) {
@@ -297,25 +286,23 @@ void ProjectSerializer210528::LoadColorManager(QXmlStreamReader *reader, Project
           // Default color space
           // NOTE: Stupidly, we saved these as integers which means we can't add anything to the OCIO
           //       config. So we must convert back to string here.
-          static const QStringList list = {
-            QStringLiteral("Linear"),
-            QStringLiteral("CIE-XYZ D65"),
-            QStringLiteral("Filmic Log Encoding"),
-            QStringLiteral("sRGB OETF"),
-            QStringLiteral("Apple DCI-P3 D65"),
-            QStringLiteral("AppleP3 sRGB OETF"),
-            QStringLiteral("BT.1886 EOTF"),
-            QStringLiteral("AppleP3 Filmic Log Encoding"),
-            QStringLiteral("BT.1886 Filmic Log Encoding"),
-            QStringLiteral("Fuji F-Log OETF"),
-            QStringLiteral("Fuji F-Log F-Gamut"),
-            QStringLiteral("Panasonic V-Log V-Gamut"),
-            QStringLiteral("Arri Wide Gamut / LogC EI 800"),
-            QStringLiteral("Arri Wide Gamut / LogC EI 400"),
-            QStringLiteral("Blackmagic Film Wide Gamut (Gen 5)"),
-            QStringLiteral("Rec.709 OETF"),
-            QStringLiteral("Non-Colour Data")
-          };
+          static const QStringList list = {QStringLiteral("Linear"),
+                                           QStringLiteral("CIE-XYZ D65"),
+                                           QStringLiteral("Filmic Log Encoding"),
+                                           QStringLiteral("sRGB OETF"),
+                                           QStringLiteral("Apple DCI-P3 D65"),
+                                           QStringLiteral("AppleP3 sRGB OETF"),
+                                           QStringLiteral("BT.1886 EOTF"),
+                                           QStringLiteral("AppleP3 Filmic Log Encoding"),
+                                           QStringLiteral("BT.1886 Filmic Log Encoding"),
+                                           QStringLiteral("Fuji F-Log OETF"),
+                                           QStringLiteral("Fuji F-Log F-Gamut"),
+                                           QStringLiteral("Panasonic V-Log V-Gamut"),
+                                           QStringLiteral("Arri Wide Gamut / LogC EI 800"),
+                                           QStringLiteral("Arri Wide Gamut / LogC EI 400"),
+                                           QStringLiteral("Blackmagic Film Wide Gamut (Gen 5)"),
+                                           QStringLiteral("Rec.709 OETF"),
+                                           QStringLiteral("Non-Colour Data")};
           int num_value = value.toInt();
           value = list.at(num_value);
           project->SetDefaultInputColorSpace(value);
@@ -340,8 +327,7 @@ void ProjectSerializer210528::LoadColorManager(QXmlStreamReader *reader, Project
   }
 }
 
-void ProjectSerializer210528::LoadProjectSettings(QXmlStreamReader *reader, Project *project) const
-{
+void ProjectSerializer210528::LoadProjectSettings(QXmlStreamReader *reader, Project *project) const {
   while (XMLReadNextStartElement(reader)) {
     if (reader->name() == QStringLiteral("input")) {
       QString id;
@@ -388,8 +374,7 @@ void ProjectSerializer210528::LoadProjectSettings(QXmlStreamReader *reader, Proj
   }
 }
 
-void ProjectSerializer210528::LoadInput(Node *node, QXmlStreamReader *reader, XMLNodeData &xml_node_data) const
-{
+void ProjectSerializer210528::LoadInput(Node *node, QXmlStreamReader *reader, XMLNodeData &xml_node_data) const {
   QString param_id;
 
   XMLAttributeLoop(reader, attr) {
@@ -445,8 +430,8 @@ void ProjectSerializer210528::LoadInput(Node *node, QXmlStreamReader *reader, XM
   }
 }
 
-void ProjectSerializer210528::LoadImmediate(QXmlStreamReader *reader, Node *node, const QString& input, int element, XMLNodeData &xml_node_data) const
-{
+void ProjectSerializer210528::LoadImmediate(QXmlStreamReader *reader, Node *node, const QString &input, int element,
+                                            XMLNodeData &xml_node_data) const {
   Q_UNUSED(xml_node_data)
 
   NodeValue::Type data_type = node->GetInputDataType(input);
@@ -534,7 +519,7 @@ void ProjectSerializer210528::LoadImmediate(QXmlStreamReader *reader, Node *node
 
               key_value = NodeValue::StringToValue(data_type, reader->readElementText(), true);
 
-              NodeKeyframe* key = new NodeKeyframe(key_time, key_value, key_type, track, element, key_input, node);
+              NodeKeyframe *key = new NodeKeyframe(key_time, key_value, key_type, track, element, key_input, node);
               key->set_bezier_control_in(key_in_handle);
               key->set_bezier_control_out(key_out_handle);
             } else {
@@ -561,8 +546,7 @@ void ProjectSerializer210528::LoadImmediate(QXmlStreamReader *reader, Node *node
   }
 }
 
-bool ProjectSerializer210528::LoadPosition(QXmlStreamReader *reader, quintptr *node_ptr, Node::Position *pos) const
-{
+bool ProjectSerializer210528::LoadPosition(QXmlStreamReader *reader, quintptr *node_ptr, Node::Position *pos) const {
   bool got_node_ptr = false;
   bool got_pos_x = false;
   bool got_pos_y = false;
@@ -592,9 +576,8 @@ bool ProjectSerializer210528::LoadPosition(QXmlStreamReader *reader, quintptr *n
   return got_node_ptr && got_pos_x && got_pos_y;
 }
 
-void ProjectSerializer210528::PostConnect(const XMLNodeData &xml_node_data) const
-{
-  foreach (const XMLNodeData::SerializedConnection& con, xml_node_data.desired_connections) {
+void ProjectSerializer210528::PostConnect(const XMLNodeData &xml_node_data) const {
+  foreach (const XMLNodeData::SerializedConnection &con, xml_node_data.desired_connections) {
     if (Node *out = xml_node_data.node_ptrs.value(con.output_node)) {
       // Use output param as hint tag since we grandfathered those in
       Node::ValueHint hint(con.output_param);
@@ -605,7 +588,7 @@ void ProjectSerializer210528::PostConnect(const XMLNodeData &xml_node_data) cons
     }
   }
 
-  foreach (const XMLNodeData::BlockLink& l, xml_node_data.block_links) {
+  foreach (const XMLNodeData::BlockLink &l, xml_node_data.block_links) {
     Node *a = l.block;
     Node *b = xml_node_data.node_ptrs.value(l.link);
 
@@ -620,19 +603,17 @@ void ProjectSerializer210528::PostConnect(const XMLNodeData &xml_node_data) cons
     }
   }
 
-  for (auto it=xml_node_data.group_output_links.cbegin(); it!=xml_node_data.group_output_links.cend(); it++) {
+  for (auto it = xml_node_data.group_output_links.cbegin(); it != xml_node_data.group_output_links.cend(); it++) {
     if (Node *output_node = xml_node_data.node_ptrs.value(it.value())) {
       it.key()->SetOutputPassthrough(output_node);
     }
   }
 }
 
-void ProjectSerializer210528::LoadNodeCustom(QXmlStreamReader *reader, Node *node, XMLNodeData &xml_node_data) const
-{
+void ProjectSerializer210528::LoadNodeCustom(QXmlStreamReader *reader, Node *node, XMLNodeData &xml_node_data) const {
   // Viewer-based nodes
-  if (ViewerOutput *viewer = dynamic_cast<ViewerOutput*>(node)) {
-
-    Footage *footage = dynamic_cast<Footage*>(node);
+  if (ViewerOutput *viewer = dynamic_cast<ViewerOutput *>(node)) {
+    Footage *footage = dynamic_cast<Footage *>(node);
 
     while (XMLReadNextStartElement(reader)) {
       if (reader->name() == QStringLiteral("points")) {
@@ -644,8 +625,7 @@ void ProjectSerializer210528::LoadNodeCustom(QXmlStreamReader *reader, Node *nod
       }
     }
 
-  } else if (Track *track = dynamic_cast<Track*>(node)) {
-
+  } else if (Track *track = dynamic_cast<Track *>(node)) {
     while (XMLReadNextStartElement(reader)) {
       if (reader->name() == QStringLiteral("height")) {
         track->SetTrackHeight(reader->readElementText().toDouble());
@@ -654,8 +634,7 @@ void ProjectSerializer210528::LoadNodeCustom(QXmlStreamReader *reader, Node *nod
       }
     }
 
-  } else if (NodeGroup *group = dynamic_cast<NodeGroup*>(node)) {
-
+  } else if (NodeGroup *group = dynamic_cast<NodeGroup *>(node)) {
     while (XMLReadNextStartElement(reader)) {
       if (reader->name() == QStringLiteral("inputpassthroughs")) {
         while (XMLReadNextStartElement(reader)) {
@@ -693,8 +672,7 @@ void ProjectSerializer210528::LoadNodeCustom(QXmlStreamReader *reader, Node *nod
   }
 }
 
-void ProjectSerializer210528::LoadTimelinePoints(QXmlStreamReader *reader, ViewerOutput *points) const
-{
+void ProjectSerializer210528::LoadTimelinePoints(QXmlStreamReader *reader, ViewerOutput *points) const {
   while (XMLReadNextStartElement(reader)) {
     if (reader->name() == QStringLiteral("markers")) {
       LoadMarkerList(reader, points->GetMarkers());
@@ -706,8 +684,7 @@ void ProjectSerializer210528::LoadTimelinePoints(QXmlStreamReader *reader, Viewe
   }
 }
 
-void ProjectSerializer210528::LoadWorkArea(QXmlStreamReader *reader, TimelineWorkArea *workarea) const
-{
+void ProjectSerializer210528::LoadWorkArea(QXmlStreamReader *reader, TimelineWorkArea *workarea) const {
   rational range_in = workarea->in();
   rational range_out = workarea->out();
 
@@ -730,8 +707,7 @@ void ProjectSerializer210528::LoadWorkArea(QXmlStreamReader *reader, TimelineWor
   reader->skipCurrentElement();
 }
 
-void ProjectSerializer210528::LoadMarkerList(QXmlStreamReader *reader, TimelineMarkerList *markers) const
-{
+void ProjectSerializer210528::LoadMarkerList(QXmlStreamReader *reader, TimelineMarkerList *markers) const {
   while (XMLReadNextStartElement(reader)) {
     if (reader->name() == QStringLiteral("marker")) {
       QString name;
@@ -754,8 +730,7 @@ void ProjectSerializer210528::LoadMarkerList(QXmlStreamReader *reader, TimelineM
   }
 }
 
-void ProjectSerializer210528::LoadValueHint(Node::ValueHint *hint, QXmlStreamReader *reader) const
-{
+void ProjectSerializer210528::LoadValueHint(Node::ValueHint *hint, QXmlStreamReader *reader) const {
   QVector<NodeValue::Type> types;
 
   while (XMLReadNextStartElement(reader)) {
@@ -779,4 +754,4 @@ void ProjectSerializer210528::LoadValueHint(Node::ValueHint *hint, QXmlStreamRea
   hint->set_type(types);
 }
 
-}
+}  // namespace olive

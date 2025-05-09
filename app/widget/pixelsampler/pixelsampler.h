@@ -21,50 +21,46 @@
 #ifndef PIXELSAMPLERWIDGET_H
 #define PIXELSAMPLERWIDGET_H
 
-#include <QLabel>
 #include <QGroupBox>
+#include <QLabel>
 #include <QWidget>
 
 #include "widget/colorwheel/colorpreviewbox.h"
 
 namespace olive {
 
-class PixelSamplerWidget : public QGroupBox
-{
+class PixelSamplerWidget : public QGroupBox {
   Q_OBJECT
-public:
+ public:
   PixelSamplerWidget(QWidget* parent = nullptr);
 
-public slots:
+ public slots:
   void SetValues(const Color& color);
 
-private:
+ private:
   void UpdateLabelInternal();
 
   Color color_;
 
-  ColorPreviewBox *box_;
+  ColorPreviewBox* box_;
 
   QLabel* label_;
-
 };
 
-class ManagedPixelSamplerWidget : public QWidget
-{
+class ManagedPixelSamplerWidget : public QWidget {
   Q_OBJECT
-public:
+ public:
   ManagedPixelSamplerWidget(QWidget* parent = nullptr);
 
-public slots:
+ public slots:
   void SetValues(const Color& reference, const Color& display);
 
-private:
+ private:
   PixelSamplerWidget* reference_view_;
 
   PixelSamplerWidget* display_view_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // PIXELSAMPLERWIDGET_H
+#endif  // PIXELSAMPLERWIDGET_H

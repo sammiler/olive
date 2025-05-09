@@ -27,10 +27,9 @@
 
 namespace olive {
 
-class FrameManager : public QObject
-{
+class FrameManager : public QObject {
   Q_OBJECT
-public:
+ public:
   static void CreateInstance();
 
   static void DestroyInstance();
@@ -41,7 +40,7 @@ public:
 
   static void Deallocate(int size, char* buffer);
 
-private:
+ private:
   FrameManager();
 
   virtual ~FrameManager() override;
@@ -70,23 +69,21 @@ private:
 
   static const int kFrameLifetime;
 
-  struct Buffer
-  {
+  struct Buffer {
     qint64 time;
     char* data;
   };
 
-  std::map< int, std::list<Buffer> > pool_;
+  std::map<int, std::list<Buffer> > pool_;
 
   QMutex mutex_;
 
   QTimer clear_timer_;
 
-private slots:
+ private slots:
   void GarbageCollection();
-
 };
 
-}
+}  // namespace olive
 
-#endif // FRAMEMANAGER_H
+#endif  // FRAMEMANAGER_H

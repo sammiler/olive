@@ -22,6 +22,7 @@ option(BUILD_DOXYGEN "Build Doxygen documentation" OFF)
 option(BUILD_TESTS "Build unit tests" OFF)
 option(${PROJECT_NAME}_QTQUICK "Build for QtQuick instead of QtWidgets" OFF)
 option(USE_WERROR "Error on compile warning" OFF)
+option(ENABLE_CLANG_FORMAT "Enable Clang Format" OFF)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -195,7 +196,10 @@ list(APPEND OLIVE_LIBRARIES
         FFMPEG::swscale
         FFMPEG::swresample
 )
-
+list(APPEND OLIVE_DEFINITIONS
+        __STDC_CONSTANT_MACROS
+        __STDC_LIMIT_MACROS
+        __STDC_FORMAT_MACROS)
 # Link PortAudio
 find_package(portaudio REQUIRED)
 set(CMAKE_REQUIRED_INCLUDES ${PORTAUDIO_INCLUDE_DIRS})
@@ -271,3 +275,27 @@ if (BUILD_TESTS)
     enable_testing()
     add_subdirectory(tests)
 endif ()
+
+if(ENABLE_CLANG_FORMAT)
+    # Formatting may change with different versions of clang-format.
+    # Test new versions before changing the allowed version here to avoid
+    # accidental broad changes to formatting.
+    find_program(CLANGFORMAT_EXECUTABLE
+            NAMES clang-format-14  clang-format
+            DOC "Path to clang-format executable")
+    if(CLANGFORMAT_EXECUTABLE)
+        message(STATUS "Found clang-format: ${CLANGFORMAT_EXECUTABLE}")
+
+        file(GLOB_RECURSE FORMAT_FILES "app/*.h" "app/*.cpp" "ext/*.cpp" "ext/*.h")
+
+        add_custom_target(clang-format COMMAND
+                ${CLANGFORMAT_EXECUTABLE} -style=file -i ${FORMAT_FILES}
+        )
+        add_custom_target(clang-format-check COMMAND
+                ${CLANGFORMAT_EXECUTABLE} --dry-run --Werror -style=file -i ${FORMAT_FILES}
+        )
+    else()
+        message(FATAL_ERROR "clang-format executable not found, but ENABLE_CLANG_FORMAT is ON. "
+                "Please install clang-format or set ENABLE_CLANG_FORMAT to OFF.")
+    endif()
+endif()

@@ -27,23 +27,21 @@
 
 namespace olive {
 
-class ClickableLabel : public QLabel
-{
+class ClickableLabel : public QLabel {
   Q_OBJECT
-public:
+ public:
   ClickableLabel(const QString& text, QWidget* parent = nullptr);
   ClickableLabel(QWidget* parent = nullptr);
 
-protected:
+ protected:
   virtual void mouseReleaseEvent(QMouseEvent* event) override;
   virtual void mouseDoubleClickEvent(QMouseEvent* event) override;
 
-signals:
+ signals:
   void MouseClicked();
   void MouseDoubleClicked();
-
 };
 
-}
+}  // namespace olive
 
-#endif // CLICKABLELABEL_H
+#endif  // CLICKABLELABEL_H

@@ -31,10 +31,9 @@ namespace olive {
 
 using namespace core;
 
-class BezierWidget : public QWidget
-{
+class BezierWidget : public QWidget {
   Q_OBJECT
-public:
+ public:
   explicit BezierWidget(QWidget *parent = nullptr);
 
   Bezier GetValue() const;
@@ -53,10 +52,10 @@ public:
 
   FloatSlider *cp2_y_slider() const { return cp2_y_slider_; }
 
-signals:
+ signals:
   void ValueChanged();
 
-private:
+ private:
   FloatSlider *x_slider_;
 
   FloatSlider *y_slider_;
@@ -68,9 +67,8 @@ private:
   FloatSlider *cp2_x_slider_;
 
   FloatSlider *cp2_y_slider_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // BEZIERWIDGET_H
+#endif  // BEZIERWIDGET_H

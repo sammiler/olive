@@ -8,25 +8,23 @@
 
 namespace olive {
 
-class NodeValueTree : public QTreeWidget
-{
+class NodeValueTree : public QTreeWidget {
   Q_OBJECT
-public:
+ public:
   NodeValueTree(QWidget *parent = nullptr);
 
   void SetNode(const NodeInput &input, const rational &time);
 
-protected:
+ protected:
   virtual void changeEvent(QEvent *event) override;
 
-private:
+ private:
   void Retranslate();
 
-private slots:
+ private slots:
   void RadioButtonChecked(bool e);
-
 };
 
-}
+}  // namespace olive
 
-#endif // NODEVALUETREE_H
+#endif  // NODEVALUETREE_H

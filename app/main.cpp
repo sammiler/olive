@@ -27,8 +27,8 @@
  */
 
 extern "C" {
-#include <libavformat/avformat.h>
 #include <libavfilter/avfilter.h>
+#include <libavformat/avformat.h>
 }
 
 #include <csignal>
@@ -36,27 +36,26 @@ extern "C" {
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QMessageBox>
-#include <QSurfaceFormat>
 #include <QProcess>
-#include "core.h"
+#include <QSurfaceFormat>
 #include "common/commandlineparser.h"
 #include "common/debug.h"
+#include "core.h"
 #include "node/project/serializer/serializer.h"
 #include "version.h"
 
 #ifdef _WIN32
+#include <Windows.h>
 #include <QOffscreenSurface>
 #include <QOpenGLContext>
 #include <QOpenGLFunctions>
-#include <Windows.h>
 #endif
 
 #ifdef USE_CRASHPAD
 #include "common/crashpadinterface.h"
-#endif // USE_CRASHPAD
+#endif  // USE_CRASHPAD
 
-int decompress_project(const QString &project)
-{
+int decompress_project(const QString &project) {
   if (project.isEmpty()) {
     printf("%s\n", QCoreApplication::translate("main", "No project filename set to decompress").toUtf8().constData());
     return 1;
@@ -71,7 +70,8 @@ int decompress_project(const QString &project)
   printf("%s\n", QCoreApplication::translate("main", "Decompressing project...").toUtf8().constData());
 
   if (!olive::ProjectSerializer::CheckCompressedID(&project_file)) {
-    printf("%s\n", QCoreApplication::translate("main", "Failed to decompress, project may be corrupt").toUtf8().constData());
+    printf("%s\n",
+           QCoreApplication::translate("main", "Failed to decompress, project may be corrupt").toUtf8().constData());
     return 1;
   }
 
@@ -82,7 +82,8 @@ int decompress_project(const QString &project)
   QByteArray decompressed = qUncompress(b);
 
   if (decompressed.isEmpty()) {
-    printf("%s\n", QCoreApplication::translate("main", "Failed to decompress, project may be corrupt").toUtf8().constData());
+    printf("%s\n",
+           QCoreApplication::translate("main", "Failed to decompress, project may be corrupt").toUtf8().constData());
     return 1;
   }
 
@@ -95,13 +96,14 @@ int decompress_project(const QString &project)
     filename = info.dir().filePath(info.completeBaseName().append(append).append(QStringLiteral(".ovexml")));
     append_num++;
     append = QStringLiteral("-%1").arg(append_num);
-  } while(QFileInfo::exists(filename));
+  } while (QFileInfo::exists(filename));
 
   printf("%s\n", QCoreApplication::translate("main", "Outputting to file \"%1\"").arg(filename).toUtf8().constData());
 
   QFile out(filename);
   if (!out.open(QFile::WriteOnly)) {
-    printf("%s\n", QCoreApplication::translate("main", "Failed to open output file \"%1\"").arg(filename).toUtf8().constData());
+    printf("%s\n",
+           QCoreApplication::translate("main", "Failed to open output file \"%1\"").arg(filename).toUtf8().constData());
     return 1;
   }
 
@@ -112,8 +114,7 @@ int decompress_project(const QString &project)
   return 0;
 }
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
   // Set up debug handler
   qInstallMessageHandler(olive::DebugHandler);
 
@@ -124,7 +125,6 @@ int main(int argc, char *argv[])
   QGuiApplication::setDesktopFileName("org.olivevideoeditor.Olive");
   QCoreApplication::setApplicationVersion(olive::kAppVersionLong);
 
-
   //
   // Parse command line arguments
   //
@@ -134,13 +134,13 @@ int main(int argc, char *argv[])
   int wargc;
   LPWSTR *wargv = CommandLineToArgvW(GetCommandLineW(), &wargc);
   args.resize(wargc);
-  for (int i=0; i<wargc; i++) {
+  for (int i = 0; i < wargc; i++) {
     args[i] = QString::fromWCharArray(wargv[i]);
   }
   LocalFree(wargv);
 #else
   args.resize(argc);
-  for (int i=0; i<argc; i++) {
+  for (int i = 0; i < argc; i++) {
     args[i] = QString::fromLocal8Bit(argv[i]);
   }
 #endif
@@ -150,42 +150,32 @@ int main(int argc, char *argv[])
   CommandLineParser parser;
 
   // Our options
-  auto help_option =
-      parser.AddOption({QStringLiteral("h"), QStringLiteral("-help")},
-                       QCoreApplication::translate("main", "Show this help text"));
+  auto help_option = parser.AddOption({QStringLiteral("h"), QStringLiteral("-help")},
+                                      QCoreApplication::translate("main", "Show this help text"));
 
-  auto version_option =
-      parser.AddOption({QStringLiteral("v"), QStringLiteral("-version")},
-                       QCoreApplication::translate("main", "Show application version"));
+  auto version_option = parser.AddOption({QStringLiteral("v"), QStringLiteral("-version")},
+                                         QCoreApplication::translate("main", "Show application version"));
 
-  auto fullscreen_option =
-      parser.AddOption({QStringLiteral("f"), QStringLiteral("-fullscreen")},
-                       QCoreApplication::translate("main", "Start in full-screen mode"));
+  auto fullscreen_option = parser.AddOption({QStringLiteral("f"), QStringLiteral("-fullscreen")},
+                                            QCoreApplication::translate("main", "Start in full-screen mode"));
 
-  auto export_option =
-      parser.AddOption({QStringLiteral("x"), QStringLiteral("-export")},
-                       QCoreApplication::translate("main", "Export only (No GUI)"));
+  auto export_option = parser.AddOption({QStringLiteral("x"), QStringLiteral("-export")},
+                                        QCoreApplication::translate("main", "Export only (No GUI)"));
 
   auto ts_option =
-      parser.AddOption({QStringLiteral("-ts")},
-                       QCoreApplication::translate("main", "Override language with file"),
-                       true,
-                       QCoreApplication::translate("main", "qm-file"));
+      parser.AddOption({QStringLiteral("-ts")}, QCoreApplication::translate("main", "Override language with file"),
+                       true, QCoreApplication::translate("main", "qm-file"));
 
-  auto decompress_option =
-      parser.AddOption({QStringLiteral("d"), QStringLiteral("-decompress")},
-                       QCoreApplication::translate("main", "Decompress project file (No GUI)"));
+  auto decompress_option = parser.AddOption({QStringLiteral("d"), QStringLiteral("-decompress")},
+                                            QCoreApplication::translate("main", "Decompress project file (No GUI)"));
 
 #ifdef _WIN32
-  auto console_option =
-      parser.AddOption({QStringLiteral("c"), QStringLiteral("-console")},
-                       QCoreApplication::translate("main", "Launch with debug console"));
-#endif // _WIN32
+  auto console_option = parser.AddOption({QStringLiteral("c"), QStringLiteral("-console")},
+                                         QCoreApplication::translate("main", "Launch with debug console"));
+#endif  // _WIN32
 
-  auto project_argument =
-      parser.AddPositionalArgument(QStringLiteral("project"),
-                                   QCoreApplication::translate("main", "Project to open on startup"));
-
+  auto project_argument = parser.AddPositionalArgument(
+      QStringLiteral("project"), QCoreApplication::translate("main", "Project to open on startup"));
 
   // Qt options re-implemented (add to this as necessary)
   //
@@ -277,7 +267,7 @@ int main(int argc, char *argv[])
     if (!console_option->IsSet()) {
       FreeConsole();
     }
-#endif // _WIN32
+#endif  // _WIN32
 
     a.reset(new QApplication(argc, argv));
   } else {
@@ -296,20 +286,24 @@ int main(int argc, char *argv[])
   surface.create();
   ctx.makeCurrent(&surface);
   bool has_proc_address = wglGetProcAddress("glGenFramebuffers");
-  std::string gpu_vendor = reinterpret_cast<const char*>(ctx.functions()->glGetString(GL_VENDOR));
-  std::string gpu_renderer = reinterpret_cast<const char*>(ctx.functions()->glGetString(GL_RENDERER));
-  std::string gpu_version = reinterpret_cast<const char*>(ctx.functions()->glGetString(GL_VERSION));
+  std::string gpu_vendor = reinterpret_cast<const char *>(ctx.functions()->glGetString(GL_VENDOR));
+  std::string gpu_renderer = reinterpret_cast<const char *>(ctx.functions()->glGetString(GL_RENDERER));
+  std::string gpu_version = reinterpret_cast<const char *>(ctx.functions()->glGetString(GL_VERSION));
   ctx.doneCurrent();
   surface.destroy();
 
   if (!has_proc_address) {
-    QString msg = QCoreApplication::translate("main",
-      "Your computer's graphics driver does not appear to support framebuffers. "
-      "This most likely means either your graphics driver is not up-to-date or your graphics card is too old to run Olive.\n\n"
-      "Please update your graphics driver to the latest version and try again.\n\n"
-      "Current driver information: %1 %2 %3").arg(QString::fromStdString(gpu_vendor), QString::fromStdString(gpu_renderer), QString::fromStdString(gpu_version));
+    QString msg =
+        QCoreApplication::translate("main",
+                                    "Your computer's graphics driver does not appear to support framebuffers. "
+                                    "This most likely means either your graphics driver is not up-to-date or your "
+                                    "graphics card is too old to run Olive.\n\n"
+                                    "Please update your graphics driver to the latest version and try again.\n\n"
+                                    "Current driver information: %1 %2 %3")
+            .arg(QString::fromStdString(gpu_vendor), QString::fromStdString(gpu_renderer),
+                 QString::fromStdString(gpu_version));
 
-    if (dynamic_cast<QGuiApplication*>(a.get())) {
+    if (dynamic_cast<QGuiApplication *>(a.get())) {
       QMessageBox::critical(nullptr, QString(), msg);
     } else {
       qCritical().noquote() << msg;
@@ -329,21 +323,17 @@ int main(int argc, char *argv[])
 
   // Enable Google Crashpad if compiled with it
 #ifdef USE_CRASHPAD
-    QProcess process;
-    Result resVal = InitializeCrashpad();
+  QProcess process;
+  Result resVal = InitializeCrashpad();
   if (!resVal.success) {
     qWarning() << "Failed to initialize Crashpad handler";
+  } else {
+    process.start(resVal.processPath, resVal.args);
+    if (!process.waitForStarted(1000)) {
+      qDebug() << "Process Start Failed";
+    }
   }
-  else
-  {
-       
-      process.start(resVal.processPath,resVal.args);
-      if (!process.waitForStarted(1000)) {
-          qDebug() << "Process Start Failed";
-      }
-
-  }
-#endif // USE_CRASHPAD
+#endif  // USE_CRASHPAD
   // Start core
   olive::Core c(startup_params);
 

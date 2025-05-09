@@ -27,48 +27,36 @@
 
 namespace olive {
 
-class FootageDescription
-{
-public:
-  FootageDescription(const QString& decoder = QString()) :
-    decoder_(decoder),
-    total_stream_count_(0)
-  {
+class FootageDescription {
+ public:
+  FootageDescription(const QString& decoder = QString()) : decoder_(decoder), total_stream_count_(0) {}
+
+  bool IsValid() const {
+    return !decoder_.isEmpty() &&
+           (!video_streams_.isEmpty() || !audio_streams_.isEmpty() || !subtitle_streams_.isEmpty());
   }
 
-  bool IsValid() const
-  {
-    return !decoder_.isEmpty() && (!video_streams_.isEmpty() || !audio_streams_.isEmpty() || !subtitle_streams_.isEmpty());
-  }
+  const QString& decoder() const { return decoder_; }
 
-  const QString& decoder() const
-  {
-    return decoder_;
-  }
-
-  void AddVideoStream(const VideoParams& video_params)
-  {
+  void AddVideoStream(const VideoParams& video_params) {
     Q_ASSERT(!HasStreamIndex(video_params.stream_index()));
 
     video_streams_.append(video_params);
   }
 
-  void AddAudioStream(const AudioParams& audio_params)
-  {
+  void AddAudioStream(const AudioParams& audio_params) {
     Q_ASSERT(!HasStreamIndex(audio_params.stream_index()));
 
     audio_streams_.append(audio_params);
   }
 
-  void AddSubtitleStream(const SubtitleParams& sub_params)
-  {
+  void AddSubtitleStream(const SubtitleParams& sub_params) {
     Q_ASSERT(!HasStreamIndex(sub_params.stream_index()));
 
     subtitle_streams_.append(sub_params);
   }
 
-  Track::Type GetTypeOfStream(int index)
-  {
+  Track::Type GetTypeOfStream(int index) {
     if (StreamIsVideo(index)) {
       return Track::kVideo;
     } else if (StreamIsAudio(index)) {
@@ -80,8 +68,7 @@ public:
     }
   }
 
-  bool StreamIsVideo(int index) const
-  {
+  bool StreamIsVideo(int index) const {
     foreach (const VideoParams& vp, video_streams_) {
       if (vp.stream_index() == index) {
         return true;
@@ -91,8 +78,7 @@ public:
     return false;
   }
 
-  bool StreamIsAudio(int index) const
-  {
+  bool StreamIsAudio(int index) const {
     foreach (const AudioParams& ap, audio_streams_) {
       if (ap.stream_index() == index) {
         return true;
@@ -102,8 +88,7 @@ public:
     return false;
   }
 
-  bool StreamIsSubtitle(int index) const
-  {
+  bool StreamIsSubtitle(int index) const {
     foreach (const SubtitleParams& sp, subtitle_streams_) {
       if (sp.stream_index() == index) {
         return true;
@@ -113,8 +98,7 @@ public:
     return false;
   }
 
-  bool HasStreamIndex(int index) const
-  {
+  bool HasStreamIndex(int index) const {
     return StreamIsVideo(index) || StreamIsAudio(index) || StreamIsSubtitle(index);
   }
 
@@ -134,7 +118,7 @@ public:
   const QVector<SubtitleParams>& GetSubtitleStreams() const { return subtitle_streams_; }
   QVector<SubtitleParams>& GetSubtitleStreams() { return subtitle_streams_; }
 
-private:
+ private:
   static constexpr unsigned kFootageMetaVersion = 6;
 
   QString decoder_;
@@ -146,9 +130,8 @@ private:
   QVector<SubtitleParams> subtitle_streams_;
 
   int total_stream_count_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // FOOTAGEDESCRIPTION_H
+#endif  // FOOTAGEDESCRIPTION_H

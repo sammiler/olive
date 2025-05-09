@@ -30,8 +30,7 @@ const QString DisplayTransformNode::kDirectionInput = QStringLiteral("dir_in");
 
 #define super OCIOBaseNode
 
-DisplayTransformNode::DisplayTransformNode()
-{
+DisplayTransformNode::DisplayTransformNode() {
   AddInput(kDisplayInput, NodeValue::kCombo, 0, InputFlags(kInputFlagNotKeyframable | kInputFlagNotConnectable));
 
   AddInput(kViewInput, NodeValue::kCombo, 0, InputFlags(kInputFlagNotKeyframable | kInputFlagNotConnectable));
@@ -39,28 +38,15 @@ DisplayTransformNode::DisplayTransformNode()
   AddInput(kDirectionInput, NodeValue::kCombo, 0, InputFlags(kInputFlagNotKeyframable | kInputFlagNotConnectable));
 }
 
-QString DisplayTransformNode::Name() const
-{
-  return tr("Display Transform");
-}
+QString DisplayTransformNode::Name() const { return tr("Display Transform"); }
 
-QString DisplayTransformNode::id() const
-{
-  return QStringLiteral("org.olivevideoeditor.Olive.displaytransform");
-}
+QString DisplayTransformNode::id() const { return QStringLiteral("org.olivevideoeditor.Olive.displaytransform"); }
 
-QVector<Node::CategoryID> DisplayTransformNode::Category() const
-{
-  return {kCategoryColor};
-}
+QVector<Node::CategoryID> DisplayTransformNode::Category() const { return {kCategoryColor}; }
 
-QString DisplayTransformNode::Description() const
-{
-  return tr("Converts an image to or from a display color space.");
-}
+QString DisplayTransformNode::Description() const { return tr("Converts an image to or from a display color space."); }
 
-void DisplayTransformNode::Retranslate()
-{
+void DisplayTransformNode::Retranslate() {
   super::Retranslate();
 
   SetInputName(kTextureInput, tr("Input"));
@@ -70,8 +56,7 @@ void DisplayTransformNode::Retranslate()
   SetComboBoxStrings(kDirectionInput, {tr("Forward"), tr("Inverse")});
 }
 
-void DisplayTransformNode::InputValueChangedEvent(const QString &input, int element)
-{
+void DisplayTransformNode::InputValueChangedEvent(const QString &input, int element) {
   Q_UNUSED(element);
   if (input == kDisplayInput || input == kDirectionInput || input == kViewInput) {
     if (input == kDisplayInput) {
@@ -81,8 +66,7 @@ void DisplayTransformNode::InputValueChangedEvent(const QString &input, int elem
   }
 }
 
-QString DisplayTransformNode::GetDisplay() const
-{
+QString DisplayTransformNode::GetDisplay() const {
   if (manager()) {
     int index = GetStandardValue(kDisplayInput).toInt();
     if (index < manager()->ListAvailableDisplays().size()) {
@@ -92,8 +76,7 @@ QString DisplayTransformNode::GetDisplay() const
   return QString();
 }
 
-QString DisplayTransformNode::GetView() const
-{
+QString DisplayTransformNode::GetView() const {
   if (manager()) {
     QString display = GetDisplay();
     if (!display.isEmpty()) {
@@ -107,38 +90,34 @@ QString DisplayTransformNode::GetView() const
   return QString();
 }
 
-ColorProcessor::Direction DisplayTransformNode::GetDirection() const
-{
-  return static_cast<ColorProcessor::Direction>(GetStandardValue(kDirectionInput).toInt());;
+ColorProcessor::Direction DisplayTransformNode::GetDirection() const {
+  return static_cast<ColorProcessor::Direction>(GetStandardValue(kDirectionInput).toInt());
+  ;
 }
 
-void DisplayTransformNode::UpdateDisplays()
-{
+void DisplayTransformNode::UpdateDisplays() {
   if (manager()) {
     SetComboBoxStrings(kDisplayInput, manager()->ListAvailableDisplays());
   }
 }
 
-void DisplayTransformNode::UpdateViews()
-{
+void DisplayTransformNode::UpdateViews() {
   if (manager()) {
     SetComboBoxStrings(kViewInput, manager()->ListAvailableViews(GetDisplay()));
   }
 }
 
-void DisplayTransformNode::ConfigChanged()
-{
+void DisplayTransformNode::ConfigChanged() {
   UpdateDisplays();
   UpdateViews();
   GenerateProcessor();
 }
 
-void DisplayTransformNode::GenerateProcessor()
-{
+void DisplayTransformNode::GenerateProcessor() {
   if (manager()) {
     ColorTransform transform(GetDisplay(), GetView(), QString());
     set_processor(ColorProcessor::Create(manager(), manager()->GetReferenceColorSpace(), transform, GetDirection()));
   }
 }
 
-}
+}  // namespace olive

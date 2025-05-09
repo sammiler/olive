@@ -21,20 +21,15 @@
 #include "sliderlabel.h"
 
 #include <QApplication>
-#include <QMouseEvent>
 #include <QDebug>
+#include <QMouseEvent>
 
 namespace olive {
 
-SliderLabel::SliderLabel(QWidget *parent) :
-  QLabel(parent),
-  override_color_enabled_(false)
-{
+SliderLabel::SliderLabel(QWidget *parent) : QLabel(parent), override_color_enabled_(false) {
   QPalette p = palette();
 
-  p.setColor(QPalette::Disabled,
-             QPalette::Highlight,
-             p.color(QPalette::Disabled, QPalette::ButtonText));
+  p.setColor(QPalette::Disabled, QPalette::Highlight, p.color(QPalette::Disabled, QPalette::ButtonText));
 
   setPalette(p);
 
@@ -53,8 +48,7 @@ SliderLabel::SliderLabel(QWidget *parent) :
   setContextMenuPolicy(Qt::CustomContextMenu);
 }
 
-void SliderLabel::SetColor(const QColor &c)
-{
+void SliderLabel::SetColor(const QColor &c) {
   // Prevent infinite loop in changeEvent when we set the stylesheet
   override_color_enabled_ = false;
   override_color_ = c;
@@ -73,8 +67,7 @@ void SliderLabel::SetColor(const QColor &c)
   override_color_enabled_ = true;
 }
 
-void SliderLabel::mousePressEvent(QMouseEvent *e)
-{
+void SliderLabel::mousePressEvent(QMouseEvent *e) {
   if (e->button() == Qt::LeftButton) {
     if (e->modifiers() & Qt::AltModifier) {
       emit RequestReset();
@@ -84,8 +77,7 @@ void SliderLabel::mousePressEvent(QMouseEvent *e)
   }
 }
 
-void SliderLabel::mouseReleaseEvent(QMouseEvent *e)
-{
+void SliderLabel::mouseReleaseEvent(QMouseEvent *e) {
   if (e->button() == Qt::LeftButton) {
     if (!(e->modifiers() & Qt::AltModifier)) {
       emit LabelReleased();
@@ -93,8 +85,7 @@ void SliderLabel::mouseReleaseEvent(QMouseEvent *e)
   }
 }
 
-void SliderLabel::focusInEvent(QFocusEvent *event)
-{
+void SliderLabel::focusInEvent(QFocusEvent *event) {
   QWidget::focusInEvent(event);
 
   if (event->reason() == Qt::TabFocusReason) {
@@ -102,8 +93,7 @@ void SliderLabel::focusInEvent(QFocusEvent *event)
   }
 }
 
-void SliderLabel::changeEvent(QEvent *event)
-{
+void SliderLabel::changeEvent(QEvent *event) {
   QWidget::changeEvent(event);
 
   if (override_color_enabled_ && event->type() == QEvent::StyleChange) {
@@ -111,4 +101,4 @@ void SliderLabel::changeEvent(QEvent *event)
   }
 }
 
-}
+}  // namespace olive

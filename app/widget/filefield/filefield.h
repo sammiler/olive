@@ -26,49 +26,35 @@
 
 namespace olive {
 
-class FileField : public QWidget
-{
+class FileField : public QWidget {
   Q_OBJECT
-public:
+ public:
   FileField(QWidget* parent = nullptr);
 
-  QString GetFilename() const
-  {
-    return line_edit_->text();
-  }
+  QString GetFilename() const { return line_edit_->text(); }
 
-  void SetFilename(const QString& s)
-  {
-    line_edit_->setText(s);
-  }
+  void SetFilename(const QString& s) { line_edit_->setText(s); }
 
-  void SetPlaceholder(const QString& s)
-  {
-    line_edit_->setPlaceholderText(s);
-  }
+  void SetPlaceholder(const QString& s) { line_edit_->setPlaceholderText(s); }
 
-  void SetDirectoryMode(bool e)
-  {
-    directory_mode_ = e;
-  }
+  void SetDirectoryMode(bool e) { directory_mode_ = e; }
 
-signals:
+ signals:
   void FilenameChanged(const QString& filename);
 
-private:
+ private:
   QLineEdit* line_edit_;
 
   QPushButton* browse_btn_;
 
   bool directory_mode_;
 
-private slots:
+ private slots:
   void BrowseBtnClicked();
 
-  void LineEditChanged(const QString &text);
-
+  void LineEditChanged(const QString& text);
 };
 
-}
+}  // namespace olive
 
-#endif // FILEFIELD_H
+#endif  // FILEFIELD_H

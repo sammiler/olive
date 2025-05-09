@@ -32,15 +32,13 @@ namespace olive {
 
 const QString Folder::kChildInput = QStringLiteral("child_in");
 
-Folder::Folder()
-{
+Folder::Folder() {
   SetFlag(kIsItem);
 
   AddInput(kChildInput, NodeValue::kNone, InputFlags(kInputFlagArray | kInputFlagNotKeyframable));
 }
 
-QVariant Folder::data(const DataType &d) const
-{
+QVariant Folder::data(const DataType &d) const {
   if (d == ICON) {
     return icon::Folder;
   }
@@ -48,21 +46,19 @@ QVariant Folder::data(const DataType &d) const
   return super::data(d);
 }
 
-void Folder::Retranslate()
-{
+void Folder::Retranslate() {
   super::Retranslate();
 
   SetInputName(kChildInput, tr("Children"));
 }
 
-Node *GetChildWithNameInternal(const Folder* n, const QString& s)
-{
-  for (int i=0; i<n->item_child_count(); i++) {
-    Node* child = n->item_child(i);
+Node *GetChildWithNameInternal(const Folder *n, const QString &s) {
+  for (int i = 0; i < n->item_child_count(); i++) {
+    Node *child = n->item_child(i);
 
     if (child->GetLabel() == s) {
       return child;
-    } else if (Folder* subfolder = dynamic_cast<Folder*>(child)) {
+    } else if (Folder *subfolder = dynamic_cast<Folder *>(child)) {
       if (Node *n2 = GetChildWithNameInternal(subfolder, s)) {
         return n2;
       }
@@ -72,17 +68,13 @@ Node *GetChildWithNameInternal(const Folder* n, const QString& s)
   return nullptr;
 }
 
-Node *Folder::GetChildWithName(const QString &s) const
-{
-  return GetChildWithNameInternal(this, s);
-}
+Node *Folder::GetChildWithName(const QString &s) const { return GetChildWithNameInternal(this, s); }
 
-bool Folder::HasChildRecursive(Node *child) const
-{
+bool Folder::HasChildRecursive(Node *child) const {
   for (Node *i : item_children_) {
     if (i == child) {
       return true;
-    } else if (Folder *f = dynamic_cast<Folder*>(i)) {
+    } else if (Folder *f = dynamic_cast<Folder *>(i)) {
       if (f->HasChildRecursive(child)) {
         return true;
       }
@@ -92,8 +84,7 @@ bool Folder::HasChildRecursive(Node *child) const
   return false;
 }
 
-int Folder::index_of_child_in_array(Node *item) const
-{
+int Folder::index_of_child_in_array(Node *item) const {
   int index_of_item = item_children_.indexOf(item);
 
   if (index_of_item == -1) {
@@ -103,10 +94,9 @@ int Folder::index_of_child_in_array(Node *item) const
   return item_element_index_.at(index_of_item);
 }
 
-void Folder::InputConnectedEvent(const QString &input, int element, Node *output)
-{
+void Folder::InputConnectedEvent(const QString &input, int element, Node *output) {
   if (input == kChildInput && element != -1) {
-    Node* item = output;
+    Node *item = output;
 
     // The insert index is always our "count" because we only support appending in our internal
     // model. For sorting/organizing, a QSortFilterProxyModel is used instead.
@@ -118,10 +108,9 @@ void Folder::InputConnectedEvent(const QString &input, int element, Node *output
   }
 }
 
-void Folder::InputDisconnectedEvent(const QString &input, int element, Node *output)
-{
+void Folder::InputDisconnectedEvent(const QString &input, int element, Node *output) {
   if (input == kChildInput && element != -1) {
-    Node* item = output;
+    Node *item = output;
 
     int child_index = item_children_.indexOf(item);
     emit BeginRemoveItem(item, child_index);
@@ -132,32 +121,23 @@ void Folder::InputDisconnectedEvent(const QString &input, int element, Node *out
   }
 }
 
-FolderAddChild::FolderAddChild(Folder *folder, Node *child) :
-  folder_(folder),
-  child_(child)
-{
-}
+FolderAddChild::FolderAddChild(Folder *folder, Node *child) : folder_(folder), child_(child) {}
 
-Project *FolderAddChild::GetRelevantProject() const
-{
-  return folder_->project();
-}
+Project *FolderAddChild::GetRelevantProject() const { return folder_->project(); }
 
-void FolderAddChild::redo()
-{
+void FolderAddChild::redo() {
   int array_index = folder_->InputArraySize(Folder::kChildInput);
   folder_->InputArrayAppend(Folder::kChildInput);
   Node::ConnectEdge(child_, NodeInput(folder_, Folder::kChildInput, array_index));
 }
 
-void FolderAddChild::undo()
-{
-  Node::DisconnectEdge(child_, NodeInput(folder_, Folder::kChildInput, folder_->InputArraySize(Folder::kChildInput)-1));
+void FolderAddChild::undo() {
+  Node::DisconnectEdge(child_,
+                       NodeInput(folder_, Folder::kChildInput, folder_->InputArraySize(Folder::kChildInput) - 1));
   folder_->InputArrayRemoveLast(Folder::kChildInput);
 }
 
-void Folder::RemoveElementCommand::redo()
-{
+void Folder::RemoveElementCommand::redo() {
   if (!subcommand_) {
     remove_index_ = folder_->index_of_child_in_array(child_);
     if (remove_index_ != -1) {
@@ -173,4 +153,4 @@ void Folder::RemoveElementCommand::redo()
   }
 }
 
-}
+}  // namespace olive

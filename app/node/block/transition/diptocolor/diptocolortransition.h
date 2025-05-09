@@ -25,10 +25,9 @@
 
 namespace olive {
 
-class DipToColorTransition : public TransitionBlock
-{
+class DipToColorTransition : public TransitionBlock {
   Q_OBJECT
-public:
+ public:
   DipToColorTransition();
 
   NODE_DEFAULT_FUNCTIONS(DipToColorTransition)
@@ -44,11 +43,10 @@ public:
 
   static const QString kColorInput;
 
-protected:
+ protected:
   virtual void ShaderJobEvent(const NodeValueRow &value, ShaderJob *job) const override;
-
 };
 
-}
+}  // namespace olive
 
-#endif // DIPTOCOLORTRANSITION_H
+#endif  // DIPTOCOLORTRANSITION_H

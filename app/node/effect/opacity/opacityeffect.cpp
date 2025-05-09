@@ -10,8 +10,7 @@ namespace olive {
 const QString OpacityEffect::kTextureInput = QStringLiteral("tex_in");
 const QString OpacityEffect::kValueInput = QStringLiteral("opacity_in");
 
-OpacityEffect::OpacityEffect()
-{
+OpacityEffect::OpacityEffect() {
   MathNode *math = new MathNode();
 
   math->SetOperation(MathNode::kOpMultiply);
@@ -29,16 +28,14 @@ OpacityEffect::OpacityEffect()
   SetEffectInput(kTextureInput);
 }
 
-void OpacityEffect::Retranslate()
-{
+void OpacityEffect::Retranslate() {
   super::Retranslate();
 
   SetInputName(kTextureInput, tr("Texture"));
   SetInputName(kValueInput, tr("Opacity"));
 }
 
-ShaderCode OpacityEffect::GetShaderCode(const ShaderRequest &request) const
-{
+ShaderCode OpacityEffect::GetShaderCode(const ShaderRequest &request) const {
   if (request.id == QStringLiteral("rgbmult")) {
     return ShaderCode(FileFunctions::ReadFileAsString(":/shaders/opacity_rgb.frag"));
   } else {
@@ -46,8 +43,7 @@ ShaderCode OpacityEffect::GetShaderCode(const ShaderRequest &request) const
   }
 }
 
-void OpacityEffect::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const
-{
+void OpacityEffect::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const {
   // If there's no texture, no need to run an operation
   if (TexturePtr tex = value[kTextureInput].toTexture()) {
     if (TexturePtr opacity_tex = value[kValueInput].toTexture()) {
@@ -63,4 +59,4 @@ void OpacityEffect::Value(const NodeValueRow &value, const NodeGlobals &globals,
   }
 }
 
-}
+}  // namespace olive

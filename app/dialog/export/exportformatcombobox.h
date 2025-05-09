@@ -30,39 +30,28 @@
 
 namespace olive {
 
-class ExportFormatComboBox : public QComboBox
-{
+class ExportFormatComboBox : public QComboBox {
   Q_OBJECT
-public:
-  enum Mode {
-    kShowAllFormats,
-    kShowAudioOnly,
-    kShowVideoOnly,
-    kShowSubtitlesOnly
-  };
+ public:
+  enum Mode { kShowAllFormats, kShowAudioOnly, kShowVideoOnly, kShowSubtitlesOnly };
 
   ExportFormatComboBox(Mode mode, QWidget *parent = nullptr);
-  ExportFormatComboBox(QWidget *parent = nullptr) :
-    ExportFormatComboBox(kShowAllFormats, parent)
-  {}
+  ExportFormatComboBox(QWidget *parent = nullptr) : ExportFormatComboBox(kShowAllFormats, parent) {}
 
-  ExportFormat::Format GetFormat() const
-  {
-    return current_;
-  }
+  ExportFormat::Format GetFormat() const { return current_; }
 
   void showPopup();
 
-signals:
+ signals:
   void FormatChanged(ExportFormat::Format fmt);
 
-public slots:
+ public slots:
   void SetFormat(ExportFormat::Format fmt);
 
-private slots:
+ private slots:
   void HandleIndexChange(QAction *a);
 
-private:
+ private:
   void PopulateType(Track::Type type);
 
   QWidgetAction *CreateHeader(const QIcon &icon, const QString &title);
@@ -70,9 +59,8 @@ private:
   Menu *custom_menu_;
 
   ExportFormat::Format current_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // EXPORTFORMATCOMBOBOX_H
+#endif  // EXPORTFORMATCOMBOBOX_H

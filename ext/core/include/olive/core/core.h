@@ -37,4 +37,4 @@
 #include "util/timerange.h"
 #include "util/value.h"
 
-#endif // LIBOLIVECORE_H
+#endif  // LIBOLIVECORE_H

@@ -25,18 +25,16 @@
 
 namespace olive {
 
-class TrackSelectTool : public PointerTool
-{
-public:
+class TrackSelectTool : public PointerTool {
+ public:
   TrackSelectTool(TimelineWidget *parent);
 
   virtual void MousePress(TimelineViewMouseEvent *event) override;
 
-private:
+ private:
   void SelectBlocksOnTrack(Track *track, TimelineViewMouseEvent *event, QVector<Block *> *blocks, bool forward);
-
 };
 
-}
+}  // namespace olive
 
-#endif // TRACKSELECTTOOL_H
+#endif  // TRACKSELECTTOOL_H

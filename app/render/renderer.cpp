@@ -28,23 +28,17 @@
 
 namespace olive {
 
-Renderer::Renderer(QObject *parent) :
-  QObject(parent)
-{
-}
+Renderer::Renderer(QObject *parent) : QObject(parent) {}
 
-TexturePtr Renderer::CreateTexture(const VideoParams &params, const void *data, int linesize)
-{
+TexturePtr Renderer::CreateTexture(const VideoParams &params, const void *data, int linesize) {
   QVariant v;
 
   if (USE_TEXTURE_CACHE) {
     QMutexLocker locker(&texture_cache_lock_);
-    for (auto it=texture_cache_.begin(); it!=texture_cache_.end(); it++) {
-      if (it->width == params.effective_width()
-          && it->height == params.effective_height()
-          && it->depth == params.effective_depth()
-          && it->format == params.format()
-          && it->channel_count == params.channel_count()) {
+    for (auto it = texture_cache_.begin(); it != texture_cache_.end(); it++) {
+      if (it->width == params.effective_width() && it->height == params.effective_height() &&
+          it->depth == params.effective_depth() && it->format == params.format() &&
+          it->channel_count == params.channel_count()) {
         v = it->handle;
         texture_cache_.erase(it);
         break;
@@ -64,8 +58,7 @@ TexturePtr Renderer::CreateTexture(const VideoParams &params, const void *data, 
   return CreateTextureFromNativeHandle(v, params);
 }
 
-void Renderer::DestroyTexture(Texture *texture)
-{
+void Renderer::DestroyTexture(Texture *texture) {
   if (USE_TEXTURE_CACHE) {
     // HACK: Dirty, dirty hack. OpenGL uses "contexts" to store all of its data, and each context
     //       can only be used by the thread that created it. However there are also "shared contexts"
@@ -83,13 +76,9 @@ void Renderer::DestroyTexture(Texture *texture)
     //       Presumably Vulkan would not have this issue because it allows for application-wide
     //       instances and multithreading.
     texture_cache_lock_.lock();
-    texture_cache_.push_back({texture->params().effective_width(),
-                              texture->params().effective_height(),
-                              texture->params().effective_depth(),
-                              texture->params().format(),
-                              texture->params().channel_count(),
-                              texture->id(),
-                              QDateTime::currentMSecsSinceEpoch()});
+    texture_cache_.push_back({texture->params().effective_width(), texture->params().effective_height(),
+                              texture->params().effective_depth(), texture->params().format(),
+                              texture->params().channel_count(), texture->id(), QDateTime::currentMSecsSinceEpoch()});
     texture_cache_lock_.unlock();
 
     if (QThread::currentThread() == this->thread()) {
@@ -100,18 +89,19 @@ void Renderer::DestroyTexture(Texture *texture)
   }
 }
 
-TexturePtr Renderer::InterlaceTexture(TexturePtr top, TexturePtr bottom, const VideoParams &params)
-{
+TexturePtr Renderer::InterlaceTexture(TexturePtr top, TexturePtr bottom, const VideoParams &params) {
   color_cache_mutex_.lock();
   if (interlace_texture_.isNull()) {
-    interlace_texture_ = CreateNativeShader(ShaderCode(FileFunctions::ReadFileAsString(QStringLiteral(":/shaders/interlace.frag"))));
+    interlace_texture_ =
+        CreateNativeShader(ShaderCode(FileFunctions::ReadFileAsString(QStringLiteral(":/shaders/interlace.frag"))));
   }
   color_cache_mutex_.unlock();
 
   ShaderJob job;
   job.Insert(QStringLiteral("top_tex_in"), NodeValue(NodeValue::kTexture, QVariant::fromValue(top)));
   job.Insert(QStringLiteral("bottom_tex_in"), NodeValue(NodeValue::kTexture, QVariant::fromValue(bottom)));
-  job.Insert(QStringLiteral("resolution_in"), NodeValue(NodeValue::kVec2, QVector2D(params.effective_width(), params.effective_height())));
+  job.Insert(QStringLiteral("resolution_in"),
+             NodeValue(NodeValue::kVec2, QVector2D(params.effective_width(), params.effective_height())));
 
   TexturePtr output = CreateTexture(params);
 
@@ -120,8 +110,7 @@ TexturePtr Renderer::InterlaceTexture(TexturePtr top, TexturePtr bottom, const V
   return output;
 }
 
-QVariant Renderer::GetDefaultShader()
-{
+QVariant Renderer::GetDefaultShader() {
   QMutexLocker locker(&color_cache_mutex_);
 
   if (default_shader_.isNull()) {
@@ -131,8 +120,7 @@ QVariant Renderer::GetDefaultShader()
   return default_shader_;
 }
 
-void Renderer::Destroy()
-{
+void Renderer::Destroy() {
   if (!default_shader_.isNull()) {
     DestroyNativeShader(default_shader_);
     default_shader_.clear();
@@ -145,7 +133,7 @@ void Renderer::Destroy()
     interlace_texture_.clear();
   }
 
-  for (auto it=texture_cache_.begin(); it!=texture_cache_.end(); it++) {
+  for (auto it = texture_cache_.begin(); it != texture_cache_.end(); it++) {
     DestroyNativeTexture(it->handle);
   }
   texture_cache_.clear();
@@ -153,8 +141,7 @@ void Renderer::Destroy()
   DestroyInternal();
 }
 
-TexturePtr Renderer::CreateTextureFromNativeHandle(const QVariant &v, const VideoParams &params)
-{
+TexturePtr Renderer::CreateTextureFromNativeHandle(const QVariant &v, const VideoParams &params) {
   if (v.isNull()) {
     return nullptr;
   }
@@ -162,11 +149,10 @@ TexturePtr Renderer::CreateTextureFromNativeHandle(const QVariant &v, const Vide
   return std::make_shared<Texture>(this, v, params);
 }
 
-bool Renderer::GetColorContext(const ColorTransformJob &color_job, Renderer::ColorContext *ctx)
-{
+bool Renderer::GetColorContext(const ColorTransformJob &color_job, Renderer::ColorContext *ctx) {
   QMutexLocker locker(&color_cache_mutex_);
 
-  ColorContext& color_ctx = *ctx;
+  ColorContext &color_ctx = *ctx;
 
   QString proc_id = color_job.id();
 
@@ -207,22 +193,20 @@ bool Renderer::GetColorContext(const ColorTransformJob &color_job, Renderer::Col
     }
 
     color_ctx.lut3d_textures.resize(shader_desc->getNum3DTextures());
-    for (unsigned int i=0; i<shader_desc->getNum3DTextures(); i++) {
-      const char* tex_name = nullptr;
-      const char* sampler_name = nullptr;
+    for (unsigned int i = 0; i < shader_desc->getNum3DTextures(); i++) {
+      const char *tex_name = nullptr;
+      const char *sampler_name = nullptr;
       unsigned int edge_len = 0;
       OCIO::Interpolation interpolation = OCIO::INTERP_LINEAR;
 
       shader_desc->get3DTexture(i, tex_name, sampler_name, edge_len, interpolation);
 
-      if (!tex_name || !*tex_name
-          || !sampler_name || !*sampler_name
-          || !edge_len) {
+      if (!tex_name || !*tex_name || !sampler_name || !*sampler_name || !edge_len) {
         qCritical() << "3D LUT texture data is corrupted";
         return false;
       }
 
-      const float* values = nullptr;
+      const float *values = nullptr;
       shader_desc->get3DTextureValues(i, values);
       if (!values) {
         qCritical() << "3D LUT texture values are missing";
@@ -230,27 +214,27 @@ bool Renderer::GetColorContext(const ColorTransformJob &color_job, Renderer::Col
       }
 
       // Allocate 3D LUT
-      color_ctx.lut3d_textures[i].texture = CreateTexture(VideoParams(edge_len, edge_len, edge_len, PixelFormat::F32, VideoParams::kRGBChannelCount), values);
+      color_ctx.lut3d_textures[i].texture = CreateTexture(
+          VideoParams(edge_len, edge_len, edge_len, PixelFormat::F32, VideoParams::kRGBChannelCount), values);
       color_ctx.lut3d_textures[i].name = sampler_name;
-      color_ctx.lut3d_textures[i].interpolation = (interpolation == OCIO::INTERP_NEAREST) ? Texture::kNearest : Texture::kLinear;
+      color_ctx.lut3d_textures[i].interpolation =
+          (interpolation == OCIO::INTERP_NEAREST) ? Texture::kNearest : Texture::kLinear;
     }
 
     color_ctx.lut1d_textures.resize(shader_desc->getNumTextures());
-    for (unsigned int i=0; i<shader_desc->getNumTextures(); i++) {
-      const char* tex_name = nullptr;
-      const char* sampler_name = nullptr;
+    for (unsigned int i = 0; i < shader_desc->getNumTextures(); i++) {
+      const char *tex_name = nullptr;
+      const char *sampler_name = nullptr;
       unsigned int width = 0, height = 0;
       OCIO::GpuShaderDesc::TextureType channel = OCIO::GpuShaderDesc::TEXTURE_RGB_CHANNEL;
       OCIO::Interpolation interpolation = OCIO::INTERP_LINEAR;
       shader_desc->getTexture(i, tex_name, sampler_name, width, height, channel, interpolation);
-      if (!tex_name || !*tex_name
-          || !sampler_name || !*sampler_name
-          || !width) {
+      if (!tex_name || !*tex_name || !sampler_name || !*sampler_name || !width) {
         qCritical() << "1D LUT texture data is corrupted";
         return false;
       }
 
-      const float* values = nullptr;
+      const float *values = nullptr;
       shader_desc->getTextureValues(i, values);
       if (!values) {
         qCritical() << "1D LUT texture values are missing";
@@ -258,9 +242,13 @@ bool Renderer::GetColorContext(const ColorTransformJob &color_job, Renderer::Col
       }
 
       // Allocate 1D LUT
-      color_ctx.lut1d_textures[i].texture = CreateTexture(VideoParams(width, height, PixelFormat::F32, (channel == OCIO::GpuShaderDesc::TEXTURE_RED_CHANNEL) ? 1 : VideoParams::kRGBChannelCount), values);
+      color_ctx.lut1d_textures[i].texture = CreateTexture(
+          VideoParams(width, height, PixelFormat::F32,
+                      (channel == OCIO::GpuShaderDesc::TEXTURE_RED_CHANNEL) ? 1 : VideoParams::kRGBChannelCount),
+          values);
       color_ctx.lut1d_textures[i].name = sampler_name;
-      color_ctx.lut1d_textures[i].interpolation = (interpolation == OCIO::INTERP_NEAREST) ? Texture::kNearest : Texture::kLinear;
+      color_ctx.lut1d_textures[i].interpolation =
+          (interpolation == OCIO::INTERP_NEAREST) ? Texture::kNearest : Texture::kLinear;
     }
 
     color_cache_.insert(proc_id, color_ctx);
@@ -269,11 +257,10 @@ bool Renderer::GetColorContext(const ColorTransformJob &color_job, Renderer::Col
   }
 }
 
-void Renderer::ClearOldTextures()
-{
+void Renderer::ClearOldTextures() {
   QMutexLocker locker(&texture_cache_lock_);
 
-  for (auto it=texture_cache_.begin(); it!=texture_cache_.end(); ) {
+  for (auto it = texture_cache_.begin(); it != texture_cache_.end();) {
     if (it->accessed < QDateTime::currentMSecsSinceEpoch() - MAX_TEXTURE_LIFE) {
       DestroyNativeTexture(it->handle);
       it = texture_cache_.erase(it);
@@ -283,8 +270,7 @@ void Renderer::ClearOldTextures()
   }
 }
 
-void Renderer::BlitColorManaged(const ColorTransformJob &color_job, Texture *destination, const VideoParams &params)
-{
+void Renderer::BlitColorManaged(const ColorTransformJob &color_job, Texture *destination, const VideoParams &params) {
   ColorContext color_ctx;
   if (!GetColorContext(color_job, &color_ctx)) {
     return;
@@ -294,15 +280,16 @@ void Renderer::BlitColorManaged(const ColorTransformJob &color_job, Texture *des
   job.Insert(QStringLiteral("ove_maintex"), color_job.GetInputTexture());
   job.Insert(QStringLiteral("ove_mvpmat"), NodeValue(NodeValue::kMatrix, color_job.GetTransformMatrix()));
   job.Insert(QStringLiteral("ove_cropmatrix"), NodeValue(NodeValue::kMatrix, color_job.GetCropMatrix().inverted()));
-  job.Insert(QStringLiteral("ove_maintex_alpha"), NodeValue(NodeValue::kInt, int(color_job.GetInputAlphaAssociation())));
+  job.Insert(QStringLiteral("ove_maintex_alpha"),
+             NodeValue(NodeValue::kInt, int(color_job.GetInputAlphaAssociation())));
   job.Insert(QStringLiteral("ove_force_opaque"), NodeValue(NodeValue::kBoolean, color_job.GetForceOpaque()));
   job.Insert(color_job.GetValues());
 
-  foreach (const ColorContext::LUT& l, color_ctx.lut3d_textures) {
+  foreach (const ColorContext::LUT &l, color_ctx.lut3d_textures) {
     job.Insert(l.name, NodeValue(NodeValue::kTexture, QVariant::fromValue(l.texture)));
     job.SetInterpolation(l.name, l.interpolation);
   }
-  foreach (const ColorContext::LUT& l, color_ctx.lut1d_textures) {
+  foreach (const ColorContext::LUT &l, color_ctx.lut1d_textures) {
     job.Insert(l.name, NodeValue(NodeValue::kTexture, QVariant::fromValue(l.texture)));
     job.SetInterpolation(l.name, l.interpolation);
   }
@@ -314,4 +301,4 @@ void Renderer::BlitColorManaged(const ColorTransformJob &color_job, Texture *des
   }
 }
 
-}
+}  // namespace olive

@@ -29,18 +29,14 @@ namespace olive {
 
 using namespace core;
 
-class PlanarFileDevice : public QObject
-{
+class PlanarFileDevice : public QObject {
   Q_OBJECT
-public:
+ public:
   PlanarFileDevice(QObject *parent = nullptr);
 
   virtual ~PlanarFileDevice() override;
 
-  bool isOpen() const
-  {
-    return !files_.isEmpty();
-  }
+  bool isOpen() const { return !files_.isEmpty(); }
 
   bool open(const QVector<QString> &filenames, QIODevice::OpenMode mode);
 
@@ -54,11 +50,10 @@ public:
 
   void close();
 
-private:
-  QVector<QFile*> files_;
-
+ private:
+  QVector<QFile *> files_;
 };
 
-}
+}  // namespace olive
 
-#endif // PLANARFILEDEVICE_H
+#endif  // PLANARFILEDEVICE_H

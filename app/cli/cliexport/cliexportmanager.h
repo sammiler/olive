@@ -25,12 +25,11 @@
 
 namespace olive {
 
-class CLIExportManager : public QObject
-{
-public:
+class CLIExportManager : public QObject {
+ public:
   CLIExportManager();
 };
 
-}
+}  // namespace olive
 
-#endif // CLIEXPORTMANAGER_H
+#endif  // CLIEXPORTMANAGER_H

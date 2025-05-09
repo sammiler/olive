@@ -29,27 +29,26 @@
 
 namespace olive {
 
-class ProgressDialog : public QDialog
-{
+class ProgressDialog : public QDialog {
   Q_OBJECT
-public:
-  ProgressDialog(const QString &message, const QString &title, QWidget* parent = nullptr);
+ public:
+  ProgressDialog(const QString& message, const QString& title, QWidget* parent = nullptr);
 
-protected:
+ protected:
   virtual void showEvent(QShowEvent* e) override;
 
-  virtual void closeEvent(QCloseEvent *) override;
+  virtual void closeEvent(QCloseEvent*) override;
 
-public slots:
+ public slots:
   void SetProgress(double value);
 
-signals:
+ signals:
   void Cancelled();
 
-protected:
+ protected:
   void ShowErrorMessage(const QString& title, const QString& message);
 
-private:
+ private:
   QProgressBar* bar_;
 
   ElapsedCounterWidget* elapsed_timer_lbl_;
@@ -58,13 +57,12 @@ private:
 
   bool first_show_;
 
-private slots:
+ private slots:
   void DisableSenderWidget();
 
   void DisableProgressWidgets();
-
 };
 
-}
+}  // namespace olive
 
-#endif // PROGRESSDIALOG_H
+#endif  // PROGRESSDIALOG_H

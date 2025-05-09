@@ -20,7 +20,6 @@
 
 #include "saveotio.h"
 
-
 #include <opentimelineio/clip.h>
 #include <opentimelineio/externalReference.h>
 #include <opentimelineio/gap.h>
@@ -35,14 +34,11 @@
 
 namespace olive {
 
-SaveOTIOTask::SaveOTIOTask(Project *project) :
-  project_(project)
-{
+SaveOTIOTask::SaveOTIOTask(Project* project) : project_(project) {
   SetTitle(tr("Exporting project to OpenTimelineIO"));
 }
 
-bool SaveOTIOTask::Run()
-{
+bool SaveOTIOTask::Run() {
   QVector<Sequence*> sequences = project_->root()->ListChildrenOfType<Sequence>();
 
   if (sequences.isEmpty()) {
@@ -93,11 +89,11 @@ bool SaveOTIOTask::Run()
   return (es.outcome == OTIO::ErrorStatus::Outcome::OK);
 }
 
-OTIO::Timeline *SaveOTIOTask::SerializeTimeline(Sequence *sequence)
-{
+OTIO::Timeline* SaveOTIOTask::SerializeTimeline(Sequence* sequence) {
   auto otio_timeline = new OTIO::Timeline(sequence->GetLabel().toUtf8().constData());
   // Retainers clean themselves up when the final user is removed
-  OTIO::Timeline::Retainer<OTIO::Timeline>* timeline_retainer = new OTIO::Timeline::Retainer<OTIO::Timeline>(otio_timeline);
+  OTIO::Timeline::Retainer<OTIO::Timeline>* timeline_retainer =
+      new OTIO::Timeline::Retainer<OTIO::Timeline>(otio_timeline);
   // Suppress unused variable warning
   Q_UNUSED(timeline_retainer);
 
@@ -106,8 +102,8 @@ OTIO::Timeline *SaveOTIOTask::SerializeTimeline(Sequence *sequence)
     return nullptr;
   }
 
-  if (!SerializeTrackList(sequence->track_list(Track::kVideo), otio_timeline, rate)
-      || !SerializeTrackList(sequence->track_list(Track::kAudio), otio_timeline, rate)) {
+  if (!SerializeTrackList(sequence->track_list(Track::kVideo), otio_timeline, rate) ||
+      !SerializeTrackList(sequence->track_list(Track::kAudio), otio_timeline, rate)) {
     otio_timeline->possibly_delete();
     return nullptr;
   }
@@ -115,22 +111,21 @@ OTIO::Timeline *SaveOTIOTask::SerializeTimeline(Sequence *sequence)
   return otio_timeline;
 }
 
-OTIO::Track *SaveOTIOTask::SerializeTrack(Track *track, double sequence_rate, rational max_track_length)
-{
+OTIO::Track* SaveOTIOTask::SerializeTrack(Track* track, double sequence_rate, rational max_track_length) {
   auto otio_track = new OTIO::Track();
 
   OTIO::ErrorStatus es;
 
   switch (track->type()) {
-  case Track::kVideo:
-    otio_track->set_kind("Video");
-    break;
-  case Track::kAudio:
-    otio_track->set_kind("Audio");
-    break;
-  default:
-    qWarning() << "Don't know OTIO track kind for native type" << track->type();
-    goto fail;
+    case Track::kVideo:
+      otio_track->set_kind("Video");
+      break;
+    case Track::kAudio:
+      otio_track->set_kind("Audio");
+      break;
+    default:
+      qWarning() << "Don't know OTIO track kind for native type" << track->type();
+      goto fail;
   }
 
   foreach (Block* block, track->Blocks()) {
@@ -139,35 +134,34 @@ OTIO::Track *SaveOTIOTask::SerializeTrack(Track *track, double sequence_rate, ra
     if (dynamic_cast<ClipBlock*>(block)) {
       auto otio_clip = new OTIO::Clip(block->GetLabel().toUtf8().constData());
 
-      otio_clip->set_source_range(OTIO::TimeRange(block->in().toRationalTime(sequence_rate),
-                                                  block->length().toRationalTime(sequence_rate)));
+      otio_clip->set_source_range(
+          OTIO::TimeRange(block->in().toRationalTime(sequence_rate), block->length().toRationalTime(sequence_rate)));
 
       QVector<Footage*> media_nodes = block->FindInputNodes<Footage>();
       if (!media_nodes.isEmpty()) {
-
         OTIO::TimeRange available_range;
         if (otio_track->kind().compare("Video") == 0) {
           // OTIO ExternalReference uses the source clips frame rate (or sample rate) as opposed to
           // the sequences rate
-          double source_frame_rate = static_cast<ClipBlock*>(block)->connected_viewer()->GetVideoParams().frame_rate().toDouble();
-          available_range = OTIO::TimeRange(OTIO::RationalTime(0, source_frame_rate),
-                                            OTIO::RationalTime(media_nodes.first()->GetVideoParams().duration(),
-                                                               source_frame_rate));
+          double source_frame_rate =
+              static_cast<ClipBlock*>(block)->connected_viewer()->GetVideoParams().frame_rate().toDouble();
+          available_range =
+              OTIO::TimeRange(OTIO::RationalTime(0, source_frame_rate),
+                              OTIO::RationalTime(media_nodes.first()->GetVideoParams().duration(), source_frame_rate));
         } else if (otio_track->kind().compare("Audio") == 0) {
           available_range = OTIO::TimeRange(OTIO::RationalTime(0, media_nodes.first()->GetAudioParams().sample_rate()),
-                                  OTIO::RationalTime(media_nodes.first()->GetAudioParams().duration(),
-                                                     media_nodes.first()->GetAudioParams().sample_rate()));
+                                            OTIO::RationalTime(media_nodes.first()->GetAudioParams().duration(),
+                                                               media_nodes.first()->GetAudioParams().sample_rate()));
         }
-        auto media_ref = new OTIO::ExternalReference(media_nodes.first()->filename().toUtf8().constData(), available_range);
+        auto media_ref =
+            new OTIO::ExternalReference(media_nodes.first()->filename().toUtf8().constData(), available_range);
         otio_clip->set_media_reference(media_ref);
       }
 
       otio_block = otio_clip;
     } else if (dynamic_cast<GapBlock*>(block)) {
-      otio_block = new OTIO::Gap(OTIO::TimeRange(block->in().toRationalTime(),
-                                 block->length().toRationalTime()),
-                                 block->GetLabel().toUtf8().constData()
-                                 );
+      otio_block = new OTIO::Gap(OTIO::TimeRange(block->in().toRationalTime(), block->length().toRationalTime()),
+                                 block->GetLabel().toUtf8().constData());
     } else if (dynamic_cast<TransitionBlock*>(block)) {
       auto otio_transition = new OTIO::Transition(block->GetLabel().toUtf8().constData());
 
@@ -195,8 +189,7 @@ OTIO::Track *SaveOTIOTask::SerializeTrack(Track *track, double sequence_rate, ra
   if (otio_track->duration(&es).to_seconds() < max_track_length.toDouble()) {
     double time_left = max_track_length.toDouble() - otio_track->duration(&es).to_seconds();
 
-    OTIO::Gap* gap = new OTIO::Gap(OTIO::TimeRange(otio_track->duration(&es),
-                                   OTIO::RationalTime(time_left, 1.0)));
+    OTIO::Gap* gap = new OTIO::Gap(OTIO::TimeRange(otio_track->duration(&es), OTIO::RationalTime(time_left, 1.0)));
     otio_track->append_child(gap, &es);
 
     if (es.outcome != OTIO::ErrorStatus::Outcome::OK) {
@@ -212,8 +205,7 @@ fail:
   return nullptr;
 }
 
-bool SaveOTIOTask::SerializeTrackList(TrackList *list, OTIO::Timeline* otio_timeline, double sequence_rate)
-{
+bool SaveOTIOTask::SerializeTrackList(TrackList* list, OTIO::Timeline* otio_timeline, double sequence_rate) {
   OTIO::ErrorStatus es;
 
   rational max_track_length = RATIONAL_MIN;
@@ -242,6 +234,4 @@ bool SaveOTIOTask::SerializeTrackList(TrackList *list, OTIO::Timeline* otio_time
   return true;
 }
 
-}
-
-
+}  // namespace olive

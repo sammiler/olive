@@ -22,22 +22,15 @@
 
 namespace olive {
 
-RenderTicket::RenderTicket() :
-  is_running_(false),
-  has_result_(false),
-  finish_count_(0)
-{
-}
+RenderTicket::RenderTicket() : is_running_(false), has_result_(false), finish_count_(0) {}
 
-void RenderTicket::WaitForFinished(QMutex *mutex)
-{
+void RenderTicket::WaitForFinished(QMutex *mutex) {
   if (is_running_) {
     wait_.wait(mutex);
   }
 }
 
-void RenderTicket::Start()
-{
+void RenderTicket::Start() {
   QMutexLocker locker(&lock_);
 
   is_running_ = true;
@@ -45,18 +38,11 @@ void RenderTicket::Start()
   result_.clear();
 }
 
-void RenderTicket::Finish()
-{
-  FinishInternal(false, QVariant());
-}
+void RenderTicket::Finish() { FinishInternal(false, QVariant()); }
 
-void RenderTicket::Finish(QVariant result)
-{
-  FinishInternal(true, result);
-}
+void RenderTicket::Finish(QVariant result) { FinishInternal(true, result); }
 
-QVariant RenderTicket::Get()
-{
+QVariant RenderTicket::Get() {
   WaitForFinished();
 
   // We don't have to mutex around this because there is no way to write to `result_` after
@@ -64,15 +50,13 @@ QVariant RenderTicket::Get()
   return result_;
 }
 
-void RenderTicket::WaitForFinished()
-{
+void RenderTicket::WaitForFinished() {
   QMutexLocker locker(&lock_);
 
   WaitForFinished(&lock_);
 }
 
-bool RenderTicket::IsRunning(bool lock)
-{
+bool RenderTicket::IsRunning(bool lock) {
   if (lock) {
     lock_.lock();
   }
@@ -86,8 +70,7 @@ bool RenderTicket::IsRunning(bool lock)
   return running;
 }
 
-int RenderTicket::GetFinishCount(bool lock)
-{
+int RenderTicket::GetFinishCount(bool lock) {
   if (lock) {
     lock_.lock();
   }
@@ -101,15 +84,13 @@ int RenderTicket::GetFinishCount(bool lock)
   return count;
 }
 
-bool RenderTicket::HasResult()
-{
+bool RenderTicket::HasResult() {
   QMutexLocker locker(&lock_);
 
   return has_result_;
 }
 
-void RenderTicket::FinishInternal(bool has_result, QVariant result)
-{
+void RenderTicket::FinishInternal(bool has_result, QVariant result) {
   QMutexLocker locker(&lock_);
 
   if (!is_running_) {
@@ -128,14 +109,9 @@ void RenderTicket::FinishInternal(bool has_result, QVariant result)
   }
 }
 
-RenderTicketWatcher::RenderTicketWatcher(QObject *parent) :
-  QObject(parent),
-  ticket_(nullptr)
-{
-}
+RenderTicketWatcher::RenderTicketWatcher(QObject *parent) : QObject(parent), ticket_(nullptr) {}
 
-void RenderTicketWatcher::SetTicket(RenderTicketPtr ticket)
-{
+void RenderTicketWatcher::SetTicket(RenderTicketPtr ticket) {
   if (ticket_) {
     qCritical() << "Tried to set a ticket on a RenderTicketWatcher twice";
     return;
@@ -160,8 +136,7 @@ void RenderTicketWatcher::SetTicket(RenderTicketPtr ticket)
   }
 }
 
-bool RenderTicketWatcher::IsRunning()
-{
+bool RenderTicketWatcher::IsRunning() {
   if (ticket_) {
     return ticket_->IsRunning();
   } else {
@@ -169,15 +144,13 @@ bool RenderTicketWatcher::IsRunning()
   }
 }
 
-void RenderTicketWatcher::WaitForFinished()
-{
+void RenderTicketWatcher::WaitForFinished() {
   if (ticket_) {
     ticket_->WaitForFinished();
   }
 }
 
-QVariant RenderTicketWatcher::Get()
-{
+QVariant RenderTicketWatcher::Get() {
   if (ticket_) {
     return ticket_->Get();
   } else {
@@ -185,8 +158,7 @@ QVariant RenderTicketWatcher::Get()
   }
 }
 
-bool RenderTicketWatcher::HasResult()
-{
+bool RenderTicketWatcher::HasResult() {
   if (ticket_) {
     return ticket_->HasResult();
   } else {
@@ -194,16 +166,12 @@ bool RenderTicketWatcher::HasResult()
   }
 }
 
-void RenderTicketWatcher::Cancel()
-{
+void RenderTicketWatcher::Cancel() {
   if (ticket_) {
     ticket_->Cancel();
   }
 }
 
-void RenderTicketWatcher::TicketFinished()
-{
-  emit Finished(this);
-}
+void RenderTicketWatcher::TicketFinished() { emit Finished(this); }
 
-}
+}  // namespace olive

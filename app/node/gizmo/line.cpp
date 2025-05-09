@@ -22,13 +22,9 @@
 
 namespace olive {
 
-LineGizmo::LineGizmo(QObject *parent) :
-  NodeGizmo(parent)
-{
-}
+LineGizmo::LineGizmo(QObject *parent) : NodeGizmo(parent) {}
 
-void LineGizmo::Draw(QPainter *p) const
-{
+void LineGizmo::Draw(QPainter *p) const {
   // Draw transposed black
   QLineF transposed = p->transform().map(line_);
   transposed.translate(1, 1);
@@ -42,4 +38,4 @@ void LineGizmo::Draw(QPainter *p) const
   p->drawLine(line_);
 }
 
-}
+}  // namespace olive

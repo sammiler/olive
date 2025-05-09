@@ -26,18 +26,12 @@
 
 namespace olive {
 
-class BlurFilterNode : public Node
-{
+class BlurFilterNode : public Node {
   Q_OBJECT
-public:
+ public:
   BlurFilterNode();
 
-  enum Method {
-    kBox,
-    kGaussian,
-    kDirectional,
-    kRadial
-  };
+  enum Method { kBox, kGaussian, kDirectional, kRadial };
 
   NODE_DEFAULT_FUNCTIONS(BlurFilterNode)
 
@@ -49,12 +43,9 @@ public:
   virtual void Retranslate() override;
 
   virtual ShaderCode GetShaderCode(const ShaderRequest &request) const override;
-  virtual void Value(const NodeValueRow& value, const NodeGlobals &globals, NodeValueTable *table) const override;
+  virtual void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
 
-  Method GetMethod() const
-  {
-    return static_cast<Method>(GetStandardValue(kMethodInput).toInt());
-  }
+  Method GetMethod() const { return static_cast<Method>(GetStandardValue(kMethodInput).toInt()); }
 
   virtual void UpdateGizmoPositions(const NodeValueRow &row, const NodeGlobals &globals) override;
 
@@ -69,19 +60,18 @@ public:
 
   static const QString kRadialCenterInput;
 
-protected slots:
+ protected slots:
   virtual void GizmoDragMove(double x, double y, const Qt::KeyboardModifiers &modifiers) override;
 
-protected:
-  virtual void InputValueChangedEvent(const QString& input, int element) override;
+ protected:
+  virtual void InputValueChangedEvent(const QString &input, int element) override;
 
-private:
+ private:
   void UpdateInputs(Method method);
 
   PointGizmo *radial_center_gizmo_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // BLURFILTERNODE_H
+#endif  // BLURFILTERNODE_H

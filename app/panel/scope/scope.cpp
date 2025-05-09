@@ -26,10 +26,7 @@
 
 namespace olive {
 
-ScopePanel::ScopePanel() :
-  PanelWidget(QStringLiteral("ScopePanel")),
-  viewer_(nullptr)
-{
+ScopePanel::ScopePanel() : PanelWidget(QStringLiteral("ScopePanel")), viewer_(nullptr) {
   QWidget* central = new QWidget(this);
   setWidget(central);
 
@@ -40,7 +37,7 @@ ScopePanel::ScopePanel() :
 
   scope_type_combobox_ = new QComboBox();
 
-  for (int i=0;i<ScopePanel::kTypeCount;i++) {
+  for (int i = 0; i < ScopePanel::kTypeCount; i++) {
     // These strings get filled in later in Retranslate()
     scope_type_combobox_->addItem(QString());
   }
@@ -61,32 +58,28 @@ ScopePanel::ScopePanel() :
   histogram_ = new HistogramScope();
   stack_->addWidget(histogram_);
 
-  connect(scope_type_combobox_, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), stack_, &QStackedWidget::setCurrentIndex);
+  connect(scope_type_combobox_, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), stack_,
+          &QStackedWidget::setCurrentIndex);
 
   Retranslate();
 }
 
-void ScopePanel::SetType(ScopePanel::Type t)
-{
-  scope_type_combobox_->setCurrentIndex(t);
-}
+void ScopePanel::SetType(ScopePanel::Type t) { scope_type_combobox_->setCurrentIndex(t); }
 
-QString ScopePanel::TypeToName(ScopePanel::Type t)
-{
+QString ScopePanel::TypeToName(ScopePanel::Type t) {
   switch (t) {
-  case kTypeWaveform:
-    return tr("Waveform");
-  case kTypeHistogram:
-    return tr("Histogram");
-  case kTypeCount:
-    break;
+    case kTypeWaveform:
+      return tr("Waveform");
+    case kTypeHistogram:
+      return tr("Histogram");
+    case kTypeCount:
+      break;
   }
 
   return QString();
 }
 
-void ScopePanel::SetViewerPanel(ViewerPanelBase *vp)
-{
+void ScopePanel::SetViewerPanel(ViewerPanelBase* vp) {
   if (viewer_ == vp) {
     return;
   }
@@ -112,25 +105,22 @@ void ScopePanel::SetViewerPanel(ViewerPanelBase *vp)
   }
 }
 
-void ScopePanel::SetReferenceBuffer(TexturePtr frame)
-{
+void ScopePanel::SetReferenceBuffer(TexturePtr frame) {
   histogram_->SetBuffer(frame);
   waveform_view_->SetBuffer(frame);
 }
 
-void ScopePanel::SetColorManager(ColorManager *manager)
-{
+void ScopePanel::SetColorManager(ColorManager* manager) {
   histogram_->ConnectColorManager(manager);
   waveform_view_->ConnectColorManager(manager);
 }
 
-void ScopePanel::Retranslate()
-{
+void ScopePanel::Retranslate() {
   SetTitle(tr("Scopes"));
 
-  for (int i=0;i<ScopePanel::kTypeCount;i++) {
+  for (int i = 0; i < ScopePanel::kTypeCount; i++) {
     scope_type_combobox_->setItemText(i, TypeToName(static_cast<Type>(i)));
   }
 }
 
-}
+}  // namespace olive

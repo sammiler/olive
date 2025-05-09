@@ -25,9 +25,7 @@
 
 namespace olive {
 
-ToolPanel::ToolPanel() :
-  PanelWidget(QStringLiteral("ToolPanel"))
-{
+ToolPanel::ToolPanel() : PanelWidget(QStringLiteral("ToolPanel")) {
   Toolbar* t = new Toolbar(this);
 
   t->SetTool(Core::instance()->tool());
@@ -46,9 +44,6 @@ ToolPanel::ToolPanel() :
   Retranslate();
 }
 
-void ToolPanel::Retranslate()
-{
-  SetTitle(tr("Tools"));
-}
+void ToolPanel::Retranslate() { SetTitle(tr("Tools")); }
 
-}
+}  // namespace olive

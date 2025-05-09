@@ -29,27 +29,22 @@
 
 namespace olive {
 
-class ExportSavePresetDialog : public QDialog
-{
+class ExportSavePresetDialog : public QDialog {
   Q_OBJECT
-public:
+ public:
   ExportSavePresetDialog(const EncodingParams &p, QWidget *parent = nullptr);
 
-  QString GetSelectedPresetName() const
-  {
-    return name_edit_->text();
-  }
+  QString GetSelectedPresetName() const { return name_edit_->text(); }
 
-public slots:
+ public slots:
   virtual void accept() override;
 
-private:
+ private:
   QLineEdit *name_edit_;
 
   EncodingParams params_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // EXPORTSAVEPRESETDIALOG_H
+#endif  // EXPORTSAVEPRESETDIALOG_H

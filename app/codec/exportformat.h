@@ -29,10 +29,9 @@
 
 namespace olive {
 
-class ExportFormat : public QObject
-{
+class ExportFormat : public QObject {
   Q_OBJECT
-public:
+ public:
   // Only append to this list (never insert) because indexes are used in serialized files
   enum Format {
     kFormatDNxHD,
@@ -62,9 +61,8 @@ public:
 
   static QStringList GetPixelFormatsForCodec(Format f, ExportCodec::Codec c);
   static std::vector<SampleFormat> GetSampleFormatsForCodec(Format f, ExportCodec::Codec c);
-
 };
 
-}
+}  // namespace olive
 
-#endif // EXPORTFORMAT_H
+#endif  // EXPORTFORMAT_H

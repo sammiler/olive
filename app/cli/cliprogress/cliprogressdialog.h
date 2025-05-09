@@ -28,15 +28,14 @@
 
 namespace olive {
 
-class CLIProgressDialog : public QObject
-{
-public:
-  CLIProgressDialog(const QString &title, QObject* parent = nullptr);
+class CLIProgressDialog : public QObject {
+ public:
+  CLIProgressDialog(const QString& title, QObject* parent = nullptr);
 
-public slots:
+ public slots:
   void SetProgress(double p);
 
-private:
+ private:
   void Update();
 
   QString title_;
@@ -44,9 +43,8 @@ private:
   double progress_;
 
   bool drawn_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // CLIPROGRESSDIALOG_H
+#endif  // CLIPROGRESSDIALOG_H

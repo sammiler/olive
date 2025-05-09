@@ -26,32 +26,21 @@
 
 namespace olive {
 
-class NodeTableWidget : public TimeBasedWidget
-{
-public:
+class NodeTableWidget : public TimeBasedWidget {
+ public:
   NodeTableWidget(QWidget* parent = nullptr);
 
-  void SelectNodes(const QVector<Node*>& nodes)
-  {
-    view_->SelectNodes(nodes);
-  }
+  void SelectNodes(const QVector<Node*>& nodes) { view_->SelectNodes(nodes); }
 
-  void DeselectNodes(const QVector<Node*>& nodes)
-  {
-    view_->DeselectNodes(nodes);
-  }
+  void DeselectNodes(const QVector<Node*>& nodes) { view_->DeselectNodes(nodes); }
 
-protected:
-  virtual void TimeChangedEvent(const rational &time) override
-  {
-    view_->SetTime(time);
-  }
+ protected:
+  virtual void TimeChangedEvent(const rational& time) override { view_->SetTime(time); }
 
-private:
+ private:
   NodeTableView* view_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // NODETABLEWIDGET_H
+#endif  // NODETABLEWIDGET_H

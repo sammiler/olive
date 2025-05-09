@@ -22,9 +22,6 @@
 
 namespace olive {
 
-CLIExportManager::CLIExportManager()
-{
+CLIExportManager::CLIExportManager() {}
 
-}
-
-}
+}  // namespace olive

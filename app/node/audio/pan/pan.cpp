@@ -29,8 +29,7 @@ const QString PanNode::kPanningInput = QStringLiteral("panning_in");
 
 #define super Node
 
-PanNode::PanNode()
-{
+PanNode::PanNode() {
   AddInput(kSamplesInput, NodeValue::kSamples, InputFlags(kInputFlagNotKeyframable));
 
   AddInput(kPanningInput, NodeValue::kFloat, 0.0);
@@ -42,28 +41,15 @@ PanNode::PanNode()
   SetEffectInput(kSamplesInput);
 }
 
-QString PanNode::Name() const
-{
-  return tr("Pan");
-}
+QString PanNode::Name() const { return tr("Pan"); }
 
-QString PanNode::id() const
-{
-  return QStringLiteral("org.olivevideoeditor.Olive.pan");
-}
+QString PanNode::id() const { return QStringLiteral("org.olivevideoeditor.Olive.pan"); }
 
-QVector<Node::CategoryID> PanNode::Category() const
-{
-  return {kCategoryFilter};
-}
+QVector<Node::CategoryID> PanNode::Category() const { return {kCategoryFilter}; }
 
-QString PanNode::Description() const
-{
-  return tr("Adjust the stereo panning of an audio source.");
-}
+QString PanNode::Description() const { return tr("Adjust the stereo panning of an audio source."); }
 
-void PanNode::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const
-{
+void PanNode::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const {
   // Create a sample job
   SampleBuffer samples = value[kSamplesInput].toSamples();
   if (samples.is_allocated()) {
@@ -92,11 +78,11 @@ void PanNode::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeV
   }
 }
 
-void PanNode::ProcessSamples(const NodeValueRow &values, const SampleBuffer &input, SampleBuffer &output, int index) const
-{
+void PanNode::ProcessSamples(const NodeValueRow &values, const SampleBuffer &input, SampleBuffer &output,
+                             int index) const {
   float pan_val = values[kPanningInput].toDouble();
 
-  for (int i=0;i<input.audio_params().channel_count();i++) {
+  for (int i = 0; i < input.audio_params().channel_count(); i++) {
     output.data(i)[index] = input.data(i)[index];
   }
 
@@ -107,12 +93,11 @@ void PanNode::ProcessSamples(const NodeValueRow &values, const SampleBuffer &inp
   }
 }
 
-void PanNode::Retranslate()
-{
+void PanNode::Retranslate() {
   super::Retranslate();
 
   SetInputName(kSamplesInput, tr("Samples"));
   SetInputName(kPanningInput, tr("Pan"));
 }
 
-}
+}  // namespace olive

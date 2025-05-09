@@ -29,22 +29,21 @@
 
 namespace olive {
 
-class ElapsedCounterWidget : public QWidget
-{
+class ElapsedCounterWidget : public QWidget {
   Q_OBJECT
-public:
+ public:
   ElapsedCounterWidget(QWidget* parent = nullptr);
 
   void SetProgress(double d);
 
-public slots:
+ public slots:
   void Start(qint64 start_time);
   void Start();
 
-public slots:
+ public slots:
   void Stop();
 
-private:
+ private:
   QLabel* elapsed_lbl_;
 
   QLabel* remaining_lbl_;
@@ -55,11 +54,10 @@ private:
 
   qint64 start_time_;
 
-private slots:
+ private slots:
   void UpdateTimers();
-
 };
 
-}
+}  // namespace olive
 
-#endif // ELAPSEDCOUNTERWIDGET_H
+#endif  // ELAPSEDCOUNTERWIDGET_H

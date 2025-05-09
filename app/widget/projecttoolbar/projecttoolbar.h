@@ -21,9 +21,9 @@
 #ifndef PROJECTTOOLBAR_H
 #define PROJECTTOOLBAR_H
 
-#include <QWidget>
 #include <QLineEdit>
 #include <QPushButton>
+#include <QWidget>
 
 #include "common/define.h"
 
@@ -37,25 +37,20 @@ namespace olive {
  *
  * This object's signals can be connected to various functions in the application for better user experience.
  */
-class ProjectToolbar : public QWidget
-{
+class ProjectToolbar : public QWidget {
   Q_OBJECT
-public:
+ public:
   ProjectToolbar(QWidget* parent);
 
-  enum ViewType {
-    TreeView,
-    ListView,
-    IconView
-  };
+  enum ViewType { TreeView, ListView, IconView };
 
-public slots:
+ public slots:
   void SetView(ViewType type);
 
-protected:
-  void changeEvent(QEvent *) override;
+ protected:
+  void changeEvent(QEvent*) override;
 
-signals:
+ signals:
   void NewClicked();
   void OpenClicked();
   void SaveClicked();
@@ -64,7 +59,7 @@ signals:
 
   void ViewChanged(ViewType type);
 
-private:
+ private:
   void Retranslate();
   void UpdateIcons();
 
@@ -78,10 +73,10 @@ private:
   QPushButton* list_button_;
   QPushButton* icon_button_;
 
-private slots:
+ private slots:
   void ViewButtonClicked();
 };
 
-}
+}  // namespace olive
 
-#endif // PROJECTTOOLBAR_H
+#endif  // PROJECTTOOLBAR_H

@@ -25,29 +25,26 @@
 
 namespace olive {
 
-class ProjectCopier : public QObject
-{
+class ProjectCopier : public QObject {
   Q_OBJECT
-public:
+ public:
   ProjectCopier(QObject *parent = nullptr);
 
   void SetProject(Project *project);
 
   template <typename T>
-  T *GetCopy(T *original)
-  {
-    return static_cast<T*>(copy_map_.value(original));
+  T *GetCopy(T *original) {
+    return static_cast<T *>(copy_map_.value(original));
   }
 
   template <typename T>
-  T *GetOriginal(T *copy)
-  {
-    return static_cast<T*>(copy_map_.key(copy));
+  T *GetOriginal(T *copy) {
+    return static_cast<T *>(copy_map_.key(copy));
   }
 
   Project *GetCopiedProject() const { return copy_; }
 
-  const QHash<Node*, Node*> &GetNodeMap() const { return copy_map_; }
+  const QHash<Node *, Node *> &GetNodeMap() const { return copy_map_; }
 
   const JobTime &GetGraphChangeTime() const { return graph_changed_time_; }
   const JobTime &GetLastUpdateTime() const { return last_update_time_; }
@@ -62,20 +59,20 @@ public:
    */
   void ProcessUpdateQueue();
 
-signals:
+ signals:
   void AddedNode(Node *n);
   void RemovedNode(Node *n);
 
-private:
-  void DoNodeAdd(Node* node);
-  void DoNodeRemove(Node* node);
-  void DoEdgeAdd(Node *output, const NodeInput& input);
-  void DoEdgeRemove(Node *output, const NodeInput& input);
-  void DoValueChange(const NodeInput& input);
+ private:
+  void DoNodeAdd(Node *node);
+  void DoNodeRemove(Node *node);
+  void DoEdgeAdd(Node *output, const NodeInput &input);
+  void DoEdgeRemove(Node *output, const NodeInput &input);
+  void DoValueChange(const NodeInput &input);
   void DoValueHintChange(const NodeInput &input);
   void DoProjectSettingChange(const QString &key, const QString &value);
 
-  void InsertIntoCopyMap(Node* node, Node* copy);
+  void InsertIntoCopyMap(Node *node, Node *copy);
 
   void UpdateGraphChangeValue();
   void UpdateLastSyncedValue();
@@ -84,7 +81,7 @@ private:
   Project *copy_;
 
   class QueuedJob {
-  public:
+   public:
     enum Type {
       kNodeAdded,
       kNodeRemoved,
@@ -96,7 +93,7 @@ private:
     };
 
     Type type;
-    Node* node;
+    Node *node;
     NodeInput input;
     Node *output;
 
@@ -105,30 +102,29 @@ private:
   };
 
   std::list<QueuedJob> graph_update_queue_;
-  QHash<Node*, Node*> copy_map_;
-  QHash<Project*, Project*> graph_map_;
-  QVector<Node*> created_nodes_;
+  QHash<Node *, Node *> copy_map_;
+  QHash<Project *, Project *> graph_map_;
+  QVector<Node *> created_nodes_;
 
   JobTime graph_changed_time_;
   JobTime last_update_time_;
 
-private slots:
-  void QueueNodeAdd(Node* node);
+ private slots:
+  void QueueNodeAdd(Node *node);
 
-  void QueueNodeRemove(Node* node);
+  void QueueNodeRemove(Node *node);
 
-  void QueueEdgeAdd(Node *output, const NodeInput& input);
+  void QueueEdgeAdd(Node *output, const NodeInput &input);
 
-  void QueueEdgeRemove(Node *output, const NodeInput& input);
+  void QueueEdgeRemove(Node *output, const NodeInput &input);
 
-  void QueueValueChange(const NodeInput& input);
+  void QueueValueChange(const NodeInput &input);
 
   void QueueValueHintChange(const NodeInput &input);
 
   void QueueProjectSettingChange(const QString &key, const QString &value);
-
 };
 
-}
+}  // namespace olive
 
-#endif // PROJECTCOPIER_H
+#endif  // PROJECTCOPIER_H

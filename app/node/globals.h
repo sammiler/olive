@@ -28,23 +28,15 @@
 
 namespace olive {
 
-class NodeGlobals
-{
-public:
-  NodeGlobals(){}
+class NodeGlobals {
+ public:
+  NodeGlobals() {}
 
-  NodeGlobals(const VideoParams &vparam, const AudioParams &aparam, const TimeRange &time, LoopMode loop_mode) :
-    video_params_(vparam),
-    audio_params_(aparam),
-    time_(time),
-    loop_mode_(loop_mode)
-  {
-  }
+  NodeGlobals(const VideoParams &vparam, const AudioParams &aparam, const TimeRange &time, LoopMode loop_mode)
+      : video_params_(vparam), audio_params_(aparam), time_(time), loop_mode_(loop_mode) {}
 
-  NodeGlobals(const VideoParams &vparam, const AudioParams &aparam, const rational &time, LoopMode loop_mode) :
-    NodeGlobals(vparam, aparam, TimeRange(time, time + vparam.frame_rate_as_time_base()), loop_mode)
-  {
-  }
+  NodeGlobals(const VideoParams &vparam, const AudioParams &aparam, const rational &time, LoopMode loop_mode)
+      : NodeGlobals(vparam, aparam, TimeRange(time, time + vparam.frame_rate_as_time_base()), loop_mode) {}
 
   QVector2D square_resolution() const { return video_params_.square_resolution(); }
   QVector2D nonsquare_resolution() const { return video_params_.resolution(); }
@@ -53,14 +45,13 @@ public:
   const TimeRange &time() const { return time_; }
   LoopMode loop_mode() const { return loop_mode_; }
 
-private:
+ private:
   VideoParams video_params_;
   AudioParams audio_params_;
   TimeRange time_;
   LoopMode loop_mode_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // NODEGLOBALS_H
+#endif  // NODEGLOBALS_H

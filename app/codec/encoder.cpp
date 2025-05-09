@@ -29,20 +29,14 @@
 namespace olive {
 
 const QRegularExpression Encoder::kImageSequenceContainsDigits = QRegularExpression(QStringLiteral("\\[[#]+\\]"));
-const QRegularExpression Encoder::kImageSequenceRemoveDigits = QRegularExpression(QStringLiteral("[\\-\\.\\ \\_]?\\[[#]+\\]"));
+const QRegularExpression Encoder::kImageSequenceRemoveDigits =
+    QRegularExpression(QStringLiteral("[\\-\\.\\ \\_]?\\[[#]+\\]"));
 
-Encoder::Encoder(const EncodingParams &params) :
-  params_(params)
-{
-}
+Encoder::Encoder(const EncodingParams &params) : params_(params) {}
 
-const EncodingParams &Encoder::params() const
-{
-  return params_;
-}
+const EncodingParams &Encoder::params() const { return params_; }
 
-QString Encoder::GetFilenameForFrame(const rational &frame)
-{
+QString Encoder::GetFilenameForFrame(const rational &frame) {
   if (params().video_is_image_sequence()) {
     // Transform!
     int64_t frame_index = Timecode::time_to_timestamp(frame, params().video_params().frame_rate_as_time_base());
@@ -58,11 +52,10 @@ QString Encoder::GetFilenameForFrame(const rational &frame)
   }
 }
 
-int Encoder::GetImageSequencePlaceholderDigitCount(const QString &filename)
-{
+int Encoder::GetImageSequencePlaceholderDigitCount(const QString &filename) {
   int start = filename.indexOf(kImageSequenceContainsDigits);
   int digit_count = 0;
-  for (int i=start+1; i<filename.size(); i++) {
+  for (int i = start + 1; i < filename.size(); i++) {
     if (filename.at(i) == '#') {
       digit_count++;
     } else {
@@ -72,89 +65,69 @@ int Encoder::GetImageSequencePlaceholderDigitCount(const QString &filename)
   return digit_count;
 }
 
-bool Encoder::FilenameContainsDigitPlaceholder(const QString& filename)
-{
+bool Encoder::FilenameContainsDigitPlaceholder(const QString &filename) {
   return filename.contains(kImageSequenceContainsDigits);
 }
 
-QString Encoder::FilenameRemoveDigitPlaceholder(QString filename)
-{
+QString Encoder::FilenameRemoveDigitPlaceholder(QString filename) {
   return filename.remove(kImageSequenceRemoveDigits);
 }
 
-EncodingParams::EncodingParams() :
-  video_enabled_(false),
-  video_bit_rate_(0),
-  video_min_bit_rate_(0),
-  video_max_bit_rate_(0),
-  video_buffer_size_(0),
-  video_threads_(0),
-  video_is_image_sequence_(false),
-  audio_enabled_(false),
-  audio_bit_rate_(0),
-  subtitles_enabled_(false),
-  subtitles_are_sidecar_(false),
-  video_scaling_method_(kStretch),
-  has_custom_range_(false)
-{
-}
+EncodingParams::EncodingParams()
+    : video_enabled_(false),
+      video_bit_rate_(0),
+      video_min_bit_rate_(0),
+      video_max_bit_rate_(0),
+      video_buffer_size_(0),
+      video_threads_(0),
+      video_is_image_sequence_(false),
+      audio_enabled_(false),
+      audio_bit_rate_(0),
+      subtitles_enabled_(false),
+      subtitles_are_sidecar_(false),
+      video_scaling_method_(kStretch),
+      has_custom_range_(false) {}
 
-QDir EncodingParams::GetPresetPath()
-{
+QDir EncodingParams::GetPresetPath() {
   return QDir(FileFunctions::GetConfigurationLocation()).filePath(QStringLiteral("exportpresets"));
 }
 
-QStringList EncodingParams::GetListOfPresets()
-{
+QStringList EncodingParams::GetListOfPresets() {
   QDir d = EncodingParams::GetPresetPath();
   return d.entryList(QDir::Files);
 }
 
-void EncodingParams::EnableVideo(const VideoParams &video_params, const ExportCodec::Codec &vcodec)
-{
+void EncodingParams::EnableVideo(const VideoParams &video_params, const ExportCodec::Codec &vcodec) {
   video_enabled_ = true;
   video_params_ = video_params;
   video_codec_ = vcodec;
 }
 
-void EncodingParams::EnableAudio(const AudioParams &audio_params, const ExportCodec::Codec &acodec)
-{
+void EncodingParams::EnableAudio(const AudioParams &audio_params, const ExportCodec::Codec &acodec) {
   audio_enabled_ = true;
   audio_params_ = audio_params;
   audio_codec_ = acodec;
 }
 
-void EncodingParams::EnableSubtitles(const ExportCodec::Codec &scodec)
-{
+void EncodingParams::EnableSubtitles(const ExportCodec::Codec &scodec) {
   subtitles_enabled_ = true;
   subtitles_codec_ = scodec;
 }
 
-void EncodingParams::EnableSidecarSubtitles(const ExportFormat::Format &sfmt, const ExportCodec::Codec &scodec)
-{
+void EncodingParams::EnableSidecarSubtitles(const ExportFormat::Format &sfmt, const ExportCodec::Codec &scodec) {
   subtitles_enabled_ = true;
   subtitles_are_sidecar_ = true;
   subtitle_sidecar_fmt_ = sfmt;
   subtitles_codec_ = scodec;
 }
 
-void EncodingParams::DisableVideo()
-{
-  video_enabled_ = false;
-}
+void EncodingParams::DisableVideo() { video_enabled_ = false; }
 
-void EncodingParams::DisableAudio()
-{
-  audio_enabled_ = false;
-}
+void EncodingParams::DisableAudio() { audio_enabled_ = false; }
 
-void EncodingParams::DisableSubtitles()
-{
-  subtitles_enabled_ = false;
-}
+void EncodingParams::DisableSubtitles() { subtitles_enabled_ = false; }
 
-bool EncodingParams::Load(QXmlStreamReader *reader)
-{
+bool EncodingParams::Load(QXmlStreamReader *reader) {
   while (XMLReadNextStartElement(reader)) {
     if (reader->name() == QStringLiteral("export")) {
       int version = 0;
@@ -166,8 +139,8 @@ bool EncodingParams::Load(QXmlStreamReader *reader)
       }
 
       switch (version) {
-      case 1:
-        return LoadV1(reader);
+        case 1:
+          return LoadV1(reader);
       }
     } else {
       reader->skipCurrentElement();
@@ -177,20 +150,17 @@ bool EncodingParams::Load(QXmlStreamReader *reader)
   return false;
 }
 
-bool EncodingParams::Load(QIODevice *device)
-{
+bool EncodingParams::Load(QIODevice *device) {
   QXmlStreamReader reader(device);
   return Load(&reader);
 }
 
-void EncodingParams::Save(QIODevice *device) const
-{
+void EncodingParams::Save(QIODevice *device) const {
   QXmlStreamWriter writer(device);
   Save(&writer);
 }
 
-void EncodingParams::Save(QXmlStreamWriter *writer) const
-{
+void EncodingParams::Save(QXmlStreamWriter *writer) const {
   writer->writeStartDocument();
 
   writer->writeStartElement(QStringLiteral("export"));
@@ -213,7 +183,8 @@ void EncodingParams::Save(QXmlStreamWriter *writer) const
     writer->writeTextElement(QStringLiteral("width"), QString::number(video_params_.width()));
     writer->writeTextElement(QStringLiteral("height"), QString::number(video_params_.height()));
     writer->writeTextElement(QStringLiteral("format"), QString::number(video_params_.format()));
-    writer->writeTextElement(QStringLiteral("pixelaspect"), QString::fromStdString(video_params_.pixel_aspect_ratio().toString()));
+    writer->writeTextElement(QStringLiteral("pixelaspect"),
+                             QString::fromStdString(video_params_.pixel_aspect_ratio().toString()));
     writer->writeTextElement(QStringLiteral("timebase"), QString::fromStdString(video_params_.time_base().toString()));
     writer->writeTextElement(QStringLiteral("divider"), QString::number(video_params_.divider()));
     writer->writeTextElement(QStringLiteral("bitrate"), QString::number(video_bit_rate_));
@@ -225,8 +196,8 @@ void EncodingParams::Save(QXmlStreamWriter *writer) const
     writer->writeTextElement(QStringLiteral("imgseq"), QString::number(video_is_image_sequence_));
 
     writer->writeStartElement(QStringLiteral("color"));
-      writer->writeTextElement(QStringLiteral("output"), color_transform_.output());
-    writer->writeEndElement(); // colortransform
+    writer->writeTextElement(QStringLiteral("output"), color_transform_.output());
+    writer->writeEndElement();  // colortransform
 
     writer->writeTextElement(QStringLiteral("vscale"), QString::number(video_scaling_method_));
 
@@ -234,20 +205,20 @@ void EncodingParams::Save(QXmlStreamWriter *writer) const
       writer->writeStartElement(QStringLiteral("opts"));
 
       QHash<QString, QString>::const_iterator i;
-      for (i=video_opts_.constBegin(); i!=video_opts_.constEnd(); i++) {
+      for (i = video_opts_.constBegin(); i != video_opts_.constEnd(); i++) {
         writer->writeStartElement(QStringLiteral("entry"));
 
         writer->writeTextElement(QStringLiteral("key"), i.key());
         writer->writeTextElement(QStringLiteral("value"), i.value());
 
-        writer->writeEndElement(); // entry
+        writer->writeEndElement();  // entry
       }
 
-      writer->writeEndElement(); // opts
+      writer->writeEndElement();  // opts
     }
   }
 
-  writer->writeEndElement(); // video
+  writer->writeEndElement();  // video
 
   writer->writeStartElement(QStringLiteral("audio"));
 
@@ -272,80 +243,68 @@ void EncodingParams::Save(QXmlStreamWriter *writer) const
     writer->writeTextElement(QStringLiteral("codec"), QString::number(subtitles_codec_));
   }
 
-  writer->writeEndElement(); // subtitles
+  writer->writeEndElement();  // subtitles
 
-  writer->writeEndElement(); // audio
+  writer->writeEndElement();  // audio
 
-  writer->writeEndElement(); // export
+  writer->writeEndElement();  // export
 
   writer->writeEndDocument();
 }
 
-Encoder* Encoder::CreateFromID(Type id, const EncodingParams& params)
-{
+Encoder *Encoder::CreateFromID(Type id, const EncodingParams &params) {
   switch (id) {
-  case kEncoderTypeNone:
-    break;
-  case kEncoderTypeFFmpeg:
-    return new FFmpegEncoder(params);
-  case kEncoderTypeOIIO:
-    return new OIIOEncoder(params);
+    case kEncoderTypeNone:
+      break;
+    case kEncoderTypeFFmpeg:
+      return new FFmpegEncoder(params);
+    case kEncoderTypeOIIO:
+      return new OIIOEncoder(params);
   }
 
   return nullptr;
 }
 
-Encoder::Type Encoder::GetTypeFromFormat(ExportFormat::Format f)
-{
+Encoder::Type Encoder::GetTypeFromFormat(ExportFormat::Format f) {
   switch (f) {
-  case ExportFormat::kFormatDNxHD:
-  case ExportFormat::kFormatMatroska:
-  case ExportFormat::kFormatQuickTime:
-  case ExportFormat::kFormatMPEG4Video:
-  case ExportFormat::kFormatMPEG4Audio:
-  case ExportFormat::kFormatWAV:
-  case ExportFormat::kFormatAIFF:
-  case ExportFormat::kFormatMP3:
-  case ExportFormat::kFormatFLAC:
-  case ExportFormat::kFormatOgg:
-  case ExportFormat::kFormatWebM:
-  case ExportFormat::kFormatSRT:
-    return kEncoderTypeFFmpeg;
-  case ExportFormat::kFormatOpenEXR:
-  case ExportFormat::kFormatPNG:
-  case ExportFormat::kFormatTIFF:
-    return kEncoderTypeOIIO;
-  case ExportFormat::kFormatCount:
-    break;
+    case ExportFormat::kFormatDNxHD:
+    case ExportFormat::kFormatMatroska:
+    case ExportFormat::kFormatQuickTime:
+    case ExportFormat::kFormatMPEG4Video:
+    case ExportFormat::kFormatMPEG4Audio:
+    case ExportFormat::kFormatWAV:
+    case ExportFormat::kFormatAIFF:
+    case ExportFormat::kFormatMP3:
+    case ExportFormat::kFormatFLAC:
+    case ExportFormat::kFormatOgg:
+    case ExportFormat::kFormatWebM:
+    case ExportFormat::kFormatSRT:
+      return kEncoderTypeFFmpeg;
+    case ExportFormat::kFormatOpenEXR:
+    case ExportFormat::kFormatPNG:
+    case ExportFormat::kFormatTIFF:
+      return kEncoderTypeOIIO;
+    case ExportFormat::kFormatCount:
+      break;
   }
 
   return kEncoderTypeNone;
 }
 
-Encoder *Encoder::CreateFromFormat(ExportFormat::Format f, const EncodingParams &params)
-{
+Encoder *Encoder::CreateFromFormat(ExportFormat::Format f, const EncodingParams &params) {
   return CreateFromID(GetTypeFromFormat(f), params);
 }
 
-Encoder *Encoder::CreateFromParams(const EncodingParams &params)
-{
-  return CreateFromFormat(params.format(), params);
-}
+Encoder *Encoder::CreateFromParams(const EncodingParams &params) { return CreateFromFormat(params.format(), params); }
 
-QStringList Encoder::GetPixelFormatsForCodec(ExportCodec::Codec c) const
-{
-  return QStringList();
-}
+QStringList Encoder::GetPixelFormatsForCodec(ExportCodec::Codec c) const { return QStringList(); }
 
-std::vector<SampleFormat> Encoder::GetSampleFormatsForCodec(ExportCodec::Codec c) const
-{
+std::vector<SampleFormat> Encoder::GetSampleFormatsForCodec(ExportCodec::Codec c) const {
   return std::vector<SampleFormat>();
 }
 
-QMatrix4x4 EncodingParams::GenerateMatrix(EncodingParams::VideoScalingMethod method,
-                                          int source_width, int source_height,
-                                          int dest_width, int dest_height)
-{
+QMatrix4x4 EncodingParams::GenerateMatrix(EncodingParams::VideoScalingMethod method, int source_width,
+                                          int source_height, int dest_width, int dest_height) {
   QMatrix4x4 preview_matrix;
 
   if (method == EncodingParams::kStretch) {
@@ -368,8 +327,7 @@ QMatrix4x4 EncodingParams::GenerateMatrix(EncodingParams::VideoScalingMethod met
   return preview_matrix;
 }
 
-bool EncodingParams::LoadV1(QXmlStreamReader *reader)
-{
+bool EncodingParams::LoadV1(QXmlStreamReader *reader) {
   rational custom_range_in, custom_range_out;
 
   while (XMLReadNextStartElement(reader)) {
@@ -509,4 +467,4 @@ bool EncodingParams::LoadV1(QXmlStreamReader *reader)
   return true;
 }
 
-}
+}  // namespace olive

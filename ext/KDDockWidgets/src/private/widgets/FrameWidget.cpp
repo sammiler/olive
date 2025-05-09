@@ -186,11 +186,11 @@ int FrameWidget::nonContentsHeight() const
 
 QSize FrameWidget::minimumSizeHint() const
 {
-  QSize s = dockWidgetsMinSize();
-  QWidget *w = m_tabWidget->asWidget();
-  QStyleOptionTabWidgetFrame opt;
+    QSize s = dockWidgetsMinSize();
+    QWidget *w = m_tabWidget->asWidget();
+    QStyleOptionTabWidgetFrame opt;
 
-  return w->style()->sizeFromContents(QStyle::CT_TabWidget, &opt, s, w);
+    return w->style()->sizeFromContents(QStyle::CT_TabWidget, &opt, s, w);
 }
 
 

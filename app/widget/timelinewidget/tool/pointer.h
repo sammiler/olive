@@ -25,27 +25,27 @@
 
 namespace olive {
 
-class PointerTool : public TimelineTool
-{
-public:
+class PointerTool : public TimelineTool {
+ public:
   PointerTool(TimelineWidget* parent);
 
-  virtual void MousePress(TimelineViewMouseEvent *event) override;
-  virtual void MouseMove(TimelineViewMouseEvent *event) override;
-  virtual void MouseRelease(TimelineViewMouseEvent *event) override;
+  virtual void MousePress(TimelineViewMouseEvent* event) override;
+  virtual void MouseMove(TimelineViewMouseEvent* event) override;
+  virtual void MouseRelease(TimelineViewMouseEvent* event) override;
 
-  virtual void HoverMove(TimelineViewMouseEvent *event) override;
+  virtual void HoverMove(TimelineViewMouseEvent* event) override;
 
-protected:
-  virtual void FinishDrag(TimelineViewMouseEvent *event);
+ protected:
+  virtual void FinishDrag(TimelineViewMouseEvent* event);
 
   virtual void InitiateDrag(Block* clicked_item, Timeline::MovementMode trim_mode, Qt::KeyboardModifiers modifiers);
 
-  TimelineViewGhostItem *GetExistingGhostFromBlock(Block *block);
+  TimelineViewGhostItem* GetExistingGhostFromBlock(Block* block);
 
-  TimelineViewGhostItem* AddGhostFromBlock(Block *block, Timeline::MovementMode mode, bool check_if_exists = false);
+  TimelineViewGhostItem* AddGhostFromBlock(Block* block, Timeline::MovementMode mode, bool check_if_exists = false);
 
-  TimelineViewGhostItem* AddGhostFromNull(const rational& in, const rational& out, const Track::Reference& track, Timeline::MovementMode mode);
+  TimelineViewGhostItem* AddGhostFromNull(const rational& in, const rational& out, const Track::Reference& track,
+                                          Timeline::MovementMode mode);
 
   /**
    * @brief Validates Ghosts that are getting their in points trimmed
@@ -63,52 +63,32 @@ protected:
    */
   rational ValidateOutTrimming(rational movement);
 
-  virtual void ProcessDrag(const TimelineCoordinate &mouse_pos);
+  virtual void ProcessDrag(const TimelineCoordinate& mouse_pos);
 
-  void InitiateDragInternal(Block* clicked_item,
-                            Timeline::MovementMode trim_mode,
-                            Qt::KeyboardModifiers modifiers,
-                            bool dont_roll_trims,
-                            bool allow_nongap_rolling, bool slide_instead_of_moving);
+  void InitiateDragInternal(Block* clicked_item, Timeline::MovementMode trim_mode, Qt::KeyboardModifiers modifiers,
+                            bool dont_roll_trims, bool allow_nongap_rolling, bool slide_instead_of_moving);
 
   const Timeline::MovementMode& drag_movement_mode() const { return drag_movement_mode_; }
-  void set_drag_movement_mode(const Timeline::MovementMode &d) { drag_movement_mode_ = d; }
+  void set_drag_movement_mode(const Timeline::MovementMode& d) { drag_movement_mode_ = d; }
 
-  static bool CanTransitionMove(TransitionBlock *transit, const QVector<Block*> &clips);
+  static bool CanTransitionMove(TransitionBlock* transit, const QVector<Block*>& clips);
 
-  void SetMovementAllowed(bool e)
-  {
-    movement_allowed_ = e;
-  }
+  void SetMovementAllowed(bool e) { movement_allowed_ = e; }
 
-  void SetTrimmingAllowed(bool e)
-  {
-    trimming_allowed_ = e;
-  }
+  void SetTrimmingAllowed(bool e) { trimming_allowed_ = e; }
 
-  void SetTrackMovementAllowed(bool e)
-  {
-    track_movement_allowed_ = e;
-  }
+  void SetTrackMovementAllowed(bool e) { track_movement_allowed_ = e; }
 
-  void SetGapTrimmingAllowed(bool e)
-  {
-    gap_trimming_allowed_ = e;
-  }
+  void SetGapTrimmingAllowed(bool e) { gap_trimming_allowed_ = e; }
 
-  void SetClickedItem(Block *b)
-  {
-    clicked_item_ = b;
-  }
+  void SetClickedItem(Block* b) { clicked_item_ = b; }
 
-private:
+ private:
   Timeline::MovementMode IsCursorInTrimHandle(Block* block, qreal cursor_x);
 
   void AddGhostInternal(TimelineViewGhostItem* ghost, Timeline::MovementMode mode);
 
-  bool IsClipTrimmable(Block* clip,
-                       const QVector<Block*> &items,
-                       const Timeline::MovementMode& mode);
+  bool IsClipTrimmable(Block* clip, const QVector<Block*>& items, const Timeline::MovementMode& mode);
 
   void ProcessGhostsForSliding();
 
@@ -127,9 +107,8 @@ private:
   Block* clicked_item_;
 
   QPoint drag_global_start_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // POINTERTIMELINETOOL_H
+#endif  // POINTERTIMELINETOOL_H

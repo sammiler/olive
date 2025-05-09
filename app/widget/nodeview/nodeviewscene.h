@@ -32,37 +32,27 @@
 
 namespace olive {
 
-class NodeViewScene : public QGraphicsScene
-{
+class NodeViewScene : public QGraphicsScene {
   Q_OBJECT
-public:
+ public:
   NodeViewScene(QObject *parent = nullptr);
 
   void SelectAll();
   void DeselectAll();
 
-  QVector<NodeViewItem*> GetSelectedItems() const;
+  QVector<NodeViewItem *> GetSelectedItems() const;
 
-  const QHash<Node*, NodeViewContext*> &context_map() const
-  {
-    return context_map_;
-  }
+  const QHash<Node *, NodeViewContext *> &context_map() const { return context_map_; }
 
   Qt::Orientation GetFlowOrientation() const;
 
-  NodeViewCommon::FlowDirection GetFlowDirection() const
-  {
-    return direction_;
-  }
+  NodeViewCommon::FlowDirection GetFlowDirection() const { return direction_; }
 
   void SetFlowDirection(NodeViewCommon::FlowDirection direction);
 
-  bool GetEdgesAreCurved() const
-  {
-    return curved_edges_;
-  }
+  bool GetEdgesAreCurved() const { return curved_edges_; }
 
-public slots:
+ public slots:
   NodeViewContext *AddContext(Node *node);
   void RemoveContext(Node *node);
 
@@ -71,17 +61,16 @@ public slots:
    */
   void SetEdgesAreCurved(bool curved);
 
-private:
-  QHash<Node*, NodeViewContext*> context_map_;
+ private:
+  QHash<Node *, NodeViewContext *> context_map_;
 
-  Project* graph_;
+  Project *graph_;
 
   NodeViewCommon::FlowDirection direction_;
 
   bool curved_edges_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // NODEVIEWSCENE_H
+#endif  // NODEVIEWSCENE_H

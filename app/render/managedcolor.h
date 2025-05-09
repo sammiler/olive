@@ -27,27 +27,25 @@
 
 namespace olive {
 
-class ManagedColor : public Color
-{
-public:
+class ManagedColor : public Color {
+ public:
   ManagedColor();
   ManagedColor(const double& r, const double& g, const double& b, const double& a = 1.0);
-  ManagedColor(const char *data, const PixelFormat &format, int channel_layout);
+  ManagedColor(const char* data, const PixelFormat& format, int channel_layout);
   ManagedColor(const Color& c);
 
   const QString& color_input() const;
-  void set_color_input(const QString &color_input);
+  void set_color_input(const QString& color_input);
 
   const ColorTransform& color_output() const;
-  void set_color_output(const ColorTransform &color_output);
+  void set_color_output(const ColorTransform& color_output);
 
-private:
+ private:
   QString color_input_;
 
   ColorTransform color_transform_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // MANAGEDCOLOR_H
+#endif  // MANAGEDCOLOR_H

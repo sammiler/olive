@@ -34,33 +34,21 @@
 namespace olive {
 
 template <typename T>
-class TimeBasedViewSelectionManager
-{
-public:
-  TimeBasedViewSelectionManager(TimeBasedView *view) :
-    view_(view),
-    rubberband_(nullptr),
-    snap_mask_(TimeBasedWidget::kSnapAll)
-  {}
+class TimeBasedViewSelectionManager {
+ public:
+  TimeBasedViewSelectionManager(TimeBasedView *view)
+      : view_(view), rubberband_(nullptr), snap_mask_(TimeBasedWidget::kSnapAll) {}
 
-  void SetSnapMask(TimeBasedWidget::SnapMask e)
-  {
-    snap_mask_ = e;
-  }
+  void SetSnapMask(TimeBasedWidget::SnapMask e) { snap_mask_ = e; }
 
-  void ClearDrawnObjects()
-  {
-    drawn_objects_.clear();
-  }
+  void ClearDrawnObjects() { drawn_objects_.clear(); }
 
-  void DeclareDrawnObject(T *object, const QRectF &rect)
-  {
+  void DeclareDrawnObject(T *object, const QRectF &rect) {
     QRectF r(view_->UnscalePoint(rect.topLeft()), view_->UnscalePoint(rect.bottomRight()));
     drawn_objects_.push_back({object, r});
   }
 
-  bool Select(T *key)
-  {
+  bool Select(T *key) {
     Q_ASSERT(key);
 
     if (!IsSelected(key)) {
@@ -71,8 +59,7 @@ public:
     return false;
   }
 
-  bool Deselect(T *key)
-  {
+  bool Deselect(T *key) {
     Q_ASSERT(key);
 
     auto it = std::find(selected_.cbegin(), selected_.cend(), key);
@@ -84,31 +71,18 @@ public:
     }
   }
 
-  void ClearSelection()
-  {
-    selected_.clear();
-  }
+  void ClearSelection() { selected_.clear(); }
 
-  bool IsSelected(T *key) const
-  {
-    return std::find(selected_.cbegin(), selected_.cend(), key) != selected_.cend();
-  }
+  bool IsSelected(T *key) const { return std::find(selected_.cbegin(), selected_.cend(), key) != selected_.cend(); }
 
-  const std::vector<T*> &GetSelectedObjects() const
-  {
-    return selected_;
-  }
+  const std::vector<T *> &GetSelectedObjects() const { return selected_; }
 
-  void SetTimebase(const rational &tb)
-  {
-    timebase_ = tb;
-  }
+  void SetTimebase(const rational &tb) { timebase_ = tb; }
 
-  T *GetObjectAtPoint(const QPointF &scene_pt)
-  {
+  T *GetObjectAtPoint(const QPointF &scene_pt) {
     // Iterate in reverse order because the objects drawn later will appear on top to the user
     QPointF unscaled = view_->UnscalePoint(scene_pt);
-    for (auto it=drawn_objects_.crbegin(); it!=drawn_objects_.crend(); it++) {
+    for (auto it = drawn_objects_.crbegin(); it != drawn_objects_.crend(); it++) {
       const DrawnObject &kp = *it;
       if (kp.second.contains(unscaled)) {
         return kp.first;
@@ -118,13 +92,9 @@ public:
     return nullptr;
   }
 
-  T *GetObjectAtPoint(const QPoint &pt)
-  {
-    return GetObjectAtPoint(view_->mapToScene(pt));
-  }
+  T *GetObjectAtPoint(const QPoint &pt) { return GetObjectAtPoint(view_->mapToScene(pt)); }
 
-  T *MousePress(QMouseEvent *event)
-  {
+  T *MousePress(QMouseEvent *event) {
     T *key_under_cursor = nullptr;
 
     if (event->button() == Qt::LeftButton || event->button() == Qt::RightButton) {
@@ -155,13 +125,9 @@ public:
     return key_under_cursor;
   }
 
-  bool IsDragging() const
-  {
-    return !dragging_.empty();
-  }
+  bool IsDragging() const { return !dragging_.empty(); }
 
-  void DragStart(T *initial_item, QMouseEvent *event, TimeTargetObject *target = nullptr)
-  {
+  void DragStart(T *initial_item, QMouseEvent *event, TimeTargetObject *target = nullptr) {
     if (event->button() != Qt::LeftButton) {
       return;
     }
@@ -173,28 +139,28 @@ public:
     dragging_.resize(selected_.size());
 
     if constexpr (std::is_same_v<T, TimelineMarker>) {
-      snap_points_.resize(selected_.size()*2);
+      snap_points_.resize(selected_.size() * 2);
     } else {
       snap_points_.resize(selected_.size());
     }
 
     if (target) {
       time_targets_.resize(snap_points_.size());
-      memset(time_targets_.data(), 0, time_targets_.size() * sizeof(Node*));
+      memset(time_targets_.data(), 0, time_targets_.size() * sizeof(Node *));
     } else {
       time_targets_.clear();
     }
 
-    for (size_t i=0; i<selected_.size(); i++) {
+    for (size_t i = 0; i < selected_.size(); i++) {
       T *obj = selected_.at(i);
 
       if constexpr (std::is_same_v<T, TimelineMarker>) {
         dragging_[i] = obj->time().in();
         snap_points_[i] = obj->time().in();
-        snap_points_[i+selected_.size()] = obj->time().out();
+        snap_points_[i + selected_.size()] = obj->time().out();
 
         if (target) {
-          time_targets_[i] = time_targets_[i+selected_.size()] = QtUtils::GetParentOfType<Node>(obj);
+          time_targets_[i] = time_targets_[i + selected_.size()] = QtUtils::GetParentOfType<Node>(obj);
         }
       } else {
         dragging_[i] = obj->time();
@@ -209,14 +175,14 @@ public:
     drag_mouse_start_ = view_->UnscalePoint(view_->mapToScene(event->pos()));
   }
 
-  void SnapPoints(rational *movement)
-  {
+  void SnapPoints(rational *movement) {
     std::vector<rational> copy = snap_points_;
 
     if (time_target_) {
-      for (size_t i=0; i<copy.size(); i++) {
+      for (size_t i = 0; i < copy.size(); i++) {
         if (Node *parent = time_targets_[i]) {
-          copy[i] = time_target_->GetAdjustedTime(parent, time_target_->GetTimeTarget(), copy[i], Node::kTransformTowardsOutput);
+          copy[i] = time_target_->GetAdjustedTime(parent, time_target_->GetTimeTarget(), copy[i],
+                                                  Node::kTransformTowardsOutput);
         }
       }
     }
@@ -226,16 +192,15 @@ public:
     }
   }
 
-  void Unsnap()
-  {
+  void Unsnap() {
     if (view_->GetSnapService()) {
       view_->GetSnapService()->HideSnaps();
     }
   }
 
-  void DragMove(const QPoint &local_pos, const QString &tip_format = QString())
-  {
-    rational time_diff = view_->SceneToTimeNoGrid(view_->mapToScene(local_pos).x() - view_->ScalePoint(drag_mouse_start_).x());
+  void DragMove(const QPoint &local_pos, const QString &tip_format = QString()) {
+    rational time_diff =
+        view_->SceneToTimeNoGrid(view_->mapToScene(local_pos).x() - view_->ScalePoint(drag_mouse_start_).x());
 
     // Snap points
     rational presnap_time_diff = time_diff;
@@ -243,7 +208,7 @@ public:
 
     // Validate snapping
     if (Core::instance()->snapping() && view_->GetSnapService()) {
-      for (size_t i=0; i<selected_.size(); i++) {
+      for (size_t i = 0; i < selected_.size(); i++) {
         rational proposed_time = dragging_.at(i) + time_diff;
         T *sel = selected_.at(i);
 
@@ -259,7 +224,7 @@ public:
     }
 
     // Validate movement
-    for (size_t i=0; i<selected_.size(); i++) {
+    for (size_t i = 0; i < selected_.size(); i++) {
       rational proposed_time = dragging_.at(i) + time_diff;
       T *sel = selected_.at(i);
 
@@ -296,7 +261,7 @@ public:
     }
 
     // Apply movement
-    for (size_t i=0; i<selected_.size(); i++) {
+    for (size_t i = 0; i < selected_.size(); i++) {
       selected_.at(i)->set_time(dragging_.at(i) + time_diff);
     }
 
@@ -309,9 +274,8 @@ public:
       display_time = initial_drag_item_->time();
     }
 
-    QString tip = QString::fromStdString(Timecode::time_to_timecode(
-                                           display_time, timebase_,
-                                           Core::instance()->GetTimecodeDisplay(), false));
+    QString tip = QString::fromStdString(
+        Timecode::time_to_timecode(display_time, timebase_, Core::instance()->GetTimecodeDisplay(), false));
 
     last_used_tip_format_ = tip_format;
     if (!tip_format.isEmpty()) {
@@ -322,11 +286,10 @@ public:
     QToolTip::showText(QCursor::pos(), tip);
   }
 
-  void DragStop(MultiUndoCommand *command)
-  {
+  void DragStop(MultiUndoCommand *command) {
     QToolTip::hideText();
 
-    for (size_t i=0; i<selected_.size(); i++) {
+    for (size_t i = 0; i < selected_.size(); i++) {
       rational current;
       if constexpr (std::is_same_v<T, TimelineMarker>) {
         current = selected_.at(i)->time().in();
@@ -340,8 +303,7 @@ public:
     Unsnap();
   }
 
-  void RubberBandStart(QMouseEvent *event)
-  {
+  void RubberBandStart(QMouseEvent *event) {
     if (event->button() == Qt::LeftButton || event->button() == Qt::RightButton) {
       rubberband_scene_start_ = view_->UnscalePoint(view_->mapToScene(event->pos()));
 
@@ -353,8 +315,7 @@ public:
     }
   }
 
-  void RubberBandMove(const QPoint &pos)
-  {
+  void RubberBandMove(const QPoint &pos) {
     if (IsRubberBanding()) {
       QRectF band_rect = QRectF(view_->mapFromScene(view_->ScalePoint(rubberband_scene_start_)), pos).normalized();
       rubberband_->setGeometry(band_rect.toRect());
@@ -371,21 +332,16 @@ public:
     }
   }
 
-  void RubberBandStop()
-  {
+  void RubberBandStop() {
     if (IsRubberBanding()) {
       delete rubberband_;
       rubberband_ = nullptr;
     }
   }
 
-  bool IsRubberBanding() const
-  {
-    return rubberband_;
-  }
+  bool IsRubberBanding() const { return rubberband_; }
 
-  void ForceDragUpdate()
-  {
+  void ForceDragUpdate() {
     if (IsRubberBanding() || IsDragging()) {
       QPoint local_pos = view_->viewport()->mapFromGlobal(QCursor::pos());
       if (IsRubberBanding()) {
@@ -396,58 +352,45 @@ public:
     }
   }
 
-private:
-  class SetTimeCommand : public UndoCommand
-  {
-  public:
-    SetTimeCommand(T* key, const rational& time)
-    {
+ private:
+  class SetTimeCommand : public UndoCommand {
+   public:
+    SetTimeCommand(T *key, const rational &time) {
       key_ = key;
       new_time_ = time;
       old_time_ = key_->time();
     }
 
-    SetTimeCommand(T* key, const rational& new_time, const rational& old_time)
-    {
+    SetTimeCommand(T *key, const rational &new_time, const rational &old_time) {
       key_ = key;
       new_time_ = new_time;
       old_time_ = old_time;
     }
 
-    virtual Project* GetRelevantProject() const override
-    {
-      return Project::GetProjectFromObject(key_);
-    }
+    virtual Project *GetRelevantProject() const override { return Project::GetProjectFromObject(key_); }
 
-  protected:
-    virtual void redo() override
-    {
-      key_->set_time(new_time_);
-    }
+   protected:
+    virtual void redo() override { key_->set_time(new_time_); }
 
-    virtual void undo() override
-    {
-      key_->set_time(old_time_);
-    }
+    virtual void undo() override { key_->set_time(old_time_); }
 
-  private:
-    T* key_;
+   private:
+    T *key_;
 
     rational old_time_;
     rational new_time_;
-
   };
 
   TimeBasedView *view_;
 
-  using DrawnObject = QPair<T*, QRectF>;
+  using DrawnObject = QPair<T *, QRectF>;
   std::vector<DrawnObject> drawn_objects_;
 
-  std::vector<T*> selected_;
+  std::vector<T *> selected_;
 
   std::vector<rational> dragging_;
   std::vector<rational> snap_points_;
-  std::vector<Node*> time_targets_;
+  std::vector<Node *> time_targets_;
 
   T *initial_drag_item_;
 
@@ -457,16 +400,15 @@ private:
 
   QRubberBand *rubberband_;
   QPointF rubberband_scene_start_;
-  std::vector<T*> rubberband_preselected_;
+  std::vector<T *> rubberband_preselected_;
 
   TimeBasedWidget::SnapMask snap_mask_;
 
   TimeTargetObject *time_target_;
 
   QString last_used_tip_format_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // TIMEBASEDVIEWSELECTIONMANAGER_H
+#endif  // TIMEBASEDVIEWSELECTIONMANAGER_H

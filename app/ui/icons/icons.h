@@ -139,7 +139,7 @@ extern QIcon ColorPicker;
  *
  * A QIcon object containing the various icon sizes loaded from resource
  */
-QIcon Create(const QString &theme, const QString& name);
+QIcon Create(const QString &theme, const QString &name);
 
 /**
  * @brief Methodically load all Olive icons into global variables that can be accessed throughout the application
@@ -149,8 +149,8 @@ QIcon Create(const QString &theme, const QString& name);
  */
 void LoadAll(const QString &theme);
 
-}
+}  // namespace icon
 
-}
+}  // namespace olive
 
-#endif // ICONS_H
+#endif  // ICONS_H

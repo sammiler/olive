@@ -26,41 +26,27 @@
 namespace olive {
 
 class BlockSplitCommand : public UndoCommand {
-public:
-  BlockSplitCommand(Block* block, rational point) :
-    block_(block),
-    new_block_(nullptr),
-    point_(point),
-    reconnect_tree_command_(nullptr)
-  {
-  }
+ public:
+  BlockSplitCommand(Block* block, rational point)
+      : block_(block), new_block_(nullptr), point_(point), reconnect_tree_command_(nullptr) {}
 
-  virtual ~BlockSplitCommand() override
-  {
-    delete reconnect_tree_command_;
-  }
+  virtual ~BlockSplitCommand() override { delete reconnect_tree_command_; }
 
-  virtual Project* GetRelevantProject() const override
-  {
-    return block_->project();
-  }
+  virtual Project* GetRelevantProject() const override { return block_->project(); }
 
   /**
    * @brief Access the second block created as a result. Only valid after redo().
    */
-  Block* new_block()
-  {
-    return new_block_;
-  }
+  Block* new_block() { return new_block_; }
 
-protected:
+ protected:
   virtual void prepare() override;
 
   virtual void redo() override;
 
   virtual void undo() override;
 
-private:
+ private:
   Block* block_;
   Block* new_block_;
 
@@ -70,102 +56,75 @@ private:
   MultiUndoCommand* reconnect_tree_command_;
 
   NodeInput moved_transition_;
-
 };
 
 class BlockSplitPreservingLinksCommand : public UndoCommand {
-public:
-  BlockSplitPreservingLinksCommand(const QVector<Block *> &blocks, const QList<rational>& times) :
-    blocks_(blocks),
-    times_(times)
-  {
-  }
+ public:
+  BlockSplitPreservingLinksCommand(const QVector<Block*>& blocks, const QList<rational>& times)
+      : blocks_(blocks), times_(times) {}
 
-  virtual ~BlockSplitPreservingLinksCommand() override
-  {
-    qDeleteAll(commands_);
-  }
+  virtual ~BlockSplitPreservingLinksCommand() override { qDeleteAll(commands_); }
 
-  virtual Project* GetRelevantProject() const override
-  {
-    return blocks_.first()->project();
-  }
+  virtual Project* GetRelevantProject() const override { return blocks_.first()->project(); }
 
-  Block *GetSplit(Block *original, int time_index) const;
+  Block* GetSplit(Block* original, int time_index) const;
 
-protected:
+ protected:
   virtual void prepare() override;
 
-  virtual void redo() override
-  {
-    for (int i=0; i<commands_.size(); i++) {
+  virtual void redo() override {
+    for (int i = 0; i < commands_.size(); i++) {
       commands_.at(i)->redo_now();
     }
   }
 
-  virtual void undo() override
-  {
-    for (int i=commands_.size()-1; i>=0; i--) {
+  virtual void undo() override {
+    for (int i = commands_.size() - 1; i >= 0; i--) {
       commands_.at(i)->undo_now();
     }
   }
 
-private:
-  QVector<Block *> blocks_;
+ private:
+  QVector<Block*> blocks_;
 
   QList<rational> times_;
 
   QVector<UndoCommand*> commands_;
 
-  QVector< QVector<Block*> > splits_;
-
+  QVector<QVector<Block*> > splits_;
 };
 
 class TrackSplitAtTimeCommand : public UndoCommand {
-public:
-  TrackSplitAtTimeCommand(Track* track, rational point) :
-    track_(track),
-    point_(point),
-    command_(nullptr)
-  {
-  }
+ public:
+  TrackSplitAtTimeCommand(Track* track, rational point) : track_(track), point_(point), command_(nullptr) {}
 
-  virtual ~TrackSplitAtTimeCommand() override
-  {
-    delete command_;
-  }
+  virtual ~TrackSplitAtTimeCommand() override { delete command_; }
 
-  virtual Project* GetRelevantProject() const override
-  {
-    return track_->project();
-  }
+  virtual Project* GetRelevantProject() const override { return track_->project(); }
 
-protected:
+ protected:
   virtual void prepare() override;
 
-  virtual void redo() override
-  {
+  virtual void redo() override {
     if (command_) {
       command_->redo_now();
     }
   }
 
-  virtual void undo() override
-  {
+  virtual void undo() override {
     if (command_) {
       command_->undo_now();
     }
   }
 
-private:
+ private:
   Track* track_;
 
   rational point_;
 
   UndoCommand* command_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // TIMELINEUNDOSPLIT_H
+#endif  // TIMELINEUNDOSPLIT_H

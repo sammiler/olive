@@ -26,17 +26,15 @@
 #include "core.h"
 #include "node/project/sequence/sequence.h"
 #include "panel/footageviewer/footageviewer.h"
-#include "panel/timeline/timeline.h"
 #include "panel/panelmanager.h"
+#include "panel/timeline/timeline.h"
 #include "widget/menu/menushared.h"
 #include "widget/projecttoolbar/projecttoolbar.h"
 #include "window/mainwindow/mainwindow.h"
 
 namespace olive {
 
-ProjectPanel::ProjectPanel(const QString &unique_name) :
-  PanelWidget(unique_name)
-{
+ProjectPanel::ProjectPanel(const QString& unique_name) : PanelWidget(unique_name) {
   // Create main widget and its layout
   QWidget* central_widget = new QWidget(this);
   QVBoxLayout* layout = new QVBoxLayout(central_widget);
@@ -64,22 +62,15 @@ ProjectPanel::ProjectPanel(const QString &unique_name) :
   toolbar->SetView(explorer_->view_type());
 
   // Connect toolbar's view change signal to the explorer's view change slot
-  connect(toolbar,
-          &ProjectToolbar::ViewChanged,
-          explorer_,
-          &ProjectExplorer::set_view_type);
+  connect(toolbar, &ProjectToolbar::ViewChanged, explorer_, &ProjectExplorer::set_view_type);
 
   // Set strings
   Retranslate();
 }
 
-Project* ProjectPanel::project() const
-{
-  return explorer_->project();
-}
+Project* ProjectPanel::project() const { return explorer_->project(); }
 
-void ProjectPanel::set_project(Project* p)
-{
+void ProjectPanel::set_project(Project* p) {
   if (project()) {
     disconnect(project(), &Project::NameChanged, this, &ProjectPanel::UpdateSubtitle);
     disconnect(project(), &Project::NameChanged, this, &ProjectPanel::ProjectNameChanged);
@@ -97,60 +88,31 @@ void ProjectPanel::set_project(Project* p)
   emit ProjectNameChanged();
 }
 
-Folder *ProjectPanel::get_root() const
-{
-  return explorer_->get_root();
-}
+Folder* ProjectPanel::get_root() const { return explorer_->get_root(); }
 
-void ProjectPanel::set_root(Folder *item)
-{
+void ProjectPanel::set_root(Folder* item) {
   explorer_->set_root(item);
 
   Retranslate();
 }
 
-QVector<Node *> ProjectPanel::SelectedItems() const
-{
-  return explorer_->SelectedItems();
-}
+QVector<Node*> ProjectPanel::SelectedItems() const { return explorer_->SelectedItems(); }
 
-Folder *ProjectPanel::GetSelectedFolder() const
-{
-  return explorer_->GetSelectedFolder();
-}
+Folder* ProjectPanel::GetSelectedFolder() const { return explorer_->GetSelectedFolder(); }
 
-ProjectViewModel *ProjectPanel::model() const
-{
-  return explorer_->model();
-}
+ProjectViewModel* ProjectPanel::model() const { return explorer_->model(); }
 
-void ProjectPanel::SelectAll()
-{
-  explorer_->SelectAll();
-}
+void ProjectPanel::SelectAll() { explorer_->SelectAll(); }
 
-void ProjectPanel::DeselectAll()
-{
-  explorer_->DeselectAll();
-}
+void ProjectPanel::DeselectAll() { explorer_->DeselectAll(); }
 
-void ProjectPanel::DeleteSelected()
-{
-  explorer_->DeleteSelected();
-}
+void ProjectPanel::DeleteSelected() { explorer_->DeleteSelected(); }
 
-void ProjectPanel::RenameSelected()
-{
-  explorer_->RenameSelectedItem();
-}
+void ProjectPanel::RenameSelected() { explorer_->RenameSelectedItem(); }
 
-void ProjectPanel::Edit(Node* item)
-{
-  explorer_->Edit(item);
-}
+void ProjectPanel::Edit(Node* item) { explorer_->Edit(item); }
 
-void ProjectPanel::Retranslate()
-{
+void ProjectPanel::Retranslate() {
   if (project() && explorer_->get_root() != project()->root()) {
     SetTitle(tr("Folder"));
   } else {
@@ -160,8 +122,7 @@ void ProjectPanel::Retranslate()
   UpdateSubtitle();
 }
 
-void ProjectPanel::ItemDoubleClickSlot(Node *item)
-{
+void ProjectPanel::ItemDoubleClickSlot(Node* item) {
   if (item == nullptr) {
     // If the user double clicks on empty space, show the import dialog
     Core::instance()->DialogImportShow();
@@ -177,8 +138,7 @@ void ProjectPanel::ItemDoubleClickSlot(Node *item)
   }
 }
 
-void ProjectPanel::ShowNewMenu()
-{
+void ProjectPanel::ShowNewMenu() {
   Menu new_menu(this);
 
   MenuShared::instance()->AddItemsForNewMenu(&new_menu);
@@ -186,8 +146,7 @@ void ProjectPanel::ShowNewMenu()
   new_menu.exec(QCursor::pos());
 }
 
-void ProjectPanel::UpdateSubtitle()
-{
+void ProjectPanel::UpdateSubtitle() {
   if (project()) {
     QString project_title = QStringLiteral("%1").arg(project()->name());
 
@@ -211,13 +170,9 @@ void ProjectPanel::UpdateSubtitle()
   }
 }
 
-void ProjectPanel::SaveConnectedProject()
-{
-  Core::instance()->SaveProject();
-}
+void ProjectPanel::SaveConnectedProject() { Core::instance()->SaveProject(); }
 
-QVector<ViewerOutput *> ProjectPanel::GetSelectedFootage() const
-{
+QVector<ViewerOutput*> ProjectPanel::GetSelectedFootage() const {
   QVector<Node*> items = SelectedItems();
   QVector<ViewerOutput*> footage;
 
@@ -230,4 +185,4 @@ QVector<ViewerOutput *> ProjectPanel::GetSelectedFootage() const
   return footage;
 }
 
-}
+}  // namespace olive

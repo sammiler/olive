@@ -41,18 +41,17 @@ namespace olive {
  *
  * The main entry point is SetTask() after a Task and TaskViewItem objects are created.
  */
-class TaskViewItem : public QFrame
-{
+class TaskViewItem : public QFrame {
   Q_OBJECT
-public:
-  TaskViewItem(Task *task, QWidget* parent = nullptr);
+ public:
+  TaskViewItem(Task* task, QWidget* parent = nullptr);
 
   void Failed();
 
-signals:
+ signals:
   void TaskCancelled(Task* t);
 
-private:
+ private:
   QLabel* task_name_lbl_;
   QProgressBar* progress_bar_;
   QPushButton* cancel_btn_;
@@ -63,11 +62,10 @@ private:
 
   Task* task_;
 
-private slots:
+ private slots:
   void UpdateProgress(double d);
-
 };
 
-}
+}  // namespace olive
 
-#endif // TASKVIEWITEM_H
+#endif  // TASKVIEWITEM_H

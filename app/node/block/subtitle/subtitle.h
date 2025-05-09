@@ -25,10 +25,9 @@
 
 namespace olive {
 
-class SubtitleBlock : public ClipBlock
-{
+class SubtitleBlock : public ClipBlock {
   Q_OBJECT
-public:
+ public:
   SubtitleBlock();
 
   NODE_DEFAULT_FUNCTIONS(SubtitleBlock)
@@ -41,18 +40,11 @@ public:
 
   static const QString kTextIn;
 
-  QString GetText() const
-  {
-    return GetStandardValue(kTextIn).toString();
-  }
+  QString GetText() const { return GetStandardValue(kTextIn).toString(); }
 
-  void SetText(const QString &text)
-  {
-    SetStandardValue(kTextIn, text);
-  }
-
+  void SetText(const QString &text) { SetStandardValue(kTextIn, text); }
 };
 
-}
+}  // namespace olive
 
-#endif // SUBTITLEBLOCK_H
+#endif  // SUBTITLEBLOCK_H

@@ -24,9 +24,7 @@
 
 namespace olive {
 
-TaskView::TaskView(QWidget* parent) :
-  QScrollArea(parent)
-{
+TaskView::TaskView(QWidget *parent) : QScrollArea(parent) {
   // Allow scroll area to resize widget to fit
   setWidgetResizable(true);
 
@@ -43,24 +41,19 @@ TaskView::TaskView(QWidget* parent) :
   layout_->addStretch();
 }
 
-void TaskView::AddTask(Task *t)
-{
+void TaskView::AddTask(Task *t) {
   // Create TaskViewItem (UI representation of a Task) and connect it
-  TaskViewItem* item = new TaskViewItem(t);
+  TaskViewItem *item = new TaskViewItem(t);
   connect(item, &TaskViewItem::TaskCancelled, this, &TaskView::TaskCancelled);
   items_.insert(t, item);
-  layout_->insertWidget(layout_->count()-1, item);
+  layout_->insertWidget(layout_->count() - 1, item);
 }
 
-void TaskView::TaskFailed(Task *t)
-{
-  items_.value(t)->Failed();
-}
+void TaskView::TaskFailed(Task *t) { items_.value(t)->Failed(); }
 
-void TaskView::RemoveTask(Task *t)
-{
+void TaskView::RemoveTask(Task *t) {
   items_.value(t)->deleteLater();
   items_.remove(t);
 }
 
-}
+}  // namespace olive

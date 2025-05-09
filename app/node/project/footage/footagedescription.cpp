@@ -29,8 +29,7 @@
 
 namespace olive {
 
-bool FootageDescription::Load(const QString &filename)
-{
+bool FootageDescription::Load(const QString& filename) {
   // Reset self
   *this = FootageDescription();
 
@@ -106,8 +105,7 @@ bool FootageDescription::Load(const QString &filename)
   return false;
 }
 
-bool FootageDescription::Save(const QString &filename) const
-{
+bool FootageDescription::Save(const QString& filename) const {
   QFile file(filename);
 
   if (!file.open(QFile::WriteOnly)) {
@@ -131,24 +129,24 @@ bool FootageDescription::Save(const QString &filename) const
   foreach (const VideoParams& vp, video_streams_) {
     writer.writeStartElement(QStringLiteral("video"));
     vp.Save(&writer);
-    writer.writeEndElement(); // video
+    writer.writeEndElement();  // video
   }
 
   foreach (const AudioParams& ap, audio_streams_) {
     writer.writeStartElement(QStringLiteral("audio"));
     TypeSerializer::SaveAudioParams(&writer, ap);
-    writer.writeEndElement(); // audio
+    writer.writeEndElement();  // audio
   }
 
   foreach (const SubtitleParams& sp, subtitle_streams_) {
     writer.writeStartElement(QStringLiteral("subtitle"));
     sp.Save(&writer);
-    writer.writeEndElement(); // audio
+    writer.writeEndElement();  // audio
   }
 
-  writer.writeEndElement(); // streams
+  writer.writeEndElement();  // streams
 
-  writer.writeEndElement(); // streamcache
+  writer.writeEndElement();  // streamcache
 
   writer.writeEndDocument();
 
@@ -157,4 +155,4 @@ bool FootageDescription::Save(const QString &filename) const
   return true;
 }
 
-}
+}  // namespace olive

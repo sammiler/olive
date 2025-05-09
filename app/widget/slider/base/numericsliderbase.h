@@ -25,16 +25,12 @@
 
 namespace olive {
 
-class NumericSliderBase : public SliderBase
-{
+class NumericSliderBase : public SliderBase {
   Q_OBJECT
-public:
-  NumericSliderBase(QWidget *parent = nullptr);
+ public:
+  NumericSliderBase(QWidget* parent = nullptr);
 
-  void SetLadderElementCount(int b)
-  {
-    ladder_element_count_ = b;
-  }
+  void SetLadderElementCount(int b) { ladder_element_count_ = b; }
 
   void SetDragMultiplier(const double& d);
 
@@ -42,13 +38,10 @@ public:
 
   bool IsDragging() const;
 
-protected:
-  const QVariant& GetOffset() const
-  {
-    return offset_;
-  }
+ protected:
+  const QVariant& GetOffset() const { return offset_; }
 
-  virtual QVariant AdjustDragDistanceInternal(const QVariant &start, const double &drag) const;
+  virtual QVariant AdjustDragDistanceInternal(const QVariant& start, const double& drag) const;
 
   void SetMinimumInternal(const QVariant& v);
 
@@ -60,7 +53,7 @@ protected:
 
   virtual bool CanSetValue() const override;
 
-private:
+ private:
   bool UsingLadders() const;
 
   virtual QVariant AdjustValue(const QVariant& value) const override;
@@ -92,7 +85,7 @@ private:
    */
   static bool effects_slider_is_being_dragged_;
 
-private slots:
+ private slots:
   void LabelPressed();
 
   void RepositionLadder();
@@ -100,9 +93,8 @@ private slots:
   void LadderDragged(int value, double multiplier);
 
   void LadderReleased();
-
 };
 
-}
+}  // namespace olive
 
-#endif // NUMERICSLIDERBASE_H
+#endif  // NUMERICSLIDERBASE_H

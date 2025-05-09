@@ -30,8 +30,7 @@ const QString WaveDistortNode::kVerticalInput = QStringLiteral("vertical_in");
 
 #define super Node
 
-WaveDistortNode::WaveDistortNode()
-{
+WaveDistortNode::WaveDistortNode() {
   AddInput(kTextureInput, NodeValue::kTexture, InputFlags(kInputFlagNotKeyframable));
 
   AddInput(kFrequencyInput, NodeValue::kFloat, 10);
@@ -44,28 +43,15 @@ WaveDistortNode::WaveDistortNode()
   SetEffectInput(kTextureInput);
 }
 
-QString WaveDistortNode::Name() const
-{
-  return tr("Wave");
-}
+QString WaveDistortNode::Name() const { return tr("Wave"); }
 
-QString WaveDistortNode::id() const
-{
-  return QStringLiteral("org.oliveeditor.Olive.wave");
-}
+QString WaveDistortNode::id() const { return QStringLiteral("org.oliveeditor.Olive.wave"); }
 
-QVector<Node::CategoryID> WaveDistortNode::Category() const
-{
-  return {kCategoryDistort};
-}
+QVector<Node::CategoryID> WaveDistortNode::Category() const { return {kCategoryDistort}; }
 
-QString WaveDistortNode::Description() const
-{
-  return tr("Distorts an image along a sine wave.");
-}
+QString WaveDistortNode::Description() const { return tr("Distorts an image along a sine wave."); }
 
-void WaveDistortNode::Retranslate()
-{
+void WaveDistortNode::Retranslate() {
   super::Retranslate();
 
   SetInputName(kTextureInput, tr("Input"));
@@ -76,14 +62,12 @@ void WaveDistortNode::Retranslate()
   SetComboBoxStrings(kVerticalInput, {tr("Horizontal"), tr("Vertical")});
 }
 
-ShaderCode WaveDistortNode::GetShaderCode(const ShaderRequest &request) const
-{
+ShaderCode WaveDistortNode::GetShaderCode(const ShaderRequest &request) const {
   Q_UNUSED(request)
   return ShaderCode(FileFunctions::ReadFileAsString(":/shaders/wave.frag"));
 }
 
-void WaveDistortNode::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const
-{
+void WaveDistortNode::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const {
   // If there's no texture, no need to run an operation
   if (TexturePtr texture = value[kTextureInput].toTexture()) {
     // Only run shader if at least one of flip or flop are selected
@@ -94,7 +78,6 @@ void WaveDistortNode::Value(const NodeValueRow &value, const NodeGlobals &global
       table->Push(value[kTextureInput]);
     }
   }
-
 }
 
-}
+}  // namespace olive

@@ -22,24 +22,13 @@
 
 namespace olive {
 
-PreviewAudioDevice::PreviewAudioDevice(QObject *parent) :
-  notify_interval_(0),
-  bytes_read_(0)
-{
-}
+PreviewAudioDevice::PreviewAudioDevice(QObject *parent) : notify_interval_(0), bytes_read_(0) {}
 
-PreviewAudioDevice::~PreviewAudioDevice()
-{
-  close();
-}
+PreviewAudioDevice::~PreviewAudioDevice() { close(); }
 
-bool PreviewAudioDevice::isSequential() const
-{
-  return true;
-}
+bool PreviewAudioDevice::isSequential() const { return true; }
 
-qint64 PreviewAudioDevice::readData(char *data, qint64 maxSize)
-{
+qint64 PreviewAudioDevice::readData(char *data, qint64 maxSize) {
   QMutexLocker locker(&lock_);
 
   qint64 copy_length = qMin(maxSize, qint64(buffer_.size()));
@@ -62,8 +51,7 @@ qint64 PreviewAudioDevice::readData(char *data, qint64 maxSize)
   return copy_length;
 }
 
-qint64 PreviewAudioDevice::writeData(const char *data, qint64 length)
-{
+qint64 PreviewAudioDevice::writeData(const char *data, qint64 length) {
   QMutexLocker locker(&lock_);
 
   buffer_.append(data, length);
@@ -71,12 +59,11 @@ qint64 PreviewAudioDevice::writeData(const char *data, qint64 length)
   return length;
 }
 
-void PreviewAudioDevice::clear()
-{
+void PreviewAudioDevice::clear() {
   QMutexLocker locker(&lock_);
 
   buffer_.clear();
   bytes_read_ = 0;
 }
 
-}
+}  // namespace olive

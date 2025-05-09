@@ -33,12 +33,11 @@
 
 namespace olive {
 
-const char* StyleManager::kDefaultStyle = "olive-dark";
+const char *StyleManager::kDefaultStyle = "olive-dark";
 QString StyleManager::current_style_;
 QMap<QString, QString> StyleManager::available_themes_;
 
-QPalette StyleManager::ParsePalette(const QString& ini_path)
-{
+QPalette StyleManager::ParsePalette(const QString &ini_path) {
   QSettings ini(ini_path, QSettings::IniFormat);
   QPalette palette;
 
@@ -50,25 +49,24 @@ QPalette StyleManager::ParsePalette(const QString& ini_path)
   return palette;
 }
 
-void StyleManager::ParsePaletteGroup(QSettings *ini, QPalette *palette, QPalette::ColorGroup group)
-{
+void StyleManager::ParsePaletteGroup(QSettings *ini, QPalette *palette, QPalette::ColorGroup group) {
   QString group_name;
 
   switch (group) {
-  case QPalette::All:
-    group_name = "All";
-    break;
-  case QPalette::Active:
-    group_name = "Active";
-    break;
-  case QPalette::Inactive:
-    group_name = "Inactive";
-    break;
-  case QPalette::Disabled:
-    group_name = "Disabled";
-    break;
-  default:
-    return;
+    case QPalette::All:
+      group_name = "All";
+      break;
+    case QPalette::Active:
+      group_name = "Active";
+      break;
+    case QPalette::Inactive:
+      group_name = "Inactive";
+      break;
+    case QPalette::Disabled:
+      group_name = "Disabled";
+      break;
+    default:
+      return;
   }
 
   ini->beginGroup(group_name);
@@ -81,8 +79,8 @@ void StyleManager::ParsePaletteGroup(QSettings *ini, QPalette *palette, QPalette
   ini->endGroup();
 }
 
-void StyleManager::ParsePaletteColor(QSettings *ini, QPalette *palette, QPalette::ColorGroup group, const QString &role_name)
-{
+void StyleManager::ParsePaletteColor(QSettings *ini, QPalette *palette, QPalette::ColorGroup group,
+                                     const QString &role_name) {
   QPalette::ColorRole role;
 
   if (!QString::compare(role_name, "Window", Qt::CaseInsensitive)) {
@@ -124,8 +122,7 @@ void StyleManager::ParsePaletteColor(QSettings *ini, QPalette *palette, QPalette
   palette->setColor(group, role, QColor(ini->value(role_name).toString()));
 }
 
-void StyleManager::Init()
-{
+void StyleManager::Init() {
   qApp->setStyle(QStyleFactory::create("Fusion"));
 
   available_themes_.insert(QStringLiteral("olive-dark"), QStringLiteral("Olive Dark"));
@@ -140,13 +137,9 @@ void StyleManager::Init()
   }
 }
 
-const QString &StyleManager::GetStyle()
-{
-  return current_style_;
-}
+const QString &StyleManager::GetStyle() { return current_style_; }
 
-void StyleManager::SetStyle(const QString &style_path)
-{
+void StyleManager::SetStyle(const QString &style_path) {
   current_style_ = style_path;
 
   QString abs_style_path = QStringLiteral(":/style/%1").arg(style_path);
@@ -177,4 +170,4 @@ void StyleManager::SetStyle(const QString &style_path)
   }
 }
 
-}
+}  // namespace olive

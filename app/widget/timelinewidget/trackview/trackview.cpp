@@ -30,18 +30,15 @@
 
 namespace olive {
 
-TrackView::TrackView(Qt::Alignment vertical_alignment, QWidget *parent) :
-  QScrollArea(parent),
-  list_(nullptr),
-  alignment_(vertical_alignment)
-{
+TrackView::TrackView(Qt::Alignment vertical_alignment, QWidget *parent)
+    : QScrollArea(parent), list_(nullptr), alignment_(vertical_alignment) {
   setAlignment(Qt::AlignLeft | alignment_);
 
-  QWidget* central = new QWidget();
+  QWidget *central = new QWidget();
   setWidget(central);
   setWidgetResizable(true);
 
-  QVBoxLayout* layout = new QVBoxLayout(central);
+  QVBoxLayout *layout = new QVBoxLayout(central);
   layout->setContentsMargins(0, 0, 0, 0);
   layout->setSpacing(0);
 
@@ -65,11 +62,10 @@ TrackView::TrackView(Qt::Alignment vertical_alignment, QWidget *parent) :
   setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 }
 
-void TrackView::ConnectTrackList(TrackList *list)
-{
+void TrackView::ConnectTrackList(TrackList *list) {
   if (list_ != nullptr) {
     // Remove tracks
-    for (int i=0; i<list_->GetTrackCount(); i++) {
+    for (int i = 0; i < list_->GetTrackCount(); i++) {
       splitter_->Remove(0);
     }
 
@@ -80,7 +76,7 @@ void TrackView::ConnectTrackList(TrackList *list)
   list_ = list;
 
   if (list_ != nullptr) {
-    foreach (Track* track, list_->GetTracks()) {
+    foreach (Track *track, list_->GetTracks()) {
       InsertTrack(track);
     }
 
@@ -89,50 +85,36 @@ void TrackView::ConnectTrackList(TrackList *list)
   }
 }
 
-void TrackView::DisconnectTrackList()
-{
-  ConnectTrackList(nullptr);
-}
+void TrackView::DisconnectTrackList() { ConnectTrackList(nullptr); }
 
-void TrackView::resizeEvent(QResizeEvent *e)
-{
+void TrackView::resizeEvent(QResizeEvent *e) {
   QScrollArea::resizeEvent(e);
 
-  splitter_->SetSpacerHeight(height()/2);
+  splitter_->SetSpacerHeight(height() / 2);
 }
 
-void TrackView::ScrollbarRangeChanged(int, int max)
-{
+void TrackView::ScrollbarRangeChanged(int, int max) {
   if (max != last_scrollbar_max_) {
     int ba_val = last_scrollbar_max_ - verticalScrollBar()->value();
     int new_val = max - ba_val;
 
     verticalScrollBar()->setValue(new_val);
-    emit verticalScrollBar()->valueChanged(new_val);
+    emit verticalScrollBar() -> valueChanged(new_val);
 
     last_scrollbar_max_ = max;
   }
 }
 
-void TrackView::TrackHeightChanged(int index, int height)
-{
-  list_->GetTrackAt(index)->SetTrackHeightInPixels(height);
-}
+void TrackView::TrackHeightChanged(int index, int height) { list_->GetTrackAt(index)->SetTrackHeightInPixels(height); }
 
-void TrackView::InsertTrack(Track *track)
-{
+void TrackView::InsertTrack(Track *track) {
   TrackViewItem *tvi = new TrackViewItem(track);
 
   connect(tvi, &TrackViewItem::AboutToDeleteTrack, this, &TrackView::AboutToDeleteTrack);
 
-  splitter_->Insert(track->Index(),
-                    track->GetTrackHeightInPixels(),
-                    tvi);
+  splitter_->Insert(track->Index(), track->GetTrackHeightInPixels(), tvi);
 }
 
-void TrackView::RemoveTrack(Track *track)
-{
-  splitter_->Remove(track->Index());
-}
+void TrackView::RemoveTrack(Track *track) { splitter_->Remove(track->Index()); }
 
-}
+}  // namespace olive

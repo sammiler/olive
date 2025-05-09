@@ -28,6 +28,6 @@ namespace olive {
 extern QString kAppVersion;
 extern QString kAppVersionLong;
 
-}
+}  // namespace olive
 
-#endif // GITHASH_H
+#endif  // GITHASH_H

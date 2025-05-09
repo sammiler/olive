@@ -21,13 +21,13 @@
 #ifndef MEMORYPOOL_H
 #define MEMORYPOOL_H
 
-#include <memory>
+#include <stdint.h>
 #include <QApplication>
 #include <QDateTime>
 #include <QDebug>
 #include <QMutex>
 #include <QTimer>
-#include <stdint.h>
+#include <memory>
 
 #include "common/define.h"
 
@@ -46,18 +46,16 @@ namespace olive {
  * `Get()` will return an ElementPtr. The original desired data can be accessed through ElementPtr::data(). This data
  * will belong to the caller until ElementPtr goes out of scope and the memory is freed back into the pool.
  */
-class MemoryPool : public QObject
-{
+class MemoryPool : public QObject {
   Q_OBJECT
-public:
+ public:
   /**
    * @brief Constructor
    * @param element_count
    *
    * Number of elements per arena
    */
-  MemoryPool(int element_count)
-  {
+  MemoryPool(int element_count) {
     element_count_ = element_count;
 
     clear_timer_ = new QTimer();
@@ -72,8 +70,7 @@ public:
    *
    * Deletes all arenas.
    */
-  virtual ~MemoryPool()
-  {
+  virtual ~MemoryPool() {
     Clear();
     clear_timer_->deleteLater();
   }
@@ -87,8 +84,7 @@ public:
    * and accessing them will cause a crash. You'll need to make sure all elements are already
    * relinquished before then.
    */
-  void Clear()
-  {
+  void Clear() {
     qDeleteAll(arenas_);
     arenas_.clear();
   }
@@ -96,18 +92,12 @@ public:
   /**
    * @brief Returns whether any arenas are successfully allocated
    */
-  inline bool IsAllocated() const
-  {
-    return !arenas_.empty();
-  }
+  inline bool IsAllocated() const { return !arenas_.empty(); }
 
   /**
    * @brief Returns current number of allocated arenas
    */
-  inline int GetArenaCount() const
-  {
-    return arenas_.size();
-  }
+  inline int GetArenaCount() const { return arenas_.size(); }
 
   class Arena;
 
@@ -119,14 +109,13 @@ public:
    * is released back into the pool so it can be used by another class.
    */
   class Element {
-  public:
+   public:
     /**
      * @brief Element Constructor
      *
      * There is no need to use this outside of the memory pool's internal functions.
      */
-    Element(Arena* parent, uint8_t* data)
-    {
+    Element(Arena* parent, uint8_t* data) {
       parent_ = parent;
       data_ = data;
       accessed_ = QDateTime::currentMSecsSinceEpoch();
@@ -137,40 +126,25 @@ public:
      *
      * Automatically releases this element's memory back to the arena it was retrieved from.
      */
-    ~Element()
-    {
-      release();
-    }
+    ~Element() { release(); }
 
     DISABLE_COPY_MOVE(Element)
 
     /**
      * @brief Access data represented in the pool
      */
-    inline uint8_t* data() const
-    {
-      return data_;
-    }
+    inline uint8_t* data() const { return data_; }
 
-    inline const int64_t& timestamp() const
-    {
-      return timestamp_;
-    }
+    inline const int64_t& timestamp() const { return timestamp_; }
 
-    inline void set_timestamp(const int64_t& timestamp)
-    {
-      timestamp_ = timestamp;
-    }
+    inline void set_timestamp(const int64_t& timestamp) { timestamp_ = timestamp; }
 
     /**
      * @brief Register that this element has been accessed
      *
      * \see last_accessed()
      */
-    inline void access()
-    {
-      accessed_ = QDateTime::currentMSecsSinceEpoch();
-    }
+    inline void access() { accessed_ = QDateTime::currentMSecsSinceEpoch(); }
 
     /**
      * @brief Returns the last time `access()` was called on this function
@@ -178,20 +152,16 @@ public:
      * Useful for determining the relative age of an element (i.e. if it hasn't been accessed for a certain amount of
      * time, it can probably be freed back into the pool). This requires all usages to call `access()`.
      */
-    inline const int64_t& last_accessed() const
-    {
-      return accessed_;
-    }
+    inline const int64_t& last_accessed() const { return accessed_; }
 
-    void release()
-    {
+    void release() {
       if (data_) {
         parent_->Release(this);
         data_ = nullptr;
       }
     }
 
-  private:
+   private:
     Arena* parent_;
 
     uint8_t* data_;
@@ -199,7 +169,6 @@ public:
     int64_t timestamp_;
 
     int64_t accessed_;
-
   };
 
   using ElementPtr = std::shared_ptr<Element>;
@@ -212,23 +181,21 @@ public:
    * providing memory (and freeing arenas when they're no longer in use).
    */
   class Arena {
-  public:
-    Arena(MemoryPool* parent)
-    {
+   public:
+    Arena(MemoryPool* parent) {
       parent_ = parent;
       data_ = nullptr;
       allocated_sz_ = 0;
       empty_time_ = QDateTime::currentMSecsSinceEpoch();
     }
 
-    ~Arena()
-    {
+    ~Arena() {
       std::list<Element*> copy = lent_elements_;
       foreach (Element* e, copy) {
         e->release();
       }
 
-      delete [] data_;
+      delete[] data_;
     }
 
     DISABLE_COPY_MOVE(Arena)
@@ -236,17 +203,15 @@ public:
     /**
      * @brief Returns an element if there is free memory to do so
      */
-    ElementPtr Get()
-    {
+    ElementPtr Get() {
       QMutexLocker locker(&lock_);
 
-      for (int i=0;i<available_.size();i++) {
+      for (int i = 0; i < available_.size(); i++) {
         if (available_.at(i)) {
           // This buffer is available
           available_.replace(i, false);
 
-          ElementPtr e = std::make_shared<Element>(this,
-                                                   reinterpret_cast<uint8_t*>(data_ + i * element_sz_));
+          ElementPtr e = std::make_shared<Element>(this, reinterpret_cast<uint8_t*>(data_ + i * element_sz_));
           lent_elements_.push_back(e.get());
 
           return e;
@@ -259,8 +224,7 @@ public:
     /**
      * @brief Releases an element back into the pool for use elsewhere
      */
-    void Release(Element* e)
-    {
+    void Release(Element* e) {
       QMutexLocker locker(&lock_);
       quintptr diff = reinterpret_cast<quintptr>(e->data()) - reinterpret_cast<quintptr>(data_);
 
@@ -275,14 +239,12 @@ public:
       }
     }
 
-    int GetUsageCount()
-    {
+    int GetUsageCount() {
       QMutexLocker locker(&lock_);
       return lent_elements_.size();
     }
 
-    bool Allocate(size_t ele_sz, size_t nb_elements)
-    {
+    bool Allocate(size_t ele_sz, size_t nb_elements) {
       if (IsAllocated()) {
         return true;
       }
@@ -303,23 +265,16 @@ public:
       }
     }
 
-    inline int GetElementCount() const
-    {
-      return available_.size();
-    }
+    inline int GetElementCount() const { return available_.size(); }
 
-    inline bool IsAllocated() const
-    {
-      return data_;
-    }
+    inline bool IsAllocated() const { return data_; }
 
-    inline qint64 GetTimeArenaWasMadeEmpty()
-    {
+    inline qint64 GetTimeArenaWasMadeEmpty() {
       QMutexLocker locker(&lock_);
       return empty_time_;
     }
 
-  private:
+   private:
     MemoryPool* parent_;
 
     uint8_t* data_;
@@ -335,14 +290,12 @@ public:
     std::list<Element*> lent_elements_;
 
     qint64 empty_time_;
-
   };
 
   /**
    * @brief Retrieves an element from an available arena
    */
-  ElementPtr Get()
-  {
+  ElementPtr Get() {
     QMutexLocker locker(&lock_);
 
     // Attempt to get an element from an arena
@@ -384,36 +337,32 @@ public:
     return a->Get();
   }
 
-protected:
+ protected:
   /**
    * @brief The size of each element
    *
    * Override this to use a custom size (e.g. a char array where T = char but the element size is > 1)
    */
-  virtual size_t GetElementSize()
-  {
-    return sizeof(uint8_t);
-  }
+  virtual size_t GetElementSize() { return sizeof(uint8_t); }
 
-private:
+ private:
   int element_count_;
 
   std::list<Arena*> arenas_;
 
   QMutex lock_;
 
-  QTimer *clear_timer_;
+  QTimer* clear_timer_;
 
   static const qint64 kMaxEmptyArenaLife = 5000;
 
-private slots:
-  void ClearEmptyArenas()
-  {
+ private slots:
+  void ClearEmptyArenas() {
     QMutexLocker locker(&lock_);
 
     const qint64 min_time = QDateTime::currentMSecsSinceEpoch() - kMaxEmptyArenaLife;
 
-    for (auto it=arenas_.begin(); it!=arenas_.end(); ) {
+    for (auto it = arenas_.begin(); it != arenas_.end();) {
       Arena* arena = (*it);
 
       if (arena->GetUsageCount() == 0 && arena->GetTimeArenaWasMadeEmpty() <= min_time) {
@@ -425,9 +374,8 @@ private slots:
       }
     }
   }
-
 };
 
-}
+}  // namespace olive
 
-#endif // MEMORYPOOL_H
+#endif  // MEMORYPOOL_H

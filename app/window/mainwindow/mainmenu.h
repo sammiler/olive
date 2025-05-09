@@ -36,13 +36,12 @@ class MainWindow;
  *
  * Responsible for creating the menu, connecting signals/slots, and retranslating the items on a language change.
  */
-class MainMenu : public QMenuBar
-{
+class MainMenu : public QMenuBar {
   Q_OBJECT
-public:
-  MainMenu(MainWindow *parent);
+ public:
+  MainMenu(MainWindow* parent);
 
-protected:
+ protected:
   /**
    * @brief changeEvent
    *
@@ -52,7 +51,7 @@ protected:
    */
   virtual void changeEvent(QEvent* e);
 
-private slots:
+ private slots:
   /**
    * @brief A slot for the Tool selection items
    *
@@ -188,7 +187,7 @@ private slots:
 
   void HelpFeedbackTriggered();
 
-private:
+ private:
   /**
    * @brief Set strings based on the current application language.
    */
@@ -281,7 +280,7 @@ private:
   QAction* tools_record_item_;
   QAction* tools_snapping_item_;
   QAction* tools_preferences_item_;
-  Menu *tools_add_item_menu_;
+  Menu* tools_add_item_menu_;
 
 #ifndef NDEBUG
   QAction* tools_magic_item_;
@@ -291,9 +290,8 @@ private:
   QAction* help_action_search_item_;
   QAction* help_feedback_item_;
   QAction* help_about_item_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // MAINMENU_H
+#endif  // MAINMENU_H

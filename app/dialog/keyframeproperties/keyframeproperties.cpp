@@ -29,11 +29,9 @@
 
 namespace olive {
 
-KeyframePropertiesDialog::KeyframePropertiesDialog(const std::vector<NodeKeyframe*> &keys, const rational &timebase, QWidget *parent) :
-  QDialog(parent),
-  keys_(keys),
-  timebase_(timebase)
-{
+KeyframePropertiesDialog::KeyframePropertiesDialog(const std::vector<NodeKeyframe*>& keys, const rational& timebase,
+                                                   QWidget* parent)
+    : QDialog(parent), keys_(keys), timebase_(timebase) {
   setWindowTitle(tr("Keyframe Properties"));
 
   QGridLayout* layout = new QGridLayout(this);
@@ -90,9 +88,9 @@ KeyframePropertiesDialog::KeyframePropertiesDialog(const std::vector<NodeKeyfram
   bool all_same_bezier_out_x = true;
   bool all_same_bezier_out_y = true;
 
-  for (size_t i=0;i<keys_.size();i++) {
+  for (size_t i = 0; i < keys_.size(); i++) {
     if (i > 0) {
-      NodeKeyframe* prev_key = keys_.at(i-1);
+      NodeKeyframe* prev_key = keys_.at(i - 1);
       NodeKeyframe* this_key = keys_.at(i);
 
       // Determine if the keyframes are all the same time or not
@@ -125,22 +123,16 @@ KeyframePropertiesDialog::KeyframePropertiesDialog(const std::vector<NodeKeyfram
 
     // Determine if any keyframes are on the same track (in which case we can't set the time)
     if (can_set_time) {
-      for (size_t j=0;j<keys_.size();j++) {
-        if (i != j
-            && keys_.at(j)->track() == keys_.at(i)->track()) {
+      for (size_t j = 0; j < keys_.size(); j++) {
+        if (i != j && keys_.at(j)->track() == keys_.at(i)->track()) {
           can_set_time = false;
           break;
         }
       }
     }
 
-    if (!all_same_time
-        && !all_same_type
-        && !can_set_time
-        && !all_same_bezier_in_x
-        && !all_same_bezier_in_y
-        && !all_same_bezier_out_x
-        && !all_same_bezier_out_y) {
+    if (!all_same_time && !all_same_type && !can_set_time && !all_same_bezier_in_x && !all_same_bezier_in_y &&
+        !all_same_bezier_out_x && !all_same_bezier_out_y) {
       break;
     }
   }
@@ -167,7 +159,7 @@ KeyframePropertiesDialog::KeyframePropertiesDialog(const std::vector<NodeKeyfram
 
   if (all_same_type) {
     // If all keyframes are the same type, set it here
-    for (int i=0;i<type_select_->count();i++) {
+    for (int i = 0; i < type_select_->count(); i++) {
       if (type_select_->itemData(i).toInt() == keys_.front()->type()) {
         type_select_->setCurrentIndex(i);
 
@@ -192,8 +184,7 @@ KeyframePropertiesDialog::KeyframePropertiesDialog(const std::vector<NodeKeyfram
   connect(buttons, &QDialogButtonBox::rejected, this, &QDialog::reject);
 }
 
-void KeyframePropertiesDialog::accept()
-{
+void KeyframePropertiesDialog::accept() {
   MultiUndoCommand* command = new MultiUndoCommand();
 
   rational new_time = time_slider_->GetValue();
@@ -209,13 +200,11 @@ void KeyframePropertiesDialog::accept()
     }
 
     if (bezier_group_->isEnabled()) {
-      command->add_child(new KeyframeSetBezierControlPoint(key,
-                                                           NodeKeyframe::kInHandle,
-                                                           QPointF(bezier_in_x_slider_->GetValue(), bezier_in_y_slider_->GetValue())));
+      command->add_child(new KeyframeSetBezierControlPoint(
+          key, NodeKeyframe::kInHandle, QPointF(bezier_in_x_slider_->GetValue(), bezier_in_y_slider_->GetValue())));
 
-      command->add_child(new KeyframeSetBezierControlPoint(key,
-                                                           NodeKeyframe::kOutHandle,
-                                                           QPointF(bezier_out_x_slider_->GetValue(), bezier_out_y_slider_->GetValue())));
+      command->add_child(new KeyframeSetBezierControlPoint(
+          key, NodeKeyframe::kOutHandle, QPointF(bezier_out_x_slider_->GetValue(), bezier_out_y_slider_->GetValue())));
     }
   }
 
@@ -224,8 +213,7 @@ void KeyframePropertiesDialog::accept()
   QDialog::accept();
 }
 
-void KeyframePropertiesDialog::SetUpBezierSlider(FloatSlider *slider, bool all_same, double value)
-{
+void KeyframePropertiesDialog::SetUpBezierSlider(FloatSlider* slider, bool all_same, double value) {
   if (all_same) {
     slider->SetValue(value);
   } else {
@@ -233,9 +221,8 @@ void KeyframePropertiesDialog::SetUpBezierSlider(FloatSlider *slider, bool all_s
   }
 }
 
-void KeyframePropertiesDialog::KeyTypeChanged(int index)
-{
+void KeyframePropertiesDialog::KeyTypeChanged(int index) {
   bezier_group_->setEnabled(type_select_->itemData(index) == NodeKeyframe::kBezier);
 }
 
-}
+}  // namespace olive

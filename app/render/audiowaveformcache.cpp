@@ -24,16 +24,14 @@ namespace olive {
 
 #define super PlaybackCache
 
-AudioWaveformCache::AudioWaveformCache(QObject *parent) :
-  super{parent}
-{
+AudioWaveformCache::AudioWaveformCache(QObject *parent) : super{parent} {
   waveforms_ = std::make_shared<AudioVisualWaveform>();
 }
 
-void AudioWaveformCache::WriteWaveform(const TimeRange &range, const TimeRangeList &valid_ranges, const AudioVisualWaveform *waveform)
-{
+void AudioWaveformCache::WriteWaveform(const TimeRange &range, const TimeRangeList &valid_ranges,
+                                       const AudioVisualWaveform *waveform) {
   // Write each valid range to the segments
-  foreach (const TimeRange& r, valid_ranges) {
+  foreach (const TimeRange &r, valid_ranges) {
     if (waveform) {
       waveforms_->OverwriteSums(*waveform, r.in(), r.in() - range.in(), r.length());
     }
@@ -42,24 +40,22 @@ void AudioWaveformCache::WriteWaveform(const TimeRange &range, const TimeRangeLi
   }
 }
 
-void DrawSubRect(QPainter *painter, const QRect &rect, const double &scale, const TimeRange &wave_range, const AudioVisualWaveform &waveform, const TimeRange &subrange)
-{
+void DrawSubRect(QPainter *painter, const QRect &rect, const double &scale, const TimeRange &wave_range,
+                 const AudioVisualWaveform &waveform, const TimeRange &subrange) {
   // Find start time of passthrough
   TimeRange intersect = wave_range.Intersected(subrange);
 
   // Create new rect that starts at the offset of pass_start from start_time
   // Set rect width to either length of passthrough or until the end
-  QRect pass_rect(rect.x() + (intersect.in() - wave_range.in()).toDouble() * scale,
-                  rect.y(),
-                  intersect.length().toDouble() * scale,
-                  rect.height());
+  QRect pass_rect(rect.x() + (intersect.in() - wave_range.in()).toDouble() * scale, rect.y(),
+                  intersect.length().toDouble() * scale, rect.height());
 
   // Draw waveform with this info
   AudioVisualWaveform::DrawWaveform(painter, pass_rect, scale, waveform, intersect.in());
 }
 
-void AudioWaveformCache::Draw(QPainter *painter, const QRect &rect, const double &scale, const rational &start_time) const
-{
+void AudioWaveformCache::Draw(QPainter *painter, const QRect &rect, const double &scale,
+                              const rational &start_time) const {
   if (!passthroughs_.empty()) {
     TimeRange wave_range(start_time, start_time + rational::fromDouble(rect.width() / scale));
     TimeRangeList draw_range = {wave_range};
@@ -80,19 +76,15 @@ void AudioWaveformCache::Draw(QPainter *painter, const QRect &rect, const double
   }
 }
 
-AudioVisualWaveform::Sample AudioWaveformCache::GetSummaryFromTime(const rational &start, const rational &length) const
-{
+AudioVisualWaveform::Sample AudioWaveformCache::GetSummaryFromTime(const rational &start,
+                                                                   const rational &length) const {
   return waveforms_->GetSummaryFromTime(start, length);
 }
 
-rational AudioWaveformCache::length() const
-{
-  return waveforms_->length();
-}
+rational AudioWaveformCache::length() const { return waveforms_->length(); }
 
-void AudioWaveformCache::SetPassthrough(PlaybackCache *cache)
-{
-  AudioWaveformCache *c = static_cast<AudioWaveformCache*>(cache);
+void AudioWaveformCache::SetPassthrough(PlaybackCache *cache) {
+  AudioWaveformCache *c = static_cast<AudioWaveformCache *>(cache);
 
   for (const TimeRange &r : c->GetValidatedRanges()) {
     WaveformPassthrough t = r;
@@ -105,11 +97,10 @@ void AudioWaveformCache::SetPassthrough(PlaybackCache *cache)
   SetSavingEnabled(c->IsSavingEnabled());
 }
 
-void AudioWaveformCache::InvalidateEvent(const TimeRange& range)
-{
+void AudioWaveformCache::InvalidateEvent(const TimeRange &range) {
   TimeRangeList::util_remove(&passthroughs_, range);
 
   super::InvalidateEvent(range);
 }
 
-}
+}  // namespace olive

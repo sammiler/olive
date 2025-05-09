@@ -28,18 +28,12 @@ namespace olive {
 
 int NodeInputDragger::input_being_dragged = 0;
 
-NodeInputDragger::NodeInputDragger()
-{
+NodeInputDragger::NodeInputDragger() {}
 
-}
+bool NodeInputDragger::IsStarted() const { return input_.IsValid(); }
 
-bool NodeInputDragger::IsStarted() const
-{
-  return input_.IsValid();
-}
-
-void NodeInputDragger::Start(const NodeKeyframeTrackReference &input, const rational &time, bool create_key_on_all_tracks)
-{
+void NodeInputDragger::Start(const NodeKeyframeTrackReference& input, const rational& time,
+                             bool create_key_on_all_tracks) {
   Q_ASSERT(!IsStarted());
 
   // Set up new drag
@@ -57,23 +51,19 @@ void NodeInputDragger::Start(const NodeKeyframeTrackReference &input, const rati
     dragging_key_ = node->GetKeyframeAtTimeOnTrack(input_, time);
 
     if (!dragging_key_) {
-      dragging_key_ = new NodeKeyframe(time,
-                                       start_value_,
-                                       node->GetBestKeyframeTypeForTimeOnTrack(input_, time),
-                                       input_.track(),
-                                       input_.input().element(),
-                                       input_.input().input(),
-                                       node);
+      dragging_key_ = new NodeKeyframe(time, start_value_, node->GetBestKeyframeTypeForTimeOnTrack(input_, time),
+                                       input_.track(), input_.input().element(), input_.input().input(), node);
       created_keys_.append(dragging_key_);
 
       if (create_key_on_all_tracks) {
-        int nb_tracks = NodeValue::get_number_of_keyframe_tracks(input.input().node()->GetInputDataType(input.input().input()));
-        for (int i=0; i<nb_tracks; i++) {
+        int nb_tracks =
+            NodeValue::get_number_of_keyframe_tracks(input.input().node()->GetInputDataType(input.input().input()));
+        for (int i = 0; i < nb_tracks; i++) {
           if (i != input.track()) {
             NodeKeyframeTrackReference this_ref(input.input(), i);
             created_keys_.append(new NodeKeyframe(time, node->GetSplitValueAtTimeOnTrack(this_ref, time),
-                                                  node->GetBestKeyframeTypeForTimeOnTrack(this_ref, time),
-                                                  i, input.input().element(), input.input().input(), node));
+                                                  node->GetBestKeyframeTypeForTimeOnTrack(this_ref, time), i,
+                                                  input.input().element(), input.input().input(), node));
           }
         }
       }
@@ -83,8 +73,7 @@ void NodeInputDragger::Start(const NodeKeyframeTrackReference &input, const rati
   input_being_dragged++;
 }
 
-void NodeInputDragger::Drag(QVariant value)
-{
+void NodeInputDragger::Drag(QVariant value) {
   Q_ASSERT(IsStarted());
 
   Node* node = input_.input().node();
@@ -109,7 +98,7 @@ void NodeInputDragger::Drag(QVariant value)
 
   end_value_ = value;
 
-  //input_->blockSignals(true);
+  // input_->blockSignals(true);
 
   if (input_.input().IsKeyframing()) {
     dragging_key_->set_value(value);
@@ -117,11 +106,10 @@ void NodeInputDragger::Drag(QVariant value)
     node->SetSplitStandardValueOnTrack(input_, value);
   }
 
-  //input_->blockSignals(false);
+  // input_->blockSignals(false);
 }
 
-void NodeInputDragger::End(MultiUndoCommand* command)
-{
+void NodeInputDragger::End(MultiUndoCommand* command) {
   if (!IsStarted()) {
     return;
   }
@@ -129,7 +117,7 @@ void NodeInputDragger::End(MultiUndoCommand* command)
   input_being_dragged--;
 
   if (input_.input().node()->IsInputKeyframing(input_.input())) {
-    for (int i=0; i<created_keys_.size(); i++) {
+    for (int i = 0; i < created_keys_.size(); i++) {
       // We created a keyframe in this process
       command->add_child(new NodeParamInsertKeyframeCommand(input_.input().node(), created_keys_.at(i)));
     }
@@ -147,4 +135,4 @@ void NodeInputDragger::End(MultiUndoCommand* command)
   created_keys_.clear();
 }
 
-}
+}  // namespace olive

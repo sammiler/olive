@@ -25,8 +25,8 @@
 #include <QMimeData>
 #include <QToolTip>
 
-#include "config/config.h"
 #include "common/qtutils.h"
+#include "config/config.h"
 #include "core.h"
 #include "dialog/sequence/sequence.h"
 #include "node/audio/volume/volume.h"
@@ -42,20 +42,16 @@
 
 namespace olive {
 
-ImportTool::ImportTool(TimelineWidget *parent) :
-  TimelineTool(parent)
-{
+ImportTool::ImportTool(TimelineWidget* parent) : TimelineTool(parent) {
   // Calculate width used for importing to give ghosts a slight lead-in so the ghosts aren't right on the cursor
   import_pre_buffer_ = QtUtils::QFontMetricsWidth(parent->fontMetrics(), "HHHHHHHH");
 }
 
-void ImportTool::DragEnter(TimelineViewMouseEvent *event)
-{
+void ImportTool::DragEnter(TimelineViewMouseEvent* event) {
   QStringList mime_formats = event->GetMimeData()->formats();
 
   // Listen for MIME data from a ProjectViewModel
   if (mime_formats.contains(Project::kItemMimeType)) {
-
     // Data is drag/drop data from a ProjectViewModel
     QByteArray model_data = event->GetMimeData()->data(Project::kItemMimeType);
 
@@ -99,7 +95,8 @@ void ImportTool::DragEnter(TimelineViewMouseEvent *event)
       // We only clear the tentative track if the mimedata is about to be destroyed (i.e. the drag
       // is cancelled). If we do this in DragLeave, it leads to undesirable behavior if the cursor
       // is going between views (subtitle track rapidly appearing and disappearing)
-      QObject::connect(event->GetMimeData(), &QObject::destroyed, parent(), &TimelineWidget::ClearTentativeSubtitleTrack);
+      QObject::connect(event->GetMimeData(), &QObject::destroyed, parent(),
+                       &TimelineWidget::ClearTentativeSubtitleTrack);
 
       event->accept();
     } else {
@@ -111,10 +108,8 @@ void ImportTool::DragEnter(TimelineViewMouseEvent *event)
   }
 }
 
-void ImportTool::DragMove(TimelineViewMouseEvent *event)
-{
+void ImportTool::DragMove(TimelineViewMouseEvent* event) {
   if (!dragged_footage_.isEmpty()) {
-
     if (parent()->HasGhosts()) {
       rational time_movement = event->GetFrame() - drag_start_.GetFrame();
 
@@ -149,16 +144,13 @@ void ImportTool::DragMove(TimelineViewMouseEvent *event)
 
       // Generate tooltip (showing earliest in point of imported clip)
       rational tooltip_timebase = parent()->GetTimebaseForTrackType(event->GetTrack().type());
-      QString tooltip_text = QString::fromStdString(Timecode::time_to_timecode(earliest_ghost,
-                                                                               tooltip_timebase,
-                                                                               Core::instance()->GetTimecodeDisplay()));
+      QString tooltip_text = QString::fromStdString(
+          Timecode::time_to_timecode(earliest_ghost, tooltip_timebase, Core::instance()->GetTimecodeDisplay()));
 
-      // Force tooltip to update (otherwise the tooltip won't move as written in the documentation, and could get in the way
-      // of the cursor)
+      // Force tooltip to update (otherwise the tooltip won't move as written in the documentation, and could get in the
+      // way of the cursor)
       QToolTip::hideText();
-      QToolTip::showText(QCursor::pos(),
-                         tooltip_text,
-                         parent());
+      QToolTip::showText(QCursor::pos(), tooltip_text, parent());
     }
 
     event->accept();
@@ -167,8 +159,7 @@ void ImportTool::DragMove(TimelineViewMouseEvent *event)
   }
 }
 
-void ImportTool::DragLeave(QDragLeaveEvent* event)
-{
+void ImportTool::DragLeave(QDragLeaveEvent* event) {
   if (!dragged_footage_.isEmpty()) {
     parent()->ClearGhosts();
     dragged_footage_.clear();
@@ -179,8 +170,7 @@ void ImportTool::DragLeave(QDragLeaveEvent* event)
   }
 }
 
-void ImportTool::DragDrop(TimelineViewMouseEvent *event)
-{
+void ImportTool::DragDrop(TimelineViewMouseEvent* event) {
   if (!dragged_footage_.isEmpty()) {
     auto command = new MultiUndoCommand();
     DropGhosts(event->GetModifiers() & Qt::ControlModifier, command);
@@ -192,8 +182,8 @@ void ImportTool::DragDrop(TimelineViewMouseEvent *event)
   }
 }
 
-void ImportTool::PlaceAt(const QVector<ViewerOutput *> &footage, const rational &start, bool insert, MultiUndoCommand *command, int track_offset, bool jump_to_end)
-{
+void ImportTool::PlaceAt(const QVector<ViewerOutput*>& footage, const rational& start, bool insert,
+                         MultiUndoCommand* command, int track_offset, bool jump_to_end) {
   DraggedFootageData refs;
 
   foreach (ViewerOutput* f, footage) {
@@ -203,8 +193,8 @@ void ImportTool::PlaceAt(const QVector<ViewerOutput *> &footage, const rational 
   PlaceAt(refs, start, insert, command, track_offset, jump_to_end);
 }
 
-void ImportTool::PlaceAt(const DraggedFootageData &footage, const rational &start, bool insert, MultiUndoCommand *command, int track_offset, bool jump_to_end)
-{
+void ImportTool::PlaceAt(const DraggedFootageData& footage, const rational& start, bool insert,
+                         MultiUndoCommand* command, int track_offset, bool jump_to_end) {
   dragged_footage_ = footage;
 
   if (dragged_footage_.isEmpty()) {
@@ -227,9 +217,9 @@ void ImportTool::PlaceAt(const DraggedFootageData &footage, const rational &star
   }
 }
 
-void ImportTool::FootageToGhosts(rational ghost_start, const DraggedFootageData &sorted, const rational& dest_tb, const int& track_start)
-{
-  for (auto it=sorted.cbegin(); it!=sorted.cend(); it++) {
+void ImportTool::FootageToGhosts(rational ghost_start, const DraggedFootageData& sorted, const rational& dest_tb,
+                                 const int& track_start) {
+  for (auto it = sorted.cbegin(); it != sorted.cend(); it++) {
     ViewerOutput* footage = it->first;
 
     if (footage == sequence() || (sequence() && footage->InputsFrom(sequence(), true))) {
@@ -279,7 +269,7 @@ void ImportTool::FootageToGhosts(rational ghost_start, const DraggedFootageData 
       } else if (track_type == Track::kSubtitle) {
         SubtitleParams sp = footage->GetSubtitleParams(ref.index());
 
-        for (const Subtitle &sub : sp) {
+        for (const Subtitle& sub : sp) {
           auto ghost = CreateGhost(sub.time() + ghost_start, 0, dest_track);
 
           ghost->SetData(TimelineViewGhostItem::kAttachedFootage, QVariant::fromValue(sub));
@@ -291,25 +281,19 @@ void ImportTool::FootageToGhosts(rational ghost_start, const DraggedFootageData 
 
     // Stack each ghost one after the other
     ghost_start += footage_duration;
-
   }
 }
 
-void ImportTool::PrepGhosts(const rational& frame, const int& track_index)
-{
+void ImportTool::PrepGhosts(const rational& frame, const int& track_index) {
   if (parent()->GetConnectedNode()) {
-    FootageToGhosts(frame,
-                    dragged_footage_,
-                    parent()->GetConnectedNode()->GetVideoParams().time_base(),
-                    track_index);
+    FootageToGhosts(frame, dragged_footage_, parent()->GetConnectedNode()->GetVideoParams().time_base(), track_index);
   }
 }
 
-void ImportTool::DropGhosts(bool insert, MultiUndoCommand *parent_command)
-{
+void ImportTool::DropGhosts(bool insert, MultiUndoCommand* parent_command) {
   auto command = new MultiUndoCommand();
 
-  if (MultiUndoCommand *c = parent()->TakeSubtitleSectionCommand()) {
+  if (MultiUndoCommand* c = parent()->TakeSubtitleSectionCommand()) {
     command->add_child(c);
   }
 
@@ -322,7 +306,8 @@ void ImportTool::DropGhosts(bool insert, MultiUndoCommand *parent_command)
   } else {
     // There's no active timeline here, ask the user what to do
 
-    DropWithoutSequenceBehavior behavior = static_cast<DropWithoutSequenceBehavior>(OLIVE_CONFIG("DropWithoutSequenceBehavior").toInt());
+    DropWithoutSequenceBehavior behavior =
+        static_cast<DropWithoutSequenceBehavior>(OLIVE_CONFIG("DropWithoutSequenceBehavior").toInt());
 
     if (behavior == kDWSAsk) {
       QCheckBox* dont_ask_again_box = new QCheckBox(QCoreApplication::translate("ImportTool", "Don't ask me again"));
@@ -331,11 +316,15 @@ void ImportTool::DropGhosts(bool insert, MultiUndoCommand *parent_command)
 
       mbox.setIcon(QMessageBox::Question);
       mbox.setWindowTitle(QCoreApplication::translate("ImportTool", "No Active Sequence"));
-      mbox.setText(QCoreApplication::translate("ImportTool", "No sequence is currently open. Would you like to create one?"));
+      mbox.setText(
+          QCoreApplication::translate("ImportTool", "No sequence is currently open. Would you like to create one?"));
       mbox.setCheckBox(dont_ask_again_box);
 
-      QPushButton* auto_params_btn = mbox.addButton(QCoreApplication::translate("ImportTool", "Automatically Detect Parameters From Footage"), QMessageBox::YesRole);
-      QPushButton* manual_params_btn = mbox.addButton(QCoreApplication::translate("ImportTool", "Set Parameters Manually"), QMessageBox::NoRole);
+      QPushButton* auto_params_btn =
+          mbox.addButton(QCoreApplication::translate("ImportTool", "Automatically Detect Parameters From Footage"),
+                         QMessageBox::YesRole);
+      QPushButton* manual_params_btn =
+          mbox.addButton(QCoreApplication::translate("ImportTool", "Set Parameters Manually"), QMessageBox::NoRole);
       mbox.addButton(QMessageBox::Cancel);
 
       mbox.exec();
@@ -367,7 +356,7 @@ void ImportTool::DropGhosts(bool insert, MultiUndoCommand *parent_command)
         // starting point
         QVector<ViewerOutput*> footage_only;
 
-        for (auto it=dragged_footage_.cbegin(); it!=dragged_footage_.cend(); it++) {
+        for (auto it = dragged_footage_.cbegin(); it != dragged_footage_.cend(); it++) {
           if (!footage_only.contains(it->first)) {
             footage_only.append(it->first);
           }
@@ -377,14 +366,12 @@ void ImportTool::DropGhosts(bool insert, MultiUndoCommand *parent_command)
 
         // If the user selected manual, show them a dialog with parameters
         if (behavior == kDWSManual) {
-
           SequenceDialog sd(new_sequence, SequenceDialog::kNew, parent());
           sd.SetUndoable(false);
 
           if (sd.exec() != QDialog::Accepted) {
             sequence_is_valid = false;
           }
-
         }
 
         if (sequence_is_valid) {
@@ -397,7 +384,7 @@ void ImportTool::DropGhosts(bool insert, MultiUndoCommand *parent_command)
 
           FootageToGhosts(0, dragged_footage_, new_sequence->GetVideoParams().time_base(), 0);
 
-          if (MultiUndoCommand *c = parent()->TakeSubtitleSectionCommand()) {
+          if (MultiUndoCommand* c = parent()->TakeSubtitleSectionCommand()) {
             command->add_child(c);
           }
 
@@ -417,7 +404,6 @@ void ImportTool::DropGhosts(bool insert, MultiUndoCommand *parent_command)
   std::list<ClipBlock*> imported_clips;
 
   if (dst_graph) {
-
     QVector<Block*> block_items(parent()->GetGhostItems().size());
 
     // Check if we're inserting (only valid if we're not creating this sequence ourselves)
@@ -425,13 +411,14 @@ void ImportTool::DropGhosts(bool insert, MultiUndoCommand *parent_command)
       InsertGapsAtGhostDestination(command);
     }
 
-    for (int i=0;i<parent()->GetGhostItems().size();i++) {
+    for (int i = 0; i < parent()->GetGhostItems().size(); i++) {
       TimelineViewGhostItem* ghost = parent()->GetGhostItems().at(i);
       Block* block = nullptr;
 
       Track::Type track_type = ghost->GetAdjustedTrack().type();
       if (track_type == Track::kVideo || track_type == Track::kAudio) {
-        TimelineViewGhostItem::AttachedFootage footage_stream = ghost->GetData(TimelineViewGhostItem::kAttachedFootage).value<TimelineViewGhostItem::AttachedFootage>();
+        TimelineViewGhostItem::AttachedFootage footage_stream =
+            ghost->GetData(TimelineViewGhostItem::kAttachedFootage).value<TimelineViewGhostItem::AttachedFootage>();
 
         ClipBlock* clip = new ClipBlock();
         block = clip;
@@ -449,37 +436,46 @@ void ImportTool::DropGhosts(bool insert, MultiUndoCommand *parent_command)
         dep_pos++;
 
         switch (Track::Reference::TypeFromString(footage_stream.output)) {
-        case Track::kVideo:
-        {
-          TransformDistortNode* transform = new TransformDistortNode();
-          command->add_child(new NodeAddCommand(dst_graph, transform));
+          case Track::kVideo: {
+            TransformDistortNode* transform = new TransformDistortNode();
+            command->add_child(new NodeAddCommand(dst_graph, transform));
 
-          command->add_child(new NodeSetValueHintCommand(transform, TransformDistortNode::kTextureInput, -1, Node::ValueHint({NodeValue::kTexture}, footage_stream.output)));
+            command->add_child(
+                new NodeSetValueHintCommand(transform, TransformDistortNode::kTextureInput, -1,
+                                            Node::ValueHint({NodeValue::kTexture}, footage_stream.output)));
 
-          command->add_child(new NodeEdgeAddCommand(footage_stream.footage, NodeInput(transform, TransformDistortNode::kTextureInput)));
-          command->add_child(new NodeEdgeAddCommand(transform, NodeInput(clip, ClipBlock::kBufferIn)));
-          command->add_child(new NodeSetPositionCommand(transform, clip, QPointF(dep_pos, 0)));
-          break;
-        }
-        case Track::kAudio:
-        {
-          VolumeNode* volume_node = new VolumeNode();
-          command->add_child(new NodeAddCommand(dst_graph, volume_node));
+            command->add_child(new NodeEdgeAddCommand(footage_stream.footage,
+                                                      NodeInput(transform, TransformDistortNode::kTextureInput)));
+            command->add_child(new NodeEdgeAddCommand(transform, NodeInput(clip, ClipBlock::kBufferIn)));
+            command->add_child(new NodeSetPositionCommand(transform, clip, QPointF(dep_pos, 0)));
+            break;
+          }
+          case Track::kAudio: {
+            VolumeNode* volume_node = new VolumeNode();
+            command->add_child(new NodeAddCommand(dst_graph, volume_node));
 
-          command->add_child(new NodeSetValueHintCommand(volume_node, VolumeNode::kSamplesInput, -1, Node::ValueHint({NodeValue::kSamples}, footage_stream.output)));
+            command->add_child(
+                new NodeSetValueHintCommand(volume_node, VolumeNode::kSamplesInput, -1,
+                                            Node::ValueHint({NodeValue::kSamples}, footage_stream.output)));
 
-          command->add_child(new NodeEdgeAddCommand(footage_stream.footage, NodeInput(volume_node, VolumeNode::kSamplesInput)));
-          command->add_child(new NodeEdgeAddCommand(volume_node, NodeInput(clip, ClipBlock::kBufferIn)));
-          command->add_child(new NodeSetPositionCommand(volume_node, clip, QPointF(dep_pos, 0)));
-          break;
-        }
-        default:
-          break;
+            command->add_child(
+                new NodeEdgeAddCommand(footage_stream.footage, NodeInput(volume_node, VolumeNode::kSamplesInput)));
+            command->add_child(new NodeEdgeAddCommand(volume_node, NodeInput(clip, ClipBlock::kBufferIn)));
+            command->add_child(new NodeSetPositionCommand(volume_node, clip, QPointF(dep_pos, 0)));
+            break;
+          }
+          default:
+            break;
         }
 
         // Link any clips so far that share the same Footage with this one
-        for (int j=0;j<i;j++) {
-          TimelineViewGhostItem::AttachedFootage footage_compare = parent()->GetGhostItems().at(j)->GetData(TimelineViewGhostItem::kAttachedFootage).value<TimelineViewGhostItem::AttachedFootage>();
+        for (int j = 0; j < i; j++) {
+          TimelineViewGhostItem::AttachedFootage footage_compare =
+              parent()
+                  ->GetGhostItems()
+                  .at(j)
+                  ->GetData(TimelineViewGhostItem::kAttachedFootage)
+                  .value<TimelineViewGhostItem::AttachedFootage>();
 
           if (footage_compare.footage == footage_stream.footage) {
             Block::Link(block_items.at(j), clip);
@@ -489,7 +485,7 @@ void ImportTool::DropGhosts(bool insert, MultiUndoCommand *parent_command)
         imported_clips.push_back(clip);
       } else if (track_type == Track::kSubtitle) {
         Subtitle src = ghost->GetData(TimelineViewGhostItem::kAttachedFootage).value<Subtitle>();
-        SubtitleBlock *sub = new SubtitleBlock();
+        SubtitleBlock* sub = new SubtitleBlock();
         sub->SetText(src.text());
         block = sub;
 
@@ -500,9 +496,7 @@ void ImportTool::DropGhosts(bool insert, MultiUndoCommand *parent_command)
       block->set_length_and_media_out(ghost->GetLength());
 
       command->add_child(new TrackPlaceBlockCommand(sequence->track_list(ghost->GetAdjustedTrack().type()),
-                                                    ghost->GetAdjustedTrack().index(),
-                                                    block,
-                                                    ghost->GetAdjustedIn()));
+                                                    ghost->GetAdjustedTrack().index(), block, ghost->GetAdjustedIn()));
 
       block_items.replace(i, block);
     }
@@ -526,8 +520,8 @@ void ImportTool::DropGhosts(bool insert, MultiUndoCommand *parent_command)
   dragged_footage_.clear();
 }
 
-TimelineViewGhostItem* ImportTool::CreateGhost(const TimeRange &range, const rational &media_in, const Track::Reference &track)
-{
+TimelineViewGhostItem* ImportTool::CreateGhost(const TimeRange& range, const rational& media_in,
+                                               const Track::Reference& track) {
   TimelineViewGhostItem* ghost = new TimelineViewGhostItem();
 
   ghost->SetIn(range.in());
@@ -545,4 +539,4 @@ TimelineViewGhostItem* ImportTool::CreateGhost(const TimeRange &range, const rat
   return ghost;
 }
 
-}
+}  // namespace olive

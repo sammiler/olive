@@ -26,10 +26,9 @@
 
 namespace olive {
 
-class CurvePanel : public TimeBasedPanel
-{
+class CurvePanel : public TimeBasedPanel {
   Q_OBJECT
-public:
+ public:
   CurvePanel();
 
   virtual void DeleteSelected() override;
@@ -38,9 +37,8 @@ public:
 
   virtual void DeselectAll() override;
 
-public slots:
-  void SetNode(Node *node)
-  {
+ public slots:
+  void SetNode(Node *node) {
     // Convert single pointer to either an empty vector or a vector of one
     QVector<Node *> nodes;
 
@@ -57,11 +55,10 @@ public slots:
 
   virtual void DecreaseTrackHeight() override;
 
-protected:
+ protected:
   virtual void Retranslate() override;
-
 };
 
-}
+}  // namespace olive
 
-#endif // CURVEPANEL_H
+#endif  // CURVEPANEL_H

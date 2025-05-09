@@ -24,9 +24,7 @@
 
 namespace olive {
 
-TaskManagerPanel::TaskManagerPanel() :
-  PanelWidget(QStringLiteral("TaskManagerPanel"))
-{
+TaskManagerPanel::TaskManagerPanel() : PanelWidget(QStringLiteral("TaskManagerPanel")) {
   // Create task view
   view_ = new TaskView(this);
 
@@ -43,9 +41,6 @@ TaskManagerPanel::TaskManagerPanel() :
   Retranslate();
 }
 
-void TaskManagerPanel::Retranslate()
-{
-  SetTitle(tr("Task Manager"));
-}
+void TaskManagerPanel::Retranslate() { SetTitle(tr("Task Manager")); }
 
-}
+}  // namespace olive

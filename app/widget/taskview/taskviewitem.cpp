@@ -27,10 +27,7 @@
 
 namespace olive {
 
-TaskViewItem::TaskViewItem(Task* task, QWidget *parent) :
-  QFrame(parent),
-  task_(task)
-{
+TaskViewItem::TaskViewItem(Task* task, QWidget* parent) : QFrame(parent), task_(task) {
   // Draw border around this item
   setFrameShape(QFrame::StyledPanel);
 
@@ -78,17 +75,15 @@ TaskViewItem::TaskViewItem(Task* task, QWidget *parent) :
   connect(cancel_btn_, &QPushButton::clicked, this, [this] { emit TaskCancelled(task_); });
 }
 
-void TaskViewItem::Failed()
-{
+void TaskViewItem::Failed() {
   status_stack_->setCurrentWidget(task_error_lbl_);
   task_error_lbl_->setStyleSheet("color: red");
   task_error_lbl_->setText(tr("Error: %1").arg(task_->GetError()));
 }
 
-void TaskViewItem::UpdateProgress(double d)
-{
+void TaskViewItem::UpdateProgress(double d) {
   progress_bar_->setValue(qRound(100.0 * d));
   elapsed_timer_lbl_->SetProgress(d);
 }
 
-}
+}  // namespace olive

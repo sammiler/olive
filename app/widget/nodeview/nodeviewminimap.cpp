@@ -26,10 +26,7 @@ namespace olive {
 
 #define super QGraphicsView
 
-NodeViewMiniMap::NodeViewMiniMap(NodeViewScene *scene, QWidget *parent) :
-  super(parent),
-  resizing_(false)
-{
+NodeViewMiniMap::NodeViewMiniMap(NodeViewScene *scene, QWidget *parent) : super(parent), resizing_(false) {
   connect(scene, &QGraphicsScene::sceneRectChanged, this, &NodeViewMiniMap::SceneChanged);
   setScene(scene);
 
@@ -45,15 +42,13 @@ NodeViewMiniMap::NodeViewMiniMap(NodeViewScene *scene, QWidget *parent) :
   resize_triangle_sz_ = fontMetrics().height() / 2;
 }
 
-void NodeViewMiniMap::SetViewportRect(const QPolygonF &rect)
-{
+void NodeViewMiniMap::SetViewportRect(const QPolygonF &rect) {
   viewport_rect_ = rect;
 
   viewport()->update();
 }
 
-void NodeViewMiniMap::drawForeground(QPainter *painter, const QRectF &rect)
-{
+void NodeViewMiniMap::drawForeground(QPainter *painter, const QRectF &rect) {
   super::drawForeground(painter, rect);
 
   QColor viewport_color = palette().text().color();
@@ -76,8 +71,7 @@ void NodeViewMiniMap::drawForeground(QPainter *painter, const QRectF &rect)
   painter->drawPolygon(viewport_rect_);
 }
 
-void NodeViewMiniMap::resizeEvent(QResizeEvent *event)
-{
+void NodeViewMiniMap::resizeEvent(QResizeEvent *event) {
   super::resizeEvent(event);
 
   emit Resized();
@@ -85,8 +79,7 @@ void NodeViewMiniMap::resizeEvent(QResizeEvent *event)
   SceneChanged(sceneRect());
 }
 
-void NodeViewMiniMap::mousePressEvent(QMouseEvent *event)
-{
+void NodeViewMiniMap::mousePressEvent(QMouseEvent *event) {
   if (event->button() == Qt::LeftButton) {
     if (MouseInsideResizeTriangle(event)) {
       // Resizing!
@@ -98,8 +91,7 @@ void NodeViewMiniMap::mousePressEvent(QMouseEvent *event)
   }
 }
 
-void NodeViewMiniMap::mouseMoveEvent(QMouseEvent *event)
-{
+void NodeViewMiniMap::mouseMoveEvent(QMouseEvent *event) {
   if (event->buttons() & Qt::LeftButton) {
     if (resizing_) {
       QPointF movement = QCursor::pos() - resize_anchor_;
@@ -117,13 +109,9 @@ void NodeViewMiniMap::mouseMoveEvent(QMouseEvent *event)
   }
 }
 
-void NodeViewMiniMap::mouseReleaseEvent(QMouseEvent *event)
-{
-  resizing_ = false;
-}
+void NodeViewMiniMap::mouseReleaseEvent(QMouseEvent *event) { resizing_ = false; }
 
-void NodeViewMiniMap::SceneChanged(const QRectF &bounding)
-{
+void NodeViewMiniMap::SceneChanged(const QRectF &bounding) {
   double x_scale = double(this->width()) / bounding.width();
   double y_scale = double(this->height()) / bounding.height();
 
@@ -135,21 +123,16 @@ void NodeViewMiniMap::SceneChanged(const QRectF &bounding)
   setTransform(transform);
 }
 
-void NodeViewMiniMap::SetDefaultSize()
-{
+void NodeViewMiniMap::SetDefaultSize() {
   if (parentWidget()) {
-    resize(parentWidget()->width()/4, parentWidget()->height()/4);
+    resize(parentWidget()->width() / 4, parentWidget()->height() / 4);
   }
 }
 
-bool NodeViewMiniMap::MouseInsideResizeTriangle(QMouseEvent *event)
-{
+bool NodeViewMiniMap::MouseInsideResizeTriangle(QMouseEvent *event) {
   return event->pos().x() <= resize_triangle_sz_ && event->pos().y() <= resize_triangle_sz_;
 }
 
-void NodeViewMiniMap::EmitMoveSignal(QMouseEvent *event)
-{
-  emit MoveToScenePoint(mapToScene(event->pos()));
-}
+void NodeViewMiniMap::EmitMoveSignal(QMouseEvent *event) { emit MoveToScenePoint(mapToScene(event->pos())); }
 
-}
+}  // namespace olive

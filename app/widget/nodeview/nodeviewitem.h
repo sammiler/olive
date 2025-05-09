@@ -42,55 +42,37 @@ class NodeViewEdge;
  *
  * To retrieve the NodeViewItem for a certain Node, use NodeView::NodeToUIObject().
  */
-class NodeViewItem : public QObject, public QGraphicsRectItem
-{
+class NodeViewItem : public QObject, public QGraphicsRectItem {
   Q_OBJECT
-public:
-  NodeViewItem(Node *node, const QString &input, int element, Node *context, QGraphicsItem* parent = nullptr);
-  NodeViewItem(Node *node, Node *context, QGraphicsItem* parent = nullptr) :
-    NodeViewItem(node, QString(), -1, context, parent)
-  {
-  }
+ public:
+  NodeViewItem(Node *node, const QString &input, int element, Node *context, QGraphicsItem *parent = nullptr);
+  NodeViewItem(Node *node, Node *context, QGraphicsItem *parent = nullptr)
+      : NodeViewItem(node, QString(), -1, context, parent) {}
 
   virtual ~NodeViewItem() override;
 
   Node::Position GetNodePositionData() const;
   QPointF GetNodePosition() const;
-  void SetNodePosition(const QPointF& pos);
-  void SetNodePosition(const Node::Position& pos);
+  void SetNodePosition(const QPointF &pos);
+  void SetNodePosition(const Node::Position &pos);
 
-  QVector<NodeViewEdge*> GetAllEdgesRecursively() const;
+  QVector<NodeViewEdge *> GetAllEdgesRecursively() const;
 
   /**
    * @brief Get currently attached node
    */
-  Node* GetNode() const
-  {
-    return node_;
-  }
+  Node *GetNode() const { return node_; }
 
-  NodeInput GetInput() const
-  {
-    return NodeInput(node_, input_, element_);
-  }
+  NodeInput GetInput() const { return NodeInput(node_, input_, element_); }
 
-  Node *GetContext() const
-  {
-    return context_;
-  }
+  Node *GetContext() const { return context_; }
 
   /**
    * @brief Get expanded state
    */
-  bool IsExpanded() const
-  {
-    return expanded_;
-  }
+  bool IsExpanded() const { return expanded_; }
 
-  const QVector<NodeViewEdge*> &edges() const
-  {
-    return edges_;
-  }
+  const QVector<NodeViewEdge *> &edges() const { return edges_; }
 
   /**
    * @brief Set expanded state
@@ -106,10 +88,7 @@ public:
    */
   void SetFlowDirection(NodeViewCommon::FlowDirection dir);
 
-  NodeViewCommon::FlowDirection GetFlowDirection() const
-  {
-    return flow_dir_;
-  }
+  NodeViewCommon::FlowDirection GetFlowDirection() const { return flow_dir_; }
 
   static int DefaultTextPadding();
 
@@ -127,13 +106,10 @@ public:
   qreal DefaultItemHorizontalPadding() const;
   qreal DefaultItemVerticalPadding() const;
 
-  void AddEdge(NodeViewEdge* edge);
-  void RemoveEdge(NodeViewEdge* edge);
+  void AddEdge(NodeViewEdge *edge);
+  void RemoveEdge(NodeViewEdge *edge);
 
-  bool IsLabelledAsOutputOfContext() const
-  {
-    return label_as_output_;
-  }
+  bool IsLabelledAsOutputOfContext() const { return label_as_output_; }
 
   void SetLabelAsOutput(bool e);
 
@@ -141,10 +117,7 @@ public:
 
   NodeViewItem *GetItemForInput(NodeInput input);
 
-  bool IsOutputItem() const
-  {
-    return input_.isEmpty();
-  }
+  bool IsOutputItem() const { return input_.isEmpty(); }
 
   void ReadjustAllEdges();
 
@@ -152,7 +125,7 @@ public:
 
   bool CanBeExpanded() const;
 
-protected:
+ protected:
   virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 
   virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
@@ -161,10 +134,11 @@ protected:
 
   virtual QVariant itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value) override;
 
-private:
+ private:
   void UpdateContextRect();
 
-  void DrawNodeTitle(QPainter *painter, QString text, const QRectF &rect, Qt::Alignment vertical_align, int icon_full_size);
+  void DrawNodeTitle(QPainter *painter, QString text, const QRectF &rect, Qt::Alignment vertical_align,
+                     int icon_full_size);
 
   int DrawExpandArrow(QPainter *painter);
 
@@ -196,7 +170,7 @@ private:
   /**
    * @brief Cached list of node inputs
    */
-  QVector<NodeViewItem*> children_;
+  QVector<NodeViewItem *> children_;
 
   /// Sizing variables to use when drawing
   int node_border_width_;
@@ -210,7 +184,7 @@ private:
 
   NodeViewCommon::FlowDirection flow_dir_;
 
-  QVector<NodeViewEdge*> edges_;
+  QVector<NodeViewEdge *> edges_;
 
   QPointF cached_node_pos_;
 
@@ -224,15 +198,14 @@ private:
 
   bool label_as_output_;
 
-private slots:
+ private slots:
   void NodeAppearanceChanged();
 
   void RepopulateInputs();
 
   void InputArraySizeChanged(const QString &input);
-
 };
 
-}
+}  // namespace olive
 
-#endif // NODEVIEWITEM_H
+#endif  // NODEVIEWITEM_H

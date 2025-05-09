@@ -28,10 +28,8 @@
 
 namespace olive {
 
-PathWidget::PathWidget(const QString &path, QWidget *parent) :
-  QWidget(parent)
-{
-  QHBoxLayout* layout = new QHBoxLayout(this);
+PathWidget::PathWidget(const QString &path, QWidget *parent) : QWidget(parent) {
+  QHBoxLayout *layout = new QHBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
 
   path_edit_ = new QLineEdit();
@@ -45,19 +43,16 @@ PathWidget::PathWidget(const QString &path, QWidget *parent) :
   connect(browse_btn_, &QPushButton::clicked, this, &PathWidget::BrowseClicked);
 }
 
-void PathWidget::BrowseClicked()
-{
-  QString dir = QFileDialog::getExistingDirectory(static_cast<QWidget*>(parent()),
-                                                  tr("Browse for path"),
-                                                  path_edit_->text());
+void PathWidget::BrowseClicked() {
+  QString dir =
+      QFileDialog::getExistingDirectory(static_cast<QWidget *>(parent()), tr("Browse for path"), path_edit_->text());
 
   if (!dir.isEmpty()) {
     path_edit_->setText(dir);
   }
 }
 
-void PathWidget::LineEditChanged()
-{
+void PathWidget::LineEditChanged() {
   if (FileFunctions::DirectoryIsValid(text(), false)) {
     path_edit_->setStyleSheet(QString());
   } else {
@@ -65,4 +60,4 @@ void PathWidget::LineEditChanged()
   }
 }
 
-}
+}  // namespace olive

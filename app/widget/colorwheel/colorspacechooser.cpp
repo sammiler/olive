@@ -25,10 +25,9 @@
 
 namespace olive {
 
-ColorSpaceChooser::ColorSpaceChooser(ColorManager* color_manager, bool enable_input_field, bool enable_display_fields, QWidget *parent):
-  QGroupBox(parent),
-  color_manager_(color_manager)
-{
+ColorSpaceChooser::ColorSpaceChooser(ColorManager* color_manager, bool enable_input_field, bool enable_display_fields,
+                                     QWidget* parent)
+    : QGroupBox(parent), color_manager_(color_manager) {
   QGridLayout* layout = new QGridLayout(this);
 
   setTitle(tr("Color Management"));
@@ -36,7 +35,6 @@ ColorSpaceChooser::ColorSpaceChooser(ColorManager* color_manager, bool enable_in
   int row = 0;
 
   if (enable_input_field) {
-
     QString field_text;
 
     if (enable_display_fields) {
@@ -125,8 +123,7 @@ ColorSpaceChooser::ColorSpaceChooser(ColorManager* color_manager, bool enable_in
   }
 }
 
-QString ColorSpaceChooser::input() const
-{
+QString ColorSpaceChooser::input() const {
   if (input_combobox_) {
     return input_combobox_->currentText();
   } else {
@@ -134,20 +131,16 @@ QString ColorSpaceChooser::input() const
   }
 }
 
-ColorTransform ColorSpaceChooser::output() const
-{
-  return ColorTransform(display_combobox_->currentText(),
-                        view_combobox_->currentText(),
+ColorTransform ColorSpaceChooser::output() const {
+  return ColorTransform(display_combobox_->currentText(), view_combobox_->currentText(),
                         look_combobox_->currentIndex() == 0 ? QString() : look_combobox_->currentText());
 }
 
-void ColorSpaceChooser::set_input(const QString &s)
-{
+void ColorSpaceChooser::set_input(const QString& s) {
   input_combobox_->setCurrentText(color_manager_->GetCompliantColorSpace(s));
 }
 
-void ColorSpaceChooser::set_output(const ColorTransform &out)
-{
+void ColorSpaceChooser::set_output(const ColorTransform& out) {
   ColorTransform compliant = color_manager_->GetCompliantColorSpace(out);
 
   display_combobox_->setCurrentText(compliant.display());
@@ -160,8 +153,7 @@ void ColorSpaceChooser::set_output(const ColorTransform &out)
   }
 }
 
-void ColorSpaceChooser::UpdateViews(const QString& display)
-{
+void ColorSpaceChooser::UpdateViews(const QString& display) {
   QString v = view_combobox_->currentText();
 
   view_combobox_->clear();
@@ -181,8 +173,7 @@ void ColorSpaceChooser::UpdateViews(const QString& display)
   }
 }
 
-void ColorSpaceChooser::ComboBoxChanged()
-{
+void ColorSpaceChooser::ComboBoxChanged() {
   if (sender() == display_combobox_) {
     UpdateViews(display_combobox_->currentText());
   }
@@ -200,4 +191,4 @@ void ColorSpaceChooser::ComboBoxChanged()
   }
 }
 
-}
+}  // namespace olive

@@ -26,21 +26,20 @@
 
 namespace olive {
 
-class FootageViewerWidget : public ViewerWidget
-{
+class FootageViewerWidget : public ViewerWidget {
   Q_OBJECT
-public:
-  FootageViewerWidget(QWidget* parent = nullptr);
+ public:
+  FootageViewerWidget(QWidget *parent = nullptr);
 
   void OverrideWorkArea(const TimeRange &r);
   void ResetWorkArea();
 
-private:
+ private:
   void StartFootageDragInternal(bool enable_video, bool enable_audio);
 
   TimelineWorkArea *override_workarea_;
 
-private slots:
+ private slots:
   void StartFootageDrag();
 
   void StartVideoDrag();
@@ -50,9 +49,8 @@ private slots:
   void VideoButtonClicked();
 
   void AudioButtonClicked();
-
 };
 
-}
+}  // namespace olive
 
-#endif // FOOTAGEVIEWERWIDGET_H
+#endif  // FOOTAGEVIEWERWIDGET_H

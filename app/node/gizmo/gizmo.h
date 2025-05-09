@@ -28,10 +28,9 @@
 
 namespace olive {
 
-class NodeGizmo : public QObject
-{
+class NodeGizmo : public QObject {
   Q_OBJECT
-public:
+ public:
   explicit NodeGizmo(QObject *parent = nullptr);
   virtual ~NodeGizmo() override;
 
@@ -43,15 +42,14 @@ public:
   bool IsVisible() const { return visible_; }
   void SetVisible(bool e) { visible_ = e; }
 
-signals:
+ signals:
 
-private:
+ private:
   NodeGlobals globals_;
 
   bool visible_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // NODEGIZMO_H
+#endif  // NODEGIZMO_H

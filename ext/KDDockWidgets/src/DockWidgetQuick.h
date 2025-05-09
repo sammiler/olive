@@ -111,6 +111,6 @@ private:
 
 }
 
-#endif //KDDOCKWIDGETS_QTQUICK
+#endif // KDDOCKWIDGETS_QTQUICK
 
 #endif

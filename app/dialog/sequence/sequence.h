@@ -46,17 +46,13 @@ namespace olive {
  * latter will be the main undoable action, the parameter editing doesn't have to be undoable since to the user they'll
  * be viewed as one single action (see SetUndoable()).
  */
-class SequenceDialog : public QDialog
-{
+class SequenceDialog : public QDialog {
   Q_OBJECT
-public:
+ public:
   /**
    * @brief Used to set the dialog mode of operation (see SequenceDialog())
    */
-  enum Type {
-    kNew,
-    kExisting
-  };
+  enum Type { kNew, kExisting };
 
   /**
    * @brief SequenceDialog Constructor
@@ -86,13 +82,13 @@ public:
    */
   void SetNameIsEditable(bool e);
 
-public slots:
+ public slots:
   /**
    * @brief Function called when the user presses OK
    */
   virtual void accept() override;
 
-private:
+ private:
   Sequence* sequence_;
 
   SequenceDialogPresetTab* preset_tab_;
@@ -107,20 +103,17 @@ private:
    * @brief An UndoCommand for setting the parameters on a sequence
    */
   class SequenceParamCommand : public UndoCommand {
-  public:
-    SequenceParamCommand(Sequence* s,
-                         const VideoParams& video_params,
-                         const AudioParams& audio_params,
-                         const QString& name,
-                         bool autocache);
+   public:
+    SequenceParamCommand(Sequence* s, const VideoParams& video_params, const AudioParams& audio_params,
+                         const QString& name, bool autocache);
 
     virtual Project* GetRelevantProject() const override;
 
-  protected:
+   protected:
     virtual void redo() override;
     virtual void undo() override;
 
-  private:
+   private:
     Sequence* sequence_;
 
     VideoParams new_video_params_;
@@ -134,11 +127,10 @@ private:
     bool old_autocache_;
   };
 
-private slots:
+ private slots:
   void SetAsDefaultClicked();
-
 };
 
-}
+}  // namespace olive
 
-#endif // SEQUENCEDIALOG_H
+#endif  // SEQUENCEDIALOG_H

@@ -33,12 +33,9 @@ namespace olive {
 
 const QString Block::kLengthInput = QStringLiteral("length_in");
 
-Block::Block() :
-  previous_(nullptr),
-  next_(nullptr),
-  track_(nullptr)
-{
-  AddInput(kLengthInput, NodeValue::kRational, InputFlags(kInputFlagNotConnectable | kInputFlagNotKeyframable | kInputFlagHidden));
+Block::Block() : previous_(nullptr), next_(nullptr), track_(nullptr) {
+  AddInput(kLengthInput, NodeValue::kRational,
+           InputFlags(kInputFlagNotConnectable | kInputFlagNotKeyframable | kInputFlagHidden));
   SetInputProperty(kLengthInput, QStringLiteral("min"), QVariant::fromValue(rational(0, 1)));
   SetInputProperty(kLengthInput, QStringLiteral("view"), RationalSlider::kTime);
   SetInputProperty(kLengthInput, QStringLiteral("viewlock"), true);
@@ -49,18 +46,11 @@ Block::Block() :
   SetFlag(kDontShowInParamView);
 }
 
-QVector<Node::CategoryID> Block::Category() const
-{
-  return {kCategoryTimeline};
-}
+QVector<Node::CategoryID> Block::Category() const { return {kCategoryTimeline}; }
 
-rational Block::length() const
-{
-  return GetStandardValue(kLengthInput).value<rational>();
-}
+rational Block::length() const { return GetStandardValue(kLengthInput).value<rational>(); }
 
-void Block::set_length_and_media_out(const rational &length)
-{
+void Block::set_length_and_media_out(const rational &length) {
   if (length == this->length()) {
     return;
   }
@@ -68,8 +58,7 @@ void Block::set_length_and_media_out(const rational &length)
   set_length_internal(length);
 }
 
-void Block::set_length_and_media_in(const rational &length)
-{
+void Block::set_length_and_media_in(const rational &length) {
   if (length == this->length()) {
     return;
   }
@@ -78,20 +67,15 @@ void Block::set_length_and_media_in(const rational &length)
   set_length_internal(length);
 }
 
-bool Block::is_enabled() const
-{
-  return GetStandardValue(kEnabledInput).toBool();
-}
+bool Block::is_enabled() const { return GetStandardValue(kEnabledInput).toBool(); }
 
-void Block::set_enabled(bool e)
-{
+void Block::set_enabled(bool e) {
   SetStandardValue(kEnabledInput, e);
 
   emit EnabledChanged();
 }
 
-void Block::InputValueChangedEvent(const QString &input, int element)
-{
+void Block::InputValueChangedEvent(const QString &input, int element) {
   super::InputValueChangedEvent(input, element);
 
   if (input == kLengthInput) {
@@ -101,21 +85,16 @@ void Block::InputValueChangedEvent(const QString &input, int element)
   }
 }
 
-void Block::set_length_internal(const rational &length)
-{
-  SetStandardValue(kLengthInput, QVariant::fromValue(length));
-}
+void Block::set_length_internal(const rational &length) { SetStandardValue(kLengthInput, QVariant::fromValue(length)); }
 
-void Block::Retranslate()
-{
+void Block::Retranslate() {
   super::Retranslate();
 
   SetInputName(kLengthInput, tr("Length"));
   SetInputName(kEnabledInput, tr("Enabled"));
 }
 
-void Block::InvalidateCache(const TimeRange& range, const QString& from, int element, InvalidateCacheOptions options)
-{
+void Block::InvalidateCache(const TimeRange &range, const QString &from, int element, InvalidateCacheOptions options) {
   TimeRange r;
 
   if (from == kLengthInput) {
@@ -134,8 +113,7 @@ void Block::InvalidateCache(const TimeRange& range, const QString& from, int ele
   super::InvalidateCache(r, from, element, options);
 }
 
-void Block::set_previous_next(Block *previous, Block *next)
-{
+void Block::set_previous_next(Block *previous, Block *next) {
   if (previous) {
     previous->set_next(next);
   }
@@ -144,4 +122,4 @@ void Block::set_previous_next(Block *previous, Block *next)
   }
 }
 
-}
+}  // namespace olive

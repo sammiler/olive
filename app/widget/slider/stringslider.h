@@ -25,10 +25,9 @@
 
 namespace olive {
 
-class StringSlider : public SliderBase
-{
+class StringSlider : public SliderBase {
   Q_OBJECT
-public:
+ public:
   StringSlider(QWidget* parent = nullptr);
 
   void SetDragMultiplier(const double& d) = delete;
@@ -39,18 +38,17 @@ public:
 
   void SetDefaultValue(const QString& v);
 
-signals:
+ signals:
   void ValueChanged(const QString& str);
 
-protected:
+ protected:
   virtual QString ValueToString(const QVariant& value) const override;
 
-  virtual QVariant StringToValue(const QString &s, bool *ok) const override;
+  virtual QVariant StringToValue(const QString& s, bool* ok) const override;
 
-  virtual void ValueSignalEvent(const QVariant &value) override;
-
+  virtual void ValueSignalEvent(const QVariant& value) override;
 };
 
-}
+}  // namespace olive
 
-#endif // STRINGSLIDER_H
+#endif  // STRINGSLIDER_H

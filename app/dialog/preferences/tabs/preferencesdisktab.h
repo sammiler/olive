@@ -27,22 +27,21 @@
 
 #include "dialog/configbase/configdialogbase.h"
 #include "render/diskmanager.h"
-#include "widget/slider/floatslider.h"
 #include "widget/path/pathwidget.h"
+#include "widget/slider/floatslider.h"
 
 namespace olive {
 
-class PreferencesDiskTab : public ConfigDialogBaseTab
-{
+class PreferencesDiskTab : public ConfigDialogBaseTab {
   Q_OBJECT
-public:
+ public:
   PreferencesDiskTab();
 
   virtual bool Validate() override;
 
   virtual void Accept(MultiUndoCommand* command) override;
 
-private:
+ private:
   PathWidget* disk_cache_location_;
 
   FloatSlider* cache_ahead_slider_;
@@ -50,9 +49,8 @@ private:
   FloatSlider* cache_behind_slider_;
 
   DiskCacheFolder* default_disk_cache_folder_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // PREFERENCESDISKTAB_H
+#endif  // PREFERENCESDISKTAB_H

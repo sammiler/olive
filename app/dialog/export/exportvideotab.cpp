@@ -32,12 +32,8 @@
 
 namespace olive {
 
-ExportVideoTab::ExportVideoTab(ColorManager* color_manager, QWidget *parent) :
-  QWidget(parent),
-  color_manager_(color_manager),
-  threads_(0),
-  color_range_(VideoParams::kColorRangeDefault)
-{
+ExportVideoTab::ExportVideoTab(ColorManager* color_manager, QWidget* parent)
+    : QWidget(parent), color_manager_(color_manager), threads_(0), color_range_(VideoParams::kColorRangeDefault) {
   QVBoxLayout* outer_layout = new QVBoxLayout(this);
 
   outer_layout->addWidget(SetupResolutionSection());
@@ -49,8 +45,7 @@ ExportVideoTab::ExportVideoTab(ColorManager* color_manager, QWidget *parent) :
   outer_layout->addStretch();
 }
 
-int ExportVideoTab::SetFormat(ExportFormat::Format format)
-{
+int ExportVideoTab::SetFormat(ExportFormat::Format format) {
   format_ = format;
 
   QList<ExportCodec::Codec> vcodecs = ExportFormat::GetVideoCodecs(format);
@@ -62,22 +57,19 @@ int ExportVideoTab::SetFormat(ExportFormat::Format format)
   return vcodecs.size();
 }
 
-bool ExportVideoTab::IsImageSequenceSet() const
-{
+bool ExportVideoTab::IsImageSequenceSet() const {
   ImageSection* img_section = dynamic_cast<ImageSection*>(codec_stack_->currentWidget());
 
   return (img_section && img_section->IsImageSequenceChecked());
 }
 
-void ExportVideoTab::SetImageSequence(bool e) const
-{
+void ExportVideoTab::SetImageSequence(bool e) const {
   if (ImageSection* img_section = dynamic_cast<ImageSection*>(codec_stack_->currentWidget())) {
     img_section->SetImageSequenceChecked(e);
   }
 }
 
-QWidget* ExportVideoTab::SetupResolutionSection()
-{
+QWidget* ExportVideoTab::SetupResolutionSection() {
   int row = 0;
 
   QGroupBox* resolution_group = new QGroupBox();
@@ -153,15 +145,13 @@ QWidget* ExportVideoTab::SetupResolutionSection()
   return resolution_group;
 }
 
-QWidget* ExportVideoTab::SetupColorSection()
-{
+QWidget* ExportVideoTab::SetupColorSection() {
   color_space_chooser_ = new ColorSpaceChooser(color_manager_, true, false);
   connect(color_space_chooser_, &ColorSpaceChooser::InputColorSpaceChanged, this, &ExportVideoTab::ColorSpaceChanged);
   return color_space_chooser_;
 }
 
-QWidget *ExportVideoTab::SetupCodecSection()
-{
+QWidget* ExportVideoTab::SetupCodecSection() {
   int row = 0;
 
   QGroupBox* codec_group = new QGroupBox();
@@ -173,9 +163,7 @@ QWidget *ExportVideoTab::SetupCodecSection()
 
   codec_combobox_ = new QComboBox();
   codec_layout->addWidget(codec_combobox_, row, 1);
-  connect(codec_combobox_,
-          static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
-          this,
+  connect(codec_combobox_, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
           &ExportVideoTab::VideoCodecChanged);
 
   row++;
@@ -208,13 +196,9 @@ QWidget *ExportVideoTab::SetupCodecSection()
   return codec_group;
 }
 
-void ExportVideoTab::MaintainAspectRatioChanged(bool val)
-{
-  scaling_method_combobox_->setEnabled(!val);
-}
+void ExportVideoTab::MaintainAspectRatioChanged(bool val) { scaling_method_combobox_->setEnabled(!val); }
 
-void ExportVideoTab::OpenAdvancedDialog()
-{
+void ExportVideoTab::OpenAdvancedDialog() {
   // Find export formats compatible with this encoder
   QStringList pixel_formats = ExportFormat::GetPixelFormatsForCodec(format_, GetSelectedCodec());
 
@@ -231,12 +215,11 @@ void ExportVideoTab::OpenAdvancedDialog()
   }
 }
 
-void ExportVideoTab::UpdateFrameRate(rational r)
-{
+void ExportVideoTab::UpdateFrameRate(rational r) {
   // Convert frame rate to timebase
   r.flip();
 
-  for (int i=0; i<codec_stack_->count(); i++) {
+  for (int i = 0; i < codec_stack_->count(); i++) {
     ImageSection* img = dynamic_cast<ImageSection*>(codec_stack_->widget(i));
     if (img) {
       img->SetTimebase(r);
@@ -244,8 +227,7 @@ void ExportVideoTab::UpdateFrameRate(rational r)
   }
 }
 
-void ExportVideoTab::VideoCodecChanged()
-{
+void ExportVideoTab::VideoCodecChanged() {
   ExportCodec::Codec codec = GetSelectedCodec();
 
   switch (codec) {
@@ -275,9 +257,8 @@ void ExportVideoTab::VideoCodecChanged()
   }
 }
 
-void ExportVideoTab::SetTime(const rational &time)
-{
-  for (int i=0; i<codec_stack_->count(); i++) {
+void ExportVideoTab::SetTime(const rational& time) {
+  for (int i = 0; i < codec_stack_->count(); i++) {
     ImageSection* img = dynamic_cast<ImageSection*>(codec_stack_->widget(i));
     if (img) {
       img->SetTime(time);
@@ -285,4 +266,4 @@ void ExportVideoTab::SetTime(const rational &time)
   }
 }
 
-}
+}  // namespace olive

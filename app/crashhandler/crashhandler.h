@@ -33,13 +33,12 @@
 
 namespace olive {
 
-class CrashHandlerDialog : public QDialog
-{
+class CrashHandlerDialog : public QDialog {
   Q_OBJECT
-public:
-  CrashHandlerDialog(QObject * parent,const QString& report_path);
+ public:
+  CrashHandlerDialog(QObject* parent, const QString& report_path);
 
-private:
+ private:
   void SetGUIObjectsEnabled(bool e);
 
   void GenerateReport();
@@ -60,13 +59,13 @@ private:
 
   bool waiting_for_upload_;
 
-protected:
+ protected:
   virtual void closeEvent(QCloseEvent* e) override;
 
-private slots:
-  void ReplyFinished(QNetworkReply *reply);
+ private slots:
+  void ReplyFinished(QNetworkReply* reply);
 
-  void HandleSslErrors(QNetworkReply *reply, const QList<QSslError> &errors);
+  void HandleSslErrors(QNetworkReply* reply, const QList<QSslError>& errors);
 
   void AttemptToFindReport();
 
@@ -75,9 +74,8 @@ private slots:
   void ReadProcessFinished();
 
   void SendErrorReport();
-
 };
 
-}
+}  // namespace olive
 
-#endif // CRASHHANDLERDIALOG_H
+#endif  // CRASHHANDLERDIALOG_H

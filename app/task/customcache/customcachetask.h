@@ -28,31 +28,29 @@
 
 namespace olive {
 
-class CustomCacheTask : public Task
-{
+class CustomCacheTask : public Task {
   Q_OBJECT
-public:
+ public:
   CustomCacheTask(const QString &sequence_name);
 
   void Finish();
 
-signals:
+ signals:
   void Cancelled();
 
-protected:
+ protected:
   virtual bool Run() override;
 
   virtual void CancelEvent() override;
 
-private:
+ private:
   QMutex mutex_;
 
   QWaitCondition wait_cond_;
 
   bool cancelled_through_finish_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // CUSTOMCACHETASK_H
+#endif  // CUSTOMCACHETASK_H

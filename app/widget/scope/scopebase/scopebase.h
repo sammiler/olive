@@ -27,24 +27,23 @@
 
 namespace olive {
 
-class ScopeBase : public ManagedDisplayWidget
-{
-public:
+class ScopeBase : public ManagedDisplayWidget {
+ public:
   ScopeBase(QWidget* parent = nullptr);
 
   MANAGEDDISPLAYWIDGET_DEFAULT_DESTRUCTOR(ScopeBase)
 
-public slots:
+ public slots:
   void SetBuffer(TexturePtr frame);
 
-protected slots:
+ protected slots:
   virtual void OnInit() override;
 
   virtual void OnPaint() override;
 
   virtual void OnDestroy() override;
 
-protected:
+ protected:
   virtual void showEvent(QShowEvent* e) override;
 
   virtual ShaderCode GenerateShaderCode() = 0;
@@ -56,7 +55,7 @@ protected:
    */
   virtual void DrawScope(TexturePtr managed_tex, QVariant pipeline);
 
-private:
+ private:
   QVariant pipeline_;
 
   TexturePtr texture_;
@@ -64,9 +63,8 @@ private:
   TexturePtr managed_tex_;
 
   bool managed_tex_up_to_date_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // SCOPEBASE_H
+#endif  // SCOPEBASE_H

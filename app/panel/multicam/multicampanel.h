@@ -6,19 +6,17 @@
 
 namespace olive {
 
-class MulticamPanel : public TimeBasedPanel
-{
+class MulticamPanel : public TimeBasedPanel {
   Q_OBJECT
-public:
+ public:
   MulticamPanel();
 
   MulticamWidget *GetMulticamWidget() const { return static_cast<MulticamWidget *>(GetTimeBasedWidget()); }
 
-protected:
+ protected:
   virtual void Retranslate() override;
-
 };
 
-}
+}  // namespace olive
 
-#endif // MULTICAMPANEL_H
+#endif  // MULTICAMPANEL_H

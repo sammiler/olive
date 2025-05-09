@@ -45,7 +45,6 @@ class NoiseGeneratorNode : public Node {
   static const QString kBaseIn;
   static const QString kColorInput;
   static const QString kStrengthInput;
-
 };
 
 }  // namespace olive

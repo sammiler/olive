@@ -27,9 +27,7 @@
 
 namespace olive {
 
-NodeParamViewTextEdit::NodeParamViewTextEdit(QWidget *parent) :
-  QWidget(parent)
-{
+NodeParamViewTextEdit::NodeParamViewTextEdit(QWidget* parent) : QWidget(parent) {
   QHBoxLayout* layout = new QHBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
 
@@ -52,15 +50,13 @@ NodeParamViewTextEdit::NodeParamViewTextEdit(QWidget *parent) :
   SetEditInViewerOnlyMode(false);
 }
 
-void NodeParamViewTextEdit::SetEditInViewerOnlyMode(bool on)
-{
+void NodeParamViewTextEdit::SetEditInViewerOnlyMode(bool on) {
   line_edit_->setVisible(!on);
   edit_btn_->setVisible(!on);
   edit_in_viewer_btn_->setVisible(on);
 }
 
-void NodeParamViewTextEdit::ShowTextDialog()
-{
+void NodeParamViewTextEdit::ShowTextDialog() {
   TextDialog d(this->text(), this);
   if (d.exec() == QDialog::Accepted) {
     QString s = d.text();
@@ -70,9 +66,6 @@ void NodeParamViewTextEdit::ShowTextDialog()
   }
 }
 
-void NodeParamViewTextEdit::InnerWidgetTextChanged()
-{
-  emit textEdited(this->text());
-}
+void NodeParamViewTextEdit::InnerWidgetTextChanged() { emit textEdited(this->text()); }
 
-}
+}  // namespace olive

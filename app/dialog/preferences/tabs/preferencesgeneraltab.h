@@ -27,20 +27,19 @@
 
 #include "dialog/configbase/configdialogbase.h"
 #include "node/project/sequence/sequence.h"
-#include "widget/slider/rationalslider.h"
 #include "widget/slider/integerslider.h"
+#include "widget/slider/rationalslider.h"
 
 namespace olive {
 
-class PreferencesGeneralTab : public ConfigDialogBaseTab
-{
+class PreferencesGeneralTab : public ConfigDialogBaseTab {
   Q_OBJECT
-public:
+ public:
   PreferencesGeneralTab();
 
   virtual void Accept(MultiUndoCommand* command) override;
 
-private:
+ private:
   void AddLanguage(const QString& locale_name);
 
   QComboBox* language_combobox_;
@@ -56,9 +55,8 @@ private:
   IntegerSlider* autorecovery_interval_;
 
   IntegerSlider* autorecovery_maximum_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // PREFERENCESGENERALTAB_H
+#endif  // PREFERENCESGENERALTAB_H

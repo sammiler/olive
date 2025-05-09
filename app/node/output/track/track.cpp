@@ -41,37 +41,31 @@ const QString Track::kBlockInput = QStringLiteral("block_in");
 const QString Track::kMutedInput = QStringLiteral("muted_in");
 const QString Track::kArrayMapInput = QStringLiteral("arraymap_in");
 
-Track::Track() :
-  track_type_(Track::kNone),
-  index_(-1),
-  locked_(false),
-  sequence_(nullptr),
-  ignore_arraymap_(0),
-  arraymap_invalid_(false),
-  ignore_arraymap_set_(false)
-{
-  AddInput(kBlockInput, NodeValue::kNone, InputFlags(kInputFlagArray | kInputFlagNotKeyframable | kInputFlagHidden | kInputFlagIgnoreInvalidations));
+Track::Track()
+    : track_type_(Track::kNone),
+      index_(-1),
+      locked_(false),
+      sequence_(nullptr),
+      ignore_arraymap_(0),
+      arraymap_invalid_(false),
+      ignore_arraymap_set_(false) {
+  AddInput(kBlockInput, NodeValue::kNone,
+           InputFlags(kInputFlagArray | kInputFlagNotKeyframable | kInputFlagHidden | kInputFlagIgnoreInvalidations));
 
   AddInput(kMutedInput, NodeValue::kBoolean, false, InputFlags(kInputFlagNotConnectable | kInputFlagNotKeyframable));
 
-  AddInput(kArrayMapInput, NodeValue::kBinary, InputFlags(kInputFlagStatic | kInputFlagHidden | kInputFlagIgnoreInvalidations));
+  AddInput(kArrayMapInput, NodeValue::kBinary,
+           InputFlags(kInputFlagStatic | kInputFlagHidden | kInputFlagIgnoreInvalidations));
 
   // Set default height
   track_height_ = kTrackHeightDefault;
 }
 
-void Track::set_type(const Type &track_type)
-{
-  track_type_ = track_type;
-}
+void Track::set_type(const Type &track_type) { track_type_ = track_type; }
 
-const Track::Type& Track::type() const
-{
-  return track_type_;
-}
+const Track::Type &Track::type() const { return track_type_; }
 
-QString Track::Name() const
-{
+QString Track::Name() const {
   if (track_type_ == Track::kVideo) {
     return tr("Video Track %1").arg(index_);
   } else if (track_type_ == Track::kAudio) {
@@ -83,24 +77,17 @@ QString Track::Name() const
   return tr("Track");
 }
 
-QString Track::id() const
-{
-  return QStringLiteral("org.olivevideoeditor.Olive.track");
+QString Track::id() const { return QStringLiteral("org.olivevideoeditor.Olive.track"); }
+
+QVector<Node::CategoryID> Track::Category() const { return {kCategoryTimeline}; }
+
+QString Track::Description() const {
+  return tr(
+      "Node for representing and processing a single array of Blocks sorted by time. Also represents the end of "
+      "a Sequence.");
 }
 
-QVector<Node::CategoryID> Track::Category() const
-{
-  return {kCategoryTimeline};
-}
-
-QString Track::Description() const
-{
-  return tr("Node for representing and processing a single array of Blocks sorted by time. Also represents the end of "
-            "a Sequence.");
-}
-
-Node::ActiveElements Track::GetActiveElementsAtTime(const QString &input, const TimeRange &r) const
-{
+Node::ActiveElements Track::GetActiveElementsAtTime(const QString &input, const TimeRange &r) const {
   if (input == kBlockInput) {
     if (IsMuted() || blocks_.empty() || r.in() >= track_length() || r.out() <= 0) {
       return ActiveElements::kNoElements;
@@ -112,7 +99,7 @@ Node::ActiveElements Track::GetActiveElementsAtTime(const QString &input, const 
         start = 0;
       }
       if (end == -1) {
-        end = blocks_.size()-1;
+        end = blocks_.size() - 1;
       }
 
       if (blocks_.at(end)->in() == r.out()) {
@@ -120,9 +107,9 @@ Node::ActiveElements Track::GetActiveElementsAtTime(const QString &input, const 
       }
 
       ActiveElements a;
-      for (int i=start; i<=end; i++) {
+      for (int i = start; i <= end; i++) {
         Block *b = blocks_.at(i);
-        if (b->is_enabled() && (dynamic_cast<ClipBlock*>(b) || dynamic_cast<TransitionBlock*>(b))) {
+        if (b->is_enabled() && (dynamic_cast<ClipBlock *>(b) || dynamic_cast<TransitionBlock *>(b))) {
           a.add(GetArrayIndexFromCacheIndex(i));
         }
       }
@@ -138,8 +125,7 @@ Node::ActiveElements Track::GetActiveElementsAtTime(const QString &input, const 
   }
 }
 
-void Track::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const
-{
+void Track::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const {
   if (this->type() == Track::kVideo) {
     // Just pass straight through
     NodeValueArray a = value[kBlockInput].toArray();
@@ -152,8 +138,7 @@ void Track::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeVal
   }
 }
 
-TimeRange Track::InputTimeAdjustment(const QString& input, int element, const TimeRange& input_time, bool clamp) const
-{
+TimeRange Track::InputTimeAdjustment(const QString &input, int element, const TimeRange &input_time, bool clamp) const {
   if (input == kBlockInput && element >= 0) {
     int cache_index = GetCacheIndexFromArrayIndex(element);
 
@@ -172,8 +157,7 @@ TimeRange Track::InputTimeAdjustment(const QString& input, int element, const Ti
   return Node::InputTimeAdjustment(input, element, input_time, clamp);
 }
 
-TimeRange Track::OutputTimeAdjustment(const QString& input, int element, const TimeRange& input_time) const
-{
+TimeRange Track::OutputTimeAdjustment(const QString &input, int element, const TimeRange &input_time) const {
   if (input == kBlockInput && element >= 0) {
     int cache_index = GetCacheIndexFromArrayIndex(element);
 
@@ -185,19 +169,14 @@ TimeRange Track::OutputTimeAdjustment(const QString& input, int element, const T
   return Node::OutputTimeAdjustment(input, element, input_time);
 }
 
-const double &Track::GetTrackHeight() const
-{
-  return track_height_;
-}
+const double &Track::GetTrackHeight() const { return track_height_; }
 
-void Track::SetTrackHeight(const double &height)
-{
+void Track::SetTrackHeight(const double &height) {
   track_height_ = height;
   emit TrackHeightChanged(track_height_);
 }
 
-bool Track::LoadCustom(QXmlStreamReader *reader, SerializedData *data)
-{
+bool Track::LoadCustom(QXmlStreamReader *reader, SerializedData *data) {
   ignore_arraymap_set_ = true;
 
   while (XMLReadNextStartElement(reader)) {
@@ -211,19 +190,16 @@ bool Track::LoadCustom(QXmlStreamReader *reader, SerializedData *data)
   return true;
 }
 
-void Track::SaveCustom(QXmlStreamWriter *writer) const
-{
+void Track::SaveCustom(QXmlStreamWriter *writer) const {
   writer->writeTextElement(QStringLiteral("height"), QString::number(this->GetTrackHeight()));
 }
 
-void Track::PostLoadEvent(SerializedData *data)
-{
+void Track::PostLoadEvent(SerializedData *data) {
   ignore_arraymap_set_ = false;
   RefreshBlockCacheFromArrayMap();
 }
 
-void Track::InputValueChangedEvent(const QString &input, int element)
-{
+void Track::InputValueChangedEvent(const QString &input, int element) {
   Q_UNUSED(element)
 
   if (input == kMutedInput) {
@@ -237,16 +213,14 @@ void Track::InputValueChangedEvent(const QString &input, int element)
   }
 }
 
-void Track::Retranslate()
-{
+void Track::Retranslate() {
   super::Retranslate();
 
   SetInputName(kBlockInput, tr("Blocks"));
   SetInputName(kMutedInput, tr("Muted"));
 }
 
-void Track::SetIndex(const int &index)
-{
+void Track::SetIndex(const int &index) {
   int old = index_;
 
   index_ = index;
@@ -254,9 +228,8 @@ void Track::SetIndex(const int &index)
   emit IndexChanged(old, index_);
 }
 
-Block *Track::BlockContainingTime(const rational &time) const
-{
-  foreach (Block* block, blocks_) {
+Block *Track::BlockContainingTime(const rational &time) const {
+  foreach (Block *block, blocks_) {
     if (block->in() < time && block->out() > time) {
       return block;
     } else if (block->out() == time) {
@@ -267,9 +240,8 @@ Block *Track::BlockContainingTime(const rational &time) const
   return nullptr;
 }
 
-Block *Track::NearestBlockBefore(const rational &time) const
-{
-  foreach (Block* block, blocks_) {
+Block *Track::NearestBlockBefore(const rational &time) const {
+  foreach (Block *block, blocks_) {
     // Blocks are sorted by time, so the first Block who's out point is at/after this time is the correct Block
     if (block->in() == time) {
       break;
@@ -283,9 +255,8 @@ Block *Track::NearestBlockBefore(const rational &time) const
   return nullptr;
 }
 
-Block *Track::NearestBlockBeforeOrAt(const rational &time) const
-{
-  foreach (Block* block, blocks_) {
+Block *Track::NearestBlockBeforeOrAt(const rational &time) const {
+  foreach (Block *block, blocks_) {
     // Blocks are sorted by time, so the first Block who's out point is at/after this time is the correct Block
     if (block->out() > time) {
       return block;
@@ -295,9 +266,8 @@ Block *Track::NearestBlockBeforeOrAt(const rational &time) const
   return nullptr;
 }
 
-Block *Track::NearestBlockAfterOrAt(const rational &time) const
-{
-  foreach (Block* block, blocks_) {
+Block *Track::NearestBlockAfterOrAt(const rational &time) const {
+  foreach (Block *block, blocks_) {
     // Blocks are sorted by time, so the first Block after this time is the correct Block
     if (block->in() >= time) {
       return block;
@@ -307,9 +277,8 @@ Block *Track::NearestBlockAfterOrAt(const rational &time) const
   return nullptr;
 }
 
-Block *Track::NearestBlockAfter(const rational &time) const
-{
-  foreach (Block* block, blocks_) {
+Block *Track::NearestBlockAfter(const rational &time) const {
+  foreach (Block *block, blocks_) {
     // Blocks are sorted by time, so the first Block after this time is the correct Block
     if (block->in() > time) {
       return block;
@@ -319,15 +288,14 @@ Block *Track::NearestBlockAfter(const rational &time) const
   return nullptr;
 }
 
-bool Track::IsRangeFree(const TimeRange &range) const
-{
+bool Track::IsRangeFree(const TimeRange &range) const {
   Block *b = NearestBlockBeforeOrAt(range.in());
   if (!b) {
     // No block here, assume track is empty here
     return true;
   }
 
-  if (!dynamic_cast<GapBlock*>(b)) {
+  if (!dynamic_cast<GapBlock *>(b)) {
     // There's a block at or around the start point that isn't a gap, range is not free
     return false;
   }
@@ -336,7 +304,7 @@ bool Track::IsRangeFree(const TimeRange &range) const
     if (b->in() >= range.out()) {
       // This block is after the range, no longer relevant
       break;
-    } else if (!dynamic_cast<GapBlock*>(b)) {
+    } else if (!dynamic_cast<GapBlock *>(b)) {
       // Found a block in this range, range is not free
       return false;
     }
@@ -346,16 +314,13 @@ bool Track::IsRangeFree(const TimeRange &range) const
   return true;
 }
 
-void Track::InvalidateCache(const TimeRange& range, const QString& from, int element, InvalidateCacheOptions options)
-{
+void Track::InvalidateCache(const TimeRange &range, const QString &from, int element, InvalidateCacheOptions options) {
   TimeRange limited;
 
-  const Block* b;
+  const Block *b;
 
-  if (from == kBlockInput
-      && element >= 0
-      && (b = dynamic_cast<const Block*>(GetConnectedOutput(from, element)))
-      && !options.value(QStringLiteral("lengthevent")).toBool()) {
+  if (from == kBlockInput && element >= 0 && (b = dynamic_cast<const Block *>(GetConnectedOutput(from, element))) &&
+      !options.value(QStringLiteral("lengthevent")).toBool()) {
     // Limit the range signal to the corresponding block
     TimeRange transformed = TransformRangeFromBlock(b, range);
 
@@ -375,8 +340,7 @@ void Track::InvalidateCache(const TimeRange& range, const QString& from, int ele
   Node::InvalidateCache(limited, from, element, options);
 }
 
-void Track::InsertBlockBefore(Block* block, Block* after)
-{
+void Track::InsertBlockBefore(Block *block, Block *after) {
   if (!after) {
     AppendBlock(block);
   } else {
@@ -384,8 +348,7 @@ void Track::InsertBlockBefore(Block* block, Block* after)
   }
 }
 
-void Track::InsertBlockAfter(Block *block, Block *before)
-{
+void Track::InsertBlockAfter(Block *block, Block *before) {
   if (!before) {
     PrependBlock(block);
   } else {
@@ -397,13 +360,9 @@ void Track::InsertBlockAfter(Block *block, Block *before)
   }
 }
 
-void Track::PrependBlock(Block *block)
-{
-  InsertBlockAtIndex(block, 0);
-}
+void Track::PrependBlock(Block *block) { InsertBlockAtIndex(block, 0); }
 
-void Track::InsertBlockAtIndex(Block *block, int index)
-{
+void Track::InsertBlockAtIndex(Block *block, int index) {
   // Set track
   Q_ASSERT(block->track() == nullptr);
   block->set_track(this);
@@ -415,7 +374,7 @@ void Track::InsertBlockAtIndex(Block *block, int index)
 
   // Handle previous/next
   Block *previous = (index > 0) ? blocks_.at(index - 1) : nullptr;
-  Block *next = (index < blocks_.size()-1) ? blocks_.at(index + 1) : nullptr ;
+  Block *next = (index < blocks_.size() - 1) ? blocks_.at(index + 1) : nullptr;
   Block::set_previous_next(previous, block);
   Block::set_previous_next(block, next);
 
@@ -431,13 +390,9 @@ void Track::InsertBlockAtIndex(Block *block, int index)
   UpdateArrayMap();
 }
 
-void Track::AppendBlock(Block *block)
-{
-  InsertBlockAtIndex(block, blocks_.size());
-}
+void Track::AppendBlock(Block *block) { InsertBlockAtIndex(block, blocks_.size()); }
 
-void Track::RippleRemoveBlock(Block *block)
-{
+void Track::RippleRemoveBlock(Block *block) {
   rational remove_in = block->in();
   rational remove_out = block->out();
 
@@ -477,8 +432,7 @@ void Track::RippleRemoveBlock(Block *block)
   UpdateArrayMap();
 }
 
-void Track::ReplaceBlock(Block *old, Block *replace)
-{
+void Track::ReplaceBlock(Block *old, Block *replace) {
   emit BlockRemoved(old);
 
   // Set track
@@ -527,8 +481,7 @@ void Track::ReplaceBlock(Block *old, Block *replace)
   UpdateArrayMap();
 }
 
-rational Track::track_length() const
-{
+rational Track::track_length() const {
   if (blocks_.isEmpty()) {
     return 0;
   } else {
@@ -536,41 +489,27 @@ rational Track::track_length() const
   }
 }
 
-bool Track::IsMuted() const
-{
-  return GetStandardValue(kMutedInput).toBool();
-}
+bool Track::IsMuted() const { return GetStandardValue(kMutedInput).toBool(); }
 
-bool Track::IsLocked() const
-{
-  return locked_;
-}
+bool Track::IsLocked() const { return locked_; }
 
-void Track::SetMuted(bool e)
-{
-  SetStandardValue(kMutedInput, e);
-}
+void Track::SetMuted(bool e) { SetStandardValue(kMutedInput, e); }
 
-void Track::SetLocked(bool e)
-{
-  locked_ = e;
-}
+void Track::SetLocked(bool e) { locked_ = e; }
 
-void Track::InputConnectedEvent(const QString &input, int element, Node *node)
-{
+void Track::InputConnectedEvent(const QString &input, int element, Node *node) {
   if (arraymap_invalid_ && input == kBlockInput && element >= 0) {
     RefreshBlockCacheFromArrayMap();
   }
 }
 
-void Track::UpdateInOutFrom(int index)
-{
+void Track::UpdateInOutFrom(int index) {
   // Find block just before this one to find the last out point
   rational last_out = (index == 0) ? 0 : blocks_.at(index - 1)->out();
 
   // Iterate through all blocks updating their in/outs
-  for (int i=index; i<blocks_.size(); i++) {
-    Block* b = blocks_.at(i);
+  for (int i = index; i < blocks_.size(); i++) {
+    Block *b = blocks_.at(i);
 
     b->set_in(last_out);
 
@@ -585,23 +524,13 @@ void Track::UpdateInOutFrom(int index)
   emit TrackLengthChanged();
 }
 
-int Track::GetArrayIndexFromBlock(Block *block) const
-{
-  return block_array_indexes_.at(blocks_.indexOf(block));
-}
+int Track::GetArrayIndexFromBlock(Block *block) const { return block_array_indexes_.at(blocks_.indexOf(block)); }
 
-int Track::GetArrayIndexFromCacheIndex(int index) const
-{
-  return block_array_indexes_.at(index);
-}
+int Track::GetArrayIndexFromCacheIndex(int index) const { return block_array_indexes_.at(index); }
 
-int Track::GetCacheIndexFromArrayIndex(int index) const
-{
-  return block_array_indexes_.indexOf(index);
-}
+int Track::GetCacheIndexFromArrayIndex(int index) const { return block_array_indexes_.indexOf(index); }
 
-int Track::GetBlockIndexAtTime(const rational &time) const
-{
+int Track::GetBlockIndexAtTime(const rational &time) const {
   if (time < 0 || time >= track_length()) {
     return -1;
   }
@@ -612,7 +541,7 @@ int Track::GetBlockIndexAtTime(const rational &time) const
   while (low <= high) {
     int mid = low + (high - low) / 2;
 
-    Block* block = blocks_.at(mid);
+    Block *block = blocks_.at(mid);
     if (block->in() <= time && block->out() > time) {
       return mid;
     } else if (block->out() <= time) {
@@ -625,8 +554,7 @@ int Track::GetBlockIndexAtTime(const rational &time) const
   return -1;
 }
 
-void Track::ProcessAudioTrack(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const
-{
+void Track::ProcessAudioTrack(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const {
   const TimeRange &range = globals.time();
 
   // All these blocks will need to output to a buffer so we create one here
@@ -636,11 +564,10 @@ void Track::ProcessAudioTrack(const NodeValueRow &value, const NodeGlobals &glob
   // Loop through active blocks retrieving their audio
   NodeValueArray arr = value[kBlockInput].toArray();
 
-  for (auto it=arr.cbegin(); it!=arr.cend(); it++) {
+  for (auto it = arr.cbegin(); it != arr.cend(); it++) {
     Block *b = blocks_.at(GetCacheIndexFromArrayIndex(it->first));
 
-    TimeRange range_for_block(qMax(b->in(), range.in()),
-                              qMin(b->out(), range.out()));
+    TimeRange range_for_block(qMax(b->in(), range.in()), qMin(b->out(), range.out()));
 
     qint64 source_offset = 0;
     qint64 destination_offset = globals.aparams().time_to_samples(range_for_block.in() - range.in());
@@ -651,7 +578,7 @@ void Track::ProcessAudioTrack(const NodeValueRow &value, const NodeGlobals &glob
 
     if (samples_from_this_block.is_allocated()) {
       // If this is a clip, we might have extra speed/reverse information
-      if (ClipBlock *clip_cast = dynamic_cast<ClipBlock*>(b)) {
+      if (ClipBlock *clip_cast = dynamic_cast<ClipBlock *>(b)) {
         double speed_value = clip_cast->speed();
         bool reversed = clip_cast->reverse();
 
@@ -662,7 +589,8 @@ void Track::ProcessAudioTrack(const NodeValueRow &value, const NodeGlobals &glob
           if (clip_cast->maintain_audio_pitch()) {
             AudioProcessor processor;
 
-            if (processor.Open(samples_from_this_block.audio_params(), samples_from_this_block.audio_params(), speed_value)) {
+            if (processor.Open(samples_from_this_block.audio_params(), samples_from_this_block.audio_params(),
+                               speed_value)) {
               AudioProcessor::Buffer out;
 
               // FIXME: This is not the best way to do this, the TempoProcessor works best
@@ -671,7 +599,8 @@ void Track::ProcessAudioTrack(const NodeValueRow &value, const NodeGlobals &glob
               //        well on export (assuming audio is all generated at once on export), but
               //        users may hear clicks and pops in the audio during preview due to this
               //        approach.
-              int r = processor.Convert(samples_from_this_block.to_raw_ptrs().data(), samples_from_this_block.sample_count(), nullptr);
+              int r = processor.Convert(samples_from_this_block.to_raw_ptrs().data(),
+                                        samples_from_this_block.sample_count(), nullptr);
 
               if (r < 0) {
                 qCritical() << "Failed to change tempo of audio:" << r;
@@ -681,12 +610,13 @@ void Track::ProcessAudioTrack(const NodeValueRow &value, const NodeGlobals &glob
                 processor.Convert(nullptr, 0, &out);
 
                 if (!out.empty()) {
-                  int nb_samples = out.front().size() * samples_from_this_block.audio_params().bytes_per_sample_per_channel();
+                  int nb_samples =
+                      out.front().size() * samples_from_this_block.audio_params().bytes_per_sample_per_channel();
 
                   if (nb_samples) {
                     SampleBuffer new_samples(samples_from_this_block.audio_params(), nb_samples);
 
-                    for (int i=0; i<out.size(); i++) {
+                    for (int i = 0; i < out.size(); i++) {
                       memcpy(new_samples.data(i), out[i].data(), out[i].size());
                     }
 
@@ -709,7 +639,7 @@ void Track::ProcessAudioTrack(const NodeValueRow &value, const NodeGlobals &glob
       qint64 copy_length = qMin(max_dest_sz, qint64(samples_from_this_block.sample_count() - source_offset));
 
       // Copy samples into destination buffer
-      for (int i=0; i<samples_from_this_block.audio_params().channel_count(); i++) {
+      for (int i = 0; i < samples_from_this_block.audio_params().channel_count(); i++) {
         block_range_buffer.set(i, samples_from_this_block.data(i) + source_offset, destination_offset, copy_length);
       }
     }
@@ -718,8 +648,7 @@ void Track::ProcessAudioTrack(const NodeValueRow &value, const NodeGlobals &glob
   table->Push(NodeValue::kSamples, QVariant::fromValue(block_range_buffer), this);
 }
 
-int Track::ConnectBlock(Block *b)
-{
+int Track::ConnectBlock(Block *b) {
   if (!empty_inputs_.empty()) {
     int index = empty_inputs_.front();
     empty_inputs_.pop_front();
@@ -735,14 +664,13 @@ int Track::ConnectBlock(Block *b)
   }
 }
 
-void Track::UpdateArrayMap()
-{
+void Track::UpdateArrayMap() {
   ignore_arraymap_++;
-  SetStandardValue(kArrayMapInput, QByteArray(reinterpret_cast<const char *>(block_array_indexes_.data()), block_array_indexes_.size() * sizeof(uint32_t)));
+  SetStandardValue(kArrayMapInput, QByteArray(reinterpret_cast<const char *>(block_array_indexes_.data()),
+                                              block_array_indexes_.size() * sizeof(uint32_t)));
 }
 
-void Track::RefreshBlockCacheFromArrayMap()
-{
+void Track::RefreshBlockCacheFromArrayMap() {
   if (ignore_arraymap_set_) {
     return;
   }
@@ -768,7 +696,7 @@ void Track::RefreshBlockCacheFromArrayMap()
   arraymap_invalid_ = false;
 
   for (int i = 0; i < block_array_indexes_.size(); i++) {
-    Block *b = static_cast<Block*>(GetConnectedOutput(kBlockInput, block_array_indexes_.at(i)));
+    Block *b = static_cast<Block *>(GetConnectedOutput(kBlockInput, block_array_indexes_.at(i)));
 
     Block::set_previous_next(prev, b);
 
@@ -792,31 +720,25 @@ void Track::RefreshBlockCacheFromArrayMap()
   UpdateInOutFrom(0);
 }
 
-void Track::BlockLengthChanged()
-{
+void Track::BlockLengthChanged() {
   // Assumes sender is a Block
-  Block* b = static_cast<Block*>(sender());
+  Block *b = static_cast<Block *>(sender());
 
   UpdateInOutFrom(blocks_.indexOf(b));
 }
 
-uint qHash(const Track::Reference &r, uint seed)
-{
+uint qHash(const Track::Reference &r, uint seed) {
   // Not super efficient, but couldn't think of any better way to ensure a different hash each time
-  return ::qHash(QStringLiteral("%1:%2").arg(QString::number(r.type()),
-                                             QString::number(r.index())),
-                 seed);
+  return ::qHash(QStringLiteral("%1:%2").arg(QString::number(r.type()), QString::number(r.index())), seed);
 }
 
-QDataStream &operator<<(QDataStream &out, const Track::Reference &ref)
-{
+QDataStream &operator<<(QDataStream &out, const Track::Reference &ref) {
   out << static_cast<int>(ref.type()) << ref.index();
 
   return out;
 }
 
-QDataStream &operator>>(QDataStream &in, Track::Reference &ref)
-{
+QDataStream &operator>>(QDataStream &in, Track::Reference &ref) {
   int type;
   int index;
 
@@ -827,4 +749,4 @@ QDataStream &operator>>(QDataStream &in, Track::Reference &ref)
   return in;
 }
 
-}
+}  // namespace olive

@@ -31,22 +31,21 @@ namespace olive {
 /**
  * @brief Provides base functionality for any object that uses time and scale
  */
-class TimeScaledObject
-{
-public:
+class TimeScaledObject {
+ public:
   TimeScaledObject();
   virtual ~TimeScaledObject() = default;
 
-  void SetTimebase(const rational &timebase);
+  void SetTimebase(const rational& timebase);
 
   const rational& timebase() const;
   const double& timebase_dbl() const;
 
-  static rational SceneToTime(const double &x, const double& x_scale, const rational& timebase, bool round = false);
-  static rational SceneToTimeNoGrid(const double &x, const double& x_scale);
+  static rational SceneToTime(const double& x, const double& x_scale, const rational& timebase, bool round = false);
+  static rational SceneToTimeNoGrid(const double& x, const double& x_scale);
 
   const double& GetScale() const;
-  const double &GetMaximumScale() const { return max_scale_; }
+  const double& GetMaximumScale() const { return max_scale_; }
 
   void SetScale(const double& scale);
 
@@ -55,19 +54,19 @@ public:
   static double CalculatePaddingFromDimensionScale(double viewport_sz);
 
   double TimeToScene(const rational& time) const;
-  rational SceneToTime(const double &x, bool round = false) const;
-  rational SceneToTimeNoGrid(const double &x) const;
+  rational SceneToTime(const double& x, bool round = false) const;
+  rational SceneToTimeNoGrid(const double& x) const;
 
-protected:
-  virtual void TimebaseChangedEvent(const rational&){}
+ protected:
+  virtual void TimebaseChangedEvent(const rational&) {}
 
-  virtual void ScaleChangedEvent(const double&){}
+  virtual void ScaleChangedEvent(const double&) {}
 
   void SetMaximumScale(const double& max);
 
   void SetMinimumScale(const double& min);
 
-private:
+ private:
   rational timebase_;
 
   double timebase_dbl_;
@@ -79,16 +78,14 @@ private:
   double max_scale_;
 
   static const int kCalculateDimensionsPadding;
-
 };
 
-class TimelineScaledWidget : public QWidget, public TimeScaledObject
-{
+class TimelineScaledWidget : public QWidget, public TimeScaledObject {
   Q_OBJECT
-public:
+ public:
   TimelineScaledWidget(QWidget* parent = nullptr);
 };
 
-}
+}  // namespace olive
 
-#endif // TIMELINESCALEDOBJECT_H
+#endif  // TIMELINESCALEDOBJECT_H

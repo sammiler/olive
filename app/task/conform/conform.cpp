@@ -22,17 +22,13 @@
 
 namespace olive {
 
-ConformTask::ConformTask(const QString &decoder_id, const Decoder::CodecStream &stream, const AudioParams& params, const QVector<QString> &output_filenames) :
-  decoder_id_(decoder_id),
-  stream_(stream),
-  params_(params),
-  output_filenames_(output_filenames)
-{
+ConformTask::ConformTask(const QString &decoder_id, const Decoder::CodecStream &stream, const AudioParams &params,
+                         const QVector<QString> &output_filenames)
+    : decoder_id_(decoder_id), stream_(stream), params_(params), output_filenames_(output_filenames) {
   SetTitle(tr("Conforming Audio %1:%2").arg(stream.filename(), QString::number(stream.stream())));
 }
 
-bool ConformTask::Run()
-{
+bool ConformTask::Run() {
   DecoderPtr decoder = Decoder::CreateFromID(decoder_id_);
 
   if (!decoder->Open(stream_)) {
@@ -51,4 +47,4 @@ bool ConformTask::Run()
   return ret;
 }
 
-}
+}  // namespace olive

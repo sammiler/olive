@@ -32,7 +32,7 @@
 namespace olive {
 
 class QtUtils {
-public:
+ public:
   /**
    * @brief Retrieves the width of a string according to certain QFontMetrics
    *
@@ -40,13 +40,14 @@ public:
    * latter was only introduced in 5.11+. This function wraps the latter for 5.11+ and the former for
    * earlier.
    */
-  static int QFontMetricsWidth(QFontMetrics fm, const QString& s);
+  static int QFontMetricsWidth(QFontMetrics fm, const QString &s);
 
-  static QFrame* CreateHorizontalLine();
+  static QFrame *CreateHorizontalLine();
 
-  static QFrame* CreateVerticalLine();
+  static QFrame *CreateVerticalLine();
 
-  static int MsgBox(QWidget *parent, QMessageBox::Icon icon, const QString& title, const QString& message, QMessageBox::StandardButtons buttons = QMessageBox::Ok);
+  static int MsgBox(QWidget *parent, QMessageBox::Icon icon, const QString &title, const QString &message,
+                    QMessageBox::StandardButtons buttons = QMessageBox::Ok);
 
   static QDateTime GetCreationDate(const QFileInfo &info);
 
@@ -60,12 +61,11 @@ public:
   static void SetComboBoxData(QComboBox *cb, const QString &data);
 
   template <typename T>
-  static T *GetParentOfType(const QObject *child)
-  {
+  static T *GetParentOfType(const QObject *child) {
     QObject *t = child->parent();
 
     while (t) {
-      if (T *p = dynamic_cast<T*>(t)) {
+      if (T *p = dynamic_cast<T *>(t)) {
         return p;
       }
       t = t->parent();
@@ -79,30 +79,25 @@ public:
   /**
    * @brief Convert a pointer to a value that can be sent between NodeParams
    */
-  static QVariant PtrToValue(void* ptr)
-  {
-    return reinterpret_cast<quintptr>(ptr);
-  }
+  static QVariant PtrToValue(void *ptr) { return reinterpret_cast<quintptr>(ptr); }
 
   /**
    * @brief Convert a NodeParam value to a pointer of any kind
    */
-  template<class T>
-  static T* ValueToPtr(const QVariant &ptr)
-  {
-    return reinterpret_cast<T*>(ptr.value<quintptr>());
+  template <class T>
+  static T *ValueToPtr(const QVariant &ptr) {
+    return reinterpret_cast<T *>(ptr.value<quintptr>());
   }
-
 };
 
 namespace core {
 
-uint qHash(const core::rational& r, uint seed = 0);
-uint qHash(const core::TimeRange& r, uint seed = 0);
+uint qHash(const core::rational &r, uint seed = 0);
+uint qHash(const core::TimeRange &r, uint seed = 0);
 
-}
+}  // namespace core
 
-}
+}  // namespace olive
 
 Q_DECLARE_METATYPE(olive::core::rational)
 Q_DECLARE_METATYPE(olive::core::Color)
@@ -111,4 +106,4 @@ Q_DECLARE_METATYPE(olive::core::Bezier)
 Q_DECLARE_METATYPE(olive::core::AudioParams)
 Q_DECLARE_METATYPE(olive::core::SampleBuffer)
 
-#endif // QTVERSIONABSTRACTION_H
+#endif  // QTVERSIONABSTRACTION_H

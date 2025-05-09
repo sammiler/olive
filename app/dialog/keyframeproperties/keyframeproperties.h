@@ -31,17 +31,16 @@
 
 namespace olive {
 
-class KeyframePropertiesDialog : public QDialog
-{
+class KeyframePropertiesDialog : public QDialog {
   Q_OBJECT
-public:
+ public:
   KeyframePropertiesDialog(const std::vector<NodeKeyframe*>& keys, const rational& timebase, QWidget* parent = nullptr);
 
-public slots:
+ public slots:
   virtual void accept() override;
 
-private:
-  void SetUpBezierSlider(FloatSlider *slider, bool all_same, double value);
+ private:
+  void SetUpBezierSlider(FloatSlider* slider, bool all_same, double value);
 
   const std::vector<NodeKeyframe*>& keys_;
 
@@ -61,11 +60,10 @@ private:
 
   FloatSlider* bezier_out_y_slider_;
 
-private slots:
+ private slots:
   void KeyTypeChanged(int index);
-
 };
 
-}
+}  // namespace olive
 
-#endif // KEYFRAMEPROPERTIESDIALOG_H
+#endif  // KEYFRAMEPROPERTIESDIALOG_H

@@ -33,7 +33,7 @@ class ColorDifferenceKeyNode : public Node {
 
   virtual void Retranslate() override;
 
-  virtual ShaderCode GetShaderCode(const ShaderRequest &request) const override;
+  virtual ShaderCode GetShaderCode(const ShaderRequest& request) const override;
   virtual void Value(const NodeValueRow& value, const NodeGlobals& globals, NodeValueTable* table) const override;
 
   static const QString kTextureInput;
@@ -43,7 +43,6 @@ class ColorDifferenceKeyNode : public Node {
   static const QString kShadowsInput;
   static const QString kHighlightsInput;
   static const QString kMaskOnlyInput;
-
 };
 
 }  // namespace olive

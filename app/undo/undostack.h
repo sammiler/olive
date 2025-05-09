@@ -21,23 +21,22 @@
 #ifndef UNDOSTACK_H
 #define UNDOSTACK_H
 
-#include <QAction>
 #include <QAbstractItemModel>
+#include <QAction>
 
 #include "common/define.h"
 #include "undo/undocommand.h"
 
 namespace olive {
 
-class UndoStack : public QAbstractItemModel
-{
+class UndoStack : public QAbstractItemModel {
   Q_OBJECT
-public:
+ public:
   UndoStack();
 
   virtual ~UndoStack() override;
 
-  void push(UndoCommand* command, const QString &name);
+  void push(UndoCommand *command, const QString &name);
 
   void jump(size_t index);
 
@@ -45,22 +44,13 @@ public:
 
   bool CanUndo() const;
 
-  bool CanRedo() const
-  {
-    return !undone_commands_.empty();
-  }
+  bool CanRedo() const { return !undone_commands_.empty(); }
 
   void UpdateActions();
 
-  QAction* GetUndoAction()
-  {
-    return undo_action_;
-  }
+  QAction *GetUndoAction() { return undo_action_; }
 
-  QAction* GetRedoAction()
-  {
-    return redo_action_;
-  }
+  QAction *GetRedoAction() { return redo_action_; }
 
   virtual int columnCount(const QModelIndex &parent = QModelIndex()) const override;
   virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
@@ -70,19 +60,18 @@ public:
   virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
   virtual bool hasChildren(const QModelIndex &parent = QModelIndex()) const override;
 
-signals:
+ signals:
   void indexChanged(int i);
 
-public slots:
+ public slots:
   void undo();
 
   void redo();
 
-private:
+ private:
   static const int kMaxUndoCommands;
 
-  struct CommandEntry
-  {
+  struct CommandEntry {
     UndoCommand *command;
     QString name;
   };
@@ -91,12 +80,11 @@ private:
 
   std::list<CommandEntry> undone_commands_;
 
-  QAction* undo_action_;
+  QAction *undo_action_;
 
-  QAction* redo_action_;
-
+  QAction *redo_action_;
 };
 
-}
+}  // namespace olive
 
-#endif // UNDOSTACK_H
+#endif  // UNDOSTACK_H

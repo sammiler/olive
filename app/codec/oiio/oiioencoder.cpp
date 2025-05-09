@@ -24,19 +24,11 @@
 
 namespace olive {
 
-OIIOEncoder::OIIOEncoder(const EncodingParams &params) :
-  Encoder(params)
-{
+OIIOEncoder::OIIOEncoder(const EncodingParams &params) : Encoder(params) {}
 
-}
+bool OIIOEncoder::Open() { return true; }
 
-bool OIIOEncoder::Open()
-{
-  return true;
-}
-
-bool OIIOEncoder::WriteFrame(FramePtr frame, rational time)
-{
+bool OIIOEncoder::WriteFrame(FramePtr frame, rational time) {
   std::string filename = GetFilenameForFrame(time).toUtf8().constData();
 
   auto output = OIIO::ImageOutput::create(filename);
@@ -62,20 +54,15 @@ bool OIIOEncoder::WriteFrame(FramePtr frame, rational time)
   return true;
 }
 
-bool OIIOEncoder::WriteAudio(const SampleBuffer &audio)
-{
+bool OIIOEncoder::WriteAudio(const SampleBuffer &audio) {
   // Do nothing
   return false;
 }
 
-bool OIIOEncoder::WriteSubtitle(const SubtitleBlock *sub_block)
-{
-  return false;
-}
+bool OIIOEncoder::WriteSubtitle(const SubtitleBlock *sub_block) { return false; }
 
-void OIIOEncoder::Close()
-{
+void OIIOEncoder::Close() {
   // Do nothing
 }
 
-}
+}  // namespace olive

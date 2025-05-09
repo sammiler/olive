@@ -25,10 +25,8 @@
 
 namespace olive {
 
-double GetFloatRatioFromUser(QWidget* parent,
-                             const QString& title,
-                             bool* ok_in);
+double GetFloatRatioFromUser(QWidget* parent, const QString& title, bool* ok_in);
 
 }
 
-#endif // RATIODIALOG_H
+#endif  // RATIODIALOG_H

@@ -25,10 +25,9 @@
 
 namespace olive {
 
-class NodeGroup : public Node
-{
+class NodeGroup : public Node {
   Q_OBJECT
-public:
+ public:
   NodeGroup();
 
   NODE_DEFAULT_FUNCTIONS(NodeGroup)
@@ -48,30 +47,23 @@ public:
 
   void RemoveInputPassthrough(const NodeInput &input);
 
-  Node *GetOutputPassthrough() const
-  {
-    return output_passthrough_;
-  }
+  Node *GetOutputPassthrough() const { return output_passthrough_; }
 
   void SetOutputPassthrough(Node *node);
 
   using InputPassthrough = QPair<QString, NodeInput>;
   using InputPassthroughs = QVector<InputPassthrough>;
-  const InputPassthroughs &GetInputPassthroughs() const
-  {
-    return input_passthroughs_;
-  }
+  const InputPassthroughs &GetInputPassthroughs() const { return input_passthroughs_; }
 
   bool ContainsInputPassthrough(const NodeInput &input) const;
 
-  virtual QString GetInputName(const QString& id) const override;
+  virtual QString GetInputName(const QString &id) const override;
 
   static NodeInput ResolveInput(NodeInput input);
   static bool GetInner(NodeInput *input);
 
-  QString GetIDOfPassthrough(const NodeInput &input) const
-  {
-    for (auto it=input_passthroughs_.cbegin(); it!=input_passthroughs_.cend(); it++) {
+  QString GetIDOfPassthrough(const NodeInput &input) const {
+    for (auto it = input_passthroughs_.cbegin(); it != input_passthroughs_.cend(); it++) {
       if (it->second == input) {
         return it->first;
       }
@@ -79,9 +71,8 @@ public:
     return QString();
   }
 
-  NodeInput GetInputFromID(const QString &id) const
-  {
-    for (auto it=input_passthroughs_.cbegin(); it!=input_passthroughs_.cend(); it++) {
+  NodeInput GetInputFromID(const QString &id) const {
+    for (auto it = input_passthroughs_.cbegin(); it != input_passthroughs_.cend(); it++) {
       if (it->first == id) {
         return it->second;
       }
@@ -89,40 +80,32 @@ public:
     return NodeInput();
   }
 
-signals:
+ signals:
   void InputPassthroughAdded(olive::NodeGroup *group, const olive::NodeInput &input);
 
   void InputPassthroughRemoved(olive::NodeGroup *group, const olive::NodeInput &input);
 
   void OutputPassthroughChanged(olive::NodeGroup *group, olive::Node *output);
 
-private:
+ private:
   InputPassthroughs input_passthroughs_;
 
   Node *output_passthrough_;
-
 };
 
-class NodeGroupAddInputPassthrough : public UndoCommand
-{
-public:
-  NodeGroupAddInputPassthrough(NodeGroup *group, const NodeInput &input, const QString &force_id = QString()) :
-    group_(group),
-    input_(input),
-    actually_added_(false)
-  {}
+class NodeGroupAddInputPassthrough : public UndoCommand {
+ public:
+  NodeGroupAddInputPassthrough(NodeGroup *group, const NodeInput &input, const QString &force_id = QString())
+      : group_(group), input_(input), actually_added_(false) {}
 
-  virtual Project * GetRelevantProject() const override
-  {
-    return group_->project();
-  }
+  virtual Project *GetRelevantProject() const override { return group_->project(); }
 
-protected:
+ protected:
   virtual void redo() override;
 
   virtual void undo() override;
 
-private:
+ private:
   NodeGroup *group_;
 
   NodeInput input_;
@@ -130,35 +113,26 @@ private:
   QString force_id_;
 
   bool actually_added_;
-
 };
 
-class NodeGroupSetOutputPassthrough : public UndoCommand
-{
-public:
-  NodeGroupSetOutputPassthrough(NodeGroup *group, Node *output) :
-    group_(group),
-    new_output_(output)
-  {}
+class NodeGroupSetOutputPassthrough : public UndoCommand {
+ public:
+  NodeGroupSetOutputPassthrough(NodeGroup *group, Node *output) : group_(group), new_output_(output) {}
 
-  virtual Project * GetRelevantProject() const override
-  {
-    return group_->project();
-  }
+  virtual Project *GetRelevantProject() const override { return group_->project(); }
 
-protected:
+ protected:
   virtual void redo() override;
 
   virtual void undo() override;
 
-private:
+ private:
   NodeGroup *group_;
 
   Node *new_output_;
   Node *old_output_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // NODEGROUP_H
+#endif  // NODEGROUP_H

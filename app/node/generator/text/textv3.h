@@ -26,10 +26,9 @@
 
 namespace olive {
 
-class TextGeneratorV3 : public ShapeNodeBase
-{
+class TextGeneratorV3 : public ShapeNodeBase {
   Q_OBJECT
-public:
+ public:
   TextGeneratorV3();
 
   NODE_DEFAULT_FUNCTIONS(TextGeneratorV3)
@@ -41,21 +40,15 @@ public:
 
   virtual void Retranslate() override;
 
-  virtual void Value(const NodeValueRow& value, const NodeGlobals &globals, NodeValueTable *table) const override;
+  virtual void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
 
   virtual void GenerateFrame(FramePtr frame, const GenerateJob &job) const override;
 
   virtual void UpdateGizmoPositions(const NodeValueRow &row, const NodeGlobals &globals) override;
 
-  enum VerticalAlignment
-  {
-    kVAlignTop,
-    kVAlignMiddle,
-    kVAlignBottom
-  };
+  enum VerticalAlignment { kVAlignTop, kVAlignMiddle, kVAlignBottom };
 
-  VerticalAlignment GetVerticalAlignment() const
-  {
+  VerticalAlignment GetVerticalAlignment() const {
     return static_cast<VerticalAlignment>(GetStandardValue(kVerticalAlignmentInput).toInt());
   }
 
@@ -69,21 +62,20 @@ public:
 
   static QString FormatString(const QString &input, const QStringList &args);
 
-protected:
+ protected:
   virtual void InputValueChangedEvent(const QString &input, int element) override;
 
-private:
+ private:
   TextGizmo *text_gizmo_;
 
   bool dont_emit_valign_;
 
-private slots:
+ private slots:
   void GizmoActivated();
   void GizmoDeactivated();
   void SetVerticalAlignmentUndoable(Qt::Alignment a);
-
 };
 
-}
+}  // namespace olive
 
-#endif // TEXTGENERATORV3_H
+#endif  // TEXTGENERATORV3_H

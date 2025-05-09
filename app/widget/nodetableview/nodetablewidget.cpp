@@ -24,9 +24,7 @@
 
 namespace olive {
 
-NodeTableWidget::NodeTableWidget(QWidget* parent) :
-  TimeBasedWidget(parent)
-{
+NodeTableWidget::NodeTableWidget(QWidget* parent) : TimeBasedWidget(parent) {
   QVBoxLayout* layout = new QVBoxLayout(this);
   layout->setSpacing(0);
   layout->setContentsMargins(0, 0, 0, 0);
@@ -35,4 +33,4 @@ NodeTableWidget::NodeTableWidget(QWidget* parent) :
   layout->addWidget(view_);
 }
 
-}
+}  // namespace olive

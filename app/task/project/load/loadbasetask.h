@@ -26,37 +26,26 @@
 
 namespace olive {
 
-class ProjectLoadBaseTask : public Task
-{
+class ProjectLoadBaseTask : public Task {
   Q_OBJECT
-public:
+ public:
   ProjectLoadBaseTask(const QString& filename);
 
-  Project* GetLoadedProject() const
-  {
-    return project_;
-  }
+  Project* GetLoadedProject() const { return project_; }
 
-  const QString& GetFilename() const
-  {
-    return filename_;
-  }
+  const QString& GetFilename() const { return filename_; }
 
-  const MainWindowLayoutInfo &GetLoadedLayout() const
-  {
-    return layout_;
-  }
+  const MainWindowLayoutInfo& GetLoadedLayout() const { return layout_; }
 
-protected:
+ protected:
   Project* project_;
 
   MainWindowLayoutInfo layout_;
 
-private:
+ private:
   QString filename_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // LOADBASETASK_H
+#endif  // LOADBASETASK_H

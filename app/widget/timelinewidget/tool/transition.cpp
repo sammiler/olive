@@ -29,13 +29,9 @@
 
 namespace olive {
 
-TransitionTool::TransitionTool(TimelineWidget *parent) :
-  AddTool(parent)
-{
-}
+TransitionTool::TransitionTool(TimelineWidget *parent) : AddTool(parent) {}
 
-void TransitionTool::HoverMove(TimelineViewMouseEvent *event)
-{
+void TransitionTool::HoverMove(TimelineViewMouseEvent *event) {
   ClipBlock *primary = nullptr;
   ClipBlock *secondary = nullptr;
   Timeline::MovementMode trim_mode = Timeline::kNone;
@@ -50,8 +46,7 @@ void TransitionTool::HoverMove(TimelineViewMouseEvent *event)
   parent()->SetViewTransitionOverlay(primary, secondary);
 }
 
-void TransitionTool::MousePress(TimelineViewMouseEvent *event)
-{
+void TransitionTool::MousePress(TimelineViewMouseEvent *event) {
   ClipBlock *primary, *secondary;
   Timeline::MovementMode trim_mode;
   rational transition_start_point;
@@ -68,8 +63,7 @@ void TransitionTool::MousePress(TimelineViewMouseEvent *event)
   ghost_->SetData(TimelineViewGhostItem::kAttachedBlock, QtUtils::PtrToValue(primary));
 
   dual_transition_ = (secondary);
-  if (secondary)
-    ghost_->SetData(TimelineViewGhostItem::kReferenceBlock, QtUtils::PtrToValue(secondary));
+  if (secondary) ghost_->SetData(TimelineViewGhostItem::kReferenceBlock, QtUtils::PtrToValue(secondary));
 
   parent()->AddGhost(ghost_);
 
@@ -79,8 +73,7 @@ void TransitionTool::MousePress(TimelineViewMouseEvent *event)
   drag_start_point_ = event->GetFrame();
 }
 
-void TransitionTool::MouseMove(TimelineViewMouseEvent *event)
-{
+void TransitionTool::MouseMove(TimelineViewMouseEvent *event) {
   if (!ghost_) {
     return;
   }
@@ -88,60 +81,55 @@ void TransitionTool::MouseMove(TimelineViewMouseEvent *event)
   MouseMoveInternal(event->GetFrame(), dual_transition_);
 }
 
-void TransitionTool::MouseRelease(TimelineViewMouseEvent *event)
-{
-  const Track::Reference& track = ghost_->GetTrack();
+void TransitionTool::MouseRelease(TimelineViewMouseEvent *event) {
+  const Track::Reference &track = ghost_->GetTrack();
 
   if (ghost_) {
     if (!ghost_->GetAdjustedLength().isNull()) {
-      TransitionBlock* transition;
+      TransitionBlock *transition;
 
       if (Core::instance()->GetSelectedTransition().isEmpty()) {
         // Fallback if the user hasn't selected one yet
         transition = new CrossDissolveTransition();
       } else {
-        transition = static_cast<TransitionBlock*>(NodeFactory::CreateFromID(Core::instance()->GetSelectedTransition()));
+        transition =
+            static_cast<TransitionBlock *>(NodeFactory::CreateFromID(Core::instance()->GetSelectedTransition()));
       }
 
       // Set transition length
       rational len = ghost_->GetAdjustedLength();
       transition->set_length_and_media_out(len);
 
-      MultiUndoCommand* command = new MultiUndoCommand();
+      MultiUndoCommand *command = new MultiUndoCommand();
 
       // Place transition in place
-      command->add_child(new NodeAddCommand(parent()->GetConnectedNode()->parent(),
-                                            transition));
+      command->add_child(new NodeAddCommand(parent()->GetConnectedNode()->parent(), transition));
 
       command->add_child(new NodeSetPositionCommand(transition, transition, QPointF(0, 0)));
 
-      command->add_child(new TrackPlaceBlockCommand(sequence()->track_list(track.type()),
-                                                    track.index(),
-                                                    transition,
+      command->add_child(new TrackPlaceBlockCommand(sequence()->track_list(track.type()), track.index(), transition,
                                                     ghost_->GetAdjustedIn()));
 
       if (dual_transition_) {
         // Block mouse is hovering over
-        Block* active_block = QtUtils::ValueToPtr<Block>(ghost_->GetData(TimelineViewGhostItem::kAttachedBlock));
+        Block *active_block = QtUtils::ValueToPtr<Block>(ghost_->GetData(TimelineViewGhostItem::kAttachedBlock));
 
         // Block mouse is next to
-        Block* friend_block = QtUtils::ValueToPtr<Block>(ghost_->GetData(TimelineViewGhostItem::kReferenceBlock));
+        Block *friend_block = QtUtils::ValueToPtr<Block>(ghost_->GetData(TimelineViewGhostItem::kReferenceBlock));
 
         // Use ghost mode to determine which block is which
-        Block* out_block = (ghost_->GetMode() == Timeline::kTrimIn) ? friend_block : active_block;
-        Block* in_block = (ghost_->GetMode() == Timeline::kTrimIn) ? active_block : friend_block;
+        Block *out_block = (ghost_->GetMode() == Timeline::kTrimIn) ? friend_block : active_block;
+        Block *in_block = (ghost_->GetMode() == Timeline::kTrimIn) ? active_block : friend_block;
 
         // Connect block to transition
-        command->add_child(new NodeEdgeAddCommand(out_block,
-                                                  NodeInput(transition, TransitionBlock::kOutBlockInput)));
+        command->add_child(new NodeEdgeAddCommand(out_block, NodeInput(transition, TransitionBlock::kOutBlockInput)));
 
-        command->add_child(new NodeEdgeAddCommand(in_block,
-                                                  NodeInput(transition, TransitionBlock::kInBlockInput)));
+        command->add_child(new NodeEdgeAddCommand(in_block, NodeInput(transition, TransitionBlock::kInBlockInput)));
 
         command->add_child(new NodeSetPositionCommand(out_block, transition, QPointF(-1, -0.5)));
         command->add_child(new NodeSetPositionCommand(in_block, transition, QPointF(-1, 0.5)));
       } else {
-        Block* block_to_transition = QtUtils::ValueToPtr<Block>(ghost_->GetData(TimelineViewGhostItem::kAttachedBlock));
+        Block *block_to_transition = QtUtils::ValueToPtr<Block>(ghost_->GetData(TimelineViewGhostItem::kAttachedBlock));
         QString transition_input_to_connect;
 
         if (ghost_->GetMode() == Timeline::kTrimIn) {
@@ -151,8 +139,8 @@ void TransitionTool::MouseRelease(TimelineViewMouseEvent *event)
         }
 
         // Connect block to transition
-        command->add_child(new NodeEdgeAddCommand(block_to_transition,
-                                                  NodeInput(transition, transition_input_to_connect)));
+        command->add_child(
+            new NodeEdgeAddCommand(block_to_transition, NodeInput(transition, transition_input_to_connect)));
 
         command->add_child(new NodeSetPositionCommand(block_to_transition, transition, QPointF(-1, 0)));
       }
@@ -168,18 +156,18 @@ void TransitionTool::MouseRelease(TimelineViewMouseEvent *event)
   }
 }
 
-bool TransitionTool::GetBlocksAtCoord(const TimelineCoordinate &coord, ClipBlock **primary, ClipBlock **secondary, Timeline::MovementMode *ptrim_mode, rational *start_point)
-{
-  const Track::Reference& track = coord.GetTrack();
-  Track* t = parent()->GetTrackFromReference(track);
+bool TransitionTool::GetBlocksAtCoord(const TimelineCoordinate &coord, ClipBlock **primary, ClipBlock **secondary,
+                                      Timeline::MovementMode *ptrim_mode, rational *start_point) {
+  const Track::Reference &track = coord.GetTrack();
+  Track *t = parent()->GetTrackFromReference(track);
   rational cursor_frame = coord.GetFrame();
 
   if (!t || t->IsLocked()) {
     return false;
   }
 
-  Block* block_at_time = t->NearestBlockBeforeOrAt(coord.GetFrame());
-  if (!dynamic_cast<ClipBlock*>(block_at_time)) {
+  Block *block_at_time = t->NearestBlockBeforeOrAt(coord.GetFrame());
+  if (!dynamic_cast<ClipBlock *>(block_at_time)) {
     return false;
   }
 
@@ -187,16 +175,16 @@ bool TransitionTool::GetBlocksAtCoord(const TimelineCoordinate &coord, ClipBlock
   rational transition_start_point;
   Timeline::MovementMode trim_mode;
   rational tenth_point = block_at_time->length() / 10;
-  Block* other_block = nullptr;
+  Block *other_block = nullptr;
   if (cursor_frame < (block_at_time->in() + block_at_time->length() / 2)) {
-    if (static_cast<ClipBlock*>(block_at_time)->in_transition()) {
+    if (static_cast<ClipBlock *>(block_at_time)->in_transition()) {
       // This clip already has a transition here
       return false;
     }
 
-    ClipBlock *adjacent = dynamic_cast<ClipBlock*>(block_at_time->previous());
+    ClipBlock *adjacent = dynamic_cast<ClipBlock *>(block_at_time->previous());
     if (adjacent) {
-      tenth_point = std::min(tenth_point, adjacent->length()/10);
+      tenth_point = std::min(tenth_point, adjacent->length() / 10);
     }
 
     transition_start_point = block_at_time->in();
@@ -206,14 +194,14 @@ bool TransitionTool::GetBlocksAtCoord(const TimelineCoordinate &coord, ClipBlock
       other_block = adjacent;
     }
   } else {
-    if (static_cast<ClipBlock*>(block_at_time)->out_transition()) {
+    if (static_cast<ClipBlock *>(block_at_time)->out_transition()) {
       // This clip already has a transition here
       return false;
     }
 
-    ClipBlock *adjacent = dynamic_cast<ClipBlock*>(block_at_time->next());
+    ClipBlock *adjacent = dynamic_cast<ClipBlock *>(block_at_time->next());
     if (adjacent) {
-      tenth_point = std::min(tenth_point, adjacent->length()/10);
+      tenth_point = std::min(tenth_point, adjacent->length() / 10);
     }
 
     transition_start_point = block_at_time->out();
@@ -224,12 +212,12 @@ bool TransitionTool::GetBlocksAtCoord(const TimelineCoordinate &coord, ClipBlock
     }
   }
 
-  *primary = static_cast<ClipBlock*>(block_at_time);
-  *secondary = static_cast<ClipBlock*>(other_block);
+  *primary = static_cast<ClipBlock *>(block_at_time);
+  *secondary = static_cast<ClipBlock *>(other_block);
   *ptrim_mode = trim_mode;
   *start_point = transition_start_point;
 
   return true;
 }
 
-}
+}  // namespace olive

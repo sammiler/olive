@@ -25,14 +25,12 @@
 
 namespace olive {
 
-class ScreenGizmo : public DraggableGizmo
-{
+class ScreenGizmo : public DraggableGizmo {
   Q_OBJECT
-public:
+ public:
   explicit ScreenGizmo(QObject *parent = nullptr);
-
 };
 
-}
+}  // namespace olive
 
-#endif // SCREENGIZMO_H
+#endif  // SCREENGIZMO_H

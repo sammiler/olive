@@ -34,11 +34,8 @@
 
 namespace olive {
 
-TrackViewItem::TrackViewItem(Track* track, QWidget *parent) :
-  QWidget(parent),
-  track_(track)
-{
-  QHBoxLayout* layout = new QHBoxLayout(this);
+TrackViewItem::TrackViewItem(Track *track, QWidget *parent) : QWidget(parent), track_(track) {
+  QHBoxLayout *layout = new QHBoxLayout(this);
   layout->setSpacing(0);
   layout->setContentsMargins(0, 0, 0, 0);
 
@@ -81,9 +78,8 @@ TrackViewItem::TrackViewItem(Track* track, QWidget *parent) :
   connect(this, &QWidget::customContextMenuRequested, this, &TrackViewItem::ShowContextMenu);
 }
 
-QPushButton *TrackViewItem::CreateMSLButton(const QColor& checked_color) const
-{
-  QPushButton* button = new QPushButton();
+QPushButton *TrackViewItem::CreateMSLButton(const QColor &checked_color) const {
+  QPushButton *button = new QPushButton();
   button->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
   button->setCheckable(true);
   button->setStyleSheet(QStringLiteral("QPushButton::checked { background: %1; }").arg(checked_color.name()));
@@ -95,15 +91,13 @@ QPushButton *TrackViewItem::CreateMSLButton(const QColor& checked_color) const
   return button;
 }
 
-void TrackViewItem::LabelClicked()
-{
+void TrackViewItem::LabelClicked() {
   stack_->setCurrentWidget(line_edit_);
   line_edit_->setFocus();
   line_edit_->selectAll();
 }
 
-void TrackViewItem::LineEditConfirmed()
-{
+void TrackViewItem::LineEditConfirmed() {
   line_edit_->blockSignals(true);
 
   track_->SetLabel(line_edit_->text());
@@ -114,8 +108,7 @@ void TrackViewItem::LineEditConfirmed()
   line_edit_->blockSignals(false);
 }
 
-void TrackViewItem::LineEditCancelled()
-{
+void TrackViewItem::LineEditCancelled() {
   line_edit_->blockSignals(true);
 
   stack_->setCurrentWidget(label_);
@@ -123,13 +116,9 @@ void TrackViewItem::LineEditCancelled()
   line_edit_->blockSignals(false);
 }
 
-void TrackViewItem::UpdateLabel()
-{
-  label_->setText(track_->GetLabelOrName());
-}
+void TrackViewItem::UpdateLabel() { label_->setText(track_->GetLabelOrName()); }
 
-void TrackViewItem::ShowContextMenu(const QPoint &p)
-{
+void TrackViewItem::ShowContextMenu(const QPoint &p) {
   Menu m(this);
 
   QAction *delete_action = m.addAction(tr("&Delete"));
@@ -143,16 +132,15 @@ void TrackViewItem::ShowContextMenu(const QPoint &p)
   m.exec(mapToGlobal(p));
 }
 
-void TrackViewItem::DeleteTrack()
-{
+void TrackViewItem::DeleteTrack() {
   emit AboutToDeleteTrack(track_);
-  Core::instance()->undo_stack()->push(new TimelineRemoveTrackCommand(track_), tr("Deleted Track \"%1\"").arg(track_->GetLabelOrName()));
+  Core::instance()->undo_stack()->push(new TimelineRemoveTrackCommand(track_),
+                                       tr("Deleted Track \"%1\"").arg(track_->GetLabelOrName()));
 }
 
-void TrackViewItem::DeleteAllEmptyTracks()
-{
+void TrackViewItem::DeleteAllEmptyTracks() {
   Sequence *sequence = track_->sequence();
-  QVector<Track*> tracks_to_remove;
+  QVector<Track *> tracks_to_remove;
   QStringList track_names_to_remove;
 
   foreach (Track *t, sequence->GetTracks()) {
@@ -166,7 +154,8 @@ void TrackViewItem::DeleteAllEmptyTracks()
     QMessageBox::information(this, tr("Delete All Empty"), tr("No tracks are currently empty"));
   } else {
     if (QMessageBox::question(this, tr("Delete All Empty"),
-                              tr("This will delete the following tracks:\n\n%1\n\nDo you wish to continue?").arg(track_names_to_remove.join('\n')),
+                              tr("This will delete the following tracks:\n\n%1\n\nDo you wish to continue?")
+                                  .arg(track_names_to_remove.join('\n')),
                               QMessageBox::Ok | QMessageBox::Cancel) == QMessageBox::Ok) {
       MultiUndoCommand *command = new MultiUndoCommand();
       foreach (Track *track, tracks_to_remove) {
@@ -177,14 +166,8 @@ void TrackViewItem::DeleteAllEmptyTracks()
   }
 }
 
-void TrackViewItem::UpdateMuteButton(bool e)
-{
-  mute_button_->setIcon(e ? icon::EyeClosed : icon::EyeOpened);
-}
+void TrackViewItem::UpdateMuteButton(bool e) { mute_button_->setIcon(e ? icon::EyeClosed : icon::EyeOpened); }
 
-void TrackViewItem::UpdateLockButton(bool e)
-{
-  lock_button_->setIcon(e ? icon::LockClosed : icon::LockOpened);
-}
+void TrackViewItem::UpdateLockButton(bool e) { lock_button_->setIcon(e ? icon::LockClosed : icon::LockOpened); }
 
-}
+}  // namespace olive

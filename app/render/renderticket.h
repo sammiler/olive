@@ -31,10 +31,9 @@
 
 namespace olive {
 
-class RenderTicket : public QObject, public CancelableObject
-{
+class RenderTicket : public QObject, public CancelableObject {
   Q_OBJECT
-public:
+ public:
   RenderTicket();
 
   /**
@@ -79,10 +78,7 @@ public:
    * Use if you're doing several operations on a ticket and need to ensure thread safety while
    * doing so. Most of the time this isn't necessary since all functions are thread safe by default.
    */
-  QMutex* lock()
-  {
-    return &lock_;
-  }
+  QMutex* lock() { return &lock_; }
 
   /**
    * @brief Signal to the ticket that it is running
@@ -105,13 +101,13 @@ public:
    */
   void Finish(QVariant result);
 
-signals:
+ signals:
   /**
    * @brief Emitted when finish has been called by any means (either cancelled or with a result)
    */
   void Finished();
 
-private:
+ private:
   void FinishInternal(bool has_result, QVariant result);
 
   bool is_running_;
@@ -125,21 +121,16 @@ private:
   QMutex lock_;
 
   QWaitCondition wait_;
-
 };
 
 using RenderTicketPtr = std::shared_ptr<RenderTicket>;
 
-class RenderTicketWatcher : public QObject
-{
+class RenderTicketWatcher : public QObject {
   Q_OBJECT
-public:
+ public:
   RenderTicketWatcher(QObject* parent = nullptr);
 
-  RenderTicketPtr GetTicket() const
-  {
-    return ticket_;
-  }
+  RenderTicketPtr GetTicket() const { return ticket_; }
 
   void SetTicket(RenderTicketPtr ticket);
 
@@ -153,19 +144,18 @@ public:
 
   void Cancel();
 
-signals:
+ signals:
   void Finished(RenderTicketWatcher* watcher);
 
-private:
+ private:
   RenderTicketPtr ticket_;
 
-private slots:
+ private slots:
   void TicketFinished();
-
 };
 
-}
+}  // namespace olive
 
 Q_DECLARE_METATYPE(olive::RenderTicketPtr)
 
-#endif // RENDERTICKET_H
+#endif  // RENDERTICKET_H

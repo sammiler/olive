@@ -25,10 +25,9 @@
 
 namespace olive {
 
-class TrigonometryNode : public Node
-{
+class TrigonometryNode : public Node {
   Q_OBJECT
-public:
+ public:
   TrigonometryNode();
 
   NODE_DEFAULT_FUNCTIONS(TrigonometryNode)
@@ -40,12 +39,12 @@ public:
 
   virtual void Retranslate() override;
 
-  virtual void Value(const NodeValueRow& value, const NodeGlobals &globals, NodeValueTable *table) const override;
+  virtual void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
 
   static const QString kMethodIn;
   static const QString kXIn;
 
-private:
+ private:
   enum Operation {
     kOpSine,
     kOpCosine,
@@ -57,9 +56,8 @@ private:
     kOpHypCosine,
     kOpHypTangent
   };
-
 };
 
-}
+}  // namespace olive
 
-#endif // TRIGNODE_H
+#endif  // TRIGNODE_H

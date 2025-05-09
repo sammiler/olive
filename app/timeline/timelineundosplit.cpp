@@ -29,14 +29,12 @@ namespace olive {
 //
 // BlockSplitCommand
 //
-void BlockSplitCommand::prepare()
-{
+void BlockSplitCommand::prepare() {
   reconnect_tree_command_ = new MultiUndoCommand();
   new_block_ = static_cast<Block*>(Node::CopyNodeInGraph(block_, reconnect_tree_command_));
 }
 
-void BlockSplitCommand::redo()
-{
+void BlockSplitCommand::redo() {
   old_length_ = block_->length();
 
   Q_ASSERT(point_ > block_->in() && point_ < block_->out());
@@ -57,8 +55,8 @@ void BlockSplitCommand::redo()
   // Insert new block
   track->InsertBlockAfter(new_block(), block_);
 
-  if (ClipBlock *new_clip = dynamic_cast<ClipBlock*>(new_block_)) {
-    ClipBlock *old_clip = static_cast<ClipBlock*>(block_);
+  if (ClipBlock* new_clip = dynamic_cast<ClipBlock*>(new_block_)) {
+    ClipBlock* old_clip = static_cast<ClipBlock*>(block_);
     new_clip->AddCachePassthroughFrom(old_clip);
   }
 
@@ -78,8 +76,7 @@ void BlockSplitCommand::redo()
   }
 }
 
-void BlockSplitCommand::undo()
-{
+void BlockSplitCommand::undo() {
   Track* track = block_->track();
 
   if (moved_transition_.IsValid()) {
@@ -97,8 +94,7 @@ void BlockSplitCommand::undo()
 //
 // BlockSplitPreservingLinksCommand
 //
-Block *BlockSplitPreservingLinksCommand::GetSplit(Block *original, int time_index) const
-{
+Block* BlockSplitPreservingLinksCommand::GetSplit(Block* original, int time_index) const {
   if (time_index >= 0 && time_index < times_.size()) {
     int original_index = blocks_.indexOf(original);
     if (original_index != -1) {
@@ -109,21 +105,20 @@ Block *BlockSplitPreservingLinksCommand::GetSplit(Block *original, int time_inde
   return nullptr;
 }
 
-void BlockSplitPreservingLinksCommand::prepare()
-{
+void BlockSplitPreservingLinksCommand::prepare() {
   splits_.resize(times_.size());
 
-  for (int i=0;i<times_.size();i++) {
+  for (int i = 0; i < times_.size(); i++) {
     const rational& time = times_.at(i);
 
     // FIXME: I realize this isn't going to work if the times aren't ordered. I'm lazy so rather
     //        than writing in a sorting algorithm here, I'll just put an assert as a reminder
     //        if this ever becomes an issue.
-    Q_ASSERT(i == 0 || time > times_.at(i-1));
+    Q_ASSERT(i == 0 || time > times_.at(i - 1));
 
     QVector<Block*> splits(blocks_.size());
 
-    for (int j=0;j<blocks_.size();j++) {
+    for (int j = 0; j < blocks_.size(); j++) {
       Block* b = blocks_.at(j);
 
       if (b->in() < time && b->out() > time) {
@@ -140,10 +135,10 @@ void BlockSplitPreservingLinksCommand::prepare()
   }
 
   // Now that we've determined all the splits, we can relink everything
-  for (int i=0;i<blocks_.size();i++) {
+  for (int i = 0; i < blocks_.size(); i++) {
     Block* a = blocks_.at(i);
 
-    for (int j=0;j<blocks_.size();j++) {
+    for (int j = 0; j < blocks_.size(); j++) {
       if (i == j) {
         continue;
       }
@@ -166,8 +161,7 @@ void BlockSplitPreservingLinksCommand::prepare()
 //
 // TrackSplitAtTimeCommand
 //
-void TrackSplitAtTimeCommand::prepare()
-{
+void TrackSplitAtTimeCommand::prepare() {
   // Find Block that contains this time
   Block* b = track_->BlockContainingTime(point_);
 
@@ -176,4 +170,4 @@ void TrackSplitAtTimeCommand::prepare()
   }
 }
 
-}
+}  // namespace olive

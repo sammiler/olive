@@ -24,35 +24,24 @@
 
 namespace olive {
 
-Menu::Menu(QMenuBar *bar)
-{
+Menu::Menu(QMenuBar *bar) {
   bar->addMenu(this);
 
   Init();
 }
 
-Menu::Menu(Menu *menu)
-{
+Menu::Menu(Menu *menu) {
   menu->addMenu(this);
 
   Init();
 }
 
-Menu::Menu(QWidget *parent) :
-  QMenu(parent)
-{
-  Init();
-}
+Menu::Menu(QWidget *parent) : QMenu(parent) { Init(); }
 
-Menu::Menu(const QString &s, QWidget *parent) :
-  QMenu(s, parent)
-{
-  Init();
-}
+Menu::Menu(const QString &s, QWidget *parent) : QMenu(s, parent) { Init(); }
 
-QAction *Menu::AddActionWithData(const QString &text, const QVariant &d, const QVariant &compare)
-{
-  QAction* a = addAction(text);
+QAction *Menu::AddActionWithData(const QString &text, const QVariant &d, const QVariant &compare) {
+  QAction *a = addAction(text);
 
   a->setData(d);
   a->setCheckable(true);
@@ -61,18 +50,16 @@ QAction *Menu::AddActionWithData(const QString &text, const QVariant &d, const Q
   return a;
 }
 
-QAction* Menu::InsertAlphabetically(const QString &s)
-{
-  QAction* action = new QAction(s, this);
+QAction *Menu::InsertAlphabetically(const QString &s) {
+  QAction *action = new QAction(s, this);
   InsertAlphabetically(action);
   return action;
 }
 
-void Menu::InsertAlphabetically(QAction *entry)
-{
-  QList<QAction*> actions = this->actions();
+void Menu::InsertAlphabetically(QAction *entry) {
+  QList<QAction *> actions = this->actions();
 
-  foreach (QAction* action, actions) {
+  foreach (QAction *action, actions) {
     if (action->text() > entry->text()) {
       insertAction(action, entry);
       return;
@@ -82,13 +69,9 @@ void Menu::InsertAlphabetically(QAction *entry)
   addAction(entry);
 }
 
-void Menu::InsertAlphabetically(Menu *menu)
-{
-  InsertAlphabetically(menu->menuAction());
-}
+void Menu::InsertAlphabetically(Menu *menu) { InsertAlphabetically(menu->menuAction()); }
 
-void Menu::ConformItem(QAction *a, const QString &id, const QKeySequence &key)
-{
+void Menu::ConformItem(QAction *a, const QString &id, const QKeySequence &key) {
   a->setProperty("id", id);
 
   if (!key.isEmpty()) {
@@ -100,12 +83,11 @@ void Menu::ConformItem(QAction *a, const QString &id, const QKeySequence &key)
   }
 }
 
-void Menu::Init()
-{
+void Menu::Init() {
   // HACK: Disables embossing on disabled text for a slightly nicer UI
   QPalette p = palette();
   p.setColor(QPalette::Disabled, QPalette::Light, QColor(0, 0, 0, 0));
   setPalette(p);
 }
 
-}
+}  // namespace olive

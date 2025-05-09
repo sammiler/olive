@@ -34,10 +34,9 @@ namespace olive {
  * The About dialog (accessible through Help > About). Contains license and version information. This can be run from
  * anywhere
  */
-class AboutDialog : public QDialog
-{
+class AboutDialog : public QDialog {
   Q_OBJECT
-public:
+ public:
   /**
    * @brief AboutDialog Constructor
    *
@@ -49,14 +48,13 @@ public:
    */
   explicit AboutDialog(bool welcome_dialog, QWidget *parent = nullptr);
 
-public slots:
+ public slots:
   virtual void accept() override;
 
-private:
+ private:
   QCheckBox *dont_show_again_checkbox_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // ABOUTDIALOG_H
+#endif  // ABOUTDIALOG_H

@@ -26,20 +26,18 @@
 
 namespace olive {
 
-class AudioStreamProperties : public StreamProperties
-{
-public:
+class AudioStreamProperties : public StreamProperties {
+ public:
   AudioStreamProperties(Footage *footage, int audio_index);
 
-  virtual void Accept(MultiUndoCommand* parent) override;
+  virtual void Accept(MultiUndoCommand *parent) override;
 
-private:
+ private:
   Footage *footage_;
 
   int audio_index_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // AUDIOSTREAMPROPERTIES_H
+#endif  // AUDIOSTREAMPROPERTIES_H

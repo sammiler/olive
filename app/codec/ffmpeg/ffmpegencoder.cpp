@@ -32,30 +32,27 @@ extern "C" {
 
 namespace olive {
 
-FFmpegEncoder::FFmpegEncoder(const EncodingParams &params) :
-  Encoder(params),
-  fmt_ctx_(nullptr),
-  video_stream_(nullptr),
-  video_codec_ctx_(nullptr),
-  video_scale_ctx_(nullptr),
-  video_buffersrc_ctx_(nullptr),
-  video_buffersink_ctx_(nullptr),
-  audio_stream_(nullptr),
-  audio_codec_ctx_(nullptr),
-  audio_resample_ctx_(nullptr),
-  audio_frame_(nullptr),
-  open_(false)
-{
-}
+FFmpegEncoder::FFmpegEncoder(const EncodingParams& params)
+    : Encoder(params),
+      fmt_ctx_(nullptr),
+      video_stream_(nullptr),
+      video_codec_ctx_(nullptr),
+      video_scale_ctx_(nullptr),
+      video_buffersrc_ctx_(nullptr),
+      video_buffersink_ctx_(nullptr),
+      audio_stream_(nullptr),
+      audio_codec_ctx_(nullptr),
+      audio_resample_ctx_(nullptr),
+      audio_frame_(nullptr),
+      open_(false) {}
 
-QStringList FFmpegEncoder::GetPixelFormatsForCodec(ExportCodec::Codec c) const
-{
+QStringList FFmpegEncoder::GetPixelFormatsForCodec(ExportCodec::Codec c) const {
   QStringList pix_fmts;
 
   const AVCodec* codec_info = GetEncoder(c, SampleFormat::INVALID);
 
   if (codec_info) {
-    for (int i=0; codec_info->pix_fmts[i]!=-1; i++) {
+    for (int i = 0; codec_info->pix_fmts[i] != -1; i++) {
       if (FFmpegUtils::ConvertJPEGSpaceToRegularSpace(codec_info->pix_fmts[i]) != codec_info->pix_fmts[i]) {
         // This is a deprecated "JPEG" space, skip it
         continue;
@@ -69,28 +66,22 @@ QStringList FFmpegEncoder::GetPixelFormatsForCodec(ExportCodec::Codec c) const
   return pix_fmts;
 }
 
-std::vector<SampleFormat> FFmpegEncoder::GetSampleFormatsForCodec(ExportCodec::Codec c) const
-{
+std::vector<SampleFormat> FFmpegEncoder::GetSampleFormatsForCodec(ExportCodec::Codec c) const {
   std::vector<SampleFormat> f;
 
   if (c == ExportCodec::kCodecPCM) {
     // FFmpeg lists these as separate codecs so we need custom functionality here
     // We list signed 16 first because ExportDialog will always use the first element by default
     // (because first element is the "default" in tFFmpeg)
-    f = {
-      SampleFormat::S16,
-      SampleFormat::U8,
-      SampleFormat::S32,
-      SampleFormat::S64,
-      SampleFormat::F32,
-      SampleFormat::F64
-    };
+    f = {SampleFormat::S16, SampleFormat::U8,  SampleFormat::S32,
+         SampleFormat::S64, SampleFormat::F32, SampleFormat::F64};
   } else {
     const AVCodec* codec_info = GetEncoder(c, SampleFormat::INVALID);
 
     if (codec_info && codec_info->sample_fmts) {
-      for (int i=0; codec_info->sample_fmts[i]!=-1; i++) {
-        SampleFormat this_format = FFmpegUtils::GetNativeSampleFormat(static_cast<AVSampleFormat>(codec_info->sample_fmts[i]));
+      for (int i = 0; codec_info->sample_fmts[i] != -1; i++) {
+        SampleFormat this_format =
+            FFmpegUtils::GetNativeSampleFormat(static_cast<AVSampleFormat>(codec_info->sample_fmts[i]));
         if (this_format != SampleFormat::INVALID) {
           f.push_back(this_format);
         }
@@ -101,8 +92,7 @@ std::vector<SampleFormat> FFmpegEncoder::GetSampleFormatsForCodec(ExportCodec::C
   return f;
 }
 
-bool FFmpegEncoder::Open()
-{
+bool FFmpegEncoder::Open() {
   if (open_) {
     return true;
   }
@@ -135,11 +125,11 @@ bool FFmpegEncoder::Open()
     video_conversion_fmt_ = FFmpegUtils::GetCompatiblePixelFormat(native_pixel_fmt);
 
     // This is the equivalent pixel format above as an AVPixelFormat that swscale can understand
-    AVPixelFormat src_alpha_pix_fmt = FFmpegUtils::GetFFmpegPixelFormat(video_conversion_fmt_,
-                                                                        VideoParams::kRGBAChannelCount);
+    AVPixelFormat src_alpha_pix_fmt =
+        FFmpegUtils::GetFFmpegPixelFormat(video_conversion_fmt_, VideoParams::kRGBAChannelCount);
 
-    AVPixelFormat src_noalpha_pix_fmt = FFmpegUtils::GetFFmpegPixelFormat(video_conversion_fmt_,
-                                                                          VideoParams::kRGBChannelCount);
+    AVPixelFormat src_noalpha_pix_fmt =
+        FFmpegUtils::GetFFmpegPixelFormat(video_conversion_fmt_, VideoParams::kRGBChannelCount);
 
     if (src_alpha_pix_fmt == AV_PIX_FMT_NONE || src_noalpha_pix_fmt == AV_PIX_FMT_NONE) {
       SetError(tr("Failed to find suitable pixel format for this buffer"));
@@ -158,18 +148,17 @@ bool FFmpegEncoder::Open()
     char filter_args[FILTER_ARG_SZ];
 
     snprintf(filter_args, FILTER_ARG_SZ, "video_size=%dx%d:pix_fmt=%d:time_base=%d/%d:pixel_aspect=%d/%d",
-             params().video_params().effective_width(),
-             params().video_params().effective_height(),
-             src_alpha_pix_fmt,
-             params().video_params().time_base().numerator(),
-             params().video_params().time_base().denominator(),
+             params().video_params().effective_width(), params().video_params().effective_height(), src_alpha_pix_fmt,
+             params().video_params().time_base().numerator(), params().video_params().time_base().denominator(),
              params().video_params().pixel_aspect_ratio().numerator(),
              params().video_params().pixel_aspect_ratio().denominator());
 
-    avfilter_graph_create_filter(&video_buffersrc_ctx_, avfilter_get_by_name("buffer"), "in", filter_args, nullptr, video_scale_ctx_);
-    avfilter_graph_create_filter(&video_buffersink_ctx_, avfilter_get_by_name("buffersink"), "out", nullptr, nullptr, video_scale_ctx_);
+    avfilter_graph_create_filter(&video_buffersrc_ctx_, avfilter_get_by_name("buffer"), "in", filter_args, nullptr,
+                                 video_scale_ctx_);
+    avfilter_graph_create_filter(&video_buffersink_ctx_, avfilter_get_by_name("buffersink"), "out", nullptr, nullptr,
+                                 video_scale_ctx_);
 
-    AVFilterContext *last_filter = video_buffersrc_ctx_;
+    AVFilterContext* last_filter = video_buffersrc_ctx_;
 
     {
       // Set color range
@@ -178,7 +167,8 @@ bool FFmpegEncoder::Open()
       snprintf(filter_args, FILTER_ARG_SZ, "in_range=full:out_range=%s",
                params().video_params().color_range() == VideoParams::kColorRangeFull ? "full" : "limited");
 
-      avfilter_graph_create_filter(&range_filter, avfilter_get_by_name("scale"), "range", filter_args, nullptr, video_scale_ctx_);
+      avfilter_graph_create_filter(&range_filter, avfilter_get_by_name("scale"), "range", filter_args, nullptr,
+                                   video_scale_ctx_);
 
       avfilter_link(last_filter, 0, range_filter, 0);
       last_filter = range_filter;
@@ -190,7 +180,8 @@ bool FFmpegEncoder::Open()
 
       snprintf(filter_args, FILTER_ARG_SZ, "pix_fmts=%u", encoder_pix_fmt);
 
-      avfilter_graph_create_filter(&format_filter, avfilter_get_by_name("format"), "format", filter_args, nullptr, video_scale_ctx_);
+      avfilter_graph_create_filter(&format_filter, avfilter_get_by_name("format"), "format", filter_args, nullptr,
+                                   video_scale_ctx_);
 
       avfilter_link(last_filter, 0, format_filter, 0);
       last_filter = format_filter;
@@ -238,8 +229,7 @@ bool FFmpegEncoder::Open()
   return true;
 }
 
-bool FFmpegEncoder::WriteFrame(FramePtr frame, rational time)
-{
+bool FFmpegEncoder::WriteFrame(FramePtr frame, rational time) {
   // We may need to convert this frame to a frame that swscale will understand
   if (frame->format() != video_conversion_fmt_) {
     frame = frame->convert(video_conversion_fmt_);
@@ -277,8 +267,7 @@ bool FFmpegEncoder::WriteFrame(FramePtr frame, rational time)
   return WriteAVFrame(encoded_frame.get(), video_codec_ctx_, video_stream_);
 }
 
-bool FFmpegEncoder::WriteAudio(const SampleBuffer &audio)
-{
+bool FFmpegEncoder::WriteAudio(const SampleBuffer& audio) {
   if (!audio.is_allocated()) {
     return true;
   }
@@ -296,21 +285,23 @@ bool FFmpegEncoder::WriteAudio(const SampleBuffer &audio)
     int input_linesize;
 
     int r = av_samples_alloc_array_and_samples(&input_data, &input_linesize, audio.audio_params().channel_count(),
-                                               input_sample_count, FFmpegUtils::GetFFmpegSampleFormat(audio.audio_params().format()), 0);
+                                               input_sample_count,
+                                               FFmpegUtils::GetFFmpegSampleFormat(audio.audio_params().format()), 0);
 
     if (r < 0) {
       FFmpegError(tr("Failed to allocate sample array"), r);
       return false;
     } else {
       int bpsc = audio.audio_params().bytes_per_sample_per_channel();
-      for (int i=0; i<audio.audio_params().channel_count(); i++) {
+      for (int i = 0; i < audio.audio_params().channel_count(); i++) {
         memcpy(input_data[i], audio.data(i) + start, input_sample_count * bpsc);
       }
 
       start += input_sample_count;
     }
 
-    result = WriteAudioData(audio.audio_params().is_valid() ? audio.audio_params() : params().audio_params(), const_cast<const uint8_t**>(input_data), input_sample_count);
+    result = WriteAudioData(audio.audio_params().is_valid() ? audio.audio_params() : params().audio_params(),
+                            const_cast<const uint8_t**>(input_data), input_sample_count);
 
     if (input_data) {
       av_freep(&input_data[0]);
@@ -321,8 +312,8 @@ bool FFmpegEncoder::WriteAudio(const SampleBuffer &audio)
   return result;
 }
 
-bool FFmpegEncoder::WriteAudioData(const AudioParams &audio_params, const uint8_t **input_data, int input_sample_count)
-{
+bool FFmpegEncoder::WriteAudioData(const AudioParams& audio_params, const uint8_t** input_data,
+                                   int input_sample_count) {
   if (!InitializeResampleContext(audio_params)) {
     qCritical() << "Failed to initialize resample context";
     return false;
@@ -335,28 +326,30 @@ bool FFmpegEncoder::WriteAudioData(const AudioParams &audio_params, const uint8_
   uint8_t** output_data = nullptr;
   int output_linesize;
   av_samples_alloc_array_and_samples(&output_data, &output_linesize, audio_stream_->codecpar->channels,
-                                     output_sample_count, static_cast<AVSampleFormat>(audio_stream_->codecpar->format), 0);
+                                     output_sample_count, static_cast<AVSampleFormat>(audio_stream_->codecpar->format),
+                                     0);
 
   // Perform conversion
-  int converted = swr_convert(audio_resample_ctx_, output_data, output_sample_count, const_cast<const uint8_t**>(input_data), input_sample_count);
+  int converted = swr_convert(audio_resample_ctx_, output_data, output_sample_count,
+                              const_cast<const uint8_t**>(input_data), input_sample_count);
   if (converted > 0) {
     // Split sample buffer into frames
-    for (int i=0; i<converted; ) {
+    for (int i = 0; i < converted;) {
       int frame_remaining_samples = audio_max_samples_ - audio_frame_offset_;
       int converted_remaining_samples = converted - i;
 
       int copy_length = qMin(frame_remaining_samples, converted_remaining_samples);
 
-      av_samples_copy(audio_frame_->data, output_data, audio_frame_offset_, i,
-                      copy_length,
-                      audio_frame_->channels, static_cast<AVSampleFormat>(audio_frame_->format));
+      av_samples_copy(audio_frame_->data, output_data, audio_frame_offset_, i, copy_length, audio_frame_->channels,
+                      static_cast<AVSampleFormat>(audio_frame_->format));
 
       audio_frame_offset_ += copy_length;
       i += copy_length;
 
       if (audio_frame_offset_ == audio_max_samples_ || (i == converted && !input_data)) {
         // Got all the samples we needed, write the frame
-        audio_frame_->pts = av_rescale_q(audio_write_count_, {1, audio_codec_ctx_->sample_rate}, audio_codec_ctx_->time_base);
+        audio_frame_->pts =
+            av_rescale_q(audio_write_count_, {1, audio_codec_ctx_->sample_rate}, audio_codec_ctx_->time_base);
 
         WriteAVFrame(audio_frame_, audio_codec_ctx_, audio_stream_);
         audio_write_count_ += audio_frame_offset_;
@@ -370,7 +363,8 @@ bool FFmpegEncoder::WriteAudioData(const AudioParams &audio_params, const uint8_
 
   if (!input_data && audio_frame_offset_ > 0) {
     audio_frame_->nb_samples = audio_frame_offset_;
-    audio_frame_->pts = av_rescale_q(audio_write_count_, {1, audio_codec_ctx_->sample_rate}, audio_codec_ctx_->time_base);
+    audio_frame_->pts =
+        av_rescale_q(audio_write_count_, {1, audio_codec_ctx_->sample_rate}, audio_codec_ctx_->time_base);
     WriteAVFrame(audio_frame_, audio_codec_ctx_, audio_stream_);
   }
 
@@ -383,8 +377,7 @@ bool FFmpegEncoder::WriteAudioData(const AudioParams &audio_params, const uint8_
   return result;
 }
 
-QString GetAssTime(const rational &time)
-{
+QString GetAssTime(const rational& time) {
   int64_t total_centiseconds = qRound64(time.toDouble() * 100);
 
   int64_t cs = total_centiseconds % 100;
@@ -392,25 +385,23 @@ QString GetAssTime(const rational &time)
   int64_t mm = (total_centiseconds / 6000) % 60;
   int64_t hh = total_centiseconds / 360000;
 
-  return QStringLiteral("%1:%2:%3.%4").arg(
-        QString::number(hh),
-        QStringLiteral("%1").arg(mm, 2, 10, QLatin1Char('0')),
-        QStringLiteral("%1").arg(ss, 2, 10, QLatin1Char('0')),
-        QStringLiteral("%1").arg(cs, 2, 10, QLatin1Char('0'))
-      );
+  return QStringLiteral("%1:%2:%3.%4")
+      .arg(QString::number(hh), QStringLiteral("%1").arg(mm, 2, 10, QLatin1Char('0')),
+           QStringLiteral("%1").arg(ss, 2, 10, QLatin1Char('0')),
+           QStringLiteral("%1").arg(cs, 2, 10, QLatin1Char('0')));
 }
 
-bool FFmpegEncoder::WriteSubtitle(const SubtitleBlock *sub_block)
-{
+bool FFmpegEncoder::WriteSubtitle(const SubtitleBlock* sub_block) {
   QByteArray utf8_sub = sub_block->GetText().toUtf8();
 
-  AVPacket *pkt = av_packet_alloc();
+  AVPacket* pkt = av_packet_alloc();
 
   pkt->stream_index = subtitle_stream_->index;
-  pkt->data = (uint8_t *) utf8_sub.data();
+  pkt->data = (uint8_t*)utf8_sub.data();
   pkt->size = utf8_sub.size();
   pkt->pts = Timecode::time_to_timestamp(sub_block->in(), subtitle_codec_ctx_->time_base, Timecode::kFloor);
-  pkt->duration = av_rescale_q(qRound64(sub_block->length().toDouble() * 1000), {1, 1000}, subtitle_codec_ctx_->time_base);
+  pkt->duration =
+      av_rescale_q(qRound64(sub_block->length().toDouble() * 1000), {1, 1000}, subtitle_codec_ctx_->time_base);
   pkt->dts = pkt->pts;
   av_packet_rescale_ts(pkt, subtitle_codec_ctx_->time_base, subtitle_stream_->time_base);
 
@@ -487,8 +478,7 @@ void FFmpegEncoder::WriteAudio(AudioParams pcm_info, QIODevice* file)
 }
 */
 
-void FFmpegEncoder::Close()
-{
+void FFmpegEncoder::Close() {
   if (open_) {
     // Flush encoders
     FlushEncoders();
@@ -536,8 +526,7 @@ void FFmpegEncoder::Close()
   }
 }
 
-void FFmpegEncoder::FFmpegError(const QString& context, int error_code)
-{
+void FFmpegEncoder::FFmpegError(const QString& context, int error_code) {
   char err[1024];
   av_strerror(error_code, err, 1024);
 
@@ -546,8 +535,7 @@ void FFmpegEncoder::FFmpegError(const QString& context, int error_code)
   SetError(formatted_err);
 }
 
-bool FFmpegEncoder::WriteAVFrame(AVFrame *frame, AVCodecContext* codec_ctx, AVStream* stream)
-{
+bool FFmpegEncoder::WriteAVFrame(AVFrame* frame, AVCodecContext* codec_ctx, AVStream* stream) {
   // Send raw frame to the encoder
   int error_code = avcodec_send_frame(codec_ctx, frame);
   if (error_code < 0) {
@@ -595,8 +583,8 @@ fail:
   return succeeded;
 }
 
-bool FFmpegEncoder::InitializeStream(AVMediaType type, AVStream** stream_ptr, AVCodecContext** codec_ctx_ptr, const ExportCodec::Codec& codec)
-{
+bool FFmpegEncoder::InitializeStream(AVMediaType type, AVStream** stream_ptr, AVCodecContext** codec_ctx_ptr,
+                                     const ExportCodec::Codec& codec) {
   if (type != AVMEDIA_TYPE_VIDEO && type != AVMEDIA_TYPE_AUDIO && type != AVMEDIA_TYPE_SUBTITLE) {
     SetError(tr("Cannot initialize a stream that is not a video, audio, or subtitle type"));
     return false;
@@ -610,7 +598,8 @@ bool FFmpegEncoder::InitializeStream(AVMediaType type, AVStream** stream_ptr, AV
   }
 
   if (encoder->type != type) {
-    SetError(tr("Retrieved unexpected codec type %1 for codec %2").arg(QString::number(encoder->type), QString::number(codec)));
+    SetError(tr("Retrieved unexpected codec type %1 for codec %2")
+                 .arg(QString::number(encoder->type), QString::number(codec)));
     return false;
   }
 
@@ -629,13 +618,13 @@ bool FFmpegEncoder::InitializeStream(AVMediaType type, AVStream** stream_ptr, AV
     codec_ctx->time_base = params().video_params().frame_rate_as_time_base().toAVRational();
     codec_ctx->framerate = params().video_params().frame_rate().toAVRational();
     codec_ctx->pix_fmt = av_get_pix_fmt(params().video_pix_fmt().toUtf8());
-    codec_ctx->color_range = params().video_params().color_range() == VideoParams::kColorRangeFull ? AVCOL_RANGE_JPEG : AVCOL_RANGE_MPEG;
+    codec_ctx->color_range =
+        params().video_params().color_range() == VideoParams::kColorRangeFull ? AVCOL_RANGE_JPEG : AVCOL_RANGE_MPEG;
 
     if (params().video_params().interlacing() != VideoParams::kInterlaceNone) {
       // FIXME: I actually don't know what these flags do, the documentation helpfully doesn't
       //        explain them at all. I hope using both of them is the right thing to do.
       codec_ctx->flags |= AV_CODEC_FLAG_INTERLACED_DCT | AV_CODEC_FLAG_INTERLACED_ME;
-
 
       if (params().video_params().interlacing() == VideoParams::kInterlacedTopFirst) {
         codec_ctx->field_order = AV_FIELD_TT;
@@ -651,7 +640,7 @@ bool FFmpegEncoder::InitializeStream(AVMediaType type, AVStream** stream_ptr, AV
 
     // Set custom options
     {
-      for (auto i=params().video_opts().begin();i!=params().video_opts().end();i++) {
+      for (auto i = params().video_opts().begin(); i != params().video_opts().end(); i++) {
         if (!i.key().startsWith(QStringLiteral("ove_"))) {
           av_opt_set(codec_ctx->priv_data, i.key().toUtf8(), i.value().toUtf8(), AV_OPT_SEARCH_CHILDREN);
         }
@@ -679,7 +668,7 @@ bool FFmpegEncoder::InitializeStream(AVMediaType type, AVStream** stream_ptr, AV
         codec_ctx->color_primaries = AVCOL_PRI_BT709;
         codec_ctx->color_trc = AVCOL_TRC_IEC61966_2_1;
         codec_ctx->colorspace = AVCOL_SPC_BT709;
-      } else { // Assume Rec.709
+      } else {  // Assume Rec.709
         codec_ctx->color_primaries = AVCOL_PRI_BT709;
         codec_ctx->color_trc = AVCOL_TRC_BT709;
         codec_ctx->colorspace = AVCOL_SPC_BT709;
@@ -687,7 +676,6 @@ bool FFmpegEncoder::InitializeStream(AVMediaType type, AVStream** stream_ptr, AV
     }
 
   } else if (type == AVMEDIA_TYPE_AUDIO) {
-
     // Assume audio stream
     codec_ctx->sample_rate = params().audio_params().sample_rate();
     codec_ctx->channel_layout = params().audio_params().channel_layout();
@@ -700,14 +688,12 @@ bool FFmpegEncoder::InitializeStream(AVMediaType type, AVStream** stream_ptr, AV
     }
 
   } else if (type == AVMEDIA_TYPE_SUBTITLE) {
-
     codec_ctx->time_base = av_get_time_base_q();
 
     QByteArray ass_header = SubtitleParams::GenerateASSHeader().toUtf8();
     codec_ctx->subtitle_header = new uint8_t[ass_header.size()];
     memcpy(codec_ctx->subtitle_header, ass_header.constData(), ass_header.size());
     codec_ctx->subtitle_header_size = ass_header.size();
-
   }
 
   if (!SetupCodecContext(stream, codec_ctx, encoder)) {
@@ -717,8 +703,7 @@ bool FFmpegEncoder::InitializeStream(AVMediaType type, AVStream** stream_ptr, AV
   return true;
 }
 
-bool FFmpegEncoder::InitializeCodecContext(AVStream **stream, AVCodecContext **codec_ctx, const AVCodec* codec)
-{
+bool FFmpegEncoder::InitializeCodecContext(AVStream** stream, AVCodecContext** codec_ctx, const AVCodec* codec) {
   *stream = avformat_new_stream(fmt_ctx_, nullptr);
   if (!(*stream)) {
     SetError(tr("Failed to allocate AVStream"));
@@ -735,8 +720,7 @@ bool FFmpegEncoder::InitializeCodecContext(AVStream **stream, AVCodecContext **c
   return true;
 }
 
-bool FFmpegEncoder::SetupCodecContext(AVStream* stream, AVCodecContext* codec_ctx, const AVCodec* codec)
-{
+bool FFmpegEncoder::SetupCodecContext(AVStream* stream, AVCodecContext* codec_ctx, const AVCodec* codec) {
   int error_code;
 
   if (fmt_ctx_->oformat->flags & AVFMT_GLOBALHEADER) {
@@ -774,8 +758,7 @@ bool FFmpegEncoder::SetupCodecContext(AVStream* stream, AVCodecContext* codec_ct
   return true;
 }
 
-void FFmpegEncoder::FlushEncoders()
-{
+void FFmpegEncoder::FlushEncoders() {
   if (video_codec_ctx_) {
     FlushCodecCtx(video_codec_ctx_, video_stream_);
   }
@@ -796,8 +779,7 @@ void FFmpegEncoder::FlushEncoders()
   }
 }
 
-void FFmpegEncoder::FlushCodecCtx(AVCodecContext *codec_ctx, AVStream* stream)
-{
+void FFmpegEncoder::FlushCodecCtx(AVCodecContext* codec_ctx, AVStream* stream) {
   avcodec_send_frame(codec_ctx, nullptr);
   AVPacket* pkt = av_packet_alloc();
 
@@ -822,22 +804,16 @@ void FFmpegEncoder::FlushCodecCtx(AVCodecContext *codec_ctx, AVStream* stream)
   av_packet_free(&pkt);
 }
 
-bool FFmpegEncoder::InitializeResampleContext(const AudioParams &audio)
-{
+bool FFmpegEncoder::InitializeResampleContext(const AudioParams& audio) {
   if (audio_resample_ctx_) {
     return true;
   }
 
   // Create resample context
-  audio_resample_ctx_ = swr_alloc_set_opts(nullptr,
-                                           static_cast<int64_t>(audio_codec_ctx_->channel_layout),
-                                           audio_codec_ctx_->sample_fmt,
-                                           audio_codec_ctx_->sample_rate,
-                                           static_cast<int64_t>(audio.channel_layout()),
-                                           FFmpegUtils::GetFFmpegSampleFormat(audio.format()),
-                                           audio.sample_rate(),
-                                           0,
-                                           nullptr);
+  audio_resample_ctx_ =
+      swr_alloc_set_opts(nullptr, static_cast<int64_t>(audio_codec_ctx_->channel_layout), audio_codec_ctx_->sample_fmt,
+                         audio_codec_ctx_->sample_rate, static_cast<int64_t>(audio.channel_layout()),
+                         FFmpegUtils::GetFFmpegSampleFormat(audio.format()), audio.sample_rate(), 0, nullptr);
   if (!audio_resample_ctx_) {
     return false;
   }
@@ -881,80 +857,78 @@ bool FFmpegEncoder::InitializeResampleContext(const AudioParams &audio)
   return true;
 }
 
-const AVCodec *FFmpegEncoder::GetEncoder(ExportCodec::Codec c, SampleFormat aformat)
-{
+const AVCodec* FFmpegEncoder::GetEncoder(ExportCodec::Codec c, SampleFormat aformat) {
   switch (c) {
-  case ExportCodec::kCodecH264:
-    return avcodec_find_encoder_by_name("libx264");
-  case ExportCodec::kCodecH264rgb:
-    return avcodec_find_encoder_by_name("libx264rgb");
-  case ExportCodec::kCodecDNxHD:
-    return avcodec_find_encoder(AV_CODEC_ID_DNXHD);
-  case ExportCodec::kCodecProRes:
-    return avcodec_find_encoder(AV_CODEC_ID_PRORES);
+    case ExportCodec::kCodecH264:
+      return avcodec_find_encoder_by_name("libx264");
+    case ExportCodec::kCodecH264rgb:
+      return avcodec_find_encoder_by_name("libx264rgb");
+    case ExportCodec::kCodecDNxHD:
+      return avcodec_find_encoder(AV_CODEC_ID_DNXHD);
+    case ExportCodec::kCodecProRes:
+      return avcodec_find_encoder(AV_CODEC_ID_PRORES);
     case ExportCodec::kCodecCineform:
-    return avcodec_find_encoder(AV_CODEC_ID_CFHD);
-  case ExportCodec::kCodecH265:
-    return avcodec_find_encoder(AV_CODEC_ID_HEVC);
-  case ExportCodec::kCodecVP9:
-    return avcodec_find_encoder(AV_CODEC_ID_VP9);
-  case ExportCodec::kCodecAV1: {
-    const AVCodec *encoder = avcodec_find_encoder_by_name("libsvtav1");
-    if(!encoder)
-      encoder = avcodec_find_encoder(AV_CODEC_ID_AV1);
-    return encoder;
-  }
-  case ExportCodec::kCodecOpenEXR:
-    return avcodec_find_encoder(AV_CODEC_ID_EXR);
-  case ExportCodec::kCodecPNG:
-    return avcodec_find_encoder(AV_CODEC_ID_PNG);
-  case ExportCodec::kCodecTIFF:
-    return avcodec_find_encoder(AV_CODEC_ID_TIFF);
-  case ExportCodec::kCodecMP2:
-    return avcodec_find_encoder(AV_CODEC_ID_MP2);
-  case ExportCodec::kCodecMP3:
-    return avcodec_find_encoder(AV_CODEC_ID_MP3);
-  case ExportCodec::kCodecAAC:
-    return avcodec_find_encoder(AV_CODEC_ID_AAC);
-  case ExportCodec::kCodecPCM:
-    switch (aformat) {
-    case SampleFormat::INVALID:
-    case SampleFormat::COUNT:
-    case SampleFormat::U8P:
-    case SampleFormat::S16P:
-    case SampleFormat::S32P:
-    case SampleFormat::S64P:
-    case SampleFormat::F32P:
-    case SampleFormat::F64P:
-      break;
-    case SampleFormat::U8:
-      return avcodec_find_encoder(AV_CODEC_ID_PCM_U8);
-    case SampleFormat::S16:
-      return avcodec_find_encoder(AV_CODEC_ID_PCM_S16LE);
-    case SampleFormat::S32:
-      return avcodec_find_encoder(AV_CODEC_ID_PCM_S32LE);
-    case SampleFormat::S64:
-      return avcodec_find_encoder(AV_CODEC_ID_PCM_S64LE);
-    case SampleFormat::F32:
-      return avcodec_find_encoder(AV_CODEC_ID_PCM_F32LE);
-    case SampleFormat::F64:
-      return avcodec_find_encoder(AV_CODEC_ID_PCM_F64LE);
+      return avcodec_find_encoder(AV_CODEC_ID_CFHD);
+    case ExportCodec::kCodecH265:
+      return avcodec_find_encoder(AV_CODEC_ID_HEVC);
+    case ExportCodec::kCodecVP9:
+      return avcodec_find_encoder(AV_CODEC_ID_VP9);
+    case ExportCodec::kCodecAV1: {
+      const AVCodec* encoder = avcodec_find_encoder_by_name("libsvtav1");
+      if (!encoder) encoder = avcodec_find_encoder(AV_CODEC_ID_AV1);
+      return encoder;
     }
-    break;
-  case ExportCodec::kCodecFLAC:
-    return avcodec_find_encoder(AV_CODEC_ID_FLAC);
-  case ExportCodec::kCodecOpus:
-    return avcodec_find_encoder(AV_CODEC_ID_OPUS);
-  case ExportCodec::kCodecVorbis:
-    return avcodec_find_encoder(AV_CODEC_ID_VORBIS);
-  case ExportCodec::kCodecSRT:
-    return avcodec_find_encoder(AV_CODEC_ID_SUBRIP);
-  case ExportCodec::kCodecCount:
-    // These are audio or invalid codecs and therefore have no pixel formats
-    break;
+    case ExportCodec::kCodecOpenEXR:
+      return avcodec_find_encoder(AV_CODEC_ID_EXR);
+    case ExportCodec::kCodecPNG:
+      return avcodec_find_encoder(AV_CODEC_ID_PNG);
+    case ExportCodec::kCodecTIFF:
+      return avcodec_find_encoder(AV_CODEC_ID_TIFF);
+    case ExportCodec::kCodecMP2:
+      return avcodec_find_encoder(AV_CODEC_ID_MP2);
+    case ExportCodec::kCodecMP3:
+      return avcodec_find_encoder(AV_CODEC_ID_MP3);
+    case ExportCodec::kCodecAAC:
+      return avcodec_find_encoder(AV_CODEC_ID_AAC);
+    case ExportCodec::kCodecPCM:
+      switch (aformat) {
+        case SampleFormat::INVALID:
+        case SampleFormat::COUNT:
+        case SampleFormat::U8P:
+        case SampleFormat::S16P:
+        case SampleFormat::S32P:
+        case SampleFormat::S64P:
+        case SampleFormat::F32P:
+        case SampleFormat::F64P:
+          break;
+        case SampleFormat::U8:
+          return avcodec_find_encoder(AV_CODEC_ID_PCM_U8);
+        case SampleFormat::S16:
+          return avcodec_find_encoder(AV_CODEC_ID_PCM_S16LE);
+        case SampleFormat::S32:
+          return avcodec_find_encoder(AV_CODEC_ID_PCM_S32LE);
+        case SampleFormat::S64:
+          return avcodec_find_encoder(AV_CODEC_ID_PCM_S64LE);
+        case SampleFormat::F32:
+          return avcodec_find_encoder(AV_CODEC_ID_PCM_F32LE);
+        case SampleFormat::F64:
+          return avcodec_find_encoder(AV_CODEC_ID_PCM_F64LE);
+      }
+      break;
+    case ExportCodec::kCodecFLAC:
+      return avcodec_find_encoder(AV_CODEC_ID_FLAC);
+    case ExportCodec::kCodecOpus:
+      return avcodec_find_encoder(AV_CODEC_ID_OPUS);
+    case ExportCodec::kCodecVorbis:
+      return avcodec_find_encoder(AV_CODEC_ID_VORBIS);
+    case ExportCodec::kCodecSRT:
+      return avcodec_find_encoder(AV_CODEC_ID_SUBRIP);
+    case ExportCodec::kCodecCount:
+      // These are audio or invalid codecs and therefore have no pixel formats
+      break;
   }
 
   return nullptr;
 }
 
-}
+}  // namespace olive

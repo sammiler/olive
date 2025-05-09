@@ -29,39 +29,24 @@ namespace olive {
 
 const int kDefaultColorCount = 16;
 const Color kDefaultColors[kDefaultColorCount] = {
-  Color(1.0, 1.0, 1.0),
-  Color(1.0, 1.0, 0.0),
-  Color(1.0, 0.5, 0.0),
-  Color(1.0, 0.0, 0.0),
-  Color(1.0, 0.0, 1.0),
-  Color(0.5, 0.0, 1.0),
-  Color(0.0, 0.0, 1.0),
-  Color(0.0, 0.5, 1.0),
-  Color(0.0, 1.0, 0.0),
-  Color(0.0, 0.5, 0.0),
-  Color(0.5, 0.25, 0.0),
-  Color(0.75, 0.5, 0.25),
-  Color(0.75, 0.75, 0.75),
-  Color(0.5, 0.5, 0.5),
-  Color(0.25, 0.25, 0.25),
-  Color(0.0, 0.0, 0.0)
-};
+    Color(1.0, 1.0, 1.0),    Color(1.0, 1.0, 0.0), Color(1.0, 0.5, 0.0),    Color(1.0, 0.0, 0.0),
+    Color(1.0, 0.0, 1.0),    Color(0.5, 0.0, 1.0), Color(0.0, 0.0, 1.0),    Color(0.0, 0.5, 1.0),
+    Color(0.0, 1.0, 0.0),    Color(0.0, 0.5, 0.0), Color(0.5, 0.25, 0.0),   Color(0.75, 0.5, 0.25),
+    Color(0.75, 0.75, 0.75), Color(0.5, 0.5, 0.5), Color(0.25, 0.25, 0.25), Color(0.0, 0.0, 0.0)};
 
-ColorSwatchChooser::ColorSwatchChooser(ColorManager *manager, QWidget *parent) :
-  QWidget(parent)
-{
+ColorSwatchChooser::ColorSwatchChooser(ColorManager *manager, QWidget *parent) : QWidget(parent) {
   auto layout = new QGridLayout(this);
 
-  for (int x=0; x<kColCount; x++) {
-    for (int y=0; y<kRowCount; y++) {
+  for (int x = 0; x < kColCount; x++) {
+    for (int y = 0; y < kRowCount; y++) {
       // Create button
       auto b = new ColorButton(manager, false);
-      b->setFixedWidth(b->sizeHint().height()/2*3);
+      b->setFixedWidth(b->sizeHint().height() / 2 * 3);
       b->setContextMenuPolicy(Qt::CustomContextMenu);
       layout->addWidget(b, y, x);
 
       // Save button in buttons array
-      int btn_index = x + kColCount*y;
+      int btn_index = x + kColCount * y;
       buttons_[btn_index] = b;
 
       // Set default color
@@ -76,8 +61,7 @@ ColorSwatchChooser::ColorSwatchChooser(ColorManager *manager, QWidget *parent) :
   LoadSwatches();
 }
 
-void ColorSwatchChooser::SetDefaultColor(int index)
-{
+void ColorSwatchChooser::SetDefaultColor(int index) {
   if (index < kDefaultColorCount) {
     buttons_[index]->SetColor(kDefaultColors[index]);
   } else {
@@ -85,16 +69,14 @@ void ColorSwatchChooser::SetDefaultColor(int index)
   }
 }
 
-void ColorSwatchChooser::HandleButtonClick()
-{
-  auto b = static_cast<ColorButton*>(sender());
+void ColorSwatchChooser::HandleButtonClick() {
+  auto b = static_cast<ColorButton *>(sender());
 
   emit ColorClicked(b->GetColor());
   SetCurrentColor(b->GetColor());
 }
 
-void ColorSwatchChooser::HandleContextMenu()
-{
+void ColorSwatchChooser::HandleContextMenu() {
   Menu m(this);
 
   auto save_action = m.addAction(tr("Save Color Here"));
@@ -105,21 +87,19 @@ void ColorSwatchChooser::HandleContextMenu()
   auto reset_action = m.addAction(tr("Reset To Default"));
   connect(reset_action, &QAction::triggered, this, &ColorSwatchChooser::ResetMenuButton);
 
-  menu_btn_ = static_cast<ColorButton*>(sender());
+  menu_btn_ = static_cast<ColorButton *>(sender());
 
   m.exec(QCursor::pos());
 }
 
-void ColorSwatchChooser::SaveCurrentColor()
-{
+void ColorSwatchChooser::SaveCurrentColor() {
   menu_btn_->SetColor(current_);
 
   SaveSwatches();
 }
 
-void ColorSwatchChooser::ResetMenuButton()
-{
-  for (int i=0; i<kBtnCount; i++) {
+void ColorSwatchChooser::ResetMenuButton() {
+  for (int i = 0; i < kBtnCount; i++) {
     if (buttons_[i] == menu_btn_) {
       SetDefaultColor(i);
       break;
@@ -127,13 +107,11 @@ void ColorSwatchChooser::ResetMenuButton()
   }
 }
 
-QString ColorSwatchChooser::GetSwatchFilename()
-{
+QString ColorSwatchChooser::GetSwatchFilename() {
   return QDir(FileFunctions::GetConfigurationLocation()).filePath(QStringLiteral("swatch"));
 }
 
-void ColorSwatchChooser::LoadSwatches()
-{
+void ColorSwatchChooser::LoadSwatches() {
   QFile f(GetSwatchFilename());
   if (f.open(QFile::ReadOnly)) {
     QDataStream d(&f);
@@ -186,8 +164,7 @@ void ColorSwatchChooser::LoadSwatches()
   }
 }
 
-void ColorSwatchChooser::SaveSwatches()
-{
+void ColorSwatchChooser::SaveSwatches() {
   QString fn = GetSwatchFilename();
   QFile f(fn);
 
@@ -197,7 +174,7 @@ void ColorSwatchChooser::SaveSwatches()
     const uint version = 1;
     d << version;
 
-    for (int i=0; i<kBtnCount; i++) {
+    for (int i = 0; i < kBtnCount; i++) {
       const ManagedColor &c = buttons_[i]->GetColor();
       d << c.red();
       d << c.green();
@@ -220,4 +197,4 @@ void ColorSwatchChooser::SaveSwatches()
   }
 }
 
-}
+}  // namespace olive

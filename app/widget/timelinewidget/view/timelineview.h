@@ -21,15 +21,15 @@
 #ifndef TIMELINEVIEW_H
 #define TIMELINEVIEW_H
 
-#include <QGraphicsView>
 #include <QDragEnterEvent>
-#include <QDragMoveEvent>
 #include <QDragLeaveEvent>
+#include <QDragMoveEvent>
 #include <QDropEvent>
+#include <QGraphicsView>
 
 #include "node/block/clip/clip.h"
-#include "timelineviewmouseevent.h"
 #include "timelineviewghostitem.h"
+#include "timelineviewmouseevent.h"
 #include "widget/timebased/timebasedview.h"
 
 namespace olive {
@@ -39,54 +39,46 @@ namespace olive {
  *
  * This widget primarily exposes users to viewing and modifying Block nodes, usually through a TimelineOutput node.
  */
-class TimelineView : public TimeBasedView
-{
+class TimelineView : public TimeBasedView {
   Q_OBJECT
-public:
-  TimelineView(Qt::Alignment vertical_alignment = Qt::AlignTop,
-               QWidget* parent = nullptr);
+ public:
+  TimelineView(Qt::Alignment vertical_alignment = Qt::AlignTop, QWidget *parent = nullptr);
 
   int GetTrackY(int track_index) const;
   int GetTrackHeight(int track_index) const;
 
   QPoint GetScrollCoordinates() const;
-  void SetScrollCoordinates(const QPoint& pt);
+  void SetScrollCoordinates(const QPoint &pt);
 
-  void ConnectTrackList(TrackList* list);
+  void ConnectTrackList(TrackList *list);
 
-  void SetBeamCursor(const TimelineCoordinate& coord);
+  void SetBeamCursor(const TimelineCoordinate &coord);
   void SetTransitionOverlay(ClipBlock *out, ClipBlock *in);
   void EnableRecordingOverlay(const TimelineCoordinate &coord);
   void DisableRecordingOverlay();
 
-  void SetSelectionList(QHash<Track::Reference, TimeRangeList>* s)
-  {
-    selections_ = s;
-  }
+  void SetSelectionList(QHash<Track::Reference, TimeRangeList> *s) { selections_ = s; }
 
-  void SetGhostList(QVector<TimelineViewGhostItem*>* ghosts)
-  {
-    ghosts_ = ghosts;
-  }
+  void SetGhostList(QVector<TimelineViewGhostItem *> *ghosts) { ghosts_ = ghosts; }
 
   int SceneToTrack(double y);
 
-  Block* GetItemAtScenePos(const rational& time, int track_index) const;
+  Block *GetItemAtScenePos(const rational &time, int track_index) const;
 
-  QVector<Block*> GetItemsAtSceneRect(const QRectF &rect) const;
+  QVector<Block *> GetItemsAtSceneRect(const QRectF &rect) const;
 
-signals:
-  void MousePressed(TimelineViewMouseEvent* event);
-  void MouseMoved(TimelineViewMouseEvent* event);
-  void MouseReleased(TimelineViewMouseEvent* event);
-  void MouseDoubleClicked(TimelineViewMouseEvent* event);
+ signals:
+  void MousePressed(TimelineViewMouseEvent *event);
+  void MouseMoved(TimelineViewMouseEvent *event);
+  void MouseReleased(TimelineViewMouseEvent *event);
+  void MouseDoubleClicked(TimelineViewMouseEvent *event);
 
-  void DragEntered(TimelineViewMouseEvent* event);
-  void DragMoved(TimelineViewMouseEvent* event);
-  void DragLeft(QDragLeaveEvent* event);
-  void DragDropped(TimelineViewMouseEvent* event);
+  void DragEntered(TimelineViewMouseEvent *event);
+  void DragMoved(TimelineViewMouseEvent *event);
+  void DragLeft(QDragLeaveEvent *event);
+  void DragDropped(TimelineViewMouseEvent *event);
 
-protected:
+ protected:
   virtual void mousePressEvent(QMouseEvent *event) override;
   virtual void mouseMoveEvent(QMouseEvent *event) override;
   virtual void mouseReleaseEvent(QMouseEvent *event) override;
@@ -102,23 +94,23 @@ protected:
 
   virtual void ToolChangedEvent(Tool::Item tool) override;
 
-  virtual void SceneRectUpdateEvent(QRectF& rect) override;
+  virtual void SceneRectUpdateEvent(QRectF &rect) override;
 
-private:
+ private:
   Track::Type ConnectedTrackType();
 
-  TimelineCoordinate ScreenToCoordinate(const QPoint& pt);
-  TimelineCoordinate SceneToCoordinate(const QPointF& pt);
+  TimelineCoordinate ScreenToCoordinate(const QPoint &pt);
+  TimelineCoordinate SceneToCoordinate(const QPointF &pt);
 
-  TimelineViewMouseEvent CreateMouseEvent(QMouseEvent* event);
+  TimelineViewMouseEvent CreateMouseEvent(QMouseEvent *event);
   TimelineViewMouseEvent CreateMouseEvent(const QPoint &pos, Qt::MouseButton button, Qt::KeyboardModifiers modifiers);
 
-  void DrawBlocks(QPainter* painter, bool foreground);
+  void DrawBlocks(QPainter *painter, bool foreground);
 
-  void DrawBlock(QPainter *painter, bool foreground, Block *block, qreal top, qreal height, const rational &in, const rational &out, const rational &media_in);
-  void DrawBlock(QPainter *painter, bool foreground, Block *block, qreal top, qreal height)
-  {
-    ClipBlock *cb = dynamic_cast<ClipBlock*>(block);
+  void DrawBlock(QPainter *painter, bool foreground, Block *block, qreal top, qreal height, const rational &in,
+                 const rational &out, const rational &media_in);
+  void DrawBlock(QPainter *painter, bool foreground, Block *block, qreal top, qreal height) {
+    ClipBlock *cb = dynamic_cast<ClipBlock *>(block);
     return DrawBlock(painter, foreground, block, top, height, block->in(), block->out(), cb ? cb->media_in() : 0);
   }
 
@@ -132,31 +124,31 @@ private:
 
   qreal GetTimelineRightBound() const;
 
-  void DrawThumbnail(QPainter *painter, const FrameHashCache *thumbs, const rational &time, int x, const QRect &preview_rect, QRect *thumb_rect) const;
+  void DrawThumbnail(QPainter *painter, const FrameHashCache *thumbs, const rational &time, int x,
+                     const QRect &preview_rect, QRect *thumb_rect) const;
 
-  QHash<Track::Reference, TimeRangeList>* selections_;
+  QHash<Track::Reference, TimeRangeList> *selections_;
 
-  QVector<TimelineViewGhostItem*>* ghosts_;
+  QVector<TimelineViewGhostItem *> *ghosts_;
 
   bool show_beam_cursor_;
 
   TimelineCoordinate cursor_coord_;
 
-  TrackList* connected_track_list_;
+  TrackList *connected_track_list_;
 
   ClipBlock *transition_overlay_out_;
   ClipBlock *transition_overlay_in_;
 
-  QMap<TimelineMarker*, QRectF> clip_marker_rects_;
+  QMap<TimelineMarker *, QRectF> clip_marker_rects_;
 
   bool recording_overlay_;
   TimelineCoordinate recording_coord_;
 
-private slots:
+ private slots:
   void TrackListChanged();
-
 };
 
-}
+}  // namespace olive
 
-#endif // TIMELINEVIEW_H
+#endif  // TIMELINEVIEW_H

@@ -25,20 +25,19 @@
 
 namespace olive {
 
-class ColorGradientWidget : public ColorSwatchWidget
-{
+class ColorGradientWidget : public ColorSwatchWidget {
   Q_OBJECT
-public:
+ public:
   ColorGradientWidget(Qt::Orientation orientation, QWidget* parent = nullptr);
 
-protected:
+ protected:
   virtual Color GetColorFromScreenPos(const QPoint& p) const override;
 
   virtual void paintEvent(QPaintEvent* e) override;
 
   virtual void SelectedColorChangedEvent(const Color& c, bool external) override;
 
-private:
+ private:
   static Color LerpColor(const Color& a, const Color& b, int i, int max);
 
   QPixmap cached_gradient_;
@@ -50,9 +49,8 @@ private:
   Color end_;
 
   float val_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // COLORGRADIENTGLWIDGET_H
+#endif  // COLORGRADIENTGLWIDGET_H

@@ -24,8 +24,8 @@
 #include <QDateTime>
 #include <QDebug>
 #include <QScreen>
-#include <QtMath>
 #include <QVBoxLayout>
+#include <QtMath>
 
 #ifdef Q_OS_MAC
 #include <ApplicationServices/ApplicationServices.h>
@@ -37,10 +37,9 @@
 
 namespace olive {
 
-SliderLadder::SliderLadder(double drag_multiplier, int nb_outer_values, QString width_hint, QWidget* parent) :
-  QFrame(parent, Qt::Popup)
-{
-  QVBoxLayout* layout = new QVBoxLayout(this);
+SliderLadder::SliderLadder(double drag_multiplier, int nb_outer_values, QString width_hint, QWidget *parent)
+    : QFrame(parent, Qt::Popup) {
+  QVBoxLayout *layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
   layout->setSpacing(0);
 
@@ -51,21 +50,21 @@ SliderLadder::SliderLadder(double drag_multiplier, int nb_outer_values, QString 
     nb_outer_values = 0;
   }
 
-  for (int i=nb_outer_values-1;i>=0;i--) {
+  for (int i = nb_outer_values - 1; i >= 0; i--) {
     elements_.append(new SliderLadderElement(qPow(10, i + 1) * drag_multiplier, width_hint));
   }
 
   // Create center entry
-  SliderLadderElement* start_element = new SliderLadderElement(drag_multiplier, width_hint);
+  SliderLadderElement *start_element = new SliderLadderElement(drag_multiplier, width_hint);
   active_element_ = elements_.size();
   start_element->SetHighlighted(true);
   elements_.append(start_element);
 
-  for (int i=0;i<nb_outer_values;i++) {
+  for (int i = 0; i < nb_outer_values; i++) {
     elements_.append(new SliderLadderElement(qPow(10, -i - 1) * drag_multiplier, width_hint));
   }
 
-  foreach (SliderLadderElement* e, elements_) {
+  foreach (SliderLadderElement *e, elements_) {
     layout->addWidget(e);
   }
 
@@ -96,13 +95,12 @@ SliderLadder::SliderLadder(double drag_multiplier, int nb_outer_values, QString 
     drag_start_x_ = QCursor::pos().x();
     drag_start_y_ = QCursor::pos().y();
 
-    static_cast<QGuiApplication*>(QApplication::instance())->setOverrideCursor(Qt::BlankCursor);
+    static_cast<QGuiApplication *>(QApplication::instance())->setOverrideCursor(Qt::BlankCursor);
 #endif
   }
 }
 
-SliderLadder::~SliderLadder()
-{
+SliderLadder::~SliderLadder() {
   if (UsingLadders()) {
     if (wrap_count_ != 0) {
       // If wrapped, restore cursor to ladder
@@ -113,32 +111,28 @@ SliderLadder::~SliderLadder()
     CGAssociateMouseAndMouseCursorPosition(true);
     CGDisplayShowCursor(kCGDirectMainDisplay);
 #else
-    static_cast<QGuiApplication*>(QApplication::instance())->restoreOverrideCursor();
+    static_cast<QGuiApplication *>(QApplication::instance())->restoreOverrideCursor();
 #endif
   }
 }
 
-void SliderLadder::SetValue(const QString &s)
-{
-  foreach (SliderLadderElement* e, elements_) {
+void SliderLadder::SetValue(const QString &s) {
+  foreach (SliderLadderElement *e, elements_) {
     e->SetValue(s);
   }
 }
 
-void SliderLadder::StartListeningToMouseInput()
-{
+void SliderLadder::StartListeningToMouseInput() {
   QMetaObject::invokeMethod(&drag_timer_, "start", Qt::QueuedConnection);
 }
 
-void SliderLadder::mouseReleaseEvent(QMouseEvent *event)
-{
+void SliderLadder::mouseReleaseEvent(QMouseEvent *event) {
   Q_UNUSED(event)
 
   this->close();
 }
 
-void SliderLadder::closeEvent(QCloseEvent *event)
-{
+void SliderLadder::closeEvent(QCloseEvent *event) {
   Q_UNUSED(event)
 
   drag_timer_.stop();
@@ -148,19 +142,16 @@ void SliderLadder::closeEvent(QCloseEvent *event)
   QFrame::closeEvent(event);
 }
 
-void SliderLadder::TimerUpdate()
-{
+void SliderLadder::TimerUpdate() {
   int ladder_left = this->x();
   int ladder_right = this->x() + this->width() - 1;
   int now_pos = QCursor::pos().x();
 
   if (UsingLadders()) {
-
     bool is_under_mouse = (now_pos >= ladder_left && now_pos <= ladder_right && wrap_count_ == 0);
 
-    if (drag_start_x_ != -1 && (is_under_mouse
-        || (drag_start_x_ < ladder_left && now_pos > ladder_right)
-        || (drag_start_x_ > ladder_right && now_pos < ladder_left))) {
+    if (drag_start_x_ != -1 && (is_under_mouse || (drag_start_x_ < ladder_left && now_pos > ladder_right) ||
+                                (drag_start_x_ > ladder_right && now_pos < ladder_left))) {
       // We're ending a drag, try to return the value back to its beginning
       int anchor;
 
@@ -177,9 +168,8 @@ void SliderLadder::TimerUpdate()
     }
 
     if (is_under_mouse) {
-
       // Determine which element is currently active
-      for (int i=0; i<elements_.size(); i++) {
+      for (int i = 0; i < elements_.size(); i++) {
         if (elements_.at(i)->underMouse()) {
           if (i != active_element_) {
             elements_.at(active_element_)->SetHighlighted(false);
@@ -192,7 +182,6 @@ void SliderLadder::TimerUpdate()
       }
 
     } else {
-
       if (drag_start_x_ == -1) {
         // Drag is a new leave from the ladder, calculate origin
         if (now_pos < ladder_left) {
@@ -231,7 +220,6 @@ void SliderLadder::TimerUpdate()
       }
 
       drag_start_x_ = now_pos;
-
     }
 
   } else {
@@ -265,18 +253,11 @@ void SliderLadder::TimerUpdate()
   }
 }
 
-bool SliderLadder::UsingLadders() const
-{
-  return elements_.size() > 1;
-}
+bool SliderLadder::UsingLadders() const { return elements_.size() > 1; }
 
-SliderLadderElement::SliderLadderElement(const double &multiplier, QString width_hint, QWidget *parent) :
-  QWidget(parent),
-  multiplier_(multiplier),
-  highlighted_(false),
-  multiplier_visible_(true)
-{
-  QVBoxLayout* layout = new QVBoxLayout(this);
+SliderLadderElement::SliderLadderElement(const double &multiplier, QString width_hint, QWidget *parent)
+    : QWidget(parent), multiplier_(multiplier), highlighted_(false), multiplier_visible_(true) {
+  QVBoxLayout *layout = new QVBoxLayout(this);
 
   label_ = new QLabel();
   label_->setAlignment(Qt::AlignCenter);
@@ -294,8 +275,7 @@ SliderLadderElement::SliderLadderElement(const double &multiplier, QString width
   UpdateLabel();
 }
 
-void SliderLadderElement::SetHighlighted(bool e)
-{
+void SliderLadderElement::SetHighlighted(bool e) {
   highlighted_ = e;
 
   if (highlighted_) {
@@ -307,22 +287,19 @@ void SliderLadderElement::SetHighlighted(bool e)
   UpdateLabel();
 }
 
-void SliderLadderElement::SetValue(const QString &value)
-{
+void SliderLadderElement::SetValue(const QString &value) {
   value_ = value;
 
   UpdateLabel();
 }
 
-void SliderLadderElement::SetMultiplierVisible(bool e)
-{
+void SliderLadderElement::SetMultiplierVisible(bool e) {
   multiplier_visible_ = e;
 
   UpdateLabel();
 }
 
-void SliderLadderElement::UpdateLabel()
-{
+void SliderLadderElement::UpdateLabel() {
   if (multiplier_visible_) {
     QString val_text;
 
@@ -330,11 +307,10 @@ void SliderLadderElement::UpdateLabel()
       val_text = value_;
     }
 
-    label_->setText(QStringLiteral("%1\n%2").arg(QString::number(multiplier_),
-                                                 val_text));
+    label_->setText(QStringLiteral("%1\n%2").arg(QString::number(multiplier_), val_text));
   } else {
     label_->setText(value_);
   }
 }
 
-}
+}  // namespace olive

@@ -20,17 +20,15 @@
 
 #include "projecttoolbar.h"
 
-#include <QHBoxLayout>
-#include <QEvent>
 #include <QButtonGroup>
+#include <QEvent>
+#include <QHBoxLayout>
 
 #include "ui/icons/icons.h"
 
 namespace olive {
 
-ProjectToolbar::ProjectToolbar(QWidget *parent) :
-  QWidget(parent)
-{
+ProjectToolbar::ProjectToolbar(QWidget* parent) : QWidget(parent) {
   QHBoxLayout* layout = new QHBoxLayout(this);
   layout->setSpacing(0);
   layout->setContentsMargins(0, 0, 0, 0);
@@ -78,23 +76,21 @@ ProjectToolbar::ProjectToolbar(QWidget *parent) :
   UpdateIcons();
 }
 
-void ProjectToolbar::SetView(ViewType type)
-{
+void ProjectToolbar::SetView(ViewType type) {
   switch (type) {
-  case TreeView:
-    tree_button_->setChecked(true);
-    break;
-  case IconView:
-    icon_button_->setChecked(true);
-    break;
-  case ListView:
-    list_button_->setChecked(true);
-    break;
+    case TreeView:
+      tree_button_->setChecked(true);
+      break;
+    case IconView:
+      icon_button_->setChecked(true);
+      break;
+    case ListView:
+      list_button_->setChecked(true);
+      break;
   }
 }
 
-void ProjectToolbar::changeEvent(QEvent *e)
-{
+void ProjectToolbar::changeEvent(QEvent* e) {
   if (e->type() == QEvent::LanguageChange) {
     Retranslate();
   } else if (e->type() == QEvent::StyleChange) {
@@ -103,8 +99,7 @@ void ProjectToolbar::changeEvent(QEvent *e)
   QWidget::changeEvent(e);
 }
 
-void ProjectToolbar::Retranslate()
-{
+void ProjectToolbar::Retranslate() {
   new_button_->setToolTip(tr("New..."));
   open_button_->setToolTip(tr("Open Project"));
   save_button_->setToolTip(tr("Save Project"));
@@ -116,8 +111,7 @@ void ProjectToolbar::Retranslate()
   icon_button_->setToolTip(tr("Icon View"));
 }
 
-void ProjectToolbar::UpdateIcons()
-{
+void ProjectToolbar::UpdateIcons() {
   new_button_->setIcon(icon::New);
   open_button_->setIcon(icon::Open);
   save_button_->setIcon(icon::Save);
@@ -126,8 +120,7 @@ void ProjectToolbar::UpdateIcons()
   icon_button_->setIcon(icon::IconView);
 }
 
-void ProjectToolbar::ViewButtonClicked()
-{
+void ProjectToolbar::ViewButtonClicked() {
   // Determine which view button triggered this slot and emit a signal accordingly
   if (sender() == tree_button_) {
     emit ViewChanged(ProjectToolbar::TreeView);
@@ -141,4 +134,4 @@ void ProjectToolbar::ViewButtonClicked()
   }
 }
 
-}
+}  // namespace olive

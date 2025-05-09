@@ -25,16 +25,15 @@
 
 namespace olive {
 
-class SlideTool : public PointerTool
-{
-public:
+class SlideTool : public PointerTool {
+ public:
   SlideTool(TimelineWidget* parent);
 
-protected:
-  virtual void InitiateDrag(Block* clicked_item, Timeline::MovementMode trim_mode, Qt::KeyboardModifiers modifiers) override;
-
+ protected:
+  virtual void InitiateDrag(Block* clicked_item, Timeline::MovementMode trim_mode,
+                            Qt::KeyboardModifiers modifiers) override;
 };
 
-}
+}  // namespace olive
 
-#endif // SLIDETIMELINETOOL_H
+#endif  // SLIDETIMELINETOOL_H

@@ -27,8 +27,7 @@
 
 namespace olive {
 
-void PlaybackCache::Invalidate(const TimeRange &r)
-{
+void PlaybackCache::Invalidate(const TimeRange &r) {
   if (r.in() == r.out()) {
     qWarning() << "Tried to invalidate zero-length range";
     return;
@@ -49,23 +48,15 @@ void PlaybackCache::Invalidate(const TimeRange &r)
   }
 }
 
-Node *PlaybackCache::parent() const
-{
-  return dynamic_cast<Node*>(QObject::parent());
-}
+Node *PlaybackCache::parent() const { return dynamic_cast<Node *>(QObject::parent()); }
 
-QDir PlaybackCache::GetThisCacheDirectory() const
-{
-  return GetThisCacheDirectory(GetCacheDirectory(), GetUuid());
-}
+QDir PlaybackCache::GetThisCacheDirectory() const { return GetThisCacheDirectory(GetCacheDirectory(), GetUuid()); }
 
-QDir PlaybackCache::GetThisCacheDirectory(const QString &cache_path, const QUuid &cache_id)
-{
+QDir PlaybackCache::GetThisCacheDirectory(const QString &cache_path, const QUuid &cache_id) {
   return QDir(cache_path).filePath(cache_id.toString());
 }
 
-void PlaybackCache::LoadState()
-{
+void PlaybackCache::LoadState() {
   QDir cache_dir = GetThisCacheDirectory();
   QFile f(cache_dir.filePath(QStringLiteral("state")));
 
@@ -86,40 +77,39 @@ void PlaybackCache::LoadState()
     LoadStateEvent(s);
 
     switch (version) {
-    case 1:
-    {
-      int valid_count, pass_count;
+      case 1: {
+        int valid_count, pass_count;
 
-      s >> valid_count;
-      for (int i=0; i<valid_count; i++) {
-        int in_num, in_den, out_num, out_den;
+        s >> valid_count;
+        for (int i = 0; i < valid_count; i++) {
+          int in_num, in_den, out_num, out_den;
 
-        s >> in_num;
-        s >> in_den;
-        s >> out_num;
-        s >> out_den;
+          s >> in_num;
+          s >> in_den;
+          s >> out_num;
+          s >> out_den;
 
-        validated_.insert(TimeRange(rational(in_num, in_den), rational(out_num, out_den)));
+          validated_.insert(TimeRange(rational(in_num, in_den), rational(out_num, out_den)));
+        }
+
+        s >> pass_count;
+        for (int i = 0; i < pass_count; i++) {
+          QUuid id;
+          int in_num, in_den, out_num, out_den;
+
+          s >> in_num;
+          s >> in_den;
+          s >> out_num;
+          s >> out_den;
+          s >> id;
+
+          Passthrough p = TimeRange(rational(in_num, in_den), rational(out_num, out_den));
+          p.cache = id;
+          passthroughs_.push_back(p);
+        }
+
+        break;
       }
-
-      s >> pass_count;
-      for (int i=0; i<pass_count; i++) {
-        QUuid id;
-        int in_num, in_den, out_num, out_den;
-
-        s >> in_num;
-        s >> in_den;
-        s >> out_num;
-        s >> out_den;
-        s >> id;
-
-        Passthrough p = TimeRange(rational(in_num, in_den), rational(out_num, out_den));
-        p.cache = id;
-        passthroughs_.push_back(p);
-      }
-
-      break;
-    }
     }
 
     f.close();
@@ -128,8 +118,7 @@ void PlaybackCache::LoadState()
   }
 }
 
-void PlaybackCache::SaveState()
-{
+void PlaybackCache::SaveState() {
   if (!DiskManager::instance()) {
     return;
   }
@@ -179,11 +168,10 @@ void PlaybackCache::SaveState()
   }
 }
 
-void PlaybackCache::Draw(QPainter *p, const rational &start, double scale, const QRect &rect) const
-{
+void PlaybackCache::Draw(QPainter *p, const rational &start, double scale, const QRect &rect) const {
   p->fillRect(rect, Qt::red);
 
-  foreach (const TimeRange& range, GetValidatedRanges()) {
+  foreach (const TimeRange &range, GetValidatedRanges()) {
     int range_left = rect.left() + (range.in() - start).toDouble() * scale;
     if (range_left >= rect.right()) {
       continue;
@@ -197,16 +185,11 @@ void PlaybackCache::Draw(QPainter *p, const rational &start, double scale, const
     int adjusted_left = std::max(range_left, rect.left());
     int adjusted_right = std::min(range_right, rect.right());
 
-    p->fillRect(adjusted_left,
-                rect.top(),
-                adjusted_right - adjusted_left,
-                rect.height(),
-                Qt::green);
+    p->fillRect(adjusted_left, rect.top(), adjusted_right - adjusted_left, rect.height(), Qt::green);
   }
 }
 
-void PlaybackCache::SetPassthrough(PlaybackCache *cache)
-{
+void PlaybackCache::SetPassthrough(PlaybackCache *cache) {
   for (const TimeRange &r : cache->GetValidatedRanges()) {
     Passthrough p = r;
     p.cache = cache->GetUuid();
@@ -220,21 +203,16 @@ void PlaybackCache::SetPassthrough(PlaybackCache *cache)
   }
 }
 
-void PlaybackCache::InvalidateAll()
-{
-  Invalidate(TimeRange(0, RATIONAL_MAX));
-}
+void PlaybackCache::InvalidateAll() { Invalidate(TimeRange(0, RATIONAL_MAX)); }
 
-void PlaybackCache::Request(ViewerOutput *context, const TimeRange &r)
-{
+void PlaybackCache::Request(ViewerOutput *context, const TimeRange &r) {
   request_context_ = context;
   requested_.insert(r);
 
   emit Requested(request_context_, r);
 }
 
-void PlaybackCache::Validate(const TimeRange &r, bool signal)
-{
+void PlaybackCache::Validate(const TimeRange &r, bool signal) {
   validated_.insert(r);
 
   if (signal) {
@@ -246,32 +224,21 @@ void PlaybackCache::Validate(const TimeRange &r, bool signal)
   }
 }
 
-void PlaybackCache::InvalidateEvent(const TimeRange &)
-{
-}
+void PlaybackCache::InvalidateEvent(const TimeRange &) {}
 
-Project *PlaybackCache::GetProject() const
-{
-  return Project::GetProjectFromObject(this);
-}
+Project *PlaybackCache::GetProject() const { return Project::GetProjectFromObject(this); }
 
-PlaybackCache::PlaybackCache(QObject *parent) :
-  QObject(parent),
-  saving_enabled_(true),
-  last_loaded_state_(0)
-{
+PlaybackCache::PlaybackCache(QObject *parent) : QObject(parent), saving_enabled_(true), last_loaded_state_(0) {
   uuid_ = QUuid::createUuid();
 }
 
-void PlaybackCache::SetUuid(const QUuid &u)
-{
+void PlaybackCache::SetUuid(const QUuid &u) {
   uuid_ = u;
 
   LoadState();
 }
 
-TimeRangeList PlaybackCache::GetInvalidatedRanges(TimeRange intersecting) const
-{
+TimeRangeList PlaybackCache::GetInvalidatedRanges(TimeRange intersecting) const {
   TimeRangeList invalidated;
 
   // Prevent TimeRange from being below 0, some other behavior in Olive relies on this behavior
@@ -292,14 +259,12 @@ TimeRangeList PlaybackCache::GetInvalidatedRanges(TimeRange intersecting) const
   return invalidated;
 }
 
-bool PlaybackCache::HasInvalidatedRanges(const TimeRange &intersecting) const
-{
+bool PlaybackCache::HasInvalidatedRanges(const TimeRange &intersecting) const {
   return !validated_.contains(intersecting);
 }
 
-QString PlaybackCache::GetCacheDirectory() const
-{
-  Project* project = GetProject();
+QString PlaybackCache::GetCacheDirectory() const {
+  Project *project = GetProject();
 
   if (project) {
     return project->cache_path();
@@ -308,4 +273,4 @@ QString PlaybackCache::GetCacheDirectory() const
   }
 }
 
-}
+}  // namespace olive

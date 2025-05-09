@@ -25,21 +25,19 @@
 
 namespace olive {
 
-class WaveformScope : public ScopeBase
-{
+class WaveformScope : public ScopeBase {
   Q_OBJECT
-public:
+ public:
   WaveformScope(QWidget* parent = nullptr);
 
   MANAGEDDISPLAYWIDGET_DEFAULT_DESTRUCTOR(WaveformScope)
 
-protected:
+ protected:
   virtual ShaderCode GenerateShaderCode() override;
 
   virtual void DrawScope(TexturePtr managed_tex, QVariant pipeline) override;
-
 };
 
-}
+}  // namespace olive
 
-#endif // WAVEFORMSCOPE_H
+#endif  // WAVEFORMSCOPE_H

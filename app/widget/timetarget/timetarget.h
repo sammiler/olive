@@ -25,9 +25,8 @@
 
 namespace olive {
 
-class TimeTargetObject
-{
-public:
+class TimeTargetObject {
+ public:
   TimeTargetObject();
 
   ViewerOutput* GetTimeTarget() const;
@@ -38,20 +37,19 @@ public:
   rational GetAdjustedTime(Node* from, Node* to, const rational& r, Node::TransformTimeDirection dir) const;
   TimeRange GetAdjustedTime(Node* from, Node* to, const TimeRange& r, Node::TransformTimeDirection dir) const;
 
-  //int GetNumberOfPathAdjustments(Node* from, NodeParam::Type direction) const;
+  // int GetNumberOfPathAdjustments(Node* from, NodeParam::Type direction) const;
 
-protected:
-  virtual void TimeTargetDisconnectEvent(ViewerOutput *){}
-  virtual void TimeTargetChangedEvent(ViewerOutput *){}
-  virtual void TimeTargetConnectEvent(ViewerOutput *){}
+ protected:
+  virtual void TimeTargetDisconnectEvent(ViewerOutput*) {}
+  virtual void TimeTargetChangedEvent(ViewerOutput*) {}
+  virtual void TimeTargetConnectEvent(ViewerOutput*) {}
 
-private:
+ private:
   ViewerOutput* time_target_;
 
   int path_index_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // TIMETARGETOBJECT_H
+#endif  // TIMETARGETOBJECT_H

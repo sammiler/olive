@@ -29,9 +29,8 @@ namespace olive {
 
 using namespace core;
 
-class RenderJobTracker
-{
-public:
+class RenderJobTracker {
+ public:
   RenderJobTracker() = default;
 
   void insert(const TimeRange &range, JobTime job_time);
@@ -43,29 +42,25 @@ public:
 
   TimeRangeList getCurrentSubRanges(const TimeRange &range, const JobTime &job_time) const;
 
-private:
-  class TimeRangeWithJob : public TimeRange
-  {
-  public:
+ private:
+  class TimeRangeWithJob : public TimeRange {
+   public:
     TimeRangeWithJob() = default;
-    TimeRangeWithJob(const TimeRange &range, const JobTime &job_time)
-    {
+    TimeRangeWithJob(const TimeRange &range, const JobTime &job_time) {
       set_range(range.in(), range.out());
       job_time_ = job_time;
     }
 
-    JobTime GetJobTime() const {return job_time_;}
-    void SetJobTime(JobTime jt) {job_time_ = jt;}
+    JobTime GetJobTime() const { return job_time_; }
+    void SetJobTime(JobTime jt) { job_time_ = jt; }
 
-  private:
+   private:
     JobTime job_time_;
-
   };
 
   std::vector<TimeRangeWithJob> jobs_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // RENDERJOBTRACKER_H
+#endif  // RENDERJOBTRACKER_H

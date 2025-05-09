@@ -31,8 +31,7 @@
 
 namespace olive {
 
-PreferencesDiskTab::PreferencesDiskTab()
-{
+PreferencesDiskTab::PreferencesDiskTab() {
   // Get default disk cache folder
   default_disk_cache_folder_ = DiskManager::instance()->GetDefaultCacheFolder();
 
@@ -53,9 +52,8 @@ PreferencesDiskTab::PreferencesDiskTab()
   row++;
 
   QPushButton* disk_cache_settings_btn = new QPushButton(tr("Disk Cache Settings"));
-  connect(disk_cache_settings_btn, &QPushButton::clicked, this, [this](){
-    DiskManager::instance()->ShowDiskCacheSettingsDialog(disk_cache_location_->text(), this);
-  });
+  connect(disk_cache_settings_btn, &QPushButton::clicked, this,
+          [this]() { DiskManager::instance()->ShowDiskCacheSettingsDialog(disk_cache_location_->text(), this); });
   disk_management_layout->addWidget(disk_cache_settings_btn, row, 1);
 
   row++;
@@ -85,8 +83,7 @@ PreferencesDiskTab::PreferencesDiskTab()
   outer_layout->addStretch();
 }
 
-bool PreferencesDiskTab::Validate()
-{
+bool PreferencesDiskTab::Validate() {
   if (disk_cache_location_->text() != default_disk_cache_folder_->GetPath()) {
     // Disk cache location is changing
 
@@ -97,9 +94,7 @@ bool PreferencesDiskTab::Validate()
 
     // Check validity of the new path
     if (!FileFunctions::DirectoryIsValid(disk_cache_location_->text())) {
-      QMessageBox::critical(this,
-                            tr("Disk Cache"),
-                            tr("Failed to set disk cache location. Access was denied."));
+      QMessageBox::critical(this, tr("Disk Cache"), tr("Failed to set disk cache location. Access was denied."));
       return false;
     }
   }
@@ -107,8 +102,7 @@ bool PreferencesDiskTab::Validate()
   return true;
 }
 
-void PreferencesDiskTab::Accept(MultiUndoCommand *command)
-{
+void PreferencesDiskTab::Accept(MultiUndoCommand* command) {
   Q_UNUSED(command)
 
   if (disk_cache_location_->text() != default_disk_cache_folder_->GetPath()) {
@@ -119,4 +113,4 @@ void PreferencesDiskTab::Accept(MultiUndoCommand *command)
   OLIVE_CONFIG("DiskCacheAhead") = QVariant::fromValue(rational::fromDouble(cache_ahead_slider_->GetValue()));
 }
 
-}
+}  // namespace olive

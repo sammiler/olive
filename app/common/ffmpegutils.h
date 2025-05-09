@@ -36,14 +36,17 @@ namespace olive {
 using namespace core;
 
 class FFmpegUtils {
-public:
+ public:
   /**
-   * @brief Returns an AVPixelFormat that can be used to convert a frame to a data type Olive supports with minimal data loss
+   * @brief Returns an AVPixelFormat that can be used to convert a frame to a data type Olive supports with minimal data
+   * loss
    */
-  static AVPixelFormat GetCompatiblePixelFormat(const AVPixelFormat& pix_fmt, PixelFormat maximum = PixelFormat::INVALID);
+  static AVPixelFormat GetCompatiblePixelFormat(const AVPixelFormat& pix_fmt,
+                                                PixelFormat maximum = PixelFormat::INVALID);
 
   /**
-   * @brief Returns a native pixel format that can be used to convert from a native frame to an AVFrame with minimal data loss
+   * @brief Returns a native pixel format that can be used to convert from a native frame to an AVFrame with minimal
+   * data loss
    */
   static PixelFormat GetCompatiblePixelFormat(const PixelFormat& pix_fmt);
 
@@ -60,7 +63,7 @@ public:
   /**
    * @brief Returns an FFmpeg sample format type for a given native type
    */
-  static AVSampleFormat GetFFmpegSampleFormat(const SampleFormat &smp_fmt);
+  static AVSampleFormat GetFFmpegSampleFormat(const SampleFormat& smp_fmt);
 
   /**
    * @brief Returns an SWS_CS_* macro from an AVColorSpace enum member
@@ -81,15 +84,11 @@ public:
 };
 
 using AVFramePtr = std::shared_ptr<AVFrame>;
-inline AVFramePtr CreateAVFramePtr(AVFrame *f)
-{
-  return std::shared_ptr<AVFrame>(f, [](AVFrame *g){ av_frame_free(&g); });
+inline AVFramePtr CreateAVFramePtr(AVFrame* f) {
+  return std::shared_ptr<AVFrame>(f, [](AVFrame* g) { av_frame_free(&g); });
 }
-inline AVFramePtr CreateAVFramePtr()
-{
-  return CreateAVFramePtr(av_frame_alloc());
-}
+inline AVFramePtr CreateAVFramePtr() { return CreateAVFramePtr(av_frame_alloc()); }
 
-}
+}  // namespace olive
 
-#endif // FFMPEGABSTRACTION_H
+#endif  // FFMPEGABSTRACTION_H

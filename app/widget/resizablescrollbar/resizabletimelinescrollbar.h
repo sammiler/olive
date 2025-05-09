@@ -28,30 +28,28 @@
 
 namespace olive {
 
-class ResizableTimelineScrollBar : public ResizableScrollBar, public TimeScaledObject
-{
+class ResizableTimelineScrollBar : public ResizableScrollBar, public TimeScaledObject {
   Q_OBJECT
-public:
+ public:
   ResizableTimelineScrollBar(QWidget* parent = nullptr);
   ResizableTimelineScrollBar(Qt::Orientation orientation, QWidget* parent = nullptr);
 
-  void ConnectMarkers(TimelineMarkerList *markers);
-  void ConnectWorkArea(TimelineWorkArea *workarea);
+  void ConnectMarkers(TimelineMarkerList* markers);
+  void ConnectWorkArea(TimelineWorkArea* workarea);
 
   void SetScale(double d);
 
-protected:
+ protected:
   virtual void paintEvent(QPaintEvent* event) override;
 
-private:
+ private:
   TimelineMarkerList* markers_;
 
   TimelineWorkArea* workarea_;
 
   double scale_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // RESIZABLETIMELINESCROLLBAR_H
+#endif  // RESIZABLETIMELINESCROLLBAR_H

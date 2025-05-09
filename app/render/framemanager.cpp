@@ -28,24 +28,16 @@ namespace olive {
 FrameManager* FrameManager::instance_ = nullptr;
 const int FrameManager::kFrameLifetime = 5000;
 
-void FrameManager::CreateInstance()
-{
-  instance_ = new FrameManager();
-}
+void FrameManager::CreateInstance() { instance_ = new FrameManager(); }
 
-void FrameManager::DestroyInstance()
-{
+void FrameManager::DestroyInstance() {
   delete instance_;
   instance_ = nullptr;
 }
 
-FrameManager *FrameManager::instance()
-{
-  return instance_;
-}
+FrameManager* FrameManager::instance() { return instance_; }
 
-char *FrameManager::Allocate(int size)
-{
+char* FrameManager::Allocate(int size) {
   if (instance()) {
     return instance()->AllocateFromPool(size);
   } else {
@@ -53,24 +45,21 @@ char *FrameManager::Allocate(int size)
   }
 }
 
-void FrameManager::Deallocate(int size, char *buffer)
-{
+void FrameManager::Deallocate(int size, char* buffer) {
   if (instance()) {
     instance()->DeallocateToPool(size, buffer);
   } else {
-    delete [] buffer;
+    delete[] buffer;
   }
 }
 
-FrameManager::FrameManager()
-{
+FrameManager::FrameManager() {
   clear_timer_.setInterval(kFrameLifetime);
   connect(&clear_timer_, &QTimer::timeout, this, &FrameManager::GarbageCollection);
   clear_timer_.start();
 }
 
-char *FrameManager::AllocateFromPool(int size)
-{
+char* FrameManager::AllocateFromPool(int size) {
   QMutexLocker locker(&mutex_);
 
   std::list<Buffer>& buffer_list = pool_[size];
@@ -87,8 +76,7 @@ char *FrameManager::AllocateFromPool(int size)
   return buf;
 }
 
-void FrameManager::DeallocateToPool(int size, char *buffer)
-{
+void FrameManager::DeallocateToPool(int size, char* buffer) {
   QMutexLocker locker(&mutex_);
 
   std::list<Buffer>& buffer_list = pool_[size];
@@ -96,34 +84,32 @@ void FrameManager::DeallocateToPool(int size, char *buffer)
   buffer_list.push_back({QDateTime::currentMSecsSinceEpoch(), buffer});
 }
 
-void FrameManager::GarbageCollection()
-{
+void FrameManager::GarbageCollection() {
   QMutexLocker locker(&mutex_);
 
   qint64 min_life = QDateTime::currentMSecsSinceEpoch() - kFrameLifetime;
 
-  for (auto it=pool_.begin(); it!=pool_.end(); it++) {
+  for (auto it = pool_.begin(); it != pool_.end(); it++) {
     std::list<Buffer>& list = it->second;
 
     while (list.size() > 0 && list.front().time < min_life) {
-      delete [] list.front().data;
+      delete[] list.front().data;
       list.pop_front();
     }
   }
 }
 
-FrameManager::~FrameManager()
-{
+FrameManager::~FrameManager() {
   QMutexLocker locker(&mutex_);
 
-  for (auto it=pool_.begin(); it!=pool_.end(); it++) {
+  for (auto it = pool_.begin(); it != pool_.end(); it++) {
     std::list<Buffer>& list = it->second;
-    for (auto jt=list.begin(); jt!=list.end(); jt++) {
-      delete [] (*jt).data;
+    for (auto jt = list.begin(); jt != list.end(); jt++) {
+      delete[] (*jt).data;
     }
   }
 
   pool_.clear();
 }
 
-}
+}  // namespace olive

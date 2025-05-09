@@ -28,10 +28,10 @@
 namespace olive {
 
 class FootageManagementPanel {
-public:
+ public:
   virtual QVector<ViewerOutput *> GetSelectedFootage() const = 0;
 };
 
-}
+}  // namespace olive
 
-#endif // FOOTAGEMANAGEMENTPANEL_H
+#endif  // FOOTAGEMANAGEMENTPANEL_H

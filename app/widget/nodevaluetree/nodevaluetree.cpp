@@ -8,9 +8,7 @@ namespace olive {
 
 #define super QTreeWidget
 
-NodeValueTree::NodeValueTree(QWidget *parent) :
-  super(parent)
-{
+NodeValueTree::NodeValueTree(QWidget *parent) : super(parent) {
   setColumnWidth(0, 0);
   setColumnCount(4);
 
@@ -24,8 +22,7 @@ NodeValueTree::NodeValueTree(QWidget *parent) :
   Retranslate();
 }
 
-void NodeValueTree::SetNode(const NodeInput &input, const rational &time)
-{
+void NodeValueTree::SetNode(const NodeInput &input, const rational &time) {
   clear();
 
   NodeTraverser traverser;
@@ -36,11 +33,11 @@ void NodeValueTree::SetNode(const NodeInput &input, const rational &time)
 
   int index = traverser.GenerateRowValueElementIndex(input.node(), input.input(), input.element(), &table);
 
-  for (int i=0; i<table.Count(); i++) {
+  for (int i = 0; i < table.Count(); i++) {
     const NodeValue &value = table.at(i);
     QTreeWidgetItem *item = new QTreeWidgetItem(this);
 
-    Node::ValueHint hint({value.type()}, table.Count()-1-i, value.tag());
+    Node::ValueHint hint({value.type()}, table.Count() - 1 - i, value.tag());
 
     QRadioButton *radio = new QRadioButton(this);
     radio->setProperty("input", QVariant::fromValue(input));
@@ -57,8 +54,7 @@ void NodeValueTree::SetNode(const NodeInput &input, const rational &time)
   }
 }
 
-void NodeValueTree::changeEvent(QEvent *event)
-{
+void NodeValueTree::changeEvent(QEvent *event) {
   if (event->type() == QEvent::LanguageChange) {
     Retranslate();
   }
@@ -66,15 +62,11 @@ void NodeValueTree::changeEvent(QEvent *event)
   super::changeEvent(event);
 }
 
-void NodeValueTree::Retranslate()
-{
-  setHeaderLabels({QString(), tr("Type"), tr("Value"), tr("Source")});
-}
+void NodeValueTree::Retranslate() { setHeaderLabels({QString(), tr("Type"), tr("Value"), tr("Source")}); }
 
-void NodeValueTree::RadioButtonChecked(bool e)
-{
+void NodeValueTree::RadioButtonChecked(bool e) {
   if (e) {
-    QRadioButton *btn = static_cast<QRadioButton*>(sender());
+    QRadioButton *btn = static_cast<QRadioButton *>(sender());
     Node::ValueHint hint = btn->property("hint").value<Node::ValueHint>();
     NodeInput input = btn->property("input").value<NodeInput>();
 
@@ -82,4 +74,4 @@ void NodeValueTree::RadioButtonChecked(bool e)
   }
 }
 
-}
+}  // namespace olive

@@ -35,21 +35,13 @@ namespace olive {
  * The goal of this is to further abstract serialized project data from their
  * in-memory representations.
  */
-class ProjectSerializer
-{
-public:
-  enum LoadType
-  {
-    kProject,
-    kOnlyNodes,
-    kOnlyClips,
-    kOnlyMarkers,
-    kOnlyKeyframes
-  };
+class ProjectSerializer {
+ public:
+  enum LoadType { kProject, kOnlyNodes, kOnlyClips, kOnlyMarkers, kOnlyKeyframes };
 
   ProjectSerializer() = default;
 
-  virtual ~ProjectSerializer(){}
+  virtual ~ProjectSerializer() {}
 
   DISABLE_COPY_MOVE(ProjectSerializer)
 
@@ -64,34 +56,29 @@ public:
     kNoData
   };
 
-  using SerializedProperties = QHash<Node*, QMap<QString, QString> >;
-  using SerializedKeyframes = QHash<QString, QVector<NodeKeyframe*> >;
+  using SerializedProperties = QHash<Node *, QMap<QString, QString> >;
+  using SerializedKeyframes = QHash<QString, QVector<NodeKeyframe *> >;
 
-  class LoadData
-  {
-  public:
+  class LoadData {
+   public:
     LoadData() = default;
 
     SerializedProperties properties;
 
-    std::vector<TimelineMarker*> markers;
+    std::vector<TimelineMarker *> markers;
 
     SerializedKeyframes keyframes;
 
     MainWindowLayoutInfo layout;
 
-    QVector<Node*> nodes;
+    QVector<Node *> nodes;
 
     Node::OutputConnections promised_connections;
-
   };
 
-  class Result
-  {
-  public:
-    Result(const ResultCode &code) :
-      code_(code)
-    {}
+  class Result {
+   public:
+    Result(const ResultCode &code) : code_(code) {}
 
     bool operator==(const ResultCode &code) { return code_ == code; }
     bool operator!=(const ResultCode &code) { return code_ != code; }
@@ -106,20 +93,17 @@ public:
 
     void SetLoadData(const LoadData &p) { load_data_ = p; }
 
-  private:
+   private:
     ResultCode code_;
 
     QString details_;
 
     LoadData load_data_;
-
   };
 
-  class SaveData
-  {
-  public:
-    SaveData(LoadType type, Project *project = nullptr, const QString &filename = QString())
-    {
+  class SaveData {
+   public:
+    SaveData(LoadType type, Project *project = nullptr, const QString &filename = QString()) {
       type_ = type;
       project_ = project;
       filename_ = filename;
@@ -136,20 +120,20 @@ public:
     const MainWindowLayoutInfo &GetLayout() const { return layout_; }
     void SetLayout(const MainWindowLayoutInfo &layout) { layout_ = layout; }
 
-    const QVector<Node*> &GetOnlySerializeNodes() const { return only_serialize_nodes_; }
-    void SetOnlySerializeNodes(const QVector<Node*> &only) { only_serialize_nodes_ = only; }
-    void SetOnlySerializeNodesAndResolveGroups(QVector<Node*> only);
+    const QVector<Node *> &GetOnlySerializeNodes() const { return only_serialize_nodes_; }
+    void SetOnlySerializeNodes(const QVector<Node *> &only) { only_serialize_nodes_ = only; }
+    void SetOnlySerializeNodesAndResolveGroups(QVector<Node *> only);
 
-    const std::vector<TimelineMarker*> &GetOnlySerializeMarkers() const { return only_serialize_markers_; }
-    void SetOnlySerializeMarkers(const std::vector<TimelineMarker*> &only) { only_serialize_markers_ = only; }
+    const std::vector<TimelineMarker *> &GetOnlySerializeMarkers() const { return only_serialize_markers_; }
+    void SetOnlySerializeMarkers(const std::vector<TimelineMarker *> &only) { only_serialize_markers_ = only; }
 
-    const std::vector<NodeKeyframe*> &GetOnlySerializeKeyframes() const { return only_serialize_keyframes_; }
-    void SetOnlySerializeKeyframes(const std::vector<NodeKeyframe*> &only) { only_serialize_keyframes_ = only; }
+    const std::vector<NodeKeyframe *> &GetOnlySerializeKeyframes() const { return only_serialize_keyframes_; }
+    void SetOnlySerializeKeyframes(const std::vector<NodeKeyframe *> &only) { only_serialize_keyframes_ = only; }
 
     const SerializedProperties &GetProperties() const { return properties_; }
     void SetProperties(const SerializedProperties &p) { properties_ = p; }
 
-  private:
+   private:
     LoadType type_;
 
     Project *project_;
@@ -158,14 +142,13 @@ public:
 
     MainWindowLayoutInfo layout_;
 
-    QVector<Node*> only_serialize_nodes_;
+    QVector<Node *> only_serialize_nodes_;
 
     SerializedProperties properties_;
 
-    std::vector<TimelineMarker*> only_serialize_markers_;
+    std::vector<TimelineMarker *> only_serialize_markers_;
 
-    std::vector<NodeKeyframe*> only_serialize_keyframes_;
-
+    std::vector<NodeKeyframe *> only_serialize_keyframes_;
   };
 
   static void Initialize();
@@ -182,7 +165,7 @@ public:
 
   static bool CheckCompressedID(QFile *file);
 
-protected:
+ protected:
   virtual LoadData Load(Project *project, QXmlStreamReader *reader, LoadType load_type, void *reserved) const = 0;
 
   virtual void Save(QXmlStreamWriter *writer, const SaveData &data, void *reserved) const {}
@@ -191,13 +174,12 @@ protected:
 
   bool IsCancelled() const;
 
-private:
+ private:
   static Result LoadWithSerializerVersion(uint version, Project *project, QXmlStreamReader *reader, LoadType load_type);
 
-  static QVector<ProjectSerializer*> instances_;
-
+  static QVector<ProjectSerializer *> instances_;
 };
 
-}
+}  // namespace olive
 
-#endif // PROJECTSERIALIZER_H
+#endif  // PROJECTSERIALIZER_H

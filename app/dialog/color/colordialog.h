@@ -33,10 +33,9 @@
 
 namespace olive {
 
-class ColorDialog : public QDialog
-{
+class ColorDialog : public QDialog {
   Q_OBJECT
-public:
+ public:
   /**
    * @brief ColorDialog Constructor
    *
@@ -56,7 +55,8 @@ public:
    *
    * QWidget parent.
    */
-  ColorDialog(ColorManager* color_manager, const ManagedColor &start = Color(1.0f, 1.0f, 1.0f), QWidget* parent = nullptr);
+  ColorDialog(ColorManager* color_manager, const ManagedColor& start = Color(1.0f, 1.0f, 1.0f),
+              QWidget* parent = nullptr);
 
   /**
    * @brief Retrieves the color selected by the user
@@ -69,10 +69,10 @@ public:
 
   ColorTransform GetColorSpaceOutput() const;
 
-public slots:
-  void SetColor(const ManagedColor &c);
+ public slots:
+  void SetColor(const ManagedColor& c);
 
-private:
+ private:
   ColorManager* color_manager_;
 
   ColorWheelWidget* color_wheel_;
@@ -85,13 +85,12 @@ private:
 
   ColorSpaceChooser* chooser_;
 
-  ColorSwatchChooser *swatch_;
+  ColorSwatchChooser* swatch_;
 
-private slots:
-  void ColorSpaceChanged(const QString& input, const ColorTransform &output);
-
+ private slots:
+  void ColorSpaceChanged(const QString& input, const ColorTransform& output);
 };
 
-}
+}  // namespace olive
 
-#endif // COLORDIALOG_H
+#endif  // COLORDIALOG_H

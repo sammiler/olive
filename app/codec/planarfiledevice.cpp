@@ -22,19 +22,11 @@
 
 namespace olive {
 
-PlanarFileDevice::PlanarFileDevice(QObject *parent) :
-  QObject(parent)
-{
+PlanarFileDevice::PlanarFileDevice(QObject *parent) : QObject(parent) {}
 
-}
+PlanarFileDevice::~PlanarFileDevice() { close(); }
 
-PlanarFileDevice::~PlanarFileDevice()
-{
-  close();
-}
-
-bool PlanarFileDevice::open(const QVector<QString> &filenames, QIODevice::OpenMode mode)
-{
+bool PlanarFileDevice::open(const QVector<QString> &filenames, QIODevice::OpenMode mode) {
   if (isOpen()) {
     // Already open
     return false;
@@ -43,7 +35,7 @@ bool PlanarFileDevice::open(const QVector<QString> &filenames, QIODevice::OpenMo
   files_.resize(filenames.size());
   files_.fill(nullptr);
 
-  for (int i=0; i<files_.size(); i++) {
+  for (int i = 0; i < files_.size(); i++) {
     files_[i] = new QFile(filenames.at(i));
     if (!files_[i]->open(mode)) {
       close();
@@ -54,12 +46,11 @@ bool PlanarFileDevice::open(const QVector<QString> &filenames, QIODevice::OpenMo
   return true;
 }
 
-qint64 PlanarFileDevice::read(char **data, qint64 bytes_per_channel, qint64 offset)
-{
+qint64 PlanarFileDevice::read(char **data, qint64 bytes_per_channel, qint64 offset) {
   qint64 ret = -1;
 
   if (isOpen()) {
-    for (int i=0; i<files_.size(); i++) {
+    for (int i = 0; i < files_.size(); i++) {
       // Kind of clunky but should be largely fine
       ret = files_[i]->read(data[i] + offset, bytes_per_channel);
     }
@@ -68,12 +59,11 @@ qint64 PlanarFileDevice::read(char **data, qint64 bytes_per_channel, qint64 offs
   return ret;
 }
 
-qint64 PlanarFileDevice::write(const char **data, qint64 bytes_per_channel, qint64 offset)
-{
+qint64 PlanarFileDevice::write(const char **data, qint64 bytes_per_channel, qint64 offset) {
   qint64 ret = -1;
 
   if (isOpen()) {
-    for (int i=0; i<files_.size(); i++) {
+    for (int i = 0; i < files_.size(); i++) {
       // Kind of clunky but should be largely fine
       ret = files_[i]->write(data[i] + offset, bytes_per_channel);
     }
@@ -82,8 +72,7 @@ qint64 PlanarFileDevice::write(const char **data, qint64 bytes_per_channel, qint
   return ret;
 }
 
-qint64 PlanarFileDevice::size() const
-{
+qint64 PlanarFileDevice::size() const {
   if (isOpen()) {
     return files_.first()->size();
   } else {
@@ -91,20 +80,18 @@ qint64 PlanarFileDevice::size() const
   }
 }
 
-bool PlanarFileDevice::seek(qint64 pos)
-{
+bool PlanarFileDevice::seek(qint64 pos) {
   bool ret = true;
 
-  for (int i=0; i<files_.size(); i++) {
+  for (int i = 0; i < files_.size(); i++) {
     ret = files_[i]->seek(pos) & ret;
   }
 
   return ret;
 }
 
-void PlanarFileDevice::close()
-{
-  for (int i=0; i<files_.size(); i++) {
+void PlanarFileDevice::close() {
+  for (int i = 0; i < files_.size(); i++) {
     QFile *f = files_.at(i);
     if (f) {
       if (f->isOpen()) {
@@ -116,4 +103,4 @@ void PlanarFileDevice::close()
   files_.clear();
 }
 
-}
+}  // namespace olive

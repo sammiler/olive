@@ -27,37 +27,32 @@
 
 namespace olive {
 
-class ResizableScrollBar : public QScrollBar
-{
+class ResizableScrollBar : public QScrollBar {
   Q_OBJECT
-public:
+ public:
   ResizableScrollBar(QWidget* parent = nullptr);
   ResizableScrollBar(Qt::Orientation orientation, QWidget* parent = nullptr);
 
-signals:
+ signals:
   void ResizeBegan(int old_bar_width, bool top_handle);
 
   void ResizeMoved(int movement);
 
   void ResizeEnded();
 
-protected:
+ protected:
   virtual void mousePressEvent(QMouseEvent* event) override;
 
   virtual void mouseMoveEvent(QMouseEvent* event) override;
 
   virtual void mouseReleaseEvent(QMouseEvent* event) override;
 
-private:
+ private:
   QRect GetScrollBarRect();
 
   static const int kHandleWidth;
 
-  enum MouseHandleState {
-    kNotInHandle,
-    kInTopHandle,
-    kInBottomHandle
-  };
+  enum MouseHandleState { kNotInHandle, kInTopHandle, kInBottomHandle };
 
   void Init();
 
@@ -70,9 +65,8 @@ private:
   bool dragging_;
 
   int drag_start_point_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // RESIZABLESCROLLBAR_H
+#endif  // RESIZABLESCROLLBAR_H

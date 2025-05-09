@@ -23,8 +23,6 @@
 
 #include "undo/undocommand.h"
 
-namespace olive {
+namespace olive {}
 
-}
-
-#endif // PROJECTEXPLORERUNDO_H
+#endif  // PROJECTEXPLORERUNDO_H

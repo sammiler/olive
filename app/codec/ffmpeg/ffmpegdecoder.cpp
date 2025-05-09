@@ -35,9 +35,9 @@ extern "C" {
 #include <QFile>
 #include <QFileInfo>
 #include <QString>
-#include <QtMath>
 #include <QThread>
 #include <QtConcurrent/QtConcurrent>
+#include <QtMath>
 
 #include "codec/planarfiledevice.h"
 #include "common/ffmpegutils.h"
@@ -50,18 +50,12 @@ namespace olive {
 QVariant Yuv2RgbShader;
 QVariant DeinterlaceShader;
 
-FFmpegDecoder::FFmpegDecoder() :
-  sws_ctx_(nullptr),
-  working_packet_(nullptr),
-  cache_at_zero_(false),
-  cache_at_eof_(false)
-{
-}
+FFmpegDecoder::FFmpegDecoder()
+    : sws_ctx_(nullptr), working_packet_(nullptr), cache_at_zero_(false), cache_at_eof_(false) {}
 
-bool FFmpegDecoder::OpenInternal()
-{
+bool FFmpegDecoder::OpenInternal() {
   if (instance_.Open(stream().filename().toUtf8(), stream().stream())) {
-    AVStream* s = instance_.avstream();
+    AVStream *s = instance_.avstream();
 
     // Store one second in the source's timebase
     second_ts_ = qRound64(av_q2d(av_inv_q(s->time_base)));
@@ -73,128 +67,125 @@ bool FFmpegDecoder::OpenInternal()
   return false;
 }
 
-TexturePtr FFmpegDecoder::ProcessFrameIntoTexture(AVFramePtr f, const RetrieveVideoParams &p, const AVFramePtr original)
-{
+TexturePtr FFmpegDecoder::ProcessFrameIntoTexture(AVFramePtr f, const RetrieveVideoParams &p,
+                                                  const AVFramePtr original) {
   // Determine native format
   AVPixelFormat ideal_fmt = FFmpegUtils::GetCompatiblePixelFormat(static_cast<AVPixelFormat>(f->format));
   PixelFormat native_fmt = GetNativePixelFormat(ideal_fmt);
   int native_channels = GetNativeChannelCount(ideal_fmt);
 
   // Set up video params
-  VideoParams vp(original->width,
-                 original->height,
-                 native_fmt,
-                 native_channels,
+  VideoParams vp(original->width, original->height, native_fmt, native_channels,
                  av_guess_sample_aspect_ratio(instance_.fmt_ctx(), instance_.avstream(), nullptr),
-                 VideoParams::kInterlaceNone,
-                 p.divider);
+                 VideoParams::kInterlaceNone, p.divider);
 
   // Create texture
   TexturePtr tex = p.renderer->CreateTexture(vp);
 
   switch (f->format) {
-  case AV_PIX_FMT_YUV420P:
-  case AV_PIX_FMT_YUV422P:
-  case AV_PIX_FMT_YUV444P:
-  case AV_PIX_FMT_YUV420P10LE:
-  case AV_PIX_FMT_YUV422P10LE:
-  case AV_PIX_FMT_YUV444P10LE:
-  case AV_PIX_FMT_YUV420P12LE:
-  case AV_PIX_FMT_YUV422P12LE:
-  case AV_PIX_FMT_YUV444P12LE:
-  {
-    // Run through YUV to RGB shader
-    if (Yuv2RgbShader.isNull()) {
-      // Compile shader
-      Yuv2RgbShader = p.renderer->CreateNativeShader(ShaderCode(FileFunctions::ReadFileAsString(QStringLiteral(":/shaders/yuv2rgb.frag"))));
-      if (Yuv2RgbShader.isNull()) {
-        return nullptr;
-      }
-    }
-
-    int px_size;
-    int bits_per_pixel;
-    switch (f->format) {
     case AV_PIX_FMT_YUV420P:
     case AV_PIX_FMT_YUV422P:
     case AV_PIX_FMT_YUV444P:
-    default:
-      px_size = 1;
-      bits_per_pixel = 8;
-      break;
     case AV_PIX_FMT_YUV420P10LE:
     case AV_PIX_FMT_YUV422P10LE:
     case AV_PIX_FMT_YUV444P10LE:
-      px_size = 2;
-      bits_per_pixel = 10;
-      break;
     case AV_PIX_FMT_YUV420P12LE:
     case AV_PIX_FMT_YUV422P12LE:
-    case AV_PIX_FMT_YUV444P12LE:
-      px_size = 2;
-      bits_per_pixel = 12;
+    case AV_PIX_FMT_YUV444P12LE: {
+      // Run through YUV to RGB shader
+      if (Yuv2RgbShader.isNull()) {
+        // Compile shader
+        Yuv2RgbShader = p.renderer->CreateNativeShader(
+            ShaderCode(FileFunctions::ReadFileAsString(QStringLiteral(":/shaders/yuv2rgb.frag"))));
+        if (Yuv2RgbShader.isNull()) {
+          return nullptr;
+        }
+      }
+
+      int px_size;
+      int bits_per_pixel;
+      switch (f->format) {
+        case AV_PIX_FMT_YUV420P:
+        case AV_PIX_FMT_YUV422P:
+        case AV_PIX_FMT_YUV444P:
+        default:
+          px_size = 1;
+          bits_per_pixel = 8;
+          break;
+        case AV_PIX_FMT_YUV420P10LE:
+        case AV_PIX_FMT_YUV422P10LE:
+        case AV_PIX_FMT_YUV444P10LE:
+          px_size = 2;
+          bits_per_pixel = 10;
+          break;
+        case AV_PIX_FMT_YUV420P12LE:
+        case AV_PIX_FMT_YUV422P12LE:
+        case AV_PIX_FMT_YUV444P12LE:
+          px_size = 2;
+          bits_per_pixel = 12;
+          break;
+      }
+
+      AVFrame *hw_in = f.get();
+
+      VideoParams plane_params = vp;
+      plane_params.set_channel_count(1);
+      plane_params.set_format(native_fmt);
+
+      TexturePtr y_plane = p.renderer->CreateTexture(plane_params, hw_in->data[0], hw_in->linesize[0] / px_size);
+
+      switch (f->format) {
+        case AV_PIX_FMT_YUV420P:
+        case AV_PIX_FMT_YUV422P:
+        case AV_PIX_FMT_YUV420P10LE:
+        case AV_PIX_FMT_YUV422P10LE:
+        case AV_PIX_FMT_YUV420P12LE:
+        case AV_PIX_FMT_YUV422P12LE:
+          plane_params.set_width(plane_params.width() / 2);
+          break;
+      }
+
+      switch (f->format) {
+        case AV_PIX_FMT_YUV420P:
+        case AV_PIX_FMT_YUV420P10LE:
+        case AV_PIX_FMT_YUV420P12LE:
+          plane_params.set_height(plane_params.height() / 2);
+          break;
+      }
+
+      TexturePtr u_plane = p.renderer->CreateTexture(plane_params, hw_in->data[1], hw_in->linesize[1] / px_size);
+      TexturePtr v_plane = p.renderer->CreateTexture(plane_params, hw_in->data[2], hw_in->linesize[2] / px_size);
+
+      ShaderJob job;
+      job.Insert(QStringLiteral("y_channel"), NodeValue(NodeValue::kTexture, QVariant::fromValue(y_plane)));
+      job.Insert(QStringLiteral("u_channel"), NodeValue(NodeValue::kTexture, QVariant::fromValue(u_plane)));
+      job.Insert(QStringLiteral("v_channel"), NodeValue(NodeValue::kTexture, QVariant::fromValue(v_plane)));
+      job.Insert(QStringLiteral("bits_per_pixel"), NodeValue(NodeValue::kInt, bits_per_pixel));
+      job.Insert(QStringLiteral("full_range"), NodeValue(NodeValue::kBoolean, hw_in->color_range == AVCOL_RANGE_JPEG));
+
+      const int *yuv_coeffs = sws_getCoefficients(FFmpegUtils::GetSwsColorspaceFromAVColorSpace(hw_in->colorspace));
+      job.Insert(QStringLiteral("yuv_crv"), NodeValue(NodeValue::kFloat, yuv_coeffs[0] / 65536.0));
+      job.Insert(QStringLiteral("yuv_cgu"), NodeValue(NodeValue::kFloat, yuv_coeffs[2] / 65536.0));
+      job.Insert(QStringLiteral("yuv_cgv"), NodeValue(NodeValue::kFloat, yuv_coeffs[3] / 65536.0));
+      job.Insert(QStringLiteral("yuv_cbu"), NodeValue(NodeValue::kFloat, yuv_coeffs[1] / 65536.0));
+
+      tex = p.renderer->CreateTexture(vp);
+      p.renderer->BlitToTexture(Yuv2RgbShader, job, tex.get(), false);
       break;
     }
-
-    AVFrame *hw_in = f.get();
-
-    VideoParams plane_params = vp;
-    plane_params.set_channel_count(1);
-    plane_params.set_format(native_fmt);
-
-    TexturePtr y_plane = p.renderer->CreateTexture(plane_params, hw_in->data[0], hw_in->linesize[0] / px_size);
-
-    switch (f->format) {
-    case AV_PIX_FMT_YUV420P:
-    case AV_PIX_FMT_YUV422P:
-    case AV_PIX_FMT_YUV420P10LE:
-    case AV_PIX_FMT_YUV422P10LE:
-    case AV_PIX_FMT_YUV420P12LE:
-    case AV_PIX_FMT_YUV422P12LE:
-      plane_params.set_width(plane_params.width()/2);
+    case AV_PIX_FMT_RGBA:
+    case AV_PIX_FMT_RGBA64LE:
+      // RGBA can be uploaded directly to the texture
+      tex->Upload(f->data[0], f->linesize[0] / vp.GetBytesPerPixel());
       break;
-    }
-
-    switch (f->format) {
-    case AV_PIX_FMT_YUV420P:
-    case AV_PIX_FMT_YUV420P10LE:
-    case AV_PIX_FMT_YUV420P12LE:
-      plane_params.set_height(plane_params.height()/2);
-      break;
-    }
-
-    TexturePtr u_plane = p.renderer->CreateTexture(plane_params, hw_in->data[1], hw_in->linesize[1] / px_size);
-    TexturePtr v_plane = p.renderer->CreateTexture(plane_params, hw_in->data[2], hw_in->linesize[2] / px_size);
-
-    ShaderJob job;
-    job.Insert(QStringLiteral("y_channel"), NodeValue(NodeValue::kTexture, QVariant::fromValue(y_plane)));
-    job.Insert(QStringLiteral("u_channel"), NodeValue(NodeValue::kTexture, QVariant::fromValue(u_plane)));
-    job.Insert(QStringLiteral("v_channel"), NodeValue(NodeValue::kTexture, QVariant::fromValue(v_plane)));
-    job.Insert(QStringLiteral("bits_per_pixel"), NodeValue(NodeValue::kInt, bits_per_pixel));
-    job.Insert(QStringLiteral("full_range"), NodeValue(NodeValue::kBoolean, hw_in->color_range == AVCOL_RANGE_JPEG));
-
-    const int *yuv_coeffs = sws_getCoefficients(FFmpegUtils::GetSwsColorspaceFromAVColorSpace(hw_in->colorspace));
-    job.Insert(QStringLiteral("yuv_crv"), NodeValue(NodeValue::kFloat, yuv_coeffs[0]/65536.0));
-    job.Insert(QStringLiteral("yuv_cgu"), NodeValue(NodeValue::kFloat, yuv_coeffs[2]/65536.0));
-    job.Insert(QStringLiteral("yuv_cgv"), NodeValue(NodeValue::kFloat, yuv_coeffs[3]/65536.0));
-    job.Insert(QStringLiteral("yuv_cbu"), NodeValue(NodeValue::kFloat, yuv_coeffs[1]/65536.0));
-
-    tex = p.renderer->CreateTexture(vp);
-    p.renderer->BlitToTexture(Yuv2RgbShader, job, tex.get(), false);
-    break;
-  }
-  case AV_PIX_FMT_RGBA:
-  case AV_PIX_FMT_RGBA64LE:
-    // RGBA can be uploaded directly to the texture
-    tex->Upload(f->data[0], f->linesize[0] / vp.GetBytesPerPixel());
-    break;
   }
 
   // Deinterlace if necessary
   if (p.src_interlacing != VideoParams::kInterlaceNone) {
     if (DeinterlaceShader.isNull()) {
       // Compile shader
-      DeinterlaceShader = p.renderer->CreateNativeShader(ShaderCode(FileFunctions::ReadFileAsString(QStringLiteral(":/shaders/deinterlace2.frag"))));
+      DeinterlaceShader = p.renderer->CreateNativeShader(
+          ShaderCode(FileFunctions::ReadFileAsString(QStringLiteral(":/shaders/deinterlace2.frag"))));
       if (DeinterlaceShader.isNull()) {
         return nullptr;
       }
@@ -208,7 +199,8 @@ TexturePtr FFmpegDecoder::ProcessFrameIntoTexture(AVFramePtr f, const RetrieveVi
     // Flip frame rate so it can be used as a timebase
     frame_rate_tb.flip();
 
-    int64_t req = Timecode::time_to_timestamp(p.time + rational(instance_.fmt_ctx()->start_time, AV_TIME_BASE), frame_rate_tb);
+    int64_t req =
+        Timecode::time_to_timestamp(p.time + rational(instance_.fmt_ctx()->start_time, AV_TIME_BASE), frame_rate_tb);
     int64_t frm = Timecode::rescale_timestamp(original->pts, instance_.avstream()->time_base, frame_rate_tb);
 
     bool first = (req == frm);
@@ -231,8 +223,7 @@ TexturePtr FFmpegDecoder::ProcessFrameIntoTexture(AVFramePtr f, const RetrieveVi
   return tex;
 }
 
-TexturePtr FFmpegDecoder::RetrieveVideoInternal(const RetrieveVideoParams &p)
-{
+TexturePtr FFmpegDecoder::RetrieveVideoInternal(const RetrieveVideoParams &p) {
   if (AVFramePtr f = RetrieveFrame(p.time, p.cancelled)) {
     if (p.cancelled && p.cancelled->IsCancelled()) {
       return nullptr;
@@ -260,8 +251,7 @@ TexturePtr FFmpegDecoder::RetrieveVideoInternal(const RetrieveVideoParams &p)
   return nullptr;
 }
 
-void FFmpegDecoder::CloseInternal()
-{
+void FFmpegDecoder::CloseInternal() {
   if (working_packet_) {
     av_packet_free(&working_packet_);
     working_packet_ = nullptr;
@@ -273,8 +263,7 @@ void FFmpegDecoder::CloseInternal()
   instance_.Close();
 }
 
-rational FFmpegDecoder::GetAudioStartOffset() const
-{
+rational FFmpegDecoder::GetAudioStartOffset() const {
   auto f = instance_.fmt_ctx();
   if (f) {
     rational fmt_start = rational(instance_.fmt_ctx()->start_time, AV_TIME_BASE);
@@ -285,13 +274,9 @@ rational FFmpegDecoder::GetAudioStartOffset() const
   }
 }
 
-QString FFmpegDecoder::id() const
-{
-  return QStringLiteral("ffmpeg");
-}
+QString FFmpegDecoder::id() const { return QStringLiteral("ffmpeg"); }
 
-FootageDescription FFmpegDecoder::Probe(const QString &filename, CancelAtom *cancelled) const
-{
+FootageDescription FFmpegDecoder::Probe(const QString &filename, CancelAtom *cancelled) const {
   // Return value
   FootageDescription desc(id());
 
@@ -302,12 +287,11 @@ FootageDescription FFmpegDecoder::Probe(const QString &filename, CancelAtom *can
   QByteArray filename_c = filename.toUtf8();
 
   // Open file in a format context
-  AVFormatContext* fmt_ctx = nullptr;
+  AVFormatContext *fmt_ctx = nullptr;
   error_code = avformat_open_input(&fmt_ctx, filename_c, nullptr, nullptr);
 
   // Handle format context error
   if (error_code == 0) {
-
     // Retrieve metadata about the media
     avformat_find_stream_info(fmt_ctx, nullptr);
 
@@ -321,21 +305,17 @@ FootageDescription FFmpegDecoder::Probe(const QString &filename, CancelAtom *can
     // Dump it into the Footage object
     int video_streams = 0, audio_streams = 0, still_streams = 0;
 
-    for (unsigned int i=0;i<fmt_ctx->nb_streams;i++) {
-
+    for (unsigned int i = 0; i < fmt_ctx->nb_streams; i++) {
       // FFmpeg AVStream
-      AVStream* avstream = fmt_ctx->streams[i];
+      AVStream *avstream = fmt_ctx->streams[i];
 
       // Find decoder for this stream, if it exists we can proceed
-      const AVCodec* decoder = avcodec_find_decoder(avstream->codecpar->codec_id);
+      const AVCodec *decoder = avcodec_find_decoder(avstream->codecpar->codec_id);
 
-      if (decoder
-          && (avstream->codecpar->codec_type == AVMEDIA_TYPE_VIDEO
-              || avstream->codecpar->codec_type == AVMEDIA_TYPE_AUDIO
-              || avstream->codecpar->codec_type == AVMEDIA_TYPE_SUBTITLE)) {
-
+      if (decoder && (avstream->codecpar->codec_type == AVMEDIA_TYPE_VIDEO ||
+                      avstream->codecpar->codec_type == AVMEDIA_TYPE_AUDIO ||
+                      avstream->codecpar->codec_type == AVMEDIA_TYPE_SUBTITLE)) {
         if (avstream->codecpar->codec_type == AVMEDIA_TYPE_VIDEO) {
-
           AVPixelFormat compatible_pix_fmt = AV_PIX_FMT_NONE;
 
           bool image_is_still = false;
@@ -345,8 +325,8 @@ FootageDescription FFmpegDecoder::Probe(const QString &filename, CancelAtom *can
 
           {
             // Read at least two frames to get more information about this video stream
-            AVPacket* pkt = av_packet_alloc();
-            AVFrame* frame = av_frame_alloc();
+            AVPacket *pkt = av_packet_alloc();
+            AVFrame *frame = av_frame_alloc();
 
             {
               Instance instance;
@@ -363,15 +343,12 @@ FootageDescription FFmpegDecoder::Probe(const QString &filename, CancelAtom *can
                   }
                 }
 
-                pixel_aspect_ratio = av_guess_sample_aspect_ratio(instance.fmt_ctx(),
-                                                                  instance.avstream(),
-                                                                  frame);
+                pixel_aspect_ratio = av_guess_sample_aspect_ratio(instance.fmt_ctx(), instance.avstream(), frame);
 
-                frame_rate = av_guess_frame_rate(instance.fmt_ctx(),
-                                                 instance.avstream(),
-                                                 frame);
+                frame_rate = av_guess_frame_rate(instance.fmt_ctx(), instance.avstream(), frame);
 
-                compatible_pix_fmt = FFmpegUtils::GetCompatiblePixelFormat(static_cast<AVPixelFormat>(avstream->codecpar->format));
+                compatible_pix_fmt =
+                    FFmpegUtils::GetCompatiblePixelFormat(static_cast<AVPixelFormat>(avstream->codecpar->format));
               }
 
               // Read second frame
@@ -381,7 +358,6 @@ FootageDescription FFmpegDecoder::Probe(const QString &filename, CancelAtom *can
                 // Check if we need a manual duration
                 if (avstream->duration == AV_NOPTS_VALUE || duration_guessed_from_bitrate) {
                   if (footage_duration == AV_NOPTS_VALUE || duration_guessed_from_bitrate) {
-
                     // Manually read through file for duration
                     int64_t new_dur;
 
@@ -392,10 +368,9 @@ FootageDescription FFmpegDecoder::Probe(const QString &filename, CancelAtom *can
                     avstream->duration = new_dur;
 
                   } else {
-
                     // Fallback to footage duration
-                    avstream->duration = Timecode::rescale_timestamp_ceil(footage_duration, rational(1, AV_TIME_BASE), avstream->time_base);
-
+                    avstream->duration = Timecode::rescale_timestamp_ceil(footage_duration, rational(1, AV_TIME_BASE),
+                                                                          avstream->time_base);
                   }
                 }
               } else if (ret == AVERROR_EOF) {
@@ -423,7 +398,8 @@ FootageDescription FFmpegDecoder::Probe(const QString &filename, CancelAtom *can
           stream.set_start_time(avstream->start_time);
           stream.set_time_base(avstream->time_base);
           stream.set_duration(avstream->duration);
-          stream.set_color_range(avstream->codecpar->color_range == AVCOL_RANGE_JPEG ? VideoParams::kColorRangeFull : VideoParams::kColorRangeLimited);
+          stream.set_color_range(avstream->codecpar->color_range == AVCOL_RANGE_JPEG ? VideoParams::kColorRangeFull
+                                                                                     : VideoParams::kColorRangeLimited);
 
           // Defaults to false, requires user intervention if incorrect
           stream.set_premultiplied_alpha(false);
@@ -437,7 +413,6 @@ FootageDescription FFmpegDecoder::Probe(const QString &filename, CancelAtom *can
           }
 
         } else if (avstream->codecpar->codec_type == AVMEDIA_TYPE_AUDIO) {
-
           // Create an audio stream object
           uint64_t channel_layout = avstream->codecpar->channel_layout;
           if (!channel_layout) {
@@ -450,8 +425,8 @@ FootageDescription FFmpegDecoder::Probe(const QString &filename, CancelAtom *can
               Instance instance;
               instance.Open(filename_c, avstream->index);
 
-              AVPacket* pkt = av_packet_alloc();
-              AVFrame* frame = av_frame_alloc();
+              AVPacket *pkt = av_packet_alloc();
+              AVFrame *frame = av_frame_alloc();
 
               int64_t new_dur;
 
@@ -466,9 +441,8 @@ FootageDescription FFmpegDecoder::Probe(const QString &filename, CancelAtom *can
 
               instance.Close();
             } else {
-
-              avstream->duration = Timecode::rescale_timestamp_ceil(footage_duration, rational(1, AV_TIME_BASE), avstream->time_base);
-
+              avstream->duration =
+                  Timecode::rescale_timestamp_ceil(footage_duration, rational(1, AV_TIME_BASE), avstream->time_base);
             }
           }
 
@@ -476,7 +450,8 @@ FootageDescription FFmpegDecoder::Probe(const QString &filename, CancelAtom *can
           stream.set_stream_index(i);
           stream.set_channel_layout(channel_layout);
           stream.set_sample_rate(avstream->codecpar->sample_rate);
-          stream.set_format(FFmpegUtils::GetNativeSampleFormat(static_cast<AVSampleFormat>(avstream->codecpar->format)));
+          stream.set_format(
+              FFmpegUtils::GetNativeSampleFormat(static_cast<AVSampleFormat>(avstream->codecpar->format)));
           stream.set_time_base(avstream->time_base);
           stream.set_duration(avstream->duration);
           desc.AddAudioStream(stream);
@@ -484,12 +459,11 @@ FootageDescription FFmpegDecoder::Probe(const QString &filename, CancelAtom *can
           audio_streams++;
 
         } else if (avstream->codecpar->codec_type == AVMEDIA_TYPE_SUBTITLE) {
-
           // Limit to SRT for now...
           if (avstream->codecpar->codec_id == AV_CODEC_ID_SUBRIP) {
             SubtitleParams sub;
 
-            AVPacket* pkt = av_packet_alloc();
+            AVPacket *pkt = av_packet_alloc();
             {
               Instance instance;
               instance.Open(filename_c, avstream->index);
@@ -498,7 +472,7 @@ FootageDescription FFmpegDecoder::Probe(const QString &filename, CancelAtom *can
                 TimeRange time(Timecode::timestamp_to_time(pkt->pts, avstream->time_base),
                                Timecode::timestamp_to_time(pkt->pts + pkt->duration, avstream->time_base));
 
-                QString text = QString::fromUtf8((const char *) pkt->data, pkt->size);
+                QString text = QString::fromUtf8((const char *)pkt->data, pkt->size);
 
                 sub.push_back(Subtitle(time, text));
               }
@@ -509,11 +483,8 @@ FootageDescription FFmpegDecoder::Probe(const QString &filename, CancelAtom *can
 
             desc.AddSubtitleStream(sub);
           }
-
         }
-
       }
-
     }
 
     desc.SetStreamCount(fmt_ctx->nb_streams);
@@ -527,7 +498,6 @@ FootageDescription FFmpegDecoder::Probe(const QString &filename, CancelAtom *can
         vp.set_enabled(false);
       }
     }
-
   }
 
   // Free all memory
@@ -536,15 +506,14 @@ FootageDescription FFmpegDecoder::Probe(const QString &filename, CancelAtom *can
   return desc;
 }
 
-QString FFmpegDecoder::FFmpegError(int error_code)
-{
+QString FFmpegDecoder::FFmpegError(int error_code) {
   char err[1024];
   av_strerror(error_code, err, 512);
   return QStringLiteral("%1 %2").arg(QString::number(error_code), err);
 }
 
-bool FFmpegDecoder::ConformAudioInternal(const QVector<QString> &filenames, const AudioParams &params, CancelAtom *cancelled)
-{
+bool FFmpegDecoder::ConformAudioInternal(const QVector<QString> &filenames, const AudioParams &params,
+                                         CancelAtom *cancelled) {
   // Iterate through each audio frame and extract the PCM data
 
   // Seek to starting point
@@ -558,20 +527,15 @@ bool FFmpegDecoder::ConformAudioInternal(const QVector<QString> &filenames, cons
   }
 
   // Create resampling context
-  SwrContext* resampler = swr_alloc_set_opts(nullptr,
-                                             params.channel_layout(),
-                                             FFmpegUtils::GetFFmpegSampleFormat(params.format()),
-                                             params.sample_rate(),
-                                             channel_layout,
-                                             static_cast<AVSampleFormat>(instance_.avstream()->codecpar->format),
-                                             instance_.avstream()->codecpar->sample_rate,
-                                             0,
-                                             nullptr);
+  SwrContext *resampler = swr_alloc_set_opts(
+      nullptr, params.channel_layout(), FFmpegUtils::GetFFmpegSampleFormat(params.format()), params.sample_rate(),
+      channel_layout, static_cast<AVSampleFormat>(instance_.avstream()->codecpar->format),
+      instance_.avstream()->codecpar->sample_rate, 0, nullptr);
 
   swr_init(resampler);
 
-  AVPacket* pkt = av_packet_alloc();
-  AVFrame* frame = av_frame_alloc();
+  AVPacket *pkt = av_packet_alloc();
+  AVFrame *frame = av_frame_alloc();
   int ret;
 
   bool success = false;
@@ -600,7 +564,6 @@ bool FFmpegDecoder::ConformAudioInternal(const QVector<QString> &filenames, cons
       ret = instance_.GetFrame(pkt, frame);
 
       if (ret < 0) {
-
         if (ret == AVERROR_EOF) {
           success = true;
         } else {
@@ -609,7 +572,6 @@ bool FFmpegDecoder::ConformAudioInternal(const QVector<QString> &filenames, cons
           qWarning() << "Failed to conform:" << ret << err_str;
         }
         break;
-
       }
 
       // Allocate buffers
@@ -619,11 +581,8 @@ bool FFmpegDecoder::ConformAudioInternal(const QVector<QString> &filenames, cons
       data.allocate();
 
       // Resample audio to our destination parameters
-      nb_samples = swr_convert(resampler,
-                               reinterpret_cast<uint8_t**>(data.to_raw_ptrs().data()),
-                               nb_samples,
-                               const_cast<const uint8_t**>(frame->data),
-                               frame->nb_samples);
+      nb_samples = swr_convert(resampler, reinterpret_cast<uint8_t **>(data.to_raw_ptrs().data()), nb_samples,
+                               const_cast<const uint8_t **>(frame->data), frame->nb_samples);
 
       // If no error, write to files
       if (nb_samples > 0) {
@@ -631,7 +590,8 @@ bool FFmpegDecoder::ConformAudioInternal(const QVector<QString> &filenames, cons
         nb_bytes_per_channel = params.samples_to_bytes(nb_samples) / nb_channels;
 
         // Write to files
-        wave_out.write(const_cast<const char**>(reinterpret_cast<char**>(data.to_raw_ptrs().data())), nb_bytes_per_channel);
+        wave_out.write(const_cast<const char **>(reinterpret_cast<char **>(data.to_raw_ptrs().data())),
+                       nb_bytes_per_channel);
       }
 
       // Free buffer
@@ -661,36 +621,33 @@ bool FFmpegDecoder::ConformAudioInternal(const QVector<QString> &filenames, cons
   return success;
 }
 
-PixelFormat FFmpegDecoder::GetNativePixelFormat(AVPixelFormat pix_fmt)
-{
+PixelFormat FFmpegDecoder::GetNativePixelFormat(AVPixelFormat pix_fmt) {
   switch (pix_fmt) {
-  case AV_PIX_FMT_RGB24:
-  case AV_PIX_FMT_RGBA:
-    return PixelFormat::U8;
-  case AV_PIX_FMT_RGB48:
-  case AV_PIX_FMT_RGBA64:
-    return PixelFormat::U16;
-  default:
-    return PixelFormat::INVALID;
+    case AV_PIX_FMT_RGB24:
+    case AV_PIX_FMT_RGBA:
+      return PixelFormat::U8;
+    case AV_PIX_FMT_RGB48:
+    case AV_PIX_FMT_RGBA64:
+      return PixelFormat::U16;
+    default:
+      return PixelFormat::INVALID;
   }
 }
 
-int FFmpegDecoder::GetNativeChannelCount(AVPixelFormat pix_fmt)
-{
+int FFmpegDecoder::GetNativeChannelCount(AVPixelFormat pix_fmt) {
   switch (pix_fmt) {
-  case AV_PIX_FMT_RGB24:
-  case AV_PIX_FMT_RGB48:
-    return VideoParams::kRGBChannelCount;
-  case AV_PIX_FMT_RGBA:
-  case AV_PIX_FMT_RGBA64:
-    return VideoParams::kRGBAChannelCount;
-  default:
-    return 0;
+    case AV_PIX_FMT_RGB24:
+    case AV_PIX_FMT_RGB48:
+      return VideoParams::kRGBChannelCount;
+    case AV_PIX_FMT_RGBA:
+    case AV_PIX_FMT_RGBA64:
+      return VideoParams::kRGBAChannelCount;
+    default:
+      return 0;
   }
 }
 
-uint64_t FFmpegDecoder::ValidateChannelLayout(AVStream* stream)
-{
+uint64_t FFmpegDecoder::ValidateChannelLayout(AVStream *stream) {
   if (stream->codecpar->channel_layout) {
     return stream->codecpar->channel_layout;
   }
@@ -698,8 +655,7 @@ uint64_t FFmpegDecoder::ValidateChannelLayout(AVStream* stream)
   return av_get_default_channel_layout(stream->codecpar->channels);
 }
 
-const char *FFmpegDecoder::GetInterlacingModeInFFmpeg(VideoParams::Interlacing interlacing)
-{
+const char *FFmpegDecoder::GetInterlacingModeInFFmpeg(VideoParams::Interlacing interlacing) {
   if (interlacing == VideoParams::kInterlacedTopFirst) {
     return "tff";
   } else {
@@ -707,30 +663,28 @@ const char *FFmpegDecoder::GetInterlacingModeInFFmpeg(VideoParams::Interlacing i
   }
 }
 
-bool FFmpegDecoder::IsPixelFormatGLSLCompatible(AVPixelFormat f)
-{
+bool FFmpegDecoder::IsPixelFormatGLSLCompatible(AVPixelFormat f) {
   // NOTE: We don't include RGB24 or RGB48 here because those are slow on the GPU and performance
   //       should be better if we convert to RGBA on the CPU beforehand
   switch (f) {
-  case AV_PIX_FMT_YUV420P:
-  case AV_PIX_FMT_YUV422P:
-  case AV_PIX_FMT_YUV444P:
-  case AV_PIX_FMT_YUV420P10LE:
-  case AV_PIX_FMT_YUV422P10LE:
-  case AV_PIX_FMT_YUV444P10LE:
-  case AV_PIX_FMT_YUV420P12LE:
-  case AV_PIX_FMT_YUV422P12LE:
-  case AV_PIX_FMT_YUV444P12LE:
-  case AV_PIX_FMT_RGBA:
-  case AV_PIX_FMT_RGBA64LE:
-    return true;
-  default:
-    return false;
+    case AV_PIX_FMT_YUV420P:
+    case AV_PIX_FMT_YUV422P:
+    case AV_PIX_FMT_YUV444P:
+    case AV_PIX_FMT_YUV420P10LE:
+    case AV_PIX_FMT_YUV422P10LE:
+    case AV_PIX_FMT_YUV444P10LE:
+    case AV_PIX_FMT_YUV420P12LE:
+    case AV_PIX_FMT_YUV422P12LE:
+    case AV_PIX_FMT_YUV444P12LE:
+    case AV_PIX_FMT_RGBA:
+    case AV_PIX_FMT_RGBA64LE:
+      return true;
+    default:
+      return false;
   }
 }
 
-void FFmpegDecoder::ClearFrameCache()
-{
+void FFmpegDecoder::ClearFrameCache() {
   if (!cached_frames_.empty()) {
     cached_frames_.clear();
     cache_at_eof_ = false;
@@ -738,8 +692,7 @@ void FFmpegDecoder::ClearFrameCache()
   }
 }
 
-AVFramePtr FFmpegDecoder::PreProcessFrame(AVFramePtr f, const RetrieveVideoParams &p)
-{
+AVFramePtr FFmpegDecoder::PreProcessFrame(AVFramePtr f, const RetrieveVideoParams &p) {
   // In pre-processing, we try to achieve the following:
   //   - If a divider is being used, scale down the image
   //   - If a pixel format is not compatible with the GLSL shader, convert it to RGBA ourselves
@@ -774,15 +727,9 @@ AVFramePtr FFmpegDecoder::PreProcessFrame(AVFramePtr f, const RetrieveVideoParam
     return nullptr;
   }
 
-  if (!sws_ctx_
-      || sws_src_width_ != f->width
-      || sws_src_height_ != f->height
-      || sws_src_format_ != f->format
-      || sws_dst_width_ != dest->width
-      || sws_dst_height_ != dest->height
-      || sws_dst_format_ != dest->format
-      || sws_colrange_ != dest->color_range
-      || sws_colspace_ != dest->colorspace) {
+  if (!sws_ctx_ || sws_src_width_ != f->width || sws_src_height_ != f->height || sws_src_format_ != f->format ||
+      sws_dst_width_ != dest->width || sws_dst_height_ != dest->height || sws_dst_format_ != dest->format ||
+      sws_colrange_ != dest->color_range || sws_colspace_ != dest->colorspace) {
     // SwsContext must be recreated, destroy current if it exists
     FreeScaler();
 
@@ -797,24 +744,15 @@ AVFramePtr FFmpegDecoder::PreProcessFrame(AVFramePtr f, const RetrieveVideoParam
     sws_colspace_ = dest->colorspace;
 
     // Create new scaler
-    sws_ctx_ = sws_getContext(sws_src_width_,
-                              sws_src_height_,
-                              sws_src_format_,
-                              sws_dst_width_,
-                              sws_dst_height_,
-                              sws_dst_format_,
-                              SWS_POINT,
-                              nullptr,
-                              nullptr,
-                              nullptr);
+    sws_ctx_ = sws_getContext(sws_src_width_, sws_src_height_, sws_src_format_, sws_dst_width_, sws_dst_height_,
+                              sws_dst_format_, SWS_POINT, nullptr, nullptr, nullptr);
 
     // Set swscale's colorspace details
     sws_setColorspaceDetails(sws_ctx_,
                              sws_getCoefficients(FFmpegUtils::GetSwsColorspaceFromAVColorSpace(dest->colorspace)),
                              dest->color_range == AVCOL_RANGE_JPEG ? 1 : 0,
                              sws_getCoefficients(FFmpegUtils::GetSwsColorspaceFromAVColorSpace(dest->colorspace)),
-                             dest->color_range == AVCOL_RANGE_JPEG ? 1 : 0,
-                             0, 0x10000, 0x10000);
+                             dest->color_range == AVCOL_RANGE_JPEG ? 1 : 0, 0, 0x10000, 0x10000);
   }
 
   r = sws_scale(sws_ctx_, f->data, f->linesize, 0, f->height, dest->data, dest->linesize);
@@ -826,8 +764,7 @@ AVFramePtr FFmpegDecoder::PreProcessFrame(AVFramePtr f, const RetrieveVideoParam
   return dest;
 }
 
-AVFramePtr FFmpegDecoder::RetrieveFrame(const rational& time, CancelAtom *cancelled)
-{
+AVFramePtr FFmpegDecoder::RetrieveFrame(const rational &time, CancelAtom *cancelled) {
   int64_t target_ts = Timecode::time_to_timestamp(time, instance_.avstream()->time_base);
 
   if (instance_.fmt_ctx()->start_time != AV_NOPTS_VALUE) {
@@ -840,8 +777,8 @@ AVFramePtr FFmpegDecoder::RetrieveFrame(const rational& time, CancelAtom *cancel
 
   if (time != kAnyTimecode) {
     // If the frame wasn't in the frame cache, see if this frame cache is too old to use
-    if (cached_frames_.empty()
-        || (target_ts < cached_frames_.front()->pts || target_ts > cached_frames_.back()->pts + 2*second_ts_)) {
+    if (cached_frames_.empty() ||
+        (target_ts < cached_frames_.front()->pts || target_ts > cached_frames_.back()->pts + 2 * second_ts_)) {
       ClearFrameCache();
 
       instance_.Seek(seek_ts);
@@ -890,7 +827,6 @@ AVFramePtr FFmpegDecoder::RetrieveFrame(const rational& time, CancelAtom *cancel
       // Handle a failure to seek (occurs on some media)
       // We'll only be here if the frame cache was emptied earlier
       if (!cache_at_zero_ && (ret == AVERROR_EOF || filtered->best_effort_timestamp > target_ts)) {
-
         seek_ts = qMax(min_seek, seek_ts - second_ts_);
         instance_.Seek(seek_ts);
         if (seek_ts == min_seek) {
@@ -899,14 +835,11 @@ AVFramePtr FFmpegDecoder::RetrieveFrame(const rational& time, CancelAtom *cancel
         continue;
 
       } else {
-
         still_seeking = false;
-
       }
     }
 
     if (ret == AVERROR_EOF) {
-
       // Handle an "expected" EOF by using the last frame of our cache
       cache_at_eof_ = true;
 
@@ -919,7 +852,6 @@ AVFramePtr FFmpegDecoder::RetrieveFrame(const rational& time, CancelAtom *cancel
       break;
 
     } else {
-
       // Cut down to thread count - 1 before we acquire a new frame
       if (cached_frames_.size() > size_t(MaximumQueueSize())) {
         RemoveFirstFrame();
@@ -959,42 +891,36 @@ AVFramePtr FFmpegDecoder::RetrieveFrame(const rational& time, CancelAtom *cancel
   return return_frame;
 }
 
-void FFmpegDecoder::FreeScaler()
-{
+void FFmpegDecoder::FreeScaler() {
   if (sws_ctx_) {
     sws_freeContext(sws_ctx_);
     sws_ctx_ = nullptr;
   }
 }
 
-AVFramePtr FFmpegDecoder::GetFrameFromCache(const int64_t &t) const
-{
+AVFramePtr FFmpegDecoder::GetFrameFromCache(const int64_t &t) const {
   if (t < cached_frames_.front()->pts) {
-
     if (cache_at_zero_) {
       return cached_frames_.front();
     }
 
   } else if (t > cached_frames_.back()->pts) {
-
     if (cache_at_eof_) {
       return cached_frames_.back();
     }
 
   } else {
-
     // We already have this frame in the cache, find it
-    for (auto it=cached_frames_.cbegin(); it!=cached_frames_.cend(); it++) {
+    for (auto it = cached_frames_.cbegin(); it != cached_frames_.cend(); it++) {
       AVFramePtr this_frame = *it;
 
       auto next = it;
       next++;
 
-      if (this_frame->pts == t // Test for an exact match
-          || (next != cached_frames_.cend() && (*next)->pts > t)) { // Or for this frame to be the "closest"
+      if (this_frame->pts == t                                       // Test for an exact match
+          || (next != cached_frames_.cend() && (*next)->pts > t)) {  // Or for this frame to be the "closest"
 
         return this_frame;
-
       }
     }
   }
@@ -1002,14 +928,12 @@ AVFramePtr FFmpegDecoder::GetFrameFromCache(const int64_t &t) const
   return nullptr;
 }
 
-void FFmpegDecoder::RemoveFirstFrame()
-{
+void FFmpegDecoder::RemoveFirstFrame() {
   cached_frames_.pop_front();
   cache_at_zero_ = false;
 }
 
-int FFmpegDecoder::MaximumQueueSize()
-{
+int FFmpegDecoder::MaximumQueueSize() {
   // Fairly arbitrary size. This used to need to be the number of current threads to ensure any
   // thread that arrived would have its frame available, but if we only have one render thread,
   // that's no longer a concern. Now, this value could technically be 1, but some memory cache
@@ -1017,16 +941,9 @@ int FFmpegDecoder::MaximumQueueSize()
   return 2;
 }
 
-FFmpegDecoder::Instance::Instance() :
-  fmt_ctx_(nullptr),
-  codec_ctx_(nullptr),
-  avstream_(nullptr),
-  opts_(nullptr)
-{
-}
+FFmpegDecoder::Instance::Instance() : fmt_ctx_(nullptr), codec_ctx_(nullptr), avstream_(nullptr), opts_(nullptr) {}
 
-bool FFmpegDecoder::Instance::Open(const char *filename, int stream_index)
-{
+bool FFmpegDecoder::Instance::Open(const char *filename, int stream_index) {
   // Open file in a format context
   int error_code = avformat_open_input(&fmt_ctx_, filename, nullptr, nullptr);
 
@@ -1049,13 +966,11 @@ bool FFmpegDecoder::Instance::Open(const char *filename, int stream_index)
   avstream_ = fmt_ctx_->streams[stream_index];
 
   // Find decoder
-  const AVCodec* codec = avcodec_find_decoder(avstream_->codecpar->codec_id);
+  const AVCodec *codec = avcodec_find_decoder(avstream_->codecpar->codec_id);
 
   // Handle failure to find decoder
   if (codec == nullptr) {
-    qCritical() << "Failed to find appropriate decoder for this codec:"
-                << filename
-                << stream_index
+    qCritical() << "Failed to find appropriate decoder for this codec:" << filename << stream_index
                 << avstream_->codecpar->codec_id;
     return false;
   }
@@ -1096,8 +1011,7 @@ bool FFmpegDecoder::Instance::Open(const char *filename, int stream_index)
   return true;
 }
 
-void FFmpegDecoder::Instance::Close()
-{
+void FFmpegDecoder::Instance::Close() {
   if (opts_) {
     av_dict_free(&opts_);
     opts_ = nullptr;
@@ -1114,8 +1028,7 @@ void FFmpegDecoder::Instance::Close()
   }
 }
 
-int FFmpegDecoder::Instance::GetFrame(AVPacket *pkt, AVFrame *frame)
-{
+int FFmpegDecoder::Instance::GetFrame(AVPacket *pkt, AVFrame *frame) {
   bool eof = false;
 
   int ret;
@@ -1124,7 +1037,6 @@ int FFmpegDecoder::Instance::GetFrame(AVPacket *pkt, AVFrame *frame)
   av_frame_unref(frame);
 
   while ((ret = avcodec_receive_frame(codec_ctx_, frame)) == AVERROR(EAGAIN) && !eof) {
-
     // Find next packet in the correct stream index
     ret = GetPacket(pkt);
 
@@ -1153,13 +1065,11 @@ int FFmpegDecoder::Instance::GetFrame(AVPacket *pkt, AVFrame *frame)
   return ret;
 }
 
-const char *FFmpegDecoder::Instance::GetSubtitleHeader() const
-{
-  return reinterpret_cast<const char*>(codec_ctx_->subtitle_header);
+const char *FFmpegDecoder::Instance::GetSubtitleHeader() const {
+  return reinterpret_cast<const char *>(codec_ctx_->subtitle_header);
 }
 
-int FFmpegDecoder::Instance::GetSubtitle(AVPacket *pkt, AVSubtitle *sub)
-{
+int FFmpegDecoder::Instance::GetSubtitle(AVPacket *pkt, AVSubtitle *sub) {
   int ret = GetPacket(pkt);
 
   if (ret >= 0) {
@@ -1173,8 +1083,7 @@ int FFmpegDecoder::Instance::GetSubtitle(AVPacket *pkt, AVSubtitle *sub)
   return ret;
 }
 
-int FFmpegDecoder::Instance::GetPacket(AVPacket *pkt)
-{
+int FFmpegDecoder::Instance::GetPacket(AVPacket *pkt) {
   int ret;
 
   do {
@@ -1186,10 +1095,9 @@ int FFmpegDecoder::Instance::GetPacket(AVPacket *pkt)
   return ret;
 }
 
-void FFmpegDecoder::Instance::Seek(int64_t timestamp)
-{
+void FFmpegDecoder::Instance::Seek(int64_t timestamp) {
   avcodec_flush_buffers(codec_ctx_);
   av_seek_frame(fmt_ctx_, avstream_->index, timestamp, AVSEEK_FLAG_BACKWARD);
 }
 
-}
+}  // namespace olive

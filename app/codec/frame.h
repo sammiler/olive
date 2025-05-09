@@ -21,9 +21,9 @@
 #ifndef FRAME_H
 #define FRAME_H
 
-#include <memory>
 #include <olive/core/core.h>
 #include <QVector>
+#include <memory>
 
 #include "common/define.h"
 #include "render/videoparams.h"
@@ -36,9 +36,8 @@ using FramePtr = std::shared_ptr<Frame>;
 /**
  * @brief Video frame data or audio sample data from a Decoder
  */
-class Frame
-{
-public:
+class Frame {
+ public:
   Frame();
 
   ~Frame();
@@ -54,35 +53,17 @@ public:
 
   static int generate_linesize_bytes(int width, PixelFormat format, int channel_count);
 
-  int linesize_pixels() const
-  {
-    return linesize_pixels_;
-  }
+  int linesize_pixels() const { return linesize_pixels_; }
 
-  int linesize_bytes() const
-  {
-    return linesize_;
-  }
+  int linesize_bytes() const { return linesize_; }
 
-  int width() const
-  {
-    return params_.effective_width();
-  }
+  int width() const { return params_.effective_width(); }
 
-  int height() const
-  {
-    return params_.effective_height();
-  }
+  int height() const { return params_.effective_height(); }
 
-  PixelFormat format() const
-  {
-    return params_.format();
-  }
+  PixelFormat format() const { return params_.format(); }
 
-  int channel_count() const
-  {
-    return params_.channel_count();
-  }
+  int channel_count() const { return params_.channel_count(); }
 
   Color get_pixel(int x, int y) const;
   bool contains_pixel(int x, int y) const;
@@ -93,31 +74,19 @@ public:
    *
    * This timestamp is always a rational that will equate to the time in seconds.
    */
-  const rational& timestamp() const
-  {
-    return timestamp_;
-  }
+  const rational& timestamp() const { return timestamp_; }
 
-  void set_timestamp(const rational& timestamp)
-  {
-    timestamp_ = timestamp;
-  }
+  void set_timestamp(const rational& timestamp) { timestamp_ = timestamp; }
 
   /**
    * @brief Get the data buffer of this frame
    */
-  char* data()
-  {
-    return data_;
-  }
+  char* data() { return data_; }
 
   /**
    * @brief Get the const data buffer of this frame
    */
-  const char* const_data() const
-  {
-    return data_;
-  }
+  const char* const_data() const { return data_; }
 
   /**
    * @brief Allocate memory buffer to store data based on parameters
@@ -131,10 +100,7 @@ public:
   /**
    * @brief Return whether the frame is allocated or not
    */
-  bool is_allocated() const
-  {
-    return data_;
-  }
+  bool is_allocated() const { return data_; }
 
   /**
    * @brief Destroy a memory buffer allocated with allocate()
@@ -146,14 +112,11 @@ public:
    *
    * Returns 0 if nothing is allocated.
    */
-  int allocated_size() const
-  {
-    return data_size_;
-  }
+  int allocated_size() const { return data_size_; }
 
   FramePtr convert(PixelFormat format) const;
 
-private:
+ private:
   VideoParams params_;
 
   char* data_;
@@ -164,11 +127,10 @@ private:
   int linesize_;
 
   int linesize_pixels_;
-
 };
 
-}
+}  // namespace olive
 
 Q_DECLARE_METATYPE(olive::FramePtr)
 
-#endif // FRAME_H
+#endif  // FRAME_H

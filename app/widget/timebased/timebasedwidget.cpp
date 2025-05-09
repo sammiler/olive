@@ -33,15 +33,14 @@
 
 namespace olive {
 
-TimeBasedWidget::TimeBasedWidget(bool ruler_text_visible, bool ruler_cache_status_visible, QWidget *parent) :
-  TimelineScaledWidget(parent),
-  viewer_node_(nullptr),
-  auto_max_scrollbar_(false),
-  toggle_show_all_(false),
-  auto_set_timebase_(true),
-  workarea_(nullptr),
-  markers_(nullptr)
-{
+TimeBasedWidget::TimeBasedWidget(bool ruler_text_visible, bool ruler_cache_status_visible, QWidget *parent)
+    : TimelineScaledWidget(parent),
+      viewer_node_(nullptr),
+      auto_max_scrollbar_(false),
+      toggle_show_all_(false),
+      auto_set_timebase_(true),
+      workarea_(nullptr),
+      markers_(nullptr) {
   scrollbar_ = new ResizableTimelineScrollBar(Qt::Horizontal, this);
   connect(scrollbar_, &ResizableScrollBar::ResizeBegan, this, &TimeBasedWidget::ScrollBarResizeBegan);
   connect(scrollbar_, &ResizableScrollBar::ResizeMoved, this, &TimeBasedWidget::ScrollBarResizeMoved);
@@ -49,16 +48,17 @@ TimeBasedWidget::TimeBasedWidget(bool ruler_text_visible, bool ruler_cache_statu
   ruler_ = new TimeRuler(ruler_text_visible, ruler_cache_status_visible, this);
   ConnectTimelineView(ruler_);
   ruler()->SetSnapService(this);
-  connect(ruler(), &TimeRuler::DragMoved, this, static_cast<void(TimeBasedWidget::*)(int)>(&TimeBasedWidget::SetCatchUpScrollValue));
-  connect(ruler(), &TimeRuler::DragReleased, this, static_cast<void(TimeBasedWidget::*)()>(&TimeBasedWidget::StopCatchUpScrollTimer));
+  connect(ruler(), &TimeRuler::DragMoved, this,
+          static_cast<void (TimeBasedWidget::*)(int)>(&TimeBasedWidget::SetCatchUpScrollValue));
+  connect(ruler(), &TimeRuler::DragReleased, this,
+          static_cast<void (TimeBasedWidget::*)()>(&TimeBasedWidget::StopCatchUpScrollTimer));
 
   catchup_scroll_timer_ = new QTimer(this);
-  catchup_scroll_timer_->setInterval(250); // Hardcoded 1/4 scroll limit value
+  catchup_scroll_timer_->setInterval(250);  // Hardcoded 1/4 scroll limit value
   connect(catchup_scroll_timer_, &QTimer::timeout, this, &TimeBasedWidget::CatchUpTimerTimeout);
 }
 
-void TimeBasedWidget::SetScaleAndCenterOnPlayhead(const double &scale)
-{
+void TimeBasedWidget::SetScaleAndCenterOnPlayhead(const double &scale) {
   SetScale(scale);
 
   // Zoom towards the playhead
@@ -66,20 +66,16 @@ void TimeBasedWidget::SetScaleAndCenterOnPlayhead(const double &scale)
   QTimer::singleShot(0, this, &TimeBasedWidget::CenterScrollOnPlayhead);
 }
 
-ViewerOutput *TimeBasedWidget::GetConnectedNode() const
-{
-  return viewer_node_;
-}
+ViewerOutput *TimeBasedWidget::GetConnectedNode() const { return viewer_node_; }
 
-void TimeBasedWidget::ConnectViewerNode(ViewerOutput *node)
-{
+void TimeBasedWidget::ConnectViewerNode(ViewerOutput *node) {
   // Ignore no-op
   if (viewer_node_ == node) {
     return;
   }
 
   // Set viewer node
-  ViewerOutput* old = viewer_node_;
+  ViewerOutput *old = viewer_node_;
   viewer_node_ = node;
 
   if (old) {
@@ -135,36 +131,32 @@ void TimeBasedWidget::ConnectViewerNode(ViewerOutput *node)
   emit ConnectedNodeChanged(old, node);
 }
 
-void TimeBasedWidget::ConnectWorkArea(TimelineWorkArea *workarea)
-{
+void TimeBasedWidget::ConnectWorkArea(TimelineWorkArea *workarea) {
   workarea_ = workarea;
   ruler()->SetWorkArea(workarea);
   scrollbar_->ConnectWorkArea(workarea);
 }
 
-void TimeBasedWidget::ConnectMarkers(TimelineMarkerList *markers)
-{
+void TimeBasedWidget::ConnectMarkers(TimelineMarkerList *markers) {
   markers_ = markers;
   ruler()->SetMarkers(markers);
   scrollbar_->ConnectMarkers(markers);
 }
 
-void TimeBasedWidget::UpdateMaximumScroll()
-{
+void TimeBasedWidget::UpdateMaximumScroll() {
   rational length = (viewer_node_) ? viewer_node_->GetLength() : 0;
 
   if (auto_max_scrollbar_) {
     scrollbar_->setMaximum(std::max(0, int(std::ceil(TimeToScene(length)) - width())));
   }
 
-  foreach (TimeBasedView* base, timeline_views_) {
+  foreach (TimeBasedView *base, timeline_views_) {
     base->SetEndTime(length);
   }
 }
 
-void TimeBasedWidget::ScrollBarResizeBegan(int current_bar_width, bool top_handle)
-{
-  QScrollBar* bar = static_cast<QScrollBar*>(sender());
+void TimeBasedWidget::ScrollBarResizeBegan(int current_bar_width, bool top_handle) {
+  QScrollBar *bar = static_cast<QScrollBar *>(sender());
 
   scrollbar_start_width_ = current_bar_width;
   scrollbar_start_value_ = bar->value();
@@ -172,9 +164,8 @@ void TimeBasedWidget::ScrollBarResizeBegan(int current_bar_width, bool top_handl
   scrollbar_top_handle_ = top_handle;
 }
 
-void TimeBasedWidget::ScrollBarResizeMoved(int movement)
-{
-  ResizableScrollBar* bar = static_cast<ResizableScrollBar*>(sender());
+void TimeBasedWidget::ScrollBarResizeMoved(int movement) {
+  ResizableScrollBar *bar = static_cast<ResizableScrollBar *>(sender());
 
   // Negate movement for the top handle
   if (scrollbar_top_handle_) {
@@ -205,28 +196,22 @@ void TimeBasedWidget::ScrollBarResizeMoved(int movement)
   }
 }
 
-void TimeBasedWidget::PageScrollToPlayhead()
-{
+void TimeBasedWidget::PageScrollToPlayhead() {
   if (GetConnectedNode()) {
     PageScrollInternal(qRound(TimeToScene(GetConnectedNode()->GetPlayhead())), true);
   }
 }
 
-void TimeBasedWidget::CatchUpScrollToPlayhead()
-{
+void TimeBasedWidget::CatchUpScrollToPlayhead() {
   if (GetConnectedNode()) {
     CatchUpScrollToPoint(qRound(TimeToScene(GetConnectedNode()->GetPlayhead())));
   }
 }
 
-void TimeBasedWidget::CatchUpScrollToPoint(int point)
-{
-  PageScrollInternal(point, false);
-}
+void TimeBasedWidget::CatchUpScrollToPoint(int point) { PageScrollInternal(point, false); }
 
-void TimeBasedWidget::CatchUpTimerTimeout()
-{
-  for (auto it=catchup_scroll_values_.cbegin(); it!=catchup_scroll_values_.cend(); it++) {
+void TimeBasedWidget::CatchUpTimerTimeout() {
+  for (auto it = catchup_scroll_values_.cbegin(); it != catchup_scroll_values_.cend(); it++) {
     QScrollBar *sb = it.key();
     const CatchUpScrollData &d = it.value();
     PageScrollInternal(sb, d.maximum, sb->value() + d.value, false);
@@ -235,15 +220,13 @@ void TimeBasedWidget::CatchUpTimerTimeout()
   SendCatchUpScrollEvent();
 }
 
-void TimeBasedWidget::SendCatchUpScrollEvent()
-{
+void TimeBasedWidget::SendCatchUpScrollEvent() {
   for (auto v : this->timeline_views_) {
     v->CatchUpScrollEvent();
   }
 }
 
-void TimeBasedWidget::AutoUpdateTimebase()
-{
+void TimeBasedWidget::AutoUpdateTimebase() {
   rational video_tb = viewer_node_->GetVideoParams().frame_rate_as_time_base();
 
   if (!video_tb.isNull()) {
@@ -259,23 +242,13 @@ void TimeBasedWidget::AutoUpdateTimebase()
   }
 }
 
-void TimeBasedWidget::ConnectedNodeRemovedFromGraph()
-{
-  ConnectViewerNode(nullptr);
-}
+void TimeBasedWidget::ConnectedNodeRemovedFromGraph() { ConnectViewerNode(nullptr); }
 
-TimeRuler *TimeBasedWidget::ruler() const
-{
-  return ruler_;
-}
+TimeRuler *TimeBasedWidget::ruler() const { return ruler_; }
 
-ResizableTimelineScrollBar *TimeBasedWidget::scrollbar() const
-{
-  return scrollbar_;
-}
+ResizableTimelineScrollBar *TimeBasedWidget::scrollbar() const { return scrollbar_; }
 
-void TimeBasedWidget::TimebaseChangedEvent(const rational &timebase)
-{
+void TimeBasedWidget::TimebaseChangedEvent(const rational &timebase) {
   TimelineScaledWidget::TimebaseChangedEvent(timebase);
 
   ruler_->SetTimebase(timebase);
@@ -284,8 +257,7 @@ void TimeBasedWidget::TimebaseChangedEvent(const rational &timebase)
   emit TimebaseChanged(timebase);
 }
 
-void TimeBasedWidget::ScaleChangedEvent(const double &scale)
-{
+void TimeBasedWidget::ScaleChangedEvent(const double &scale) {
   TimelineScaledWidget::ScaleChangedEvent(scale);
 
   ruler_->SetScale(scale);
@@ -298,13 +270,9 @@ void TimeBasedWidget::ScaleChangedEvent(const double &scale)
   toggle_show_all_ = false;
 }
 
-void TimeBasedWidget::SetAutoMaxScrollBar(bool e)
-{
-  auto_max_scrollbar_ = e;
-}
+void TimeBasedWidget::SetAutoMaxScrollBar(bool e) { auto_max_scrollbar_ = e; }
 
-void TimeBasedWidget::resizeEvent(QResizeEvent *event)
-{
+void TimeBasedWidget::resizeEvent(QResizeEvent *event) {
   QWidget::resizeEvent(event);
 
   // Update horizontal scrollbar's page step to the width of the panel
@@ -313,8 +281,7 @@ void TimeBasedWidget::resizeEvent(QResizeEvent *event)
   UpdateMaximumScroll();
 }
 
-void TimeBasedWidget::ConnectTimelineView(TimeBasedView *base)
-{
+void TimeBasedWidget::ConnectTimelineView(TimeBasedView *base) {
   // Connect scale
   connect(base, &TimeBasedView::ScaleChanged, this, &TimeBasedWidget::SetScale);
 
@@ -324,20 +291,21 @@ void TimeBasedWidget::ConnectTimelineView(TimeBasedView *base)
 
   // Connect scrollbar to other scrollbars
   for (TimeBasedView *other : qAsConst(timeline_views_)) {
-    connect(other->horizontalScrollBar(), &QScrollBar::valueChanged, base->horizontalScrollBar(), &QScrollBar::setValue);
-    connect(base->horizontalScrollBar(), &QScrollBar::valueChanged, other->horizontalScrollBar(), &QScrollBar::setValue);
+    connect(other->horizontalScrollBar(), &QScrollBar::valueChanged, base->horizontalScrollBar(),
+            &QScrollBar::setValue);
+    connect(base->horizontalScrollBar(), &QScrollBar::valueChanged, other->horizontalScrollBar(),
+            &QScrollBar::setValue);
   }
 
   timeline_views_.append(base);
 }
 
-void TimeBasedWidget::SetCatchUpScrollValue(QScrollBar *b, int v, int maximum)
-{
+void TimeBasedWidget::SetCatchUpScrollValue(QScrollBar *b, int v, int maximum) {
   CatchUpScrollData &cudata = catchup_scroll_values_[b];
   cudata.value = v;
   cudata.maximum = maximum;
 
-  static const qint64 min_cooldown = 100; // Hardcoded 1/10 sec cooldown
+  static const qint64 min_cooldown = 100;  // Hardcoded 1/10 sec cooldown
   if (QDateTime::currentMSecsSinceEpoch() - cudata.last_forced >= min_cooldown) {
     QMetaObject::invokeMethod(this, &TimeBasedWidget::CatchUpTimerTimeout, Qt::QueuedConnection);
     cudata.last_forced = QDateTime::currentMSecsSinceEpoch();
@@ -348,67 +316,51 @@ void TimeBasedWidget::SetCatchUpScrollValue(QScrollBar *b, int v, int maximum)
   }
 }
 
-void TimeBasedWidget::SetCatchUpScrollValue(int v)
-{
-  SetCatchUpScrollValue(scrollbar_, v, ruler()->width());
-}
+void TimeBasedWidget::SetCatchUpScrollValue(int v) { SetCatchUpScrollValue(scrollbar_, v, ruler()->width()); }
 
-void TimeBasedWidget::StopCatchUpScrollTimer(QScrollBar *b)
-{
+void TimeBasedWidget::StopCatchUpScrollTimer(QScrollBar *b) {
   catchup_scroll_values_.remove(b);
   if (catchup_scroll_values_.empty()) {
     catchup_scroll_timer_->stop();
   }
 }
 
-void TimeBasedWidget::PlayheadTimeChanged(const rational &time)
-{
+void TimeBasedWidget::PlayheadTimeChanged(const rational &time) {
   if (UserIsDraggingPlayhead()) {
     // If the user is dragging the playhead, we will simply nudge over and not use autoscroll rules.
     SetCatchUpScrollValue(qRound(TimeToScene(time)) - scrollbar_->value());
   } else {
     // Otherwise, assume we jumped to this out of nowhere and must now autoscroll
     switch (static_cast<AutoScroll::Method>(OLIVE_CONFIG("Autoscroll").toInt())) {
-    case AutoScroll::kNone:
-      // Do nothing
-      break;
-    case AutoScroll::kPage:
-      QMetaObject::invokeMethod(this, "PageScrollToPlayhead", Qt::QueuedConnection);
-      break;
-    case AutoScroll::kSmooth:
-      QMetaObject::invokeMethod(this, "CenterScrollOnPlayhead", Qt::QueuedConnection);
-      break;
+      case AutoScroll::kNone:
+        // Do nothing
+        break;
+      case AutoScroll::kPage:
+        QMetaObject::invokeMethod(this, "PageScrollToPlayhead", Qt::QueuedConnection);
+        break;
+      case AutoScroll::kSmooth:
+        QMetaObject::invokeMethod(this, "CenterScrollOnPlayhead", Qt::QueuedConnection);
+        break;
     }
   }
 
   TimeChangedEvent(time);
 }
 
-void TimeBasedWidget::SetTimebase(const rational &timebase)
-{
-  TimelineScaledWidget::SetTimebase(timebase);
-}
+void TimeBasedWidget::SetTimebase(const rational &timebase) { TimelineScaledWidget::SetTimebase(timebase); }
 
-void TimeBasedWidget::SetScale(const double &scale)
-{
+void TimeBasedWidget::SetScale(const double &scale) {
   // Simple QObject slot wrapper around TimelineScaledWidget::SetScale()
   TimelineScaledWidget::SetScale(scale);
 }
 
-void TimeBasedWidget::ZoomIn()
-{
-  SetScaleAndCenterOnPlayhead(GetScale() * 2);
-}
+void TimeBasedWidget::ZoomIn() { SetScaleAndCenterOnPlayhead(GetScale() * 2); }
 
-void TimeBasedWidget::ZoomOut()
-{
-  SetScaleAndCenterOnPlayhead(GetScale() * 0.5);
-}
+void TimeBasedWidget::ZoomOut() { SetScaleAndCenterOnPlayhead(GetScale() * 0.5); }
 
-void TimeBasedWidget::GoToPrevCut()
-{
+void TimeBasedWidget::GoToPrevCut() {
   // Cuts are only possible in sequences
-  Sequence* sequence = dynamic_cast<Sequence*>(viewer_node_);
+  Sequence *sequence = dynamic_cast<Sequence *>(viewer_node_);
 
   if (!sequence) {
     return;
@@ -420,10 +372,10 @@ void TimeBasedWidget::GoToPrevCut()
 
   rational closest_cut = 0;
 
-  for (Track* track : sequence->GetTracks()) {
+  for (Track *track : sequence->GetTracks()) {
     rational this_track_closest_cut = 0;
 
-    for (Block* block : track->Blocks()) {
+    for (Block *block : track->Blocks()) {
       if (block->out() < GetConnectedNode()->GetPlayhead()) {
         this_track_closest_cut = block->out();
       } else {
@@ -437,10 +389,9 @@ void TimeBasedWidget::GoToPrevCut()
   GetConnectedNode()->SetPlayhead(closest_cut);
 }
 
-void TimeBasedWidget::GoToNextCut()
-{
+void TimeBasedWidget::GoToNextCut() {
   // Cuts are only possible in sequences
-  Sequence* sequence = dynamic_cast<Sequence*>(viewer_node_);
+  Sequence *sequence = dynamic_cast<Sequence *>(viewer_node_);
 
   if (!sequence) {
     return;
@@ -448,14 +399,14 @@ void TimeBasedWidget::GoToNextCut()
 
   rational closest_cut = RATIONAL_MAX;
 
-  for (Track* track : sequence->GetTracks()) {
+  for (Track *track : sequence->GetTracks()) {
     rational this_track_closest_cut = track->track_length();
 
     if (this_track_closest_cut <= GetConnectedNode()->GetPlayhead()) {
       this_track_closest_cut = RATIONAL_MAX;
     }
 
-    for (Block* block : track->Blocks()) {
+    for (Block *block : track->Blocks()) {
       if (block->in() > GetConnectedNode()->GetPlayhead()) {
         this_track_closest_cut = block->in();
         break;
@@ -470,17 +421,16 @@ void TimeBasedWidget::GoToNextCut()
   }
 }
 
-void TimeBasedWidget::GoToStart()
-{
+void TimeBasedWidget::GoToStart() {
   if (viewer_node_) {
     viewer_node_->SetPlayhead(0);
   }
 }
 
-void TimeBasedWidget::PrevFrame()
-{
+void TimeBasedWidget::PrevFrame() {
   if (viewer_node_) {
-    rational proposed_time = Timecode::snap_time_to_timebase(GetConnectedNode()->GetPlayhead() - timebase(), timebase(), Timecode::kCeil);
+    rational proposed_time =
+        Timecode::snap_time_to_timebase(GetConnectedNode()->GetPlayhead() - timebase(), timebase(), Timecode::kCeil);
     if (proposed_time == GetConnectedNode()->GetPlayhead()) {
       // Catch rounding error, assume this time is snapped and just subtract a timebase
       proposed_time -= timebase();
@@ -489,10 +439,10 @@ void TimeBasedWidget::PrevFrame()
   }
 }
 
-void TimeBasedWidget::NextFrame()
-{
+void TimeBasedWidget::NextFrame() {
   if (viewer_node_) {
-    rational proposed_time = Timecode::snap_time_to_timebase(GetConnectedNode()->GetPlayhead() + timebase(), timebase(), Timecode::kFloor);
+    rational proposed_time =
+        Timecode::snap_time_to_timebase(GetConnectedNode()->GetPlayhead() + timebase(), timebase(), Timecode::kFloor);
     if (proposed_time == GetConnectedNode()->GetPlayhead()) {
       // Catch rounding error, assume this time is snapped and just add a timebase
       proposed_time += timebase();
@@ -501,33 +451,27 @@ void TimeBasedWidget::NextFrame()
   }
 }
 
-void TimeBasedWidget::GoToEnd()
-{
+void TimeBasedWidget::GoToEnd() {
   if (viewer_node_) {
     viewer_node_->SetPlayhead(viewer_node_->GetLength());
   }
 }
 
-void TimeBasedWidget::CenterScrollOnPlayhead()
-{
+void TimeBasedWidget::CenterScrollOnPlayhead() {
   if (GetConnectedNode()) {
-    scrollbar_->setValue(qRound(TimeToScene(GetConnectedNode()->GetPlayhead())) - scrollbar_->width()/2);
+    scrollbar_->setValue(qRound(TimeToScene(GetConnectedNode()->GetPlayhead())) - scrollbar_->width() / 2);
   }
 }
 
-void TimeBasedWidget::SetAutoSetTimebase(bool e)
-{
-  auto_set_timebase_ = e;
-}
+void TimeBasedWidget::SetAutoSetTimebase(bool e) { auto_set_timebase_ = e; }
 
-void TimeBasedWidget::SetPoint(Timeline::MovementMode m, const rational& time)
-{
+void TimeBasedWidget::SetPoint(Timeline::MovementMode m, const rational &time) {
   if (!viewer_node_) {
     return;
   }
 
-  MultiUndoCommand* command = new MultiUndoCommand();
-  TimelineWorkArea* points = viewer_node_->GetWorkArea();
+  MultiUndoCommand *command = new MultiUndoCommand();
+  TimelineWorkArea *points = viewer_node_->GetWorkArea();
 
   // Enable workarea if it isn't already enabled
   if (!points->enabled()) {
@@ -561,13 +505,12 @@ void TimeBasedWidget::SetPoint(Timeline::MovementMode m, const rational& time)
   Core::instance()->undo_stack()->push(command, tr("Set In/Out Point"));
 }
 
-void TimeBasedWidget::ResetPoint(Timeline::MovementMode m)
-{
+void TimeBasedWidget::ResetPoint(Timeline::MovementMode m) {
   if (!GetConnectedNode()) {
     return;
   }
 
-  TimelineWorkArea* points = GetConnectedNode()->GetWorkArea();
+  TimelineWorkArea *points = GetConnectedNode()->GetWorkArea();
 
   if (!points->enabled()) {
     return;
@@ -584,8 +527,7 @@ void TimeBasedWidget::ResetPoint(Timeline::MovementMode m)
   Core::instance()->undo_stack()->push(new WorkareaSetRangeCommand(points, r), tr("Reset In/Out Points"));
 }
 
-void TimeBasedWidget::PageScrollInternal(QScrollBar *bar, int maximum, int screen_position, bool whole_page_scroll)
-{
+void TimeBasedWidget::PageScrollInternal(QScrollBar *bar, int maximum, int screen_position, bool whole_page_scroll) {
   int viewport_padding = maximum / 16;
 
   if (whole_page_scroll) {
@@ -606,14 +548,12 @@ void TimeBasedWidget::PageScrollInternal(QScrollBar *bar, int maximum, int scree
   }
 }
 
-void TimeBasedWidget::PageScrollInternal(int screen_position, bool whole_page_scroll)
-{
+void TimeBasedWidget::PageScrollInternal(int screen_position, bool whole_page_scroll) {
   PageScrollInternal(scrollbar(), ruler()->width(), screen_position, whole_page_scroll);
 }
 
-bool TimeBasedWidget::UserIsDraggingPlayhead() const
-{
-  foreach (TimeBasedView* view, timeline_views_) {
+bool TimeBasedWidget::UserIsDraggingPlayhead() const {
+  foreach (TimeBasedView *view, timeline_views_) {
     if (view->IsDraggingPlayhead()) {
       return true;
     }
@@ -622,37 +562,25 @@ bool TimeBasedWidget::UserIsDraggingPlayhead() const
   return false;
 }
 
-void TimeBasedWidget::SetInAtPlayhead()
-{
-  SetPoint(Timeline::kTrimIn, GetConnectedNode()->GetPlayhead());
-}
+void TimeBasedWidget::SetInAtPlayhead() { SetPoint(Timeline::kTrimIn, GetConnectedNode()->GetPlayhead()); }
 
-void TimeBasedWidget::SetOutAtPlayhead()
-{
-  SetPoint(Timeline::kTrimOut, GetConnectedNode()->GetPlayhead());
-}
+void TimeBasedWidget::SetOutAtPlayhead() { SetPoint(Timeline::kTrimOut, GetConnectedNode()->GetPlayhead()); }
 
-void TimeBasedWidget::ResetIn()
-{
-  ResetPoint(Timeline::kTrimIn);
-}
+void TimeBasedWidget::ResetIn() { ResetPoint(Timeline::kTrimIn); }
 
-void TimeBasedWidget::ResetOut()
-{
-  ResetPoint(Timeline::kTrimOut);
-}
+void TimeBasedWidget::ResetOut() { ResetPoint(Timeline::kTrimOut); }
 
-void TimeBasedWidget::ClearInOutPoints()
-{
+void TimeBasedWidget::ClearInOutPoints() {
   if (!GetConnectedNode()) {
     return;
   }
 
-  Core::instance()->undo_stack()->push(new WorkareaSetEnabledCommand(GetConnectedNode()->project(), GetConnectedNode()->GetWorkArea(), false), tr("Cleared In/Out Points"));
+  Core::instance()->undo_stack()->push(
+      new WorkareaSetEnabledCommand(GetConnectedNode()->project(), GetConnectedNode()->GetWorkArea(), false),
+      tr("Cleared In/Out Points"));
 }
 
-void TimeBasedWidget::SetMarker()
-{
+void TimeBasedWidget::SetMarker() {
   if (!GetConnectedNode()) {
     return;
   }
@@ -674,7 +602,8 @@ void TimeBasedWidget::SetMarker()
       color = OLIVE_CONFIG("MarkerColor").toInt();
     }
 
-    TimelineMarker *marker = new TimelineMarker(color, TimeRange(GetConnectedNode()->GetPlayhead(), GetConnectedNode()->GetPlayhead()));
+    TimelineMarker *marker =
+        new TimelineMarker(color, TimeRange(GetConnectedNode()->GetPlayhead(), GetConnectedNode()->GetPlayhead()));
 
     if (OLIVE_CONFIG("SetNameWithMarker").toBool()) {
       MarkerPropertiesDialog mpd({marker}, timebase(), this);
@@ -690,8 +619,7 @@ void TimeBasedWidget::SetMarker()
   }
 }
 
-void TimeBasedWidget::ToggleShowAll()
-{
+void TimeBasedWidget::ToggleShowAll() {
   if (!GetConnectedNode()) {
     return;
   }
@@ -721,8 +649,7 @@ void TimeBasedWidget::ToggleShowAll()
   }
 }
 
-void TimeBasedWidget::GoToIn()
-{
+void TimeBasedWidget::GoToIn() {
   if (GetConnectedNode()) {
     if (GetConnectedNode()->GetWorkArea()->enabled()) {
       GetConnectedNode()->SetPlayhead(GetConnectedNode()->GetWorkArea()->in());
@@ -732,8 +659,7 @@ void TimeBasedWidget::GoToIn()
   }
 }
 
-void TimeBasedWidget::GoToOut()
-{
+void TimeBasedWidget::GoToOut() {
   if (GetConnectedNode()) {
     if (GetConnectedNode()->GetWorkArea()->enabled()) {
       GetConnectedNode()->SetPlayhead(GetConnectedNode()->GetWorkArea()->out());
@@ -743,8 +669,7 @@ void TimeBasedWidget::GoToOut()
   }
 }
 
-void TimeBasedWidget::DeleteSelected()
-{
+void TimeBasedWidget::DeleteSelected() {
   if (ruler_->HasItemsSelected()) {
     ruler_->DeleteSelected();
   }
@@ -755,15 +680,11 @@ struct SnapData {
   rational movement;
 };
 
-void AttemptSnap(std::vector<SnapData> &snap_data,
-                 const std::vector<double>& screen_pt,
-                 double compare_pt,
-                 const std::vector<rational>& start_times,
-                 const rational& compare_time)
-{
-  const qreal kSnapRange = 10; // FIXME: Hardcoded number
+void AttemptSnap(std::vector<SnapData> &snap_data, const std::vector<double> &screen_pt, double compare_pt,
+                 const std::vector<rational> &start_times, const rational &compare_time) {
+  const qreal kSnapRange = 10;  // FIXME: Hardcoded number
 
-  for (size_t i=0;i<screen_pt.size();i++) {
+  for (size_t i = 0; i < screen_pt.size(); i++) {
     // Attempt snapping to clip out point
     if (InRange(screen_pt.at(i), compare_pt, kSnapRange)) {
       snap_data.push_back({compare_time, compare_time - start_times.at(i)});
@@ -771,11 +692,10 @@ void AttemptSnap(std::vector<SnapData> &snap_data,
   }
 }
 
-bool TimeBasedWidget::SnapPoint(const std::vector<rational> &start_times, rational *movement, SnapMask snap_points)
-{
+bool TimeBasedWidget::SnapPoint(const std::vector<rational> &start_times, rational *movement, SnapMask snap_points) {
   std::vector<double> screen_pt(start_times.size());
 
-  for (size_t i=0; i<start_times.size(); i++) {
+  for (size_t i = 0; i < start_times.size(); i++) {
     screen_pt[i] = TimeToScene(start_times.at(i) + *movement);
   }
 
@@ -788,7 +708,7 @@ bool TimeBasedWidget::SnapPoint(const std::vector<rational> &start_times, ration
   }
 
   if ((snap_points & kSnapToClips) && GetSnapBlocks()) {
-    for (auto it=GetSnapBlocks()->cbegin(); it!=GetSnapBlocks()->cend(); it++) {
+    for (auto it = GetSnapBlocks()->cbegin(); it != GetSnapBlocks()->cend(); it++) {
       Block *b = *it;
 
       qreal rect_left = TimeToScene(b->in());
@@ -802,10 +722,10 @@ bool TimeBasedWidget::SnapPoint(const std::vector<rational> &start_times, ration
 
       if (snap_points & kSnapToMarkers) {
         // Snap to clip markers too
-        if (ClipBlock *clip = dynamic_cast<ClipBlock*>(b)) {
+        if (ClipBlock *clip = dynamic_cast<ClipBlock *>(b)) {
           if (clip->connected_viewer()) {
             TimelineMarkerList *markers = clip->connected_viewer()->GetMarkers();
-            for (auto jt=markers->cbegin(); jt!=markers->cend(); jt++) {
+            for (auto jt = markers->cbegin(); jt != markers->cend(); jt++) {
               TimelineMarker *marker = *jt;
 
               TimeRange marker_range = marker->time() + clip->in() - clip->media_in();
@@ -823,11 +743,12 @@ bool TimeBasedWidget::SnapPoint(const std::vector<rational> &start_times, ration
   }
 
   if ((snap_points & kSnapToMarkers) && ruler()->GetMarkers()) {
-    for (auto it=ruler()->GetMarkers()->cbegin(); it!=ruler()->GetMarkers()->cend(); it++) {
-      TimelineMarker* m = *it;
+    for (auto it = ruler()->GetMarkers()->cbegin(); it != ruler()->GetMarkers()->cend(); it++) {
+      TimelineMarker *m = *it;
 
       // Ignore selected markers
-      if (std::find(ruler()->GetSelectedMarkers().cbegin(), ruler()->GetSelectedMarkers().cend(), m) != ruler()->GetSelectedMarkers().cend()) {
+      if (std::find(ruler()->GetSelectedMarkers().cbegin(), ruler()->GetSelectedMarkers().cend(), m) !=
+          ruler()->GetSelectedMarkers().cend()) {
         continue;
       }
 
@@ -850,9 +771,9 @@ bool TimeBasedWidget::SnapPoint(const std::vector<rational> &start_times, ration
   }
 
   if ((snap_points & kSnapToKeyframes) && GetSnapKeyframes()) {
-    for (auto it=GetSnapKeyframes()->cbegin(); it!=GetSnapKeyframes()->cend(); it++) {
-      const QVector<NodeKeyframe*> &keys = (*it)->GetKeyframes();
-      for (auto jt=keys.cbegin(); jt!=keys.cend(); jt++) {
+    for (auto it = GetSnapKeyframes()->cbegin(); it != GetSnapKeyframes()->cend(); it++) {
+      const QVector<NodeKeyframe *> &keys = (*it)->GetKeyframes();
+      for (auto jt = keys.cbegin(); jt != keys.cend(); jt++) {
         NodeKeyframe *key = *jt;
 
         auto ignore = GetSnapIgnoreKeyframes();
@@ -883,7 +804,7 @@ bool TimeBasedWidget::SnapPoint(const std::vector<rational> &start_times, ration
   rational closest_diff = qAbs(potential_snaps.at(0).movement - *movement);
 
   // Determine which snap point was the closest
-  for (size_t i=1; i<potential_snaps.size(); i++) {
+  for (size_t i = 1; i < potential_snaps.size(); i++) {
     rational this_diff = qAbs(potential_snaps.at(i).movement - *movement);
 
     if (this_diff < closest_diff) {
@@ -896,7 +817,7 @@ bool TimeBasedWidget::SnapPoint(const std::vector<rational> &start_times, ration
 
   // Find all points at this movement
   std::vector<rational> snap_times;
-  foreach (const SnapData& d, potential_snaps) {
+  foreach (const SnapData &d, potential_snaps) {
     if (d.movement == *movement) {
       snap_times.push_back(d.time);
     }
@@ -907,22 +828,19 @@ bool TimeBasedWidget::SnapPoint(const std::vector<rational> &start_times, ration
   return true;
 }
 
-void TimeBasedWidget::ShowSnaps(const std::vector<rational> &times)
-{
-  foreach (TimeBasedView* view, timeline_views_) {
+void TimeBasedWidget::ShowSnaps(const std::vector<rational> &times) {
+  foreach (TimeBasedView *view, timeline_views_) {
     view->EnableSnap(times);
   }
 }
 
-void TimeBasedWidget::HideSnaps()
-{
-  foreach (TimeBasedView* view, timeline_views_) {
+void TimeBasedWidget::HideSnaps() {
+  foreach (TimeBasedView *view, timeline_views_) {
     view->DisableSnap();
   }
 }
 
-bool TimeBasedWidget::CopySelected(bool cut)
-{
+bool TimeBasedWidget::CopySelected(bool cut) {
   if (ruler()->CopySelected(cut)) {
     return true;
   }
@@ -930,8 +848,7 @@ bool TimeBasedWidget::CopySelected(bool cut)
   return false;
 }
 
-bool TimeBasedWidget::Paste()
-{
+bool TimeBasedWidget::Paste() {
   if (ruler()->PasteMarkers()) {
     return true;
   }
@@ -939,4 +856,4 @@ bool TimeBasedWidget::Paste()
   return false;
 }
 
-}
+}  // namespace olive

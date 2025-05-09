@@ -24,22 +24,21 @@
 #include <QMenuBar>
 #include <QTreeWidget>
 
-#include "dialog/configbase/configdialogbase.h"
 #include "../keysequenceeditor.h"
+#include "dialog/configbase/configdialogbase.h"
 
 namespace olive {
 
 class MainWindow;
 
-class PreferencesKeyboardTab : public ConfigDialogBaseTab
-{
+class PreferencesKeyboardTab : public ConfigDialogBaseTab {
   Q_OBJECT
-public:
+ public:
   PreferencesKeyboardTab(MainWindow* main_window);
 
   virtual void Accept(MultiUndoCommand* command) override;
 
-private slots:
+ private slots:
   /**
    * @brief Show a file dialog to load an external shortcut preset from file
    */
@@ -82,9 +81,9 @@ private slots:
    * If so, TRUE is returned so the parent is shown too (even if it doesn't match the search query). If not, FALSE is
    * returned so the parent is hidden.
    */
-  bool refine_shortcut_list(const QString &s, QTreeWidgetItem* parent = nullptr);
+  bool refine_shortcut_list(const QString& s, QTreeWidgetItem* parent = nullptr);
 
-private:
+ private:
   /**
    * @brief Populate keyboard shortcut panel with keyboard shortcuts from the menu bar
    *
@@ -135,10 +134,9 @@ private:
    */
   QVector<KeySequenceEditor*> key_shortcut_fields_;
 
-  MainWindow *main_window_;
-
+  MainWindow* main_window_;
 };
 
-}
+}  // namespace olive
 
-#endif // PREFERENCESKEYBOARDTAB_H
+#endif  // PREFERENCESKEYBOARDTAB_H

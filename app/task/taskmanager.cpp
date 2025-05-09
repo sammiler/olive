@@ -27,13 +27,9 @@ namespace olive {
 
 TaskManager* TaskManager::instance_ = nullptr;
 
-TaskManager::TaskManager()
-{
-  thread_pool_.setMaxThreadCount(1);
-}
+TaskManager::TaskManager() { thread_pool_.setMaxThreadCount(1); }
 
-TaskManager::~TaskManager()
-{
+TaskManager::~TaskManager() {
   thread_pool_.clear();
 
   foreach (Task* t, tasks_) {
@@ -47,34 +43,20 @@ TaskManager::~TaskManager()
   }
 }
 
-void TaskManager::CreateInstance()
-{
-  instance_ = new TaskManager();
-}
+void TaskManager::CreateInstance() { instance_ = new TaskManager(); }
 
-void TaskManager::DestroyInstance()
-{
+void TaskManager::DestroyInstance() {
   delete instance_;
   instance_ = nullptr;
 }
 
-TaskManager *TaskManager::instance()
-{
-  return instance_;
-}
+TaskManager* TaskManager::instance() { return instance_; }
 
-int TaskManager::GetTaskCount() const
-{
-  return tasks_.size();
-}
+int TaskManager::GetTaskCount() const { return tasks_.size(); }
 
-Task *TaskManager::GetFirstTask() const
-{
-  return tasks_.begin().value();
-}
+Task* TaskManager::GetFirstTask() const { return tasks_.begin().value(); }
 
-void TaskManager::CancelTaskAndWait(Task* t)
-{
+void TaskManager::CancelTaskAndWait(Task* t) {
   t->Cancel();
 
   QFutureWatcher<bool>* w = tasks_.key(t);
@@ -84,8 +66,7 @@ void TaskManager::CancelTaskAndWait(Task* t)
   }
 }
 
-void TaskManager::AddTask(Task* t)
-{
+void TaskManager::AddTask(Task* t) {
   // Create a watcher for signalling
   QFutureWatcher<bool>* watcher = new QFutureWatcher<bool>();
   connect(watcher, &QFutureWatcher<bool>::finished, this, &TaskManager::TaskFinished);
@@ -96,19 +77,18 @@ void TaskManager::AddTask(Task* t)
   // Run task concurrently
   watcher->setFuture(
 #if QT_VERSION_MAJOR >= 6
-        QtConcurrent::run(&thread_pool_, &Task::Start, t)
+      QtConcurrent::run(&thread_pool_, &Task::Start, t)
 #else
-        QtConcurrent::run(&thread_pool_, t, &Task::Start)
+      QtConcurrent::run(&thread_pool_, t, &Task::Start)
 #endif
-        );
+  );
 
   // Emit signal that a Task was added
   emit TaskAdded(t);
   emit TaskListChanged();
 }
 
-void TaskManager::CancelTask(Task *t)
-{
+void TaskManager::CancelTask(Task* t) {
   if (std::find(failed_tasks_.begin(), failed_tasks_.end(), t) != failed_tasks_.end()) {
     failed_tasks_.remove(t);
     emit TaskRemoved(t);
@@ -118,8 +98,7 @@ void TaskManager::CancelTask(Task *t)
   }
 }
 
-void TaskManager::TaskFinished()
-{
+void TaskManager::TaskFinished() {
   QFutureWatcher<bool>* watcher = static_cast<QFutureWatcher<bool>*>(sender());
   Task* t = tasks_.value(watcher);
 
@@ -140,4 +119,4 @@ void TaskManager::TaskFinished()
   emit TaskListChanged();
 }
 
-}
+}  // namespace olive

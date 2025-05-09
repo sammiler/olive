@@ -49,10 +49,9 @@ namespace olive {
  * By default, the directory up button is disabled (assuming root folder), the text is empty, and the icon size slider
  * is set to kProjectIconSizeDefault.
  */
-class ProjectExplorerNavigation : public QWidget
-{
+class ProjectExplorerNavigation : public QWidget {
   Q_OBJECT
-public:
+ public:
   ProjectExplorerNavigation(QWidget* parent);
 
   /**
@@ -82,7 +81,7 @@ public:
    */
   void set_size_value(int s);
 
-signals:
+ signals:
   /**
    * @brief Signal emitted when the directory up button is clicked
    */
@@ -97,10 +96,10 @@ signals:
    */
   void SizeChanged(int size);
 
-protected:
-  virtual void changeEvent(QEvent *) override;
+ protected:
+  virtual void changeEvent(QEvent*) override;
 
-private:
+ private:
   void Retranslate();
 
   void UpdateIcons();
@@ -112,6 +111,6 @@ private:
   QSlider* size_slider_;
 };
 
-}
+}  // namespace olive
 
-#endif // PROJECTEXPLORERLISTVIEWTOOLBAR_H
+#endif  // PROJECTEXPLORERLISTVIEWTOOLBAR_H

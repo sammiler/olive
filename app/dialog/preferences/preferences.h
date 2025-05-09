@@ -39,18 +39,16 @@ class MainWindow;
  *
  * A dialog for the global application settings. Mostly an interface for Config.
  */
-class PreferencesDialog : public ConfigDialogBase
-{
+class PreferencesDialog : public ConfigDialogBase {
   Q_OBJECT
 
-public:
+ public:
   PreferencesDialog(MainWindow *main_window);
 
-protected:
+ protected:
   virtual void AcceptEvent() override;
-
 };
 
-}
+}  // namespace olive
 
-#endif // PREFERENCESDIALOG_H
+#endif  // PREFERENCESDIALOG_H

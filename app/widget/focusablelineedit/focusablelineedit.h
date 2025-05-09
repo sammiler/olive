@@ -27,25 +27,22 @@
 
 namespace olive {
 
-class FocusableLineEdit : public QLineEdit
-{
+class FocusableLineEdit : public QLineEdit {
   Q_OBJECT
-public:
-  FocusableLineEdit(QWidget* parent = nullptr);
+ public:
+  FocusableLineEdit(QWidget *parent = nullptr);
 
-signals:
+ signals:
   void Confirmed();
 
   void Cancelled();
 
-protected:
+ protected:
   void keyPressEvent(QKeyEvent *) override;
 
   void focusOutEvent(QFocusEvent *) override;
-
-
 };
 
-}
+}  // namespace olive
 
-#endif // SLIDERLINEEDIT_H
+#endif  // SLIDERLINEEDIT_H

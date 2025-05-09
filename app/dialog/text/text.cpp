@@ -30,9 +30,7 @@
 
 namespace olive {
 
-TextDialog::TextDialog(const QString &start, QWidget* parent) :
-  QDialog(parent)
-{
+TextDialog::TextDialog(const QString& start, QWidget* parent) : QDialog(parent) {
   QVBoxLayout* layout = new QVBoxLayout(this);
 
   // Create text edit widget
@@ -47,4 +45,4 @@ TextDialog::TextDialog(const QString &start, QWidget* parent) :
   connect(buttons, &QDialogButtonBox::rejected, this, &TextDialog::reject);
 }
 
-}
+}  // namespace olive

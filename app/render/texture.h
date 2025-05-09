@@ -21,8 +21,8 @@
 #ifndef RENDERTEXTURE_H
 #define RENDERTEXTURE_H
 
-#include <memory>
 #include <QVariant>
+#include <memory>
 
 #include "render/videoparams.h"
 
@@ -34,66 +34,41 @@ class Renderer;
 class Texture;
 using TexturePtr = std::shared_ptr<Texture>;
 
-class Texture
-{
-public:
-  enum Interpolation {
-    kNearest,
-    kLinear,
-    kMipmappedLinear
-  };
+class Texture {
+ public:
+  enum Interpolation { kNearest, kLinear, kMipmappedLinear };
 
   static const Interpolation kDefaultInterpolation;
 
   /**
    * @brief Construct a dummy texture with no renderer backend
    */
-  Texture(const VideoParams& param) :
-    renderer_(nullptr),
-    params_(param),
-    job_(nullptr)
-  {
-  }
+  Texture(const VideoParams& param) : renderer_(nullptr), params_(param), job_(nullptr) {}
 
   template <typename T>
-  Texture(const VideoParams &p, const T &j) :
-    Texture(p)
-  {
+  Texture(const VideoParams& p, const T& j) : Texture(p) {
     job_ = new T(j);
   }
 
   /**
    * @brief Construct a real texture linked to a renderer backend
    */
-  Texture(Renderer* renderer, const QVariant& native, const VideoParams& param) :
-    renderer_(renderer),
-    params_(param),
-    id_(native),
-    job_(nullptr)
-  {
-  }
+  Texture(Renderer* renderer, const QVariant& native, const VideoParams& param)
+      : renderer_(renderer), params_(param), id_(native), job_(nullptr) {}
 
   ~Texture();
 
-  QVariant id() const
-  {
-    return id_;
-  }
+  QVariant id() const { return id_; }
 
-  const VideoParams& params() const
-  {
-    return params_;
-  }
+  const VideoParams& params() const { return params_; }
 
   template <typename T>
-  static TexturePtr Job(const VideoParams &p, const T &j)
-  {
+  static TexturePtr Job(const VideoParams& p, const T& j) {
     return std::make_shared<Texture>(p, j);
   }
 
   template <typename T>
-  TexturePtr toJob(const T &job)
-  {
+  TexturePtr toJob(const T& job) {
     return Texture::Job(params_, job);
   }
 
@@ -101,67 +76,39 @@ public:
 
   void Download(void* data, int linesize);
 
-  bool IsDummy() const
-  {
-    return !renderer_;
-  }
+  bool IsDummy() const { return !renderer_; }
 
-  int width() const
-  {
-    return params_.effective_width();
-  }
+  int width() const { return params_.effective_width(); }
 
-  int height() const
-  {
-    return params_.effective_height();
-  }
+  int height() const { return params_.effective_height(); }
 
-  QVector2D virtual_resolution() const
-  {
-    return QVector2D(params_.square_pixel_width(), params_.height());
-  }
+  QVector2D virtual_resolution() const { return QVector2D(params_.square_pixel_width(), params_.height()); }
 
-  PixelFormat format() const
-  {
-    return params_.format();
-  }
+  PixelFormat format() const { return params_.format(); }
 
-  int channel_count() const
-  {
-    return params_.channel_count();
-  }
+  int channel_count() const { return params_.channel_count(); }
 
-  int divider() const
-  {
-    return params_.divider();
-  }
+  int divider() const { return params_.divider(); }
 
-  const rational& pixel_aspect_ratio() const
-  {
-    return params_.pixel_aspect_ratio();
-  }
+  const rational& pixel_aspect_ratio() const { return params_.pixel_aspect_ratio(); }
 
-  Renderer* renderer() const
-  {
-    return renderer_;
-  }
+  Renderer* renderer() const { return renderer_; }
 
   bool IsJob() const { return job_; }
-  AcceleratedJob *job() const { return job_; }
+  AcceleratedJob* job() const { return job_; }
 
-private:
+ private:
   Renderer* renderer_;
 
   VideoParams params_;
 
   QVariant id_;
 
-  AcceleratedJob *job_;
-
+  AcceleratedJob* job_;
 };
 
-}
+}  // namespace olive
 
 Q_DECLARE_METATYPE(olive::TexturePtr)
 
-#endif // RENDERTEXTURE_H
+#endif  // RENDERTEXTURE_H

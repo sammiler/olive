@@ -27,11 +27,10 @@
 
 namespace olive {
 
-class CurveView : public KeyframeView
-{
+class CurveView : public KeyframeView {
   Q_OBJECT
-public:
-  CurveView(QWidget* parent = nullptr);
+ public:
+  CurveView(QWidget *parent = nullptr);
 
   void ConnectInput(const NodeKeyframeTrackReference &ref);
 
@@ -39,22 +38,21 @@ public:
 
   void SelectKeyframesOfInput(const NodeKeyframeTrackReference &ref);
 
-  void SetKeyframeTrackColor(const NodeKeyframeTrackReference& ref, const QColor& color);
+  void SetKeyframeTrackColor(const NodeKeyframeTrackReference &ref, const QColor &color);
 
-  const QHash<NodeKeyframeTrackReference, KeyframeViewInputConnection*> &GetConnections() const
-  {
+  const QHash<NodeKeyframeTrackReference, KeyframeViewInputConnection *> &GetConnections() const {
     return track_connections_;
   }
 
-public slots:
+ public slots:
   void ZoomToFit();
 
   void ZoomToFitSelected();
 
   void ResetZoom();
 
-protected:
-  virtual void drawBackground(QPainter* painter, const QRectF& rect) override;
+ protected:
+  virtual void drawBackground(QPainter *painter, const QRectF &rect) override;
   virtual void drawForeground(QPainter *painter, const QRectF &rect) override;
 
   virtual void ContextMenuEvent(Menu &m) override;
@@ -63,7 +61,8 @@ protected:
 
   virtual qreal GetKeyframeSceneY(KeyframeViewInputConnection *track, NodeKeyframe *key) override;
 
-  virtual void DrawKeyframe(QPainter *painter, NodeKeyframe *key, KeyframeViewInputConnection *track, const QRectF &key_rect) override;
+  virtual void DrawKeyframe(QPainter *painter, NodeKeyframe *key, KeyframeViewInputConnection *track,
+                            const QRectF &key_rect) override;
 
   virtual bool FirstChanceMousePress(QMouseEvent *event) override;
   virtual void FirstChanceMouseMove(QMouseEvent *event) override;
@@ -73,13 +72,13 @@ protected:
   virtual void KeyframeDragMove(QMouseEvent *event, QString &tip) override;
   virtual void KeyframeDragRelease(QMouseEvent *event, MultiUndoCommand *command) override;
 
-private:
+ private:
   void ZoomToFitInternal(bool selected_only);
 
-  qreal GetItemYFromKeyframeValue(NodeKeyframe* key);
-  qreal GetUnscaledItemYFromKeyframeValue(NodeKeyframe* key);
+  qreal GetItemYFromKeyframeValue(NodeKeyframe *key);
+  qreal GetUnscaledItemYFromKeyframeValue(NodeKeyframe *key);
 
-  QPointF ScalePoint(const QPointF& point);
+  QPointF ScalePoint(const QPointF &point);
 
   static FloatSlider::DisplayType GetFloatDisplayTypeFromKeyframe(NodeKeyframe *key);
 
@@ -89,14 +88,13 @@ private:
 
   QPointF GetKeyframePosition(NodeKeyframe *key);
 
-  static QPointF GenerateBezierControlPosition(const NodeKeyframe::BezierType mode,
-                                               const QPointF& start_point,
-                                               const QPointF& scaled_cursor_diff);
+  static QPointF GenerateBezierControlPosition(const NodeKeyframe::BezierType mode, const QPointF &start_point,
+                                               const QPointF &scaled_cursor_diff);
 
   QPointF GetScaledCursorPos(const QPointF &cursor_pos);
 
   QHash<NodeKeyframeTrackReference, QColor> keyframe_colors_;
-  QHash<NodeKeyframeTrackReference, KeyframeViewInputConnection*> track_connections_;
+  QHash<NodeKeyframeTrackReference, KeyframeViewInputConnection *> track_connections_;
 
   int text_padding_;
 
@@ -104,8 +102,7 @@ private:
 
   QVector<NodeKeyframeTrackReference> connected_inputs_;
 
-  struct BezierPoint
-  {
+  struct BezierPoint {
     QRectF rect;
     NodeKeyframe *keyframe;
     NodeKeyframe::BezierType type;
@@ -119,9 +116,8 @@ private:
   QPointF drag_start_;
 
   QVector<QVariant> drag_keyframe_values_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // CURVEVIEW_H
+#endif  // CURVEVIEW_H

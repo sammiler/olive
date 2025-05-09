@@ -21,9 +21,9 @@
 #ifndef NODEKEYFRAME_H
 #define NODEKEYFRAME_H
 
-#include <memory>
 #include <QPointF>
 #include <QVariant>
+#include <memory>
 
 #include "node/param.h"
 
@@ -34,34 +34,26 @@ class Node;
 /**
  * @brief A point of data to be used at a certain time and interpolated with other data
  */
-class NodeKeyframe : public QObject
-{
+class NodeKeyframe : public QObject {
   Q_OBJECT
-public:
+ public:
   /**
    * @brief Methods of interpolation to use with this keyframe
    */
-  enum Type {
-    kInvalid = -1,
-    kLinear,
-    kHold,
-    kBezier
-  };
+  enum Type { kInvalid = -1, kLinear, kHold, kBezier };
 
   /**
    * @brief The two types of bezier handles that are available on bezier keyframes
    */
-  enum BezierType {
-    kInHandle,
-    kOutHandle
-  };
+  enum BezierType { kInHandle, kOutHandle };
 
   static const Type kDefaultType;
 
   /**
    * @brief NodeKeyframe Constructor
    */
-  NodeKeyframe(const rational& time, const QVariant& value, Type type, int track, int element, const QString& input, QObject* parent = nullptr);
+  NodeKeyframe(const rational& time, const QVariant& value, Type type, int track, int element, const QString& input,
+               QObject* parent = nullptr);
   NodeKeyframe();
 
   virtual ~NodeKeyframe() override;
@@ -74,8 +66,7 @@ public:
   const QString& input() const { return input_; }
   void set_input(const QString& input) { input_ = input; }
 
-  NodeKeyframeTrackReference key_track_ref() const
-  {
+  NodeKeyframeTrackReference key_track_ref() const {
     return NodeKeyframeTrackReference(NodeInput(parent(), input(), element()), track());
   }
 
@@ -89,7 +80,7 @@ public:
    * @brief The value of this keyframe (i.e. the value to use at this keyframe's time)
    */
   const QVariant& value() const;
-  void set_value(const QVariant &value);
+  void set_value(const QVariant& value);
 
   /**
    * @brief The method of interpolation to use with this keyframe
@@ -101,7 +92,7 @@ public:
   /**
    * @brief For bezier interpolation, the control point leading into this keyframe
    */
-  const QPointF &bezier_control_in() const;
+  const QPointF& bezier_control_in() const;
   void set_bezier_control_in(const QPointF& control);
 
   /**
@@ -111,12 +102,12 @@ public:
   void set_bezier_control_out(const QPointF& control);
 
   /**
-  * @brief Returns a known good bezier that should be used in actual animation
-  *
-  * While users can move the bezier controls wherever they want, we have to limit their usage
-  * internally to prevent a situation where the animation overlaps (i.e. there can only be one Y
-  * value for any given X in the bezier line). This returns a value that is known good.
-  */
+   * @brief Returns a known good bezier that should be used in actual animation
+   *
+   * While users can move the bezier controls wherever they want, we have to limit their usage
+   * internally to prevent a situation where the animation overlaps (i.e. there can only be one Y
+   * value for any given X in the bezier line). This returns a value that is known good.
+   */
   QPointF valid_bezier_control_in() const;
   QPointF valid_bezier_control_out() const;
 
@@ -143,32 +134,20 @@ public:
    */
   static BezierType get_opposing_bezier_type(BezierType type);
 
-  NodeKeyframe* previous() const
-  {
-    return previous_;
-  }
+  NodeKeyframe* previous() const { return previous_; }
 
-  void set_previous(NodeKeyframe* keyframe)
-  {
-    previous_ = keyframe;
-  }
+  void set_previous(NodeKeyframe* keyframe) { previous_ = keyframe; }
 
-  NodeKeyframe* next() const
-  {
-    return next_;
-  }
+  NodeKeyframe* next() const { return next_; }
 
-  void set_next(NodeKeyframe* keyframe)
-  {
-    next_ = keyframe;
-  }
+  void set_next(NodeKeyframe* keyframe) { next_ = keyframe; }
 
-  bool has_sibling_at_time(const rational &t) const;
+  bool has_sibling_at_time(const rational& t) const;
 
-  bool load(QXmlStreamReader *reader, NodeValue::Type data_type);
-  void save(QXmlStreamWriter *writer, NodeValue::Type data_type) const;
+  bool load(QXmlStreamReader* reader, NodeValue::Type data_type);
+  void save(QXmlStreamWriter* writer, NodeValue::Type data_type) const;
 
-signals:
+ signals:
   /**
    * @brief Signal emitted when this keyframe's time is changed
    */
@@ -194,7 +173,7 @@ signals:
    */
   void BezierControlOutChanged(const QPointF& d);
 
-private:
+ private:
   rational time_;
 
   QVariant value_;
@@ -214,13 +193,12 @@ private:
   NodeKeyframe* previous_;
 
   NodeKeyframe* next_;
-
 };
 
 using NodeKeyframeTrack = QVector<NodeKeyframe*>;
 
-}
+}  // namespace olive
 
 Q_DECLARE_METATYPE(olive::NodeKeyframe::Type)
 
-#endif // NODEKEYFRAME_H
+#endif  // NODEKEYFRAME_H

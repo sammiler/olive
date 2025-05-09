@@ -24,9 +24,7 @@
 
 namespace olive {
 
-ProjectExplorerListViewBase::ProjectExplorerListViewBase(QWidget *parent) :
-  QListView(parent)
-{
+ProjectExplorerListViewBase::ProjectExplorerListViewBase(QWidget *parent) : QListView(parent) {
   // FIXME Is this necessary?
   setMovement(QListView::Free);
 
@@ -40,8 +38,7 @@ ProjectExplorerListViewBase::ProjectExplorerListViewBase(QWidget *parent) :
   setContextMenuPolicy(Qt::CustomContextMenu);
 }
 
-void ProjectExplorerListViewBase::mouseDoubleClickEvent(QMouseEvent *event)
-{
+void ProjectExplorerListViewBase::mouseDoubleClickEvent(QMouseEvent *event) {
   // Cache here so if the index becomes invalid after the base call, we still know the truth
   bool item_at_location = indexAt(event->pos()).isValid();
 
@@ -54,4 +51,4 @@ void ProjectExplorerListViewBase::mouseDoubleClickEvent(QMouseEvent *event)
   }
 }
 
-}
+}  // namespace olive

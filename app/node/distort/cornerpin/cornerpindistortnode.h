@@ -29,37 +29,24 @@
 #include "node/node.h"
 
 namespace olive {
-class CornerPinDistortNode : public Node
-{
+class CornerPinDistortNode : public Node {
   Q_OBJECT
-public:
+ public:
   CornerPinDistortNode();
 
   NODE_DEFAULT_FUNCTIONS(CornerPinDistortNode)
 
-  virtual QString Name() const override
-  {
-    return tr("Corner Pin");
-  }
+  virtual QString Name() const override { return tr("Corner Pin"); }
 
-  virtual QString id() const override
-  {
-    return QStringLiteral("org.olivevideoeditor.Olive.cornerpin");
-  }
+  virtual QString id() const override { return QStringLiteral("org.olivevideoeditor.Olive.cornerpin"); }
 
-  virtual QVector<CategoryID> Category() const override
-  {
-    return {kCategoryDistort};
-  }
+  virtual QVector<CategoryID> Category() const override { return {kCategoryDistort}; }
 
-  virtual QString Description() const override
-  {
-    return tr("Distort the image by dragging the corners.");
-  }
+  virtual QString Description() const override { return tr("Distort the image by dragging the corners."); }
 
   virtual void Retranslate() override;
 
-  virtual void Value(const NodeValueRow& value, const NodeGlobals &globals, NodeValueTable *table) const override;
+  virtual void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
 
   virtual ShaderCode GetShaderCode(const ShaderRequest &request) const override;
 
@@ -78,18 +65,16 @@ public:
   static const QString kBottomRightInput;
   static const QString kBottomLeftInput;
 
-protected slots:
+ protected slots:
   virtual void GizmoDragMove(double x, double y, const Qt::KeyboardModifiers &modifiers) override;
 
-private:
+ private:
   // Gizmo variables
   static const int kGizmoCornerCount = 4;
   PointGizmo *gizmo_resize_handle_[kGizmoCornerCount];
   PolygonGizmo *gizmo_whole_rect_;
-
 };
 
-}
+}  // namespace olive
 
-
-#endif // CORNERPINDISTORTNODE_H
+#endif  // CORNERPINDISTORTNODE_H

@@ -24,33 +24,24 @@
 
 namespace olive {
 
-PanelManager* PanelManager::instance_ = nullptr;
+PanelManager *PanelManager::instance_ = nullptr;
 
-PanelManager::PanelManager(QObject *parent) :
-  QObject(parent),
-  suppress_changed_signal_(false)
-{
-}
+PanelManager::PanelManager(QObject *parent) : QObject(parent), suppress_changed_signal_(false) {}
 
-void PanelManager::DeleteAllPanels()
-{
+void PanelManager::DeleteAllPanels() {
   // Prevent any confusion regarding focus history by clearing it first
-  QList<PanelWidget*> copy = focus_history_;
+  QList<PanelWidget *> copy = focus_history_;
   focus_history_.clear();
   qDeleteAll(copy);
 }
 
-const QList<PanelWidget *> &PanelManager::panels()
-{
-  return focus_history_;
-}
+const QList<PanelWidget *> &PanelManager::panels() { return focus_history_; }
 
-PanelWidget *PanelManager::CurrentlyFocused(bool enable_hover) const
-{
+PanelWidget *PanelManager::CurrentlyFocused(bool enable_hover) const {
   // If hover focus is enabled, find the currently hovered panel and return it (if no panel is hovered, resort to
   // default behavior)
   if (enable_hover && OLIVE_CONFIG("HoverFocus").toBool()) {
-    PanelWidget* hovered = CurrentlyHovered();
+    PanelWidget *hovered = CurrentlyHovered();
 
     if (hovered != nullptr) {
       return hovered;
@@ -64,11 +55,10 @@ PanelWidget *PanelManager::CurrentlyFocused(bool enable_hover) const
   return focus_history_.first();
 }
 
-PanelWidget *PanelManager::CurrentlyHovered() const
-{
+PanelWidget *PanelManager::CurrentlyHovered() const {
   QPoint global_mouse = QCursor::pos();
 
-  foreach (PanelWidget* panel, focus_history_) {
+  foreach (PanelWidget *panel, focus_history_) {
     if (panel->rect().contains(panel->mapFromGlobal(global_mouse))) {
       return panel;
     }
@@ -77,9 +67,8 @@ PanelWidget *PanelManager::CurrentlyHovered() const
   return nullptr;
 }
 
-PanelWidget *PanelManager::GetPanelWithName(const QString &name) const
-{
-  foreach (PanelWidget* panel, focus_history_) {
+PanelWidget *PanelManager::GetPanelWithName(const QString &name) const {
+  foreach (PanelWidget *panel, focus_history_) {
     if (panel->objectName() == name) {
       return panel;
     }
@@ -88,23 +77,13 @@ PanelWidget *PanelManager::GetPanelWithName(const QString &name) const
   return nullptr;
 }
 
-void PanelManager::CreateInstance()
-{
-  instance_ = new PanelManager();
-}
+void PanelManager::CreateInstance() { instance_ = new PanelManager(); }
 
-void PanelManager::DestroyInstance()
-{
-  delete instance_;
-}
+void PanelManager::DestroyInstance() { delete instance_; }
 
-PanelManager *PanelManager::instance()
-{
-  return instance_;
-}
+PanelManager *PanelManager::instance() { return instance_; }
 
-void PanelManager::RegisterPanel(PanelWidget *panel)
-{
+void PanelManager::RegisterPanel(PanelWidget *panel) {
   // Add panel to the bottom of the focus history
   focus_history_.append(panel);
 
@@ -119,27 +98,21 @@ void PanelManager::RegisterPanel(PanelWidget *panel)
   }
 }
 
-void PanelManager::UnregisterPanel(PanelWidget *panel)
-{
-  focus_history_.removeOne(panel);
-}
+void PanelManager::UnregisterPanel(PanelWidget *panel) { focus_history_.removeOne(panel); }
 
-void PanelManager::FocusChanged(QWidget *old, QWidget *now)
-{
+void PanelManager::FocusChanged(QWidget *old, QWidget *now) {
   Q_UNUSED(old)
 
-  QObject* parent = now;
-  PanelWidget* panel_cast_test;
+  QObject *parent = now;
+  PanelWidget *panel_cast_test;
 
   // Loop through widget's parent hierarchy
   if (!focus_history_.empty()) {
     while (parent != nullptr) {
-
       // Use dynamic_cast to test if this object is a PanelWidget
-      panel_cast_test = dynamic_cast<PanelWidget*>(parent);
+      panel_cast_test = dynamic_cast<PanelWidget *>(parent);
 
       if (panel_cast_test) {
-
         if (focus_history_.first() != panel_cast_test) {
           // If so, bump this to the top of the focus history
           int panel_index = focus_history_.indexOf(panel_cast_test);
@@ -172,4 +145,4 @@ void PanelManager::FocusChanged(QWidget *old, QWidget *now)
   }
 }
 
-}
+}  // namespace olive

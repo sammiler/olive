@@ -25,9 +25,7 @@
 
 namespace olive {
 
-CineformSection::CineformSection(QWidget *parent) :
-  CodecSection(parent)
-{
+CineformSection::CineformSection(QWidget *parent) : CodecSection(parent) {
   QGridLayout *layout = new QGridLayout(this);
 
   layout->setContentsMargins(0, 0, 0, 0);
@@ -77,14 +75,12 @@ CineformSection::CineformSection(QWidget *parent) :
   layout->addWidget(quality_combobox_, row, 1);
 }
 
-void CineformSection::AddOpts(EncodingParams *params)
-{
+void CineformSection::AddOpts(EncodingParams *params) {
   params->set_video_option(QStringLiteral("quality"), QString::number(quality_combobox_->currentIndex()));
 }
 
-void CineformSection::SetOpts(const EncodingParams *p)
-{
+void CineformSection::SetOpts(const EncodingParams *p) {
   quality_combobox_->setCurrentIndex(p->video_option(QStringLiteral("quality")).toInt());
 }
 
-}
+}  // namespace olive

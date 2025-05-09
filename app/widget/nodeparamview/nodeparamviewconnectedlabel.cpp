@@ -31,12 +31,8 @@
 
 namespace olive {
 
-NodeParamViewConnectedLabel::NodeParamViewConnectedLabel(const NodeInput &input, QWidget *parent) :
-  QWidget(parent),
-  input_(input),
-  connected_node_(nullptr),
-  viewer_(nullptr)
-{
+NodeParamViewConnectedLabel::NodeParamViewConnectedLabel(const NodeInput &input, QWidget *parent)
+    : QWidget(parent), input_(input), connected_node_(nullptr), viewer_(nullptr) {
   QVBoxLayout *layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
 
@@ -61,7 +57,8 @@ NodeParamViewConnectedLabel::NodeParamViewConnectedLabel(const NodeInput &input,
   connected_to_lbl_->setCursor(Qt::PointingHandCursor);
   connected_to_lbl_->setContextMenuPolicy(Qt::CustomContextMenu);
   connect(connected_to_lbl_, &ClickableLabel::MouseClicked, this, &NodeParamViewConnectedLabel::ConnectionClicked);
-  connect(connected_to_lbl_, &ClickableLabel::customContextMenuRequested, this, &NodeParamViewConnectedLabel::ShowLabelContextMenu);
+  connect(connected_to_lbl_, &ClickableLabel::customContextMenuRequested, this,
+          &NodeParamViewConnectedLabel::ShowLabelContextMenu);
   label_layout->addWidget(connected_to_lbl_);
 
   label_layout->addStretch();
@@ -86,8 +83,7 @@ NodeParamViewConnectedLabel::NodeParamViewConnectedLabel(const NodeInput &input,
   connect(collapse_btn, &CollapseButton::toggled, this, &NodeParamViewConnectedLabel::SetValueTreeVisible);
 }
 
-void NodeParamViewConnectedLabel::SetViewerNode(ViewerOutput *viewer)
-{
+void NodeParamViewConnectedLabel::SetViewerNode(ViewerOutput *viewer) {
   if (viewer_) {
     disconnect(viewer_, &ViewerOutput::PlayheadChanged, this, &NodeParamViewConnectedLabel::UpdateValueTree);
   }
@@ -100,15 +96,13 @@ void NodeParamViewConnectedLabel::SetViewerNode(ViewerOutput *viewer)
   }
 }
 
-void NodeParamViewConnectedLabel::CreateTree()
-{
+void NodeParamViewConnectedLabel::CreateTree() {
   // Set up table area
   value_tree_ = new NodeValueTree(this);
   layout()->addWidget(value_tree_);
 }
 
-void NodeParamViewConnectedLabel::InputConnected(Node *output, const NodeInput& input)
-{
+void NodeParamViewConnectedLabel::InputConnected(Node *output, const NodeInput &input) {
   if (input_ != input) {
     return;
   }
@@ -118,8 +112,7 @@ void NodeParamViewConnectedLabel::InputConnected(Node *output, const NodeInput& 
   UpdateLabel();
 }
 
-void NodeParamViewConnectedLabel::InputDisconnected(Node *output, const NodeInput &input)
-{
+void NodeParamViewConnectedLabel::InputDisconnected(Node *output, const NodeInput &input) {
   if (input_ != input) {
     return;
   }
@@ -131,27 +124,25 @@ void NodeParamViewConnectedLabel::InputDisconnected(Node *output, const NodeInpu
   UpdateLabel();
 }
 
-void NodeParamViewConnectedLabel::ShowLabelContextMenu()
-{
+void NodeParamViewConnectedLabel::ShowLabelContextMenu() {
   Menu m(this);
 
-  QAction* disconnect_action = m.addAction(tr("Disconnect"));
-  connect(disconnect_action, &QAction::triggered, this, [this](){
-    Core::instance()->undo_stack()->push(new NodeEdgeRemoveCommand(connected_node_, input_), Node::GetDisconnectCommandString(connected_node_, input_));
+  QAction *disconnect_action = m.addAction(tr("Disconnect"));
+  connect(disconnect_action, &QAction::triggered, this, [this]() {
+    Core::instance()->undo_stack()->push(new NodeEdgeRemoveCommand(connected_node_, input_),
+                                         Node::GetDisconnectCommandString(connected_node_, input_));
   });
 
   m.exec(QCursor::pos());
 }
 
-void NodeParamViewConnectedLabel::ConnectionClicked()
-{
+void NodeParamViewConnectedLabel::ConnectionClicked() {
   if (connected_node_) {
     emit RequestSelectNode(connected_node_);
   }
 }
 
-void NodeParamViewConnectedLabel::UpdateLabel()
-{
+void NodeParamViewConnectedLabel::UpdateLabel() {
   QString s;
 
   if (connected_node_) {
@@ -163,15 +154,13 @@ void NodeParamViewConnectedLabel::UpdateLabel()
   connected_to_lbl_->setText(s);
 }
 
-void NodeParamViewConnectedLabel::UpdateValueTree()
-{
+void NodeParamViewConnectedLabel::UpdateValueTree() {
   if (value_tree_ && viewer_ && value_tree_->isVisible()) {
     value_tree_->SetNode(input_, viewer_->GetPlayhead());
   }
 }
 
-void NodeParamViewConnectedLabel::SetValueTreeVisible(bool e)
-{
+void NodeParamViewConnectedLabel::SetValueTreeVisible(bool e) {
   if (value_tree_) {
     value_tree_->setVisible(e);
   }
@@ -186,4 +175,4 @@ void NodeParamViewConnectedLabel::SetValueTreeVisible(bool e)
   }
 }
 
-}
+}  // namespace olive

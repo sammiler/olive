@@ -30,8 +30,7 @@ const QString PolygonGenerator::kColorInput = QStringLiteral("color_in");
 
 #define super GeneratorWithMerge
 
-PolygonGenerator::PolygonGenerator()
-{
+PolygonGenerator::PolygonGenerator() {
   AddInput(kPointsInput, NodeValue::kBezier, QVector2D(0, 0), InputFlags(kInputFlagArray));
 
   AddInput(kColorInput, NodeValue::kColor, QVariant::fromValue(Color(1.0, 1.0, 1.0)));
@@ -59,36 +58,22 @@ PolygonGenerator::PolygonGenerator()
   poly_gizmo_ = new PathGizmo(this);
 }
 
-QString PolygonGenerator::Name() const
-{
-  return tr("Polygon");
-}
+QString PolygonGenerator::Name() const { return tr("Polygon"); }
 
-QString PolygonGenerator::id() const
-{
-  return QStringLiteral("org.olivevideoeditor.Olive.polygon");
-}
+QString PolygonGenerator::id() const { return QStringLiteral("org.olivevideoeditor.Olive.polygon"); }
 
-QVector<Node::CategoryID> PolygonGenerator::Category() const
-{
-  return {kCategoryGenerator};
-}
+QVector<Node::CategoryID> PolygonGenerator::Category() const { return {kCategoryGenerator}; }
 
-QString PolygonGenerator::Description() const
-{
-  return tr("Generate a 2D polygon of any amount of points.");
-}
+QString PolygonGenerator::Description() const { return tr("Generate a 2D polygon of any amount of points."); }
 
-void PolygonGenerator::Retranslate()
-{
+void PolygonGenerator::Retranslate() {
   super::Retranslate();
 
   SetInputName(kPointsInput, tr("Points"));
   SetInputName(kColorInput, tr("Color"));
 }
 
-ShaderJob PolygonGenerator::GetGenerateJob(const NodeValueRow &value, const VideoParams &params) const
-{
+ShaderJob PolygonGenerator::GetGenerateJob(const NodeValueRow &value, const VideoParams &params) const {
   VideoParams p = params;
   p.set_format(PixelFormat::U8);
   auto job = Texture::Job(p, GenerateJob(value));
@@ -102,18 +87,17 @@ ShaderJob PolygonGenerator::GetGenerateJob(const NodeValueRow &value, const Vide
   return rgb;
 }
 
-void PolygonGenerator::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const
-{
+void PolygonGenerator::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const {
   PushMergableJob(value, Texture::Job(globals.vparams(), GetGenerateJob(value, globals.vparams())), table);
 }
 
-void PolygonGenerator::GenerateFrame(FramePtr frame, const GenerateJob &job) const
-{
+void PolygonGenerator::GenerateFrame(FramePtr frame, const GenerateJob &job) const {
   // This could probably be more optimized, but for now we use Qt to draw to a QImage.
   // QImages only support integer pixels and we use float pixels, so what we do here is draw onto
   // a single-channel QImage (alpha only) and then transplant that alpha channel to our float buffer
   // with correct float RGB.
-  QImage img((uchar *) frame->data(), frame->width(), frame->height(), frame->linesize_bytes(), QImage::Format_RGBA8888_Premultiplied);
+  QImage img((uchar *)frame->data(), frame->width(), frame->height(), frame->linesize_bytes(),
+             QImage::Format_RGBA8888_Premultiplied);
   img.fill(Qt::transparent);
 
   auto points = job.Get(kPointsInput).toArray();
@@ -123,33 +107,30 @@ void PolygonGenerator::GenerateFrame(FramePtr frame, const GenerateJob &job) con
   QPainter p(&img);
   double par = frame->video_params().pixel_aspect_ratio().toDouble();
   p.scale(1.0 / frame->video_params().divider() / par, 1.0 / frame->video_params().divider());
-  p.translate(frame->video_params().width()/2 * par, frame->video_params().height()/2);
+  p.translate(frame->video_params().width() / 2 * par, frame->video_params().height() / 2);
   p.setBrush(Qt::white);
   p.setPen(Qt::NoPen);
 
   p.drawPath(path);
 }
 
-template<typename T>
-NodeGizmo *PolygonGenerator::CreateAppropriateGizmo()
-{
+template <typename T>
+NodeGizmo *PolygonGenerator::CreateAppropriateGizmo() {
   return new T(this);
 }
 
-template<>
-NodeGizmo *PolygonGenerator::CreateAppropriateGizmo<PointGizmo>()
-{
+template <>
+NodeGizmo *PolygonGenerator::CreateAppropriateGizmo<PointGizmo>() {
   return AddDraggableGizmo<PointGizmo>();
 }
 
-template<typename T>
-void PolygonGenerator::ValidateGizmoVectorSize(QVector<T*> &vec, int new_sz)
-{
+template <typename T>
+void PolygonGenerator::ValidateGizmoVectorSize(QVector<T *> &vec, int new_sz) {
   int old_sz = vec.size();
 
   if (old_sz != new_sz) {
     if (old_sz > new_sz) {
-      for (int i=new_sz; i<old_sz; i++) {
+      for (int i = new_sz; i < old_sz; i++) {
         delete vec.at(i);
       }
     }
@@ -157,15 +138,14 @@ void PolygonGenerator::ValidateGizmoVectorSize(QVector<T*> &vec, int new_sz)
     vec.resize(new_sz);
 
     if (old_sz < new_sz) {
-      for (int i=old_sz; i<new_sz; i++) {
-        vec[i] = static_cast<T*>(CreateAppropriateGizmo<T>());
+      for (int i = old_sz; i < new_sz; i++) {
+        vec[i] = static_cast<T *>(CreateAppropriateGizmo<T>());
       }
     }
   }
 }
 
-void PolygonGenerator::UpdateGizmoPositions(const NodeValueRow &row, const NodeGlobals &globals)
-{
+void PolygonGenerator::UpdateGizmoPositions(const NodeValueRow &row, const NodeGlobals &globals) {
   QVector2D res;
   if (TexturePtr tex = row[kBaseInput].toTexture()) {
     res = tex->virtual_resolution();
@@ -173,7 +153,7 @@ void PolygonGenerator::UpdateGizmoPositions(const NodeValueRow &row, const NodeG
     res = globals.square_resolution();
   }
 
-  Imath::V2d half_res(res.x()/2, res.y()/2);
+  Imath::V2d half_res(res.x() / 2, res.y() / 2);
 
   auto points = row[kPointsInput].toArray();
 
@@ -183,17 +163,17 @@ void PolygonGenerator::UpdateGizmoPositions(const NodeValueRow &row, const NodeG
   ValidateGizmoVectorSize(gizmo_bezier_handles_, points.size() * 2);
   ValidateGizmoVectorSize(gizmo_bezier_lines_, points.size() * 2);
 
-  for (int i=current_pos_sz; i<gizmo_position_handles_.size(); i++) {
+  for (int i = current_pos_sz; i < gizmo_position_handles_.size(); i++) {
     gizmo_position_handles_.at(i)->AddInput(NodeKeyframeTrackReference(NodeInput(this, kPointsInput, i), 0));
     gizmo_position_handles_.at(i)->AddInput(NodeKeyframeTrackReference(NodeInput(this, kPointsInput, i), 1));
 
-    PointGizmo *bez_gizmo1 = gizmo_bezier_handles_.at(i*2+0);
+    PointGizmo *bez_gizmo1 = gizmo_bezier_handles_.at(i * 2 + 0);
     bez_gizmo1->AddInput(NodeKeyframeTrackReference(NodeInput(this, kPointsInput, i), 2));
     bez_gizmo1->AddInput(NodeKeyframeTrackReference(NodeInput(this, kPointsInput, i), 3));
     bez_gizmo1->SetShape(PointGizmo::kCircle);
     bez_gizmo1->SetSmaller(true);
 
-    PointGizmo *bez_gizmo2 = gizmo_bezier_handles_.at(i*2+1);
+    PointGizmo *bez_gizmo2 = gizmo_bezier_handles_.at(i * 2 + 1);
     bez_gizmo2->AddInput(NodeKeyframeTrackReference(NodeInput(this, kPointsInput, i), 4));
     bez_gizmo2->AddInput(NodeKeyframeTrackReference(NodeInput(this, kPointsInput, i), 5));
     bez_gizmo2->SetShape(PointGizmo::kCircle);
@@ -202,7 +182,7 @@ void PolygonGenerator::UpdateGizmoPositions(const NodeValueRow &row, const NodeG
 
   int pts_sz = InputArraySize(kPointsInput);
   if (!points.empty()) {
-    for (int i=0; i<pts_sz; i++) {
+    for (int i = 0; i < pts_sz; i++) {
       const Bezier &pt = points.at(i).toBezier();
 
       Imath::V2d main = pt.to_vec() + half_res;
@@ -211,18 +191,17 @@ void PolygonGenerator::UpdateGizmoPositions(const NodeValueRow &row, const NodeG
 
       gizmo_position_handles_[i]->SetPoint(QPointF(main.x, main.y));
 
-      gizmo_bezier_handles_[i*2]->SetPoint(QPointF(cp1.x, cp1.y));
-      gizmo_bezier_lines_[i*2]->SetLine(QLineF(QPointF(main.x, main.y), QPointF(cp1.x, cp1.y)));
-      gizmo_bezier_handles_[i*2+1]->SetPoint(QPointF(cp2.x, cp2.y));
-      gizmo_bezier_lines_[i*2+1]->SetLine(QLineF(QPointF(main.x, main.y), QPointF(cp2.x, cp2.y)));
+      gizmo_bezier_handles_[i * 2]->SetPoint(QPointF(cp1.x, cp1.y));
+      gizmo_bezier_lines_[i * 2]->SetLine(QLineF(QPointF(main.x, main.y), QPointF(cp1.x, cp1.y)));
+      gizmo_bezier_handles_[i * 2 + 1]->SetPoint(QPointF(cp2.x, cp2.y));
+      gizmo_bezier_lines_[i * 2 + 1]->SetLine(QLineF(QPointF(main.x, main.y), QPointF(cp2.x, cp2.y)));
     }
   }
 
   poly_gizmo_->SetPath(GeneratePath(points, pts_sz).translated(QPointF(half_res.x, half_res.y)));
 }
 
-ShaderCode PolygonGenerator::GetShaderCode(const ShaderRequest &request) const
-{
+ShaderCode PolygonGenerator::GetShaderCode(const ShaderRequest &request) const {
   if (request.id == QStringLiteral("rgb")) {
     return ShaderCode(FileFunctions::ReadFileAsString(":/shaders/rgb.frag"));
   } else {
@@ -230,9 +209,8 @@ ShaderCode PolygonGenerator::GetShaderCode(const ShaderRequest &request) const
   }
 }
 
-void PolygonGenerator::GizmoDragMove(double x, double y, const Qt::KeyboardModifiers &modifiers)
-{
-  DraggableGizmo *gizmo = static_cast<DraggableGizmo*>(sender());
+void PolygonGenerator::GizmoDragMove(double x, double y, const Qt::KeyboardModifiers &modifiers) {
+  DraggableGizmo *gizmo = static_cast<DraggableGizmo *>(sender());
 
   if (gizmo == poly_gizmo_) {
     // FIXME: Drag all points
@@ -244,8 +222,7 @@ void PolygonGenerator::GizmoDragMove(double x, double y, const Qt::KeyboardModif
   }
 }
 
-void PolygonGenerator::AddPointToPath(QPainterPath *path, const Bezier &before, const Bezier &after)
-{
+void PolygonGenerator::AddPointToPath(QPainterPath *path, const Bezier &before, const Bezier &after) {
   Imath::V2d a = before.to_vec() + before.control_point_2_to_vec();
   Imath::V2d b = after.to_vec() + after.control_point_1_to_vec();
   Imath::V2d c = after.to_vec();
@@ -253,8 +230,7 @@ void PolygonGenerator::AddPointToPath(QPainterPath *path, const Bezier &before, 
   path->cubicTo(QPointF(a.x, a.y), QPointF(b.x, b.y), QPointF(c.x, c.y));
 }
 
-QPainterPath PolygonGenerator::GeneratePath(const NodeValueArray &points, int size)
-{
+QPainterPath PolygonGenerator::GeneratePath(const NodeValueArray &points, int size) {
   QPainterPath path;
 
   if (!points.empty()) {
@@ -262,14 +238,14 @@ QPainterPath PolygonGenerator::GeneratePath(const NodeValueArray &points, int si
     Imath::V2d v = first_pt.to_vec();
     path.moveTo(QPointF(v.x, v.y));
 
-    for (int i=1; i<size; i++) {
-      AddPointToPath(&path, points.at(i-1).toBezier(), points.at(i).toBezier());
+    for (int i = 1; i < size; i++) {
+      AddPointToPath(&path, points.at(i - 1).toBezier(), points.at(i).toBezier());
     }
 
-    AddPointToPath(&path, points.at(size-1).toBezier(), first_pt);
+    AddPointToPath(&path, points.at(size - 1).toBezier(), first_pt);
   }
 
   return path;
 }
 
-}
+}  // namespace olive

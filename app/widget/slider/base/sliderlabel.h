@@ -27,15 +27,14 @@
 
 namespace olive {
 
-class SliderLabel : public QLabel
-{
+class SliderLabel : public QLabel {
   Q_OBJECT
-public:
-  SliderLabel(QWidget* parent);
+ public:
+  SliderLabel(QWidget *parent);
 
   void SetColor(const QColor &c);
 
-protected:
+ protected:
   virtual void mousePressEvent(QMouseEvent *e) override;
 
   virtual void mouseReleaseEvent(QMouseEvent *e) override;
@@ -44,7 +43,7 @@ protected:
 
   virtual void changeEvent(QEvent *event) override;
 
-signals:
+ signals:
   void LabelPressed();
 
   void LabelReleased();
@@ -55,12 +54,11 @@ signals:
 
   void ChangeSliderType();
 
-private:
+ private:
   bool override_color_enabled_;
   QColor override_color_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // SLIDERLABEL_H
+#endif  // SLIDERLABEL_H

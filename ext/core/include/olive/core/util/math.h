@@ -21,8 +21,6 @@
 #ifndef LIBOLIVECORE_MATH_H
 #define LIBOLIVECORE_MATH_H
 
-namespace olive::core {
+namespace olive::core {}
 
-}
-
-#endif // LIBOLIVECORE_MATH_H
+#endif  // LIBOLIVECORE_MATH_H

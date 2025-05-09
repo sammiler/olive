@@ -35,9 +35,8 @@ namespace olive {
 
 using namespace core;
 
-class AudioProcessor
-{
-public:
+class AudioProcessor {
+ public:
   AudioProcessor();
 
   ~AudioProcessor();
@@ -58,14 +57,14 @@ public:
   const AudioParams &from() const { return from_; }
   const AudioParams &to() const { return to_; }
 
-private:
-  static AVFilterContext* CreateTempoFilter(AVFilterGraph *graph, AVFilterContext *link, const double& tempo);
+ private:
+  static AVFilterContext *CreateTempoFilter(AVFilterGraph *graph, AVFilterContext *link, const double &tempo);
 
-  AVFilterGraph* filter_graph_;
+  AVFilterGraph *filter_graph_;
 
-  AVFilterContext* buffersrc_ctx_;
+  AVFilterContext *buffersrc_ctx_;
 
-  AVFilterContext* buffersink_ctx_;
+  AVFilterContext *buffersink_ctx_;
 
   AudioParams from_;
   AVSampleFormat from_fmt_;
@@ -76,9 +75,8 @@ private:
   AVFrame *in_frame_;
 
   AVFrame *out_frame_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // AUDIOPROCESSOR_H
+#endif  // AUDIOPROCESSOR_H

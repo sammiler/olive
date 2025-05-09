@@ -30,38 +30,32 @@
 
 namespace olive {
 
-class LineEditWithFocusSignal : public QLineEdit
-{
+class LineEditWithFocusSignal : public QLineEdit {
   Q_OBJECT
-public:
-  LineEditWithFocusSignal(QWidget *parent = nullptr) :
-    QLineEdit(parent)
-  {
-  }
+ public:
+  LineEditWithFocusSignal(QWidget *parent = nullptr) : QLineEdit(parent) {}
 
-protected:
-  virtual void focusInEvent(QFocusEvent *e) override
-  {
+ protected:
+  virtual void focusInEvent(QFocusEvent *e) override {
     QLineEdit::focusInEvent(e);
     emit Focused();
   }
 
-signals:
+ signals:
   void Focused();
-
 };
 
-class MarkerPropertiesDialog : public QDialog
-{
+class MarkerPropertiesDialog : public QDialog {
   Q_OBJECT
-public:
-  MarkerPropertiesDialog(const std::vector<TimelineMarker*> &markers, const rational &timebase, QWidget *parent = nullptr);
+ public:
+  MarkerPropertiesDialog(const std::vector<TimelineMarker *> &markers, const rational &timebase,
+                         QWidget *parent = nullptr);
 
-public slots:
+ public slots:
   virtual void accept() override;
 
-private:
-  std::vector<TimelineMarker*> markers_;
+ private:
+  std::vector<TimelineMarker *> markers_;
 
   LineEditWithFocusSignal *label_edit_;
 
@@ -70,9 +64,8 @@ private:
   RationalSlider *in_slider_;
 
   RationalSlider *out_slider_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // MARKERPROPERTIESDIALOG_H
+#endif  // MARKERPROPERTIESDIALOG_H

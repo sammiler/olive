@@ -29,10 +29,9 @@
 
 namespace olive {
 
-class SliderLadderElement : public QWidget
-{
+class SliderLadderElement : public QWidget {
   Q_OBJECT
-public:
+ public:
   SliderLadderElement(const double& multiplier, QString width_hint, QWidget* parent = nullptr);
 
   void SetHighlighted(bool e);
@@ -41,12 +40,9 @@ public:
 
   void SetMultiplierVisible(bool e);
 
-  double GetMultiplier() const
-  {
-    return multiplier_;
-  }
+  double GetMultiplier() const { return multiplier_; }
 
-private:
+ private:
   void UpdateLabel();
 
   QLabel* label_;
@@ -57,13 +53,11 @@ private:
   bool highlighted_;
 
   bool multiplier_visible_;
-
 };
 
-class SliderLadder : public QFrame
-{
+class SliderLadder : public QFrame {
   Q_OBJECT
-public:
+ public:
   SliderLadder(double drag_multiplier, int nb_outer_values, QString width_hint, QWidget* parent = nullptr);
 
   virtual ~SliderLadder() override;
@@ -72,17 +66,17 @@ public:
 
   void StartListeningToMouseInput();
 
-protected:
-  virtual void mouseReleaseEvent(QMouseEvent *event) override;
+ protected:
+  virtual void mouseReleaseEvent(QMouseEvent* event) override;
 
   virtual void closeEvent(QCloseEvent* event) override;
 
-signals:
+ signals:
   void DraggedByValue(int value, double multiplier);
 
   void Released();
 
-private:
+ private:
   bool UsingLadders() const;
 
   int drag_start_x_;
@@ -95,13 +89,12 @@ private:
 
   QTimer drag_timer_;
 
-  QScreen *screen_;
+  QScreen* screen_;
 
-private slots:
+ private slots:
   void TimerUpdate();
-
 };
 
-}
+}  // namespace olive
 
-#endif // SLIDERLADDER_H
+#endif  // SLIDERLADDER_H

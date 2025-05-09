@@ -24,7 +24,6 @@
 #include <qfileinfo.h>
 #include <qstringliteral.h>
 
-
 #ifdef USE_CRASHPAD
 
 #include <QCoreApplication>
@@ -38,29 +37,29 @@
 #include "filefunctions.h"
 
 #if BUILDFLAG(IS_WIN)
-#include <winnt.h>
 #include <Windows.h>
+#include <winnt.h>
 #endif
 
 crashpad::CrashpadClient *client;
 
-Result InitializeCrashpad()
-{
+Result InitializeCrashpad() {
   Result result = {false};
   QString report_path = QDir(olive::FileFunctions::GetTempFilePath()).filePath(QStringLiteral("reports"));
 
   QString handler_fn = olive::FileFunctions::GetFormattedExecutableForPlatform(QStringLiteral("crashpad_handler"));
-  QString crash_dialog = olive::FileFunctions::GetFormattedExecutableForPlatform(QStringLiteral("olive-crashhandler"));// Generate absolute path
+  QString crash_dialog = olive::FileFunctions::GetFormattedExecutableForPlatform(
+      QStringLiteral("olive-crashhandler"));  // Generate absolute path
   QString crash_dialog_abs_path = QDir(QCoreApplication::applicationDirPath()).filePath(crash_dialog);
   QString handler_abs_path = QDir(QCoreApplication::applicationDirPath()).filePath(handler_fn);
-
 
   if (QFileInfo::exists(handler_abs_path) && QFileInfo::exists(crash_dialog_abs_path)) {
     base::FilePath handler(QSTRING_TO_BASE_STRING(handler_abs_path));
 
     base::FilePath reports_dir(QSTRING_TO_BASE_STRING(report_path));
 
-    base::FilePath metrics_dir(QSTRING_TO_BASE_STRING(QDir(olive::FileFunctions::GetTempFilePath()).filePath(QStringLiteral("metrics"))));
+    base::FilePath metrics_dir(
+        QSTRING_TO_BASE_STRING(QDir(olive::FileFunctions::GetTempFilePath()).filePath(QStringLiteral("metrics"))));
 
     // Metadata that will be posted to the server with the crash report map
     std::map<std::string, std::string> annotations;
@@ -81,9 +80,9 @@ Result InitializeCrashpad()
 
     // Start crash handler
     client = new crashpad::CrashpadClient();
-    auto ret = client->StartHandler(handler, reports_dir, metrics_dir,
-                                  "https://olivevideoeditor.org/crashpad/report.php",
-                                  annotations, arguments, true, true);
+    auto ret =
+        client->StartHandler(handler, reports_dir, metrics_dir, "https://olivevideoeditor.org/crashpad/report.php",
+                             annotations, arguments, true, true);
     if (ret) {
       result.success = true;
       result.processPath = crash_dialog_abs_path;
@@ -96,4 +95,4 @@ Result InitializeCrashpad()
   return result;
 }
 
-#endif // USE_CRASHPAD
+#endif  // USE_CRASHPAD

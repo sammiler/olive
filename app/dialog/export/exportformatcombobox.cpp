@@ -27,75 +27,65 @@
 
 namespace olive {
 
-ExportFormatComboBox::ExportFormatComboBox(Mode mode, QWidget *parent) :
-  QComboBox(parent)
-{
+ExportFormatComboBox::ExportFormatComboBox(Mode mode, QWidget *parent) : QComboBox(parent) {
   custom_menu_ = new Menu(this);
 
   // Populate combobox formats
   switch (mode) {
-  case kShowAllFormats:
-    custom_menu_->addAction(CreateHeader(icon::Video, tr("Video")));
-    PopulateType(Track::kVideo);
-    custom_menu_->addSeparator();
+    case kShowAllFormats:
+      custom_menu_->addAction(CreateHeader(icon::Video, tr("Video")));
+      PopulateType(Track::kVideo);
+      custom_menu_->addSeparator();
 
-    custom_menu_->addAction(CreateHeader(icon::Audio, tr("Audio")));
-    PopulateType(Track::kAudio);
-    custom_menu_->addSeparator();
+      custom_menu_->addAction(CreateHeader(icon::Audio, tr("Audio")));
+      PopulateType(Track::kAudio);
+      custom_menu_->addSeparator();
 
-    custom_menu_->addAction(CreateHeader(icon::Subtitles, tr("Subtitle")));
-    PopulateType(Track::kSubtitle);
-    break;
-  case kShowAudioOnly:
-    PopulateType(Track::kAudio);
-    break;
-  case kShowVideoOnly:
-    PopulateType(Track::kVideo);
-    break;
-  case kShowSubtitlesOnly:
-    PopulateType(Track::kSubtitle);
-    break;
+      custom_menu_->addAction(CreateHeader(icon::Subtitles, tr("Subtitle")));
+      PopulateType(Track::kSubtitle);
+      break;
+    case kShowAudioOnly:
+      PopulateType(Track::kAudio);
+      break;
+    case kShowVideoOnly:
+      PopulateType(Track::kVideo);
+      break;
+    case kShowSubtitlesOnly:
+      PopulateType(Track::kSubtitle);
+      break;
   }
 
   connect(custom_menu_, &Menu::triggered, this, &ExportFormatComboBox::HandleIndexChange);
 }
 
-void ExportFormatComboBox::showPopup()
-{
+void ExportFormatComboBox::showPopup() {
   custom_menu_->setMinimumWidth(this->width());
   custom_menu_->exec(mapToGlobal(QPoint(0, 0)));
 }
 
-void ExportFormatComboBox::SetFormat(ExportFormat::Format fmt)
-{
+void ExportFormatComboBox::SetFormat(ExportFormat::Format fmt) {
   current_ = fmt;
   clear();
   addItem(ExportFormat::GetName(current_));
 }
 
-void ExportFormatComboBox::HandleIndexChange(QAction *a)
-{
+void ExportFormatComboBox::HandleIndexChange(QAction *a) {
   ExportFormat::Format f = static_cast<ExportFormat::Format>(a->data().toInt());
   SetFormat(f);
   emit FormatChanged(f);
 }
 
-void ExportFormatComboBox::PopulateType(Track::Type type)
-{
-  for (int i=0; i<ExportFormat::kFormatCount; i++) {
+void ExportFormatComboBox::PopulateType(Track::Type type) {
+  for (int i = 0; i < ExportFormat::kFormatCount; i++) {
     ExportFormat::Format f = static_cast<ExportFormat::Format>(i);
 
-    if (type == Track::kVideo
-        && !ExportFormat::GetVideoCodecs(f).isEmpty()) {
+    if (type == Track::kVideo && !ExportFormat::GetVideoCodecs(f).isEmpty()) {
       // Do nothing
-    } else if (type == Track::kAudio
-               && ExportFormat::GetVideoCodecs(f).isEmpty()
-               && !ExportFormat::GetAudioCodecs(f).isEmpty()) {
+    } else if (type == Track::kAudio && ExportFormat::GetVideoCodecs(f).isEmpty() &&
+               !ExportFormat::GetAudioCodecs(f).isEmpty()) {
       // Do nothing
-    } else if (type == Track::kSubtitle
-               && ExportFormat::GetVideoCodecs(f).isEmpty()
-               && ExportFormat::GetAudioCodecs(f).isEmpty()
-               && !ExportFormat::GetSubtitleCodecs(f).isEmpty()) {
+    } else if (type == Track::kSubtitle && ExportFormat::GetVideoCodecs(f).isEmpty() &&
+               ExportFormat::GetAudioCodecs(f).isEmpty() && !ExportFormat::GetSubtitleCodecs(f).isEmpty()) {
       // Do nothing
     } else {
       continue;
@@ -109,8 +99,7 @@ void ExportFormatComboBox::PopulateType(Track::Type type)
   }
 }
 
-QWidgetAction *ExportFormatComboBox::CreateHeader(const QIcon &icon, const QString &title)
-{
+QWidgetAction *ExportFormatComboBox::CreateHeader(const QIcon &icon, const QString &title) {
   QWidgetAction *a = new QWidgetAction(this);
 
   QWidget *w = new QWidget();
@@ -136,4 +125,4 @@ QWidgetAction *ExportFormatComboBox::CreateHeader(const QIcon &icon, const QStri
   return a;
 }
 
-}
+}  // namespace olive

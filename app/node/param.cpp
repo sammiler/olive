@@ -24,8 +24,7 @@
 
 namespace olive {
 
-QString NodeInput::name() const
-{
+QString NodeInput::name() const {
   if (IsValid()) {
     return node_->GetInputName(input_);
   } else {
@@ -33,8 +32,7 @@ QString NodeInput::name() const
   }
 }
 
-bool NodeInput::IsHidden() const
-{
+bool NodeInput::IsHidden() const {
   if (IsValid()) {
     return node_->IsInputHidden(input_);
   } else {
@@ -42,8 +40,7 @@ bool NodeInput::IsHidden() const
   }
 }
 
-bool NodeInput::IsConnected() const
-{
+bool NodeInput::IsConnected() const {
   if (IsValid()) {
     return node_->IsInputConnected(*this);
   } else {
@@ -51,8 +48,7 @@ bool NodeInput::IsConnected() const
   }
 }
 
-bool NodeInput::IsKeyframing() const
-{
+bool NodeInput::IsKeyframing() const {
   if (IsValid()) {
     return node_->IsInputKeyframing(*this);
   } else {
@@ -60,8 +56,7 @@ bool NodeInput::IsKeyframing() const
   }
 }
 
-bool NodeInput::IsArray() const
-{
+bool NodeInput::IsArray() const {
   if (IsValid()) {
     return node_->InputIsArray(input_);
   } else {
@@ -69,8 +64,7 @@ bool NodeInput::IsArray() const
   }
 }
 
-InputFlags NodeInput::GetFlags() const
-{
+InputFlags NodeInput::GetFlags() const {
   if (IsValid()) {
     return node_->GetInputFlags(input_);
   } else {
@@ -78,8 +72,7 @@ InputFlags NodeInput::GetFlags() const
   }
 }
 
-QString NodeInput::GetInputName() const
-{
+QString NodeInput::GetInputName() const {
   if (IsValid()) {
     return node_->GetInputName(input_);
   } else {
@@ -87,8 +80,7 @@ QString NodeInput::GetInputName() const
   }
 }
 
-Node *NodeInput::GetConnectedOutput() const
-{
+Node *NodeInput::GetConnectedOutput() const {
   if (IsValid()) {
     return node_->GetConnectedOutput(*this);
   } else {
@@ -96,8 +88,7 @@ Node *NodeInput::GetConnectedOutput() const
   }
 }
 
-NodeValue::Type NodeInput::GetDataType() const
-{
+NodeValue::Type NodeInput::GetDataType() const {
   if (IsValid()) {
     return node_->GetInputDataType(input_);
   } else {
@@ -105,8 +96,7 @@ NodeValue::Type NodeInput::GetDataType() const
   }
 }
 
-QVariant NodeInput::GetDefaultValue() const
-{
+QVariant NodeInput::GetDefaultValue() const {
   if (IsValid()) {
     return node_->GetDefaultValue(input_);
   } else {
@@ -114,8 +104,7 @@ QVariant NodeInput::GetDefaultValue() const
   }
 }
 
-QStringList NodeInput::GetComboBoxStrings() const
-{
+QStringList NodeInput::GetComboBoxStrings() const {
   if (IsValid()) {
     return node_->GetComboBoxStrings(input_);
   } else {
@@ -123,8 +112,7 @@ QStringList NodeInput::GetComboBoxStrings() const
   }
 }
 
-QVariant NodeInput::GetProperty(const QString &key) const
-{
+QVariant NodeInput::GetProperty(const QString &key) const {
   if (IsValid()) {
     return node_->GetInputProperty(input_, key);
   } else {
@@ -132,8 +120,7 @@ QVariant NodeInput::GetProperty(const QString &key) const
   }
 }
 
-QHash<QString, QVariant> NodeInput::GetProperties() const
-{
+QHash<QString, QVariant> NodeInput::GetProperties() const {
   if (IsValid()) {
     return node_->GetInputProperties(input_);
   } else {
@@ -141,8 +128,7 @@ QHash<QString, QVariant> NodeInput::GetProperties() const
   }
 }
 
-QVariant NodeInput::GetValueAtTime(const rational &time) const
-{
+QVariant NodeInput::GetValueAtTime(const rational &time) const {
   if (IsValid()) {
     return node_->GetValueAtTime(*this, time);
   } else {
@@ -150,8 +136,7 @@ QVariant NodeInput::GetValueAtTime(const rational &time) const
   }
 }
 
-NodeKeyframe* NodeInput::GetKeyframeAtTimeOnTrack(const rational &time, int track) const
-{
+NodeKeyframe *NodeInput::GetKeyframeAtTimeOnTrack(const rational &time, int track) const {
   if (IsValid()) {
     return node_->GetKeyframeAtTimeOnTrack(*this, time, track);
   } else {
@@ -159,8 +144,7 @@ NodeKeyframe* NodeInput::GetKeyframeAtTimeOnTrack(const rational &time, int trac
   }
 }
 
-QVariant NodeInput::GetSplitDefaultValueForTrack(int track) const
-{
+QVariant NodeInput::GetSplitDefaultValueForTrack(int track) const {
   if (IsValid()) {
     return node_->GetSplitDefaultValueOnTrack(input_, track);
   } else {
@@ -168,8 +152,7 @@ QVariant NodeInput::GetSplitDefaultValueForTrack(int track) const
   }
 }
 
-int NodeInput::GetArraySize() const
-{
+int NodeInput::GetArraySize() const {
   if (IsValid() && element_ == -1) {
     return node_->InputArraySize(input_);
   } else {
@@ -177,19 +160,10 @@ int NodeInput::GetArraySize() const
   }
 }
 
-uint qHash(const NodeInput &i)
-{
-  return qHash(i.node()) ^ qHash(i.input()) ^ ::qHash(i.element());
-}
+uint qHash(const NodeInput &i) { return qHash(i.node()) ^ qHash(i.input()) ^ ::qHash(i.element()); }
 
-uint qHash(const NodeKeyframeTrackReference &i)
-{
-  return qHash(i.input()) & ::qHash(i.track());
-}
+uint qHash(const NodeKeyframeTrackReference &i) { return qHash(i.input()) & ::qHash(i.track()); }
 
-uint qHash(const NodeInputPair &i)
-{
-  return qHash(i.node) & qHash(i.input);
-}
+uint qHash(const NodeInputPair &i) { return qHash(i.node) & qHash(i.input); }
 
-}
+}  // namespace olive

@@ -26,22 +26,20 @@
 
 namespace olive {
 
-class PixelSamplerPanel : public PanelWidget
-{
+class PixelSamplerPanel : public PanelWidget {
   Q_OBJECT
-public:
+ public:
   PixelSamplerPanel();
 
-public slots:
+ public slots:
   void SetValues(const Color& reference, const Color& display);
 
-private:
+ private:
   virtual void Retranslate() override;
 
   ManagedPixelSamplerWidget* sampler_widget_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // PIXELSAMPLERPANEL_H
+#endif  // PIXELSAMPLERPANEL_H

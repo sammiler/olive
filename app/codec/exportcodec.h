@@ -29,10 +29,9 @@
 
 namespace olive {
 
-class ExportCodec : public QObject
-{
+class ExportCodec : public QObject {
   Q_OBJECT
-public:
+ public:
   // Only append to this list (never insert) because indexes are used in serialized files
   enum Codec {
     kCodecDNxHD,
@@ -63,9 +62,8 @@ public:
   static bool IsCodecAStillImage(Codec c);
 
   static bool IsCodecLossless(Codec c);
-
 };
 
-}
+}  // namespace olive
 
-#endif // EXPORTCODEC_H
+#endif  // EXPORTCODEC_H

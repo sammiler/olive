@@ -27,8 +27,7 @@ const QString ColorDifferenceKeyNode::kMaskOnlyInput = QStringLiteral("mask_only
 
 #define super Node
 
-ColorDifferenceKeyNode::ColorDifferenceKeyNode()
-{
+ColorDifferenceKeyNode::ColorDifferenceKeyNode() {
   AddInput(kTextureInput, NodeValue::kTexture, InputFlags(kInputFlagNotKeyframable));
 
   AddInput(kGarbageMatteInput, NodeValue::kTexture, InputFlags(kInputFlagNotKeyframable));
@@ -51,28 +50,17 @@ ColorDifferenceKeyNode::ColorDifferenceKeyNode()
   SetEffectInput(kTextureInput);
 }
 
-QString ColorDifferenceKeyNode::Name() const
-{
-  return tr("Color Difference Key");
-}
+QString ColorDifferenceKeyNode::Name() const { return tr("Color Difference Key"); }
 
-QString ColorDifferenceKeyNode::id() const
-{
-  return QStringLiteral("org.olivevideoeditor.Olive.colordifferencekey");
-}
+QString ColorDifferenceKeyNode::id() const { return QStringLiteral("org.olivevideoeditor.Olive.colordifferencekey"); }
 
-QVector<Node::CategoryID> ColorDifferenceKeyNode::Category() const
-{
-  return {kCategoryKeying};
-}
+QVector<Node::CategoryID> ColorDifferenceKeyNode::Category() const { return {kCategoryKeying}; }
 
-QString ColorDifferenceKeyNode::Description() const
-{
+QString ColorDifferenceKeyNode::Description() const {
   return tr("A simple color key based on the distance of one color from other colors.");
 }
 
-void ColorDifferenceKeyNode::Retranslate()
-{
+void ColorDifferenceKeyNode::Retranslate() {
   super::Retranslate();
 
   SetInputName(kTextureInput, tr("Input"));
@@ -85,14 +73,12 @@ void ColorDifferenceKeyNode::Retranslate()
   SetInputName(kMaskOnlyInput, tr("Show Mask Only"));
 }
 
-ShaderCode ColorDifferenceKeyNode::GetShaderCode(const ShaderRequest &request) const
-{
+ShaderCode ColorDifferenceKeyNode::GetShaderCode(const ShaderRequest &request) const {
   Q_UNUSED(request)
   return ShaderCode(FileFunctions::ReadFileAsString(":/shaders/colordifferencekey.frag"));
 }
 
-void ColorDifferenceKeyNode::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const
-{
+void ColorDifferenceKeyNode::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const {
   // If there's no texture, no need to run an operation
   if (TexturePtr tex = value[kTextureInput].toTexture()) {
     ShaderJob job;

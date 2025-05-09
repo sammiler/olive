@@ -25,20 +25,18 @@
 
 namespace olive {
 
-class ZoomTool : public TimelineTool
-{
-public:
-  ZoomTool(TimelineWidget* parent);
+class ZoomTool : public TimelineTool {
+ public:
+  ZoomTool(TimelineWidget *parent);
 
   virtual void MousePress(TimelineViewMouseEvent *event) override;
   virtual void MouseMove(TimelineViewMouseEvent *event) override;
   virtual void MouseRelease(TimelineViewMouseEvent *event) override;
 
-private:
+ private:
   QPoint drag_global_start_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // ZOOMTIMELINETOOL_H
+#endif  // ZOOMTIMELINETOOL_H

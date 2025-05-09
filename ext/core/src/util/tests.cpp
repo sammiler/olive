@@ -20,14 +20,13 @@
 
 #include "util/tests.h"
 
+#include <stdarg.h>
 #include <cstddef>
 #include <cstdio>
-#include <stdarg.h>
 
 namespace olive::core {
 
-bool Tester::run()
-{
+bool Tester::run() {
   size_t index = 1;
   size_t count = test_functions_.size();
 
@@ -48,8 +47,7 @@ bool Tester::run()
   return true;
 }
 
-void Tester::echo(const char *fmt, ...)
-{
+void Tester::echo(const char *fmt, ...) {
   va_list a;
   va_start(a, fmt);
 
@@ -58,4 +56,4 @@ void Tester::echo(const char *fmt, ...)
   va_end(a);
 }
 
-}
+}  // namespace olive::core

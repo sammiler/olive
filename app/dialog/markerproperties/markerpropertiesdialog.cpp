@@ -32,10 +32,9 @@ namespace olive {
 
 #define super QDialog
 
-MarkerPropertiesDialog::MarkerPropertiesDialog(const std::vector<TimelineMarker *> &markers, const rational &timebase, QWidget *parent) :
-  super(parent),
-  markers_(markers)
-{
+MarkerPropertiesDialog::MarkerPropertiesDialog(const std::vector<TimelineMarker *> &markers, const rational &timebase,
+                                               QWidget *parent)
+    : super(parent), markers_(markers) {
   QGridLayout *layout = new QGridLayout(this);
 
   int row = 0;
@@ -84,7 +83,7 @@ MarkerPropertiesDialog::MarkerPropertiesDialog(const std::vector<TimelineMarker 
   layout->addWidget(color_menu_, row, 1);
 
   color_menu_->SetColor(markers.front()->color());
-  for (size_t i=1; i<markers.size(); i++) {
+  for (size_t i = 1; i < markers.size(); i++) {
     if (markers.at(i)->color() != color_menu_->GetSelectedColor()) {
       color_menu_->SetColor(-1);
       break;
@@ -96,14 +95,12 @@ MarkerPropertiesDialog::MarkerPropertiesDialog(const std::vector<TimelineMarker 
   layout->addWidget(new QLabel(tr("Name:")), row, 0);
 
   label_edit_ = new LineEditWithFocusSignal();
-  connect(label_edit_, &LineEditWithFocusSignal::Focused, this, [this]{
-    label_edit_->setPlaceholderText(QString());
-  });
+  connect(label_edit_, &LineEditWithFocusSignal::Focused, this, [this] { label_edit_->setPlaceholderText(QString()); });
   layout->addWidget(label_edit_, row, 1);
 
   // Determine what the startup label text should be
   label_edit_->setText(markers.front()->name());
-  for (size_t i=1; i<markers.size(); i++) {
+  for (size_t i = 1; i < markers.size(); i++) {
     if (markers.at(i)->name() != label_edit_->text()) {
       label_edit_->clear();
       label_edit_->setPlaceholderText(tr("(multiple)"));
@@ -122,8 +119,7 @@ MarkerPropertiesDialog::MarkerPropertiesDialog(const std::vector<TimelineMarker 
   label_edit_->setFocus();
 }
 
-void MarkerPropertiesDialog::accept()
-{
+void MarkerPropertiesDialog::accept() {
   if (in_slider_->isEnabled() && in_slider_->GetValue() > out_slider_->GetValue()) {
     QMessageBox::critical(this, tr("Invalid Values"), tr("In point must be less than or equal to out point."));
     return;
@@ -144,7 +140,8 @@ void MarkerPropertiesDialog::accept()
   }
 
   if (markers_.size() == 1) {
-    command->add_child(new MarkerChangeTimeCommand(markers_.front(), TimeRange(in_slider_->GetValue(), out_slider_->GetValue())));
+    command->add_child(
+        new MarkerChangeTimeCommand(markers_.front(), TimeRange(in_slider_->GetValue(), out_slider_->GetValue())));
   }
 
   Core::instance()->undo_stack()->push(command, tr("Set Marker Properties"));
@@ -152,4 +149,4 @@ void MarkerPropertiesDialog::accept()
   super::accept();
 }
 
-}
+}  // namespace olive

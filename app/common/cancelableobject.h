@@ -27,35 +27,25 @@
 namespace olive {
 
 class CancelableObject {
-public:
-  CancelableObject()
-  {
-  }
+ public:
+  CancelableObject() {}
 
-  void Cancel()
-  {
+  void Cancel() {
     cancel_.Cancel();
     CancelEvent();
   }
 
-  CancelAtom *GetCancelAtom()
-  {
-    return &cancel_;
-  }
+  CancelAtom *GetCancelAtom() { return &cancel_; }
 
-  bool IsCancelled()
-  {
-    return cancel_.IsCancelled();
-  }
+  bool IsCancelled() { return cancel_.IsCancelled(); }
 
-protected:
-  virtual void CancelEvent(){}
+ protected:
+  virtual void CancelEvent() {}
 
-private:
+ private:
   CancelAtom cancel_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // CANCELABLEOBJECT_H
+#endif  // CANCELABLEOBJECT_H

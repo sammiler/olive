@@ -25,8 +25,7 @@
 
 using namespace olive::core;
 
-bool rational_to_from_string_test()
-{
+bool rational_to_from_string_test() {
   rational r(1, 30);
 
   std::string s = r.toString();
@@ -36,8 +35,7 @@ bool rational_to_from_string_test()
   return r == r2;
 }
 
-bool rational_to_from_string_test2()
-{
+bool rational_to_from_string_test2() {
   rational r(69, 420);
 
   std::string s = r.toString();
@@ -47,8 +45,7 @@ bool rational_to_from_string_test2()
   return r == r2;
 }
 
-bool rational_defaults()
-{
+bool rational_defaults() {
   // By default, rationals are valid 0/1
   rational basic_constructor;
 
@@ -63,8 +60,7 @@ bool rational_defaults()
   return true;
 }
 
-bool rational_nan()
-{
+bool rational_nan() {
   // Create a NaN with a 0 denominator
   rational nan = rational(0, 0);
   if (!nan.isNaN()) return false;
@@ -83,13 +79,9 @@ bool rational_nan()
   return true;
 }
 
-bool rational_nan_constant()
-{
-  return rational::NaN.isNaN();
-}
+bool rational_nan_constant() { return rational::NaN.isNaN(); }
 
-int main()
-{
+int main() {
   Tester t;
 
   t.add("rational::defaults", rational_defaults);

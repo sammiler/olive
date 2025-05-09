@@ -26,8 +26,7 @@
 
 namespace olive {
 
-class DisplayTransformNode : public OCIOBaseNode
-{
+class DisplayTransformNode : public OCIOBaseNode {
   Q_OBJECT
  public:
   DisplayTransformNode();
@@ -50,18 +49,17 @@ class DisplayTransformNode : public OCIOBaseNode
   static const QString kViewInput;
   static const QString kDirectionInput;
 
-protected slots:
+ protected slots:
   virtual void ConfigChanged() override;
 
-private:
+ private:
   void GenerateProcessor();
 
   void UpdateDisplays();
 
   void UpdateViews();
-
 };
 
-} // olive
+}  // namespace olive
 
-#endif // DISPLAYTRANSFORMNODE_H
+#endif  // DISPLAYTRANSFORMNODE_H

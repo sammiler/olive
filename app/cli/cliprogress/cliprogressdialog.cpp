@@ -24,17 +24,12 @@
 
 namespace olive {
 
-CLIProgressDialog::CLIProgressDialog(const QString& title, QObject *parent) :
-  QObject(parent),
-  title_(title),
-  progress_(-1),
-  drawn_(false)
-{
+CLIProgressDialog::CLIProgressDialog(const QString& title, QObject* parent)
+    : QObject(parent), title_(title), progress_(-1), drawn_(false) {
   SetProgress(0);
 }
 
-void CLIProgressDialog::Update()
-{
+void CLIProgressDialog::Update() {
   if (drawn_) {
     // We've been here before, do a carriage return back to the start of the terminal line
     std::cout << "\r";
@@ -59,7 +54,7 @@ void CLIProgressDialog::Update()
   std::cout << sized_title.toUtf8().constData();
 
   // Pad out the rest of the title area if necessary
-  for (int i=sized_title.size(); i<title_columns; i++) {
+  for (int i = sized_title.size(); i < title_columns; i++) {
     std::cout << " ";
   }
 
@@ -72,12 +67,12 @@ void CLIProgressDialog::Update()
   int bar_prog = qRound(progress_ * progress_bar_columns);
 
   // Draw filled in bar
-  for (int i=0;i<bar_prog;i++) {
+  for (int i = 0; i < bar_prog; i++) {
     std::cout << "=";
   }
 
   // Draw empty space
-  for (int i=bar_prog;i<progress_bar_columns;i++) {
+  for (int i = bar_prog; i < progress_bar_columns; i++) {
     std::cout << " ";
   }
 
@@ -94,8 +89,7 @@ void CLIProgressDialog::Update()
   std::cout << qRound(progress_ * 100.0) << "% " << std::endl << std::flush;
 }
 
-void CLIProgressDialog::SetProgress(double p)
-{
+void CLIProgressDialog::SetProgress(double p) {
   if (progress_ != p) {
     progress_ = p;
 
@@ -103,4 +97,4 @@ void CLIProgressDialog::SetProgress(double p)
   }
 }
 
-}
+}  // namespace olive

@@ -27,27 +27,25 @@
 
 namespace olive {
 
-class DragButton : public QPushButton
-{
+class DragButton : public QPushButton {
   Q_OBJECT
-public:
+ public:
   DragButton(QWidget* parent = nullptr);
 
-signals:
+ signals:
   void DragStarted();
 
-protected:
+ protected:
   virtual void mousePressEvent(QMouseEvent* event) override;
 
   virtual void mouseMoveEvent(QMouseEvent* event) override;
 
   virtual void mouseReleaseEvent(QMouseEvent* event) override;
 
-private:
+ private:
   bool dragging_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // DRAGBUTTON_H
+#endif  // DRAGBUTTON_H

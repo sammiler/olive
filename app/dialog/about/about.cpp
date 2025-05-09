@@ -32,9 +32,7 @@
 
 namespace olive {
 
-AboutDialog::AboutDialog(bool welcome_dialog, QWidget *parent) :
-  QDialog(parent)
-{
+AboutDialog::AboutDialog(bool welcome_dialog, QWidget* parent) : QDialog(parent) {
   if (welcome_dialog) {
     setWindowTitle(tr("Welcome to %1").arg(QApplication::applicationName()));
   } else {
@@ -46,26 +44,25 @@ AboutDialog::AboutDialog(bool welcome_dialog, QWidget *parent) :
   QVBoxLayout* layout = new QVBoxLayout(this);
   layout->setContentsMargins(fm.height(), fm.height(), fm.height(), fm.height());
 
-  QHBoxLayout *horiz_layout = new QHBoxLayout();
+  QHBoxLayout* horiz_layout = new QHBoxLayout();
   horiz_layout->setContentsMargins(fm.height(), fm.height(), fm.height(), fm.height());
-  horiz_layout->setSpacing(fm.height()*2);
+  horiz_layout->setSpacing(fm.height() * 2);
 
   QLabel* icon = new QLabel(QStringLiteral("<html><img src=':/graphics/olive-splash.png'></html>"));
   icon->setAlignment(Qt::AlignCenter);
   horiz_layout->addWidget(icon);
 
   // Construct About text
-  QLabel* label =
-      new QLabel(QStringLiteral("<html><head/><body>"
-                                "<p><b>%1</b> %2</p>" // AppName (version identifier)
-                                "<p><a href=\"https://www.olivevideoeditor.org/\">"
-                                "https://www.olivevideoeditor.org/"
-                                "</a></p>"
-                                "<p>%3</p>" // First statement
-                                "</body></html>").arg(QApplication::applicationName(),
-                                                      QApplication::applicationVersion(),
-                                                      tr("Olive is a free open source non-linear video editor. "
-                                                         "This software is licensed under the GNU GPL Version 3.")));
+  QLabel* label = new QLabel(QStringLiteral("<html><head/><body>"
+                                            "<p><b>%1</b> %2</p>"  // AppName (version identifier)
+                                            "<p><a href=\"https://www.olivevideoeditor.org/\">"
+                                            "https://www.olivevideoeditor.org/"
+                                            "</a></p>"
+                                            "<p>%3</p>"  // First statement
+                                            "</body></html>")
+                                 .arg(QApplication::applicationName(), QApplication::applicationVersion(),
+                                      tr("Olive is a free open source non-linear video editor. "
+                                         "This software is licensed under the GNU GPL Version 3.")));
 
   // Set text formatting
   label->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
@@ -86,14 +83,16 @@ AboutDialog::AboutDialog(bool welcome_dialog, QWidget *parent) :
   if (welcome_dialog || patrons.isEmpty()) {
     opening_statement = tr("<b>Olive relies on support from the community to continue its development.</b>");
   } else {
-    opening_statement = tr("Olive wouldn't be possible without the support of gracious donations from the following people.");
+    opening_statement =
+        tr("Olive wouldn't be possible without the support of gracious donations from the following people.");
   }
 
   QLabel* support_lbl = new QLabel(tr("<html>%1 "
-                                        "If you like this project, please consider making a "
-                                        "<a href='https://olivevideoeditor.org/donate.php'>one-time donation</a> or "
-                                        "<a href='https://www.patreon.com/olivevideoeditor'>pledging monthly</a> to "
-                                        "support its development.</html>").arg(opening_statement));
+                                      "If you like this project, please consider making a "
+                                      "<a href='https://olivevideoeditor.org/donate.php'>one-time donation</a> or "
+                                      "<a href='https://www.patreon.com/olivevideoeditor'>pledging monthly</a> to "
+                                      "support its development.</html>")
+                                       .arg(opening_statement));
   support_lbl->setWordWrap(true);
   support_lbl->setAlignment(Qt::AlignCenter);
   support_lbl->setOpenExternalLinks(true);
@@ -107,7 +106,7 @@ AboutDialog::AboutDialog(bool welcome_dialog, QWidget *parent) :
 
   layout->addWidget(new QLabel());
 
-  QHBoxLayout *btn_layout = new QHBoxLayout();
+  QHBoxLayout* btn_layout = new QHBoxLayout();
   btn_layout->setContentsMargins(0, 0, 0, 0);
   btn_layout->setSpacing(0);
 
@@ -131,8 +130,7 @@ AboutDialog::AboutDialog(bool welcome_dialog, QWidget *parent) :
   setFixedSize(sizeHint());
 }
 
-void AboutDialog::accept()
-{
+void AboutDialog::accept() {
   if (dont_show_again_checkbox_ && dont_show_again_checkbox_->isChecked()) {
     OLIVE_CONFIG("ShowWelcomeDialog") = false;
   }
@@ -140,4 +138,4 @@ void AboutDialog::accept()
   QDialog::accept();
 }
 
-}
+}  // namespace olive

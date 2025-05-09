@@ -28,22 +28,19 @@ namespace olive {
 
 const QString GeneratorWithMerge::kBaseInput = QStringLiteral("base_in");
 
-GeneratorWithMerge::GeneratorWithMerge()
-{
+GeneratorWithMerge::GeneratorWithMerge() {
   AddInput(kBaseInput, NodeValue::kTexture, InputFlags(kInputFlagNotKeyframable));
   SetEffectInput(kBaseInput);
   SetFlag(kVideoEffect);
 }
 
-void GeneratorWithMerge::Retranslate()
-{
+void GeneratorWithMerge::Retranslate() {
   super::Retranslate();
 
   SetInputName(kBaseInput, tr("Base"));
 }
 
-ShaderCode GeneratorWithMerge::GetShaderCode(const ShaderRequest &request) const
-{
+ShaderCode GeneratorWithMerge::GetShaderCode(const ShaderRequest &request) const {
   if (request.id == QStringLiteral("mrg")) {
     return ShaderCode(FileFunctions::ReadFileAsString(":/shaders/alphaover.frag"));
   }
@@ -51,8 +48,7 @@ ShaderCode GeneratorWithMerge::GetShaderCode(const ShaderRequest &request) const
   return ShaderCode();
 }
 
-void GeneratorWithMerge::PushMergableJob(const NodeValueRow &value, TexturePtr job, NodeValueTable *table) const
-{
+void GeneratorWithMerge::PushMergableJob(const NodeValueRow &value, TexturePtr job, NodeValueTable *table) const {
   if (TexturePtr base = value[kBaseInput].toTexture()) {
     // Push as merge node
     ShaderJob merge;
@@ -68,4 +64,4 @@ void GeneratorWithMerge::PushMergableJob(const NodeValueRow &value, TexturePtr j
   }
 }
 
-}
+}  // namespace olive

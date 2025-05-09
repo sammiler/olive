@@ -30,9 +30,8 @@ namespace olive {
 
 class NodeInput;
 
-class NodeInputImmediate
-{
-public:
+class NodeInputImmediate {
+ public:
   NodeInputImmediate(NodeValue::Type type, const SplitValue& default_val);
 
   /**
@@ -42,22 +41,16 @@ public:
 
   void remove_keyframe(NodeKeyframe* key);
 
-  void delete_all_keyframes(QObject *parent = nullptr);
+  void delete_all_keyframes(QObject* parent = nullptr);
 
   /**
    * @brief Get non-keyframed value split into components (the way it's stored)
    */
-  const SplitValue& get_split_standard_value() const
-  {
-    return standard_value_;
-  }
+  const SplitValue& get_split_standard_value() const { return standard_value_; }
 
-  const QVariant& get_split_standard_value_on_track(int track) const
-  {
-    return standard_value_.at(track);
-  }
+  const QVariant& get_split_standard_value_on_track(int track) const { return standard_value_.at(track); }
 
-  void set_standard_value_on_track(const QVariant &value, int track);
+  void set_standard_value_on_track(const QVariant& value, int track);
 
   void set_split_standard_value(const SplitValue& value);
 
@@ -99,33 +92,25 @@ public:
   NodeKeyframe* get_closest_keyframe_after_time(const rational& time) const;
 
   /**
-   * @brief A heuristic to determine what type a keyframe should be if it's inserted at a certain time (between keyframes)
+   * @brief A heuristic to determine what type a keyframe should be if it's inserted at a certain time (between
+   * keyframes)
    */
   NodeKeyframe::Type get_best_keyframe_type_for_time(const rational& time, int track) const;
 
   /**
    * @brief Return list of keyframes in this parameter
    */
-  const QVector<NodeKeyframeTrack> &keyframe_tracks() const
-  {
-    return keyframe_tracks_;
-  }
+  const QVector<NodeKeyframeTrack>& keyframe_tracks() const { return keyframe_tracks_; }
 
   /**
    * @brief Return whether keyframing is enabled on this input or not
    */
-  bool is_keyframing() const
-  {
-    return keyframing_;
-  }
+  bool is_keyframing() const { return keyframing_; }
 
   /**
    * @brief Set whether keyframing is enabled on this input or not
    */
-  void set_is_keyframing(bool k)
-  {
-    keyframing_ = k;
-  }
+  void set_is_keyframing(bool k) { keyframing_ = k; }
 
   /**
    * @brief Gets the earliest keyframe on any track
@@ -143,16 +128,13 @@ public:
    * If is_keyframing() is false, this will always return false. This checks all tracks and will return true if *any*
    * track has a keyframe.
    */
-  bool has_keyframe_at_time(const rational &time) const;
+  bool has_keyframe_at_time(const rational& time) const;
 
-  bool is_using_standard_value(int track) const
-  {
-    return (!is_keyframing() || keyframe_tracks_.at(track).isEmpty());
-  }
+  bool is_using_standard_value(int track) const { return (!is_keyframing() || keyframe_tracks_.at(track).isEmpty()); }
 
   void set_data_type(NodeValue::Type type);
 
-private:
+ private:
   /**
    * @brief Non-keyframed value
    */
@@ -174,9 +156,8 @@ private:
    * @brief Internal keyframing enabled setting
    */
   bool keyframing_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // NODEINPUTIMMEDIATE_H
+#endif  // NODEINPUTIMMEDIATE_H

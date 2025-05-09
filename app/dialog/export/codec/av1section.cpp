@@ -30,14 +30,9 @@
 
 namespace olive {
 
-AV1Section::AV1Section(QWidget *parent) :
-  AV1Section(AV1CRFSection::kDefaultAV1CRF, parent)
-{
-}
+AV1Section::AV1Section(QWidget* parent) : AV1Section(AV1CRFSection::kDefaultAV1CRF, parent) {}
 
-AV1Section::AV1Section(int default_crf, QWidget *parent) :
-  CodecSection(parent)
-{
+AV1Section::AV1Section(int default_crf, QWidget* parent) : CodecSection(parent) {
   QGridLayout* layout = new QGridLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
 
@@ -45,12 +40,14 @@ AV1Section::AV1Section(int default_crf, QWidget *parent) :
   layout->addWidget(new QLabel(tr("Preset:")), row, 0);
 
   preset_combobox_ = new QComboBox();
-  preset_combobox_->setToolTip(tr("This parameter governs the efficiency/encode-time trade-off.\n"
-    "Lower presets will result in an output with better quality for a given file size, but will take longer to encode.\n"
-    "Higher presets can result in a very fast encode, but will make some compromises on visual quality for a given crf value."));
+  preset_combobox_->setToolTip(
+      tr("This parameter governs the efficiency/encode-time trade-off.\n"
+         "Lower presets will result in an output with better quality for a given file size, but will take longer to "
+         "encode.\n"
+         "Higher presets can result in a very fast encode, but will make some compromises on visual quality for a "
+         "given crf value."));
 
-  for (int i = 0; i <= 13; i++)
-    preset_combobox_->addItem(QString::number(i));
+  for (int i = 0; i <= 13; i++) preset_combobox_->addItem(QString::number(i));
 
   preset_combobox_->setCurrentIndex(8);
 
@@ -61,10 +58,11 @@ AV1Section::AV1Section(int default_crf, QWidget *parent) :
   layout->addWidget(new QLabel(tr("Compression Method:")), row, 0);
 
   QComboBox* compression_box = new QComboBox();
-  compression_box->setToolTip(tr("This parameter governs the quality/size trade-off.\n"
-    "Higher CRF values will result in a final output that takes less space, but begins to lose detail.\n"
-    "Lower CRF values retain more detail at the cost of larger file sizes.\n"
-    "The possible range of CRF in SVT-AV1 is 1-63."));
+  compression_box->setToolTip(
+      tr("This parameter governs the quality/size trade-off.\n"
+         "Higher CRF values will result in a final output that takes less space, but begins to lose detail.\n"
+         "Lower CRF values retain more detail at the cost of larger file sizes.\n"
+         "The possible range of CRF in SVT-AV1 is 1-63."));
 
   // These items must correspond to the CompressionMethod enum
   compression_box->addItem(tr("Constant Rate Factor"));
@@ -79,30 +77,22 @@ AV1Section::AV1Section(int default_crf, QWidget *parent) :
   crf_section_ = new AV1CRFSection(default_crf);
   compression_method_stack_->addWidget(crf_section_);
 
-  connect(compression_box,
-          static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
-          compression_method_stack_,
-          &QStackedWidget::setCurrentIndex);
+  connect(compression_box, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+          compression_method_stack_, &QStackedWidget::setCurrentIndex);
 }
 
-void AV1Section::AddOpts(EncodingParams *params)
-{
-
+void AV1Section::AddOpts(EncodingParams* params) {
   CompressionMethod method = static_cast<CompressionMethod>(compression_method_stack_->currentIndex());
 
   if (method == kConstantRateFactor) {
-
     // Set Quantizer value
     params->set_video_option(QStringLiteral("qp"), QString::number(crf_section_->GetValue()));
-
   }
 
   params->set_video_option(QStringLiteral("preset"), QString::number(preset_combobox_->currentIndex()));
 }
 
-AV1CRFSection::AV1CRFSection(int default_crf, QWidget *parent) :
-  QWidget(parent)
-{
+AV1CRFSection::AV1CRFSection(int default_crf, QWidget* parent) : QWidget(parent) {
   QHBoxLayout* layout = new QHBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
 
@@ -124,9 +114,6 @@ AV1CRFSection::AV1CRFSection(int default_crf, QWidget *parent) :
   connect(crf_input, &IntegerSlider::ValueChanged, crf_slider_, &QSlider::setValue);
 }
 
-int AV1CRFSection::GetValue() const
-{
-  return crf_slider_->value();
-}
+int AV1CRFSection::GetValue() const { return crf_slider_->value(); }
 
-}
+}  // namespace olive

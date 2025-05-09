@@ -26,20 +26,15 @@
 
 namespace olive {
 
-RazorTool::RazorTool(TimelineWidget* parent) :
-  BeamTool(parent)
-{
-}
+RazorTool::RazorTool(TimelineWidget* parent) : BeamTool(parent) {}
 
-void RazorTool::MousePress(TimelineViewMouseEvent *event)
-{
+void RazorTool::MousePress(TimelineViewMouseEvent* event) {
   split_tracks_.clear();
 
   MouseMove(event);
 }
 
-void RazorTool::MouseMove(TimelineViewMouseEvent *event)
-{
+void RazorTool::MouseMove(TimelineViewMouseEvent* event) {
   if (!dragging_) {
     drag_start_ = ValidatedCoordinate(event->GetCoordinates(true));
     dragging_ = true;
@@ -53,8 +48,7 @@ void RazorTool::MouseMove(TimelineViewMouseEvent *event)
   }
 }
 
-void RazorTool::MouseRelease(TimelineViewMouseEvent *event)
-{
+void RazorTool::MouseRelease(TimelineViewMouseEvent* event) {
   Q_UNUSED(event)
 
   // Always split at the same time
@@ -72,11 +66,9 @@ void RazorTool::MouseRelease(TimelineViewMouseEvent *event)
     Block* block_at_time = track->NearestBlockBefore(split_time);
 
     // Ensure there's a valid block here
-    ClipBlock *clip_at_time;
-    if (block_at_time
-        && block_at_time->out() != split_time
-        && (clip_at_time = dynamic_cast<ClipBlock*>(block_at_time))
-        && !blocks_to_split.contains(block_at_time)) {
+    ClipBlock* clip_at_time;
+    if (block_at_time && block_at_time->out() != split_time &&
+        (clip_at_time = dynamic_cast<ClipBlock*>(block_at_time)) && !blocks_to_split.contains(block_at_time)) {
       blocks_to_split.append(block_at_time);
 
       // Add links if no alt is held
@@ -93,10 +85,11 @@ void RazorTool::MouseRelease(TimelineViewMouseEvent *event)
   split_tracks_.clear();
 
   if (!blocks_to_split.isEmpty()) {
-    Core::instance()->undo_stack()->push(new BlockSplitPreservingLinksCommand(blocks_to_split, {split_time}), qApp->translate("RazorTool", "Split Clips"));
+    Core::instance()->undo_stack()->push(new BlockSplitPreservingLinksCommand(blocks_to_split, {split_time}),
+                                         qApp->translate("RazorTool", "Split Clips"));
   }
 
   dragging_ = false;
 }
 
-}
+}  // namespace olive

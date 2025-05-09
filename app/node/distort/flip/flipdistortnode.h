@@ -25,10 +25,9 @@
 
 namespace olive {
 
-class FlipDistortNode : public Node
-{
+class FlipDistortNode : public Node {
   Q_OBJECT
-public:
+ public:
   FlipDistortNode();
 
   NODE_DEFAULT_FUNCTIONS(FlipDistortNode)
@@ -41,14 +40,13 @@ public:
   virtual void Retranslate() override;
 
   virtual ShaderCode GetShaderCode(const ShaderRequest &request) const override;
-  virtual void Value(const NodeValueRow& value, const NodeGlobals &globals, NodeValueTable *table) const override;
+  virtual void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
 
   static const QString kTextureInput;
   static const QString kHorizontalInput;
   static const QString kVerticalInput;
-
 };
 
-}
+}  // namespace olive
 
-#endif // FLIPDISTORTNODE_H
+#endif  // FLIPDISTORTNODE_H

@@ -26,19 +26,17 @@
 
 namespace olive {
 
-class CLITaskDialog : public CLIProgressDialog
-{
+class CLITaskDialog : public CLIProgressDialog {
   Q_OBJECT
-public:
-  CLITaskDialog(Task *task, QObject* parent = nullptr);
+ public:
+  CLITaskDialog(Task* task, QObject* parent = nullptr);
 
   bool Run();
 
-private:
+ private:
   Task* task_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // CLITASKDIALOG_H
+#endif  // CLITASKDIALOG_H

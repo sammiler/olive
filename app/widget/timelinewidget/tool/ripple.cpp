@@ -21,20 +21,17 @@
 #include "widget/timelinewidget/timelinewidget.h"
 
 #include "node/block/gap/gap.h"
-#include "timeline/timelineundoripple.h"
 #include "ripple.h"
+#include "timeline/timelineundoripple.h"
 
 namespace olive {
 
-RippleTool::RippleTool(TimelineWidget* parent) :
-  PointerTool(parent)
-{
+RippleTool::RippleTool(TimelineWidget* parent) : PointerTool(parent) {
   SetMovementAllowed(false);
   SetGapTrimmingAllowed(true);
 }
 
-void RippleTool::InitiateDrag(Block *clicked_item, Timeline::MovementMode trim_mode, Qt::KeyboardModifiers modifiers)
-{
+void RippleTool::InitiateDrag(Block* clicked_item, Timeline::MovementMode trim_mode, Qt::KeyboardModifiers modifiers) {
   InitiateDragInternal(clicked_item, trim_mode, modifiers, true, true, false);
 
   if (!parent()->HasGhosts()) {
@@ -79,7 +76,7 @@ void RippleTool::InitiateDrag(Block *clicked_item, Timeline::MovementMode trim_m
 
       // Exception for out-transitions, do not create a gap between them
       if (block_after_ripple) {
-        if (ClipBlock *prev_clip = dynamic_cast<ClipBlock*>(block_after_ripple->previous())) {
+        if (ClipBlock* prev_clip = dynamic_cast<ClipBlock*>(block_after_ripple->previous())) {
           if (prev_clip->out_transition() == block_after_ripple) {
             block_after_ripple = block_after_ripple->next();
           }
@@ -103,7 +100,8 @@ void RippleTool::InitiateDrag(Block *clicked_item, Timeline::MovementMode trim_m
             ghost = AddGhostFromBlock(previous, trim_mode);
           } else {
             // Previous is not a gap, we'll have to insert one there ourselves
-            ghost = AddGhostFromNull(block_after_ripple->in(), block_after_ripple->in(), track->ToReference(), trim_mode);
+            ghost =
+                AddGhostFromNull(block_after_ripple->in(), block_after_ripple->in(), track->ToReference(), trim_mode);
             ghost->SetData(TimelineViewGhostItem::kReferenceBlock, QtUtils::PtrToValue(block_after_ripple));
           }
         }
@@ -112,12 +110,11 @@ void RippleTool::InitiateDrag(Block *clicked_item, Timeline::MovementMode trim_m
   }
 }
 
-void RippleTool::FinishDrag(TimelineViewMouseEvent *event)
-{
+void RippleTool::FinishDrag(TimelineViewMouseEvent* event) {
   Q_UNUSED(event)
 
   if (parent()->HasGhosts()) {
-    QVector< QHash<Track*, TrackListRippleToolCommand::RippleInfo> > info_list(Track::kCount);
+    QVector<QHash<Track*, TrackListRippleToolCommand::RippleInfo> > info_list(Track::kCount);
 
     foreach (TimelineViewGhostItem* ghost, parent()->GetGhostItems()) {
       if (!ghost->HasBeenAdjusted()) {
@@ -150,12 +147,10 @@ void RippleTool::FinishDrag(TimelineViewMouseEvent *event)
       movement = parent()->GetGhostItems().first()->GetInAdjustment();
     }
 
-    for (int i=0;i<info_list.size();i++) {
+    for (int i = 0; i < info_list.size(); i++) {
       if (!info_list.at(i).isEmpty()) {
         command->add_child(new TrackListRippleToolCommand(sequence()->track_list(static_cast<Track::Type>(i)),
-                                                          info_list.at(i),
-                                                          movement,
-                                                          drag_movement_mode()));
+                                                          info_list.at(i), movement, drag_movement_mode()));
       }
     }
 
@@ -176,4 +171,4 @@ void RippleTool::FinishDrag(TimelineViewMouseEvent *event)
   }
 }
 
-}
+}  // namespace olive

@@ -25,10 +25,9 @@
 
 namespace olive {
 
-class TimeRemapNode : public Node
-{
+class TimeRemapNode : public Node {
   Q_OBJECT
-public:
+ public:
   TimeRemapNode();
 
   NODE_DEFAULT_FUNCTIONS(TimeRemapNode)
@@ -38,21 +37,21 @@ public:
   virtual QVector<CategoryID> Category() const override;
   virtual QString Description() const override;
 
-  virtual TimeRange InputTimeAdjustment(const QString& input, int element, const TimeRange& input_time, bool clamp) const override;
+  virtual TimeRange InputTimeAdjustment(const QString& input, int element, const TimeRange& input_time,
+                                        bool clamp) const override;
   virtual TimeRange OutputTimeAdjustment(const QString& input, int element, const TimeRange& input_time) const override;
 
   virtual void Retranslate() override;
 
-  virtual void Value(const NodeValueRow& value, const NodeGlobals &globals, NodeValueTable *table) const override;
+  virtual void Value(const NodeValueRow& value, const NodeGlobals& globals, NodeValueTable* table) const override;
 
   static const QString kTimeInput;
   static const QString kInputInput;
 
-private:
+ private:
   rational GetRemappedTime(const rational& input) const;
-
 };
 
-}
+}  // namespace olive
 
-#endif // TIMEREMAPNODE_H
+#endif  // TIMEREMAPNODE_H

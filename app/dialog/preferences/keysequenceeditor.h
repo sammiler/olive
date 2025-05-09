@@ -35,7 +35,7 @@ namespace olive {
  */
 class KeySequenceEditor : public QKeySequenceEdit {
   Q_OBJECT
-public:
+ public:
   /**
    * @brief KeySequenceEditor Constructor
    *
@@ -47,7 +47,7 @@ public:
    *
    * The QAction to link to. This cannot be changed throughout the lifetime of a KeySequenceEditor.
    */
-  KeySequenceEditor(QWidget *parent, QAction* a);
+  KeySequenceEditor(QWidget *parent, QAction *a);
 
   /**
    * @brief Sets the attached QAction's shortcut to the shortcut entered in this field.
@@ -95,18 +95,18 @@ public:
    */
   QString export_shortcut();
 
-protected:
+ protected:
   virtual void keyPressEvent(QKeyEvent *e) override;
 
   virtual void keyReleaseEvent(QKeyEvent *e) override;
 
-private:
+ private:
   /**
    * @brief Internal reference to the linked QAction
    */
-  QAction* action;
+  QAction *action;
 };
 
-}
+}  // namespace olive
 
-#endif // KEYSEQUENCEEDITOR_H
+#endif  // KEYSEQUENCEEDITOR_H

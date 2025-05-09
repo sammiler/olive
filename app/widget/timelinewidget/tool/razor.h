@@ -25,19 +25,18 @@
 
 namespace olive {
 
-class RazorTool : public BeamTool
-{
-public:
-  RazorTool(TimelineWidget* parent);
+class RazorTool : public BeamTool {
+ public:
+  RazorTool(TimelineWidget *parent);
 
   virtual void MousePress(TimelineViewMouseEvent *event) override;
   virtual void MouseMove(TimelineViewMouseEvent *event) override;
   virtual void MouseRelease(TimelineViewMouseEvent *event) override;
 
-private:
+ private:
   QVector<Track::Reference> split_tracks_;
 };
 
-}
+}  // namespace olive
 
-#endif // RAZORTIMELINETOOL_H
+#endif  // RAZORTIMELINETOOL_H

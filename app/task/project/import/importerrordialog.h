@@ -27,14 +27,12 @@
 
 namespace olive {
 
-class ProjectImportErrorDialog : public QDialog
-{
+class ProjectImportErrorDialog : public QDialog {
   Q_OBJECT
-public:
+ public:
   ProjectImportErrorDialog(const QStringList& filenames, QWidget* parent = nullptr);
-
 };
 
-}
+}  // namespace olive
 
-#endif // PROJECTIMPORTERRORDIALOG_H
+#endif  // PROJECTIMPORTERRORDIALOG_H

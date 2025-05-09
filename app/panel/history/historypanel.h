@@ -25,17 +25,15 @@
 
 namespace olive {
 
-class HistoryPanel : public PanelWidget
-{
+class HistoryPanel : public PanelWidget {
   Q_OBJECT
-public:
+ public:
   HistoryPanel();
 
-protected:
+ protected:
   virtual void Retranslate() override;
-
 };
 
-}
+}  // namespace olive
 
-#endif // HISTORYPANEL_H
+#endif  // HISTORYPANEL_H

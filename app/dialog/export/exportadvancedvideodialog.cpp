@@ -7,9 +7,8 @@
 
 namespace olive {
 
-ExportAdvancedVideoDialog::ExportAdvancedVideoDialog(const QList<QString> &pix_fmts, QWidget *parent) :
-  QDialog(parent)
-{
+ExportAdvancedVideoDialog::ExportAdvancedVideoDialog(const QList<QString>& pix_fmts, QWidget* parent)
+    : QDialog(parent) {
   setWindowTitle(tr("Advanced"));
 
   QVBoxLayout* layout = new QVBoxLayout(this);
@@ -66,4 +65,4 @@ ExportAdvancedVideoDialog::ExportAdvancedVideoDialog(const QList<QString> &pix_f
   layout->addWidget(buttons);
 }
 
-}
+}  // namespace olive

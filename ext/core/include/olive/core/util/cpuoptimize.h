@@ -29,4 +29,4 @@
 #include "sse2neon.h"
 #endif
 
-#endif // LIBOLIVECORE_CPUOPTIMIZE_H
+#endif  // LIBOLIVECORE_CPUOPTIMIZE_H

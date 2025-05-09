@@ -26,31 +26,21 @@
 
 namespace olive {
 
-class ProjectSaveTask : public Task
-{
+class ProjectSaveTask : public Task {
   Q_OBJECT
-public:
+ public:
   ProjectSaveTask(Project* project, bool use_compression);
 
-  Project* GetProject() const
-  {
-    return project_;
-  }
+  Project* GetProject() const { return project_; }
 
-  void SetOverrideFilename(const QString& filename)
-  {
-    override_filename_ = filename;
-  }
+  void SetOverrideFilename(const QString& filename) { override_filename_ = filename; }
 
-  void SetLayout(const MainWindowLayoutInfo &layout)
-  {
-    layout_ = layout;
-  }
+  void SetLayout(const MainWindowLayoutInfo& layout) { layout_ = layout; }
 
-protected:
+ protected:
   virtual bool Run() override;
 
-private:
+ private:
   Project* project_;
 
   QString override_filename_;
@@ -58,9 +48,8 @@ private:
   bool use_compression_;
 
   MainWindowLayoutInfo layout_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // PROJECTSAVEMANAGER_H
+#endif  // PROJECTSAVEMANAGER_H

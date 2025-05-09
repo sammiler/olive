@@ -26,78 +26,53 @@ namespace olive {
 
 const NodeKeyframe::Type NodeKeyframe::kDefaultType = kLinear;
 
-NodeKeyframe::NodeKeyframe(const rational &time, const QVariant &value, Type type, int track, int element, const QString &input, QObject *parent) :
-  time_(time),
-  value_(value),
-  type_(type),
-  bezier_control_in_(QPointF(0.0, 0.0)),
-  bezier_control_out_(QPointF(0.0, 0.0)),
-  input_(input),
-  track_(track),
-  element_(element),
-  previous_(nullptr),
-  next_(nullptr)
-{
+NodeKeyframe::NodeKeyframe(const rational &time, const QVariant &value, Type type, int track, int element,
+                           const QString &input, QObject *parent)
+    : time_(time),
+      value_(value),
+      type_(type),
+      bezier_control_in_(QPointF(0.0, 0.0)),
+      bezier_control_out_(QPointF(0.0, 0.0)),
+      input_(input),
+      track_(track),
+      element_(element),
+      previous_(nullptr),
+      next_(nullptr) {
   setParent(parent);
 }
 
-NodeKeyframe::NodeKeyframe()
-{
-  type_ = NodeKeyframe::kLinear;
-}
+NodeKeyframe::NodeKeyframe() { type_ = NodeKeyframe::kLinear; }
 
-NodeKeyframe::~NodeKeyframe()
-{
-  setParent(nullptr);
-}
+NodeKeyframe::~NodeKeyframe() { setParent(nullptr); }
 
-NodeKeyframe *NodeKeyframe::copy(int element, QObject *parent) const
-{
-  NodeKeyframe* copy = new NodeKeyframe(time_, value_, type_, track_, element, input_, parent);
+NodeKeyframe *NodeKeyframe::copy(int element, QObject *parent) const {
+  NodeKeyframe *copy = new NodeKeyframe(time_, value_, type_, track_, element, input_, parent);
   copy->bezier_control_in_ = bezier_control_in_;
   copy->bezier_control_out_ = bezier_control_out_;
   return copy;
 }
 
-NodeKeyframe *NodeKeyframe::copy(QObject* parent) const
-{
-  return copy(element_, parent);
-}
+NodeKeyframe *NodeKeyframe::copy(QObject *parent) const { return copy(element_, parent); }
 
-Node *NodeKeyframe::parent() const
-{
-  return static_cast<Node*>(QObject::parent());
-}
+Node *NodeKeyframe::parent() const { return static_cast<Node *>(QObject::parent()); }
 
-const rational &NodeKeyframe::time() const
-{
-  return time_;
-}
+const rational &NodeKeyframe::time() const { return time_; }
 
-void NodeKeyframe::set_time(const rational &time)
-{
+void NodeKeyframe::set_time(const rational &time) {
   time_ = time;
   emit TimeChanged(time_);
 }
 
-const QVariant &NodeKeyframe::value() const
-{
-  return value_;
-}
+const QVariant &NodeKeyframe::value() const { return value_; }
 
-void NodeKeyframe::set_value(const QVariant &value)
-{
+void NodeKeyframe::set_value(const QVariant &value) {
   value_ = value;
   emit ValueChanged(value_);
 }
 
-const NodeKeyframe::Type &NodeKeyframe::type() const
-{
-  return type_;
-}
+const NodeKeyframe::Type &NodeKeyframe::type() const { return type_; }
 
-void NodeKeyframe::set_type(const NodeKeyframe::Type &type)
-{
+void NodeKeyframe::set_type(const NodeKeyframe::Type &type) {
   if (type_ != type) {
     set_type_no_bezier_adj(type);
 
@@ -123,36 +98,26 @@ void NodeKeyframe::set_type(const NodeKeyframe::Type &type)
   }
 }
 
-void NodeKeyframe::set_type_no_bezier_adj(const Type &type)
-{
+void NodeKeyframe::set_type_no_bezier_adj(const Type &type) {
   type_ = type;
   emit TypeChanged(type_);
 }
 
-const QPointF &NodeKeyframe::bezier_control_in() const
-{
-  return bezier_control_in_;
-}
+const QPointF &NodeKeyframe::bezier_control_in() const { return bezier_control_in_; }
 
-void NodeKeyframe::set_bezier_control_in(const QPointF &control)
-{
+void NodeKeyframe::set_bezier_control_in(const QPointF &control) {
   bezier_control_in_ = control;
   emit BezierControlInChanged(bezier_control_in_);
 }
 
-const QPointF &NodeKeyframe::bezier_control_out() const
-{
-  return bezier_control_out_;
-}
+const QPointF &NodeKeyframe::bezier_control_out() const { return bezier_control_out_; }
 
-void NodeKeyframe::set_bezier_control_out(const QPointF &control)
-{
+void NodeKeyframe::set_bezier_control_out(const QPointF &control) {
   bezier_control_out_ = control;
   emit BezierControlOutChanged(bezier_control_out_);
 }
 
-QPointF NodeKeyframe::valid_bezier_control_in() const
-{
+QPointF NodeKeyframe::valid_bezier_control_in() const {
   double t = time().toDouble();
   qreal adjusted_x = t + bezier_control_in_.x();
 
@@ -164,8 +129,7 @@ QPointF NodeKeyframe::valid_bezier_control_in() const
   return QPointF(adjusted_x - t, bezier_control_in_.y());
 }
 
-QPointF NodeKeyframe::valid_bezier_control_out() const
-{
+QPointF NodeKeyframe::valid_bezier_control_out() const {
   double t = time().toDouble();
   qreal adjusted_x = t + bezier_control_out_.x();
 
@@ -177,8 +141,7 @@ QPointF NodeKeyframe::valid_bezier_control_out() const
   return QPointF(adjusted_x - t, bezier_control_out_.y());
 }
 
-const QPointF &NodeKeyframe::bezier_control(NodeKeyframe::BezierType type) const
-{
+const QPointF &NodeKeyframe::bezier_control(NodeKeyframe::BezierType type) const {
   if (type == kInHandle) {
     return bezier_control_in();
   } else {
@@ -186,8 +149,7 @@ const QPointF &NodeKeyframe::bezier_control(NodeKeyframe::BezierType type) const
   }
 }
 
-void NodeKeyframe::set_bezier_control(NodeKeyframe::BezierType type, const QPointF &control)
-{
+void NodeKeyframe::set_bezier_control(NodeKeyframe::BezierType type, const QPointF &control) {
   if (type == kInHandle) {
     set_bezier_control_in(control);
   } else {
@@ -195,8 +157,7 @@ void NodeKeyframe::set_bezier_control(NodeKeyframe::BezierType type, const QPoin
   }
 }
 
-NodeKeyframe::BezierType NodeKeyframe::get_opposing_bezier_type(NodeKeyframe::BezierType type)
-{
+NodeKeyframe::BezierType NodeKeyframe::get_opposing_bezier_type(NodeKeyframe::BezierType type) {
   if (type == kInHandle) {
     return kOutHandle;
   } else {
@@ -204,14 +165,12 @@ NodeKeyframe::BezierType NodeKeyframe::get_opposing_bezier_type(NodeKeyframe::Be
   }
 }
 
-bool NodeKeyframe::has_sibling_at_time(const rational &t) const
-{
+bool NodeKeyframe::has_sibling_at_time(const rational &t) const {
   NodeKeyframe *k = parent()->GetKeyframeAtTimeOnTrack(input(), t, track(), element());
   return k && k != this;
 }
 
-bool NodeKeyframe::load(QXmlStreamReader *reader, NodeValue::Type data_type)
-{
+bool NodeKeyframe::load(QXmlStreamReader *reader, NodeValue::Type data_type) {
   QString key_input;
   QPointF key_in_handle;
   QPointF key_out_handle;
@@ -242,8 +201,7 @@ bool NodeKeyframe::load(QXmlStreamReader *reader, NodeValue::Type data_type)
   return true;
 }
 
-void NodeKeyframe::save(QXmlStreamWriter *writer, NodeValue::Type data_type) const
-{
+void NodeKeyframe::save(QXmlStreamWriter *writer, NodeValue::Type data_type) const {
   writer->writeAttribute(QStringLiteral("input"), this->input());
   writer->writeAttribute(QStringLiteral("time"), QString::fromStdString(this->time().toString()));
   writer->writeAttribute(QStringLiteral("type"), QString::number(this->type()));
@@ -255,4 +213,4 @@ void NodeKeyframe::save(QXmlStreamWriter *writer, NodeValue::Type data_type) con
   writer->writeCharacters(NodeValue::ValueToString(data_type, this->value(), true));
 }
 
-}
+}  // namespace olive

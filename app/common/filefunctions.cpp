@@ -31,8 +31,7 @@
 
 namespace olive {
 
-QString FileFunctions::GetUniqueFileIdentifier(const QString &filename)
-{
+QString FileFunctions::GetUniqueFileIdentifier(const QString &filename) {
   QFileInfo info(filename);
 
   if (!info.exists()) {
@@ -50,8 +49,7 @@ QString FileFunctions::GetUniqueFileIdentifier(const QString &filename)
   return QString(result.toHex());
 }
 
-QString FileFunctions::GetConfigurationLocation()
-{
+QString FileFunctions::GetConfigurationLocation() {
   if (IsPortable()) {
     return GetApplicationPath();
   } else {
@@ -61,21 +59,14 @@ QString FileFunctions::GetConfigurationLocation()
   }
 }
 
-bool FileFunctions::IsPortable()
-{
-  return QFileInfo::exists(QDir(GetApplicationPath()).filePath("portable"));
-}
+bool FileFunctions::IsPortable() { return QFileInfo::exists(QDir(GetApplicationPath()).filePath("portable")); }
 
-QString FileFunctions::GetApplicationPath()
-{
-  return QCoreApplication::applicationDirPath();
-}
+QString FileFunctions::GetApplicationPath() { return QCoreApplication::applicationDirPath(); }
 
-QString FileFunctions::GetTempFilePath()
-{
+QString FileFunctions::GetTempFilePath() {
   QString temp_path = QDir(QDir(QStandardPaths::writableLocation(QStandardPaths::TempLocation))
-                           .filePath(QCoreApplication::organizationName()))
-      .filePath(QCoreApplication::applicationName());
+                               .filePath(QCoreApplication::organizationName()))
+                          .filePath(QCoreApplication::applicationName());
 
   // Ensure it exists
   QDir(temp_path).mkpath(".");
@@ -83,11 +74,10 @@ QString FileFunctions::GetTempFilePath()
   return temp_path;
 }
 
-bool FileFunctions::CanCopyDirectoryWithoutOverwriting(const QString& source, const QString& dest)
-{
+bool FileFunctions::CanCopyDirectoryWithoutOverwriting(const QString &source, const QString &dest) {
   QFileInfoList info_list = QDir(source).entryInfoList();
 
-  foreach (const QFileInfo& info, info_list) {
+  foreach (const QFileInfo &info, info_list) {
     // QDir::NoDotAndDotDot continues to not work, so we have to check manually
     if (info.fileName() == QStringLiteral(".") || info.fileName() == QStringLiteral("..")) {
       continue;
@@ -107,8 +97,7 @@ bool FileFunctions::CanCopyDirectoryWithoutOverwriting(const QString& source, co
   return true;
 }
 
-void FileFunctions::CopyDirectory(const QString &source, const QString &dest, bool overwrite)
-{
+void FileFunctions::CopyDirectory(const QString &source, const QString &dest, bool overwrite) {
   QDir d(source);
 
   if (!d.exists()) {
@@ -125,7 +114,7 @@ void FileFunctions::CopyDirectory(const QString &source, const QString &dest, bo
 
   QFileInfoList l = d.entryInfoList();
 
-  foreach (const QFileInfo& info, l) {
+  foreach (const QFileInfo &info, l) {
     // QDir::NoDotAndDotDot continues to not work, so we have to check manually
     if (info.fileName() == QStringLiteral(".") || info.fileName() == QStringLiteral("..")) {
       continue;
@@ -150,14 +139,12 @@ void FileFunctions::CopyDirectory(const QString &source, const QString &dest, bo
   }
 }
 
-bool FileFunctions::DirectoryIsValid(const QDir &d, bool try_to_create_if_not_exists)
-{
+bool FileFunctions::DirectoryIsValid(const QDir &d, bool try_to_create_if_not_exists) {
   // Return whether the directory exists, or whether it could be created if it doesn't
   return d.exists() || d.mkpath(QStringLiteral("."));
 }
 
-QString FileFunctions::EnsureFilenameExtension(QString fn, const QString &extension)
-{
+QString FileFunctions::EnsureFilenameExtension(QString fn, const QString &extension) {
   // No-op if either input is empty
   if (!fn.isEmpty() && !extension.isEmpty()) {
     QString extension_with_dot;
@@ -173,8 +160,7 @@ QString FileFunctions::EnsureFilenameExtension(QString fn, const QString &extens
   return fn;
 }
 
-QString FileFunctions::ReadFileAsString(const QString &filename)
-{
+QString FileFunctions::ReadFileAsString(const QString &filename) {
   QFile f(filename);
   QString file_data;
   if (f.open(QFile::ReadOnly | QFile::Text)) {
@@ -185,8 +171,7 @@ QString FileFunctions::ReadFileAsString(const QString &filename)
   return file_data;
 }
 
-QString FileFunctions::GetSafeTemporaryFilename(const QString &original)
-{
+QString FileFunctions::GetSafeTemporaryFilename(const QString &original) {
   int counter = 0;
 
   QFileInfo original_info(original);
@@ -201,17 +186,14 @@ QString FileFunctions::GetSafeTemporaryFilename(const QString &original)
   QString temp_abs_path;
   do {
     temp_abs_path = original_info.dir().filePath(
-          QStringLiteral("%1.tmp%2%3").arg(basename,
-                                           QString::number(counter),
-                                           complete_suffix));
+        QStringLiteral("%1.tmp%2%3").arg(basename, QString::number(counter), complete_suffix));
     counter++;
   } while (QFileInfo::exists(temp_abs_path));
 
   return temp_abs_path;
 }
 
-bool FileFunctions::RenameFileAllowOverwrite(const QString &from, const QString &to)
-{
+bool FileFunctions::RenameFileAllowOverwrite(const QString &from, const QString &to) {
   if (QFileInfo::exists(to) && !QFile::remove(to)) {
     qCritical() << "Couldn't remove existing file" << to << "for overwrite";
     return false;
@@ -226,9 +208,9 @@ bool FileFunctions::RenameFileAllowOverwrite(const QString &from, const QString 
   return true;
 }
 
-QString FileFunctions::GetAutoRecoveryRoot()
-{
-  return QDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath(QStringLiteral("autorecovery"));
+QString FileFunctions::GetAutoRecoveryRoot() {
+  return QDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation))
+      .filePath(QStringLiteral("autorecovery"));
 }
 
-}
+}  // namespace olive

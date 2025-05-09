@@ -22,8 +22,7 @@
 
 namespace olive {
 
-NodeValueTable NodeValueDatabase::Merge() const
-{
+NodeValueTable NodeValueDatabase::Merge() const {
   QHash<QString, NodeValueTable> copy = tables_;
 
   // Kinda hacky, but we don't need this table to slipstream
@@ -32,4 +31,4 @@ NodeValueTable NodeValueDatabase::Merge() const
   return NodeValueTable::Merge(copy.values());
 }
 
-}
+}  // namespace olive

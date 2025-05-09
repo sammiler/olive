@@ -27,10 +27,9 @@
 
 namespace olive {
 
-class PathGizmo : public DraggableGizmo
-{
+class PathGizmo : public DraggableGizmo {
   Q_OBJECT
-public:
+ public:
   explicit PathGizmo(QObject *parent = nullptr);
 
   const QPainterPath &GetPath() const { return path_; }
@@ -38,11 +37,10 @@ public:
 
   virtual void Draw(QPainter *p) const override;
 
-private:
+ private:
   QPainterPath path_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // PATHGIZMO_H
+#endif  // PATHGIZMO_H

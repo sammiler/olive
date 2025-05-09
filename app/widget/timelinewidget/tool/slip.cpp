@@ -28,15 +28,12 @@
 
 namespace olive {
 
-SlipTool::SlipTool(TimelineWidget *parent) :
-  PointerTool(parent)
-{
+SlipTool::SlipTool(TimelineWidget* parent) : PointerTool(parent) {
   SetTrimmingAllowed(false);
   SetTrackMovementAllowed(false);
 }
 
-void SlipTool::ProcessDrag(const TimelineCoordinate &mouse_pos)
-{
+void SlipTool::ProcessDrag(const TimelineCoordinate& mouse_pos) {
   // Determine frame movement
   rational time_movement = drag_start_.GetFrame() - mouse_pos.GetFrame();
 
@@ -57,15 +54,12 @@ void SlipTool::ProcessDrag(const TimelineCoordinate &mouse_pos)
   rational tooltip_timebase = parent()->GetTimebaseForTrackType(drag_start_.GetTrack().type());
   QToolTip::hideText();
   QToolTip::showText(QCursor::pos(),
-                     QString::fromStdString(Timecode::time_to_timecode(time_movement,
-                                                                       tooltip_timebase,
-                                                                       Core::instance()->GetTimecodeDisplay(),
-                                                                       true)),
+                     QString::fromStdString(Timecode::time_to_timecode(time_movement, tooltip_timebase,
+                                                                       Core::instance()->GetTimecodeDisplay(), true)),
                      parent());
 }
 
-void SlipTool::FinishDrag(TimelineViewMouseEvent *event)
-{
+void SlipTool::FinishDrag(TimelineViewMouseEvent* event) {
   Q_UNUSED(event)
 
   MultiUndoCommand* command = new MultiUndoCommand();
@@ -74,13 +68,14 @@ void SlipTool::FinishDrag(TimelineViewMouseEvent *event)
   foreach (TimelineViewGhostItem* ghost, parent()->GetGhostItems()) {
     Block* b = QtUtils::ValueToPtr<Block>(ghost->GetData(TimelineViewGhostItem::kAttachedBlock));
 
-    ClipBlock *cb = dynamic_cast<ClipBlock*>(b);
+    ClipBlock* cb = dynamic_cast<ClipBlock*>(b);
     if (cb) {
       command->add_child(new BlockSetMediaInCommand(cb, ghost->GetAdjustedMediaIn()));
     }
   }
 
-  Core::instance()->undo_stack()->push(command, qApp->translate("SlipTool", "Slipped %1 Clip(s)").arg(parent()->GetGhostItems().size()));
+  Core::instance()->undo_stack()->push(
+      command, qApp->translate("SlipTool", "Slipped %1 Clip(s)").arg(parent()->GetGhostItems().size()));
 }
 
-}
+}  // namespace olive

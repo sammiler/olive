@@ -25,8 +25,7 @@
 
 namespace olive {
 
-inline int64_t GetDigitCount(int64_t input)
-{
+inline int64_t GetDigitCount(int64_t input) {
   input = std::abs(input);
 
   int64_t lim = 10;
@@ -40,6 +39,6 @@ inline int64_t GetDigitCount(int64_t input)
   return digit;
 }
 
-}
+}  // namespace olive
 
-#endif // DIGIT_H
+#endif  // DIGIT_H

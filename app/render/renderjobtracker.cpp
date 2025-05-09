@@ -22,8 +22,7 @@
 
 namespace olive {
 
-void RenderJobTracker::insert(const TimeRange &range, JobTime job_time)
-{
+void RenderJobTracker::insert(const TimeRange &range, JobTime job_time) {
   // First remove any ranges with this (code copied
   TimeRangeList::util_remove(&jobs_, range);
 
@@ -32,21 +31,16 @@ void RenderJobTracker::insert(const TimeRange &range, JobTime job_time)
   jobs_.push_back(job);
 }
 
-void RenderJobTracker::insert(const TimeRangeList &ranges, JobTime job_time)
-{
+void RenderJobTracker::insert(const TimeRangeList &ranges, JobTime job_time) {
   foreach (const TimeRange &r, ranges) {
     insert(r, job_time);
   }
 }
 
-void RenderJobTracker::clear()
-{
-  jobs_.clear();
-}
+void RenderJobTracker::clear() { jobs_.clear(); }
 
-bool RenderJobTracker::isCurrent(const rational &time, JobTime job_time) const
-{
-  for (auto it=jobs_.crbegin(); it!=jobs_.crend(); it++) {
+bool RenderJobTracker::isCurrent(const rational &time, JobTime job_time) const {
+  for (auto it = jobs_.crbegin(); it != jobs_.crend(); it++) {
     if (it->Contains(time)) {
       return job_time >= it->GetJobTime();
     }
@@ -55,11 +49,10 @@ bool RenderJobTracker::isCurrent(const rational &time, JobTime job_time) const
   return false;
 }
 
-TimeRangeList RenderJobTracker::getCurrentSubRanges(const TimeRange &range, const JobTime &job_time) const
-{
+TimeRangeList RenderJobTracker::getCurrentSubRanges(const TimeRange &range, const JobTime &job_time) const {
   TimeRangeList current_ranges;
 
-  for (auto it=jobs_.crbegin(); it!=jobs_.crend(); it++) {
+  for (auto it = jobs_.crbegin(); it != jobs_.crend(); it++) {
     if (job_time >= it->GetJobTime() && it->OverlapsWith(range)) {
       current_ranges.insert(it->Intersected(range));
     }
@@ -68,4 +61,4 @@ TimeRangeList RenderJobTracker::getCurrentSubRanges(const TimeRange &range, cons
   return current_ranges;
 }
 
-}
+}  // namespace olive

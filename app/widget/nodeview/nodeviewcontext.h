@@ -11,18 +11,14 @@
 
 namespace olive {
 
-class NodeViewContext : public QObject, public QGraphicsRectItem
-{
+class NodeViewContext : public QObject, public QGraphicsRectItem {
   Q_OBJECT
-public:
+ public:
   NodeViewContext(Node *context, QGraphicsItem *item = nullptr);
 
   virtual ~NodeViewContext() override;
 
-  Node *GetContext() const
-  {
-    return context_;
-  }
+  Node *GetContext() const { return context_; }
 
   void UpdateRect();
 
@@ -32,42 +28,39 @@ public:
 
   int DeleteSelected(NodeViewDeleteCommand *command);
 
-  void Select(const QVector<Node*> &nodes);
+  void Select(const QVector<Node *> &nodes);
 
-  QVector<NodeViewItem*> GetSelectedItems() const;
+  QVector<NodeViewItem *> GetSelectedItems() const;
 
   QPointF MapScenePosToNodePosInContext(const QPointF &pos) const;
 
-  NodeViewItem *GetItemFromMap(Node *node) const
-  {
-    return item_map_.value(node);
-  }
+  NodeViewItem *GetItemFromMap(Node *node) const { return item_map_.value(node); }
 
   virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 
-public slots:
+ public slots:
   void AddChild(Node *node);
 
   void SetChildPosition(Node *node, const QPointF &pos);
 
   void RemoveChild(Node *node);
 
-  void ChildInputConnected(Node *output, const NodeInput& input);
+  void ChildInputConnected(Node *output, const NodeInput &input);
 
-  bool ChildInputDisconnected(Node *output, const NodeInput& input);
+  bool ChildInputDisconnected(Node *output, const NodeInput &input);
 
-signals:
+ signals:
   void ItemAboutToBeDeleted(NodeViewItem *item);
 
-protected:
+ protected:
   virtual QVariant itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value) override;
 
   virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
 
-private:
+ private:
   void AddNodeInternal(Node *node, NodeViewItem *item);
 
-  void AddEdgeInternal(Node *output, const NodeInput& input, NodeViewItem *from, NodeViewItem *to);
+  void AddEdgeInternal(Node *output, const NodeInput &input, NodeViewItem *from, NodeViewItem *to);
 
   Node *context_;
 
@@ -79,17 +72,16 @@ private:
 
   int last_titlebar_height_;
 
-  QMap<Node*, NodeViewItem*> item_map_;
+  QMap<Node *, NodeViewItem *> item_map_;
 
-  QVector<NodeViewEdge*> edges_;
+  QVector<NodeViewEdge *> edges_;
 
-private slots:
+ private slots:
   void GroupAddedNode(Node *node);
 
   void GroupRemovedNode(Node *node);
-
 };
 
-}
+}  // namespace olive
 
-#endif // NODEVIEWCONTEXT_H
+#endif  // NODEVIEWCONTEXT_H

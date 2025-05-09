@@ -22,13 +22,9 @@
 
 namespace olive {
 
-PolygonGizmo::PolygonGizmo(QObject *parent)
-  : DraggableGizmo{parent}
-{
-}
+PolygonGizmo::PolygonGizmo(QObject *parent) : DraggableGizmo{parent} {}
 
-void PolygonGizmo::Draw(QPainter *p) const
-{
+void PolygonGizmo::Draw(QPainter *p) const {
   // Draw transposed black
   QPolygonF transposed = p->transform().map(polygon_);
   transposed.translate(1, 1);
@@ -42,4 +38,4 @@ void PolygonGizmo::Draw(QPainter *p) const
   p->drawPolyline(polygon_);
 }
 
-}
+}  // namespace olive

@@ -29,76 +29,62 @@
 
 namespace olive {
 
-class NodeParamViewScrollBlocker : public QObject
-{
+class NodeParamViewScrollBlocker : public QObject {
   Q_OBJECT
-public:
+ public:
   virtual bool eventFilter(QObject* watched, QEvent* event) override;
 };
 
-class NodeParamViewWidgetBridge : public QObject, public TimeTargetObject
-{
+class NodeParamViewWidgetBridge : public QObject, public TimeTargetObject {
   Q_OBJECT
-public:
+ public:
   NodeParamViewWidgetBridge(NodeInput input, QObject* parent);
 
-  const QVector<QWidget*>& widgets() const
-  {
-    return widgets_;
-  }
+  const QVector<QWidget*>& widgets() const { return widgets_; }
 
   // Set the timebase of certain Timebased widgets
   void SetTimebase(const rational& timebase);
 
-signals:
+ signals:
   void ArrayWidgetDoubleClicked();
 
   void WidgetsRecreated(const NodeInput& input);
 
   void RequestEditTextInViewer();
 
-protected:
-  virtual void TimeTargetDisconnectEvent(ViewerOutput *v) override;
-  virtual void TimeTargetConnectEvent(ViewerOutput *v) override;
+ protected:
+  virtual void TimeTargetDisconnectEvent(ViewerOutput* v) override;
+  virtual void TimeTargetConnectEvent(ViewerOutput* v) override;
 
-private:
+ private:
   void CreateWidgets();
 
   void SetInputValue(const QVariant& value, int track);
 
-  void SetInputValueInternal(const QVariant& value, int track, MultiUndoCommand *command, bool insert_on_all_tracks_if_no_key);
+  void SetInputValueInternal(const QVariant& value, int track, MultiUndoCommand* command,
+                             bool insert_on_all_tracks_if_no_key);
 
   void ProcessSlider(NumericSliderBase* slider, int slider_track, const QVariant& value);
-  void ProcessSlider(NumericSliderBase* slider, const QVariant& value)
-  {
+  void ProcessSlider(NumericSliderBase* slider, const QVariant& value) {
     ProcessSlider(slider, widgets_.indexOf(slider), value);
   }
 
-  void SetProperty(const QString &key, const QVariant &value);
+  void SetProperty(const QString& key, const QVariant& value);
 
   template <typename T>
-  void CreateSliders(int count, QWidget *parent);
+  void CreateSliders(int count, QWidget* parent);
 
   void UpdateWidgetValues();
 
   rational GetCurrentTimeAsNodeTime() const;
 
-  const NodeInput &GetOuterInput() const
-  {
-    return input_hierarchy_.first();
-  }
+  const NodeInput& GetOuterInput() const { return input_hierarchy_.first(); }
 
-  const NodeInput &GetInnerInput() const
-  {
-    return input_hierarchy_.last();
-  }
+  const NodeInput& GetInnerInput() const { return input_hierarchy_.last(); }
 
   QString GetCommandName() const;
 
-  NodeValue::Type GetDataType() const
-  {
-    return GetOuterInput().GetDataType();
-  }
+  NodeValue::Type GetDataType() const { return GetOuterInput().GetDataType(); }
 
   void UpdateProperties();
 
@@ -110,17 +96,16 @@ private:
 
   NodeParamViewScrollBlocker scroll_filter_;
 
-private slots:
+ private slots:
   void WidgetCallback();
 
   void InputValueChanged(const NodeInput& input, const TimeRange& range);
 
   void InputDataTypeChanged(const QString& input, NodeValue::Type type);
 
-  void PropertyChanged(const QString &input, const QString &key, const QVariant &value);
-
+  void PropertyChanged(const QString& input, const QString& key, const QVariant& value);
 };
 
-}
+}  // namespace olive
 
-#endif // NODEPARAMVIEWWIDGETBRIDGE_H
+#endif  // NODEPARAMVIEWWIDGETBRIDGE_H

@@ -33,13 +33,12 @@ namespace olive {
  * A fairly simple subclass of QTreeView that provides a double clicked signal whether the index is valid or not
  * (QAbstractItemView has a doubleClicked() signal but it's only emitted with a valid index).
  */
-class ProjectExplorerTreeView : public QTreeView
-{
+class ProjectExplorerTreeView : public QTreeView {
   Q_OBJECT
-public:
+ public:
   ProjectExplorerTreeView(QWidget* parent);
 
-protected:
+ protected:
   /**
    * @brief Double click event override
    *
@@ -48,9 +47,9 @@ protected:
    * FIXME: This code is the same as the code in ProjectExplorerListViewBase. Is there a way to merge these two through
    *
    */
-  virtual void mouseDoubleClickEvent(QMouseEvent *event) override;
+  virtual void mouseDoubleClickEvent(QMouseEvent* event) override;
 
-signals:
+ signals:
   /**
    * @brief Unconditional double click signal
    *
@@ -59,6 +58,6 @@ signals:
   void DoubleClickedEmptyArea();
 };
 
-}
+}  // namespace olive
 
-#endif // PROJECTEXPLORERTREEVIEW_H
+#endif  // PROJECTEXPLORERTREEVIEW_H

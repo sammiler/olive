@@ -33,23 +33,23 @@
 
 namespace olive {
 
-class SpeedDurationDialog : public QDialog
-{
+class SpeedDurationDialog : public QDialog {
   Q_OBJECT
-public:
-  explicit SpeedDurationDialog(const QVector<ClipBlock*> &clips, const rational &timebase, QWidget *parent = nullptr);
+ public:
+  explicit SpeedDurationDialog(const QVector<ClipBlock *> &clips, const rational &timebase, QWidget *parent = nullptr);
 
-public slots:
+ public slots:
   virtual void accept() override;
 
-signals:
+ signals:
 
-private:
-  static rational GetLengthAdjustment(const rational &original_length, double original_speed, double new_speed, const rational &timebase);
+ private:
+  static rational GetLengthAdjustment(const rational &original_length, double original_speed, double new_speed,
+                                      const rational &timebase);
 
   static double GetSpeedAdjustment(double original_speed, const rational &original_length, const rational &new_length);
 
-  QVector<ClipBlock*> clips_;
+  QVector<ClipBlock *> clips_;
 
   FloatSlider *speed_slider_;
 
@@ -77,13 +77,12 @@ private:
 
   rational timebase_;
 
-private slots:
+ private slots:
   void SpeedChanged(double s);
 
   void DurationChanged(const rational &r);
-
 };
 
-}
+}  // namespace olive
 
-#endif // SPEEDDURATIONDIALOG_H
+#endif  // SPEEDDURATIONDIALOG_H

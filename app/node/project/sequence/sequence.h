@@ -29,31 +29,20 @@ namespace olive {
 /**
  * @brief The main timeline object, an graph of edited clips that forms a complete edit
  */
-class Sequence : public ViewerOutput
-{
+class Sequence : public ViewerOutput {
   Q_OBJECT
-public:
+ public:
   Sequence();
 
   NODE_DEFAULT_FUNCTIONS(Sequence)
 
-  virtual QString Name() const override
-  {
-    return tr("Sequence");
-  }
+  virtual QString Name() const override { return tr("Sequence"); }
 
-  virtual QString id() const override
-  {
-    return QStringLiteral("org.olivevideoeditor.Olive.sequence");
-  }
+  virtual QString id() const override { return QStringLiteral("org.olivevideoeditor.Olive.sequence"); }
 
-  virtual QVector<CategoryID> Category() const override
-  {
-    return {kCategoryProject};
-  }
+  virtual QVector<CategoryID> Category() const override { return {kCategoryProject}; }
 
-  virtual QString Description() const override
-  {
+  virtual QString Description() const override {
     return tr("A series of cuts that result in an edited video. Also called a timeline.");
   }
 
@@ -61,13 +50,9 @@ public:
 
   virtual QVariant data(const DataType &d) const override;
 
-  const QVector<Track *> &GetTracks() const
-  {
-    return track_cache_;
-  }
+  const QVector<Track *> &GetTracks() const { return track_cache_; }
 
-  Track* GetTrackFromReference(const Track::Reference& track_ref) const
-  {
+  Track *GetTrackFromReference(const Track::Reference &track_ref) const {
     return track_lists_.at(track_ref.type())->GetTrackAt(track_ref.index());
   }
 
@@ -76,40 +61,37 @@ public:
    */
   QVector<Track *> GetUnlockedTracks() const;
 
-  TrackList* track_list(Track::Type type) const
-  {
-    return track_lists_.at(type);
-  }
+  TrackList *track_list(Track::Type type) const { return track_lists_.at(type); }
 
   virtual void Retranslate() override;
 
-  virtual void InvalidateCache(const TimeRange& range, const QString& from, int element, InvalidateCacheOptions options) override;
+  virtual void InvalidateCache(const TimeRange &range, const QString &from, int element,
+                               InvalidateCacheOptions options) override;
 
   static const QString kTrackInputFormat;
 
-protected:
+ protected:
   virtual void InputConnectedEvent(const QString &input, int element, Node *output) override;
 
   virtual void InputDisconnectedEvent(const QString &input, int element, Node *output) override;
 
   virtual rational VerifyLengthInternal(Track::Type type) const override;
 
-signals:
-  void TrackAdded(Track* track);
-  void TrackRemoved(Track* track);
+ signals:
+  void TrackAdded(Track *track);
+  void TrackRemoved(Track *track);
 
   void SubtitlesChanged(const TimeRange &range);
 
-private:
-  QVector<TrackList*> track_lists_;
+ private:
+  QVector<TrackList *> track_lists_;
 
-  QVector<Track*> track_cache_;
+  QVector<Track *> track_cache_;
 
-private slots:
+ private slots:
   void UpdateTrackCache();
-
 };
 
-}
+}  // namespace olive
 
-#endif // SEQUENCE_H
+#endif  // SEQUENCE_H

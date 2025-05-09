@@ -24,11 +24,9 @@ namespace olive {
 
 #define super ViewerPanelBase
 
-FootageViewerPanel::FootageViewerPanel() :
-  super(QStringLiteral("FootageViewerPanel"))
-{
+FootageViewerPanel::FootageViewerPanel() : super(QStringLiteral("FootageViewerPanel")) {
   // Set ViewerWidget as the central widget
-  FootageViewerWidget* fvw = new FootageViewerWidget(this);
+  FootageViewerWidget *fvw = new FootageViewerWidget(this);
   SetViewerWidget(fvw);
 
   // Set strings
@@ -38,13 +36,9 @@ FootageViewerPanel::FootageViewerPanel() :
   SetShowAndRaiseOnConnect();
 }
 
-void FootageViewerPanel::OverrideWorkArea(const TimeRange &r)
-{
-  GetFootageViewerWidget()->OverrideWorkArea(r);
-}
+void FootageViewerPanel::OverrideWorkArea(const TimeRange &r) { GetFootageViewerWidget()->OverrideWorkArea(r); }
 
-QVector<ViewerOutput *> FootageViewerPanel::GetSelectedFootage() const
-{
+QVector<ViewerOutput *> FootageViewerPanel::GetSelectedFootage() const {
   QVector<ViewerOutput *> list;
 
   if (GetConnectedViewer()) {
@@ -54,11 +48,10 @@ QVector<ViewerOutput *> FootageViewerPanel::GetSelectedFootage() const
   return list;
 }
 
-void FootageViewerPanel::Retranslate()
-{
+void FootageViewerPanel::Retranslate() {
   super::Retranslate();
 
   SetTitle(tr("Footage Viewer"));
 }
 
-}
+}  // namespace olive

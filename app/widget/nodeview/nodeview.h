@@ -26,8 +26,8 @@
 
 #include "core.h"
 #include "node/group/group.h"
-#include "nodeviewedge.h"
 #include "nodeviewcontext.h"
+#include "nodeviewedge.h"
 #include "nodeviewminimap.h"
 #include "nodeviewscene.h"
 #include "widget/handmovableview/handmovableview.h"
@@ -41,18 +41,16 @@ namespace olive {
  * This widget takes a NodeGraph object and constructs a QGraphicsScene representing its data, viewing and allowing
  * the user to make modifications to it.
  */
-class NodeView : public HandMovableView
-{
+class NodeView : public HandMovableView {
   Q_OBJECT
-public:
-  NodeView(QWidget* parent = nullptr);
+ public:
+  NodeView(QWidget *parent = nullptr);
 
   virtual ~NodeView() override;
 
   void SetContexts(const QVector<Node *> &nodes);
 
-  const QVector<Node*> &GetContexts() const
-  {
+  const QVector<Node *> &GetContexts() const {
     if (overlay_view_) {
       return overlay_view_->GetContexts();
     } else {
@@ -60,10 +58,7 @@ public:
     }
   }
 
-  bool IsGroupOverlay() const
-  {
-    return overlay_view_;
-  }
+  bool IsGroupOverlay() const { return overlay_view_; }
 
   void CloseContextsBelongingToProject(Project *project);
 
@@ -90,19 +85,12 @@ public:
 
   void ZoomOut();
 
-  const QVector<Node*> &GetCurrentContexts() const
-  {
-    return contexts_;
-  }
+  const QVector<Node *> &GetCurrentContexts() const { return contexts_; }
 
-public slots:
-  void SetMiniMapEnabled(bool e)
-  {
-    minimap_->setVisible(e);
-  }
+ public slots:
+  void SetMiniMapEnabled(bool e) { minimap_->setVisible(e); }
 
-  void ShowAddMenu()
-  {
+  void ShowAddMenu() {
     Menu *m = CreateAddMenu(nullptr);
     m->exec(QCursor::pos());
     delete m;
@@ -114,26 +102,26 @@ public slots:
 
   void LabelSelectedNodes();
 
-signals:
-  void NodesSelected(const QVector<Node*>& nodes);
+ signals:
+  void NodesSelected(const QVector<Node *> &nodes);
 
-  void NodesDeselected(const QVector<Node*>& nodes);
+  void NodesDeselected(const QVector<Node *> &nodes);
 
-  void NodeSelectionChanged(const QVector<Node*>& nodes);
-  void NodeSelectionChangedWithContexts(const QVector<Node::ContextPair>& nodes);
+  void NodeSelectionChanged(const QVector<Node *> &nodes);
+  void NodeSelectionChangedWithContexts(const QVector<Node::ContextPair> &nodes);
 
   void NodeGroupOpened(NodeGroup *group);
   void NodeGroupClosed();
 
   void EscPressed();
 
-protected:
+ protected:
   virtual void keyPressEvent(QKeyEvent *event) override;
 
   virtual void mousePressEvent(QMouseEvent *event) override;
   virtual void mouseMoveEvent(QMouseEvent *event) override;
-  virtual void mouseReleaseEvent(QMouseEvent* event) override;
-  virtual void mouseDoubleClickEvent(QMouseEvent* event) override;
+  virtual void mouseReleaseEvent(QMouseEvent *event) override;
+  virtual void mouseDoubleClickEvent(QMouseEvent *event) override;
 
   virtual void dragEnterEvent(QDragEnterEvent *event) override;
   virtual void dragMoveEvent(QDragMoveEvent *event) override;
@@ -150,14 +138,14 @@ protected:
 
   virtual void changeEvent(QEvent *e) override;
 
-private:
+ private:
   void DetachItemsFromCursor(bool delete_nodes_too = true);
 
   void SetFlowDirection(NodeViewCommon::FlowDirection dir);
 
   void MoveAttachedNodesToCursor(const QPoint &p);
   void ProcessMovingAttachedNodes(const QPoint &pos);
-  QVector<Node*> ProcessDroppingAttachedNodes(MultiUndoCommand *command, Node *select_context, const QPoint &pos);
+  QVector<Node *> ProcessDroppingAttachedNodes(MultiUndoCommand *command, Node *select_context, const QPoint &pos);
   Node *GetContextAtMousePos(const QPoint &p);
 
   void ConnectSelectionChangedSignal();
@@ -188,7 +176,7 @@ private:
 
   void EndEdgeDrag(bool cancel = false);
 
-  void PostPaste(const QVector<Node*> &new_nodes, const Node::PositionMap &map);
+  void PostPaste(const QVector<Node *> &new_nodes, const Node::PositionMap &map);
 
   void ResizeOverlay();
 
@@ -197,7 +185,7 @@ private:
   NodeViewContext *GetContextItemFromNodeItem(NodeViewItem *item);
 
   struct AttachedItem {
-    NodeViewItem* item;
+    NodeViewItem *item;
     Node *node;
     QPointF original_pos;
   };
@@ -205,29 +193,29 @@ private:
   void SetAttachedItems(const QVector<AttachedItem> &items);
   QVector<AttachedItem> attached_items_;
 
-  NodeViewEdge* drop_edge_;
+  NodeViewEdge *drop_edge_;
   NodeInput drop_input_;
 
-  NodeViewEdge* create_edge_;
-  NodeViewItem* create_edge_output_item_;
-  NodeViewItem* create_edge_input_item_;
+  NodeViewEdge *create_edge_;
+  NodeViewItem *create_edge_output_item_;
+  NodeViewItem *create_edge_input_item_;
   NodeInput create_edge_input_;
   bool create_edge_already_exists_;
   bool create_edge_from_output_;
 
-  QVector<NodeViewItem*> create_edge_expanded_items_;
+  QVector<NodeViewItem *> create_edge_expanded_items_;
 
   NodeViewScene scene_;
 
-  QVector<Node*> selected_nodes_;
+  QVector<Node *> selected_nodes_;
 
-  QVector<Node*> contexts_;
-  QVector<Node*> last_set_filter_nodes_;
-  QMap<Node*, QPointF> context_offsets_;
+  QVector<Node *> contexts_;
+  QVector<Node *> last_set_filter_nodes_;
+  QMap<Node *, QPointF> context_offsets_;
 
-  QMap<NodeViewItem*, QPointF> dragging_items_;
+  QMap<NodeViewItem *, QPointF> dragging_items_;
 
-  NodeView* overlay_view_;
+  NodeView *overlay_view_;
 
   double scale_;
 
@@ -237,7 +225,7 @@ private:
 
   static const int kMaximumContexts;
 
-private slots:
+ private slots:
   /**
    * @brief Receiver for when the scene's selected items change
    */
@@ -251,12 +239,12 @@ private slots:
   /**
    * @brief Receiver for when the user requests a new node from the add menu
    */
-  void CreateNodeSlot(QAction* action);
+  void CreateNodeSlot(QAction *action);
 
   /**
    * @brief Receiver for setting the direction from the context menu
    */
-  void ContextMenuSetDirection(QAction* action);
+  void ContextMenuSetDirection(QAction *action);
 
   /**
    * @brief Opens the selected node in a Viewer
@@ -282,9 +270,8 @@ private slots:
   void ItemAboutToBeDeleted(NodeViewItem *item);
 
   void CloseOverlay();
-
 };
 
-}
+}  // namespace olive
 
-#endif // NODEVIEW_H
+#endif  // NODEVIEW_H

@@ -16,8 +16,8 @@
 #ifndef DESPILLNODE_H
 #define DESPILLNODE_H
 
-#include "node/node.h"
 #include "node/color/colormanager/colormanager.h"
+#include "node/node.h"
 
 namespace olive {
 
@@ -34,15 +34,13 @@ class DespillNode : public Node {
 
   virtual void Retranslate() override;
 
-  virtual ShaderCode GetShaderCode(const ShaderRequest &request) const override;
+  virtual ShaderCode GetShaderCode(const ShaderRequest& request) const override;
   virtual void Value(const NodeValueRow& value, const NodeGlobals& globals, NodeValueTable* table) const override;
 
   static const QString kTextureInput;
   static const QString kColorInput;
   static const QString kMethodInput;
   static const QString kPreserveLuminanceInput;
-
-
 };
 
 }  // namespace olive

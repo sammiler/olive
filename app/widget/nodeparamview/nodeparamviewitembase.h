@@ -23,19 +23,17 @@
 
 #include <QDockWidget>
 
-#include "nodeparamviewitemtitlebar.h"
 #include "node/node.h"
+#include "nodeparamviewitemtitlebar.h"
 
 namespace olive {
 
-class NodeParamViewItemBase : public QDockWidget
-{
+class NodeParamViewItemBase : public QDockWidget {
   Q_OBJECT
-public:
-  NodeParamViewItemBase(QWidget* parent = nullptr);
+ public:
+  NodeParamViewItemBase(QWidget *parent = nullptr);
 
-  void SetHighlighted(bool e)
-  {
+  void SetHighlighted(bool e) {
     highlighted_ = e;
 
     update();
@@ -47,15 +45,12 @@ public:
 
   static QString GetTitleBarTextFromNode(Node *n);
 
-public slots:
+ public slots:
   void SetExpanded(bool e);
 
-  void ToggleExpanded()
-  {
-    SetExpanded(!IsExpanded());
-  }
+  void ToggleExpanded() { SetExpanded(!IsExpanded()); }
 
-signals:
+ signals:
   void PinToggled(bool e);
 
   void ExpandedChanged(bool e);
@@ -64,15 +59,12 @@ signals:
 
   void Clicked();
 
-protected:
+ protected:
   void SetBody(QWidget *body);
 
   virtual void paintEvent(QPaintEvent *event) override;
 
-  NodeParamViewItemTitleBar* title_bar() const
-  {
-    return title_bar_;
-  }
+  NodeParamViewItemTitleBar *title_bar() const { return title_bar_; }
 
   virtual void changeEvent(QEvent *e) override;
 
@@ -80,20 +72,19 @@ protected:
 
   virtual void mousePressEvent(QMouseEvent *e) override;
 
-protected slots:
-  virtual void Retranslate(){}
+ protected slots:
+  virtual void Retranslate() {}
 
-private:
-  NodeParamViewItemTitleBar* title_bar_;
+ private:
+  NodeParamViewItemTitleBar *title_bar_;
 
   QWidget *body_;
 
   QWidget *hidden_body_;
 
   bool highlighted_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // NODEPARAMVIEWITEMBASE_H
+#endif  // NODEPARAMVIEWITEMBASE_H

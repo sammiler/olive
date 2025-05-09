@@ -27,34 +27,32 @@
 
 namespace olive {
 
-class NodeComboBox : public QComboBox
-{
+class NodeComboBox : public QComboBox {
   Q_OBJECT
-public:
+ public:
   NodeComboBox(QWidget* parent = nullptr);
 
   virtual void showPopup() override;
 
   const QString& GetSelectedNode() const;
 
-public slots:
+ public slots:
   void SetNode(const QString& id);
 
-protected:
-  virtual void changeEvent(QEvent *e) override;
+ protected:
+  virtual void changeEvent(QEvent* e) override;
 
-signals:
+ signals:
   void NodeChanged(const QString& id);
 
-private:
+ private:
   void UpdateText();
 
   void SetNodeInternal(const QString& id, bool emit_signal);
 
   QString selected_id_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // FOOTAGECOMBOBOX_H
+#endif  // FOOTAGECOMBOBOX_H

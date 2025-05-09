@@ -26,22 +26,18 @@
 
 namespace olive {
 
-class ColorSwatchChooser : public QWidget
-{
+class ColorSwatchChooser : public QWidget {
   Q_OBJECT
-public:
+ public:
   ColorSwatchChooser(ColorManager *manager, QWidget *parent = nullptr);
 
-public slots:
-  void SetCurrentColor(const ManagedColor &c)
-  {
-    current_ = c;
-  }
+ public slots:
+  void SetCurrentColor(const ManagedColor &c) { current_ = c; }
 
-signals:
+ signals:
   void ColorClicked(const ManagedColor &c);
 
-private:
+ private:
   void SetDefaultColor(int index);
 
   static QString GetSwatchFilename();
@@ -51,13 +47,13 @@ private:
 
   static const int kRowCount = 4;
   static const int kColCount = 8;
-  static const int kBtnCount = kRowCount*kColCount;
+  static const int kBtnCount = kRowCount * kColCount;
   ColorButton *buttons_[kBtnCount];
 
   ManagedColor current_;
   ColorButton *menu_btn_;
 
-private slots:
+ private slots:
   void HandleButtonClick();
 
   void HandleContextMenu();
@@ -65,9 +61,8 @@ private slots:
   void SaveCurrentColor();
 
   void ResetMenuButton();
-
 };
 
-}
+}  // namespace olive
 
-#endif // COLORSWATCHCHOOSER_H
+#endif  // COLORSWATCHCHOOSER_H

@@ -25,24 +25,22 @@
 
 namespace olive {
 
-class RecordTool : public BeamTool
-{
-public:
+class RecordTool : public BeamTool {
+ public:
   RecordTool(TimelineWidget* parent);
 
-  virtual void MousePress(TimelineViewMouseEvent *event) override;
-  virtual void MouseMove(TimelineViewMouseEvent *event) override;
-  virtual void MouseRelease(TimelineViewMouseEvent *event) override;
+  virtual void MousePress(TimelineViewMouseEvent* event) override;
+  virtual void MouseMove(TimelineViewMouseEvent* event) override;
+  virtual void MouseRelease(TimelineViewMouseEvent* event) override;
 
-protected:
+ protected:
   void MouseMoveInternal(const rational& cursor_frame, bool outwards);
 
   TimelineViewGhostItem* ghost_;
 
   rational drag_start_point_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // RECORDTOOL_H
+#endif  // RECORDTOOL_H

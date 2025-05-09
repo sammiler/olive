@@ -30,10 +30,7 @@ namespace olive {
 
 #define super NodeParamViewItemBase
 
-NodeParamViewContext::NodeParamViewContext(QWidget *parent) :
-  super(parent),
-  type_(Track::kNone)
-{
+NodeParamViewContext::NodeParamViewContext(QWidget *parent) : super(parent), type_(Track::kNone) {
   QWidget *body = new QWidget();
   QHBoxLayout *body_layout = new QHBoxLayout(body);
   SetBody(body);
@@ -45,12 +42,12 @@ NodeParamViewContext::NodeParamViewContext(QWidget *parent) :
 
   Retranslate();
 
-  connect(title_bar(), &NodeParamViewItemTitleBar::AddEffectButtonClicked, this, &NodeParamViewContext::AddEffectButtonClicked);
+  connect(title_bar(), &NodeParamViewItemTitleBar::AddEffectButtonClicked, this,
+          &NodeParamViewContext::AddEffectButtonClicked);
 }
 
-NodeParamViewItem *NodeParamViewContext::GetItem(Node *node, Node *ctx)
-{
-  for (auto it=items_.begin(); it!=items_.end(); it++) {
+NodeParamViewItem *NodeParamViewContext::GetItem(Node *node, Node *ctx) {
+  for (auto it = items_.begin(); it != items_.end(); it++) {
     NodeParamViewItem *item = *it;
 
     if (item->GetNode() == node && item->GetContext() == ctx) {
@@ -61,15 +58,13 @@ NodeParamViewItem *NodeParamViewContext::GetItem(Node *node, Node *ctx)
   return nullptr;
 }
 
-void NodeParamViewContext::AddNode(NodeParamViewItem *item)
-{
+void NodeParamViewContext::AddNode(NodeParamViewItem *item) {
   items_.append(item);
   dock_area_->AddItem(item);
 }
 
-void NodeParamViewContext::RemoveNode(Node *node, Node *ctx)
-{
-  for (auto it=items_.begin(); it!=items_.end(); ) {
+void NodeParamViewContext::RemoveNode(Node *node, Node *ctx) {
+  for (auto it = items_.begin(); it != items_.end();) {
     NodeParamViewItem *item = *it;
 
     if (item->GetNode() == node && item->GetContext() == ctx) {
@@ -82,9 +77,8 @@ void NodeParamViewContext::RemoveNode(Node *node, Node *ctx)
   }
 }
 
-void NodeParamViewContext::RemoveNodesWithContext(Node *ctx)
-{
-  for (auto it=items_.begin(); it!=items_.end(); ) {
+void NodeParamViewContext::RemoveNodesWithContext(Node *ctx) {
+  for (auto it = items_.begin(); it != items_.end();) {
     NodeParamViewItem *item = *it;
 
     if (item->GetContext() == ctx) {
@@ -97,8 +91,7 @@ void NodeParamViewContext::RemoveNodesWithContext(Node *ctx)
   }
 }
 
-void NodeParamViewContext::SetInputChecked(const NodeInput &input, bool e)
-{
+void NodeParamViewContext::SetInputChecked(const NodeInput &input, bool e) {
   foreach (NodeParamViewItem *item, items_) {
     if (item->GetNode() == input.node()) {
       item->SetInputChecked(input, e);
@@ -106,31 +99,23 @@ void NodeParamViewContext::SetInputChecked(const NodeInput &input, bool e)
   }
 }
 
-void NodeParamViewContext::SetTimebase(const rational &timebase)
-{
-  foreach (NodeParamViewItem* item, items_) {
+void NodeParamViewContext::SetTimebase(const rational &timebase) {
+  foreach (NodeParamViewItem *item, items_) {
     item->SetTimebase(timebase);
   }
 }
 
-void NodeParamViewContext::SetTimeTarget(ViewerOutput *n)
-{
-  foreach (NodeParamViewItem* item, items_) {
+void NodeParamViewContext::SetTimeTarget(ViewerOutput *n) {
+  foreach (NodeParamViewItem *item, items_) {
     item->SetTimeTarget(n);
   }
 }
 
-void NodeParamViewContext::SetEffectType(Track::Type type)
-{
-  type_ = type;
-}
+void NodeParamViewContext::SetEffectType(Track::Type type) { type_ = type; }
 
-void NodeParamViewContext::Retranslate()
-{
-}
+void NodeParamViewContext::Retranslate() {}
 
-void NodeParamViewContext::AddEffectButtonClicked()
-{
+void NodeParamViewContext::AddEffectButtonClicked() {
   Node::Flag flag = Node::kNone;
 
   if (type_ == Track::kVideo) {
@@ -149,15 +134,14 @@ void NodeParamViewContext::AddEffectButtonClicked()
   delete m;
 }
 
-void NodeParamViewContext::AddEffectMenuItemTriggered(QAction *a)
-{
+void NodeParamViewContext::AddEffectMenuItemTriggered(QAction *a) {
   Node *n = NodeFactory::CreateFromMenuAction(a);
 
   if (n) {
     NodeInput new_node_input = n->GetEffectInput();
     MultiUndoCommand *command = new MultiUndoCommand();
 
-    QVector<Project*> graphs_added_to;
+    QVector<Project *> graphs_added_to;
 
     foreach (Node *ctx, contexts_) {
       NodeInput ctx_input = ctx->GetEffectInput();
@@ -184,4 +168,4 @@ void NodeParamViewContext::AddEffectMenuItemTriggered(QAction *a)
   }
 }
 
-}
+}  // namespace olive

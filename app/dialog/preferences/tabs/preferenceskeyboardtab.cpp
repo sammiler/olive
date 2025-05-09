@@ -31,14 +31,12 @@
 
 namespace olive {
 
-PreferencesKeyboardTab::PreferencesKeyboardTab(MainWindow *main_window) :
-  main_window_(main_window)
-{
+PreferencesKeyboardTab::PreferencesKeyboardTab(MainWindow* main_window) : main_window_(main_window) {
   QVBoxLayout* shortcut_layout = new QVBoxLayout(this);
 
   QLineEdit* key_search_line = new QLineEdit();
   key_search_line->setPlaceholderText(tr("Search for action or shortcut"));
-  connect(key_search_line, SIGNAL(textChanged(const QString &)), this, SLOT(refine_shortcut_list(const QString &)));
+  connect(key_search_line, SIGNAL(textChanged(const QString&)), this, SLOT(refine_shortcut_list(const QString&)));
 
   shortcut_layout->addWidget(key_search_line);
 
@@ -73,12 +71,11 @@ PreferencesKeyboardTab::PreferencesKeyboardTab(MainWindow *main_window) :
   setup_kbd_shortcuts(main_window_->menuBar());
 }
 
-void PreferencesKeyboardTab::Accept(MultiUndoCommand *command)
-{
+void PreferencesKeyboardTab::Accept(MultiUndoCommand* command) {
   Q_UNUSED(command)
 
   // Save keyboard shortcuts
-  for (int i=0;i<key_shortcut_fields_.size();i++) {
+  for (int i = 0; i < key_shortcut_fields_.size(); i++) {
     key_shortcut_fields_.at(i)->set_action_shortcut();
   }
 
@@ -88,7 +85,7 @@ void PreferencesKeyboardTab::Accept(MultiUndoCommand *command)
 void PreferencesKeyboardTab::setup_kbd_shortcuts(QMenuBar* menubar) {
   QList<QAction*> menus = menubar->actions();
 
-  for (int i=0;i<menus.size();i++) {
+  for (int i = 0; i < menus.size(); i++) {
     QMenu* menu = menus.at(i)->menu();
 
     QTreeWidgetItem* item = new QTreeWidgetItem(keyboard_tree_);
@@ -99,7 +96,7 @@ void PreferencesKeyboardTab::setup_kbd_shortcuts(QMenuBar* menubar) {
     setup_kbd_shortcut_worker(menu, item);
   }
 
-  for (int i=0;i<key_shortcut_items_.size();i++) {
+  for (int i = 0; i < key_shortcut_items_.size(); i++) {
     if (!key_shortcut_actions_.at(i)->property("id").isNull()) {
       KeySequenceEditor* editor = new KeySequenceEditor(keyboard_tree_, key_shortcut_actions_.at(i));
       keyboard_tree_->setItemWidget(key_shortcut_items_.at(i), 1, editor);
@@ -110,7 +107,7 @@ void PreferencesKeyboardTab::setup_kbd_shortcuts(QMenuBar* menubar) {
 
 void PreferencesKeyboardTab::setup_kbd_shortcut_worker(QMenu* menu, QTreeWidgetItem* parent) {
   QList<QAction*> actions = menu->actions();
-  for (int i=0;i<actions.size();i++) {
+  for (int i = 0; i < actions.size(); i++) {
     QAction* a = actions.at(i);
 
     if (!a->isSeparator() && a->property("keyignore").isNull()) {
@@ -132,27 +129,25 @@ void PreferencesKeyboardTab::setup_kbd_shortcut_worker(QMenu* menu, QTreeWidgetI
 
 void PreferencesKeyboardTab::reset_default_shortcut() {
   QList<QTreeWidgetItem*> items = keyboard_tree_->selectedItems();
-  for (int i=0;i<items.size();i++) {
+  for (int i = 0; i < items.size(); i++) {
     QTreeWidgetItem* item = keyboard_tree_->selectedItems().at(i);
     static_cast<KeySequenceEditor*>(keyboard_tree_->itemWidget(item, 1))->reset_to_default();
   }
 }
 
 void PreferencesKeyboardTab::reset_all_shortcuts() {
-  if (QMessageBox::question(
-        this,
-        tr("Confirm Reset All Shortcuts"),
-        tr("Are you sure you wish to reset all keyboard shortcuts to their defaults?"),
-        QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes) {
-    for (int i=0;i<key_shortcut_fields_.size();i++) {
+  if (QMessageBox::question(this, tr("Confirm Reset All Shortcuts"),
+                            tr("Are you sure you wish to reset all keyboard shortcuts to their defaults?"),
+                            QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes) {
+    for (int i = 0; i < key_shortcut_fields_.size(); i++) {
       key_shortcut_fields_.at(i)->reset_to_default();
     }
   }
 }
 
-bool PreferencesKeyboardTab::refine_shortcut_list(const QString &s, QTreeWidgetItem* parent) {
+bool PreferencesKeyboardTab::refine_shortcut_list(const QString& s, QTreeWidgetItem* parent) {
   if (parent == nullptr) {
-    for (int i=0;i<keyboard_tree_->topLevelItemCount();i++) {
+    for (int i = 0; i < keyboard_tree_->topLevelItemCount(); i++) {
       refine_shortcut_list(s, keyboard_tree_->topLevelItem(i));
     }
 
@@ -163,7 +158,7 @@ bool PreferencesKeyboardTab::refine_shortcut_list(const QString &s, QTreeWidgetI
 
     bool all_children_are_hidden = !s.isEmpty();
 
-    for (int i=0;i<parent->childCount();i++) {
+    for (int i = 0; i < parent->childCount(); i++) {
       QTreeWidgetItem* item = parent->child(i);
       if (item->childCount() > 0) {
         if (!refine_shortcut_list(s, item)) {
@@ -202,9 +197,9 @@ void PreferencesKeyboardTab::load_shortcut_file() {
     if (f.exists() && f.open(QFile::ReadOnly)) {
       QString ba = f.readAll();
       f.close();
-      for (int i=0;i<key_shortcut_fields_.size();i++) {
+      for (int i = 0; i < key_shortcut_fields_.size(); i++) {
         int index = ba.indexOf(key_shortcut_fields_.at(i)->action_name());
-        if (index == 0 || (index > 0 && ba.at(index-1) == '\n')) {
+        if (index == 0 || (index > 0 && ba.at(index - 1) == '\n')) {
           while (index < ba.size() && ba.at(index) != '\t') index++;
           QString ks;
           index++;
@@ -218,11 +213,7 @@ void PreferencesKeyboardTab::load_shortcut_file() {
         }
       }
     } else {
-      QMessageBox::critical(
-            this,
-            tr("Error saving shortcuts"),
-            tr("Failed to open file for reading")
-            );
+      QMessageBox::critical(this, tr("Error saving shortcuts"), tr("Failed to open file for reading"));
     }
   }
 }
@@ -233,7 +224,7 @@ void PreferencesKeyboardTab::save_shortcut_file() {
     QFile f(fn);
     if (f.open(QFile::WriteOnly)) {
       bool start = true;
-      for (int i=0;i<key_shortcut_fields_.size();i++) {
+      for (int i = 0; i < key_shortcut_fields_.size(); i++) {
         QString s = key_shortcut_fields_.at(i)->export_shortcut();
         if (!s.isEmpty()) {
           if (!start) f.write("\n");
@@ -249,4 +240,4 @@ void PreferencesKeyboardTab::save_shortcut_file() {
   }
 }
 
-}
+}  // namespace olive

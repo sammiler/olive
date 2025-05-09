@@ -30,24 +30,19 @@ namespace olive {
 
 using namespace core;
 
- /**
+/**
  * @brief A olive::rational based slider
  *
  * A slider that can display rationals as either timecode (drop or non-drop), a timestamp (frames),
  * or a float (seconds).
  */
-class RationalSlider : public DecimalSliderBase
-{
+class RationalSlider : public DecimalSliderBase {
   Q_OBJECT
-public:
+ public:
   /**
    * @brief enum containing the possibly display types
    */
-  enum DisplayType {
-    kTime,
-    kFloat,
-    kRational
-  };
+  enum DisplayType { kTime, kFloat, kRational };
 
   RationalSlider(QWidget* parent = nullptr);
 
@@ -91,7 +86,7 @@ public:
    */
   void DisableDisplayType(DisplayType type);
 
-public slots:
+ public slots:
   /**
    * @brief Sets the sliders timebase which is also the minimum increment of the slider
    */
@@ -102,12 +97,12 @@ public slots:
    */
   void SetValue(const rational& d);
 
-protected:
+ protected:
   virtual QString ValueToString(const QVariant& v) const override;
 
   virtual QVariant StringToValue(const QString& s, bool* ok) const override;
 
-  virtual QVariant AdjustDragDistanceInternal(const QVariant &start, const double &drag) const override;
+  virtual QVariant AdjustDragDistanceInternal(const QVariant& start, const double& drag) const override;
 
   virtual void ValueSignalEvent(const QVariant& v) override;
 
@@ -115,15 +110,15 @@ protected:
 
   virtual bool ValueLessThan(const QVariant& lhs, const QVariant& rhs) const override;
 
-signals:
+ signals:
   void ValueChanged(rational);
 
-private slots:
+ private slots:
   void ShowDisplayTypeMenu();
 
   void SetDisplayTypeFromMenu();
 
-private:
+ private:
   DisplayType display_type_;
 
   rational timebase_;
@@ -131,9 +126,8 @@ private:
   bool lock_display_type_;
 
   QVector<DisplayType> disabled_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // RATIONALSLIDER_H
+#endif  // RATIONALSLIDER_H

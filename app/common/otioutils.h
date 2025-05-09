@@ -26,4 +26,4 @@
 namespace OTIO = opentimelineio::OPENTIMELINEIO_VERSION;
 #endif
 
-#endif // OTIOUTILS
+#endif  // OTIOUTILS

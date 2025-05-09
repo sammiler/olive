@@ -26,33 +26,23 @@
 
 namespace olive {
 
-class TimeBasedPanel : public PanelWidget
-{
+class TimeBasedPanel : public PanelWidget {
   Q_OBJECT
-public:
+ public:
   TimeBasedPanel(const QString& object_name);
 
   virtual ~TimeBasedPanel() override;
 
-  void ConnectViewerNode(ViewerOutput *node);
+  void ConnectViewerNode(ViewerOutput* node);
 
-  void DisconnectViewerNode()
-  {
-    ConnectViewerNode(nullptr);
-  }
+  void DisconnectViewerNode() { ConnectViewerNode(nullptr); }
 
   // Get the timebase of this panels widget
   const rational& timebase();
 
-  ViewerOutput *GetConnectedViewer() const
-  {
-    return widget_->GetConnectedNode();
-  }
+  ViewerOutput* GetConnectedViewer() const { return widget_->GetConnectedNode(); }
 
-  TimeRuler* ruler() const
-  {
-    return widget_->ruler();
-  }
+  TimeRuler* ruler() const { return widget_->ruler(); }
 
   virtual void ZoomIn() override;
 
@@ -108,10 +98,10 @@ public:
 
   TimeBasedWidget* GetTimeBasedWidget() const { return widget_; }
 
-public slots:
+ public slots:
   void SetTimebase(const rational& timebase);
 
-signals:
+ signals:
   void PlayPauseRequested();
 
   void PlayInToOutRequested();
@@ -122,26 +112,22 @@ signals:
 
   void ShuttleRightRequested();
 
-protected:
+ protected:
   void SetTimeBasedWidget(TimeBasedWidget* widget);
 
   virtual void Retranslate() override;
 
-  void SetShowAndRaiseOnConnect()
-  {
-    show_and_raise_on_connect_ = true;
-  }
+  void SetShowAndRaiseOnConnect() { show_and_raise_on_connect_ = true; }
 
-private:
+ private:
   TimeBasedWidget* widget_;
 
   bool show_and_raise_on_connect_;
 
-private slots:
+ private slots:
   void ConnectedNodeChanged(ViewerOutput* old, ViewerOutput* now);
-
 };
 
-}
+}  // namespace olive
 
-#endif // TIMEBASEDPANEL_H
+#endif  // TIMEBASEDPANEL_H

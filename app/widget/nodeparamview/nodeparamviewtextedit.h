@@ -29,29 +29,23 @@
 
 namespace olive {
 
-class NodeParamViewTextEdit : public QWidget
-{
+class NodeParamViewTextEdit : public QWidget {
   Q_OBJECT
-public:
-  NodeParamViewTextEdit(QWidget* parent = nullptr);
+ public:
+  NodeParamViewTextEdit(QWidget *parent = nullptr);
 
-  QString text() const
-  {
-    return line_edit_->toPlainText();
-  }
+  QString text() const { return line_edit_->toPlainText(); }
 
   void SetEditInViewerOnlyMode(bool on);
 
-public slots:
-  void setText(const QString &s)
-  {
+ public slots:
+  void setText(const QString &s) {
     line_edit_->blockSignals(true);
     line_edit_->setPlainText(s);
     line_edit_->blockSignals(false);
   }
 
-  void setTextPreservingCursor(const QString &s)
-  {
+  void setTextPreservingCursor(const QString &s) {
     // Save cursor position
     int cursor_pos = line_edit_->textCursor().position();
 
@@ -64,25 +58,24 @@ public slots:
     line_edit_->setTextCursor(c);
   }
 
-signals:
+ signals:
   void textEdited(const QString &);
 
   void RequestEditInViewer();
 
-private:
-  QPlainTextEdit* line_edit_;
+ private:
+  QPlainTextEdit *line_edit_;
 
-  QPushButton* edit_btn_;
+  QPushButton *edit_btn_;
 
   QPushButton *edit_in_viewer_btn_;
 
-private slots:
+ private slots:
   void ShowTextDialog();
 
   void InnerWidgetTextChanged();
-
 };
 
-}
+}  // namespace olive
 
-#endif // NODEPARAMVIEWTEXTEDIT_H
+#endif  // NODEPARAMVIEWTEXTEDIT_H

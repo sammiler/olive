@@ -27,10 +27,7 @@
 
 namespace olive {
 
-ExportSavePresetDialog::ExportSavePresetDialog(const EncodingParams &p, QWidget *parent) :
-  QDialog(parent),
-  params_(p)
-{
+ExportSavePresetDialog::ExportSavePresetDialog(const EncodingParams &p, QWidget *parent) : QDialog(parent), params_(p) {
   auto layout = new QVBoxLayout(this);
 
   name_edit_ = new QLineEdit();
@@ -62,8 +59,7 @@ ExportSavePresetDialog::ExportSavePresetDialog(const EncodingParams &p, QWidget 
   setWindowTitle(tr("Save Export Preset"));
 }
 
-void ExportSavePresetDialog::accept()
-{
+void ExportSavePresetDialog::accept() {
   if (name_edit_->text().isEmpty()) {
     QMessageBox::critical(this, tr("Invalid Name"), tr("You must enter a name to save an export preset."));
     return;
@@ -76,8 +72,10 @@ void ExportSavePresetDialog::accept()
 
   QFile f(d.filePath(name_edit_->text()));
   if (f.exists()) {
-    if (QMessageBox::question(this, tr("Overwrite Preset"), tr("A preset with the name \"%1\" already exists. Do you wish to overwrite it?").arg(name_edit_->text()),
-                              QMessageBox::Yes | QMessageBox::No) == QMessageBox::No) {
+    if (QMessageBox::question(
+            this, tr("Overwrite Preset"),
+            tr("A preset with the name \"%1\" already exists. Do you wish to overwrite it?").arg(name_edit_->text()),
+            QMessageBox::Yes | QMessageBox::No) == QMessageBox::No) {
       return;
     }
   }
@@ -94,4 +92,4 @@ void ExportSavePresetDialog::accept()
   QDialog::accept();
 }
 
-}
+}  // namespace olive

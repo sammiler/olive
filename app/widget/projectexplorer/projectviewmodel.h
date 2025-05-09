@@ -37,10 +37,9 @@ namespace olive {
  * ProjectViewModel so that the views can be efficiently and correctly updated. ProjectViewModel contains several
  * "wrapper" functions for Project and Item functions that also signal any connected views to update accordingly.
  */
-class ProjectViewModel : public QAbstractItemModel
-{
+class ProjectViewModel : public QAbstractItemModel {
   Q_OBJECT
-public:
+ public:
   enum ColumnType {
     /// Media name
     kName,
@@ -69,7 +68,7 @@ public:
    * @param parent
    * Parent object for memory handling
    */
-  ProjectViewModel(QObject* parent);
+  ProjectViewModel(QObject *parent);
 
   /**
    * @brief Get currently active project
@@ -78,7 +77,7 @@ public:
    *
    * Currently active project or nullptr if there is none
    */
-  Project* project() const;
+  Project *project() const;
 
   /**
    * @brief Set the project to adapt
@@ -89,7 +88,7 @@ public:
    *
    * Project to adapt, can be set to nullptr to "close" the project (will show an empty model that cannot be modified)
    */
-  void set_project(Project* p);
+  void set_project(Project *p);
 
   /** Compulsory Qt QAbstractItemModel overrides */
   virtual QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const override;
@@ -107,15 +106,16 @@ public:
   /** Drag and drop support */
   virtual Qt::ItemFlags flags(const QModelIndex &index) const override;
   virtual QStringList mimeTypes() const override;
-  virtual QMimeData * mimeData(const QModelIndexList &indexes) const override;
-  virtual bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) override;
+  virtual QMimeData *mimeData(const QModelIndexList &indexes) const override;
+  virtual bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column,
+                            const QModelIndex &parent) override;
 
   /**
    * @brief Convenience function for creating QModelIndexes from an Item object
    */
   QModelIndex CreateIndexFromItem(Node *item, int column = 0);
 
-private:
+ private:
   /**
    * @brief Retrieve the index of `item` in its parent
    *
@@ -126,41 +126,40 @@ private:
    *
    * Index of the specified item, or -1 if the item is root (in which case it has no parent).
    */
-  int IndexOfChild(Node* item) const;
+  int IndexOfChild(Node *item) const;
 
   /**
    * @brief Retrieves the Item object from a given index
    *
    * A convenience function for retrieving Item objects. If the index is not valid, this returns the root Item.
    */
-  Node* GetItemObjectFromIndex(const QModelIndex& index) const;
+  Node *GetItemObjectFromIndex(const QModelIndex &index) const;
 
   /**
    * @brief Check if an Item is a parent of a Child
    *
    * Checks entire "parent hierarchy" of `child` to see if `parent` is one of its parents.
    */
-  bool ItemIsParentOfChild(Folder *parent, Node* child) const;
+  bool ItemIsParentOfChild(Folder *parent, Node *child) const;
 
-  void ConnectItem(Node* n);
+  void ConnectItem(Node *n);
 
   void DisconnectItem(Node *n);
 
-  Project* project_;
+  Project *project_;
 
-private slots:
+ private slots:
   void FolderBeginInsertItem(Node *n, int insert_index);
 
   void FolderEndInsertItem();
 
-  void FolderBeginRemoveItem(Node* n, int child_index);
+  void FolderBeginRemoveItem(Node *n, int child_index);
 
   void FolderEndRemoveItem();
 
   void ItemRenamed();
-
 };
 
-}
+}  // namespace olive
 
-#endif // VIEWMODEL_H
+#endif  // VIEWMODEL_H

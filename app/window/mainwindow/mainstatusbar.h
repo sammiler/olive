@@ -31,36 +31,34 @@ namespace olive {
 /**
  * @brief Shows abbreviated information from a TaskManager object
  */
-class MainStatusBar : public QStatusBar
-{
+class MainStatusBar : public QStatusBar {
   Q_OBJECT
-public:
+ public:
   MainStatusBar(QWidget* parent = nullptr);
 
   void ConnectTaskManager(TaskManager* manager);
 
-signals:
+ signals:
   void DoubleClicked();
 
-protected:
+ protected:
   virtual void mouseDoubleClickEvent(QMouseEvent* e) override;
 
-private slots:
+ private slots:
   void UpdateStatus();
 
   void SetProgressBarValue(double d);
 
   void ConnectedTaskDeleted();
 
-private:
+ private:
   TaskManager* manager_;
 
   QProgressBar* bar_;
 
   Task* connected_task_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // MAINSTATUSBAR_H
+#endif  // MAINSTATUSBAR_H

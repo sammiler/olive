@@ -29,15 +29,15 @@ namespace olive {
 
 class NodeParamViewConnectedLabel : public QWidget {
   Q_OBJECT
-public:
-  NodeParamViewConnectedLabel(const NodeInput& input, QWidget* parent = nullptr);
+ public:
+  NodeParamViewConnectedLabel(const NodeInput &input, QWidget *parent = nullptr);
 
   void SetViewerNode(ViewerOutput *viewer);
 
-signals:
+ signals:
   void RequestSelectNode(Node *n);
 
-private slots:
+ private slots:
   void InputConnected(Node *output, const NodeInput &input);
 
   void InputDisconnected(Node *output, const NodeInput &input);
@@ -46,14 +46,14 @@ private slots:
 
   void ConnectionClicked();
 
-private:
+ private:
   void UpdateLabel();
 
   void UpdateValueTree();
 
   void CreateTree();
 
-  ClickableLabel* connected_to_lbl_;
+  ClickableLabel *connected_to_lbl_;
 
   NodeInput input_;
 
@@ -63,11 +63,10 @@ private:
 
   ViewerOutput *viewer_;
 
-private slots:
+ private slots:
   void SetValueTreeVisible(bool e);
-
 };
 
-}
+}  // namespace olive
 
-#endif // NODEPARAMVIEWCONNECTEDLABEL_H
+#endif  // NODEPARAMVIEWCONNECTEDLABEL_H

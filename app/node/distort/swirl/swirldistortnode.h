@@ -26,10 +26,9 @@
 
 namespace olive {
 
-class SwirlDistortNode : public Node
-{
+class SwirlDistortNode : public Node {
   Q_OBJECT
-public:
+ public:
   SwirlDistortNode();
 
   NODE_DEFAULT_FUNCTIONS(SwirlDistortNode)
@@ -42,7 +41,7 @@ public:
   virtual void Retranslate() override;
 
   virtual ShaderCode GetShaderCode(const ShaderRequest &request) const override;
-  virtual void Value(const NodeValueRow& value, const NodeGlobals &globals, NodeValueTable *table) const override;
+  virtual void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
 
   virtual void UpdateGizmoPositions(const NodeValueRow &row, const NodeGlobals &globals) override;
 
@@ -51,14 +50,13 @@ public:
   static const QString kAngleInput;
   static const QString kPositionInput;
 
-protected slots:
+ protected slots:
   virtual void GizmoDragMove(double x, double y, const Qt::KeyboardModifiers &modifiers) override;
 
-private:
+ private:
   PointGizmo *gizmo_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // SWIRLDISTORTNODE_H
+#endif  // SWIRLDISTORTNODE_H

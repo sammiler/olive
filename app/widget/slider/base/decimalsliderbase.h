@@ -25,9 +25,8 @@
 
 namespace olive {
 
-class DecimalSliderBase : public NumericSliderBase
-{
-public:
+class DecimalSliderBase : public NumericSliderBase {
+ public:
   DecimalSliderBase(QWidget* parent = nullptr);
 
   int GetDecimalPlaces() const { return decimal_places_; }
@@ -38,13 +37,12 @@ public:
 
   static QString FloatToString(double val, int decimal_places, bool autotrim_decimal_places);
 
-private:
+ private:
   int decimal_places_;
 
   bool autotrim_decimal_places_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // DECIMALSLIDERBASE_H
+#endif  // DECIMALSLIDERBASE_H

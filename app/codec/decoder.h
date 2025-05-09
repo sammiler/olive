@@ -25,11 +25,11 @@ extern "C" {
 #include <libswresample/swresample.h>
 }
 
+#include <stdint.h>
 #include <QFileInfo>
 #include <QMutex>
 #include <QObject>
 #include <QWaitCondition>
-#include <stdint.h>
 
 #include "node/block/block.h"
 #include "node/project/footage/footagedescription.h"
@@ -41,7 +41,8 @@ namespace olive {
 class Decoder;
 using DecoderPtr = std::shared_ptr<Decoder>;
 
-#define DECODER_DEFAULT_DESTRUCTOR(x) virtual ~x() override {CloseInternal();}
+#define DECODER_DEFAULT_DESTRUCTOR(x) \
+  virtual ~x() override { CloseInternal(); }
 
 /**
  * @brief A decoder's is the main class for bringing external media into Olive
@@ -59,15 +60,10 @@ using DecoderPtr = std::shared_ptr<Decoder>;
  * A decoder does NOT perform any pixel/sample format conversion. Frames should pass through the PixelService
  * to be utilized in the rest of the rendering pipeline.
  */
-class Decoder : public QObject
-{
+class Decoder : public QObject {
   Q_OBJECT
-public:
-  enum RetrieveState {
-    kReady,
-    kFailedToOpen,
-    kIndexUnavailable
-  };
+ public:
+  enum RetrieveState { kReady, kFailedToOpen, kIndexUnavailable };
 
   Decoder();
 
@@ -76,69 +72,38 @@ public:
    */
   virtual QString id() const = 0;
 
-  virtual bool SupportsVideo(){return false;}
-  virtual bool SupportsAudio(){return false;}
+  virtual bool SupportsVideo() { return false; }
+  virtual bool SupportsAudio() { return false; }
 
   void IncrementAccessTime(qint64 t);
 
-  class CodecStream
-  {
-  public:
-    CodecStream() :
-      stream_(-1),
-      block_(nullptr)
-    {
-    }
+  class CodecStream {
+   public:
+    CodecStream() : stream_(-1), block_(nullptr) {}
 
-    CodecStream(const QString& filename, int stream, Block *block) :
-      filename_(filename),
-      stream_(stream),
-      block_(block)
-    {
-    }
+    CodecStream(const QString& filename, int stream, Block* block)
+        : filename_(filename), stream_(stream), block_(block) {}
 
-    bool IsValid() const
-    {
-      return !filename_.isEmpty() && stream_ >= 0;
-    }
+    bool IsValid() const { return !filename_.isEmpty() && stream_ >= 0; }
 
-    bool Exists() const
-    {
-      return QFileInfo::exists(filename_);
-    }
+    bool Exists() const { return QFileInfo::exists(filename_); }
 
-    void Reset()
-    {
-      *this = CodecStream();
-    }
+    void Reset() { *this = CodecStream(); }
 
-    bool operator==(const CodecStream& rhs) const
-    {
-      return filename_ == rhs.filename_ && stream_ == rhs.stream_;
-    }
+    bool operator==(const CodecStream& rhs) const { return filename_ == rhs.filename_ && stream_ == rhs.stream_; }
 
-    const QString& filename() const
-    {
-      return filename_;
-    }
+    const QString& filename() const { return filename_; }
 
-    int stream() const
-    {
-      return stream_;
-    }
+    int stream() const { return stream_; }
 
-    Block *block() const
-    {
-      return block_;
-    }
+    Block* block() const { return block_; }
 
-  private:
+   private:
     QString filename_;
 
     int stream_;
 
-    Block *block_;
-
+    Block* block_;
   };
 
   /**
@@ -154,13 +119,12 @@ public:
 
   static const rational kAnyTimecode;
 
-  struct RetrieveVideoParams
-  {
-    Renderer *renderer = nullptr;
+  struct RetrieveVideoParams {
+    Renderer* renderer = nullptr;
     rational time;
     int divider = 1;
     PixelFormat maximum_format = PixelFormat::INVALID;
-    CancelAtom *cancelled = nullptr;
+    CancelAtom* cancelled = nullptr;
     VideoParams::ColorRange force_range = VideoParams::kColorRangeDefault;
     VideoParams::Interlacing src_interlacing = VideoParams::kInterlaceNone;
   };
@@ -177,12 +141,7 @@ public:
    */
   TexturePtr RetrieveVideo(const RetrieveVideoParams& p);
 
-  enum RetrieveAudioStatus {
-    kInvalid = -1,
-    kOK,
-    kWaitingForConform,
-    kUnknownError
-  };
+  enum RetrieveAudioStatus { kInvalid = -1, kOK, kWaitingForConform, kUnknownError };
 
   /**
    * @brief Retrieve audio data from footage
@@ -192,7 +151,8 @@ public:
    *
    * This function is thread safe and can only run while the decoder is open. \see Open()
    */
-  RetrieveAudioStatus RetrieveAudio(SampleBuffer &dest, const TimeRange& range, const AudioParams& params, const QString &cache_path, LoopMode loop_mode, RenderMode::Mode mode);
+  RetrieveAudioStatus RetrieveAudio(SampleBuffer& dest, const TimeRange& range, const AudioParams& params,
+                                    const QString& cache_path, LoopMode loop_mode, RenderMode::Mode mode);
 
   /**
    * @brief Determine the last time this decoder instance was used in any way
@@ -210,7 +170,7 @@ public:
    *
    * This function is re-entrant.
    */
-  virtual FootageDescription Probe(const QString& filename, CancelAtom *cancelled) const = 0;
+  virtual FootageDescription Probe(const QString& filename, CancelAtom* cancelled) const = 0;
 
   /**
    * @brief Closes media/deallocates memory
@@ -222,7 +182,8 @@ public:
   /**
    * @brief Conform audio stream
    */
-  bool ConformAudio(const QVector<QString> &output_filenames, const AudioParams &params, CancelAtom *cancelled = nullptr);
+  bool ConformAudio(const QVector<QString>& output_filenames, const AudioParams& params,
+                    CancelAtom* cancelled = nullptr);
 
   /**
    * @brief Create a Decoder instance using a Decoder ID
@@ -241,7 +202,7 @@ public:
 
   static QVector<DecoderPtr> ReceiveListOfAllDecoders();
 
-protected:
+ protected:
   /**
    * @brief Internal open function
    *
@@ -272,7 +233,8 @@ protected:
    */
   virtual TexturePtr RetrieveVideoInternal(const RetrieveVideoParams& p);
 
-  virtual bool ConformAudioInternal(const QVector<QString>& filenames, const AudioParams &params, CancelAtom *cancelled);
+  virtual bool ConformAudioInternal(const QVector<QString>& filenames, const AudioParams& params,
+                                    CancelAtom* cancelled);
 
   void SignalProcessingProgress(int64_t ts, int64_t duration);
 
@@ -281,24 +243,22 @@ protected:
    *
    * This function is NOT thread safe and should therefore only be called by thread safe functions.
    */
-  const CodecStream& stream() const
-  {
-    return stream_;
-  }
+  const CodecStream& stream() const { return stream_; }
 
   virtual rational GetAudioStartOffset() const { return 0; }
 
-signals:
+ signals:
   /**
    * @brief While indexing, this signal will provide progress as a percentage (0-100 inclusive) if
    * available
    */
   void IndexProgress(double);
 
-private:
+ private:
   void UpdateLastAccessed();
 
-  bool RetrieveAudioFromConform(SampleBuffer &sample_buffer, const QVector<QString> &conform_filenames, TimeRange range, LoopMode loop_mode, const AudioParams &params);
+  bool RetrieveAudioFromConform(SampleBuffer& sample_buffer, const QVector<QString>& conform_filenames, TimeRange range,
+                                LoopMode loop_mode, const AudioParams& params);
 
   CodecStream stream_;
 
@@ -309,13 +269,12 @@ private:
   TexturePtr cached_texture_;
   rational cached_time_;
   int cached_divider_;
-
 };
 
 uint qHash(Decoder::CodecStream stream, uint seed = 0);
 
-}
+}  // namespace olive
 
 Q_DECLARE_METATYPE(olive::Decoder::RetrieveState)
 
-#endif // DECODER_H
+#endif  // DECODER_H

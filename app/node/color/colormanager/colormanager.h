@@ -21,8 +21,8 @@
 #ifndef COLORSERVICE_H
 #define COLORSERVICE_H
 
-#include <memory>
 #include <QMutex>
+#include <memory>
 
 #include "codec/frame.h"
 #include "node/node.h"
@@ -30,11 +30,10 @@
 
 namespace olive {
 
-class ColorManager : public QObject
-{
+class ColorManager : public QObject {
   Q_OBJECT
-public:
-  ColorManager(Project *project);
+ public:
+  ColorManager(Project* project);
 
   void Init();
 
@@ -74,26 +73,25 @@ public:
 
   static QStringList ListAvailableColorspaces(OCIO::ConstConfigRcPtr config);
 
-  void GetDefaultLumaCoefs(double *rgb) const;
+  void GetDefaultLumaCoefs(double* rgb) const;
 
-  Project *project() const;
+  Project* project() const;
 
   void UpdateConfigFromFilename();
 
-signals:
-  void ConfigChanged(const QString &s);
+ signals:
+  void ConfigChanged(const QString& s);
 
-  void ReferenceSpaceChanged(const QString &s);
+  void ReferenceSpaceChanged(const QString& s);
 
-  void DefaultInputChanged(const QString &s);
+  void DefaultInputChanged(const QString& s);
 
-private:
+ private:
   OCIO::ConstConfigRcPtr config_;
 
   static OCIO::ConstConfigRcPtr default_config_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // COLORSERVICE_H
+#endif  // COLORSERVICE_H

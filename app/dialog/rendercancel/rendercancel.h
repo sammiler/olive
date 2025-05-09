@@ -25,10 +25,9 @@
 
 namespace olive {
 
-class RenderCancelDialog : public ProgressDialog
-{
+class RenderCancelDialog : public ProgressDialog {
   Q_OBJECT
-public:
+ public:
   RenderCancelDialog(QWidget* parent = nullptr);
 
   void RunIfWorkersAreBusy();
@@ -37,13 +36,13 @@ public:
 
   void WorkerStarted();
 
-public slots:
+ public slots:
   void WorkerDone();
 
-protected:
+ protected:
   virtual void showEvent(QShowEvent* event) override;
 
-private:
+ private:
   void UpdateProgress();
 
   int busy_workers_;
@@ -51,9 +50,8 @@ private:
   int total_workers_;
 
   int waiting_workers_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // RENDERCANCELDIALOG_H
+#endif  // RENDERCANCELDIALOG_H

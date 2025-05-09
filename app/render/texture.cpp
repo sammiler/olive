@@ -26,8 +26,7 @@ namespace olive {
 
 const Texture::Interpolation Texture::kDefaultInterpolation = Texture::kMipmappedLinear;
 
-Texture::~Texture()
-{
+Texture::~Texture() {
   if (renderer_) {
     renderer_->DestroyTexture(this);
   }
@@ -37,18 +36,16 @@ Texture::~Texture()
   }
 }
 
-void Texture::Upload(void *data, int linesize)
-{
+void Texture::Upload(void *data, int linesize) {
   if (renderer_) {
     renderer_->UploadToTexture(this->id(), this->params(), data, linesize);
   }
 }
 
-void Texture::Download(void *data, int linesize)
-{
+void Texture::Download(void *data, int linesize) {
   if (renderer_) {
     renderer_->DownloadFromTexture(this->id(), this->params(), data, linesize);
   }
 }
 
-}
+}  // namespace olive

@@ -25,18 +25,17 @@ extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavfilter/avfilter.h>
 #include <libavformat/avformat.h>
-#include <libswresample/swresample.h>
 #include <libavutil/opt.h>
+#include <libswresample/swresample.h>
 }
 
 #include "codec/encoder.h"
 
 namespace olive {
 
-class FFmpegEncoder : public Encoder
-{
+class FFmpegEncoder : public Encoder {
   Q_OBJECT
-public:
+ public:
   FFmpegEncoder(const EncodingParams &params);
 
   virtual QStringList GetPixelFormatsForCodec(ExportCodec::Codec c) const override;
@@ -55,12 +54,9 @@ public:
 
   virtual void Close() override;
 
-  virtual PixelFormat GetDesiredPixelFormat() const override
-  {
-    return video_conversion_fmt_;
-  }
+  virtual PixelFormat GetDesiredPixelFormat() const override { return video_conversion_fmt_; }
 
-private:
+ private:
   /**
    * @brief Handle an FFmpeg error code
    *
@@ -71,43 +67,43 @@ private:
    */
   void FFmpegError(const QString &context, int error_code);
 
-  bool WriteAVFrame(AVFrame* frame, AVCodecContext *codec_ctx, AVStream *stream);
+  bool WriteAVFrame(AVFrame *frame, AVCodecContext *codec_ctx, AVStream *stream);
 
-  bool InitializeStream(enum AVMediaType type, AVStream** stream, AVCodecContext** codec_ctx, const ExportCodec::Codec &codec);
-  bool InitializeCodecContext(AVStream** stream, AVCodecContext** codec_ctx, const AVCodec* codec);
+  bool InitializeStream(enum AVMediaType type, AVStream **stream, AVCodecContext **codec_ctx,
+                        const ExportCodec::Codec &codec);
+  bool InitializeCodecContext(AVStream **stream, AVCodecContext **codec_ctx, const AVCodec *codec);
   bool SetupCodecContext(AVStream *stream, AVCodecContext *codec_ctx, const AVCodec *codec);
 
   void FlushEncoders();
-  void FlushCodecCtx(AVCodecContext* codec_ctx, AVStream *stream);
+  void FlushCodecCtx(AVCodecContext *codec_ctx, AVStream *stream);
 
   bool InitializeResampleContext(const AudioParams &audio);
 
   static const AVCodec *GetEncoder(ExportCodec::Codec c, SampleFormat aformat);
 
-  AVFormatContext* fmt_ctx_;
+  AVFormatContext *fmt_ctx_;
 
-  AVStream* video_stream_;
-  AVCodecContext* video_codec_ctx_;
+  AVStream *video_stream_;
+  AVCodecContext *video_codec_ctx_;
   AVFilterGraph *video_scale_ctx_;
   AVFilterContext *video_buffersrc_ctx_;
   AVFilterContext *video_buffersink_ctx_;
   PixelFormat video_conversion_fmt_;
 
-  AVStream* audio_stream_;
-  AVCodecContext* audio_codec_ctx_;
-  SwrContext* audio_resample_ctx_;
-  AVFrame* audio_frame_;
+  AVStream *audio_stream_;
+  AVCodecContext *audio_codec_ctx_;
+  SwrContext *audio_resample_ctx_;
+  AVFrame *audio_frame_;
   int audio_max_samples_;
   int audio_frame_offset_;
   int audio_write_count_;
 
-  AVStream* subtitle_stream_;
-  AVCodecContext* subtitle_codec_ctx_;
+  AVStream *subtitle_stream_;
+  AVCodecContext *subtitle_codec_ctx_;
 
   bool open_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // FFMPEGENCODER_H
+#endif  // FFMPEGENCODER_H

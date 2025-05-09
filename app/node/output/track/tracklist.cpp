@@ -28,16 +28,10 @@
 
 namespace olive {
 
-TrackList::TrackList(Sequence *parent, const Track::Type &type, const QString &track_input) :
-  QObject(parent),
-  track_input_(track_input),
-  total_length_(0),
-  type_(type)
-{
-}
+TrackList::TrackList(Sequence *parent, const Track::Type &type, const QString &track_input)
+    : QObject(parent), track_input_(track_input), total_length_(0), type_(type) {}
 
-Track *TrackList::GetTrackAt(int index) const
-{
+Track *TrackList::GetTrackAt(int index) const {
   if (index >= 0 && index < track_cache_.size()) {
     return track_cache_.at(index);
   } else {
@@ -45,14 +39,13 @@ Track *TrackList::GetTrackAt(int index) const
   }
 }
 
-void TrackList::TrackConnected(Node *node, int element)
-{
+void TrackList::TrackConnected(Node *node, int element) {
   if (element == -1) {
     parent()->InvalidateAll(track_input(), element);
     return;
   }
 
-  Track* track = dynamic_cast<Track*>(node);
+  Track *track = dynamic_cast<Track *>(node);
 
   if (!track) {
     return;
@@ -60,7 +53,7 @@ void TrackList::TrackConnected(Node *node, int element)
 
   // Determine where in the cache this block will be
   int cache_index = -1;
-  for (int i=element+1; i<ArraySize(); i++) {
+  for (int i = element + 1; i < ArraySize(); i++) {
     // Find next track because this will be the index we insert at
     cache_index = GetCacheIndexFromArrayIndex(i);
 
@@ -81,8 +74,8 @@ void TrackList::TrackConnected(Node *node, int element)
   UpdateTrackIndexesFrom(cache_index);
 
   connect(track, &Track::TrackLengthChanged, this, &TrackList::UpdateTotalLength);
-  connect(track, &Track::TrackHeightChanged, this, [this](){
-    Track *t = static_cast<Track*>(sender());
+  connect(track, &Track::TrackHeightChanged, this, [this]() {
+    Track *t = static_cast<Track *>(sender());
     emit TrackHeightChanged(t, t->GetTrackHeightInPixels());
   });
 
@@ -98,15 +91,14 @@ void TrackList::TrackConnected(Node *node, int element)
   UpdateTotalLength();
 }
 
-void TrackList::TrackDisconnected(Node *node, int element)
-{
+void TrackList::TrackDisconnected(Node *node, int element) {
   if (element == -1) {
     // User has replaced the entire array, we will invalidate everything
     parent()->InvalidateAll(track_input(), element);
     return;
   }
 
-  Track* track = dynamic_cast<Track*>(node);
+  Track *track = dynamic_cast<Track *>(node);
 
   if (!track) {
     return;
@@ -135,53 +127,30 @@ void TrackList::TrackDisconnected(Node *node, int element)
   UpdateTotalLength();
 }
 
-void TrackList::UpdateTrackIndexesFrom(int index)
-{
-  for (int i=index; i<track_cache_.size(); i++) {
+void TrackList::UpdateTrackIndexesFrom(int index) {
+  for (int i = index; i < track_cache_.size(); i++) {
     track_cache_.at(i)->SetIndex(i);
   }
 }
 
-Project *TrackList::GetParentGraph() const
-{
-  return parent()->parent();
-}
+Project *TrackList::GetParentGraph() const { return parent()->parent(); }
 
-const QString& TrackList::track_input() const
-{
-  return track_input_;
-}
+const QString &TrackList::track_input() const { return track_input_; }
 
-NodeInput TrackList::track_input(int element) const
-{
-  return NodeInput(parent(), track_input(), element);
-}
+NodeInput TrackList::track_input(int element) const { return NodeInput(parent(), track_input(), element); }
 
-Sequence *TrackList::parent() const
-{
-  return static_cast<Sequence*>(QObject::parent());
-}
+Sequence *TrackList::parent() const { return static_cast<Sequence *>(QObject::parent()); }
 
-int TrackList::ArraySize() const
-{
-  return parent()->InputArraySize(track_input());
-}
+int TrackList::ArraySize() const { return parent()->InputArraySize(track_input()); }
 
-void TrackList::ArrayAppend()
-{
-  parent()->InputArrayAppend(track_input());
-}
+void TrackList::ArrayAppend() { parent()->InputArrayAppend(track_input()); }
 
-void TrackList::ArrayRemoveLast()
-{
-  parent()->InputArrayRemoveLast(track_input());
-}
+void TrackList::ArrayRemoveLast() { parent()->InputArrayRemoveLast(track_input()); }
 
-void TrackList::UpdateTotalLength()
-{
+void TrackList::UpdateTotalLength() {
   total_length_ = 0;
 
-  foreach (Track* track, track_cache_) {
+  foreach (Track *track, track_cache_) {
     if (track) {
       total_length_ = qMax(total_length_, track->track_length());
     }
@@ -190,4 +159,4 @@ void TrackList::UpdateTotalLength()
   emit LengthChanged(total_length_);
 }
 
-}
+}  // namespace olive

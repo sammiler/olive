@@ -21,8 +21,8 @@
 #ifndef UNDOCOMMAND_H
 #define UNDOCOMMAND_H
 
-#include <list>
 #include <QString>
+#include <list>
 #include <vector>
 
 #include "common/define.h"
@@ -31,17 +31,16 @@ namespace olive {
 
 class Project;
 
-class UndoCommand
-{
-public:
+class UndoCommand {
+ public:
   UndoCommand();
 
-  virtual ~UndoCommand(){}
+  virtual ~UndoCommand() {}
 
   DISABLE_COPY_MOVE(UndoCommand)
 
-  bool has_prepared() const {return prepared_;}
-  void set_prepared(bool e) {prepared_ = true;}
+  bool has_prepared() const { return prepared_; }
+  void set_prepared(bool e) { prepared_ = true; }
 
   void redo_now();
   void undo_now();
@@ -51,12 +50,12 @@ public:
 
   virtual Project* GetRelevantProject() const = 0;
 
-protected:
-  virtual void prepare(){}
+ protected:
+  virtual void prepare() {}
   virtual void redo() = 0;
   virtual void undo() = 0;
 
-private:
+ private:
   bool modified_;
 
   Project* project_;
@@ -64,43 +63,28 @@ private:
   bool prepared_;
 
   bool done_;
-
 };
 
-class MultiUndoCommand : public UndoCommand
-{
-public:
+class MultiUndoCommand : public UndoCommand {
+ public:
   MultiUndoCommand() = default;
 
-  virtual Project* GetRelevantProject() const override
-  {
-    return nullptr;
-  }
+  virtual Project* GetRelevantProject() const override { return nullptr; }
 
-  void add_child(UndoCommand* command)
-  {
-    children_.push_back(command);
-  }
+  void add_child(UndoCommand* command) { children_.push_back(command); }
 
-  int child_count() const
-  {
-    return children_.size();
-  }
+  int child_count() const { return children_.size(); }
 
-  UndoCommand* child(int i) const
-  {
-    return children_[i];
-  }
+  UndoCommand* child(int i) const { return children_[i]; }
 
-protected:
+ protected:
   virtual void redo() override;
   virtual void undo() override;
 
-private:
+ private:
   std::vector<UndoCommand*> children_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // UNDOCOMMAND_H
+#endif  // UNDOCOMMAND_H

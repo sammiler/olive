@@ -25,48 +25,35 @@
 
 namespace olive {
 
-class TimeOffsetNode : public Node
-{
-public:
+class TimeOffsetNode : public Node {
+ public:
   TimeOffsetNode();
 
   NODE_DEFAULT_FUNCTIONS(TimeOffsetNode)
 
-  virtual QString Name() const override
-  {
-    return tr("Time Offset");
-  }
+  virtual QString Name() const override { return tr("Time Offset"); }
 
-  virtual QString id() const override
-  {
-    return QStringLiteral("org.olivevideoeditor.Olive.timeoffset");
-  }
+  virtual QString id() const override { return QStringLiteral("org.olivevideoeditor.Olive.timeoffset"); }
 
-  virtual QVector<CategoryID> Category() const override
-  {
-    return {kCategoryTime};
-  }
+  virtual QVector<CategoryID> Category() const override { return {kCategoryTime}; }
 
-  virtual QString Description() const override
-  {
-    return tr("Offset time passing through the graph.");
-  }
+  virtual QString Description() const override { return tr("Offset time passing through the graph."); }
 
-  virtual TimeRange InputTimeAdjustment(const QString& input, int element, const TimeRange& input_time, bool clamp) const override;
+  virtual TimeRange InputTimeAdjustment(const QString& input, int element, const TimeRange& input_time,
+                                        bool clamp) const override;
   virtual TimeRange OutputTimeAdjustment(const QString& input, int element, const TimeRange& input_time) const override;
 
   virtual void Retranslate() override;
 
-  virtual void Value(const NodeValueRow& value, const NodeGlobals &globals, NodeValueTable *table) const override;
+  virtual void Value(const NodeValueRow& value, const NodeGlobals& globals, NodeValueTable* table) const override;
 
   static const QString kTimeInput;
   static const QString kInputInput;
 
-private:
+ private:
   rational GetRemappedTime(const rational& input) const;
-
 };
 
-}
+}  // namespace olive
 
-#endif // TIMEOFFSETNODE_H
+#endif  // TIMEOFFSETNODE_H

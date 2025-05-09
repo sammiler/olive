@@ -32,7 +32,7 @@ namespace olive {
  * @brief A collection of static file and directory functions
  */
 class FileFunctions {
-public:
+ public:
   /**
    * @brief Returns true if the application is running in portable mode
    *
@@ -85,8 +85,7 @@ public:
    */
   static bool RenameFileAllowOverwrite(const QString& from, const QString& to);
 
-  inline static QString GetFormattedExecutableForPlatform(QString unformatted)
-  {
+  inline static QString GetFormattedExecutableForPlatform(QString unformatted) {
 #ifdef Q_OS_WINDOWS
     unformatted.append(QStringLiteral(".exe"));
 #endif
@@ -95,11 +94,8 @@ public:
   }
 
   static QString GetAutoRecoveryRoot();
-
 };
 
+}  // namespace olive
 
-
-}
-
-#endif // FILEFUNCTIONS_H
+#endif  // FILEFUNCTIONS_H

@@ -21,33 +21,32 @@
 #ifndef OIIODECODER_H
 #define OIIODECODER_H
 
-#include <OpenImageIO/imageio.h>
 #include <OpenImageIO/imagebuf.h>
+#include <OpenImageIO/imageio.h>
 
 #include "codec/decoder.h"
 
 namespace olive {
 
-class OIIODecoder : public Decoder
-{
+class OIIODecoder : public Decoder {
   Q_OBJECT
-public:
+ public:
   OIIODecoder();
 
   DECODER_DEFAULT_DESTRUCTOR(OIIODecoder)
 
   virtual QString id() const override;
 
-  virtual bool SupportsVideo() override{return true;}
+  virtual bool SupportsVideo() override { return true; }
 
-  virtual FootageDescription Probe(const QString& filename, CancelAtom *cancelled) const override;
+  virtual FootageDescription Probe(const QString& filename, CancelAtom* cancelled) const override;
 
-protected:
+ protected:
   virtual bool OpenInternal() override;
   virtual TexturePtr RetrieveVideoInternal(const RetrieveVideoParams& p) override;
   virtual void CloseInternal() override;
 
-private:
+ private:
   std::unique_ptr<OIIO::ImageInput> image_;
 
   static bool FileTypeIsSupported(const QString& fn);
@@ -56,7 +55,7 @@ private:
 
   void CloseImageHandle();
 
-  static VideoParams GetVideoParamsFromImageSpec(const OIIO::ImageSpec &spec);
+  static VideoParams GetVideoParamsFromImageSpec(const OIIO::ImageSpec& spec);
 
   PixelFormat pix_fmt_;
   OIIO::TypeDesc::BASETYPE oiio_pix_fmt_;
@@ -65,9 +64,8 @@ private:
   RetrieveVideoParams last_params_;
 
   static QStringList supported_formats_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // OIIODECODER_H
+#endif  // OIIODECODER_H

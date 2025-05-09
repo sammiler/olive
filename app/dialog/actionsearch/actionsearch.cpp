@@ -27,10 +27,7 @@
 
 namespace olive {
 
-ActionSearch::ActionSearch(QWidget *parent) :
-  QDialog(parent),
-  menu_bar_(nullptr)
-{
+ActionSearch::ActionSearch(QWidget *parent) : QDialog(parent), menu_bar_(nullptr) {
   // ActionSearch requires a parent widget
   Q_ASSERT(parent != nullptr);
 
@@ -39,26 +36,26 @@ ActionSearch::ActionSearch(QWidget *parent) :
   setStyleSheet("#ASDiag{border: 2px solid #808080;}");
 
   // Size proportionally to the parent (usually MainWindow).
-  resize(parent->width()/3, parent->height()/3);
+  resize(parent->width() / 3, parent->height() / 3);
 
   // Show dialog as a "popup", which will make the dialog close if the user clicks out of it.
   setWindowFlags(Qt::Popup);
 
-  QVBoxLayout* layout = new QVBoxLayout(this);
+  QVBoxLayout *layout = new QVBoxLayout(this);
 
   // Construct the main entry text field.
-  ActionSearchEntry* entry_field = new ActionSearchEntry(this);
+  ActionSearchEntry *entry_field = new ActionSearchEntry(this);
 
   // Set the main entry field font size to 1.2x its standard font size.
   QFont entry_field_font = entry_field->font();
-  entry_field_font.setPointSize(qRound(entry_field_font.pointSize()*1.2));
+  entry_field_font.setPointSize(qRound(entry_field_font.pointSize() * 1.2));
   entry_field->setFont(entry_field_font);
 
   // Set placeholder text for the main entry field
   entry_field->setPlaceholderText(tr("Search for action..."));
 
   // Connect signals/slots
-  connect(entry_field, SIGNAL(textChanged(const QString&)), this, SLOT(search_update(const QString &)));
+  connect(entry_field, SIGNAL(textChanged(const QString &)), this, SLOT(search_update(const QString &)));
   connect(entry_field, SIGNAL(returnPressed()), this, SLOT(perform_action()));
 
   // moveSelectionUp() and moveSelectionDown() are emitted when the user pressed up or down on the text field.
@@ -72,7 +69,7 @@ ActionSearch::ActionSearch(QWidget *parent) :
 
   // Set list's font to 1.2x its standard font size
   QFont list_widget_font = list_widget->font();
-  list_widget_font.setPointSize(qRound(list_widget_font.pointSize()*1.2));
+  list_widget_font.setPointSize(qRound(list_widget_font.pointSize() * 1.2));
   list_widget->setFont(list_widget_font);
 
   layout->addWidget(list_widget);
@@ -84,13 +81,9 @@ ActionSearch::ActionSearch(QWidget *parent) :
   entry_field->setFocus();
 }
 
-void ActionSearch::SetMenuBar(QMenuBar *menu_bar)
-{
-  menu_bar_ = menu_bar;
-}
+void ActionSearch::SetMenuBar(QMenuBar *menu_bar) { menu_bar_ = menu_bar; }
 
-void ActionSearch::search_update(const QString &s, const QString &p, QMenu *parent)
-{
+void ActionSearch::search_update(const QString &s, const QString &p, QMenu *parent) {
   // Do nothing if there's no menu bar to work with
   if (menu_bar_ == nullptr) {
     return;
@@ -102,18 +95,17 @@ void ActionSearch::search_update(const QString &s, const QString &p, QMenu *pare
   // submenus).
 
   if (parent == nullptr) {
-
     // If parent is NULL, we'll pull from the MainWindow's menubar and call this recursively on all of its submenus
     // (and their submenus).
 
     // We'll clear all the current items in the list since if we're here, we're just starting.
     list_widget->clear();
 
-    QList<QAction*> menus = menu_bar_->actions();
+    QList<QAction *> menus = menu_bar_->actions();
 
     // Loop through all menus from the menubar and run this function on each one.
-    for (int i=0;i<menus.size();i++) {
-      QMenu* menu = menus.at(i)->menu();
+    for (int i = 0; i < menus.size(); i++) {
+      QMenu *menu = menus.at(i)->menu();
 
       search_update(s, p, menu);
     }
@@ -125,31 +117,26 @@ void ActionSearch::search_update(const QString &s, const QString &p, QMenu *pare
     }
 
   } else {
-
     // Parent was not NULL, so we loop over the actions in the menu we were given in `parent`.
 
     // The list shows a '>' delimited hierarchy of the menus in which this action came from. We construct it here by
     // adding the current menu's text to the existing hierarchy (passed in `p`).
     QString menu_text;
     if (!p.isEmpty()) menu_text += p + " > ";
-    menu_text += parent->title().replace("&", ""); // Strip out any &s used in menu action names
+    menu_text += parent->title().replace("&", "");  // Strip out any &s used in menu action names
 
     // Loop over the menu's actions
-    QList<QAction*> actions = parent->actions();
-    for (int i=0;i<actions.size();i++) {
-
-      QAction* a = actions.at(i);
+    QList<QAction *> actions = parent->actions();
+    for (int i = 0; i < actions.size(); i++) {
+      QAction *a = actions.at(i);
 
       // Ignore separator actions
       if (!a->isSeparator()) {
-
         if (a->menu() != nullptr) {
-
           // If the action is a menu, run this function recursively on it
           search_update(s, menu_text, a->menu());
 
         } else {
-
           // This is a valid non-separator non-menu action, so check it against the currently entered string.
 
           // Strip out all &s from the action's name
@@ -157,17 +144,14 @@ void ActionSearch::search_update(const QString &s, const QString &p, QMenu *pare
 
           // See if the action's name contains any of the currently entered string
           if (comp.contains(s, Qt::CaseInsensitive)) {
-
             // If so, we add it to the list widget.
-            QListWidgetItem* item = new QListWidgetItem(QStringLiteral("%1\n(%2)").arg(comp, menu_text), list_widget);
+            QListWidgetItem *item = new QListWidgetItem(QStringLiteral("%1\n(%2)").arg(comp, menu_text), list_widget);
 
             // Add a pointer to the original QAction in the item's data
-            item->setData(Qt::UserRole+1, reinterpret_cast<quintptr>(a));
+            item->setData(Qt::UserRole + 1, reinterpret_cast<quintptr>(a));
 
             list_widget->addItem(item);
-
           }
-
         }
       }
     }
@@ -175,52 +159,46 @@ void ActionSearch::search_update(const QString &s, const QString &p, QMenu *pare
 }
 
 void ActionSearch::perform_action() {
-
   // Loop over all the items in the list and if we find one that's selected, we trigger it.
-  QList<QListWidgetItem*> selected_items = list_widget->selectedItems();
+  QList<QListWidgetItem *> selected_items = list_widget->selectedItems();
   if (list_widget->count() > 0 && selected_items.size() > 0) {
-
-    QListWidgetItem* item = selected_items.at(0);
+    QListWidgetItem *item = selected_items.at(0);
 
     // Get QAction pointer from item's data
-    QAction* a = reinterpret_cast<QAction*>(item->data(Qt::UserRole+1).value<quintptr>());
+    QAction *a = reinterpret_cast<QAction *>(item->data(Qt::UserRole + 1).value<quintptr>());
 
     a->trigger();
-
   }
 
   // Close this popup
   accept();
-
 }
 
 void ActionSearch::move_selection_up() {
-
   // Here we loop over all the items to find the currently selected one, and then select the one above it. We start
   // iterating at 1 (instead of 0) to efficiently ignore the first item (since the selection can't go below the very
   // bottom item).
 
   int lim = list_widget->count();
-  for (int i=1;i<lim;i++) {
+  for (int i = 1; i < lim; i++) {
     if (list_widget->item(i)->isSelected()) {
-      list_widget->item(i-1)->setSelected(true);
-      list_widget->scrollToItem(list_widget->item(i-1));
+      list_widget->item(i - 1)->setSelected(true);
+      list_widget->scrollToItem(list_widget->item(i - 1));
       break;
     }
   }
 }
 
 void ActionSearch::move_selection_down() {
-
   // Here we loop over all the items to find the currently selected one, and then select the one below it. We limit it
   // one entry before count() to efficiently ignore the item at the end (since the selection can't go below the very
   // bottom item).
 
-  int lim = list_widget->count()-1;
-  for (int i=0;i<lim;i++) {
+  int lim = list_widget->count() - 1;
+  for (int i = 0; i < lim; i++) {
     if (list_widget->item(i)->isSelected()) {
-      list_widget->item(i+1)->setSelected(true);
-      list_widget->scrollToItem(list_widget->item(i+1));
+      list_widget->item(i + 1)->setSelected(true);
+      list_widget->scrollToItem(list_widget->item(i + 1));
       break;
     }
   }
@@ -228,32 +206,31 @@ void ActionSearch::move_selection_down() {
 
 ActionSearchEntry::ActionSearchEntry(QWidget *parent) : QLineEdit(parent) {}
 
-bool ActionSearchEntry::event(QEvent *e)
-{
+bool ActionSearchEntry::event(QEvent *e) {
   switch (e->type()) {
-  case QEvent::ShortcutOverride:
-    switch (static_cast<QKeyEvent*>(e)->key()) {
-    case Qt::Key_Up:
-    case Qt::Key_Down:
-      e->accept();
-      return true;
-    }
-    break;
-  case QEvent::KeyPress:
-    // Listen for up/down, otherwise pass the key event to the base class.
-    switch (static_cast<QKeyEvent*>(e)->key()) {
-    case Qt::Key_Up:
-      e->accept();
-      emit moveSelectionUp();
-      return true;
-    case Qt::Key_Down:
-      e->accept();
-      emit moveSelectionDown();
-      return true;
-    }
-    break;
-  default:
-    break;
+    case QEvent::ShortcutOverride:
+      switch (static_cast<QKeyEvent *>(e)->key()) {
+        case Qt::Key_Up:
+        case Qt::Key_Down:
+          e->accept();
+          return true;
+      }
+      break;
+    case QEvent::KeyPress:
+      // Listen for up/down, otherwise pass the key event to the base class.
+      switch (static_cast<QKeyEvent *>(e)->key()) {
+        case Qt::Key_Up:
+          e->accept();
+          emit moveSelectionUp();
+          return true;
+        case Qt::Key_Down:
+          e->accept();
+          emit moveSelectionDown();
+          return true;
+      }
+      break;
+    default:
+      break;
   }
 
   return QLineEdit::event(e);
@@ -262,10 +239,8 @@ bool ActionSearchEntry::event(QEvent *e)
 ActionSearchList::ActionSearchList(QWidget *parent) : QListWidget(parent) {}
 
 void ActionSearchList::mouseDoubleClickEvent(QMouseEvent *) {
-
   // Indiscriminately emit a signal on any double click
   emit dbl_click();
-
 }
 
-}
+}  // namespace olive

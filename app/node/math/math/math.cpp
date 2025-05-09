@@ -29,8 +29,7 @@ const QString MathNode::kParamCIn = QStringLiteral("param_c_in");
 
 #define super MathNodeBase
 
-MathNode::MathNode()
-{
+MathNode::MathNode() {
   AddInput(kMethodIn, NodeValue::kCombo, InputFlags(kInputFlagNotConnectable | kInputFlagNotKeyframable));
 
   AddInput(kParamAIn, NodeValue::kFloat, 0.0);
@@ -42,8 +41,7 @@ MathNode::MathNode()
   SetInputProperty(kParamBIn, QStringLiteral("autotrim"), true);
 }
 
-QString MathNode::Name() const
-{
+QString MathNode::Name() const {
   // Default to naming after the operation
   if (parent()) {
     QString op_name = GetOperationName(GetOperation());
@@ -55,23 +53,13 @@ QString MathNode::Name() const
   return tr("Math");
 }
 
-QString MathNode::id() const
-{
-  return QStringLiteral("org.olivevideoeditor.Olive.math");
-}
+QString MathNode::id() const { return QStringLiteral("org.olivevideoeditor.Olive.math"); }
 
-QVector<Node::CategoryID> MathNode::Category() const
-{
-  return {kCategoryMath};
-}
+QVector<Node::CategoryID> MathNode::Category() const { return {kCategoryMath}; }
 
-QString MathNode::Description() const
-{
-  return tr("Perform a mathematical operation between two values.");
-}
+QString MathNode::Description() const { return tr("Perform a mathematical operation between two values."); }
 
-void MathNode::Retranslate()
-{
+void MathNode::Retranslate() {
   super::Retranslate();
 
   SetInputName(kMethodIn, tr("Method"));
@@ -88,13 +76,11 @@ void MathNode::Retranslate()
   SetComboBoxStrings(kMethodIn, operations);
 }
 
-ShaderCode MathNode::GetShaderCode(const ShaderRequest &request) const
-{
+ShaderCode MathNode::GetShaderCode(const ShaderRequest &request) const {
   return GetShaderCodeInternal(request.id, kParamAIn, kParamBIn);
 }
 
-void MathNode::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const
-{
+void MathNode::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const {
   // Auto-detect what values to operate with
   // FIXME: Very inefficient
   NodeValueTable at, bt;
@@ -107,19 +93,13 @@ void MathNode::Value(const NodeValueRow &value, const NodeGlobals &globals, Node
     return;
   }
 
-  return ValueInternal(GetOperation(),
-                       calc.GetMostLikelyPairing(),
-                       kParamAIn,
-                       calc.GetMostLikelyValueA(),
-                       kParamBIn,
-                       calc.GetMostLikelyValueB(),
-                       globals,
-                       table);
+  return ValueInternal(GetOperation(), calc.GetMostLikelyPairing(), kParamAIn, calc.GetMostLikelyValueA(), kParamBIn,
+                       calc.GetMostLikelyValueB(), globals, table);
 }
 
-void MathNode::ProcessSamples(const NodeValueRow &values, const SampleBuffer &input, SampleBuffer &output, int index) const
-{
+void MathNode::ProcessSamples(const NodeValueRow &values, const SampleBuffer &input, SampleBuffer &output,
+                              int index) const {
   return ProcessSamplesInternal(values, GetOperation(), kParamAIn, kParamBIn, input, output, index);
 }
 
-}
+}  // namespace olive

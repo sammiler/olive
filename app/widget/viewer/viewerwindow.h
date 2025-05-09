@@ -27,9 +27,8 @@
 
 namespace olive {
 
-class ViewerWindow : public QWidget
-{
-public:
+class ViewerWindow : public QWidget {
+ public:
   ViewerWindow(QWidget* parent = nullptr);
 
   ViewerDisplayWidget* display_widget() const;
@@ -40,7 +39,7 @@ public:
    * Equivalent to calling SetResolution and SetPixelAspectRatio, just slightly faster since we
    * only calculate the matrix once rather than twice.
    */
-  void SetVideoParams(const VideoParams &params);
+  void SetVideoParams(const VideoParams& params);
 
   /**
    * @brief Used to adjust resulting picture to be the right aspect ratio
@@ -52,12 +51,12 @@ public:
    */
   void SetPixelAspectRatio(const rational& pixel_aspect);
 
-protected:
+ protected:
   virtual void keyPressEvent(QKeyEvent* e) override;
 
   virtual void closeEvent(QCloseEvent* e) override;
 
-private:
+ private:
   void UpdateMatrix();
 
   int width_;
@@ -67,9 +66,8 @@ private:
   ViewerDisplayWidget* display_widget_;
 
   rational pixel_aspect_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // VIEWERWINDOW_H
+#endif  // VIEWERWINDOW_H

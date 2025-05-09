@@ -26,22 +26,22 @@
 
 #include "mainwindowlayoutinfo.h"
 #include "node/project.h"
-#include "panel/multicam/multicampanel.h"
-#include "panel/panelmanager.h"
 #include "panel/audiomonitor/audiomonitor.h"
 #include "panel/curve/curve.h"
+#include "panel/footageviewer/footageviewer.h"
 #include "panel/history/historypanel.h"
+#include "panel/multicam/multicampanel.h"
 #include "panel/node/node.h"
+#include "panel/panelmanager.h"
 #include "panel/param/param.h"
+#include "panel/pixelsampler/pixelsamplerpanel.h"
 #include "panel/project/project.h"
 #include "panel/scope/scope.h"
+#include "panel/sequenceviewer/sequenceviewer.h"
 #include "panel/table/table.h"
 #include "panel/taskmanager/taskmanager.h"
 #include "panel/timeline/timeline.h"
 #include "panel/tool/tool.h"
-#include "panel/footageviewer/footageviewer.h"
-#include "panel/sequenceviewer/sequenceviewer.h"
-#include "panel/pixelsampler/pixelsamplerpanel.h"
 
 #ifdef Q_OS_WINDOWS
 #include <shobjidl.h>
@@ -52,10 +52,9 @@ namespace olive {
 /**
  * @brief Olive's main window responsible for docking widgets and the main menu bar.
  */
-class MainWindow : public KDDockWidgets::MainWindow
-{
+class MainWindow : public KDDockWidgets::MainWindow {
   Q_OBJECT
-public:
+ public:
   MainWindow(QWidget *parent = nullptr);
 
   virtual ~MainWindow() override;
@@ -64,21 +63,17 @@ public:
 
   MainWindowLayoutInfo SaveLayout() const;
 
-  TimelinePanel *OpenSequence(Sequence* sequence, bool enable_focus = true);
+  TimelinePanel *OpenSequence(Sequence *sequence, bool enable_focus = true);
 
-  void CloseSequence(Sequence* sequence);
+  void CloseSequence(Sequence *sequence);
 
-  bool IsSequenceOpen(Sequence* sequence) const;
+  bool IsSequenceOpen(Sequence *sequence) const;
 
   void OpenFolder(Folder *i, bool floating);
 
-  void OpenNodeInViewer(ViewerOutput* node);
+  void OpenNodeInViewer(ViewerOutput *node);
 
-  enum ProgressStatus {
-    kProgressNone,
-    kProgressShow,
-    kProgressError
-  };
+  enum ProgressStatus { kProgressNone, kProgressShow, kProgressError };
 
   /**
    * @brief Where applicable, show progress on an operating system level
@@ -95,9 +90,9 @@ public:
    */
   void SetApplicationProgressValue(int value);
 
-  void SelectFootage(const QVector<Footage*> &e);
+  void SelectFootage(const QVector<Footage *> &e);
 
-public slots:
+ public slots:
   void SetProject(Project *p);
 
   void SetFullscreen(bool fullscreen);
@@ -106,23 +101,23 @@ public slots:
 
   void SetDefaultLayout();
 
-protected:
-  virtual void showEvent(QShowEvent* e) override;
+ protected:
+  virtual void showEvent(QShowEvent *e) override;
 
-  virtual void closeEvent(QCloseEvent* e) override;
+  virtual void closeEvent(QCloseEvent *e) override;
 
 #ifdef Q_OS_WINDOWS
   virtual bool nativeEvent(const QByteArray &eventType, void *message, long *result) override;
 #endif
 
-private:
-  TimelinePanel* AppendTimelinePanel();
+ private:
+  TimelinePanel *AppendTimelinePanel();
 
   template <typename T>
-  T* AppendPanelInternal(const QString &panel_name, QList<T*>& list);
+  T *AppendPanelInternal(const QString &panel_name, QList<T *> &list);
 
   template <typename T>
-  void RemovePanelInternal(QList<T*>& list, T *panel);
+  void RemovePanelInternal(QList<T *> &list, T *panel);
 
   void RemoveTimelinePanel(TimelinePanel *panel);
 
@@ -134,44 +129,44 @@ private:
 
   void SaveCustomShortcuts();
 
-  void UpdateAudioMonitorParams(ViewerOutput* viewer);
+  void UpdateAudioMonitorParams(ViewerOutput *viewer);
 
   void UpdateNodePanelContextFromTimelinePanel(TimelinePanel *panel);
 
-  void SelectFootageForProjectPanel(const QVector<Footage*> &e, ProjectPanel *p);
+  void SelectFootageForProjectPanel(const QVector<Footage *> &e, ProjectPanel *p);
 
   QByteArray premaximized_state_;
 
   // Standard panels
   ProjectPanel *project_panel_;
-  NodePanel* node_panel_;
-  ParamPanel* param_panel_;
-  CurvePanel* curve_panel_;
-  SequenceViewerPanel* sequence_viewer_panel_;
-  FootageViewerPanel* footage_viewer_panel_;
-  QList<ProjectPanel*> folder_panels_;
-  ToolPanel* tool_panel_;
-  QList<TimelinePanel*> timeline_panels_;
-  AudioMonitorPanel* audio_monitor_panel_;
-  TaskManagerPanel* task_man_panel_;
-  PixelSamplerPanel* pixel_sampler_panel_;
-  ScopePanel* scope_panel_;
-  QList<ViewerPanel*> viewer_panels_;
+  NodePanel *node_panel_;
+  ParamPanel *param_panel_;
+  CurvePanel *curve_panel_;
+  SequenceViewerPanel *sequence_viewer_panel_;
+  FootageViewerPanel *footage_viewer_panel_;
+  QList<ProjectPanel *> folder_panels_;
+  ToolPanel *tool_panel_;
+  QList<TimelinePanel *> timeline_panels_;
+  AudioMonitorPanel *audio_monitor_panel_;
+  TaskManagerPanel *task_man_panel_;
+  PixelSamplerPanel *pixel_sampler_panel_;
+  ScopePanel *scope_panel_;
+  QList<ViewerPanel *> viewer_panels_;
   MulticamPanel *multicam_panel_;
   HistoryPanel *history_panel_;
 
 #ifdef Q_OS_WINDOWS
   unsigned int taskbar_btn_id_;
 
-  ITaskbarList3* taskbar_interface_;
+  ITaskbarList3 *taskbar_interface_;
 #endif
 
   bool first_show_;
 
   Project *project_;
 
-private slots:
-  void FocusedPanelChanged(PanelWidget* panel);
+ private slots:
+  void FocusedPanelChanged(PanelWidget *panel);
 
   void UpdateTitle();
 
@@ -191,15 +186,14 @@ private slots:
   void ShowNouveauWarning();
 #endif
 
-  void TimelinePanelSelectionChanged(const QVector<Block*> &blocks);
+  void TimelinePanelSelectionChanged(const QVector<Block *> &blocks);
 
   void ShowWelcomeDialog();
 
   void RevealViewerInProject(ViewerOutput *r);
   void RevealViewerInFootageViewer(ViewerOutput *r, const TimeRange &range);
-
 };
 
-}
+}  // namespace olive
 
 #endif

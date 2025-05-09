@@ -29,8 +29,7 @@ const QString VolumeNode::kVolumeInput = QStringLiteral("volume_in");
 
 #define super MathNodeBase
 
-VolumeNode::VolumeNode()
-{
+VolumeNode::VolumeNode() {
   AddInput(kSamplesInput, NodeValue::kSamples, InputFlags(kInputFlagNotKeyframable));
 
   AddInput(kVolumeInput, NodeValue::kFloat, 1.0);
@@ -41,28 +40,15 @@ VolumeNode::VolumeNode()
   SetEffectInput(kSamplesInput);
 }
 
-QString VolumeNode::Name() const
-{
-  return tr("Volume");
-}
+QString VolumeNode::Name() const { return tr("Volume"); }
 
-QString VolumeNode::id() const
-{
-  return QStringLiteral("org.olivevideoeditor.Olive.volume");
-}
+QString VolumeNode::id() const { return QStringLiteral("org.olivevideoeditor.Olive.volume"); }
 
-QVector<Node::CategoryID> VolumeNode::Category() const
-{
-  return {kCategoryFilter};
-}
+QVector<Node::CategoryID> VolumeNode::Category() const { return {kCategoryFilter}; }
 
-QString VolumeNode::Description() const
-{
-  return tr("Adjusts the volume of an audio source.");
-}
+QString VolumeNode::Description() const { return tr("Adjusts the volume of an audio source."); }
 
-void VolumeNode::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const
-{
+void VolumeNode::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const {
   // Create a sample job
   SampleBuffer buffer = value[kSamplesInput].toSamples();
 
@@ -85,17 +71,16 @@ void VolumeNode::Value(const NodeValueRow &value, const NodeGlobals &globals, No
   }
 }
 
-void VolumeNode::ProcessSamples(const NodeValueRow &values, const SampleBuffer &input, SampleBuffer &output, int index) const
-{
+void VolumeNode::ProcessSamples(const NodeValueRow &values, const SampleBuffer &input, SampleBuffer &output,
+                                int index) const {
   return ProcessSamplesInternal(values, kOpMultiply, kSamplesInput, kVolumeInput, input, output, index);
 }
 
-void VolumeNode::Retranslate()
-{
+void VolumeNode::Retranslate() {
   super::Retranslate();
 
   SetInputName(kSamplesInput, tr("Samples"));
   SetInputName(kVolumeInput, tr("Volume"));
 }
 
-}
+}  // namespace olive

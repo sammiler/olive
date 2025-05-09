@@ -27,28 +27,26 @@
 
 namespace olive {
 
-class PreCacheTask : public RenderTask
-{
+class PreCacheTask : public RenderTask {
   Q_OBJECT
-public:
+ public:
   PreCacheTask(Footage* footage, int index, Sequence* sequence);
 
   virtual ~PreCacheTask() override;
 
-protected:
+ protected:
   virtual bool Run() override;
 
-  virtual bool FrameDownloaded(FramePtr frame, const rational &times) override;
+  virtual bool FrameDownloaded(FramePtr frame, const rational& times) override;
 
-  virtual bool AudioDownloaded(const TimeRange& range, const SampleBuffer &samples) override;
+  virtual bool AudioDownloaded(const TimeRange& range, const SampleBuffer& samples) override;
 
-private:
+ private:
   Project* project_;
 
   Footage* footage_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // PRECACHETASK_H
+#endif  // PRECACHETASK_H

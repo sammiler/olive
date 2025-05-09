@@ -7,13 +7,9 @@ namespace olive {
 uint64_t job_time_index = 0;
 QMutex job_time_mutex;
 
-JobTime::JobTime()
-{
-  Acquire();
-}
+JobTime::JobTime() { Acquire(); }
 
-void JobTime::Acquire()
-{
+void JobTime::Acquire() {
   job_time_mutex.lock();
 
   value_ = job_time_index;
@@ -22,9 +18,6 @@ void JobTime::Acquire()
   job_time_mutex.unlock();
 }
 
-}
+}  // namespace olive
 
-QDebug operator<<(QDebug debug, const olive::JobTime& r)
-{
-  return debug.space() << r.value();
-}
+QDebug operator<<(QDebug debug, const olive::JobTime& r) { return debug.space() << r.value(); }

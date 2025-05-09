@@ -31,8 +31,7 @@ const QString RippleDistortNode::kStretchInput = QStringLiteral("stretch_in");
 
 #define super Node
 
-RippleDistortNode::RippleDistortNode()
-{
+RippleDistortNode::RippleDistortNode() {
   AddInput(kTextureInput, NodeValue::kTexture, InputFlags(kInputFlagNotKeyframable));
 
   AddInput(kEvolutionInput, NodeValue::kFloat, 0);
@@ -48,34 +47,21 @@ RippleDistortNode::RippleDistortNode()
   SetEffectInput(kTextureInput);
 
   gizmo_ = AddDraggableGizmo<PointGizmo>({
-    NodeKeyframeTrackReference(NodeInput(this, kPositionInput), 0),
-    NodeKeyframeTrackReference(NodeInput(this, kPositionInput), 1),
+      NodeKeyframeTrackReference(NodeInput(this, kPositionInput), 0),
+      NodeKeyframeTrackReference(NodeInput(this, kPositionInput), 1),
   });
   gizmo_->SetShape(PointGizmo::kAnchorPoint);
 }
 
-QString RippleDistortNode::Name() const
-{
-  return tr("Ripple");
-}
+QString RippleDistortNode::Name() const { return tr("Ripple"); }
 
-QString RippleDistortNode::id() const
-{
-  return QStringLiteral("org.oliveeditor.Olive.ripple");
-}
+QString RippleDistortNode::id() const { return QStringLiteral("org.oliveeditor.Olive.ripple"); }
 
-QVector<Node::CategoryID> RippleDistortNode::Category() const
-{
-  return {kCategoryDistort};
-}
+QVector<Node::CategoryID> RippleDistortNode::Category() const { return {kCategoryDistort}; }
 
-QString RippleDistortNode::Description() const
-{
-  return tr("Distorts an image with a ripple effect.");
-}
+QString RippleDistortNode::Description() const { return tr("Distorts an image with a ripple effect."); }
 
-void RippleDistortNode::Retranslate()
-{
+void RippleDistortNode::Retranslate() {
   super::Retranslate();
 
   SetInputName(kTextureInput, tr("Input"));
@@ -86,14 +72,12 @@ void RippleDistortNode::Retranslate()
   SetInputName(kStretchInput, tr("Stretch"));
 }
 
-ShaderCode RippleDistortNode::GetShaderCode(const ShaderRequest &request) const
-{
+ShaderCode RippleDistortNode::GetShaderCode(const ShaderRequest &request) const {
   Q_UNUSED(request)
   return ShaderCode(FileFunctions::ReadFileAsString(":/shaders/ripple.frag"));
 }
 
-void RippleDistortNode::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const
-{
+void RippleDistortNode::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const {
   // If there's no texture, no need to run an operation
   if (TexturePtr tex = value[kTextureInput].toTexture()) {
     // Only run shader if at least one of flip or flop are selected
@@ -108,16 +92,14 @@ void RippleDistortNode::Value(const NodeValueRow &value, const NodeGlobals &glob
   }
 }
 
-void RippleDistortNode::UpdateGizmoPositions(const NodeValueRow &row, const NodeGlobals &globals)
-{
+void RippleDistortNode::UpdateGizmoPositions(const NodeValueRow &row, const NodeGlobals &globals) {
   if (TexturePtr tex = row[kTextureInput].toTexture()) {
-    QPointF half_res(tex->virtual_resolution().x()/2, tex->virtual_resolution().y()/2);
+    QPointF half_res(tex->virtual_resolution().x() / 2, tex->virtual_resolution().y() / 2);
     gizmo_->SetPoint(half_res + row[kPositionInput].toVec2().toPointF());
   }
 }
 
-void RippleDistortNode::GizmoDragMove(double x, double y, const Qt::KeyboardModifiers &modifiers)
-{
+void RippleDistortNode::GizmoDragMove(double x, double y, const Qt::KeyboardModifiers &modifiers) {
   NodeInputDragger &x_drag = gizmo_->GetDraggers()[0];
   NodeInputDragger &y_drag = gizmo_->GetDraggers()[1];
 
@@ -125,4 +107,4 @@ void RippleDistortNode::GizmoDragMove(double x, double y, const Qt::KeyboardModi
   y_drag.Drag(y_drag.GetStartValue().toDouble() + y);
 }
 
-}
+}  // namespace olive

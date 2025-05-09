@@ -25,30 +25,25 @@
 
 namespace olive {
 
-NodeInputImmediate::NodeInputImmediate(NodeValue::Type type, const SplitValue &default_val) :
-  default_value_(default_val),
-  keyframing_(false)
-{
+NodeInputImmediate::NodeInputImmediate(NodeValue::Type type, const SplitValue& default_val)
+    : default_value_(default_val), keyframing_(false) {
   set_data_type(type);
 }
 
-void NodeInputImmediate::set_standard_value_on_track(const QVariant &value, int track)
-{
+void NodeInputImmediate::set_standard_value_on_track(const QVariant& value, int track) {
   standard_value_.replace(track, value);
 }
 
-void NodeInputImmediate::set_split_standard_value(const SplitValue &value)
-{
-  for (int i=0; i<value.size() && i<standard_value_.size(); i++) {
+void NodeInputImmediate::set_split_standard_value(const SplitValue& value) {
+  for (int i = 0; i < value.size() && i < standard_value_.size(); i++) {
     standard_value_[i] = value[i];
   }
 }
 
-QVector<NodeKeyframe*> NodeInputImmediate::get_keyframe_at_time(const rational &time) const
-{
+QVector<NodeKeyframe*> NodeInputImmediate::get_keyframe_at_time(const rational& time) const {
   QVector<NodeKeyframe*> keys;
 
-  for (int i=0;i<keyframe_tracks_.size();i++) {
+  for (int i = 0; i < keyframe_tracks_.size(); i++) {
     NodeKeyframe* key_at_time = get_keyframe_at_time_on_track(time, i);
 
     if (key_at_time) {
@@ -59,8 +54,7 @@ QVector<NodeKeyframe*> NodeInputImmediate::get_keyframe_at_time(const rational &
   return keys;
 }
 
-NodeKeyframe* NodeInputImmediate::get_keyframe_at_time_on_track(const rational &time, int track) const
-{
+NodeKeyframe* NodeInputImmediate::get_keyframe_at_time_on_track(const rational& time, int track) const {
   if (!is_using_standard_value(track)) {
     foreach (NodeKeyframe* key, keyframe_tracks_.at(track)) {
       if (key->time() == time) {
@@ -72,8 +66,7 @@ NodeKeyframe* NodeInputImmediate::get_keyframe_at_time_on_track(const rational &
   return nullptr;
 }
 
-NodeKeyframe* NodeInputImmediate::get_closest_keyframe_to_time_on_track(const rational &time, int track) const
-{
+NodeKeyframe* NodeInputImmediate::get_closest_keyframe_to_time_on_track(const rational& time, int track) const {
   if (is_using_standard_value(track)) {
     return nullptr;
   }
@@ -88,8 +81,8 @@ NodeKeyframe* NodeInputImmediate::get_closest_keyframe_to_time_on_track(const ra
     return key_track.last();
   }
 
-  for (int i=1;i<key_track.size();i++) {
-    NodeKeyframe* prev_key = key_track.at(i-1);
+  for (int i = 1; i < key_track.size(); i++) {
+    NodeKeyframe* prev_key = key_track.at(i - 1);
     NodeKeyframe* next_key = key_track.at(i);
 
     if (prev_key->time() <= time && next_key->time() >= time) {
@@ -108,8 +101,7 @@ NodeKeyframe* NodeInputImmediate::get_closest_keyframe_to_time_on_track(const ra
   return nullptr;
 }
 
-NodeKeyframe *NodeInputImmediate::get_closest_keyframe_before_time(const rational &time) const
-{
+NodeKeyframe* NodeInputImmediate::get_closest_keyframe_before_time(const rational& time) const {
   NodeKeyframe* key = nullptr;
 
   foreach (const NodeKeyframeTrack& track, keyframe_tracks_) {
@@ -125,12 +117,11 @@ NodeKeyframe *NodeInputImmediate::get_closest_keyframe_before_time(const rationa
   return key;
 }
 
-NodeKeyframe* NodeInputImmediate::get_closest_keyframe_after_time(const rational &time) const
-{
+NodeKeyframe* NodeInputImmediate::get_closest_keyframe_after_time(const rational& time) const {
   NodeKeyframe* key = nullptr;
 
   foreach (const NodeKeyframeTrack& track, keyframe_tracks_) {
-    for (int i=track.size()-1;i>=0;i--) {
+    for (int i = track.size() - 1; i >= 0; i--) {
       NodeKeyframe* k = track.at(i);
 
       if (k->time() <= time) {
@@ -144,8 +135,7 @@ NodeKeyframe* NodeInputImmediate::get_closest_keyframe_after_time(const rational
   return key;
 }
 
-NodeKeyframe::Type NodeInputImmediate::get_best_keyframe_type_for_time(const rational &time, int track) const
-{
+NodeKeyframe::Type NodeInputImmediate::get_best_keyframe_type_for_time(const rational& time, int track) const {
   NodeKeyframe* closest_key = get_closest_keyframe_to_time_on_track(time, track);
 
   if (closest_key) {
@@ -155,8 +145,7 @@ NodeKeyframe::Type NodeInputImmediate::get_best_keyframe_type_for_time(const rat
   return NodeKeyframe::kDefaultType;
 }
 
-bool NodeInputImmediate::has_keyframe_at_time(const rational &time) const
-{
+bool NodeInputImmediate::has_keyframe_at_time(const rational& time) const {
   if (!is_keyframing()) {
     return false;
   }
@@ -174,8 +163,7 @@ bool NodeInputImmediate::has_keyframe_at_time(const rational &time) const
   return false;
 }
 
-void NodeInputImmediate::set_data_type(NodeValue::Type type)
-{
+void NodeInputImmediate::set_data_type(NodeValue::Type type) {
   int track_size = NodeValue::get_number_of_keyframe_tracks(type);
 
   keyframe_tracks_.resize(track_size);
@@ -184,16 +172,14 @@ void NodeInputImmediate::set_data_type(NodeValue::Type type)
   set_split_standard_value(default_value_);
 }
 
-NodeKeyframe *NodeInputImmediate::get_earliest_keyframe() const
-{
+NodeKeyframe* NodeInputImmediate::get_earliest_keyframe() const {
   NodeKeyframe* earliest = nullptr;
 
   foreach (const NodeKeyframeTrack& track, keyframe_tracks_) {
     if (!track.isEmpty()) {
       NodeKeyframe* earliest_in_track = track.first();
 
-      if (!earliest
-          || earliest_in_track->time() < earliest->time()) {
+      if (!earliest || earliest_in_track->time() < earliest->time()) {
         earliest = earliest_in_track;
       }
     }
@@ -202,16 +188,14 @@ NodeKeyframe *NodeInputImmediate::get_earliest_keyframe() const
   return earliest;
 }
 
-NodeKeyframe *NodeInputImmediate::get_latest_keyframe() const
-{
+NodeKeyframe* NodeInputImmediate::get_latest_keyframe() const {
   NodeKeyframe* latest = nullptr;
 
   foreach (const NodeKeyframeTrack& track, keyframe_tracks_) {
     if (!track.isEmpty()) {
       NodeKeyframe* latest_in_track = track.last();
 
-      if (!latest
-          || latest_in_track->time() > latest->time()) {
+      if (!latest || latest_in_track->time() > latest->time()) {
         latest = latest_in_track;
       }
     }
@@ -220,13 +204,12 @@ NodeKeyframe *NodeInputImmediate::get_latest_keyframe() const
   return latest;
 }
 
-void NodeInputImmediate::insert_keyframe(NodeKeyframe* key)
-{
+void NodeInputImmediate::insert_keyframe(NodeKeyframe* key) {
   NodeKeyframeTrack& key_track = keyframe_tracks_[key->track()];
 
   int insert_index = key_track.size();
 
-  for (int i=0;i<key_track.size();i++) {
+  for (int i = 0; i < key_track.size(); i++) {
     NodeKeyframe* compare = key_track.at(i);
 
     // Ensure we aren't trying to insert two keyframes at the same time
@@ -240,8 +223,8 @@ void NodeInputImmediate::insert_keyframe(NodeKeyframe* key)
 
   key_track.insert(insert_index, key);
 
-  NodeKeyframe* previous = insert_index > 0 ? key_track.at(insert_index-1) : nullptr;
-  NodeKeyframe* next = insert_index < key_track.size()-1 ? key_track.at(insert_index+1) : nullptr;
+  NodeKeyframe* previous = insert_index > 0 ? key_track.at(insert_index - 1) : nullptr;
+  NodeKeyframe* next = insert_index < key_track.size() - 1 ? key_track.at(insert_index + 1) : nullptr;
 
   key->set_previous(previous);
   key->set_next(next);
@@ -255,8 +238,7 @@ void NodeInputImmediate::insert_keyframe(NodeKeyframe* key)
   }
 }
 
-void NodeInputImmediate::remove_keyframe(NodeKeyframe *key)
-{
+void NodeInputImmediate::remove_keyframe(NodeKeyframe* key) {
   if (key->previous()) {
     key->previous()->set_next(key->next());
   }
@@ -271,8 +253,7 @@ void NodeInputImmediate::remove_keyframe(NodeKeyframe *key)
   keyframe_tracks_[key->track()].removeOne(key);
 }
 
-void NodeInputImmediate::delete_all_keyframes(QObject* parent)
-{
+void NodeInputImmediate::delete_all_keyframes(QObject* parent) {
   for (NodeKeyframeTrack& track : keyframe_tracks_) {
     while (!track.isEmpty()) {
       if (parent) {
@@ -284,4 +265,4 @@ void NodeInputImmediate::delete_all_keyframes(QObject* parent)
   }
 }
 
-}
+}  // namespace olive

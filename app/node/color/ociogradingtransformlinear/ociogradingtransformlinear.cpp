@@ -41,8 +41,7 @@ const QString OCIOGradingTransformLinearNode::kClampWhiteInput = QStringLiteral(
 
 #define super OCIOBaseNode
 
-OCIOGradingTransformLinearNode::OCIOGradingTransformLinearNode()
-{
+OCIOGradingTransformLinearNode::OCIOGradingTransformLinearNode() {
   AddInput(kContrastInput, NodeValue::kVec4, QVector4D{1.0, 1.0, 1.0, 1.0});
   // Minimum based on OCIO::GradingPrimary::validate
   SetInputProperty(kContrastInput, QStringLiteral("min"), QVector4D{0.01f, 0.01f, 0.01f, 0.01f});
@@ -61,7 +60,7 @@ OCIOGradingTransformLinearNode::OCIOGradingTransformLinearNode()
   SetInputProperty(kSaturationInput, QStringLiteral("view"), FloatSlider::kPercentage);
   SetInputProperty(kSaturationInput, QStringLiteral("min"), 0.0);
 
-  AddInput(kPivotInput, NodeValue::kFloat, 0.18); // Default listed in OCIO::GradingPrimary
+  AddInput(kPivotInput, NodeValue::kFloat, 0.18);  // Default listed in OCIO::GradingPrimary
   SetInputProperty(kPivotInput, QStringLiteral("base"), 0.01);
 
   AddInput(kClampBlackEnableInput, NodeValue::kBoolean, false);
@@ -79,31 +78,23 @@ OCIOGradingTransformLinearNode::OCIOGradingTransformLinearNode()
   // FIXME: Temporarily disabled. This will break if "clamp black" is keyframed or connected to
   //        something and there's currently no solution to remedy that. If there is in the future,
   //        we can look into re-enabling this.
-  //SetInputProperty(kClampWhiteInput, QStringLiteral("min"), GetStandardValue(kClampBlackInput).toDouble() + 0.000001);
+  // SetInputProperty(kClampWhiteInput, QStringLiteral("min"), GetStandardValue(kClampBlackInput).toDouble() +
+  // 0.000001);
 }
 
-QString OCIOGradingTransformLinearNode::Name() const
-{
-  return tr("OCIO Color Grading (Linear)");
-}
+QString OCIOGradingTransformLinearNode::Name() const { return tr("OCIO Color Grading (Linear)"); }
 
-QString OCIOGradingTransformLinearNode::id() const
-{
+QString OCIOGradingTransformLinearNode::id() const {
   return QStringLiteral("org.olivevideoeditor.Olive.ociogradingtransformlinear");
 }
 
-QVector<Node::CategoryID> OCIOGradingTransformLinearNode::Category() const
-{
-  return {kCategoryColor};
-}
+QVector<Node::CategoryID> OCIOGradingTransformLinearNode::Category() const { return {kCategoryColor}; }
 
-QString OCIOGradingTransformLinearNode::Description() const
-{
+QString OCIOGradingTransformLinearNode::Description() const {
   return tr("Simple linear color grading using OpenColorIO.");
 }
 
-void OCIOGradingTransformLinearNode::Retranslate()
-{
+void OCIOGradingTransformLinearNode::Retranslate() {
   super::Retranslate();
 
   SetInputName(kTextureInput, tr("Input"));
@@ -119,8 +110,7 @@ void OCIOGradingTransformLinearNode::Retranslate()
   SetInputName(kClampWhiteInput, tr("White Clamp"));
 }
 
-void OCIOGradingTransformLinearNode::InputValueChangedEvent(const QString &input, int element)
-{
+void OCIOGradingTransformLinearNode::InputValueChangedEvent(const QString &input, int element) {
   Q_UNUSED(element);
 
   if (input == kClampWhiteEnableInput) {
@@ -132,14 +122,14 @@ void OCIOGradingTransformLinearNode::InputValueChangedEvent(const QString &input
     // FIXME: Temporarily disabled. This will break if "clamp black" is keyframed or connected to
     //        something and there's currently no solution to remedy that. If there is in the future,
     //        we can look into re-enabling this.
-    //SetInputProperty(kClampWhiteInput, QStringLiteral("min"), GetStandardValue(kClampBlackInput).toDouble() + 0.000001);
+    // SetInputProperty(kClampWhiteInput, QStringLiteral("min"), GetStandardValue(kClampBlackInput).toDouble() +
+    // 0.000001);
   }
 
   GenerateProcessor();
 }
 
-void OCIOGradingTransformLinearNode::GenerateProcessor()
-{
+void OCIOGradingTransformLinearNode::GenerateProcessor() {
   if (manager()) {
     OCIO::GradingPrimaryTransformRcPtr gp = OCIO::GradingPrimaryTransform::Create(OCIO::GRADING_LIN);
     gp->makeDynamic();
@@ -153,8 +143,8 @@ void OCIOGradingTransformLinearNode::GenerateProcessor()
   }
 }
 
-void OCIOGradingTransformLinearNode::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const
-{
+void OCIOGradingTransformLinearNode::Value(const NodeValueRow &value, const NodeGlobals &globals,
+                                           NodeValueTable *table) const {
   if (TexturePtr tex = value[kTextureInput].toTexture()) {
     if (processor()) {
       ColorTransformJob job(value);
@@ -175,19 +165,22 @@ void OCIOGradingTransformLinearNode::Value(const NodeValueRow &value, const Node
       offset[RED_CHANNEL] += offset[MASTER_CHANNEL];
       offset[GREEN_CHANNEL] += offset[MASTER_CHANNEL];
       offset[BLUE_CHANNEL] += offset[MASTER_CHANNEL];
-      job.Insert(kOffsetInput, NodeValue(NodeValue::kVec3, QVector3D(offset[RED_CHANNEL], offset[GREEN_CHANNEL], offset[BLUE_CHANNEL])));
+      job.Insert(kOffsetInput, NodeValue(NodeValue::kVec3,
+                                         QVector3D(offset[RED_CHANNEL], offset[GREEN_CHANNEL], offset[BLUE_CHANNEL])));
 
       QVector4D exposure = value[kExposureInput].toVec4();
       exposure[RED_CHANNEL] = std::pow(2.0f, exposure[MASTER_CHANNEL] + exposure[RED_CHANNEL]);
       exposure[GREEN_CHANNEL] = std::pow(2.0f, exposure[MASTER_CHANNEL] + exposure[GREEN_CHANNEL]);
       exposure[BLUE_CHANNEL] = std::pow(2.0f, exposure[MASTER_CHANNEL] + exposure[BLUE_CHANNEL]);
-      job.Insert(kExposureInput, NodeValue(NodeValue::kVec3, QVector3D(exposure[RED_CHANNEL], exposure[GREEN_CHANNEL], exposure[BLUE_CHANNEL])));
+      job.Insert(kExposureInput, NodeValue(NodeValue::kVec3, QVector3D(exposure[RED_CHANNEL], exposure[GREEN_CHANNEL],
+                                                                       exposure[BLUE_CHANNEL])));
 
       QVector4D contrast = value[kContrastInput].toVec4();
       contrast[RED_CHANNEL] *= contrast[MASTER_CHANNEL];
       contrast[GREEN_CHANNEL] *= contrast[MASTER_CHANNEL];
       contrast[BLUE_CHANNEL] *= contrast[MASTER_CHANNEL];
-      job.Insert(kContrastInput, NodeValue(NodeValue::kVec3, QVector3D(contrast[RED_CHANNEL], contrast[GREEN_CHANNEL], contrast[BLUE_CHANNEL])));
+      job.Insert(kContrastInput, NodeValue(NodeValue::kVec3, QVector3D(contrast[RED_CHANNEL], contrast[GREEN_CHANNEL],
+                                                                       contrast[BLUE_CHANNEL])));
 
       if (!value[kClampBlackEnableInput].toBool()) {
         job.Insert(kClampBlackInput, NodeValue(NodeValue::kFloat, OCIO::GradingPrimary::NoClampBlack()));
@@ -202,17 +195,13 @@ void OCIOGradingTransformLinearNode::Value(const NodeValueRow &value, const Node
   }
 }
 
-void OCIOGradingTransformLinearNode::ConfigChanged()
-{
-  GenerateProcessor();
-}
+void OCIOGradingTransformLinearNode::ConfigChanged() { GenerateProcessor(); }
 
-void OCIOGradingTransformLinearNode::SetVec4InputColors(const QString &input)
-{
+void OCIOGradingTransformLinearNode::SetVec4InputColors(const QString &input) {
   SetInputProperty(input, QStringLiteral("color0"), QColor(192, 192, 192).name());
   SetInputProperty(input, QStringLiteral("color1"), QColor(255, 0, 0).name());
   SetInputProperty(input, QStringLiteral("color2"), QColor(0, 255, 0).name());
   SetInputProperty(input, QStringLiteral("color3"), QColor(0, 0, 255).name());
 }
 
-}
+}  // namespace olive

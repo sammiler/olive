@@ -26,28 +26,24 @@
 
 namespace olive {
 
-class NodeTablePanel : public TimeBasedPanel
-{
+class NodeTablePanel : public TimeBasedPanel {
   Q_OBJECT
-public:
+ public:
   NodeTablePanel();
 
-public slots:
-  void SelectNodes(const QVector<Node*>& nodes)
-  {
+ public slots:
+  void SelectNodes(const QVector<Node*>& nodes) {
     static_cast<NodeTableWidget*>(GetTimeBasedWidget())->SelectNodes(nodes);
   }
 
-  void DeselectNodes(const QVector<Node*>& nodes)
-  {
+  void DeselectNodes(const QVector<Node*>& nodes) {
     static_cast<NodeTableWidget*>(GetTimeBasedWidget())->DeselectNodes(nodes);
   }
 
-private:
+ private:
   virtual void Retranslate() override;
-
 };
 
-}
+}  // namespace olive
 
-#endif // NODETABLEPANEL_H
+#endif  // NODETABLEPANEL_H

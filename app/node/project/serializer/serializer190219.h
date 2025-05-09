@@ -25,21 +25,16 @@
 
 namespace olive {
 
-class ProjectSerializer190219 : public ProjectSerializer
-{
-public:
+class ProjectSerializer190219 : public ProjectSerializer {
+ public:
   ProjectSerializer190219() = default;
 
-protected:
+ protected:
   virtual LoadData Load(Project *project, QXmlStreamReader *reader, LoadType load_type, void *reserved) const override;
 
-  virtual uint Version() const override
-  {
-    return 190219;
-  }
-
+  virtual uint Version() const override { return 190219; }
 };
 
-}
+}  // namespace olive
 
-#endif // SERIALIZER190219_H
+#endif  // SERIALIZER190219_H

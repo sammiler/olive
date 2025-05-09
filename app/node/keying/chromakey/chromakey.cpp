@@ -32,8 +32,7 @@ const QString ChromaKeyNode::kCoreMatteInput = QStringLiteral("core_in");
 const QString ChromaKeyNode::kShadowsInput = QStringLiteral("shadows_in");
 const QString ChromaKeyNode::kHighlightsInput = QStringLiteral("highlights_in");
 
-ChromaKeyNode::ChromaKeyNode()
-{
+ChromaKeyNode::ChromaKeyNode() {
   AddInput(kColorInput, NodeValue::kColor, QVariant::fromValue(Color(0.0f, 1.0f, 0.0f, 1.0f)));
 
   AddInput(kLowerToleranceInput, NodeValue::kFloat, 5.0);
@@ -46,7 +45,7 @@ ChromaKeyNode::ChromaKeyNode()
   // FIXME: Temporarily disabled. This will break if "lower tolerance" is keyframed or connected to
   //        something and there's currently no solution to remedy that. If there is in the future,
   //        we can look into re-enabling this.
-  //SetInputProperty(kUpperToleranceInput, QStringLiteral("min"), GetStandardValue(kLowerToleranceInput).toDouble());
+  // SetInputProperty(kUpperToleranceInput, QStringLiteral("min"), GetStandardValue(kLowerToleranceInput).toDouble());
 
   AddInput(kGarbageMatteInput, NodeValue::kTexture, InputFlags(kInputFlagNotKeyframable));
 
@@ -65,28 +64,17 @@ ChromaKeyNode::ChromaKeyNode()
   AddInput(kMaskOnlyInput, NodeValue::kBoolean, false);
 }
 
-QString ChromaKeyNode::Name() const
-{
-  return tr("Chroma Key");
-}
+QString ChromaKeyNode::Name() const { return tr("Chroma Key"); }
 
-QString ChromaKeyNode::id() const
-{
-  return QStringLiteral("org.olivevideoeditor.Olive.chromakey");
-}
+QString ChromaKeyNode::id() const { return QStringLiteral("org.olivevideoeditor.Olive.chromakey"); }
 
-QVector<Node::CategoryID> ChromaKeyNode::Category() const
-{
-  return {kCategoryKeying};
-}
+QVector<Node::CategoryID> ChromaKeyNode::Category() const { return {kCategoryKeying}; }
 
-QString ChromaKeyNode::Description() const
-{
+QString ChromaKeyNode::Description() const {
   return tr("A simple color key based on the distance from the chroma of a selected color.");
 }
 
-void ChromaKeyNode::Retranslate()
-{
+void ChromaKeyNode::Retranslate() {
   super::Retranslate();
   SetInputName(kTextureInput, tr("Input"));
   SetInputName(kGarbageMatteInput, tr("Garbage Matte"));
@@ -100,27 +88,24 @@ void ChromaKeyNode::Retranslate()
   SetInputName(kMaskOnlyInput, tr("Show Mask Only"));
 }
 
-void ChromaKeyNode::InputValueChangedEvent(const QString &input, int element)
-{
+void ChromaKeyNode::InputValueChangedEvent(const QString &input, int element) {
   Q_UNUSED(element);
   if (input == kLowerToleranceInput) {
     // FIXME: Temporarily disabled. This will break if "lower tolerance" is keyframed or connected to
     //        something and there's currently no solution to remedy that. If there is in the future,
     //        we can look into re-enabling this.
-    //SetInputProperty(kUpperToleranceInput, QStringLiteral("min"), GetStandardValue(kLowerToleranceInput).toDouble());
+    // SetInputProperty(kUpperToleranceInput, QStringLiteral("min"), GetStandardValue(kLowerToleranceInput).toDouble());
   }
 
   GenerateProcessor();
 }
 
-ShaderCode ChromaKeyNode::GetShaderCode(const ShaderRequest &request) const
-{
+ShaderCode ChromaKeyNode::GetShaderCode(const ShaderRequest &request) const {
   return ShaderCode(FileFunctions::ReadFileAsString(QStringLiteral(":/shaders/chromakey.frag")).arg(request.stub));
 }
 
-void ChromaKeyNode::GenerateProcessor()
-{
-  if (manager()){
+void ChromaKeyNode::GenerateProcessor() {
+  if (manager()) {
     try {
       ColorTransform transform("cie_xyz_d65_interchange");
       set_processor(ColorProcessor::Create(manager(), manager()->GetReferenceColorSpace(), transform));
@@ -130,8 +115,7 @@ void ChromaKeyNode::GenerateProcessor()
   }
 }
 
-void ChromaKeyNode::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const
-{
+void ChromaKeyNode::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const {
   if (TexturePtr tex = value[kTextureInput].toTexture()) {
     if (processor()) {
       ColorTransformJob job(value);
@@ -146,9 +130,6 @@ void ChromaKeyNode::Value(const NodeValueRow &value, const NodeGlobals &globals,
   }
 }
 
-void ChromaKeyNode::ConfigChanged()
-{
-  GenerateProcessor();
-}
+void ChromaKeyNode::ConfigChanged() { GenerateProcessor(); }
 
-} // namespace olive
+}  // namespace olive

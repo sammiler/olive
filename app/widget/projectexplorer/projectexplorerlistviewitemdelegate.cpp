@@ -24,19 +24,15 @@
 
 namespace olive {
 
-ProjectExplorerListViewItemDelegate::ProjectExplorerListViewItemDelegate(QObject *parent) :
-  QStyledItemDelegate(parent)
-{
+ProjectExplorerListViewItemDelegate::ProjectExplorerListViewItemDelegate(QObject *parent)
+    : QStyledItemDelegate(parent) {}
 
-}
-
-QSize ProjectExplorerListViewItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &) const
-{
+QSize ProjectExplorerListViewItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &) const {
   return QSize(option.decorationSize.height(), option.decorationSize.height());
 }
 
-void ProjectExplorerListViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
-{
+void ProjectExplorerListViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
+                                                const QModelIndex &index) const {
   QFontMetrics fm = painter->fontMetrics();
   QRect img_rect = option.rect;
 
@@ -48,10 +44,9 @@ void ProjectExplorerListViewItemDelegate::paint(QPainter *painter, const QStyleO
 
   QIcon ico = index.data(Qt::DecorationRole).value<QIcon>();
   QSize icon_size = ico.actualSize(img_rect.size());
-  img_rect = QRect(img_rect.x() + (img_rect.width() / 2 - icon_size.width() / 2),
-                   img_rect.y() + (img_rect.height() / 2 - icon_size.height() / 2),
-                   icon_size.width(),
-                   icon_size.height());
+  img_rect =
+      QRect(img_rect.x() + (img_rect.width() / 2 - icon_size.width() / 2),
+            img_rect.y() + (img_rect.height() / 2 - icon_size.height() / 2), icon_size.width(), icon_size.height());
   painter->drawPixmap(img_rect, ico.pixmap(icon_size));
 
   QRect text_rect = option.rect;
@@ -74,10 +69,10 @@ void ProjectExplorerListViewItemDelegate::paint(QPainter *painter, const QStyleO
     }
   }
 
-  painter->setPen(option.state & QStyle::State_Selected ?
-                    option.palette.highlightedText().color() : option.palette.text().color());
+  painter->setPen(option.state & QStyle::State_Selected ? option.palette.highlightedText().color()
+                                                        : option.palette.text().color());
 
   painter->drawText(text_rect, static_cast<int>(Qt::AlignLeft | Qt::AlignVCenter), text);
 }
 
-}
+}  // namespace olive

@@ -23,14 +23,13 @@
 
 #include <algorithm>
 #include <regex>
-#include <vector>
 #include <string>
+#include <vector>
 
 namespace olive::core {
 
-class StringUtils
-{
-public:
+class StringUtils {
+ public:
   /**
    * @brief Split a string into a list of strings using a specific delimiter
    *
@@ -46,7 +45,7 @@ public:
    *
    * A vector of strings split by the specified delimiter.
    */
-  static std::vector<std::string> split(const std::string& s, char separator);
+  static std::vector<std::string> split(const std::string &s, char separator);
 
   /**
    * @brief Splits a string into a list of strings using regular expressions.
@@ -101,10 +100,7 @@ public:
    *
    * Either the int parsed from the string, or 0 (with *ok set to false) on parser error.
    */
-  static int to_int(const std::string &s, bool *ok = nullptr)
-  {
-    return to_int(s, 10, ok);
-  }
+  static int to_int(const std::string &s, bool *ok = nullptr) { return to_int(s, 10, ok); }
 
   /**
    * @brief Convert a number to a string with left padding
@@ -131,12 +127,11 @@ public:
    * The padded string.
    */
   template <typename T>
-  static std::string to_string_leftpad(T val, size_t padding, char c = '0')
-  {
+  static std::string to_string_leftpad(T val, size_t padding, char c = '0') {
     std::string s = std::to_string(val);
 
     if (s.size() < padding) {
-      s.insert(0, padding-s.size(), c);
+      s.insert(0, padding - s.size(), c);
     }
 
     return s;
@@ -158,50 +153,40 @@ public:
   static std::string format(const char *fmt, ...);
 
   // trim from start (in place)
-  static inline void ltrim(std::string &s)
-  {
-    s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
-      return !std::isspace(ch);
-    }));
+  static inline void ltrim(std::string &s) {
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) { return !std::isspace(ch); }));
   }
 
   // trim from end (in place)
-  static inline void rtrim(std::string &s)
-  {
-    s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
-      return !std::isspace(ch);
-    }).base(), s.end());
+  static inline void rtrim(std::string &s) {
+    s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) { return !std::isspace(ch); }).base(), s.end());
   }
 
   // trim from both ends (in place)
-  static inline void trim(std::string &s)
-  {
+  static inline void trim(std::string &s) {
     rtrim(s);
     ltrim(s);
   }
 
   // trim from start (copying)
   static inline std::string ltrimmed(std::string s) {
-      ltrim(s);
-      return s;
+    ltrim(s);
+    return s;
   }
 
   // trim from end (copying)
-  static inline std::string rtrimmed(std::string s)
-  {
-      rtrim(s);
-      return s;
+  static inline std::string rtrimmed(std::string s) {
+    rtrim(s);
+    return s;
   }
 
   // trim from both ends (copying)
-  static inline std::string trimmed(std::string s)
-  {
-      trim(s);
-      return s;
+  static inline std::string trimmed(std::string s) {
+    trim(s);
+    return s;
   }
-
 };
 
-}
+}  // namespace olive::core
 
-#endif // LIBOLIVECORE_STRINGUTILS_H
+#endif  // LIBOLIVECORE_STRINGUTILS_H

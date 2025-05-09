@@ -29,14 +29,12 @@
 
 namespace olive {
 
-ColorLabelMenu::ColorLabelMenu(QWidget *parent) :
-  Menu(parent)
-{
+ColorLabelMenu::ColorLabelMenu(QWidget *parent) : Menu(parent) {
   // Used for size calculations
   int box_size = fontMetrics().height();
 
   color_items_.resize(ColorCoding::standard_colors().size());
-  for (int i=0; i<ColorCoding::standard_colors().size(); i++) {
+  for (int i = 0; i < ColorCoding::standard_colors().size(); i++) {
     QPixmap p(box_size, box_size);
 
     QPainter painter(&p);
@@ -53,8 +51,7 @@ ColorLabelMenu::ColorLabelMenu(QWidget *parent) :
   Retranslate();
 }
 
-void ColorLabelMenu::changeEvent(QEvent *event)
-{
+void ColorLabelMenu::changeEvent(QEvent *event) {
   if (event->type() == QEvent::LanguageChange) {
     Retranslate();
   }
@@ -62,19 +59,17 @@ void ColorLabelMenu::changeEvent(QEvent *event)
   Menu::changeEvent(event);
 }
 
-void ColorLabelMenu::Retranslate()
-{
+void ColorLabelMenu::Retranslate() {
   this->setTitle(tr("Color"));
 
-  for (int i=0; i<color_items_.size(); i++) {
+  for (int i = 0; i < color_items_.size(); i++) {
     color_items_.at(i)->setText(ColorCoding::GetColorName(i));
   }
 }
 
-void ColorLabelMenu::ActionTriggered()
-{
-  QAction* a = static_cast<QAction*>(sender());
+void ColorLabelMenu::ActionTriggered() {
+  QAction *a = static_cast<QAction *>(sender());
   emit ColorSelected(a->data().toInt());
 }
 
-}
+}  // namespace olive

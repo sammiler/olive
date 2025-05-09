@@ -24,12 +24,8 @@
 
 namespace olive {
 
-ColorButton::ColorButton(ColorManager* color_manager, bool show_dialog_on_click, QWidget *parent) :
-  QPushButton(parent),
-  color_manager_(color_manager),
-  color_processor_(nullptr),
-  dialog_open_(false)
-{
+ColorButton::ColorButton(ColorManager *color_manager, bool show_dialog_on_click, QWidget *parent)
+    : QPushButton(parent), color_manager_(color_manager), color_processor_(nullptr), dialog_open_(false) {
   setAutoFillBackground(true);
 
   if (show_dialog_on_click) {
@@ -39,13 +35,9 @@ ColorButton::ColorButton(ColorManager* color_manager, bool show_dialog_on_click,
   SetColor(Color(1.0f, 1.0f, 1.0f));
 }
 
-const ManagedColor &ColorButton::GetColor() const
-{
-  return color_;
-}
+const ManagedColor &ColorButton::GetColor() const { return color_; }
 
-void ColorButton::SetColor(const ManagedColor &c)
-{
+void ColorButton::SetColor(const ManagedColor &c) {
   color_ = c;
 
   color_.set_color_input(color_manager_->GetCompliantColorSpace(color_.color_input()));
@@ -54,8 +46,7 @@ void ColorButton::SetColor(const ManagedColor &c)
   UpdateColor();
 }
 
-void ColorButton::ShowColorDialog()
-{
+void ColorButton::ShowColorDialog() {
   if (!dialog_open_) {
     dialog_open_ = true;
     ColorDialog *cd = new ColorDialog(color_manager_, color_, this);
@@ -66,9 +57,8 @@ void ColorButton::ShowColorDialog()
   }
 }
 
-void ColorButton::ColorDialogFinished(int e)
-{
-  ColorDialog *cd = static_cast<ColorDialog*>(sender());
+void ColorButton::ColorDialogFinished(int e) {
+  ColorDialog *cd = static_cast<ColorDialog *>(sender());
 
   if (e == QDialog::Accepted) {
     color_ = cd->GetSelectedColor();
@@ -83,15 +73,12 @@ void ColorButton::ColorDialogFinished(int e)
   dialog_open_ = false;
 }
 
-void ColorButton::UpdateColor()
-{
-  color_processor_ = ColorProcessor::Create(color_manager_,
-                                            color_.color_input(),
-                                            color_.color_output());
+void ColorButton::UpdateColor() {
+  color_processor_ = ColorProcessor::Create(color_manager_, color_.color_input(), color_.color_output());
 
   QColor managed = QtUtils::toQColor(color_processor_->ConvertColor(color_));
 
   setStyleSheet(QStringLiteral("%1--ColorButton {background: %2;}").arg(MACRO_VAL_AS_STR(olive), managed.name()));
 }
 
-}
+}  // namespace olive

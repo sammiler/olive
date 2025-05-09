@@ -28,9 +28,7 @@
 
 namespace olive {
 
-ConfigDialogBase::ConfigDialogBase(QWidget* parent) :
-  QDialog(parent)
-{
+ConfigDialogBase::ConfigDialogBase(QWidget* parent) : QDialog(parent) {
   QVBoxLayout* layout = new QVBoxLayout(this);
 
   QSplitter* splitter = new QSplitter();
@@ -46,21 +44,17 @@ ConfigDialogBase::ConfigDialogBase(QWidget* parent) :
 
   QDialogButtonBox* button_box = new QDialogButtonBox(this);
   button_box->setOrientation(Qt::Horizontal);
-  button_box->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
+  button_box->setStandardButtons(QDialogButtonBox::Cancel | QDialogButtonBox::Ok);
 
   layout->addWidget(button_box);
 
   connect(button_box, &QDialogButtonBox::accepted, this, &ConfigDialogBase::accept);
   connect(button_box, &QDialogButtonBox::rejected, this, &ConfigDialogBase::reject);
 
-  connect(list_widget_,
-          &QListWidget::currentRowChanged,
-          preference_pane_stack_,
-          &QStackedWidget::setCurrentIndex);
+  connect(list_widget_, &QListWidget::currentRowChanged, preference_pane_stack_, &QStackedWidget::setCurrentIndex);
 }
 
-void ConfigDialogBase::accept()
-{
+void ConfigDialogBase::accept() {
   foreach (ConfigDialogBaseTab* tab, tabs_) {
     if (!tab->Validate()) {
       return;
@@ -80,12 +74,11 @@ void ConfigDialogBase::accept()
   QDialog::accept();
 }
 
-void ConfigDialogBase::AddTab(ConfigDialogBaseTab *tab, const QString &title)
-{
+void ConfigDialogBase::AddTab(ConfigDialogBaseTab* tab, const QString& title) {
   list_widget_->addItem(title);
   preference_pane_stack_->addWidget(tab);
 
   tabs_.append(tab);
 }
 
-}
+}  // namespace olive

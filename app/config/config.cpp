@@ -41,28 +41,19 @@ namespace olive {
 
 Config Config::current_config_;
 
-Config::Config()
-{
-  SetDefaults();
-}
+Config::Config() { SetDefaults(); }
 
-void Config::SetEntryInternal(const QString &key, NodeValue::Type type, const QVariant &data)
-{
+void Config::SetEntryInternal(const QString &key, NodeValue::Type type, const QVariant &data) {
   config_map_[key] = {type, data};
 }
 
-QString Config::GetConfigFilePath()
-{
+QString Config::GetConfigFilePath() {
   return QDir(FileFunctions::GetConfigurationLocation()).filePath(QStringLiteral("config.xml"));
 }
 
-Config &Config::Current()
-{
-  return current_config_;
-}
+Config &Config::Current() { return current_config_; }
 
-void Config::SetDefaults()
-{
+void Config::SetDefaults() {
   config_map_.clear();
   SetEntryInternal(QStringLiteral("Style"), NodeValue::kText, StyleManager::kDefaultStyle);
   SetEntryInternal(QStringLiteral("TimecodeDisplay"), NodeValue::kInt, Timecode::kTimecodeDropFrame);
@@ -109,8 +100,10 @@ void Config::SetDefaults()
   SetEntryInternal(QStringLiteral("TimelineThumbnailMode"), NodeValue::kInt, Timeline::kThumbnailInOut);
   SetEntryInternal(QStringLiteral("TimelineWaveformMode"), NodeValue::kInt, Timeline::kWaveformsEnabled);
 
-  SetEntryInternal(QStringLiteral("DefaultVideoTransition"), NodeValue::kText, QStringLiteral("org.olivevideoeditor.Olive.crossdissolve"));
-  SetEntryInternal(QStringLiteral("DefaultAudioTransition"), NodeValue::kText, QStringLiteral("org.olivevideoeditor.Olive.crossdissolve"));
+  SetEntryInternal(QStringLiteral("DefaultVideoTransition"), NodeValue::kText,
+                   QStringLiteral("org.olivevideoeditor.Olive.crossdissolve"));
+  SetEntryInternal(QStringLiteral("DefaultAudioTransition"), NodeValue::kText,
+                   QStringLiteral("org.olivevideoeditor.Olive.crossdissolve"));
   SetEntryInternal(QStringLiteral("DefaultTransitionLength"), NodeValue::kRational, QVariant::fromValue(rational(1)));
 
   SetEntryInternal(QStringLiteral("DefaultSubtitleSize"), NodeValue::kInt, 48);
@@ -138,13 +131,15 @@ void Config::SetDefaults()
 
   SetEntryInternal(QStringLiteral("AudioOutputSampleRate"), NodeValue::kInt, 48000);
   SetEntryInternal(QStringLiteral("AudioOutputChannelLayout"), NodeValue::kInt, AV_CH_LAYOUT_STEREO);
-  SetEntryInternal(QStringLiteral("AudioOutputSampleFormat"), NodeValue::kText, QString::fromStdString(SampleFormat(SampleFormat::S16).to_string()));
+  SetEntryInternal(QStringLiteral("AudioOutputSampleFormat"), NodeValue::kText,
+                   QString::fromStdString(SampleFormat(SampleFormat::S16).to_string()));
 
   SetEntryInternal(QStringLiteral("AudioRecordingFormat"), NodeValue::kInt, ExportFormat::kFormatWAV);
   SetEntryInternal(QStringLiteral("AudioRecordingCodec"), NodeValue::kInt, ExportCodec::kCodecPCM);
   SetEntryInternal(QStringLiteral("AudioRecordingSampleRate"), NodeValue::kInt, 48000);
   SetEntryInternal(QStringLiteral("AudioRecordingChannelLayout"), NodeValue::kInt, AV_CH_LAYOUT_STEREO);
-  SetEntryInternal(QStringLiteral("AudioRecordingSampleFormat"), NodeValue::kText, QString::fromStdString(SampleFormat(SampleFormat::S16).to_string()));
+  SetEntryInternal(QStringLiteral("AudioRecordingSampleFormat"), NodeValue::kText,
+                   QString::fromStdString(SampleFormat(SampleFormat::S16).to_string()));
   SetEntryInternal(QStringLiteral("AudioRecordingBitRate"), NodeValue::kInt, 320);
 
   SetEntryInternal(QStringLiteral("DiskCacheBehind"), NodeValue::kRational, QVariant::fromValue(rational(0)));
@@ -152,12 +147,15 @@ void Config::SetDefaults()
 
   SetEntryInternal(QStringLiteral("DefaultSequenceWidth"), NodeValue::kInt, 1920);
   SetEntryInternal(QStringLiteral("DefaultSequenceHeight"), NodeValue::kInt, 1080);
-  SetEntryInternal(QStringLiteral("DefaultSequencePixelAspect"), NodeValue::kRational, QVariant::fromValue(rational(1)));
-  SetEntryInternal(QStringLiteral("DefaultSequenceFrameRate"), NodeValue::kRational, QVariant::fromValue(rational(1001, 30000)));
+  SetEntryInternal(QStringLiteral("DefaultSequencePixelAspect"), NodeValue::kRational,
+                   QVariant::fromValue(rational(1)));
+  SetEntryInternal(QStringLiteral("DefaultSequenceFrameRate"), NodeValue::kRational,
+                   QVariant::fromValue(rational(1001, 30000)));
   SetEntryInternal(QStringLiteral("DefaultSequenceInterlacing"), NodeValue::kInt, VideoParams::kInterlaceNone);
   SetEntryInternal(QStringLiteral("DefaultSequenceAutoCache2"), NodeValue::kBoolean, false);
   SetEntryInternal(QStringLiteral("DefaultSequenceAudioFrequency"), NodeValue::kInt, 48000);
-  SetEntryInternal(QStringLiteral("DefaultSequenceAudioLayout"), NodeValue::kInt, QVariant::fromValue(static_cast<int64_t>(AV_CH_LAYOUT_STEREO)));
+  SetEntryInternal(QStringLiteral("DefaultSequenceAudioLayout"), NodeValue::kInt,
+                   QVariant::fromValue(static_cast<int64_t>(AV_CH_LAYOUT_STEREO)));
 
   // Online/offline settings
   SetEntryInternal(QStringLiteral("OnlinePixelFormat"), NodeValue::kInt, PixelFormat::F32);
@@ -166,8 +164,7 @@ void Config::SetDefaults()
   SetEntryInternal(QStringLiteral("MarkerColor"), NodeValue::kInt, ColorCoding::kLime);
 }
 
-void Config::Load()
-{
+void Config::Load() {
   QFile config_file(GetConfigFilePath());
 
   if (!config_file.exists()) {
@@ -205,12 +202,12 @@ void Config::Load()
 
           double config_fr = value.toDouble();
 
-          const QVector<rational>& supported_frame_rates = VideoParams::kSupportedFrameRates;
+          const QVector<rational> &supported_frame_rates = VideoParams::kSupportedFrameRates;
 
           rational match = supported_frame_rates.first();
           double match_diff = qAbs(match.toDouble() - config_fr);
 
-          for (int i=1;i<supported_frame_rates.size();i++) {
+          for (int i = 1; i < supported_frame_rates.size(); i++) {
             double diff = qAbs(supported_frame_rates.at(i).toDouble() - config_fr);
 
             if (diff < match_diff) {
@@ -227,7 +224,7 @@ void Config::Load()
         }
       }
 
-      //reader.skipCurrentElement();
+      // reader.skipCurrentElement();
     } else {
       reader.skipCurrentElement();
     }
@@ -236,8 +233,10 @@ void Config::Load()
   if (reader.hasError()) {
     QMessageBox::critical(Core::instance()->main_window(),
                           QCoreApplication::translate("Config", "Error loading settings"),
-                          QCoreApplication::translate("Config", "Failed to load application settings. This session will "
-                                                                "use defaults.\n\n%1").arg(reader.errorString()),
+                          QCoreApplication::translate("Config",
+                                                      "Failed to load application settings. This session will "
+                                                      "use defaults.\n\n%1")
+                              .arg(reader.errorString()),
                           QMessageBox::Ok);
     current_config_.SetDefaults();
   }
@@ -245,8 +244,7 @@ void Config::Load()
   config_file.close();
 }
 
-void Config::Save()
-{
+void Config::Save() {
   QString real_filename = GetConfigFilePath();
   QString temp_filename = FileFunctions::GetSafeTemporaryFilename(real_filename);
 
@@ -255,8 +253,9 @@ void Config::Save()
   if (!config_file.open(QFile::WriteOnly)) {
     QMessageBox::critical(Core::instance()->main_window(),
                           QCoreApplication::translate("Config", "Error saving settings"),
-                          QCoreApplication::translate("Config", "Failed to save application settings. The application "
-                                                                "may lack write permissions for this location."),
+                          QCoreApplication::translate("Config",
+                                                      "Failed to save application settings. The application "
+                                                      "may lack write permissions for this location."),
                           QMessageBox::Ok);
     return;
   }
@@ -284,7 +283,7 @@ void Config::Save()
     }
   }
 
-  writer.writeEndElement(); // Configuration
+  writer.writeEndElement();  // Configuration
 
   writer.writeEndDocument();
 
@@ -292,23 +291,14 @@ void Config::Save()
 
   if (!FileFunctions::RenameFileAllowOverwrite(temp_filename, real_filename)) {
     qWarning() << QStringLiteral("Failed to overwrite \"%1\". Config has been saved as \"%2\" instead.")
-                  .arg(real_filename, temp_filename);
+                      .arg(real_filename, temp_filename);
   }
 }
 
-QVariant Config::operator[](const QString &key) const
-{
-  return config_map_[key].data;
-}
+QVariant Config::operator[](const QString &key) const { return config_map_[key].data; }
 
-QVariant &Config::operator[](const QString &key)
-{
-  return config_map_[key].data;
-}
+QVariant &Config::operator[](const QString &key) { return config_map_[key].data; }
 
-NodeValue::Type Config::GetConfigEntryType(const QString &key) const
-{
-  return config_map_[key].type;
-}
+NodeValue::Type Config::GetConfigEntryType(const QString &key) const { return config_map_[key].type; }
 
-}
+}  // namespace olive

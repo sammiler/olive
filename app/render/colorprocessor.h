@@ -32,20 +32,18 @@ class ColorManager;
 class ColorProcessor;
 using ColorProcessorPtr = std::shared_ptr<ColorProcessor>;
 
-class ColorProcessor
-{
-public:
-  enum Direction {
-    kNormal,
-    kInverse
-  };
+class ColorProcessor {
+ public:
+  enum Direction { kNormal, kInverse };
 
-  ColorProcessor(ColorManager* config, const QString& input, const ColorTransform& dest_space, Direction direction = kNormal);
+  ColorProcessor(ColorManager* config, const QString& input, const ColorTransform& dest_space,
+                 Direction direction = kNormal);
   ColorProcessor(OCIO::ConstProcessorRcPtr processor);
 
   DISABLE_COPY_MOVE(ColorProcessor)
 
-  static ColorProcessorPtr Create(ColorManager* config, const QString& input, const ColorTransform& dest_space, Direction direction = kNormal);
+  static ColorProcessorPtr Create(ColorManager* config, const QString& input, const ColorTransform& dest_space,
+                                  Direction direction = kNormal);
   static ColorProcessorPtr Create(OCIO::ConstProcessorRcPtr processor);
 
   OCIO::ConstProcessorRcPtr GetProcessor();
@@ -53,24 +51,20 @@ public:
   void ConvertFrame(FramePtr f);
   void ConvertFrame(Frame* f);
 
-  Color ConvertColor(const Color &in);
+  Color ConvertColor(const Color& in);
 
-  const char *id() const
-  {
-    return processor_->getCacheID();
-  }
+  const char* id() const { return processor_->getCacheID(); }
 
-private:
+ private:
   OCIO::ConstProcessorRcPtr processor_;
 
   OCIO::ConstCPUProcessorRcPtr cpu_processor_;
-
 };
 
 using ColorProcessorChain = QVector<ColorProcessorPtr>;
 
-}
+}  // namespace olive
 
 Q_DECLARE_METATYPE(olive::ColorProcessorPtr)
 
-#endif // COLORPROCESSOR_H
+#endif  // COLORPROCESSOR_H

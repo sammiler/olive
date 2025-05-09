@@ -20,58 +20,58 @@
 
 #include "util/stringutils.h"
 
-#include <cstring>
 #include <stdarg.h>
+#include <cstring>
 #include <stdexcept>
 
 namespace olive::core {
 
-std::vector<std::string> StringUtils::split(const std::string &s, char separator)
-{
+std::vector<std::string> StringUtils::split(const std::string &s, char separator) {
   std::vector<std::string> output;
 
   std::string::size_type prev_pos = 0, pos = 0;
 
-  while((pos = s.find(separator, pos)) != std::string::npos) {
-    std::string substring(s.substr(prev_pos, pos-prev_pos));
+  while ((pos = s.find(separator, pos)) != std::string::npos) {
+    std::string substring(s.substr(prev_pos, pos - prev_pos));
 
     output.push_back(substring);
 
     prev_pos = ++pos;
   }
 
-  output.push_back(s.substr(prev_pos, pos-prev_pos)); // Last word
+  output.push_back(s.substr(prev_pos, pos - prev_pos));  // Last word
 
   return output;
 }
 
-std::vector<std::string> StringUtils::split_regex(const std::string &s, const std::regex &regex)
-{
+std::vector<std::string> StringUtils::split_regex(const std::string &s, const std::regex &regex) {
   std::vector<std::string> output;
 
   std::sregex_token_iterator iter(s.begin(), s.end(), regex, -1);
   std::sregex_token_iterator end;
-  for ( ; iter != end; iter++) {
+  for (; iter != end; iter++) {
     output.push_back(*iter);
   }
 
   return output;
 }
 
-int StringUtils::to_int(const std::string &s, int base, bool *ok)
-{
+int StringUtils::to_int(const std::string &s, int base, bool *ok) {
   try {
     int x = std::stoi(s, nullptr, base);
-    if (ok) { *ok = true; }
+    if (ok) {
+      *ok = true;
+    }
     return x;
   } catch (const std::invalid_argument &e) {
-    if (ok) { *ok = false; }
+    if (ok) {
+      *ok = false;
+    }
     return 0;
   }
 }
 
-std::string StringUtils::format(const char *fmt, ...)
-{
+std::string StringUtils::format(const char *fmt, ...) {
   va_list ap1, ap2;
   va_start(ap1, fmt);
 
@@ -97,4 +97,4 @@ std::string StringUtils::format(const char *fmt, ...)
   return r;
 }
 
-}
+}  // namespace olive::core

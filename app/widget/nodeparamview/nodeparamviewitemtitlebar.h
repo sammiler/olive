@@ -29,48 +29,31 @@
 
 namespace olive {
 
-class NodeParamViewItemTitleBar : public QWidget
-{
+class NodeParamViewItemTitleBar : public QWidget {
   Q_OBJECT
-public:
-  NodeParamViewItemTitleBar(QWidget* parent = nullptr);
+ public:
+  NodeParamViewItemTitleBar(QWidget *parent = nullptr);
 
-  bool IsExpanded() const
-  {
-    return collapse_btn_->isChecked();
-  }
+  bool IsExpanded() const { return collapse_btn_->isChecked(); }
 
-public slots:
+ public slots:
   void SetExpanded(bool e);
 
-  void SetText(const QString& s)
-  {
+  void SetText(const QString &s) {
     lbl_->setText(s);
     lbl_->setToolTip(s);
     lbl_->setMinimumWidth(1);
   }
 
-  void SetPinButtonVisible(bool e)
-  {
-    pin_btn_->setVisible(e);
-  }
+  void SetPinButtonVisible(bool e) { pin_btn_->setVisible(e); }
 
-  void SetAddEffectButtonVisible(bool e)
-  {
-    add_fx_btn_->setVisible(e);
-  }
+  void SetAddEffectButtonVisible(bool e) { add_fx_btn_->setVisible(e); }
 
-  void SetEnabledCheckBoxVisible(bool e)
-  {
-    enabled_checkbox_->setVisible(e);
-  }
+  void SetEnabledCheckBoxVisible(bool e) { enabled_checkbox_->setVisible(e); }
 
-  void SetEnabledCheckBoxChecked(bool e)
-  {
-    enabled_checkbox_->setChecked(e);
-  }
+  void SetEnabledCheckBoxChecked(bool e) { enabled_checkbox_->setChecked(e); }
 
-signals:
+ signals:
   void ExpandedStateChanged(bool e);
 
   void PinToggled(bool e);
@@ -81,27 +64,26 @@ signals:
 
   void Clicked();
 
-protected:
+ protected:
   virtual void paintEvent(QPaintEvent *event) override;
 
   virtual void mousePressEvent(QMouseEvent *event) override;
   virtual void mouseDoubleClickEvent(QMouseEvent *event) override;
 
-private:
+ private:
   bool draw_border_;
 
-  QLabel* lbl_;
+  QLabel *lbl_;
 
-  CollapseButton* collapse_btn_;
+  CollapseButton *collapse_btn_;
 
   QPushButton *pin_btn_;
 
   QPushButton *add_fx_btn_;
 
   QCheckBox *enabled_checkbox_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // NODEPARAMVIEWITEMTITLEBAR_H
+#endif  // NODEPARAMVIEWITEMTITLEBAR_H

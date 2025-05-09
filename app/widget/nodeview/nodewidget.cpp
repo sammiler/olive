@@ -24,9 +24,7 @@
 
 namespace olive {
 
-NodeWidget::NodeWidget(QWidget *parent) :
-  QWidget(parent)
-{
+NodeWidget::NodeWidget(QWidget *parent) : QWidget(parent) {
   QVBoxLayout *outer_layout = new QVBoxLayout(this);
   outer_layout->setContentsMargins(0, 0, 0, 0);
 
@@ -48,4 +46,4 @@ NodeWidget::NodeWidget(QWidget *parent) :
   setSizePolicy(node_view_->sizePolicy());
 }
 
-}
+}  // namespace olive

@@ -28,8 +28,7 @@ const QString MosaicFilterNode::kVertInput = QStringLiteral("vert_in");
 
 #define super Node
 
-MosaicFilterNode::MosaicFilterNode()
-{
+MosaicFilterNode::MosaicFilterNode() {
   AddInput(kTextureInput, NodeValue::kTexture, InputFlags(kInputFlagNotKeyframable));
 
   AddInput(kHorizInput, NodeValue::kFloat, 32.0);
@@ -42,8 +41,7 @@ MosaicFilterNode::MosaicFilterNode()
   SetEffectInput(kTextureInput);
 }
 
-void MosaicFilterNode::Retranslate()
-{
+void MosaicFilterNode::Retranslate() {
   super::Retranslate();
 
   SetInputName(kTextureInput, tr("Texture"));
@@ -51,12 +49,9 @@ void MosaicFilterNode::Retranslate()
   SetInputName(kVertInput, tr("Vertical"));
 }
 
-void MosaicFilterNode::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const
-{
+void MosaicFilterNode::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const {
   if (TexturePtr texture = value[kTextureInput].toTexture()) {
-    if (texture
-        && value[kHorizInput].toInt() != texture->width()
-        && value[kVertInput].toInt() != texture->height()) {
+    if (texture && value[kHorizInput].toInt() != texture->width() && value[kVertInput].toInt() != texture->height()) {
       ShaderJob job(value);
 
       // Mipmapping makes this look weird, so we just use bilinear for finding the color of each block
@@ -69,11 +64,10 @@ void MosaicFilterNode::Value(const NodeValueRow &value, const NodeGlobals &globa
   }
 }
 
-ShaderCode MosaicFilterNode::GetShaderCode(const ShaderRequest &request) const
-{
+ShaderCode MosaicFilterNode::GetShaderCode(const ShaderRequest &request) const {
   Q_UNUSED(request)
 
   return ShaderCode(FileFunctions::ReadFileAsString(":/shaders/mosaic.frag"));
 }
 
-}
+}  // namespace olive

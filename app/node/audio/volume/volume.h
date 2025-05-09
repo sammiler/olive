@@ -25,10 +25,9 @@
 
 namespace olive {
 
-class VolumeNode : public MathNodeBase
-{
+class VolumeNode : public MathNodeBase {
   Q_OBJECT
-public:
+ public:
   VolumeNode();
 
   NODE_DEFAULT_FUNCTIONS(VolumeNode)
@@ -38,17 +37,17 @@ public:
   virtual QVector<CategoryID> Category() const override;
   virtual QString Description() const override;
 
-  virtual void Value(const NodeValueRow& value, const NodeGlobals &globals, NodeValueTable *table) const override;
+  virtual void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
 
-  virtual void ProcessSamples(const NodeValueRow &values, const SampleBuffer &input, SampleBuffer &output, int index) const override;
+  virtual void ProcessSamples(const NodeValueRow &values, const SampleBuffer &input, SampleBuffer &output,
+                              int index) const override;
 
   virtual void Retranslate() override;
 
   static const QString kSamplesInput;
   static const QString kVolumeInput;
-
 };
 
-}
+}  // namespace olive
 
-#endif // VOLUMENODE_H
+#endif  // VOLUMENODE_H

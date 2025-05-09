@@ -24,8 +24,8 @@
 #include <QGraphicsPathItem>
 #include <QPalette>
 
-#include "nodeviewcommon.h"
 #include "node/node.h"
+#include "nodeviewcommon.h"
 
 namespace olive {
 
@@ -36,45 +36,28 @@ class NodeViewItem;
  *
  * A fairly simple line widget use to visualize a connection between two node parameters (a NodeEdge).
  */
-class NodeViewEdge : public QGraphicsPathItem
-{
-public:
-  NodeViewEdge(Node *output, const NodeInput& input,
-               NodeViewItem* from_item, NodeViewItem* to_item,
+class NodeViewEdge : public QGraphicsPathItem {
+ public:
+  NodeViewEdge(Node* output, const NodeInput& input, NodeViewItem* from_item, NodeViewItem* to_item,
                QGraphicsItem* parent = nullptr);
 
   NodeViewEdge(QGraphicsItem* parent = nullptr);
 
   virtual ~NodeViewEdge() override;
 
-  Node *output() const
-  {
-    return output_;
-  }
+  Node* output() const { return output_; }
 
-  const NodeInput& input() const
-  {
-    return input_;
-  }
+  const NodeInput& input() const { return input_; }
 
-  int element() const
-  {
-    return element_;
-  }
+  int element() const { return element_; }
 
-  NodeViewItem* from_item() const
-  {
-    return from_item_;
-  }
+  NodeViewItem* from_item() const { return from_item_; }
 
-  NodeViewItem* to_item() const
-  {
-    return to_item_;
-  }
+  NodeViewItem* to_item() const { return to_item_; }
 
-  void set_from_item(NodeViewItem *i);
+  void set_from_item(NodeViewItem* i);
 
-  void set_to_item(NodeViewItem *i);
+  void set_to_item(NodeViewItem* i);
 
   void Adjust();
 
@@ -90,10 +73,7 @@ public:
    */
   void SetConnected(bool c);
 
-  bool IsConnected() const
-  {
-    return connected_;
-  }
+  bool IsConnected() const { return connected_; }
 
   /**
    * @brief Set highlighted state
@@ -112,15 +92,15 @@ public:
    */
   void SetCurved(bool e);
 
-protected:
-  virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
+ protected:
+  virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
 
-private:
+ private:
   void Init();
 
   void UpdateCurve();
 
-  Node *output_;
+  Node* output_;
 
   NodeInput input_;
 
@@ -140,9 +120,8 @@ private:
 
   QPointF cached_start_;
   QPointF cached_end_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // NODEEDGEITEM_H
+#endif  // NODEEDGEITEM_H

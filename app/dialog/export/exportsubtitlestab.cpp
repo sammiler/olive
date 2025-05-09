@@ -4,9 +4,7 @@
 
 namespace olive {
 
-ExportSubtitlesTab::ExportSubtitlesTab(QWidget *parent) :
-  QWidget(parent)
-{
+ExportSubtitlesTab::ExportSubtitlesTab(QWidget* parent) : QWidget(parent) {
   QVBoxLayout* outer_layout = new QVBoxLayout(this);
 
   QGridLayout* layout = new QGridLayout();
@@ -40,8 +38,7 @@ ExportSubtitlesTab::ExportSubtitlesTab(QWidget *parent) :
   connect(sidecar_checkbox_, &QCheckBox::toggled, sidecar_format_combobox_, &QWidget::setVisible);
 }
 
-int ExportSubtitlesTab::SetFormat(ExportFormat::Format format)
-{
+int ExportSubtitlesTab::SetFormat(ExportFormat::Format format) {
   auto vcodecs = ExportFormat::GetVideoCodecs(format);
   auto acodecs = ExportFormat::GetAudioCodecs(format);
 
@@ -67,4 +64,4 @@ int ExportSubtitlesTab::SetFormat(ExportFormat::Format format)
   return scodecs.size();
 }
 
-}
+}  // namespace olive

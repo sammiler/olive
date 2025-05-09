@@ -34,26 +34,19 @@
 
 namespace olive {
 
-class CurveWidget : public TimeBasedWidget, public TimeTargetObject
-{
+class CurveWidget : public TimeBasedWidget, public TimeTargetObject {
   Q_OBJECT
-public:
-  CurveWidget(QWidget* parent = nullptr);
+ public:
+  CurveWidget(QWidget *parent = nullptr);
 
-  const double& GetVerticalScale();
-  void SetVerticalScale(const double& vscale);
+  const double &GetVerticalScale();
+  void SetVerticalScale(const double &vscale);
 
   void DeleteSelected();
 
-  void SelectAll()
-  {
-    view_->SelectAll();
-  }
+  void SelectAll() { view_->SelectAll(); }
 
-  void DeselectAll()
-  {
-    view_->DeselectAll();
-  }
+  void DeselectAll() { view_->DeselectAll(); }
 
   Node *GetSelectedNodeWithID(const QString &id);
 
@@ -61,33 +54,28 @@ public:
 
   virtual bool Paste() override;
 
-public slots:
+ public slots:
   void SetNodes(const QVector<Node *> &nodes);
 
-protected:
+ protected:
   virtual void TimebaseChangedEvent(const rational &) override;
   virtual void ScaleChangedEvent(const double &) override;
 
   virtual void TimeTargetChangedEvent(ViewerOutput *target) override;
 
-  virtual void ConnectedNodeChangeEvent(ViewerOutput* n) override;
+  virtual void ConnectedNodeChangeEvent(ViewerOutput *n) override;
 
-  virtual const QVector<KeyframeViewInputConnection*> *GetSnapKeyframes() const override
-  {
+  virtual const QVector<KeyframeViewInputConnection *> *GetSnapKeyframes() const override {
     return &view_->GetKeyframeTracks();
   }
 
-  virtual const TimeTargetObject *GetKeyframeTimeTarget() const override
-  {
-    return view_;
-  }
+  virtual const TimeTargetObject *GetKeyframeTimeTarget() const override { return view_; }
 
-  virtual const std::vector<NodeKeyframe*> *GetSnapIgnoreKeyframes() const override
-  {
+  virtual const std::vector<NodeKeyframe *> *GetSnapIgnoreKeyframes() const override {
     return &view_->GetSelectedKeyframes();
   }
 
-private:
+ private:
   void SetKeyframeButtonEnabled(bool enable);
 
   void SetKeyframeButtonChecked(bool checked);
@@ -100,34 +88,33 @@ private:
 
   QHash<NodeKeyframeTrackReference, QColor> keyframe_colors_;
 
-  NodeTreeView* tree_view_;
+  NodeTreeView *tree_view_;
 
-  QPushButton* linear_button_;
+  QPushButton *linear_button_;
 
-  QPushButton* bezier_button_;
+  QPushButton *bezier_button_;
 
-  QPushButton* hold_button_;
+  QPushButton *hold_button_;
 
-  CurveView* view_;
+  CurveView *view_;
 
-  NodeParamViewKeyframeControl* key_control_;
+  NodeParamViewKeyframeControl *key_control_;
 
-  QVector<Node*> nodes_;
+  QVector<Node *> nodes_;
 
   QVector<NodeKeyframeTrackReference> selected_tracks_;
 
-private slots:
+ private slots:
   void SelectionChanged();
 
   void KeyframeTypeButtonTriggered(bool checked);
 
-  void InputSelectionChanged(const NodeKeyframeTrackReference& ref);
+  void InputSelectionChanged(const NodeKeyframeTrackReference &ref);
 
   void KeyframeViewDragged(int x, int y);
   void KeyframeViewReleased();
-
 };
 
-}
+}  // namespace olive
 
-#endif // CURVEWIDGET_H
+#endif  // CURVEWIDGET_H

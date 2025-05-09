@@ -31,18 +31,17 @@
 
 namespace olive {
 
-class VideoStreamProperties : public StreamProperties
-{
+class VideoStreamProperties : public StreamProperties {
   Q_OBJECT
-public:
-  VideoStreamProperties(Footage *footage, int video_index);
+ public:
+  VideoStreamProperties(Footage* footage, int video_index);
 
-  virtual void Accept(MultiUndoCommand *parent) override;
+  virtual void Accept(MultiUndoCommand* parent) override;
 
   virtual bool SanityCheck() override;
 
-private:
-  Footage *footage_;
+ private:
+  Footage* footage_;
 
   int video_index_;
 
@@ -59,7 +58,7 @@ private:
   /**
    * @brief Setting for this streams's color range
    */
-  QComboBox *color_range_combo_;
+  QComboBox* color_range_combo_;
 
   /**
    * @brief Setting for video interlacing
@@ -87,23 +86,19 @@ private:
   PixelAspectRatioComboBox* pixel_aspect_combo_;
 
   class VideoStreamChangeCommand : public UndoCommand {
-  public:
-    VideoStreamChangeCommand(Footage *footage,
-                             int video_index,
-                             bool premultiplied,
-                             QString colorspace,
-                             VideoParams::Interlacing interlacing,
-                             const rational& pixel_ar,
+   public:
+    VideoStreamChangeCommand(Footage* footage, int video_index, bool premultiplied, QString colorspace,
+                             VideoParams::Interlacing interlacing, const rational& pixel_ar,
                              VideoParams::ColorRange range);
 
     virtual Project* GetRelevantProject() const override;
 
-  protected:
+   protected:
     virtual void redo() override;
     virtual void undo() override;
 
-  private:
-    Footage *footage_;
+   private:
+    Footage* footage_;
     int video_index_;
 
     bool new_premultiplied_;
@@ -117,25 +112,21 @@ private:
     VideoParams::Interlacing old_interlacing_;
     rational old_pixel_ar_;
     VideoParams::ColorRange old_range_;
-
   };
 
   class ImageSequenceChangeCommand : public UndoCommand {
-  public:
-    ImageSequenceChangeCommand(Footage *footage,
-                               int video_index,
-                               int64_t start_index,
-                               int64_t duration,
+   public:
+    ImageSequenceChangeCommand(Footage* footage, int video_index, int64_t start_index, int64_t duration,
                                const rational& frame_rate);
 
     virtual Project* GetRelevantProject() const override;
 
-  protected:
+   protected:
     virtual void redo() override;
     virtual void undo() override;
 
-  private:
-    Footage *footage_;
+   private:
+    Footage* footage_;
     int video_index_;
 
     int64_t new_start_index_;
@@ -146,11 +137,9 @@ private:
 
     rational new_frame_rate_;
     rational old_frame_rate_;
-
   };
-
 };
 
-}
+}  // namespace olive
 
-#endif // VIDEOSTREAMPROPERTIES_H
+#endif  // VIDEOSTREAMPROPERTIES_H

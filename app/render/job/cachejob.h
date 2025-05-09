@@ -29,14 +29,10 @@
 
 namespace olive {
 
-class CacheJob : public AcceleratedJob
-{
-public:
+class CacheJob : public AcceleratedJob {
+ public:
   CacheJob() = default;
-  CacheJob(const QString &filename, const NodeValue &fallback = NodeValue())
-  {
-    filename_ = filename;
-  }
+  CacheJob(const QString &filename, const NodeValue &fallback = NodeValue()) { filename_ = filename; }
 
   const QString &GetFilename() const { return filename_; }
   void SetFilename(const QString &s) { filename_ = s; }
@@ -44,13 +40,12 @@ public:
   const NodeValue &GetFallback() const { return fallback_; }
   void SetFallback(const NodeValue &val) { fallback_ = val; }
 
-private:
+ private:
   QString filename_;
 
   NodeValue fallback_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // CACHEJOB_H
+#endif  // CACHEJOB_H

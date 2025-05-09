@@ -27,26 +27,21 @@
 
 namespace olive {
 
-class NodeViewItemConnector : public QGraphicsPolygonItem
-{
-public:
+class NodeViewItemConnector : public QGraphicsPolygonItem {
+ public:
   NodeViewItemConnector(bool is_output, QGraphicsItem *parent = nullptr);
 
   void SetFlowDirection(NodeViewCommon::FlowDirection dir);
 
-  bool IsOutput() const
-  {
-    return output_;
-  }
+  bool IsOutput() const { return output_; }
 
   virtual QPainterPath shape() const override;
   virtual QRectF boundingRect() const override;
 
-private:
+ private:
   bool output_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // NODEVIEWITEMCONNECTOR_H
+#endif  // NODEVIEWITEMCONNECTOR_H

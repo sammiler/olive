@@ -26,39 +26,21 @@ namespace olive {
 
 #define super TimeBasedPanel
 
-ViewerPanelBase::ViewerPanelBase(const QString& object_name) :
-  super(object_name)
-{
+ViewerPanelBase::ViewerPanelBase(const QString &object_name) : super(object_name) {
   connect(PanelManager::instance(), &PanelManager::FocusedPanelChanged, this, &ViewerPanelBase::FocusedPanelChanged);
 }
 
-void ViewerPanelBase::PlayPause()
-{
-  GetViewerWidget()->TogglePlayPause();
-}
+void ViewerPanelBase::PlayPause() { GetViewerWidget()->TogglePlayPause(); }
 
-void ViewerPanelBase::PlayInToOut()
-{
-  GetViewerWidget()->Play(true);
-}
+void ViewerPanelBase::PlayInToOut() { GetViewerWidget()->Play(true); }
 
-void ViewerPanelBase::ShuttleLeft()
-{
-  GetViewerWidget()->ShuttleLeft();
-}
+void ViewerPanelBase::ShuttleLeft() { GetViewerWidget()->ShuttleLeft(); }
 
-void ViewerPanelBase::ShuttleStop()
-{
-  GetViewerWidget()->ShuttleStop();
-}
+void ViewerPanelBase::ShuttleStop() { GetViewerWidget()->ShuttleStop(); }
 
-void ViewerPanelBase::ShuttleRight()
-{
-  GetViewerWidget()->ShuttleRight();
-}
+void ViewerPanelBase::ShuttleRight() { GetViewerWidget()->ShuttleRight(); }
 
-void ViewerPanelBase::ConnectTimeBasedPanel(TimeBasedPanel *panel)
-{
+void ViewerPanelBase::ConnectTimeBasedPanel(TimeBasedPanel *panel) {
   connect(panel, &TimeBasedPanel::PlayPauseRequested, this, &ViewerPanelBase::PlayPause);
   connect(panel, &TimeBasedPanel::PlayInToOutRequested, this, &ViewerPanelBase::PlayInToOut);
   connect(panel, &TimeBasedPanel::ShuttleLeftRequested, this, &ViewerPanelBase::ShuttleLeft);
@@ -66,8 +48,7 @@ void ViewerPanelBase::ConnectTimeBasedPanel(TimeBasedPanel *panel)
   connect(panel, &TimeBasedPanel::ShuttleRightRequested, this, &ViewerPanelBase::ShuttleRight);
 }
 
-void ViewerPanelBase::DisconnectTimeBasedPanel(TimeBasedPanel *panel)
-{
+void ViewerPanelBase::DisconnectTimeBasedPanel(TimeBasedPanel *panel) {
   disconnect(panel, &TimeBasedPanel::PlayPauseRequested, this, &ViewerPanelBase::PlayPause);
   disconnect(panel, &TimeBasedPanel::PlayInToOutRequested, this, &ViewerPanelBase::PlayInToOut);
   disconnect(panel, &TimeBasedPanel::ShuttleLeftRequested, this, &ViewerPanelBase::ShuttleLeft);
@@ -75,28 +56,15 @@ void ViewerPanelBase::DisconnectTimeBasedPanel(TimeBasedPanel *panel)
   disconnect(panel, &TimeBasedPanel::ShuttleRightRequested, this, &ViewerPanelBase::ShuttleRight);
 }
 
-void ViewerPanelBase::SetFullScreen(QScreen *screen)
-{
-  GetViewerWidget()->SetFullScreen(screen);
-}
+void ViewerPanelBase::SetFullScreen(QScreen *screen) { GetViewerWidget()->SetFullScreen(screen); }
 
-void ViewerPanelBase::SetGizmos(Node *node)
-{
-  GetViewerWidget()->SetGizmos(node);
-}
+void ViewerPanelBase::SetGizmos(Node *node) { GetViewerWidget()->SetGizmos(node); }
 
-void ViewerPanelBase::CacheEntireSequence()
-{
-  GetViewerWidget()->CacheEntireSequence();
-}
+void ViewerPanelBase::CacheEntireSequence() { GetViewerWidget()->CacheEntireSequence(); }
 
-void ViewerPanelBase::CacheSequenceInOut()
-{
-  GetViewerWidget()->CacheSequenceInOut();
-}
+void ViewerPanelBase::CacheSequenceInOut() { GetViewerWidget()->CacheSequenceInOut(); }
 
-void ViewerPanelBase::SetViewerWidget(ViewerWidget *vw)
-{
+void ViewerPanelBase::SetViewerWidget(ViewerWidget *vw) {
   connect(vw, &ViewerWidget::TextureChanged, this, &ViewerPanelBase::TextureChanged);
   connect(vw, &ViewerWidget::ColorProcessorChanged, this, &ViewerPanelBase::ColorProcessorChanged);
   connect(vw, &ViewerWidget::ColorManagerChanged, this, &ViewerPanelBase::ColorManagerChanged);
@@ -104,9 +72,8 @@ void ViewerPanelBase::SetViewerWidget(ViewerWidget *vw)
   SetTimeBasedWidget(vw);
 }
 
-void ViewerPanelBase::FocusedPanelChanged(PanelWidget *panel)
-{
-  if (dynamic_cast<ViewerPanelBase*>(panel)) {
+void ViewerPanelBase::FocusedPanelChanged(PanelWidget *panel) {
+  if (dynamic_cast<ViewerPanelBase *>(panel)) {
     auto vw = GetViewerWidget();
     if (vw->IsPlaying() && panel != this) {
       vw->Pause();
@@ -114,4 +81,4 @@ void ViewerPanelBase::FocusedPanelChanged(PanelWidget *panel)
   }
 }
 
-}
+}  // namespace olive

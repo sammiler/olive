@@ -29,29 +29,21 @@ namespace olive {
 /**
  * @brief PanelWidget wrapper around an AudioMonitor
  */
-class AudioMonitorPanel : public PanelWidget
-{
+class AudioMonitorPanel : public PanelWidget {
   Q_OBJECT
-public:
+ public:
   AudioMonitorPanel();
 
-  bool IsPlaying() const
-  {
-    return audio_monitor_->IsPlaying();
-  }
+  bool IsPlaying() const { return audio_monitor_->IsPlaying(); }
 
-  void SetParams(const AudioParams& params)
-  {
-    audio_monitor_->SetParams(params);
-  }
+  void SetParams(const AudioParams& params) { audio_monitor_->SetParams(params); }
 
-private:
+ private:
   virtual void Retranslate() override;
 
   AudioMonitor* audio_monitor_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // AUDIOMONITORPANEL_H
+#endif  // AUDIOMONITORPANEL_H

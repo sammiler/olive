@@ -33,17 +33,16 @@
 
 namespace olive {
 
-class ProjectPropertiesDialog : public QDialog
-{
+class ProjectPropertiesDialog : public QDialog {
   Q_OBJECT
-public:
-  ProjectPropertiesDialog(Project *p, QWidget* parent);
+ public:
+  ProjectPropertiesDialog(Project* p, QWidget* parent);
 
-public slots:
+ public slots:
   virtual void accept() override;
 
-private:
-  bool VerifyPathAndWarnIfBad(const QString &path);
+ private:
+  bool VerifyPathAndWarnIfBad(const QString& path);
 
   Project* working_project_;
 
@@ -51,7 +50,7 @@ private:
 
   QComboBox* default_input_colorspace_;
 
-  QComboBox *reference_space_;
+  QComboBox* reference_space_;
 
   bool ocio_config_is_valid_;
 
@@ -60,17 +59,16 @@ private:
   PathWidget* custom_cache_path_;
 
   static const int kDiskCacheRadioCount = 3;
-  QRadioButton *disk_cache_radios_[kDiskCacheRadioCount];
+  QRadioButton* disk_cache_radios_[kDiskCacheRadioCount];
 
-private slots:
+ private slots:
   void BrowseForOCIOConfig();
 
   void OCIOFilenameUpdated();
 
   void OpenDiskCacheSettings();
-
 };
 
-}
+}  // namespace olive
 
-#endif // PROJECTPROPERTIESDIALOG_H
+#endif  // PROJECTPROPERTIESDIALOG_H

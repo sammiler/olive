@@ -26,22 +26,21 @@
 
 namespace olive {
 
-class MulticamDisplay : public ViewerDisplayWidget
-{
+class MulticamDisplay : public ViewerDisplayWidget {
   Q_OBJECT
-public:
+ public:
   explicit MulticamDisplay(QWidget *parent = nullptr);
 
   void SetMulticamNode(MultiCamNode *n);
 
-protected:
+ protected:
   virtual void OnPaint() override;
 
   virtual void OnDestroy() override;
 
   virtual TexturePtr LoadCustomTextureFromFrame(const QVariant &v) override;
 
-private:
+ private:
   static QString GenerateShaderCode(int rows, int cols);
 
   MultiCamNode *node_;
@@ -49,9 +48,8 @@ private:
   QVariant shader_;
   int rows_;
   int cols_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // MULTICAMDISPLAY_H
+#endif  // MULTICAMDISPLAY_H

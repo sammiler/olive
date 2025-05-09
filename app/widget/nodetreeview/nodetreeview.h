@@ -27,37 +27,27 @@
 
 namespace olive {
 
-class NodeTreeView : public QTreeWidget
-{
+class NodeTreeView : public QTreeWidget {
   Q_OBJECT
-public:
-  NodeTreeView(QWidget *parent = nullptr);
+ public:
+  NodeTreeView(QWidget* parent = nullptr);
 
   bool IsNodeEnabled(Node* n) const;
 
   bool IsInputEnabled(const NodeKeyframeTrackReference& ref) const;
 
-  void SetCheckBoxesEnabled(bool e)
-  {
-    checkboxes_enabled_ = e;
-  }
+  void SetCheckBoxesEnabled(bool e) { checkboxes_enabled_ = e; }
 
   void SetKeyframeTrackColor(const NodeKeyframeTrackReference& ref, const QColor& color);
 
-  void SetOnlyShowKeyframable(bool e)
-  {
-    only_show_keyframable_ = e;
-  }
+  void SetOnlyShowKeyframable(bool e) { only_show_keyframable_ = e; }
 
-  void SetShowKeyframeTracksAsRows(bool e)
-  {
-    show_keyframe_tracks_as_rows_ = e;
-  }
+  void SetShowKeyframeTracksAsRows(bool e) { show_keyframe_tracks_as_rows_ = e; }
 
-public slots:
-  void SetNodes(const QVector<Node *> &nodes);
+ public slots:
+  void SetNodes(const QVector<Node*>& nodes);
 
-signals:
+ signals:
   void NodeEnableChanged(Node* n, bool e);
 
   void InputEnableChanged(const NodeKeyframeTrackReference& ref, bool e);
@@ -66,26 +56,23 @@ signals:
 
   void InputDoubleClicked(const NodeKeyframeTrackReference& ref);
 
-protected:
+ protected:
   virtual void changeEvent(QEvent* e) override;
 
   virtual void mouseDoubleClickEvent(QMouseEvent* e) override;
 
-private:
+ private:
   void Retranslate();
 
   NodeKeyframeTrackReference GetSelectedInput();
 
-  QTreeWidgetItem *CreateItem(QTreeWidgetItem* parent, const NodeKeyframeTrackReference& ref);
+  QTreeWidgetItem* CreateItem(QTreeWidgetItem* parent, const NodeKeyframeTrackReference& ref);
 
   void CreateItemsForTracks(QTreeWidgetItem* parent, const NodeInput& input, int track_count);
 
-  static bool UseRGBAOverXYZW(const NodeKeyframeTrackReference &ref);
+  static bool UseRGBAOverXYZW(const NodeKeyframeTrackReference& ref);
 
-  enum ItemType {
-    kItemTypeNode,
-    kItemTypeInput
-  };
+  enum ItemType { kItemTypeNode, kItemTypeInput };
 
   static const int kItemType = Qt::UserRole;
   static const int kItemInputReference = Qt::UserRole + 1;
@@ -107,13 +94,12 @@ private:
 
   bool checkboxes_enabled_;
 
-private slots:
+ private slots:
   void ItemCheckStateChanged(QTreeWidgetItem* item, int column);
 
   void SelectionChanged();
-
 };
 
-}
+}  // namespace olive
 
-#endif // NODETREEVIEW_H
+#endif  // NODETREEVIEW_H

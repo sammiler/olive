@@ -27,8 +27,7 @@
 
 namespace olive {
 
-uint32_t ceil_to_power_of_2(uint32_t v)
-{
+uint32_t ceil_to_power_of_2(uint32_t v) {
   v--;
   v |= v >> 1;
   v |= v >> 2;
@@ -40,8 +39,7 @@ uint32_t ceil_to_power_of_2(uint32_t v)
   return v;
 }
 
-uint32_t floor_to_power_of_2(uint32_t x)
-{
+uint32_t floor_to_power_of_2(uint32_t x) {
   x = x | (x >> 1);
   x = x | (x >> 2);
   x = x | (x >> 4);
@@ -51,6 +49,6 @@ uint32_t floor_to_power_of_2(uint32_t x)
   return x - (x >> 1);
 }
 
-}
+}  // namespace olive
 
-#endif // POWER_H
+#endif  // POWER_H

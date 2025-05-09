@@ -31,15 +31,14 @@
 
 namespace olive {
 
-class PreferencesAppearanceTab : public ConfigDialogBaseTab
-{
+class PreferencesAppearanceTab : public ConfigDialogBaseTab {
   Q_OBJECT
-public:
+ public:
   PreferencesAppearanceTab();
 
   virtual void Accept(MultiUndoCommand* command) override;
 
-private:
+ private:
   /**
    * @brief UI widget for selecting the current UI style
    */
@@ -48,9 +47,8 @@ private:
   QVector<ColorCodingComboBox*> color_btns_;
 
   ColorCodingComboBox* marker_btn_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // PREFERENCESAPPEARANCETAB_H
+#endif  // PREFERENCESAPPEARANCETAB_H

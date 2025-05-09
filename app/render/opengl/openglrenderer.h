@@ -33,15 +33,14 @@
 
 namespace olive {
 
-class OpenGLRenderer : public Renderer
-{
+class OpenGLRenderer : public Renderer {
   Q_OBJECT
-public:
-  OpenGLRenderer(QObject* parent = nullptr);
+ public:
+  OpenGLRenderer(QObject *parent = nullptr);
 
   virtual ~OpenGLRenderer() override;
 
-  void Init(QOpenGLContext* existing_ctx);
+  void Init(QOpenGLContext *existing_ctx);
 
   virtual bool Init() override;
 
@@ -49,34 +48,35 @@ public:
 
   virtual void PostInit() override;
 
-  virtual void ClearDestination(olive::Texture *texture = nullptr, double r = 0.0, double g = 0.0, double b = 0.0, double a = 0.0) override;
+  virtual void ClearDestination(olive::Texture *texture = nullptr, double r = 0.0, double g = 0.0, double b = 0.0,
+                                double a = 0.0) override;
 
   virtual QVariant CreateNativeShader(olive::ShaderCode code) override;
 
   virtual void DestroyNativeShader(QVariant shader) override;
 
-  virtual void UploadToTexture(const QVariant &handle, const VideoParams &params, const void* data, int linesize) override;
+  virtual void UploadToTexture(const QVariant &handle, const VideoParams &params, const void *data,
+                               int linesize) override;
 
-  virtual void DownloadFromTexture(const QVariant &handle, const VideoParams &params, void* data, int linesize) override;
+  virtual void DownloadFromTexture(const QVariant &handle, const VideoParams &params, void *data,
+                                   int linesize) override;
 
   virtual void Flush() override;
 
   virtual Color GetPixelFromTexture(olive::Texture *texture, const QPointF &pt) override;
 
-protected:
-  virtual void Blit(QVariant shader,
-                    olive::ShaderJob job,
-                    olive::Texture* destination,
-                    olive::VideoParams destination_params,
-                    bool clear_destination) override;
+ protected:
+  virtual void Blit(QVariant shader, olive::ShaderJob job, olive::Texture *destination,
+                    olive::VideoParams destination_params, bool clear_destination) override;
 
-  virtual QVariant CreateNativeTexture(int width, int height, int depth, PixelFormat format, int channel_count, const void* data = nullptr, int linesize = 0) override;
+  virtual QVariant CreateNativeTexture(int width, int height, int depth, PixelFormat format, int channel_count,
+                                       const void *data = nullptr, int linesize = 0) override;
 
   virtual void DestroyNativeTexture(QVariant texture) override;
 
   virtual void DestroyInternal() override;
 
-private:
+ private:
   static GLint GetInternalFormat(PixelFormat format, int channel_layout);
 
   static GLenum GetPixelType(PixelFormat format);
@@ -93,9 +93,9 @@ private:
 
   GLuint CompileShader(GLenum type, const QString &code);
 
-  QOpenGLContext* context_;
+  QOpenGLContext *context_;
 
-  QOpenGLFunctions* functions_;
+  QOpenGLFunctions *functions_;
 
   QOffscreenSurface surface_;
 
@@ -108,19 +108,17 @@ private:
     PixelFormat format;
     int channel_count;
 
-    bool operator==(const TextureCacheKey &rhs) const
-    {
-      return width == rhs.width && height == rhs.height && depth == rhs.depth
-          && format == rhs.format && channel_count == rhs.channel_count;
+    bool operator==(const TextureCacheKey &rhs) const {
+      return width == rhs.width && height == rhs.height && depth == rhs.depth && format == rhs.format &&
+             channel_count == rhs.channel_count;
     }
   };
 
   QMap<GLuint, TextureCacheKey> texture_params_;
 
   static const int kTextureCacheMaxSize;
-
 };
 
-}
+}  // namespace olive
 
-#endif // OPENGLCONTEXT_H
+#endif  // OPENGLCONTEXT_H

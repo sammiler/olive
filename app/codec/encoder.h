@@ -21,10 +21,10 @@
 #ifndef ENCODER_H
 #define ENCODER_H
 
-#include <memory>
 #include <QRegularExpression>
 #include <QString>
 #include <QXmlStreamWriter>
+#include <memory>
 
 #include "codec/exportcodec.h"
 #include "codec/exportformat.h"
@@ -39,38 +39,30 @@ namespace olive {
 class Encoder;
 using EncoderPtr = std::shared_ptr<Encoder>;
 
-class EncodingParams
-{
-public:
-  enum VideoScalingMethod {
-    kFit,
-    kStretch,
-    kCrop
-  };
+class EncodingParams {
+ public:
+  enum VideoScalingMethod { kFit, kStretch, kCrop };
 
   EncodingParams();
 
   static QDir GetPresetPath();
   static QStringList GetListOfPresets();
 
-  bool IsValid() const
-  {
-    return video_enabled_ || audio_enabled_ || subtitles_enabled_;
-  }
+  bool IsValid() const { return video_enabled_ || audio_enabled_ || subtitles_enabled_; }
 
   void SetFilename(const QString& filename) { filename_ = filename; }
 
   void EnableVideo(const VideoParams& video_params, const ExportCodec::Codec& vcodec);
-  void EnableAudio(const AudioParams& audio_params, const ExportCodec::Codec &acodec);
-  void EnableSubtitles(const ExportCodec::Codec &scodec);
-  void EnableSidecarSubtitles(const ExportFormat::Format &sfmt, const ExportCodec::Codec &scodec);
+  void EnableAudio(const AudioParams& audio_params, const ExportCodec::Codec& acodec);
+  void EnableSubtitles(const ExportCodec::Codec& scodec);
+  void EnableSidecarSubtitles(const ExportFormat::Format& sfmt, const ExportCodec::Codec& scodec);
 
   void DisableVideo();
   void DisableAudio();
   void DisableSubtitles();
 
-  const ExportFormat::Format &format() const { return format_; }
-  void set_format(const ExportFormat::Format &format) { format_ = format; }
+  const ExportFormat::Format& format() const { return format_; }
+  void set_format(const ExportFormat::Format& format) { format_ = format; }
 
   void set_video_option(const QString& key, const QString& value) { video_opts_.insert(key, value); }
   void set_video_bit_rate(const int64_t& rate) { video_bit_rate_ = rate; }
@@ -88,8 +80,8 @@ public:
   const ExportCodec::Codec& video_codec() const { return video_codec_; }
   const VideoParams& video_params() const { return video_params_; }
   const QHash<QString, QString>& video_opts() const { return video_opts_; }
-  QString video_option(const QString &key) const { return video_opts_.value(key); }
-  bool has_video_opt(const QString &key) const { return video_opts_.contains(key); }
+  QString video_option(const QString& key) const { return video_opts_.value(key); }
+  bool has_video_opt(const QString& key) const { return video_opts_.contains(key); }
   const int64_t& video_bit_rate() const { return video_bit_rate_; }
   const int64_t& video_min_bit_rate() const { return video_min_bit_rate_; }
   const int64_t& video_max_bit_rate() const { return video_max_bit_rate_; }
@@ -100,7 +92,7 @@ public:
   const ColorTransform& color_transform() const { return color_transform_; }
 
   bool audio_enabled() const { return audio_enabled_; }
-  const ExportCodec::Codec &audio_codec() const { return audio_codec_; }
+  const ExportCodec::Codec& audio_codec() const { return audio_codec_; }
   const AudioParams& audio_params() const { return audio_params_; }
   const int64_t& audio_bit_rate() const { return audio_bit_rate_; }
 
@@ -114,31 +106,31 @@ public:
   const rational& GetExportLength() const { return export_length_; }
   void SetExportLength(const rational& export_length) { export_length_ = export_length; }
 
-  bool Load(QIODevice *device);
-  bool Load(QXmlStreamReader *reader);
+  bool Load(QIODevice* device);
+  bool Load(QXmlStreamReader* reader);
 
-  void Save(QIODevice *device) const;
+  void Save(QIODevice* device) const;
   void Save(QXmlStreamWriter* writer) const;
 
   bool has_custom_range() const { return has_custom_range_; }
   const TimeRange& custom_range() const { return custom_range_; }
-  void set_custom_range(const TimeRange& custom_range)
-  {
+  void set_custom_range(const TimeRange& custom_range) {
     has_custom_range_ = true;
     custom_range_ = custom_range;
   }
 
   const VideoScalingMethod& video_scaling_method() const { return video_scaling_method_; }
-  void set_video_scaling_method(const VideoScalingMethod& video_scaling_method) { video_scaling_method_ = video_scaling_method; }
+  void set_video_scaling_method(const VideoScalingMethod& video_scaling_method) {
+    video_scaling_method_ = video_scaling_method;
+  }
 
-  static QMatrix4x4 GenerateMatrix(VideoScalingMethod method,
-                                   int source_width, int source_height,
-                                   int dest_width, int dest_height);
+  static QMatrix4x4 GenerateMatrix(VideoScalingMethod method, int source_width, int source_height, int dest_width,
+                                   int dest_height);
 
-private:
+ private:
   static const int kEncoderParamsVersion = 1;
 
-  bool LoadV1(QXmlStreamReader *reader);
+  bool LoadV1(QXmlStreamReader* reader);
 
   QString filename_;
   ExportFormat::Format format_;
@@ -171,20 +163,14 @@ private:
 
   bool has_custom_range_;
   TimeRange custom_range_;
-
 };
 
-class Encoder : public QObject
-{
+class Encoder : public QObject {
   Q_OBJECT
-public:
+ public:
   Encoder(const EncodingParams& params);
 
-  enum Type {
-    kEncoderTypeNone = -1,
-    kEncoderTypeFFmpeg,
-    kEncoderTypeOIIO
-  };
+  enum Type { kEncoderTypeNone = -1, kEncoderTypeFFmpeg, kEncoderTypeOIIO };
 
   /**
    * @brief Create a Encoder instance using a Encoder ID
@@ -193,61 +179,51 @@ public:
    *
    * A Encoder instance or nullptr if a Decoder with this ID does not exist
    */
-  static Encoder *CreateFromID(Type id, const EncodingParams &params);
+  static Encoder* CreateFromID(Type id, const EncodingParams& params);
 
   static Type GetTypeFromFormat(ExportFormat::Format f);
 
-  static Encoder *CreateFromFormat(ExportFormat::Format f, const EncodingParams &params);
+  static Encoder* CreateFromFormat(ExportFormat::Format f, const EncodingParams& params);
 
-  static Encoder *CreateFromParams(const EncodingParams &params);
+  static Encoder* CreateFromParams(const EncodingParams& params);
 
   virtual QStringList GetPixelFormatsForCodec(ExportCodec::Codec c) const;
   virtual std::vector<SampleFormat> GetSampleFormatsForCodec(ExportCodec::Codec c) const;
 
   const EncodingParams& params() const;
 
-  virtual PixelFormat GetDesiredPixelFormat() const
-  {
-    return PixelFormat::INVALID;
-  }
+  virtual PixelFormat GetDesiredPixelFormat() const { return PixelFormat::INVALID; }
 
-  const QString& GetError() const
-  {
-    return error_;
-  }
+  const QString& GetError() const { return error_; }
 
   QString GetFilenameForFrame(const rational& frame);
 
   static int GetImageSequencePlaceholderDigitCount(const QString& filename);
 
-  static bool FilenameContainsDigitPlaceholder(const QString &filename);
+  static bool FilenameContainsDigitPlaceholder(const QString& filename);
   static QString FilenameRemoveDigitPlaceholder(QString filename);
 
   static const QRegularExpression kImageSequenceContainsDigits;
   static const QRegularExpression kImageSequenceRemoveDigits;
 
-public slots:
+ public slots:
   virtual bool Open() = 0;
 
   virtual bool WriteFrame(olive::FramePtr frame, olive::core::rational time) = 0;
-  virtual bool WriteAudio(const olive::SampleBuffer &audio) = 0;
-  virtual bool WriteSubtitle(const SubtitleBlock *sub_block) = 0;
+  virtual bool WriteAudio(const olive::SampleBuffer& audio) = 0;
+  virtual bool WriteSubtitle(const SubtitleBlock* sub_block) = 0;
 
   virtual void Close() = 0;
 
-protected:
-  void SetError(const QString& err)
-  {
-    error_ = err;
-  }
+ protected:
+  void SetError(const QString& err) { error_ = err; }
 
-private:
+ private:
   EncodingParams params_;
 
   QString error_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // ENCODER_H
+#endif  // ENCODER_H

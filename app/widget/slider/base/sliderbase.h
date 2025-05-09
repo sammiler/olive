@@ -29,10 +29,9 @@
 
 namespace olive {
 
-class SliderBase : public QStackedWidget
-{
+class SliderBase : public QStackedWidget {
   Q_OBJECT
-public:
+ public:
   SliderBase(QWidget* parent = nullptr);
 
   void SetAlignment(Qt::Alignment alignment);
@@ -49,24 +48,20 @@ public:
 
   QString GetFormattedValueToString(const QVariant& v) const;
 
-  void InsertLabelSubstitution(const QVariant &value, const QString &label)
-  {
+  void InsertLabelSubstitution(const QVariant& value, const QString& label) {
     label_substitutions_.append({value, label});
     UpdateLabel();
   }
 
-  void SetColor(const QColor &c)
-  {
-    label_->SetColor(c);
-  }
+  void SetColor(const QColor& c) { label_->SetColor(c); }
 
-public slots:
+ public slots:
   void ShowEditor();
 
-protected slots:
+ protected slots:
   void UpdateLabel();
 
-protected:
+ protected:
   const QVariant& GetValueInternal() const;
 
   void SetValueInternal(const QVariant& v);
@@ -77,7 +72,7 @@ protected:
 
   SliderLabel* label() { return label_; }
 
-  virtual QString ValueToString(const QVariant &v) const = 0;
+  virtual QString ValueToString(const QVariant& v) const = 0;
 
   virtual QVariant StringToValue(const QString& s, bool* ok) const = 0;
 
@@ -89,8 +84,8 @@ protected:
 
   virtual void changeEvent(QEvent* e) override;
 
-private:
-  bool GetLabelSubstitution(const QVariant &v, QString *out) const;
+ private:
+  bool GetLabelSubstitution(const QVariant& v, QString* out) const;
 
   SliderLabel* label_;
 
@@ -107,15 +102,14 @@ private:
 
   QVector<QPair<QVariant, QString> > label_substitutions_;
 
-private slots:
+ private slots:
   void LineEditConfirmed();
 
   void LineEditCancelled();
 
   void ResetValue();
-
 };
 
-}
+}  // namespace olive
 
-#endif // SLIDERBASE_H
+#endif  // SLIDERBASE_H

@@ -25,85 +25,42 @@
 
 namespace olive {
 
-class FootageJob : public AcceleratedJob
-{
-public:
-  FootageJob() :
-    type_(Track::kNone)
-  {
-  }
+class FootageJob : public AcceleratedJob {
+ public:
+  FootageJob() : type_(Track::kNone) {}
 
-  FootageJob(const TimeRange &time, const QString& decoder, const QString& filename, Track::Type type, const rational& length, LoopMode loop_mode) :
-    time_(time),
-    decoder_(decoder),
-    filename_(filename),
-    type_(type),
-    length_(length),
-    loop_mode_(loop_mode)
-  {
-  }
+  FootageJob(const TimeRange& time, const QString& decoder, const QString& filename, Track::Type type,
+             const rational& length, LoopMode loop_mode)
+      : time_(time), decoder_(decoder), filename_(filename), type_(type), length_(length), loop_mode_(loop_mode) {}
 
-  const QString& decoder() const
-  {
-    return decoder_;
-  }
+  const QString& decoder() const { return decoder_; }
 
-  const QString& filename() const
-  {
-    return filename_;
-  }
+  const QString& filename() const { return filename_; }
 
-  Track::Type type() const
-  {
-    return type_;
-  }
+  Track::Type type() const { return type_; }
 
-  const VideoParams& video_params() const
-  {
-    return video_params_;
-  }
+  const VideoParams& video_params() const { return video_params_; }
 
-  void set_video_params(const VideoParams& p)
-  {
-    video_params_ = p;
-  }
+  void set_video_params(const VideoParams& p) { video_params_ = p; }
 
-  const AudioParams& audio_params() const
-  {
-    return audio_params_;
-  }
+  const AudioParams& audio_params() const { return audio_params_; }
 
-  void set_audio_params(const AudioParams& p)
-  {
-    audio_params_ = p;
-  }
+  void set_audio_params(const AudioParams& p) { audio_params_ = p; }
 
-  const QString& cache_path() const
-  {
-    return cache_path_;
-  }
+  const QString& cache_path() const { return cache_path_; }
 
-  void set_cache_path(const QString& p)
-  {
-    cache_path_ = p;
-  }
+  void set_cache_path(const QString& p) { cache_path_ = p; }
 
-  const rational& length() const
-  {
-    return length_;
-  }
+  const rational& length() const { return length_; }
 
-  void set_length(const rational& length)
-  {
-    length_ = length;
-  }
+  void set_length(const rational& length) { length_ = length; }
 
-  const TimeRange &time() const { return time_; }
+  const TimeRange& time() const { return time_; }
 
   LoopMode loop_mode() const { return loop_mode_; }
   void set_loop_mode(LoopMode m) { loop_mode_ = m; }
 
-private:
+ private:
   TimeRange time_;
 
   QString decoder_;
@@ -121,11 +78,10 @@ private:
   rational length_;
 
   LoopMode loop_mode_;
-
 };
 
-}
+}  // namespace olive
 
 Q_DECLARE_METATYPE(olive::FootageJob)
 
-#endif // FOOTAGEJOB_H
+#endif  // FOOTAGEJOB_H

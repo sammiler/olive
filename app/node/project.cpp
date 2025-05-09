@@ -46,11 +46,7 @@ const QString Project::kRootKey = QStringLiteral("root");
 
 const QString Project::kItemMimeType = QStringLiteral("application/x-oliveprojectitemdata");
 
-Project::Project() :
-  root_(nullptr),
-  is_modified_(false),
-  autorecovery_saved_(true)
-{
+Project::Project() : root_(nullptr), is_modified_(false), autorecovery_saved_(true) {
   // Generate UUID for this project
   RegenerateUuid();
 
@@ -59,13 +55,9 @@ Project::Project() :
   color_manager_->Init();
 }
 
-Project::~Project()
-{
-  Clear();
-}
+Project::~Project() { Clear(); }
 
-void Project::Initialize()
-{
+void Project::Initialize() {
   if (!root_) {
     root_ = new Folder();
     root_->setParent(this);
@@ -74,11 +66,10 @@ void Project::Initialize()
   }
 }
 
-void Project::Clear()
-{
+void Project::Clear() {
   // By deleting the last nodes first, we assume that nodes that are most important are deleted last
   // (e.g. Project's ColorManager or ProjectSettingsNode.
-  for (auto it=node_children_.cbegin(); it!=node_children_.cend(); it++) {
+  for (auto it = node_children_.cbegin(); it != node_children_.cend(); it++) {
     (*it)->SetCachesEnabled(false);
   }
 
@@ -87,17 +78,14 @@ void Project::Clear()
   }
 }
 
-SerializedData Project::Load(QXmlStreamReader *reader)
-{
+SerializedData Project::Load(QXmlStreamReader *reader) {
   SerializedData data;
 
   while (XMLReadNextStartElement(reader)) {
     if (reader->name() == QStringLiteral("uuid")) {
-
       this->SetUuid(QUuid::fromString(reader->readElementText()));
 
     } else if (reader->name() == QStringLiteral("nodes")) {
-
       while (XMLReadNextStartElement(reader)) {
         if (reader->name() == QStringLiteral("node")) {
           QString id;
@@ -114,7 +102,7 @@ SerializedData Project::Load(QXmlStreamReader *reader)
             qWarning() << "Failed to load node with empty ID";
             reader->skipCurrentElement();
           } else {
-            Node* node = NodeFactory::CreateFromID(id);
+            Node *node = NodeFactory::CreateFromID(id);
 
             if (!node) {
               qWarning() << "Failed to find node with ID" << id;
@@ -140,10 +128,8 @@ SerializedData Project::Load(QXmlStreamReader *reader)
         SetSetting(key, val);
       }
     } else {
-
       // Skip this
       reader->skipCurrentElement();
-
     }
   }
 
@@ -153,7 +139,7 @@ SerializedData Project::Load(QXmlStreamReader *reader)
     quintptr r = root.toULongLong();
     if (Node *n = data.node_ptrs.value(r)) {
       Q_ASSERT(!root_);
-      root_ = dynamic_cast<Folder*>(n);
+      root_ = dynamic_cast<Folder *>(n);
       SetSetting(kRootKey, QString::number(reinterpret_cast<quintptr>(root_)));
     }
   }
@@ -161,8 +147,7 @@ SerializedData Project::Load(QXmlStreamReader *reader)
   return data;
 }
 
-void Project::Save(QXmlStreamWriter *writer) const
-{
+void Project::Save(QXmlStreamWriter *writer) const {
   writer->writeAttribute(QStringLiteral("version"), QString::number(1));
 
   writer->writeTextElement(QStringLiteral("uuid"), this->GetUuid().toString());
@@ -170,15 +155,15 @@ void Project::Save(QXmlStreamWriter *writer) const
   if (!this->nodes().isEmpty()) {
     writer->writeStartElement(QStringLiteral("nodes"));
 
-    foreach (Node* node, this->nodes()) {
+    foreach (Node *node, this->nodes()) {
       writer->writeStartElement(QStringLiteral("node"));
 
       node->Save(writer);
 
-      writer->writeEndElement(); // node
+      writer->writeEndElement();  // node
     }
 
-    writer->writeEndElement(); // nodes
+    writer->writeEndElement();  // nodes
   }
 
   if (!this->settings_.isEmpty()) {
@@ -188,12 +173,11 @@ void Project::Save(QXmlStreamWriter *writer) const
       writer->writeTextElement(it.key(), it.value());
     }
 
-    writer->writeEndElement(); // settings
+    writer->writeEndElement();  // settings
   }
 }
 
-int Project::GetNumberOfContextsNodeIsIn(Node *node, bool except_itself) const
-{
+int Project::GetNumberOfContextsNodeIsIn(Node *node, bool except_itself) const {
   int count = 0;
 
   foreach (Node *ctx, node_children_) {
@@ -205,15 +189,13 @@ int Project::GetNumberOfContextsNodeIsIn(Node *node, bool except_itself) const
   return count;
 }
 
-void Project::childEvent(QChildEvent *event)
-{
+void Project::childEvent(QChildEvent *event) {
   super::childEvent(event);
 
-  Node* node = dynamic_cast<Node*>(event->child());
+  Node *node = dynamic_cast<Node *>(event->child());
 
   if (node) {
     if (event->type() == QEvent::ChildAdded) {
-
       node_children_.append(node);
 
       // Connect signals
@@ -222,10 +204,13 @@ void Project::childEvent(QChildEvent *event)
       connect(node, &Node::ValueChanged, this, &Project::ValueChanged, Qt::DirectConnection);
       connect(node, &Node::InputValueHintChanged, this, &Project::InputValueHintChanged, Qt::DirectConnection);
 
-      if (NodeGroup *group = dynamic_cast<NodeGroup*>(node)) {
-        connect(group, &NodeGroup::InputPassthroughAdded, this, &Project::GroupAddedInputPassthrough, Qt::DirectConnection);
-        connect(group, &NodeGroup::InputPassthroughRemoved, this, &Project::GroupRemovedInputPassthrough, Qt::DirectConnection);
-        connect(group, &NodeGroup::OutputPassthroughChanged, this, &Project::GroupChangedOutputPassthrough, Qt::DirectConnection);
+      if (NodeGroup *group = dynamic_cast<NodeGroup *>(node)) {
+        connect(group, &NodeGroup::InputPassthroughAdded, this, &Project::GroupAddedInputPassthrough,
+                Qt::DirectConnection);
+        connect(group, &NodeGroup::InputPassthroughRemoved, this, &Project::GroupRemovedInputPassthrough,
+                Qt::DirectConnection);
+        connect(group, &NodeGroup::OutputPassthroughChanged, this, &Project::GroupChangedOutputPassthrough,
+                Qt::DirectConnection);
       }
 
       emit NodeAdded(node);
@@ -233,21 +218,20 @@ void Project::childEvent(QChildEvent *event)
       node->AddedToGraphEvent(this);
 
       // Emit input connections
-      for (auto it=node->input_connections().cbegin(); it!=node->input_connections().cend(); it++) {
+      for (auto it = node->input_connections().cbegin(); it != node->input_connections().cend(); it++) {
         if (nodes().contains(it->second)) {
           emit InputConnected(it->second, it->first);
         }
       }
 
       // Emit output connections
-      for (auto it=node->output_connections().cbegin(); it!=node->output_connections().cend(); it++) {
+      for (auto it = node->output_connections().cbegin(); it != node->output_connections().cend(); it++) {
         if (nodes().contains(it->second.node())) {
           emit InputConnected(it->first, it->second);
         }
       }
 
     } else if (event->type() == QEvent::ChildRemoved) {
-
       node_children_.removeOne(node);
 
       // Disconnect signals
@@ -256,7 +240,7 @@ void Project::childEvent(QChildEvent *event)
       disconnect(node, &Node::ValueChanged, this, &Project::ValueChanged);
       disconnect(node, &Node::InputValueHintChanged, this, &Project::InputValueHintChanged);
 
-      if (NodeGroup *group = dynamic_cast<NodeGroup*>(node)) {
+      if (NodeGroup *group = dynamic_cast<NodeGroup *>(node)) {
         disconnect(group, &NodeGroup::InputPassthroughAdded, this, &Project::GroupAddedInputPassthrough);
         disconnect(group, &NodeGroup::InputPassthroughRemoved, this, &Project::GroupRemovedInputPassthrough);
         disconnect(group, &NodeGroup::OutputPassthroughChanged, this, &Project::GroupChangedOutputPassthrough);
@@ -274,8 +258,7 @@ void Project::childEvent(QChildEvent *event)
   }
 }
 
-QString Project::name() const
-{
+QString Project::name() const {
   if (filename_.isEmpty()) {
     return tr("(untitled)");
   } else {
@@ -283,13 +266,9 @@ QString Project::name() const
   }
 }
 
-const QString &Project::filename() const
-{
-  return filename_;
-}
+const QString &Project::filename() const { return filename_; }
 
-QString Project::pretty_filename() const
-{
+QString Project::pretty_filename() const {
   QString fn = filename();
 
   if (fn.isEmpty()) {
@@ -299,8 +278,7 @@ QString Project::pretty_filename() const
   }
 }
 
-void Project::set_filename(const QString &s)
-{
+void Project::set_filename(const QString &s) {
   filename_ = s;
 
 #ifdef Q_OS_WINDOWS
@@ -311,31 +289,20 @@ void Project::set_filename(const QString &s)
   emit NameChanged();
 }
 
-void Project::set_modified(bool e)
-{
+void Project::set_modified(bool e) {
   is_modified_ = e;
   set_autorecovery_saved(!e);
 
   emit ModifiedChanged(is_modified_);
 }
 
-bool Project::has_autorecovery_been_saved() const
-{
-  return autorecovery_saved_;
-}
+bool Project::has_autorecovery_been_saved() const { return autorecovery_saved_; }
 
-void Project::set_autorecovery_saved(bool e)
-{
-  autorecovery_saved_ = e;
-}
+void Project::set_autorecovery_saved(bool e) { autorecovery_saved_ = e; }
 
-bool Project::is_new() const
-{
-  return !is_modified_ && filename_.isEmpty();
-}
+bool Project::is_new() const { return !is_modified_ && filename_.isEmpty(); }
 
-QString Project::get_cache_alongside_project_path() const
-{
+QString Project::get_cache_alongside_project_path() const {
   if (!filename_.isEmpty()) {
     // Non-translated string so the path doesn't change if the language does
     return QFileInfo(filename_).dir().filePath(QStringLiteral("cache"));
@@ -343,46 +310,36 @@ QString Project::get_cache_alongside_project_path() const
   return QString();
 }
 
-QString Project::cache_path() const
-{
+QString Project::cache_path() const {
   CacheSetting setting = GetCacheLocationSetting();
 
   switch (setting) {
-  case kCacheUseDefaultLocation:
-    break;
-  case kCacheCustomPath:
-  {
-    QString cache_path = GetCustomCachePath();
-    if (cache_path.isEmpty()) {
-      return cache_path;
+    case kCacheUseDefaultLocation:
+      break;
+    case kCacheCustomPath: {
+      QString cache_path = GetCustomCachePath();
+      if (cache_path.isEmpty()) {
+        return cache_path;
+      }
+      break;
     }
-    break;
-  }
-  case kCacheStoreAlongsideProject:
-  {
-    QString alongside = get_cache_alongside_project_path();
-    if (!alongside.isEmpty()) {
-      return alongside;
+    case kCacheStoreAlongsideProject: {
+      QString alongside = get_cache_alongside_project_path();
+      if (!alongside.isEmpty()) {
+        return alongside;
+      }
+      break;
     }
-    break;
-  }
   }
 
   return DiskManager::instance()->GetDefaultCachePath();
 }
 
-void Project::RegenerateUuid()
-{
-  uuid_ = QUuid::createUuid();
-}
+void Project::RegenerateUuid() { uuid_ = QUuid::createUuid(); }
 
-Project *Project::GetProjectFromObject(const QObject *o)
-{
-  return QtUtils::GetParentOfType<Project>(o);
-}
+Project *Project::GetProjectFromObject(const QObject *o) { return QtUtils::GetParentOfType<Project>(o); }
 
-void Project::SetSetting(const QString &key, const QString &value)
-{
+void Project::SetSetting(const QString &key, const QString &value) {
   settings_.insert(key, value);
   emit SettingChanged(key, value);
 
@@ -395,4 +352,4 @@ void Project::SetSetting(const QString &key, const QString &value)
   }
 }
 
-}
+}  // namespace olive

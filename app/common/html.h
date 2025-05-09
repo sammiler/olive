@@ -25,19 +25,18 @@ namespace olive {
  * designed to store rich text in a standard format for the purpose of text formatting for video.
  */
 class Html {
-public:
+ public:
   static QString DocToHtml(const QTextDocument *doc);
 
   static void HtmlToDoc(QTextDocument *doc, const QString &html);
 
-private:
+ private:
   static void WriteBlock(QXmlStreamWriter *writer, const QTextBlock &block);
 
   static void WriteFragment(QXmlStreamWriter *writer, const QTextFragment &fragment);
 
   static void WriteCSSProperty(QString *style, const QString &key, const QStringList &value);
-  static void WriteCSSProperty(QString *style, const QString &key, const QString &value)
-  {
+  static void WriteCSSProperty(QString *style, const QString &key, const QString &value) {
     WriteCSSProperty(style, key, QStringList({value}));
   }
 
@@ -52,9 +51,8 @@ private:
   static QMap<QString, QStringList> GetCSSFromStyle(const QString &s);
 
   static const QVector<QString> kBlockTags;
-
 };
 
-}
+}  // namespace olive
 
-#endif // HTML_H
+#endif  // HTML_H

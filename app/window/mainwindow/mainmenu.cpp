@@ -30,18 +30,16 @@
 #include "dialog/actionsearch/actionsearch.h"
 #include "dialog/diskcache/diskcachedialog.h"
 #include "dialog/task/task.h"
+#include "mainwindow.h"
 #include "panel/panelmanager.h"
 #include "tool/tool.h"
 #include "ui/style/style.h"
 #include "undo/undostack.h"
 #include "widget/menu/menushared.h"
-#include "mainwindow.h"
 
 namespace olive {
 
-MainMenu::MainMenu(MainWindow *parent) :
-  QMenuBar(parent)
-{
+MainMenu::MainMenu(MainWindow* parent) : QMenuBar(parent) {
   //
   // FILE MENU
   //
@@ -51,7 +49,8 @@ MainMenu::MainMenu(MainWindow *parent) :
   file_open_item_ = file_menu_->AddItem("openproj", Core::instance(), &Core::OpenProject, tr("Ctrl+O"));
   file_open_recent_menu_ = new Menu(file_menu_);
   file_open_recent_separator_ = file_open_recent_menu_->addSeparator();
-  file_open_recent_clear_item_ = file_open_recent_menu_->AddItem("clearopenrecent", Core::instance(), &Core::ClearOpenRecentList);
+  file_open_recent_clear_item_ =
+      file_open_recent_menu_->AddItem("clearopenrecent", Core::instance(), &Core::ClearOpenRecentList);
   file_save_item_ = file_menu_->AddItem("saveproj", Core::instance(), &Core::SaveProject, tr("Ctrl+S"));
   file_save_as_item_ = file_menu_->AddItem("saveprojas", Core::instance(), &Core::SaveProjectAs, tr("Ctrl+Shift+S"));
   file_menu_->addSeparator();
@@ -60,9 +59,11 @@ MainMenu::MainMenu(MainWindow *parent) :
   file_import_item_ = file_menu_->AddItem("import", Core::instance(), &Core::DialogImportShow, tr("Ctrl+I"));
   file_menu_->addSeparator();
   file_export_menu_ = new Menu(file_menu_);
-  file_export_media_item_ = file_export_menu_->AddItem("export", Core::instance(), &Core::DialogExportShow, tr("Ctrl+M"));
+  file_export_media_item_ =
+      file_export_menu_->AddItem("export", Core::instance(), &Core::DialogExportShow, tr("Ctrl+M"));
   file_menu_->addSeparator();
-  file_project_properties_item_ = file_menu_->AddItem("projectproperties", Core::instance(), &Core::DialogProjectPropertiesShow, tr("Shift+F10"));
+  file_project_properties_item_ =
+      file_menu_->AddItem("projectproperties", Core::instance(), &Core::DialogProjectPropertiesShow, tr("Shift+F10"));
   file_menu_->addSeparator();
   file_exit_item_ = file_menu_->AddItem("exit", parent, &MainWindow::close);
 
@@ -87,13 +88,16 @@ MainMenu::MainMenu(MainWindow *parent) :
     // Create "alternate delete" action so we can pick up backspace as well as delete while still
     // keeping them configurable
     edit_delete2_item_ = new QAction();
-    Menu::ConformItem(edit_delete2_item_, "delete2", MenuShared::instance(), &MenuShared::DeleteSelectedTriggered, tr("Backspace"));
+    Menu::ConformItem(edit_delete2_item_, "delete2", MenuShared::instance(), &MenuShared::DeleteSelectedTriggered,
+                      tr("Backspace"));
     auto actions = edit_menu_->actions();
-    edit_menu_->insertAction(actions.at(actions.indexOf(MenuShared::instance()->edit_delete_item()) + 1), edit_delete2_item_);
+    edit_menu_->insertAction(actions.at(actions.indexOf(MenuShared::instance()->edit_delete_item()) + 1),
+                             edit_delete2_item_);
   }
   edit_menu_->addSeparator();
   edit_select_all_item_ = edit_menu_->AddItem("selectall", this, &MainMenu::SelectAllTriggered, tr("Ctrl+A"));
-  edit_deselect_all_item_ = edit_menu_->AddItem("deselectall", this, &MainMenu::DeselectAllTriggered, tr("Ctrl+Shift+A"));
+  edit_deselect_all_item_ =
+      edit_menu_->AddItem("deselectall", this, &MainMenu::DeselectAllTriggered, tr("Ctrl+Shift+A"));
   edit_menu_->addSeparator();
   MenuShared::instance()->AddItemsForClipEditMenu(edit_menu_);
   edit_menu_->addSeparator();
@@ -107,12 +111,15 @@ MainMenu::MainMenu(MainWindow *parent) :
   edit_menu_->addSeparator();
   edit_nudge_left_item_ = edit_menu_->AddItem("nudgeleft", this, &MainMenu::NudgeLeftTriggered, tr("Alt+Left"));
   edit_nudge_right_item_ = edit_menu_->AddItem("nudgeright", this, &MainMenu::NudgeRightTriggered, tr("Alt+Right"));
-  edit_move_in_to_playhead_item_ = edit_menu_->AddItem("moveintoplayhead", this, &MainMenu::MoveInToPlayheadTriggered, tr("["));
-  edit_move_out_to_playhead_item_ = edit_menu_->AddItem("moveouttoplayhead", this, &MainMenu::MoveOutToPlayheadTriggered, tr("]"));
+  edit_move_in_to_playhead_item_ =
+      edit_menu_->AddItem("moveintoplayhead", this, &MainMenu::MoveInToPlayheadTriggered, tr("["));
+  edit_move_out_to_playhead_item_ =
+      edit_menu_->AddItem("moveouttoplayhead", this, &MainMenu::MoveOutToPlayheadTriggered, tr("]"));
   edit_menu_->addSeparator();
   MenuShared::instance()->AddItemsForInOutMenu(edit_menu_);
   edit_delete_inout_item_ = edit_menu_->AddItem("deleteinout", this, &MainMenu::DeleteInOutTriggered, tr(";"));
-  edit_ripple_delete_inout_item_ = edit_menu_->AddItem("rippledeleteinout", this, &MainMenu::RippleDeleteInOutTriggered, tr("'"));
+  edit_ripple_delete_inout_item_ =
+      edit_menu_->AddItem("rippledeleteinout", this, &MainMenu::RippleDeleteInOutTriggered, tr("'"));
   edit_menu_->addSeparator();
   edit_set_marker_item_ = edit_menu_->AddItem("marker", this, &MainMenu::SetMarkerTriggered, tr("M"));
 
@@ -122,8 +129,10 @@ MainMenu::MainMenu(MainWindow *parent) :
   view_menu_ = new Menu(this, this, &MainMenu::ViewMenuAboutToShow);
   view_zoom_in_item_ = view_menu_->AddItem("zoomin", this, &MainMenu::ZoomInTriggered, tr("="));
   view_zoom_out_item_ = view_menu_->AddItem("zoomout", this, &MainMenu::ZoomOutTriggered, tr("-"));
-  view_increase_track_height_item_ = view_menu_->AddItem("vzoomin", this, &MainMenu::IncreaseTrackHeightTriggered, tr("Ctrl+="));
-  view_decrease_track_height_item_ = view_menu_->AddItem("vzoomout", this, &MainMenu::DecreaseTrackHeightTriggered, tr("Ctrl+-"));
+  view_increase_track_height_item_ =
+      view_menu_->AddItem("vzoomin", this, &MainMenu::IncreaseTrackHeightTriggered, tr("Ctrl+="));
+  view_decrease_track_height_item_ =
+      view_menu_->AddItem("vzoomout", this, &MainMenu::DecreaseTrackHeightTriggered, tr("Ctrl+-"));
   view_show_all_item_ = view_menu_->AddItem("showall", this, &MainMenu::ToggleShowAllTriggered, tr("\\"));
   view_show_all_item_->setCheckable(true);
 
@@ -141,7 +150,8 @@ MainMenu::MainMenu(MainWindow *parent) :
   playback_gotostart_item_ = playback_menu_->AddItem("gotostart", this, &MainMenu::GoToStartTriggered, tr("Home"));
   playback_prevframe_item_ = playback_menu_->AddItem("prevframe", this, &MainMenu::PrevFrameTriggered, tr("Left"));
   playback_playpause_item_ = playback_menu_->AddItem("playpause", this, &MainMenu::PlayPauseTriggered, tr("Space"));
-  playback_playinout_item_ = playback_menu_->AddItem("playintoout", this, &MainMenu::PlayInToOutTriggered, tr("Shift+Space"));
+  playback_playinout_item_ =
+      playback_menu_->AddItem("playintoout", this, &MainMenu::PlayInToOutTriggered, tr("Shift+Space"));
   playback_nextframe_item_ = playback_menu_->AddItem("nextframe", this, &MainMenu::NextFrameTriggered, tr("Right"));
   playback_gotoend_item_ = playback_menu_->AddItem("gotoend", this, &MainMenu::GoToEndTriggered, tr("End"));
 
@@ -172,11 +182,13 @@ MainMenu::MainMenu(MainWindow *parent) :
 
   sequence_menu_ = new Menu(this, this, &MainMenu::SequenceMenuAboutToShow);
   sequence_cache_item_ = sequence_menu_->AddItem("seqcache", this, &MainMenu::SequenceCacheTriggered);
-  sequence_cache_in_to_out_item_ = sequence_menu_->AddItem("seqcacheinout", this, &MainMenu::SequenceCacheInOutTriggered);
+  sequence_cache_in_to_out_item_ =
+      sequence_menu_->AddItem("seqcacheinout", this, &MainMenu::SequenceCacheInOutTriggered);
 
   sequence_menu_->addSeparator();
 
-  sequence_disk_cache_clear_item_ = sequence_menu_->AddItem("seqcacheclear", this, &MainMenu::SequenceCacheClearTriggered);
+  sequence_disk_cache_clear_item_ =
+      sequence_menu_->AddItem("seqcacheclear", this, &MainMenu::SequenceCacheClearTriggered);
 
   // TEMP: Hide sequence cache items for now. Want to see if clip caching will supersede it.
   sequence_cache_item_->setVisible(false);
@@ -187,7 +199,8 @@ MainMenu::MainMenu(MainWindow *parent) :
   //
   window_menu_ = new Menu(this, this, &MainMenu::WindowMenuAboutToShow);
   window_menu_separator_ = window_menu_->addSeparator();
-  window_maximize_panel_item_ = window_menu_->AddItem("maximizepanel", parent, &MainWindow::ToggleMaximizedPanel, tr("`"));
+  window_maximize_panel_item_ =
+      window_menu_->AddItem("maximizepanel", parent, &MainWindow::ToggleMaximizedPanel, tr("`"));
   window_menu_->addSeparator();
   window_reset_layout_item_ = window_menu_->AddItem("resetdefaultlayout", parent, &MainWindow::SetDefaultLayout);
 
@@ -302,16 +315,14 @@ MainMenu::MainMenu(MainWindow *parent) :
   Retranslate();
 }
 
-void MainMenu::changeEvent(QEvent *e)
-{
+void MainMenu::changeEvent(QEvent* e) {
   if (e->type() == QEvent::LanguageChange) {
     Retranslate();
   }
   QMenuBar::changeEvent(e);
 }
 
-void MainMenu::ToolItemTriggered()
-{
+void MainMenu::ToolItemTriggered() {
   // Assume the sender is a QAction
   QAction* action = static_cast<QAction*>(sender());
 
@@ -322,8 +333,7 @@ void MainMenu::ToolItemTriggered()
   Core::instance()->SetTool(tool);
 }
 
-void MainMenu::FileMenuAboutToShow()
-{
+void MainMenu::FileMenuAboutToShow() {
   Project* active_project = Core::instance()->GetActiveProject();
 
   file_save_item_->setEnabled(active_project);
@@ -338,18 +348,11 @@ void MainMenu::FileMenuAboutToShow()
   }
 }
 
-void MainMenu::EditMenuAboutToShow()
-{
-  edit_delete2_item_->setVisible(false);
-}
+void MainMenu::EditMenuAboutToShow() { edit_delete2_item_->setVisible(false); }
 
-void MainMenu::EditMenuAboutToHide()
-{
-  edit_delete2_item_->setVisible(true);
-}
+void MainMenu::EditMenuAboutToHide() { edit_delete2_item_->setVisible(true); }
 
-void MainMenu::ViewMenuAboutToShow()
-{
+void MainMenu::ViewMenuAboutToShow() {
   // Parent is QMainWindow
   view_full_screen_item_->setChecked(parentWidget()->isFullScreen());
 
@@ -366,8 +369,7 @@ void MainMenu::ViewMenuAboutToShow()
   MenuShared::instance()->AboutToShowTimeRulerActions(p->timebase());
 }
 
-void MainMenu::ToolsMenuAboutToShow()
-{
+void MainMenu::ToolsMenuAboutToShow() {
   // Ensure checked Tool is correct
   QList<QAction*> tool_actions = tools_group_->actions();
   foreach (QAction* a, tool_actions) {
@@ -381,13 +383,9 @@ void MainMenu::ToolsMenuAboutToShow()
   tools_snapping_item_->setChecked(Core::instance()->snapping());
 }
 
-void MainMenu::PlaybackMenuAboutToShow()
-{
-  playback_loop_item_->setChecked(OLIVE_CONFIG("Loop").toBool());
-}
+void MainMenu::PlaybackMenuAboutToShow() { playback_loop_item_->setChecked(OLIVE_CONFIG("Loop").toBool()); }
 
-void MainMenu::SequenceMenuAboutToShow()
-{
+void MainMenu::SequenceMenuAboutToShow() {
   TimeBasedPanel* p = PanelManager::instance()->MostRecentlyFocused<TimeBasedPanel>();
 
   bool can_cache_sequence = (p && p->GetConnectedViewer());
@@ -396,8 +394,7 @@ void MainMenu::SequenceMenuAboutToShow()
   sequence_cache_in_to_out_item_->setEnabled(can_cache_sequence);
 }
 
-void MainMenu::WindowMenuAboutToShow()
-{
+void MainMenu::WindowMenuAboutToShow() {
   // Remove any previous items
   while (window_menu_->actions().first() != window_menu_separator_) {
     window_menu_->removeAction(window_menu_->actions().first());
@@ -412,7 +409,7 @@ void MainMenu::WindowMenuAboutToShow()
 
     bool inserted = false;
 
-    for (int i=0;i<panel_actions.size();i++) {
+    for (int i = 0; i < panel_actions.size(); i++) {
       if (panel_actions.at(i)->text() > panel_action->text()) {
         panel_actions.insert(i, panel_action);
         inserted = true;
@@ -429,263 +426,144 @@ void MainMenu::WindowMenuAboutToShow()
   window_menu_->insertActions(window_menu_separator_, panel_actions);
 }
 
-void MainMenu::PopulateOpenRecent()
-{
+void MainMenu::PopulateOpenRecent() {
   if (Core::instance()->GetRecentProjects().isEmpty()) {
-
     // Insert dummy/disabled action to show there's nothing
     QAction* a = new QAction(tr("(None)"));
     a->setEnabled(false);
     file_open_recent_menu_->insertAction(file_open_recent_separator_, a);
 
   } else {
-
     // Populate menu with recently opened projects
-    for (int i=0;i<Core::instance()->GetRecentProjects().size();i++) {
+    for (int i = 0; i < Core::instance()->GetRecentProjects().size(); i++) {
       QAction* a = new QAction(Core::instance()->GetRecentProjects().at(i));
       a->setData(i);
       connect(a, &QAction::triggered, this, &MainMenu::OpenRecentItemTriggered);
       file_open_recent_menu_->insertAction(file_open_recent_separator_, a);
     }
-
   }
 }
 
-void MainMenu::RepopulateOpenRecent()
-{
+void MainMenu::RepopulateOpenRecent() {
   CloseOpenRecentMenu();
   PopulateOpenRecent();
 }
 
-void MainMenu::CloseOpenRecentMenu()
-{
+void MainMenu::CloseOpenRecentMenu() {
   while (file_open_recent_menu_->actions().first() != file_open_recent_separator_) {
     file_open_recent_menu_->removeAction(file_open_recent_menu_->actions().first());
   }
 }
 
-void MainMenu::ZoomInTriggered()
-{
-  PanelManager::instance()->CurrentlyFocused()->ZoomIn();
-}
+void MainMenu::ZoomInTriggered() { PanelManager::instance()->CurrentlyFocused()->ZoomIn(); }
 
-void MainMenu::ZoomOutTriggered()
-{
-  PanelManager::instance()->CurrentlyFocused()->ZoomOut();
-}
+void MainMenu::ZoomOutTriggered() { PanelManager::instance()->CurrentlyFocused()->ZoomOut(); }
 
-void MainMenu::IncreaseTrackHeightTriggered()
-{
-  PanelManager::instance()->CurrentlyFocused()->IncreaseTrackHeight();
-}
+void MainMenu::IncreaseTrackHeightTriggered() { PanelManager::instance()->CurrentlyFocused()->IncreaseTrackHeight(); }
 
-void MainMenu::DecreaseTrackHeightTriggered()
-{
-  PanelManager::instance()->CurrentlyFocused()->DecreaseTrackHeight();
-}
+void MainMenu::DecreaseTrackHeightTriggered() { PanelManager::instance()->CurrentlyFocused()->DecreaseTrackHeight(); }
 
-void MainMenu::GoToStartTriggered()
-{
-  PanelManager::instance()->CurrentlyFocused()->GoToStart();
-}
+void MainMenu::GoToStartTriggered() { PanelManager::instance()->CurrentlyFocused()->GoToStart(); }
 
-void MainMenu::PrevFrameTriggered()
-{
-  PanelManager::instance()->CurrentlyFocused()->PrevFrame();
-}
+void MainMenu::PrevFrameTriggered() { PanelManager::instance()->CurrentlyFocused()->PrevFrame(); }
 
-void MainMenu::PlayPauseTriggered()
-{
-  PanelManager::instance()->CurrentlyFocused()->PlayPause();
-}
+void MainMenu::PlayPauseTriggered() { PanelManager::instance()->CurrentlyFocused()->PlayPause(); }
 
-void MainMenu::PlayInToOutTriggered()
-{
-  PanelManager::instance()->CurrentlyFocused()->PlayInToOut();
-}
+void MainMenu::PlayInToOutTriggered() { PanelManager::instance()->CurrentlyFocused()->PlayInToOut(); }
 
-void MainMenu::LoopTriggered(bool enabled)
-{
-  OLIVE_CONFIG("Loop") = enabled;
-}
+void MainMenu::LoopTriggered(bool enabled) { OLIVE_CONFIG("Loop") = enabled; }
 
-void MainMenu::NextFrameTriggered()
-{
-  PanelManager::instance()->CurrentlyFocused()->NextFrame();
-}
+void MainMenu::NextFrameTriggered() { PanelManager::instance()->CurrentlyFocused()->NextFrame(); }
 
-void MainMenu::GoToEndTriggered()
-{
-  PanelManager::instance()->CurrentlyFocused()->GoToEnd();
-}
+void MainMenu::GoToEndTriggered() { PanelManager::instance()->CurrentlyFocused()->GoToEnd(); }
 
-void MainMenu::SelectAllTriggered()
-{
-  PanelManager::instance()->CurrentlyFocused()->SelectAll();
-}
+void MainMenu::SelectAllTriggered() { PanelManager::instance()->CurrentlyFocused()->SelectAll(); }
 
-void MainMenu::DeselectAllTriggered()
-{
-  PanelManager::instance()->CurrentlyFocused()->DeselectAll();
-}
+void MainMenu::DeselectAllTriggered() { PanelManager::instance()->CurrentlyFocused()->DeselectAll(); }
 
-void MainMenu::InsertTriggered()
-{
+void MainMenu::InsertTriggered() {
   FootageManagementPanel* project_panel = PanelManager::instance()->MostRecentlyFocused<FootageManagementPanel>();
-  TimelinePanel *timeline_panel = PanelManager::instance()->MostRecentlyFocused<TimelinePanel>();
+  TimelinePanel* timeline_panel = PanelManager::instance()->MostRecentlyFocused<TimelinePanel>();
 
   if (project_panel && timeline_panel) {
     timeline_panel->InsertFootageAtPlayhead(project_panel->GetSelectedFootage());
   }
 }
 
-void MainMenu::OverwriteTriggered()
-{
+void MainMenu::OverwriteTriggered() {
   FootageManagementPanel* project_panel = PanelManager::instance()->MostRecentlyFocused<FootageManagementPanel>();
-  TimelinePanel *timeline_panel = PanelManager::instance()->MostRecentlyFocused<TimelinePanel>();
+  TimelinePanel* timeline_panel = PanelManager::instance()->MostRecentlyFocused<TimelinePanel>();
 
   if (project_panel && timeline_panel) {
     timeline_panel->OverwriteFootageAtPlayhead(project_panel->GetSelectedFootage());
   }
 }
 
-void MainMenu::RippleToInTriggered()
-{
-  PanelManager::instance()->CurrentlyFocused()->RippleToIn();
-}
+void MainMenu::RippleToInTriggered() { PanelManager::instance()->CurrentlyFocused()->RippleToIn(); }
 
-void MainMenu::RippleToOutTriggered()
-{
-  PanelManager::instance()->CurrentlyFocused()->RippleToOut();
-}
+void MainMenu::RippleToOutTriggered() { PanelManager::instance()->CurrentlyFocused()->RippleToOut(); }
 
-void MainMenu::EditToInTriggered()
-{
-  PanelManager::instance()->CurrentlyFocused()->EditToIn();
-}
+void MainMenu::EditToInTriggered() { PanelManager::instance()->CurrentlyFocused()->EditToIn(); }
 
-void MainMenu::EditToOutTriggered()
-{
-  PanelManager::instance()->CurrentlyFocused()->EditToOut();
-}
+void MainMenu::EditToOutTriggered() { PanelManager::instance()->CurrentlyFocused()->EditToOut(); }
 
-void MainMenu::NudgeLeftTriggered()
-{
-  PanelManager::instance()->CurrentlyFocused()->NudgeLeft();
-}
+void MainMenu::NudgeLeftTriggered() { PanelManager::instance()->CurrentlyFocused()->NudgeLeft(); }
 
-void MainMenu::NudgeRightTriggered()
-{
-  PanelManager::instance()->CurrentlyFocused()->NudgeRight();
-}
+void MainMenu::NudgeRightTriggered() { PanelManager::instance()->CurrentlyFocused()->NudgeRight(); }
 
-void MainMenu::MoveInToPlayheadTriggered()
-{
-  PanelManager::instance()->CurrentlyFocused()->MoveInToPlayhead();
-}
+void MainMenu::MoveInToPlayheadTriggered() { PanelManager::instance()->CurrentlyFocused()->MoveInToPlayhead(); }
 
-void MainMenu::MoveOutToPlayheadTriggered()
-{
-  PanelManager::instance()->CurrentlyFocused()->MoveOutToPlayhead();
-}
+void MainMenu::MoveOutToPlayheadTriggered() { PanelManager::instance()->CurrentlyFocused()->MoveOutToPlayhead(); }
 
-void MainMenu::ActionSearchTriggered()
-{
+void MainMenu::ActionSearchTriggered() {
   ActionSearch as(parentWidget());
   as.SetMenuBar(this);
   as.exec();
 }
 
-void MainMenu::ShuttleLeftTriggered()
-{
-  PanelManager::instance()->CurrentlyFocused()->ShuttleLeft();
-}
+void MainMenu::ShuttleLeftTriggered() { PanelManager::instance()->CurrentlyFocused()->ShuttleLeft(); }
 
-void MainMenu::ShuttleStopTriggered()
-{
-  PanelManager::instance()->CurrentlyFocused()->ShuttleStop();
-}
+void MainMenu::ShuttleStopTriggered() { PanelManager::instance()->CurrentlyFocused()->ShuttleStop(); }
 
-void MainMenu::ShuttleRightTriggered()
-{
-  PanelManager::instance()->CurrentlyFocused()->ShuttleRight();
-}
+void MainMenu::ShuttleRightTriggered() { PanelManager::instance()->CurrentlyFocused()->ShuttleRight(); }
 
-void MainMenu::GoToPrevCutTriggered()
-{
-  PanelManager::instance()->CurrentlyFocused()->GoToPrevCut();
-}
+void MainMenu::GoToPrevCutTriggered() { PanelManager::instance()->CurrentlyFocused()->GoToPrevCut(); }
 
-void MainMenu::GoToNextCutTriggered()
-{
-  PanelManager::instance()->CurrentlyFocused()->GoToNextCut();
-}
+void MainMenu::GoToNextCutTriggered() { PanelManager::instance()->CurrentlyFocused()->GoToNextCut(); }
 
-void MainMenu::SetMarkerTriggered()
-{
-  PanelManager::instance()->CurrentlyFocused()->SetMarker();
-}
+void MainMenu::SetMarkerTriggered() { PanelManager::instance()->CurrentlyFocused()->SetMarker(); }
 
-void MainMenu::FullScreenViewerTriggered()
-{
+void MainMenu::FullScreenViewerTriggered() {
   PanelManager::instance()->MostRecentlyFocused<ViewerPanel>()->SetFullScreen();
 }
 
-void MainMenu::ToggleShowAllTriggered()
-{
-  PanelManager::instance()->CurrentlyFocused()->ToggleShowAll();
-}
+void MainMenu::ToggleShowAllTriggered() { PanelManager::instance()->CurrentlyFocused()->ToggleShowAll(); }
 
-void MainMenu::DeleteInOutTriggered()
-{
-  PanelManager::instance()->CurrentlyFocused()->DeleteInToOut();
-}
+void MainMenu::DeleteInOutTriggered() { PanelManager::instance()->CurrentlyFocused()->DeleteInToOut(); }
 
-void MainMenu::RippleDeleteInOutTriggered()
-{
-  PanelManager::instance()->CurrentlyFocused()->RippleDeleteInToOut();
-}
+void MainMenu::RippleDeleteInOutTriggered() { PanelManager::instance()->CurrentlyFocused()->RippleDeleteInToOut(); }
 
-void MainMenu::GoToInTriggered()
-{
-  PanelManager::instance()->CurrentlyFocused()->GoToIn();
-}
+void MainMenu::GoToInTriggered() { PanelManager::instance()->CurrentlyFocused()->GoToIn(); }
 
-void MainMenu::GoToOutTriggered()
-{
-  PanelManager::instance()->CurrentlyFocused()->GoToOut();
-}
+void MainMenu::GoToOutTriggered() { PanelManager::instance()->CurrentlyFocused()->GoToOut(); }
 
-void MainMenu::OpenRecentItemTriggered()
-{
+void MainMenu::OpenRecentItemTriggered() {
   Core::instance()->OpenProjectFromRecentList(static_cast<QAction*>(sender())->data().toInt());
 }
 
-void MainMenu::SequenceCacheTriggered()
-{
-  Core::instance()->CacheActiveSequence(false);
+void MainMenu::SequenceCacheTriggered() { Core::instance()->CacheActiveSequence(false); }
+
+void MainMenu::SequenceCacheInOutTriggered() { Core::instance()->CacheActiveSequence(true); }
+
+void MainMenu::SequenceCacheClearTriggered() {
+  DiskCacheDialog::ClearDiskCache(Core::instance()->GetActiveProject()->cache_path(), Core::instance()->main_window());
 }
 
-void MainMenu::SequenceCacheInOutTriggered()
-{
-  Core::instance()->CacheActiveSequence(true);
-}
-
-void MainMenu::SequenceCacheClearTriggered()
-{
-  DiskCacheDialog::ClearDiskCache(
-        Core::instance()->GetActiveProject()->cache_path(),
-        Core::instance()->main_window()
-        );
-}
-
-void MainMenu::HelpFeedbackTriggered()
-{
+void MainMenu::HelpFeedbackTriggered() {
   QDesktopServices::openUrl(QStringLiteral("https://github.com/olive-editor/olive/issues"));
 }
 
-void MainMenu::Retranslate()
-{
+void MainMenu::Retranslate() {
   // MenuShared is not a QWidget and therefore does not receive a LanguageEvent, we use MainMenu's to update it
   MenuShared::instance()->Retranslate();
 
@@ -704,7 +582,7 @@ void MainMenu::Retranslate()
 
   // Edit menu
   edit_menu_->setTitle(tr("&Edit"));
-  Core::instance()->undo_stack()->UpdateActions(); // Update undo and redo
+  Core::instance()->undo_stack()->UpdateActions();  // Update undo and redo
   edit_delete2_item_->setText(tr("Delete (alt)"));
   edit_insert_item_->setText(tr("Insert"));
   edit_overwrite_item_->setText(tr("Overwrite"));
@@ -791,4 +669,4 @@ void MainMenu::Retranslate()
   help_about_item_->setText(tr("&About..."));
 }
 
-}
+}  // namespace olive

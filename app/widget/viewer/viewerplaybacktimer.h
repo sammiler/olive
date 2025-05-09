@@ -28,21 +28,20 @@
 namespace olive {
 
 class ViewerPlaybackTimer {
-public:
+ public:
   void Start(const int64_t& start_timestamp, const int& playback_speed, const double& timebase);
 
   int64_t GetTimestampNow() const;
 
-private:
+ private:
   qint64 start_msec_;
   int64_t start_timestamp_;
 
   int playback_speed_;
 
   double timebase_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // VIEWERPLAYBACKTIMER_H
+#endif  // VIEWERPLAYBACKTIMER_H

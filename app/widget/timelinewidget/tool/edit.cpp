@@ -23,20 +23,15 @@
 
 namespace olive {
 
-EditTool::EditTool(TimelineWidget* parent) :
-  BeamTool(parent)
-{
-}
+EditTool::EditTool(TimelineWidget *parent) : BeamTool(parent) {}
 
-void EditTool::MousePress(TimelineViewMouseEvent *event)
-{
+void EditTool::MousePress(TimelineViewMouseEvent *event) {
   if (!(event->GetModifiers() & Qt::ShiftModifier)) {
     parent()->DeselectAll();
   }
 }
 
-void EditTool::MouseMove(TimelineViewMouseEvent *event)
-{
+void EditTool::MouseMove(TimelineViewMouseEvent *event) {
   if (dragging_) {
     rational end_frame = event->GetFrame(true);
 
@@ -49,8 +44,7 @@ void EditTool::MouseMove(TimelineViewMouseEvent *event)
     }
 
     parent()->SetSelections(start_selections_, false);
-    parent()->AddSelection(TimeRange(start_coord_.GetFrame(), end_frame),
-                           start_coord_.GetTrack());
+    parent()->AddSelection(TimeRange(start_coord_.GetFrame(), end_frame), start_coord_.GetTrack());
   } else {
     start_selections_ = parent()->GetSelections();
 
@@ -71,8 +65,7 @@ void EditTool::MouseMove(TimelineViewMouseEvent *event)
   }
 }
 
-void EditTool::MouseRelease(TimelineViewMouseEvent *event)
-{
+void EditTool::MouseRelease(TimelineViewMouseEvent *event) {
   auto current_sel = parent()->GetSelections();
   parent()->SetSelections(start_selections_, false);
   parent()->SetSelections(current_sel, true);
@@ -80,13 +73,12 @@ void EditTool::MouseRelease(TimelineViewMouseEvent *event)
   dragging_ = false;
 }
 
-void EditTool::MouseDoubleClick(TimelineViewMouseEvent *event)
-{
-  Block* item = parent()->GetItemAtScenePos(event->GetCoordinates());
+void EditTool::MouseDoubleClick(TimelineViewMouseEvent *event) {
+  Block *item = parent()->GetItemAtScenePos(event->GetCoordinates());
 
   if (item && !item->track()->IsLocked()) {
     parent()->AddSelection(item);
   }
 }
 
-}
+}  // namespace olive

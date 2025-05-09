@@ -22,19 +22,11 @@
 
 namespace olive {
 
-TimeTargetObject::TimeTargetObject() :
-  time_target_(nullptr),
-  path_index_(0)
-{
-}
+TimeTargetObject::TimeTargetObject() : time_target_(nullptr), path_index_(0) {}
 
-ViewerOutput *TimeTargetObject::GetTimeTarget() const
-{
-  return time_target_;
-}
+ViewerOutput* TimeTargetObject::GetTimeTarget() const { return time_target_; }
 
-void TimeTargetObject::SetTimeTarget(ViewerOutput *target)
-{
+void TimeTargetObject::SetTimeTarget(ViewerOutput* target) {
   if (time_target_) {
     TimeTargetDisconnectEvent(time_target_);
   }
@@ -47,13 +39,10 @@ void TimeTargetObject::SetTimeTarget(ViewerOutput *target)
   }
 }
 
-void TimeTargetObject::SetPathIndex(int index)
-{
-  path_index_ = index;
-}
+void TimeTargetObject::SetPathIndex(int index) { path_index_ = index; }
 
-rational TimeTargetObject::GetAdjustedTime(Node* from, Node* to, const rational &r, Node::TransformTimeDirection dir) const
-{
+rational TimeTargetObject::GetAdjustedTime(Node* from, Node* to, const rational& r,
+                                           Node::TransformTimeDirection dir) const {
   if (!from || !to) {
     return r;
   }
@@ -61,8 +50,8 @@ rational TimeTargetObject::GetAdjustedTime(Node* from, Node* to, const rational 
   return GetAdjustedTime(from, to, TimeRange(r, r), dir).in();
 }
 
-TimeRange TimeTargetObject::GetAdjustedTime(Node* from, Node* to, const TimeRange &r, Node::TransformTimeDirection dir) const
-{
+TimeRange TimeTargetObject::GetAdjustedTime(Node* from, Node* to, const TimeRange& r,
+                                            Node::TransformTimeDirection dir) const {
   if (!from || !to) {
     return r;
   }
@@ -81,4 +70,4 @@ TimeRange TimeTargetObject::GetAdjustedTime(Node* from, Node* to, const TimeRang
   return adjusted.size();
 }*/
 
-}
+}  // namespace olive

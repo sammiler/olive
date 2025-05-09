@@ -30,37 +30,24 @@
 
 namespace olive {
 
-class CropDistortNode : public Node
-{
+class CropDistortNode : public Node {
   Q_OBJECT
-public:
+ public:
   CropDistortNode();
 
   NODE_DEFAULT_FUNCTIONS(CropDistortNode)
 
-  virtual QString Name() const override
-  {
-    return tr("Crop");
-  }
+  virtual QString Name() const override { return tr("Crop"); }
 
-  virtual QString id() const override
-  {
-    return QStringLiteral("org.olivevideoeditor.Olive.crop");
-  }
+  virtual QString id() const override { return QStringLiteral("org.olivevideoeditor.Olive.crop"); }
 
-  virtual QVector<CategoryID> Category() const override
-  {
-    return {kCategoryDistort};
-  }
+  virtual QVector<CategoryID> Category() const override { return {kCategoryDistort}; }
 
-  virtual QString Description() const override
-  {
-    return tr("Crop the edges of an image.");
-  }
+  virtual QString Description() const override { return tr("Crop the edges of an image."); }
 
   virtual void Retranslate() override;
 
-  virtual void Value(const NodeValueRow& value, const NodeGlobals &globals, NodeValueTable *table) const override;
+  virtual void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
 
   virtual ShaderCode GetShaderCode(const ShaderRequest &request) const override;
 
@@ -73,19 +60,18 @@ public:
   static const QString kBottomInput;
   static const QString kFeatherInput;
 
-protected slots:
+ protected slots:
   virtual void GizmoDragMove(double delta_x, double delta_y, const Qt::KeyboardModifiers &modifiers) override;
 
-private:
-  void CreateCropSideInput(const QString& id);
+ private:
+  void CreateCropSideInput(const QString &id);
 
   // Gizmo variables
   PointGizmo *point_gizmo_[kGizmoScaleCount];
   PolygonGizmo *poly_gizmo_;
   QVector2D temp_resolution_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // CROPDISTORTNODE_H
+#endif  // CROPDISTORTNODE_H

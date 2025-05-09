@@ -24,9 +24,7 @@
 
 namespace olive {
 
-ProjectExplorerTreeView::ProjectExplorerTreeView(QWidget *parent) :
-  QTreeView(parent)
-{
+ProjectExplorerTreeView::ProjectExplorerTreeView(QWidget *parent) : QTreeView(parent) {
   // Set selection mode (allows multiple item selection)
   setSelectionMode(QAbstractItemView::ExtendedSelection);
 
@@ -43,8 +41,7 @@ ProjectExplorerTreeView::ProjectExplorerTreeView(QWidget *parent) :
   setContextMenuPolicy(Qt::CustomContextMenu);
 }
 
-void ProjectExplorerTreeView::mouseDoubleClickEvent(QMouseEvent *event)
-{
+void ProjectExplorerTreeView::mouseDoubleClickEvent(QMouseEvent *event) {
   // Perform default double click functions
   QTreeView::mouseDoubleClickEvent(event);
 
@@ -54,4 +51,4 @@ void ProjectExplorerTreeView::mouseDoubleClickEvent(QMouseEvent *event)
   }
 }
 
-}
+}  // namespace olive

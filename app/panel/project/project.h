@@ -31,31 +31,27 @@ namespace olive {
 /**
  * @brief A PanelWidget wrapper around a ProjectExplorer and a ProjectToolbar
  */
-class ProjectPanel : public PanelWidget, public FootageManagementPanel
-{
+class ProjectPanel : public PanelWidget, public FootageManagementPanel {
   Q_OBJECT
-public:
+ public:
   ProjectPanel(const QString &unique_name);
 
-  Project* project() const;
-  void set_project(Project* p);
+  Project *project() const;
+  void set_project(Project *p);
 
   Folder *get_root() const;
 
-  void set_root(Folder* item);
+  void set_root(Folder *item);
 
   QVector<Node *> SelectedItems() const;
 
-  Folder* GetSelectedFolder() const;
+  Folder *GetSelectedFolder() const;
 
   virtual QVector<ViewerOutput *> GetSelectedFootage() const override;
 
-  ProjectViewModel* model() const;
+  ProjectViewModel *model() const;
 
-  bool SelectItem(Node *n, bool deselect_all_first = true)
-  {
-    return explorer_->SelectItem(n, deselect_all_first);
-  }
+  bool SelectItem(Node *n, bool deselect_all_first = true) { return explorer_->SelectItem(n, deselect_all_first); }
 
   virtual void SelectAll() override;
   virtual void DeselectAll() override;
@@ -64,20 +60,20 @@ public:
 
   virtual void RenameSelected() override;
 
-public slots:
+ public slots:
   void Edit(Node *item);
 
-signals:
+ signals:
   void ProjectNameChanged();
 
   void SelectionChanged(const QVector<Node *> &selected);
 
-private:
+ private:
   virtual void Retranslate() override;
 
-  ProjectExplorer* explorer_;
+  ProjectExplorer *explorer_;
 
-private slots:
+ private slots:
   void ItemDoubleClickSlot(Node *item);
 
   void ShowNewMenu();
@@ -85,9 +81,8 @@ private slots:
   void UpdateSubtitle();
 
   void SaveConnectedProject();
-
 };
 
-}
+}  // namespace olive
 
-#endif // PROJECT_PANEL_H
+#endif  // PROJECT_PANEL_H

@@ -25,20 +25,18 @@
 
 namespace olive {
 
-class SequenceViewerPanel : public ViewerPanel
-{
+class SequenceViewerPanel : public ViewerPanel {
   Q_OBJECT
-public:
+ public:
   SequenceViewerPanel();
 
-public slots:
+ public slots:
   void StartCapture(const TimeRange &time, const Track::Reference &track);
 
-protected:
+ protected:
   virtual void Retranslate() override;
-
 };
 
-}
+}  // namespace olive
 
-#endif // SEQUENCEVIEWERPANEL_H
+#endif  // SEQUENCEVIEWERPANEL_H

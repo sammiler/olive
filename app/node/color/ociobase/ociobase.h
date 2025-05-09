@@ -26,35 +26,33 @@
 
 namespace olive {
 
-class OCIOBaseNode : public Node
-{
+class OCIOBaseNode : public Node {
   Q_OBJECT
-public:
+ public:
   OCIOBaseNode();
 
-  virtual void AddedToGraphEvent(Project *p)  override;
+  virtual void AddedToGraphEvent(Project *p) override;
   virtual void RemovedFromGraphEvent(Project *p) override;
 
   virtual void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
 
   static const QString kTextureInput;
 
-protected slots:
+ protected slots:
   virtual void ConfigChanged() = 0;
 
-protected:
+ protected:
   ColorManager *manager() const { return manager_; }
 
   ColorProcessorPtr processor() const { return processor_; }
   void set_processor(ColorProcessorPtr p) { processor_ = p; }
 
-private:
+ private:
   ColorManager *manager_;
 
   ColorProcessorPtr processor_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // OCIOBASENODE_H
+#endif  // OCIOBASENODE_H

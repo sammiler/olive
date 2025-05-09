@@ -28,10 +28,7 @@
 
 namespace olive {
 
-FileField::FileField(QWidget* parent) :
-  QWidget(parent),
-  directory_mode_(false)
-{
+FileField::FileField(QWidget* parent) : QWidget(parent), directory_mode_(false) {
   QHBoxLayout* layout = new QHBoxLayout(this);
 
   layout->setContentsMargins(0, 0, 0, 0);
@@ -47,8 +44,7 @@ FileField::FileField(QWidget* parent) :
   layout->addWidget(browse_btn_);
 }
 
-void FileField::BrowseBtnClicked()
-{
+void FileField::BrowseBtnClicked() {
   QString s;
 
   if (directory_mode_) {
@@ -63,8 +59,7 @@ void FileField::BrowseBtnClicked()
   }
 }
 
-void FileField::LineEditChanged(const QString& text)
-{
+void FileField::LineEditChanged(const QString& text) {
   if (QFileInfo::exists(text) || text.isEmpty()) {
     line_edit_->setStyleSheet(QString());
   } else {
@@ -72,4 +67,4 @@ void FileField::LineEditChanged(const QString& text)
   }
 }
 
-}
+}  // namespace olive

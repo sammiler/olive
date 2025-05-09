@@ -21,9 +21,9 @@
 #ifndef TASKMANAGER_H
 #define TASKMANAGER_H
 
-#include <QtConcurrent/QtConcurrent>
-#include <QVector>
 #include <QUndoCommand>
+#include <QVector>
+#include <QtConcurrent/QtConcurrent>
 
 #include "task/task.h"
 
@@ -37,10 +37,9 @@ namespace olive {
  * for it to run. Currently, TaskManager will run no more Tasks than there are threads on the system (one task per
  * thread). As Tasks finished, TaskManager will start the next in the queue.
  */
-class TaskManager : public QObject
-{
+class TaskManager : public QObject {
   Q_OBJECT
-public:
+ public:
   /**
    * @brief TaskManager Constructor
    */
@@ -65,7 +64,7 @@ public:
 
   void CancelTaskAndWait(Task* t);
 
-public slots:
+ public slots:
   /**
    * @brief Add a new Task
    *
@@ -81,11 +80,11 @@ public slots:
    *
    * The task to add and run. TaskManager takes ownership of this Task and will be responsible for freeing it.
    */
-  void AddTask(Task *t);
+  void AddTask(Task* t);
 
   void CancelTask(Task* t);
 
-signals:
+ signals:
   /**
    * @brief Signal emitted when a Task is added by AddTask()
    *
@@ -110,7 +109,7 @@ signals:
    */
   void TaskFailed(Task* t);
 
-private:
+ private:
   /**
    * @brief Internal task array
    */
@@ -131,11 +130,10 @@ private:
    */
   static TaskManager* instance_;
 
-private slots:
+ private slots:
   void TaskFinished();
-
 };
 
-}
+}  // namespace olive
 
-#endif // TASKMANAGER_H
+#endif  // TASKMANAGER_H

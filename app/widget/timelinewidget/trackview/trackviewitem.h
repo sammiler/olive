@@ -32,18 +32,16 @@
 
 namespace olive {
 
-class TrackViewItem : public QWidget
-{
+class TrackViewItem : public QWidget {
   Q_OBJECT
-public:
-  TrackViewItem(Track* track,
-                QWidget* parent = nullptr);
+ public:
+  TrackViewItem(Track* track, QWidget* parent = nullptr);
 
-signals:
-  void AboutToDeleteTrack(Track *track);
+ signals:
+  void AboutToDeleteTrack(Track* track);
 
-private:
-  QPushButton* CreateMSLButton(const QColor &checked_color) const;
+ private:
+  QPushButton* CreateMSLButton(const QColor& checked_color) const;
 
   QStackedWidget* stack_;
 
@@ -56,7 +54,7 @@ private:
 
   Track* track_;
 
-private slots:
+ private slots:
   void LabelClicked();
 
   void LineEditConfirmed();
@@ -65,7 +63,7 @@ private slots:
 
   void UpdateLabel();
 
-  void ShowContextMenu(const QPoint &p);
+  void ShowContextMenu(const QPoint& p);
 
   void DeleteTrack();
 
@@ -74,9 +72,8 @@ private slots:
   void UpdateMuteButton(bool e);
 
   void UpdateLockButton(bool e);
-
 };
 
-}
+}  // namespace olive
 
-#endif // TRACKVIEWITEM_H
+#endif  // TRACKVIEWITEM_H

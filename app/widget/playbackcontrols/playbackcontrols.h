@@ -21,10 +21,10 @@
 #ifndef PLAYBACKCONTROLS_H
 #define PLAYBACKCONTROLS_H
 
-#include <QWidget>
 #include <QLabel>
 #include <QPushButton>
 #include <QStackedWidget>
+#include <QWidget>
 
 #include "dragbutton.h"
 #include "widget/slider/rationalslider.h"
@@ -36,10 +36,9 @@ namespace olive {
  *
  * This widget optionally features timecode displays for the current timecode and end timecode.
  */
-class PlaybackControls : public QWidget
-{
+class PlaybackControls : public QWidget {
   Q_OBJECT
-public:
+ public:
   PlaybackControls(QWidget* parent = nullptr);
 
   /**
@@ -51,33 +50,28 @@ public:
 
   void SetAudioVideoDragButtonsVisible(bool e);
 
-public slots:
-  void SetTime(const rational &r);
+ public slots:
+  void SetTime(const rational& r);
 
-  void SetEndTime(const rational &r);
+  void SetEndTime(const rational& r);
 
   void ShowPauseButton();
 
   void ShowPlayButton();
 
-  void StartPlayBlink()
-  {
+  void StartPlayBlink() {
     play_blink_timer_->start();
     SetButtonRecordingState(play_btn_, true);
   }
 
-  void StopPlayBlink()
-  {
+  void StopPlayBlink() {
     play_blink_timer_->stop();
     SetButtonRecordingState(play_btn_, false);
   }
 
-  void SetPauseButtonRecordingState(bool on)
-  {
-    SetButtonRecordingState(pause_btn_, on);
-  }
+  void SetPauseButtonRecordingState(bool on) { SetButtonRecordingState(pause_btn_, on); }
 
-signals:
+ signals:
   /**
    * @brief Signal emitted when "Go to Start" is clicked
    */
@@ -118,13 +112,13 @@ signals:
 
   void TimeChanged(const rational& t);
 
-protected:
-  virtual void changeEvent(QEvent *) override;
+ protected:
+  virtual void changeEvent(QEvent*) override;
 
-private:
+ private:
   void UpdateIcons();
 
-  static void SetButtonRecordingState(QPushButton *btn, bool on);
+  static void SetButtonRecordingState(QPushButton* btn, bool on);
 
   QWidget* lower_left_container_;
   QWidget* lower_right_container_;
@@ -147,15 +141,14 @@ private:
 
   QStackedWidget* playpause_stack_;
 
-  QTimer *play_blink_timer_;
+  QTimer* play_blink_timer_;
 
-private slots:
+ private slots:
   void TimecodeChanged();
 
   void PlayBlink();
-
 };
 
-}
+}  // namespace olive
 
-#endif // PLAYBACKCONTROLS_H
+#endif  // PLAYBACKCONTROLS_H

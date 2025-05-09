@@ -27,15 +27,10 @@
 
 namespace olive {
 
-ColorGradientWidget::ColorGradientWidget(Qt::Orientation orientation, QWidget *parent) :
-  ColorSwatchWidget(parent),
-  orientation_(orientation),
-  val_(1.0)
-{
-}
+ColorGradientWidget::ColorGradientWidget(Qt::Orientation orientation, QWidget *parent)
+    : ColorSwatchWidget(parent), orientation_(orientation), val_(1.0) {}
 
-Color ColorGradientWidget::GetColorFromScreenPos(const QPoint &p) const
-{
+Color ColorGradientWidget::GetColorFromScreenPos(const QPoint &p) const {
   if (orientation_ == Qt::Horizontal) {
     return LerpColor(start_, end_, p.x(), width());
   } else {
@@ -43,8 +38,7 @@ Color ColorGradientWidget::GetColorFromScreenPos(const QPoint &p) const
   }
 }
 
-void ColorGradientWidget::paintEvent(QPaintEvent *e)
-{
+void ColorGradientWidget::paintEvent(QPaintEvent *e) {
   QWidget::paintEvent(e);
 
   QPainter p(this);
@@ -60,7 +54,7 @@ void ColorGradientWidget::paintEvent(QPaintEvent *e)
     max = height();
   }
 
-  for (int i=0;i<max;i++) {
+  for (int i = 0; i < max; i++) {
     p.setPen(QtUtils::toQColor(GetManagedColor(LerpColor(start_, end_, i, max))));
 
     if (orientation_ == Qt::Horizontal) {
@@ -84,8 +78,7 @@ void ColorGradientWidget::paintEvent(QPaintEvent *e)
   }
 }
 
-void ColorGradientWidget::SelectedColorChangedEvent(const Color &c, bool external)
-{
+void ColorGradientWidget::SelectedColorChangedEvent(const Color &c, bool external) {
   float hue, sat;
 
   c.toHsv(&hue, &sat, &val_);
@@ -96,13 +89,10 @@ void ColorGradientWidget::SelectedColorChangedEvent(const Color &c, bool externa
   }
 }
 
-Color ColorGradientWidget::LerpColor(const Color &a, const Color &b, int i, int max)
-{
+Color ColorGradientWidget::LerpColor(const Color &a, const Color &b, int i, int max) {
   float t = std::clamp(static_cast<float>(i) / static_cast<float>(max), 0.0f, 1.0f);
 
-  return Color(lerp(a.red(), b.red(), t),
-               lerp(a.green(), b.green(), t),
-               lerp(a.blue(), b.blue(), t));
+  return Color(lerp(a.red(), b.red(), t), lerp(a.green(), b.green(), t), lerp(a.blue(), b.blue(), t));
 }
 
-}
+}  // namespace olive

@@ -30,8 +30,8 @@
 #include "projectviewmodel.h"
 #include "widget/projectexplorer/projectexplorericonview.h"
 #include "widget/projectexplorer/projectexplorerlistview.h"
-#include "widget/projectexplorer/projectexplorertreeview.h"
 #include "widget/projectexplorer/projectexplorernavigation.h"
+#include "widget/projectexplorer/projectexplorertreeview.h"
 #include "widget/projecttoolbar/projecttoolbar.h"
 
 namespace olive {
@@ -44,10 +44,9 @@ namespace olive {
  *
  * This widget contains three views, tree view, list view, and icon view. These can be switched at any time.
  */
-class ProjectExplorer : public QWidget
-{
+class ProjectExplorer : public QWidget {
   Q_OBJECT
-public:
+ public:
   ProjectExplorer(QWidget* parent);
 
   const ProjectToolbar::ViewType& view_type() const;
@@ -55,10 +54,10 @@ public:
   Project* project() const;
   void set_project(Project* p);
 
-  Folder *get_root() const;
-  void set_root(Folder *item);
+  Folder* get_root() const;
+  void set_root(Folder* item);
 
-  QVector<Node *> SelectedItems() const;
+  QVector<Node*> SelectedItems() const;
 
   /**
    * @brief Use a heuristic to determine which (if any) folder is selected
@@ -85,18 +84,18 @@ public:
 
   void DeleteSelected();
 
-  bool SelectItem(Node *n, bool deselect_all_first = true);
+  bool SelectItem(Node* n, bool deselect_all_first = true);
 
-public slots:
+ public slots:
   void set_view_type(ProjectToolbar::ViewType type);
 
   void Edit(Node* item);
 
   void RenameSelectedItem();
 
-  void SetSearchFilter(const QString &s);
+  void SetSearchFilter(const QString& s);
 
-signals:
+ signals:
   /**
    * @brief Emitted when an Item is double clicked
    *
@@ -106,9 +105,9 @@ signals:
    */
   void DoubleClickedItem(Node* item);
 
-  void SelectionChanged(const QVector<Node *> &selected);
+  void SelectionChanged(const QVector<Node*>& selected);
 
-private:
+ private:
   /**
    * @brief Get all the blocks that solely rely on an input node
    *
@@ -138,9 +137,9 @@ private:
    */
   void BrowseToFolder(const QModelIndex& index);
 
-  int ConfirmItemDeletion(Node *item);
+  int ConfirmItemDeletion(Node* item);
 
-  bool DeleteItemsInternal(const QVector<Node *> &selected, bool &check_if_item_is_in_use, MultiUndoCommand *command);
+  bool DeleteItemsInternal(const QVector<Node*>& selected, bool& check_if_item_is_in_use, MultiUndoCommand* command);
 
   static QString GetHumanReadableNodeName(Node* node);
 
@@ -166,7 +165,7 @@ private:
 
   QVector<Node*> context_menu_items_;
 
-private slots:
+ private slots:
   void ViewEmptyAreaDoubleClickedSlot();
 
   void ItemDoubleClickedSlot(const QModelIndex& index);
@@ -190,9 +189,8 @@ private slots:
   void ContextMenuStartProxy(QAction* a);
 
   void ViewSelectionChanged();
-
 };
 
-}
+}  // namespace olive
 
-#endif // PROJECTEXPLORER_H
+#endif  // PROJECTEXPLORER_H

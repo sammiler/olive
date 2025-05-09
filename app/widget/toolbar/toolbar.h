@@ -23,9 +23,9 @@
 
 #include <QPushButton>
 
+#include "tool/tool.h"
 #include "widget/flowlayout/flowlayout.h"
 #include "widget/toolbar/toolbarbutton.h"
-#include "tool/tool.h"
 
 namespace olive {
 
@@ -40,10 +40,9 @@ namespace olive {
  * Toolbar updates the current tool application-wide, and is also automatically updated when the tool is changed
  * elsewhere.
  */
-class Toolbar : public QWidget
-{
+class Toolbar : public QWidget {
   Q_OBJECT
-public:
+ public:
   /**
    * @brief Toolbar Constructor
    *
@@ -55,7 +54,7 @@ public:
    */
   Toolbar(QWidget* parent);
 
-public slots:
+ public slots:
   /**
    * @brief Set the tool to be displayed as "selected"
    *
@@ -67,7 +66,7 @@ public slots:
    *
    * Tool to show as selected
    */
-  void SetTool(const Tool::Item &tool);
+  void SetTool(const Tool::Item& tool);
 
   /**
    * @brief Set snapping checked value
@@ -77,9 +76,9 @@ public slots:
    *
    * @param snapping
    */
-  void SetSnapping(const bool &snapping);
+  void SetSnapping(const bool& snapping);
 
-protected:
+ protected:
   /**
    * @brief Qt changeEvent
    *
@@ -89,9 +88,9 @@ protected:
    */
   virtual void changeEvent(QEvent* e) override;
 
-  virtual void resizeEvent(QResizeEvent *e) override;
+  virtual void resizeEvent(QResizeEvent* e) override;
 
-signals:
+ signals:
   /**
    * @brief Emitted whenever a tool is selected using this widget
    *
@@ -115,7 +114,7 @@ signals:
    */
   void SelectedTransitionChanged(const QString& id);
 
-private:
+ private:
   /**
    * @brief Reset all strings based on the currently selected language
    */
@@ -183,7 +182,7 @@ private:
 
   ToolbarButton* btn_snapping_toggle_;
 
-private slots:
+ private slots:
   /**
    * @brief Slot for a ToolbarButton being clicked
    *
@@ -224,9 +223,8 @@ private slots:
    * @brief Receiver for the menu created by TransitionButtonClicked()
    */
   void TransitionMenuItemTriggered(QAction* a);
-
 };
 
-}
+}  // namespace olive
 
-#endif // TOOLBAR_H
+#endif  // TOOLBAR_H

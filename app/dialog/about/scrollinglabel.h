@@ -26,29 +26,22 @@
 
 namespace olive {
 
-class ScrollingLabel : public QWidget
-{
+class ScrollingLabel : public QWidget {
   Q_OBJECT
-public:
+ public:
   ScrollingLabel(QWidget* parent = nullptr);
   ScrollingLabel(const QStringList& text, QWidget* parent = nullptr);
 
   void SetText(const QStringList& text);
 
-  void StartAnimating()
-  {
-    timer_.start();
-  }
+  void StartAnimating() { timer_.start(); }
 
-  void StopAnimating()
-  {
-    timer_.stop();
-  }
+  void StopAnimating() { timer_.stop(); }
 
-protected:
+ protected:
   virtual void paintEvent(QPaintEvent* e) override;
 
-private:
+ private:
   static void SetOpacityOfScanLine(uchar* scan_line, int width, int channels, double mul);
 
   static const int kMinLineHeight;
@@ -61,11 +54,10 @@ private:
 
   int animate_;
 
-private slots:
+ private slots:
   void AnimationUpdate();
-
 };
 
-}
+}  // namespace olive
 
-#endif // SCROLLINGLABEL_H
+#endif  // SCROLLINGLABEL_H

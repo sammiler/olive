@@ -31,16 +31,14 @@ namespace olive {
 
 using namespace core;
 
-class TypeSerializer
-{
-public:
+class TypeSerializer {
+ public:
   TypeSerializer() = default;
 
   static AudioParams LoadAudioParams(QXmlStreamReader *reader);
   static void SaveAudioParams(QXmlStreamWriter *writer, const AudioParams &a);
-
 };
 
-}
+}  // namespace olive
 
-#endif // TYPESERIALIZER_H
+#endif  // TYPESERIALIZER_H

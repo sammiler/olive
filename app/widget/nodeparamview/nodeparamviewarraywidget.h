@@ -29,51 +29,44 @@
 
 namespace olive {
 
-class NodeParamViewArrayButton : public QPushButton
-{
+class NodeParamViewArrayButton : public QPushButton {
   Q_OBJECT
-public:
-  enum Type {
-    kAdd,
-    kRemove
-  };
+ public:
+  enum Type { kAdd, kRemove };
 
   NodeParamViewArrayButton(Type type, QWidget* parent = nullptr);
 
-protected:
+ protected:
   virtual void changeEvent(QEvent* event) override;
 
-private:
+ private:
   void Retranslate();
 
   Type type_;
-
 };
 
-class NodeParamViewArrayWidget : public QWidget
-{
+class NodeParamViewArrayWidget : public QWidget {
   Q_OBJECT
-public:
+ public:
   NodeParamViewArrayWidget(Node* node, const QString& input, QWidget* parent = nullptr);
 
-signals:
+ signals:
   void DoubleClicked();
 
-protected:
+ protected:
   virtual void mouseDoubleClickEvent(QMouseEvent* event) override;
 
-private:
+ private:
   Node* node_;
 
   QString input_;
 
   QLabel* count_lbl_;
 
-private slots:
-  void UpdateCounter(const QString &input, int old_size, int new_size);
-
+ private slots:
+  void UpdateCounter(const QString& input, int old_size, int new_size);
 };
 
-}
+}  // namespace olive
 
-#endif // NODEPARAMVIEWARRAYWIDGET_H
+#endif  // NODEPARAMVIEWARRAYWIDGET_H

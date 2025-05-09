@@ -32,14 +32,13 @@ namespace olive {
  */
 class ViewerPanel : public ViewerPanelBase {
   Q_OBJECT
-public:
+ public:
   ViewerPanel(const QString& object_name);
 
-protected:
+ protected:
   virtual void Retranslate() override;
-
 };
 
-}
+}  // namespace olive
 
-#endif // VIEWER_PANEL_H
+#endif  // VIEWER_PANEL_H

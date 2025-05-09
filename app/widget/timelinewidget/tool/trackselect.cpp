@@ -26,14 +26,10 @@
 
 namespace olive {
 
-TrackSelectTool::TrackSelectTool(TimelineWidget *parent) :
-  PointerTool(parent)
-{
-}
+TrackSelectTool::TrackSelectTool(TimelineWidget *parent) : PointerTool(parent) {}
 
-void TrackSelectTool::MousePress(TimelineViewMouseEvent *event)
-{
-  QVector<Block*> blocks;
+void TrackSelectTool::MousePress(TimelineViewMouseEvent *event) {
+  QVector<Block *> blocks;
   bool forward = !(event->GetModifiers() & Qt::ControlModifier);
 
   parent()->DeselectAll();
@@ -61,8 +57,8 @@ void TrackSelectTool::MousePress(TimelineViewMouseEvent *event)
   }
 }
 
-void TrackSelectTool::SelectBlocksOnTrack(Track *track, TimelineViewMouseEvent *event, QVector<Block*> *blocks, bool forward)
-{
+void TrackSelectTool::SelectBlocksOnTrack(Track *track, TimelineViewMouseEvent *event, QVector<Block *> *blocks,
+                                          bool forward) {
   Block *b = track->NearestBlockBeforeOrAt(event->GetFrame());
 
   if (!b && !track->Blocks().isEmpty() && !forward) {
@@ -71,14 +67,14 @@ void TrackSelectTool::SelectBlocksOnTrack(Track *track, TimelineViewMouseEvent *
   }
 
   while (b) {
-    if (!dynamic_cast<GapBlock*>(b)) {
+    if (!dynamic_cast<GapBlock *>(b)) {
       if (!blocks->contains(b)) {
         parent()->AddSelection(b);
         blocks->append(b);
       }
 
       if (!(event->GetModifiers() & Qt::AltModifier)) {
-        if (ClipBlock *clip = dynamic_cast<ClipBlock*>(b)) {
+        if (ClipBlock *clip = dynamic_cast<ClipBlock *>(b)) {
           foreach (Block *link, clip->block_links()) {
             if (!blocks->contains(link)) {
               parent()->AddSelection(link);
@@ -93,4 +89,4 @@ void TrackSelectTool::SelectBlocksOnTrack(Track *track, TimelineViewMouseEvent *
   }
 }
 
-}
+}  // namespace olive

@@ -33,9 +33,9 @@
 namespace olive {
 
 const int NodeParamViewItemBody::kKeyControlColumn = 10;
-const int NodeParamViewItemBody::kArrayInsertColumn = kKeyControlColumn-1;
-const int NodeParamViewItemBody::kArrayRemoveColumn = kArrayInsertColumn-1;
-const int NodeParamViewItemBody::kExtraButtonColumn = kKeyControlColumn-1;
+const int NodeParamViewItemBody::kArrayInsertColumn = kKeyControlColumn - 1;
+const int NodeParamViewItemBody::kArrayRemoveColumn = kArrayInsertColumn - 1;
+const int NodeParamViewItemBody::kExtraButtonColumn = kKeyControlColumn - 1;
 
 const int NodeParamViewItemBody::kOptionalCheckBox = 0;
 const int NodeParamViewItemBody::kArrayCollapseBtnColumn = 1;
@@ -45,14 +45,13 @@ const int NodeParamViewItemBody::kMaxWidgetColumn = kArrayRemoveColumn;
 
 #define super NodeParamViewItemBase
 
-NodeParamViewItem::NodeParamViewItem(Node *node, NodeParamViewCheckBoxBehavior create_checkboxes, QWidget *parent) :
-  super(parent),
-  body_(nullptr),
-  node_(node),
-  create_checkboxes_(create_checkboxes),
-  ctx_(nullptr),
-  time_target_(nullptr)
-{
+NodeParamViewItem::NodeParamViewItem(Node* node, NodeParamViewCheckBoxBehavior create_checkboxes, QWidget* parent)
+    : super(parent),
+      body_(nullptr),
+      node_(node),
+      create_checkboxes_(create_checkboxes),
+      ctx_(nullptr),
+      time_target_(nullptr) {
   node_->Retranslate();
 
   // Create and add contents widget
@@ -68,15 +67,14 @@ NodeParamViewItem::NodeParamViewItem(Node *node, NodeParamViewCheckBoxBehavior c
   setBackgroundRole(QPalette::Window);
 
   // Connect title bar enabled checkbox
-  //title_bar()->SetEnabledCheckBoxVisible(true);
-  //title_bar()->SetEnabledCheckBoxChecked(node_->IsEnabled());
-  //connect(title_bar(), &NodeParamViewItemTitleBar::EnabledCheckBoxClicked, node_, &Node::SetEnabled);
+  // title_bar()->SetEnabledCheckBoxVisible(true);
+  // title_bar()->SetEnabledCheckBoxChecked(node_->IsEnabled());
+  // connect(title_bar(), &NodeParamViewItemTitleBar::EnabledCheckBoxClicked, node_, &Node::SetEnabled);
 
   Retranslate();
 }
 
-void NodeParamViewItem::Retranslate()
-{
+void NodeParamViewItem::Retranslate() {
   node_->Retranslate();
 
   title_bar()->SetText(GetTitleBarTextFromNode(node_));
@@ -84,8 +82,7 @@ void NodeParamViewItem::Retranslate()
   body_->Retranslate();
 }
 
-void NodeParamViewItem::RecreateBody()
-{
+void NodeParamViewItem::RecreateBody() {
   if (body_) {
     body_->setParent(nullptr);
     body_->deleteLater();
@@ -102,8 +99,7 @@ void NodeParamViewItem::RecreateBody()
   SetBody(body_);
 }
 
-int NodeParamViewItem::GetElementY(const NodeInput &c) const
-{
+int NodeParamViewItem::GetElementY(const NodeInput& c) const {
   if (IsExpanded()) {
     return body_->GetElementY(c);
   } else {
@@ -112,17 +108,11 @@ int NodeParamViewItem::GetElementY(const NodeInput &c) const
   }
 }
 
-void NodeParamViewItem::SetInputChecked(const NodeInput &input, bool e)
-{
-  body_->SetInputChecked(input, e);
-}
+void NodeParamViewItem::SetInputChecked(const NodeInput& input, bool e) { body_->SetInputChecked(input, e); }
 
-NodeParamViewItemBody::NodeParamViewItemBody(Node* node, NodeParamViewCheckBoxBehavior create_checkboxes, QWidget *parent) :
-  QWidget(parent),
-  node_(node),
-  time_target_(nullptr),
-  create_checkboxes_(create_checkboxes)
-{
+NodeParamViewItemBody::NodeParamViewItemBody(Node* node, NodeParamViewCheckBoxBehavior create_checkboxes,
+                                             QWidget* parent)
+    : QWidget(parent), node_(node), time_target_(nullptr), create_checkboxes_(create_checkboxes) {
   QGridLayout* root_layout = new QGridLayout(this);
 
   int insert_row = 0;
@@ -131,7 +121,7 @@ NodeParamViewItemBody::NodeParamViewItemBody(Node* node, NodeParamViewCheckBoxBe
 
   // Create widgets all root level components
   foreach (QString input, node->inputs()) {
-    Node *n = node;
+    Node* n = node;
 
     NodeInput resolved = NodeGroup::ResolveInput(NodeInput(n, input));
     if (!connected_signals.contains(resolved.node())) {
@@ -177,8 +167,7 @@ NodeParamViewItemBody::NodeParamViewItemBody(Node* node, NodeParamViewCheckBoxBe
   }
 }
 
-void NodeParamViewItemBody::CreateWidgets(QGridLayout* layout, Node *node, const QString &input, int element, int row)
-{
+void NodeParamViewItemBody::CreateWidgets(QGridLayout* layout, Node* node, const QString& input, int element, int row) {
   NodeInput input_ref(node, input, element);
 
   InputUI ui_objects;
@@ -206,7 +195,6 @@ void NodeParamViewItemBody::CreateWidgets(QGridLayout* layout, Node *node, const
 
   if (node->InputIsArray(input)) {
     if (element == -1) {
-
       // Create a collapse toggle for expanding/collapsing the array
       CollapseButton* array_collapse_btn = new CollapseButton(this);
 
@@ -222,9 +210,9 @@ void NodeParamViewItemBody::CreateWidgets(QGridLayout* layout, Node *node, const
       array_collapse_buttons_.insert({node, input}, array_collapse_btn);
 
     } else {
-
       NodeParamViewArrayButton* insert_element_btn = new NodeParamViewArrayButton(NodeParamViewArrayButton::kAdd, this);
-      NodeParamViewArrayButton* remove_element_btn = new NodeParamViewArrayButton(NodeParamViewArrayButton::kRemove, this);
+      NodeParamViewArrayButton* remove_element_btn =
+          new NodeParamViewArrayButton(NodeParamViewArrayButton::kRemove, this);
 
       layout->addWidget(insert_element_btn, row, kArrayInsertColumn);
       layout->addWidget(remove_element_btn, row, kArrayRemoveColumn);
@@ -234,15 +222,17 @@ void NodeParamViewItemBody::CreateWidgets(QGridLayout* layout, Node *node, const
 
       connect(insert_element_btn, &NodeParamViewArrayButton::clicked, this, &NodeParamViewItemBody::ArrayInsertClicked);
       connect(remove_element_btn, &NodeParamViewArrayButton::clicked, this, &NodeParamViewItemBody::ArrayRemoveClicked);
-
     }
   }
 
   // Create a widget/input bridge for this input
   ui_objects.widget_bridge = new NodeParamViewWidgetBridge(NodeInput(node, input, element), this);
-  connect(ui_objects.widget_bridge, &NodeParamViewWidgetBridge::WidgetsRecreated, this, &NodeParamViewItemBody::ReplaceWidgets);
-  connect(ui_objects.widget_bridge, &NodeParamViewWidgetBridge::ArrayWidgetDoubleClicked, this, &NodeParamViewItemBody::ToggleArrayExpanded);
-  connect(ui_objects.widget_bridge, &NodeParamViewWidgetBridge::RequestEditTextInViewer, this, &NodeParamViewItemBody::RequestEditTextInViewer);
+  connect(ui_objects.widget_bridge, &NodeParamViewWidgetBridge::WidgetsRecreated, this,
+          &NodeParamViewItemBody::ReplaceWidgets);
+  connect(ui_objects.widget_bridge, &NodeParamViewWidgetBridge::ArrayWidgetDoubleClicked, this,
+          &NodeParamViewItemBody::ToggleArrayExpanded);
+  connect(ui_objects.widget_bridge, &NodeParamViewWidgetBridge::RequestEditTextInViewer, this,
+          &NodeParamViewItemBody::RequestEditTextInViewer);
 
   // Place widgets into layout
   PlaceWidgetsFromBridge(layout, ui_objects.widget_bridge, row);
@@ -253,7 +243,8 @@ void NodeParamViewItemBody::CreateWidgets(QGridLayout* layout, Node *node, const
   if (node->IsInputConnectable(input)) {
     // Create clickable label used when an input is connected
     ui_objects.connected_label = new NodeParamViewConnectedLabel(resolved, this);
-    connect(ui_objects.connected_label, &NodeParamViewConnectedLabel::RequestSelectNode, this, &NodeParamViewItemBody::RequestSelectNode);
+    connect(ui_objects.connected_label, &NodeParamViewConnectedLabel::RequestSelectNode, this,
+            &NodeParamViewItemBody::RequestSelectNode);
     layout->addWidget(ui_objects.connected_label, row, kWidgetStartColumn, 1, kKeyControlColumn - kWidgetStartColumn);
   }
 
@@ -274,8 +265,7 @@ void NodeParamViewItemBody::CreateWidgets(QGridLayout* layout, Node *node, const
   SetTimebaseOnInputUI(ui_objects);
 }
 
-void NodeParamViewItemBody::SetTimeTarget(ViewerOutput *target)
-{
+void NodeParamViewItemBody::SetTimeTarget(ViewerOutput* target) {
   time_target_ = target;
 
   foreach (const InputUI& ui_obj, input_ui_map_) {
@@ -283,8 +273,7 @@ void NodeParamViewItemBody::SetTimeTarget(ViewerOutput *target)
   }
 }
 
-void NodeParamViewItemBody::SetTimeTargetOnInputUI(const InputUI &ui_obj)
-{
+void NodeParamViewItemBody::SetTimeTargetOnInputUI(const InputUI& ui_obj) {
   // Only keyframable inputs have a key control widget
   if (ui_obj.key_control) {
     ui_obj.key_control->SetTimeTarget(time_target_);
@@ -295,9 +284,8 @@ void NodeParamViewItemBody::SetTimeTargetOnInputUI(const InputUI &ui_obj)
   ui_obj.widget_bridge->SetTimeTarget(time_target_);
 }
 
-void NodeParamViewItemBody::Retranslate()
-{
-  for (auto i=input_ui_map_.begin(); i!=input_ui_map_.end(); i++) {
+void NodeParamViewItemBody::Retranslate() {
+  for (auto i = input_ui_map_.begin(); i != input_ui_map_.end(); i++) {
     const NodeInput& ic = i.key();
 
     if (ic.IsArray() && ic.element() >= 0) {
@@ -310,14 +298,13 @@ void NodeParamViewItemBody::Retranslate()
   }
 }
 
-int NodeParamViewItemBody::GetElementY(NodeInput c) const
-{
+int NodeParamViewItemBody::GetElementY(NodeInput c) const {
   if (c.IsArray() && !array_ui_.value(c.input_pair()).widget->isVisible()) {
     // Array is collapsed, so we'll return the Y of its root
     c.set_element(-1);
   }
 
-  //c = NodeGroup::ResolveInput(c);
+  // c = NodeGroup::ResolveInput(c);
 
   // Find its row in the parameters
   QLabel* lbl = input_ui_map_.value(c).main_label;
@@ -332,18 +319,16 @@ int NodeParamViewItemBody::GetElementY(NodeInput c) const
   return lbl_center.y();
 }
 
-void NodeParamViewItemBody::EdgeChanged(Node *output, const NodeInput& input)
-{
+void NodeParamViewItemBody::EdgeChanged(Node* output, const NodeInput& input) {
   Q_UNUSED(output)
 
-  const NodeInputPair &pair = input_group_lookup_.value({input.node(), input.input()});
+  const NodeInputPair& pair = input_group_lookup_.value({input.node(), input.input()});
   NodeInput resolved(pair.node, pair.input, input.element());
 
   UpdateUIForEdgeConnection(resolved);
 }
 
-void NodeParamViewItemBody::UpdateUIForEdgeConnection(const NodeInput& input)
-{
+void NodeParamViewItemBody::UpdateUIForEdgeConnection(const NodeInput& input) {
   // Show/hide bridge widgets
   if (input_ui_map_.contains(input)) {
     const InputUI& ui_objects = input_ui_map_[input];
@@ -368,16 +353,15 @@ void NodeParamViewItemBody::UpdateUIForEdgeConnection(const NodeInput& input)
   }
 }
 
-void NodeParamViewItemBody::PlaceWidgetsFromBridge(QGridLayout* layout, NodeParamViewWidgetBridge *bridge, int row)
-{
+void NodeParamViewItemBody::PlaceWidgetsFromBridge(QGridLayout* layout, NodeParamViewWidgetBridge* bridge, int row) {
   // Add widgets for this parameter to the layout
-  for (int i=0; i<bridge->widgets().size(); i++) {
+  for (int i = 0; i < bridge->widgets().size(); i++) {
     QWidget* w = bridge->widgets().at(i);
 
-    int col = i+kWidgetStartColumn;
+    int col = i + kWidgetStartColumn;
 
     int colspan;
-    if (i == bridge->widgets().size()-1) {
+    if (i == bridge->widgets().size() - 1) {
       // Span this widget among remaining columns
       colspan = kMaxWidgetColumn - col;
     } else {
@@ -388,8 +372,7 @@ void NodeParamViewItemBody::PlaceWidgetsFromBridge(QGridLayout* layout, NodePara
   }
 }
 
-void NodeParamViewItemBody::InputArraySizeChangedInternal(Node *node, const QString &input, int size)
-{
+void NodeParamViewItemBody::InputArraySizeChangedInternal(Node* node, const QString& input, int size) {
   NodeInputPair nip = {node, input};
 
   if (!array_ui_.contains(nip)) {
@@ -405,11 +388,11 @@ void NodeParamViewItemBody::InputArraySizeChangedInternal(Node *node, const QStr
       // Our UI count is smaller than the size, create more
       grid->addWidget(array_ui.append_btn, size, kArrayInsertColumn);
 
-      for (int i=array_ui.count; i<size; i++) {
+      for (int i = array_ui.count; i < size; i++) {
         CreateWidgets(grid, node, input, i, i);
       }
     } else {
-      for (int i=array_ui.count-1; i>=size; i--) {
+      for (int i = array_ui.count - 1; i >= size; i--) {
         // Our UI count is larger than the size, delete
         InputUI input_ui = input_ui_map_.take({node, input, i});
         delete input_ui.main_label;
@@ -430,8 +413,7 @@ void NodeParamViewItemBody::InputArraySizeChangedInternal(Node *node, const QStr
   }
 }
 
-void NodeParamViewItemBody::ArrayCollapseBtnPressed(bool checked)
-{
+void NodeParamViewItemBody::ArrayCollapseBtnPressed(bool checked) {
   const NodeInputPair& input = array_collapse_buttons_.key(static_cast<CollapseButton*>(sender()));
 
   array_ui_.value(input).widget->setVisible(checked);
@@ -444,8 +426,7 @@ void NodeParamViewItemBody::ArrayCollapseBtnPressed(bool checked)
   emit ArrayExpandedChanged(checked);
 }
 
-void NodeParamViewItemBody::InputArraySizeChanged(const QString& input, int old_sz, int size)
-{
+void NodeParamViewItemBody::InputArraySizeChanged(const QString& input, int old_sz, int size) {
   Q_UNUSED(old_sz)
 
   NodeInputPair nip = input_group_lookup_.value({static_cast<Node*>(sender()), input});
@@ -453,49 +434,48 @@ void NodeParamViewItemBody::InputArraySizeChanged(const QString& input, int old_
   InputArraySizeChangedInternal(nip.node, nip.input, size);
 }
 
-void NodeParamViewItemBody::ArrayAppendClicked()
-{
-  for (auto it=array_ui_.cbegin(); it!=array_ui_.cend(); it++) {
+void NodeParamViewItemBody::ArrayAppendClicked() {
+  for (auto it = array_ui_.cbegin(); it != array_ui_.cend(); it++) {
     if (it.value().append_btn == sender()) {
       NodeInput real_input = NodeGroup::ResolveInput(NodeInput(it.key().node, it.key().input));
-      Core::instance()->undo_stack()->push(new NodeArrayInsertCommand(real_input.node(), real_input.input(), real_input.GetArraySize()),
-                                           tr("Appended Array Element In %1 - %2").arg(real_input.node()->GetLabelAndName(), real_input.GetInputName()));
+      Core::instance()->undo_stack()->push(
+          new NodeArrayInsertCommand(real_input.node(), real_input.input(), real_input.GetArraySize()),
+          tr("Appended Array Element In %1 - %2").arg(real_input.node()->GetLabelAndName(), real_input.GetInputName()));
       break;
     }
   }
 }
 
-void NodeParamViewItemBody::ArrayInsertClicked()
-{
-  for (auto it=input_ui_map_.cbegin(); it!=input_ui_map_.cend(); it++) {
+void NodeParamViewItemBody::ArrayInsertClicked() {
+  for (auto it = input_ui_map_.cbegin(); it != input_ui_map_.cend(); it++) {
     if (it.value().array_insert_btn == sender()) {
       // Found our input and element
       NodeInput ic = NodeGroup::ResolveInput(it.key());
-      Core::instance()->undo_stack()->push(new NodeArrayInsertCommand(ic.node(), ic.input(), ic.element()),
-                                           tr("Inserted Array Element In %1 - %2").arg(ic.node()->GetLabelAndName(), ic.GetInputName()));
+      Core::instance()->undo_stack()->push(
+          new NodeArrayInsertCommand(ic.node(), ic.input(), ic.element()),
+          tr("Inserted Array Element In %1 - %2").arg(ic.node()->GetLabelAndName(), ic.GetInputName()));
       break;
     }
   }
 }
 
-void NodeParamViewItemBody::ArrayRemoveClicked()
-{
-  for (auto it=input_ui_map_.cbegin(); it!=input_ui_map_.cend(); it++) {
+void NodeParamViewItemBody::ArrayRemoveClicked() {
+  for (auto it = input_ui_map_.cbegin(); it != input_ui_map_.cend(); it++) {
     if (it.value().array_remove_btn == sender()) {
       // Found our input and element
       NodeInput ic = NodeGroup::ResolveInput(it.key());
-      Core::instance()->undo_stack()->push(new NodeArrayRemoveCommand(ic.node(), ic.input(), ic.element()),
-                                           tr("Removed Array Element In %1 - %2").arg(ic.node()->GetLabelAndName(), ic.GetInputName()));
+      Core::instance()->undo_stack()->push(
+          new NodeArrayRemoveCommand(ic.node(), ic.input(), ic.element()),
+          tr("Removed Array Element In %1 - %2").arg(ic.node()->GetLabelAndName(), ic.GetInputName()));
       break;
     }
   }
 }
 
-void NodeParamViewItemBody::ToggleArrayExpanded()
-{
+void NodeParamViewItemBody::ToggleArrayExpanded() {
   NodeParamViewWidgetBridge* bridge = static_cast<NodeParamViewWidgetBridge*>(sender());
 
-  for (auto it=input_ui_map_.cbegin(); it!=input_ui_map_.cend(); it++) {
+  for (auto it = input_ui_map_.cbegin(); it != input_ui_map_.cend(); it++) {
     if (it.value().widget_bridge == bridge) {
       CollapseButton* b = array_collapse_buttons_.value(it.key().input_pair());
       b->setChecked(!b->isChecked());
@@ -504,8 +484,7 @@ void NodeParamViewItemBody::ToggleArrayExpanded()
   }
 }
 
-void NodeParamViewItemBody::SetTimebase(const rational& timebase)
-{
+void NodeParamViewItemBody::SetTimebase(const rational& timebase) {
   timebase_ = timebase;
 
   foreach (const InputUI& ui_obj, input_ui_map_) {
@@ -513,39 +492,34 @@ void NodeParamViewItemBody::SetTimebase(const rational& timebase)
   }
 }
 
-void NodeParamViewItemBody::SetTimebaseOnInputUI(const InputUI& ui_obj)
-{
+void NodeParamViewItemBody::SetTimebaseOnInputUI(const InputUI& ui_obj) {
   ui_obj.widget_bridge->SetTimebase(timebase_);
 }
 
-void NodeParamViewItemBody::SetInputChecked(const NodeInput &input, bool e)
-{
+void NodeParamViewItemBody::SetInputChecked(const NodeInput& input, bool e) {
   if (input_ui_map_.contains(input)) {
-    QCheckBox *cb = input_ui_map_.value(input).optional_checkbox;
+    QCheckBox* cb = input_ui_map_.value(input).optional_checkbox;
     if (cb) {
       cb->setChecked(e);
     }
   }
 }
 
-void NodeParamViewItemBody::ReplaceWidgets(const NodeInput &input)
-{
+void NodeParamViewItemBody::ReplaceWidgets(const NodeInput& input) {
   InputUI ui = input_ui_map_.value(input);
   PlaceWidgetsFromBridge(ui.layout, ui.widget_bridge, ui.row);
 }
 
-void NodeParamViewItemBody::ShowSpeedDurationDialogForNode()
-{
+void NodeParamViewItemBody::ShowSpeedDurationDialogForNode() {
   // We should only get there if the node is a clip, determined by the dynamic_cast in CreateWidgets
   SpeedDurationDialog sdd({static_cast<ClipBlock*>(node_)}, timebase_, this);
   sdd.exec();
 }
 
-void NodeParamViewItemBody::OptionalCheckBoxClicked(bool e)
-{
-  QCheckBox *cb = static_cast<QCheckBox*>(sender());
+void NodeParamViewItemBody::OptionalCheckBoxClicked(bool e) {
+  QCheckBox* cb = static_cast<QCheckBox*>(sender());
 
-  for (auto it=input_ui_map_.cbegin(); it!=input_ui_map_.cend(); it++) {
+  for (auto it = input_ui_map_.cbegin(); it != input_ui_map_.cend(); it++) {
     if (it.value().optional_checkbox == cb) {
       emit InputCheckedChanged(it.key(), e);
       break;
@@ -553,16 +527,14 @@ void NodeParamViewItemBody::OptionalCheckBoxClicked(bool e)
   }
 }
 
-NodeParamViewItemBody::InputUI::InputUI() :
-  main_label(nullptr),
-  widget_bridge(nullptr),
-  connected_label(nullptr),
-  key_control(nullptr),
-  extra_btn(nullptr),
-  optional_checkbox(nullptr),
-  array_insert_btn(nullptr),
-  array_remove_btn(nullptr)
-{
-}
+NodeParamViewItemBody::InputUI::InputUI()
+    : main_label(nullptr),
+      widget_bridge(nullptr),
+      connected_label(nullptr),
+      key_control(nullptr),
+      extra_btn(nullptr),
+      optional_checkbox(nullptr),
+      array_insert_btn(nullptr),
+      array_remove_btn(nullptr) {}
 
-}
+}  // namespace olive

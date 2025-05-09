@@ -21,7 +21,6 @@
 #ifndef PROJECTSAVEASOTIOTASK_H
 #define PROJECTSAVEASOTIOTASK_H
 
-
 #include <opentimelineio/timeline.h>
 #include <opentimelineio/track.h>
 
@@ -31,27 +30,24 @@
 
 namespace olive {
 
-class SaveOTIOTask : public Task
-{
+class SaveOTIOTask : public Task {
   Q_OBJECT
-public:
+ public:
   SaveOTIOTask(Project* project);
 
-protected:
+ protected:
   virtual bool Run() override;
 
-private:
+ private:
   OTIO::Timeline* SerializeTimeline(Sequence* sequence);
 
   OTIO::Track* SerializeTrack(Track* track, double sequence_rate, rational max_track_length);
 
-  bool SerializeTrackList(TrackList* list, OTIO::Timeline *otio_timeline, double sequence_rate);
+  bool SerializeTrackList(TrackList* list, OTIO::Timeline* otio_timeline, double sequence_rate);
 
   Project* project_;
-
 };
 
-}
+}  // namespace olive
 
 #endif
-

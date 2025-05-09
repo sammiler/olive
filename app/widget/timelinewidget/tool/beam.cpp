@@ -23,18 +23,13 @@
 
 namespace olive {
 
-BeamTool::BeamTool(TimelineWidget *parent) :
-  TimelineTool(parent)
-{
-}
+BeamTool::BeamTool(TimelineWidget *parent) : TimelineTool(parent) {}
 
-void BeamTool::HoverMove(TimelineViewMouseEvent *event)
-{
+void BeamTool::HoverMove(TimelineViewMouseEvent *event) {
   parent()->SetViewBeamCursor(ValidatedCoordinate(event->GetCoordinates(true)));
 }
 
-TimelineCoordinate BeamTool::ValidatedCoordinate(TimelineCoordinate coord)
-{
+TimelineCoordinate BeamTool::ValidatedCoordinate(TimelineCoordinate coord) {
   if (Core::instance()->snapping()) {
     rational movement;
     parent()->SnapPoint({coord.GetFrame()}, &movement);
@@ -46,4 +41,4 @@ TimelineCoordinate BeamTool::ValidatedCoordinate(TimelineCoordinate coord)
   return coord;
 }
 
-}
+}  // namespace olive

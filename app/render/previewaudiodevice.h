@@ -25,10 +25,9 @@
 
 namespace olive {
 
-class PreviewAudioDevice : public QIODevice
-{
+class PreviewAudioDevice : public QIODevice {
   Q_OBJECT
-public:
+ public:
   PreviewAudioDevice(QObject *parent = nullptr);
 
   virtual ~PreviewAudioDevice() override;
@@ -41,27 +40,18 @@ public:
 
   virtual qint64 writeData(const char *data, qint64 length) override;
 
-  int bytes_per_frame() const
-  {
-    return bytes_per_frame_;
-  }
+  int bytes_per_frame() const { return bytes_per_frame_; }
 
-  void set_bytes_per_frame(int b)
-  {
-    bytes_per_frame_ = b;
-  }
+  void set_bytes_per_frame(int b) { bytes_per_frame_ = b; }
 
-  void set_notify_interval(qint64 i)
-  {
-    notify_interval_ = i;
-  }
+  void set_notify_interval(qint64 i) { notify_interval_ = i; }
 
   void clear();
 
-signals:
+ signals:
   void Notify();
 
-private:
+ private:
   QMutex lock_;
 
   QByteArray buffer_;
@@ -71,9 +61,8 @@ private:
   qint64 notify_interval_;
 
   qint64 bytes_read_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // PREVIEWAUDIODEVICE_H
+#endif  // PREVIEWAUDIODEVICE_H

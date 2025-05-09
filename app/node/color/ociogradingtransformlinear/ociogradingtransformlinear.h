@@ -26,8 +26,7 @@
 
 namespace olive {
 
-class OCIOGradingTransformLinearNode : public OCIOBaseNode
-{
+class OCIOGradingTransformLinearNode : public OCIOBaseNode {
   Q_OBJECT
  public:
   OCIOGradingTransformLinearNode();
@@ -55,14 +54,13 @@ class OCIOGradingTransformLinearNode : public OCIOBaseNode
   static const QString kClampWhiteEnableInput;
   static const QString kClampWhiteInput;
 
-protected slots:
+ protected slots:
   virtual void ConfigChanged() override;
 
-private:
+ private:
   void SetVec4InputColors(const QString &input);
-
 };
 
-} // olive
+}  // namespace olive
 
 #endif

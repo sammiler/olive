@@ -28,10 +28,9 @@ namespace olive {
 
 using namespace core;
 
-class ColorCoding : public QObject
-{
+class ColorCoding : public QObject {
   Q_OBJECT
-public:
+ public:
   enum Code {
     kRed,
     kMaroon,
@@ -57,16 +56,12 @@ public:
 
   static Qt::GlobalColor GetUISelectorColor(const Color& c);
 
-  static const QVector<Color>& standard_colors()
-  {
-    return colors_;
-  }
+  static const QVector<Color>& standard_colors() { return colors_; }
 
-private:
+ private:
   static QVector<Color> colors_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // COLORCODING_H
+#endif  // COLORCODING_H

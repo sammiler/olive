@@ -31,20 +31,13 @@ namespace olive {
 
 const int ResizableScrollBar::kHandleWidth = 10;
 
-ResizableScrollBar::ResizableScrollBar(QWidget *parent) :
-  QScrollBar(parent)
-{
+ResizableScrollBar::ResizableScrollBar(QWidget *parent) : QScrollBar(parent) { Init(); }
+
+ResizableScrollBar::ResizableScrollBar(Qt::Orientation orientation, QWidget *parent) : QScrollBar(orientation, parent) {
   Init();
 }
 
-ResizableScrollBar::ResizableScrollBar(Qt::Orientation orientation, QWidget *parent):
-  QScrollBar(orientation, parent)
-{
-  Init();
-}
-
-void ResizableScrollBar::mousePressEvent(QMouseEvent *event)
-{
+void ResizableScrollBar::mousePressEvent(QMouseEvent *event) {
   if (mouse_handle_state_ == kNotInHandle) {
     QScrollBar::mousePressEvent(event);
   } else {
@@ -56,8 +49,7 @@ void ResizableScrollBar::mousePressEvent(QMouseEvent *event)
   }
 }
 
-void ResizableScrollBar::mouseMoveEvent(QMouseEvent *event)
-{
+void ResizableScrollBar::mouseMoveEvent(QMouseEvent *event) {
   QRect sr = GetScrollBarRect();
 
   if (dragging_) {
@@ -67,7 +59,6 @@ void ResizableScrollBar::mouseMoveEvent(QMouseEvent *event)
     emit ResizeMoved(mouse_movement);
 
   } else {
-
     int mouse_pos, top, bottom;
     Qt::CursorShape target_cursor;
     mouse_pos = GetActiveMousePos(event);
@@ -97,12 +88,10 @@ void ResizableScrollBar::mouseMoveEvent(QMouseEvent *event)
     }
 
     QScrollBar::mouseMoveEvent(event);
-
   }
 }
 
-void ResizableScrollBar::mouseReleaseEvent(QMouseEvent *event)
-{
+void ResizableScrollBar::mouseReleaseEvent(QMouseEvent *event) {
   if (dragging_) {
     dragging_ = false;
 
@@ -112,30 +101,26 @@ void ResizableScrollBar::mouseReleaseEvent(QMouseEvent *event)
   }
 }
 
-QRect ResizableScrollBar::GetScrollBarRect()
-{
+QRect ResizableScrollBar::GetScrollBarRect() {
   // Initialize "style option". I don't know what this does, I just ripped it straight from
   // Qt source code
   QStyleOptionSlider opt;
   initStyleOption(&opt);
 
   // Determine rect of slider bar
-  return style()->subControlRect(QStyle::CC_ScrollBar, &opt,
-                                 QStyle::SC_ScrollBarSlider, this);
+  return style()->subControlRect(QStyle::CC_ScrollBar, &opt, QStyle::SC_ScrollBarSlider, this);
 }
 
-void ResizableScrollBar::Init()
-{
+void ResizableScrollBar::Init() {
   setSingleStep(20);
   setMaximum(0);
   setMouseTracking(true);
 
-  mouse_handle_state_= kNotInHandle;
+  mouse_handle_state_ = kNotInHandle;
   dragging_ = false;
 }
 
-int ResizableScrollBar::GetActiveMousePos(QMouseEvent *event)
-{
+int ResizableScrollBar::GetActiveMousePos(QMouseEvent *event) {
   if (orientation() == Qt::Horizontal) {
     return event->pos().x();
   } else {
@@ -143,8 +128,7 @@ int ResizableScrollBar::GetActiveMousePos(QMouseEvent *event)
   }
 }
 
-int ResizableScrollBar::GetActiveBarSize()
-{
+int ResizableScrollBar::GetActiveBarSize() {
   QRect sr = GetScrollBarRect();
 
   if (orientation() == Qt::Horizontal) {
@@ -154,4 +138,4 @@ int ResizableScrollBar::GetActiveBarSize()
   }
 }
 
-}
+}  // namespace olive

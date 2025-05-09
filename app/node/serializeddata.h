@@ -37,7 +37,7 @@ struct SerializedData {
   };
 
   struct BlockLink {
-    Node* block;
+    Node *block;
     quintptr link;
   };
 
@@ -55,14 +55,13 @@ struct SerializedData {
   };
 
   QMap<Node *, QMap<quintptr, Node::Position> > positions;
-  QHash<quintptr, Node*> node_ptrs;
+  QHash<quintptr, Node *> node_ptrs;
   QList<SerializedConnection> desired_connections;
   QList<BlockLink> block_links;
   QVector<GroupLink> group_input_links;
-  QHash<NodeGroup*, quintptr> group_output_links;
-
+  QHash<NodeGroup *, quintptr> group_output_links;
 };
 
-}
+}  // namespace olive
 
-#endif // SERIALIZEDDATA_H
+#endif  // SERIALIZEDDATA_H

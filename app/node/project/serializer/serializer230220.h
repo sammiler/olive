@@ -25,26 +25,21 @@
 
 namespace olive {
 
-class ProjectSerializer230220 : public ProjectSerializer
-{
-public:
+class ProjectSerializer230220 : public ProjectSerializer {
+ public:
   ProjectSerializer230220() = default;
 
-protected:
+ protected:
   virtual LoadData Load(Project *project, QXmlStreamReader *reader, LoadType load_type, void *reserved) const override;
 
   virtual void Save(QXmlStreamWriter *writer, const SaveData &data, void *reserved) const override;
 
-  virtual uint Version() const override
-  {
-    return 230220;
-  }
+  virtual uint Version() const override { return 230220; }
 
-private:
-  void PostConnect(const QVector<Node*> &nodes, SerializedData *project_data) const;
-
+ private:
+  void PostConnect(const QVector<Node *> &nodes, SerializedData *project_data) const;
 };
 
-}
+}  // namespace olive
 
-#endif // PROJECTSERIALIZER230220_H
+#endif  // PROJECTSERIALIZER230220_H

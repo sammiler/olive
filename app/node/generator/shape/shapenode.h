@@ -25,17 +25,12 @@
 
 namespace olive {
 
-class ShapeNode : public ShapeNodeBase
-{
+class ShapeNode : public ShapeNodeBase {
   Q_OBJECT
-public:
+ public:
   ShapeNode();
 
-  enum Type {
-    kRectangle,
-    kEllipse,
-    kRoundedRectangle
-  };
+  enum Type { kRectangle, kEllipse, kRoundedRectangle };
 
   NODE_DEFAULT_FUNCTIONS(ShapeNode)
 
@@ -47,16 +42,15 @@ public:
   virtual void Retranslate() override;
 
   virtual ShaderCode GetShaderCode(const ShaderRequest &request) const override;
-  virtual void Value(const NodeValueRow& value, const NodeGlobals &globals, NodeValueTable *table) const override;
+  virtual void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
 
   static QString kTypeInput;
   static QString kRadiusInput;
 
-protected:
+ protected:
   virtual void InputValueChangedEvent(const QString &input, int element) override;
-
 };
 
-}
+}  // namespace olive
 
-#endif // SHAPENODE_H
+#endif  // SHAPENODE_H

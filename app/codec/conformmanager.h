@@ -9,32 +9,23 @@
 
 namespace olive {
 
-class ConformManager : public QObject
-{
+class ConformManager : public QObject {
   Q_OBJECT
-public:
-  static void CreateInstance()
-  {
+ public:
+  static void CreateInstance() {
     if (!instance_) {
       instance_ = new ConformManager();
     }
   }
 
-  static void DestroyInstance()
-  {
+  static void DestroyInstance() {
     delete instance_;
     instance_ = nullptr;
   }
 
-  static ConformManager *instance()
-  {
-    return instance_;
-  }
+  static ConformManager *instance() { return instance_; }
 
-  enum ConformState {
-    kConformExists,
-    kConformGenerating
-  };
+  enum ConformState { kConformExists, kConformGenerating };
 
   struct Conform {
     ConformState state;
@@ -47,12 +38,13 @@ public:
    *
    * Thread-safe.
    */
-  Conform GetConformState(const QString &decoder_id, const QString &cache_path, const Decoder::CodecStream &stream, const AudioParams &params, bool wait);
+  Conform GetConformState(const QString &decoder_id, const QString &cache_path, const Decoder::CodecStream &stream,
+                          const AudioParams &params, bool wait);
 
-signals:
+ signals:
   void ConformReady();
 
-private:
+ private:
   ConformManager() = default;
 
   static ConformManager *instance_;
@@ -74,15 +66,15 @@ private:
   /**
    * @brief Get the destination filename of an audio stream conformed to a set of parameters
    */
-  static QVector<QString> GetConformedFilename(const QString &cache_path, const Decoder::CodecStream &stream, const AudioParams &params);
+  static QVector<QString> GetConformedFilename(const QString &cache_path, const Decoder::CodecStream &stream,
+                                               const AudioParams &params);
 
   static bool AllConformsExist(const QVector<QString> &filenames);
 
-private slots:
+ private slots:
   void ConformTaskFinished(Task *task, bool succeeded);
-
 };
 
-}
+}  // namespace olive
 
-#endif // CONFORMMANAGER_H
+#endif  // CONFORMMANAGER_H

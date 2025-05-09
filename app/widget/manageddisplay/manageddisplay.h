@@ -21,7 +21,7 @@
 #ifndef MANAGEDDISPLAYOBJECT_H
 #define MANAGEDDISPLAYOBJECT_H
 
-//#define USE_QOPENGLWINDOW
+// #define USE_QOPENGLWINDOW
 
 #include <QMouseEvent>
 #include <QOpenGLContext>
@@ -45,60 +45,52 @@ class ManagedDisplayWidgetOpenGL
 #endif
 {
   Q_OBJECT
-public:
+ public:
   ManagedDisplayWidgetOpenGL() = default;
 
-  virtual ~ManagedDisplayWidgetOpenGL() override
-  {
+  virtual ~ManagedDisplayWidgetOpenGL() override {
     if (context()) {
       DestroyListener();
-      disconnect(context(), &QOpenGLContext::aboutToBeDestroyed,
-                 this, &ManagedDisplayWidgetOpenGL::DestroyListener);
+      disconnect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &ManagedDisplayWidgetOpenGL::DestroyListener);
     }
   }
 
-signals:
+ signals:
   // Render signals
   void OnInit();
   void OnPaint();
   void OnDestroy();
 
-protected:
-  virtual void initializeGL() override
-  {
-    connect(context(), &QOpenGLContext::aboutToBeDestroyed,
-            this, &ManagedDisplayWidgetOpenGL::DestroyListener,
+ protected:
+  virtual void initializeGL() override {
+    connect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &ManagedDisplayWidgetOpenGL::DestroyListener,
             Qt::DirectConnection);
 
     emit OnInit();
   }
 
-  virtual void paintGL() override
-  {
-    emit OnPaint();
-  }
+  virtual void paintGL() override { emit OnPaint(); }
 
-private slots:
-  void DestroyListener()
-  {
+ private slots:
+  void DestroyListener() {
     makeCurrent();
 
     emit OnDestroy();
 
     doneCurrent();
   }
-
 };
 
 #define MANAGEDDISPLAYWIDGET_DEFAULT_DESTRUCTOR_INNER \
-  makeCurrent();OnDestroy();doneCurrent()
+  makeCurrent();                                      \
+  OnDestroy();                                        \
+  doneCurrent()
 #define MANAGEDDISPLAYWIDGET_DEFAULT_DESTRUCTOR(x) \
-  virtual ~x() override{MANAGEDDISPLAYWIDGET_DEFAULT_DESTRUCTOR_INNER;}
+  virtual ~x() override { MANAGEDDISPLAYWIDGET_DEFAULT_DESTRUCTOR_INNER; }
 
-class ManagedDisplayWidget : public QWidget
-{
+class ManagedDisplayWidget : public QWidget {
   Q_OBJECT
-public:
+ public:
   ManagedDisplayWidget(QWidget* parent = nullptr);
 
   virtual ~ManagedDisplayWidget() override;
@@ -143,9 +135,9 @@ public:
    */
   void update();
 
-  virtual bool eventFilter(QObject *o, QEvent *e) override;
+  virtual bool eventFilter(QObject* o, QEvent* e) override;
 
-public slots:
+ public slots:
   /**
    * @brief Replaces the color transform with a new one
    */
@@ -156,7 +148,7 @@ public slots:
    */
   void ConnectColorManager(ColorManager* color_manager);
 
-signals:
+ signals:
   /**
    * @brief Emitted when the color processor changes
    */
@@ -169,7 +161,7 @@ signals:
 
   void frameSwapped();
 
-protected:
+ protected:
   /**
    * @brief Provides access to the color processor (nullptr if none is set)
    */
@@ -187,10 +179,7 @@ protected:
    */
   virtual void ColorProcessorChangedEvent();
 
-  Renderer* renderer() const
-  {
-    return attached_renderer_;
-  }
+  Renderer* renderer() const { return attached_renderer_; }
 
   void makeCurrent();
 
@@ -201,8 +190,7 @@ protected:
 #else
   QWidget*
 #endif
-  inner_widget() const
-  {
+  inner_widget() const {
     return inner_widget_;
   }
 
@@ -212,18 +200,15 @@ protected:
    * NOTE: This will be incompatible with QVulkanWindow so functions using it
    *       will need to be replaced soon.
    */
-  QPaintDevice *paint_device() const;
+  QPaintDevice* paint_device() const;
 
   void SetInnerMouseTracking(bool e);
 
-  QRect GetInnerRect() const
-  {
-    return wrapper_ ? wrapper_->rect() : QRect();
-  }
+  QRect GetInnerRect() const { return wrapper_ ? wrapper_->rect() : QRect(); }
 
   VideoParams GetViewportParams() const;
 
-protected slots:
+ protected slots:
   /**
    * @brief Called whenever the internal rendering context has been created
    */
@@ -239,7 +224,7 @@ protected slots:
    */
   virtual void OnDestroy();
 
-private:
+ private:
   /**
    * @brief Call this if this user has selected a different display/view/look to recreate the processor
    */
@@ -258,7 +243,7 @@ private:
 #else
   QWidget* inner_widget_;
 #endif
-  QWidget *wrapper_;
+  QWidget* wrapper_;
 
   /**
    * @brief Renderer abstraction
@@ -280,7 +265,7 @@ private:
    */
   ColorTransform color_transform_;
 
-private slots:
+ private slots:
   /**
    * @brief Sets all color settings to the defaults pertaining to this configuration
    */
@@ -310,9 +295,8 @@ private slots:
    * @brief If GetColorSpaceMenu() is called with `auto_connect` set to true, it will be connected to this
    */
   void MenuColorspaceSelect(QAction* action);
-
 };
 
-}
+}  // namespace olive
 
-#endif // MANAGEDDISPLAYOBJECT_H
+#endif  // MANAGEDDISPLAYOBJECT_H

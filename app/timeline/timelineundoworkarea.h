@@ -26,32 +26,18 @@
 namespace olive {
 
 class WorkareaSetEnabledCommand : public UndoCommand {
-public:
-  WorkareaSetEnabledCommand(Project *project, TimelineWorkArea* points, bool enabled) :
-    project_(project),
-    points_(points),
-    old_enabled_(points_->enabled()),
-    new_enabled_(enabled)
-  {
-  }
+ public:
+  WorkareaSetEnabledCommand(Project* project, TimelineWorkArea* points, bool enabled)
+      : project_(project), points_(points), old_enabled_(points_->enabled()), new_enabled_(enabled) {}
 
-  virtual Project* GetRelevantProject() const override
-  {
-    return project_;
-  }
+  virtual Project* GetRelevantProject() const override { return project_; }
 
-protected:
-  virtual void redo() override
-  {
-    points_->set_enabled(new_enabled_);
-  }
+ protected:
+  virtual void redo() override { points_->set_enabled(new_enabled_); }
 
-  virtual void undo() override
-  {
-    points_->set_enabled(old_enabled_);
-  }
+  virtual void undo() override { points_->set_enabled(old_enabled_); }
 
-private:
+ private:
   Project* project_;
 
   TimelineWorkArea* points_;
@@ -59,48 +45,31 @@ private:
   bool old_enabled_;
 
   bool new_enabled_;
-
 };
 
 class WorkareaSetRangeCommand : public UndoCommand {
-public:
-  WorkareaSetRangeCommand(TimelineWorkArea *workarea, const TimeRange& range, const TimeRange &old_range) :
-    workarea_(workarea),
-    old_range_(old_range),
-    new_range_(range)
-  {
-  }
+ public:
+  WorkareaSetRangeCommand(TimelineWorkArea* workarea, const TimeRange& range, const TimeRange& old_range)
+      : workarea_(workarea), old_range_(old_range), new_range_(range) {}
 
-  WorkareaSetRangeCommand(TimelineWorkArea *workarea, const TimeRange& range) :
-    WorkareaSetRangeCommand(workarea, range, workarea->range())
-  {
-  }
+  WorkareaSetRangeCommand(TimelineWorkArea* workarea, const TimeRange& range)
+      : WorkareaSetRangeCommand(workarea, range, workarea->range()) {}
 
-  virtual Project* GetRelevantProject() const override
-  {
-    return Project::GetProjectFromObject(workarea_);
-  }
+  virtual Project* GetRelevantProject() const override { return Project::GetProjectFromObject(workarea_); }
 
-protected:
-  virtual void redo() override
-  {
-    workarea_->set_range(new_range_);
-  }
+ protected:
+  virtual void redo() override { workarea_->set_range(new_range_); }
 
-  virtual void undo() override
-  {
-    workarea_->set_range(old_range_);
-  }
+  virtual void undo() override { workarea_->set_range(old_range_); }
 
-private:
-  TimelineWorkArea *workarea_;
+ private:
+  TimelineWorkArea* workarea_;
 
   TimeRange old_range_;
 
   TimeRange new_range_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // TIMELINEUNDOWORKAREA_H
+#endif  // TIMELINEUNDOWORKAREA_H

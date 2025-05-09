@@ -33,7 +33,7 @@ namespace olive {
 #define OLIVE_CONFIG_STR(x) Config::Current()[x]
 
 class Config {
-public:
+ public:
   static Config& Current();
 
   void SetDefaults();
@@ -48,7 +48,7 @@ public:
 
   NodeValue::Type GetConfigEntryType(const QString& key) const;
 
-private:
+ private:
   Config();
 
   struct ConfigEntry {
@@ -65,6 +65,6 @@ private:
   static QString GetConfigFilePath();
 };
 
-}
+}  // namespace olive
 
-#endif // CONFIG_H
+#endif  // CONFIG_H

@@ -28,30 +28,24 @@
 
 namespace olive {
 
-class PathWidget : public QWidget
-{
+class PathWidget : public QWidget {
   Q_OBJECT
-public:
-  PathWidget(const QString& path,
-             QWidget* parent = nullptr);
+ public:
+  PathWidget(const QString& path, QWidget* parent = nullptr);
 
-  QString text() const
-  {
-    return path_edit_->text();
-  }
+  QString text() const { return path_edit_->text(); }
 
-private slots:
+ private slots:
   void BrowseClicked();
 
   void LineEditChanged();
 
-private:
+ private:
   QLineEdit* path_edit_;
 
   QPushButton* browse_btn_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // PATHWIDGET_H
+#endif  // PATHWIDGET_H

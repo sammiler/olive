@@ -20,6 +20,4 @@
 
 #include "timebasedviewselectionmanager.h"
 
-namespace olive {
-
-}
+namespace olive {}

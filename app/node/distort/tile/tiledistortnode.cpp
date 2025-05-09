@@ -33,8 +33,7 @@ const QString TileDistortNode::kMirrorYInput = QStringLiteral("mirrory_in");
 
 #define super Node
 
-TileDistortNode::TileDistortNode()
-{
+TileDistortNode::TileDistortNode() {
   AddInput(kTextureInput, NodeValue::kTexture, InputFlags(kInputFlagNotKeyframable));
 
   AddInput(kScaleInput, NodeValue::kFloat, 0.5);
@@ -52,34 +51,21 @@ TileDistortNode::TileDistortNode()
   SetEffectInput(kTextureInput);
 
   gizmo_ = AddDraggableGizmo<PointGizmo>({
-    NodeKeyframeTrackReference(NodeInput(this, kPositionInput), 0),
-    NodeKeyframeTrackReference(NodeInput(this, kPositionInput), 1),
+      NodeKeyframeTrackReference(NodeInput(this, kPositionInput), 0),
+      NodeKeyframeTrackReference(NodeInput(this, kPositionInput), 1),
   });
   gizmo_->SetShape(PointGizmo::kAnchorPoint);
 }
 
-QString TileDistortNode::Name() const
-{
-  return tr("Tile");
-}
+QString TileDistortNode::Name() const { return tr("Tile"); }
 
-QString TileDistortNode::id() const
-{
-  return QStringLiteral("org.oliveeditor.Olive.tile");
-}
+QString TileDistortNode::id() const { return QStringLiteral("org.oliveeditor.Olive.tile"); }
 
-QVector<Node::CategoryID> TileDistortNode::Category() const
-{
-  return {kCategoryDistort};
-}
+QVector<Node::CategoryID> TileDistortNode::Category() const { return {kCategoryDistort}; }
 
-QString TileDistortNode::Description() const
-{
-  return tr("Infinitely tile an image horizontally and vertically.");
-}
+QString TileDistortNode::Description() const { return tr("Infinitely tile an image horizontally and vertically."); }
 
-void TileDistortNode::Retranslate()
-{
+void TileDistortNode::Retranslate() {
   super::Retranslate();
 
   SetInputName(kTextureInput, tr("Input"));
@@ -90,26 +76,24 @@ void TileDistortNode::Retranslate()
 
   SetInputName(kAnchorInput, tr("Anchor"));
   SetComboBoxStrings(kAnchorInput, {
-    tr("Top-Left"),
-    tr("Top-Center"),
-    tr("Top-Right"),
-    tr("Middle-Left"),
-    tr("Middle-Center"),
-    tr("Middle-Right"),
-    tr("Bottom-Left"),
-    tr("Bottom-Center"),
-    tr("Bottom-Right"),
-  });
+                                       tr("Top-Left"),
+                                       tr("Top-Center"),
+                                       tr("Top-Right"),
+                                       tr("Middle-Left"),
+                                       tr("Middle-Center"),
+                                       tr("Middle-Right"),
+                                       tr("Bottom-Left"),
+                                       tr("Bottom-Center"),
+                                       tr("Bottom-Right"),
+                                   });
 }
 
-ShaderCode TileDistortNode::GetShaderCode(const ShaderRequest &request) const
-{
+ShaderCode TileDistortNode::GetShaderCode(const ShaderRequest &request) const {
   Q_UNUSED(request)
   return ShaderCode(FileFunctions::ReadFileAsString(":/shaders/tile.frag"));
 }
 
-void TileDistortNode::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const
-{
+void TileDistortNode::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const {
   // If there's no texture, no need to run an operation
   if (TexturePtr tex = value[kTextureInput].toTexture()) {
     // Only run shader if at least one of flip or flop are selected
@@ -124,8 +108,7 @@ void TileDistortNode::Value(const NodeValueRow &value, const NodeGlobals &global
   }
 }
 
-void TileDistortNode::UpdateGizmoPositions(const NodeValueRow &row, const NodeGlobals &globals)
-{
+void TileDistortNode::UpdateGizmoPositions(const NodeValueRow &row, const NodeGlobals &globals) {
   if (TexturePtr tex = row[kTextureInput].toTexture()) {
     QPointF res = tex->virtual_resolution().toPointF();
     QPointF pos = row[kPositionInput].toVec2().toPointF();
@@ -136,14 +119,14 @@ void TileDistortNode::UpdateGizmoPositions(const NodeValueRow &row, const NodeGl
     if (a == kTopLeft || a == kTopCenter || a == kTopRight) {
       // Do nothing
     } else if (a == kMiddleLeft || a == kMiddleCenter || a == kMiddleRight) {
-      y += res.y()/2;
+      y += res.y() / 2;
     } else if (a == kBottomLeft || a == kBottomCenter || a == kBottomRight) {
       y += res.y();
     }
     if (a == kTopLeft || a == kMiddleLeft || a == kBottomLeft) {
       // Do nothing
     } else if (a == kTopCenter || a == kMiddleCenter || a == kBottomCenter) {
-      x += res.x()/2;
+      x += res.x() / 2;
     } else if (a == kTopRight || a == kMiddleRight || a == kBottomRight) {
       x += res.x();
     }
@@ -152,8 +135,7 @@ void TileDistortNode::UpdateGizmoPositions(const NodeValueRow &row, const NodeGl
   }
 }
 
-void TileDistortNode::GizmoDragMove(double x, double y, const Qt::KeyboardModifiers &modifiers)
-{
+void TileDistortNode::GizmoDragMove(double x, double y, const Qt::KeyboardModifiers &modifiers) {
   NodeInputDragger &x_drag = gizmo_->GetDraggers()[0];
   NodeInputDragger &y_drag = gizmo_->GetDraggers()[1];
 
@@ -161,4 +143,4 @@ void TileDistortNode::GizmoDragMove(double x, double y, const Qt::KeyboardModifi
   y_drag.Drag(y_drag.GetStartValue().toDouble() + y);
 }
 
-}
+}  // namespace olive

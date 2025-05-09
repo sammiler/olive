@@ -24,7 +24,7 @@
 
 namespace olive {
 
-int QtUtils::QFontMetricsWidth(QFontMetrics fm, const QString& s) {
+int QtUtils::QFontMetricsWidth(QFontMetrics fm, const QString &s) {
 #if QT_VERSION < QT_VERSION_CHECK(5, 11, 0)
   return fm.width(s);
 #else
@@ -32,23 +32,21 @@ int QtUtils::QFontMetricsWidth(QFontMetrics fm, const QString& s) {
 #endif
 }
 
-QFrame *QtUtils::CreateHorizontalLine()
-{
-  QFrame* horizontal_line = new QFrame();
+QFrame *QtUtils::CreateHorizontalLine() {
+  QFrame *horizontal_line = new QFrame();
   horizontal_line->setFrameShape(QFrame::HLine);
   horizontal_line->setFrameShadow(QFrame::Sunken);
   return horizontal_line;
 }
 
-QFrame *QtUtils::CreateVerticalLine()
-{
+QFrame *QtUtils::CreateVerticalLine() {
   QFrame *l = CreateHorizontalLine();
   l->setFrameShape(QFrame::VLine);
   return l;
 }
 
-int QtUtils::MsgBox(QWidget *parent, QMessageBox::Icon icon, const QString &title, const QString &message, QMessageBox::StandardButtons buttons)
-{
+int QtUtils::MsgBox(QWidget *parent, QMessageBox::Icon icon, const QString &title, const QString &message,
+                    QMessageBox::StandardButtons buttons) {
   QMessageBox b(parent);
   b.setIcon(icon);
   b.setWindowModality(Qt::WindowModal);
@@ -67,8 +65,7 @@ int QtUtils::MsgBox(QWidget *parent, QMessageBox::Icon icon, const QString &titl
   return b.exec();
 }
 
-QDateTime QtUtils::GetCreationDate(const QFileInfo &info)
-{
+QDateTime QtUtils::GetCreationDate(const QFileInfo &info) {
 #if QT_VERSION < QT_VERSION_CHECK(5, 10, 0)
   return info.created();
 #else
@@ -80,30 +77,25 @@ QDateTime QtUtils::GetCreationDate(const QFileInfo &info)
 #endif
 }
 
-QString QtUtils::GetFormattedDateTime(const QDateTime &dt)
-{
-  return dt.toString(Qt::TextDate);
-}
+QString QtUtils::GetFormattedDateTime(const QDateTime &dt) { return dt.toString(Qt::TextDate); }
 
-QStringList QtUtils::WordWrapString(const QString &s, const QFontMetrics &fm, int bounding_width)
-{
+QStringList QtUtils::WordWrapString(const QString &s, const QFontMetrics &fm, int bounding_width) {
   QStringList list;
 
   QStringList lines = s.split('\n');
 
   // Iterate every line
-  for (int i=0; i<lines.size(); i++) {
+  for (int i = 0; i < lines.size(); i++) {
     QString this_line = lines.at(i);
 
     while (this_line.size() > 1 && QFontMetricsWidth(fm, this_line) >= bounding_width) {
       int old_size = this_line.size();
       int hard_break = -1;
 
-      for (int j=this_line.size()-1; j>=0; j--) {
+      for (int j = this_line.size() - 1; j >= 0; j--) {
         const QChar &char_test = this_line.at(j);
 
-        if (char_test.isSpace()
-            || char_test == '-') {
+        if (char_test.isSpace() || char_test == '-') {
           if (QFontMetricsWidth(fm, this_line.left(j)) < bounding_width) {
             if (!char_test.isSpace()) {
               j++;
@@ -145,8 +137,7 @@ QStringList QtUtils::WordWrapString(const QString &s, const QFontMetrics &fm, in
   return list;
 }
 
-Qt::KeyboardModifiers QtUtils::FlipControlAndShiftModifiers(Qt::KeyboardModifiers e)
-{
+Qt::KeyboardModifiers QtUtils::FlipControlAndShiftModifiers(Qt::KeyboardModifiers e) {
   if (e & Qt::ControlModifier & Qt::ShiftModifier) {
     return e;
   }
@@ -162,9 +153,8 @@ Qt::KeyboardModifiers QtUtils::FlipControlAndShiftModifiers(Qt::KeyboardModifier
   return e;
 }
 
-void QtUtils::SetComboBoxData(QComboBox *cb, int data)
-{
-  for (int i=0; i<cb->count(); i++) {
+void QtUtils::SetComboBoxData(QComboBox *cb, int data) {
+  for (int i = 0; i < cb->count(); i++) {
     if (cb->itemData(i).toInt() == data) {
       cb->setCurrentIndex(i);
       break;
@@ -172,9 +162,8 @@ void QtUtils::SetComboBoxData(QComboBox *cb, int data)
   }
 }
 
-void QtUtils::SetComboBoxData(QComboBox *cb, const QString &data)
-{
-  for (int i=0; i<cb->count(); i++) {
+void QtUtils::SetComboBoxData(QComboBox *cb, const QString &data) {
+  for (int i = 0; i < cb->count(); i++) {
     if (cb->itemData(i).toString() == data) {
       cb->setCurrentIndex(i);
       break;
@@ -182,8 +171,7 @@ void QtUtils::SetComboBoxData(QComboBox *cb, const QString &data)
   }
 }
 
-QColor QtUtils::toQColor(const core::Color &i)
-{
+QColor QtUtils::toQColor(const core::Color &i) {
   QColor c;
 
   // QColor only supports values from 0.0 to 1.0 and are only used for UI representations
@@ -197,17 +185,10 @@ QColor QtUtils::toQColor(const core::Color &i)
 
 namespace core {
 
-uint qHash(const core::rational &r, uint seed)
-{
-  return ::qHash(r.toDouble(), seed);
-}
+uint qHash(const core::rational &r, uint seed) { return ::qHash(r.toDouble(), seed); }
 
-uint qHash(const core::TimeRange &r, uint seed)
-{
-  return qHash(r.in(), seed) ^ qHash(r.out(), seed);
-}
+uint qHash(const core::TimeRange &r, uint seed) { return qHash(r.in(), seed) ^ qHash(r.out(), seed); }
 
+}  // namespace core
 
-}
-
-}
+}  // namespace olive

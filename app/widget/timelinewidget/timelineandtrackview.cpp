@@ -25,10 +25,8 @@
 
 namespace olive {
 
-TimelineAndTrackView::TimelineAndTrackView(Qt::Alignment vertical_alignment, QWidget *parent) :
-  QWidget(parent)
-{
-  QHBoxLayout* layout = new QHBoxLayout(this);
+TimelineAndTrackView::TimelineAndTrackView(Qt::Alignment vertical_alignment, QWidget *parent) : QWidget(parent) {
+  QHBoxLayout *layout = new QHBoxLayout(this);
   layout->setSpacing(0);
   layout->setContentsMargins(0, 0, 0, 0);
 
@@ -48,29 +46,18 @@ TimelineAndTrackView::TimelineAndTrackView(Qt::Alignment vertical_alignment, QWi
   splitter_->setSizes({1, width()});
 }
 
-QSplitter *TimelineAndTrackView::splitter() const
-{
-  return splitter_;
-}
+QSplitter *TimelineAndTrackView::splitter() const { return splitter_; }
 
-TimelineView *TimelineAndTrackView::view() const
-{
-  return view_;
-}
+TimelineView *TimelineAndTrackView::view() const { return view_; }
 
-TrackView *TimelineAndTrackView::track_view() const
-{
-  return track_view_;
-}
+TrackView *TimelineAndTrackView::track_view() const { return track_view_; }
 
-void TimelineAndTrackView::ViewValueChanged(int v)
-{
+void TimelineAndTrackView::ViewValueChanged(int v) {
   track_view_->verticalScrollBar()->setValue(v - view_->verticalScrollBar()->minimum());
 }
 
-void TimelineAndTrackView::TracksValueChanged(int v)
-{
+void TimelineAndTrackView::TracksValueChanged(int v) {
   view_->verticalScrollBar()->setValue(view_->verticalScrollBar()->minimum() + v);
 }
 
-}
+}  // namespace olive

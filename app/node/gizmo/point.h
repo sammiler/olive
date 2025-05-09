@@ -27,15 +27,10 @@
 
 namespace olive {
 
-class PointGizmo : public DraggableGizmo
-{
+class PointGizmo : public DraggableGizmo {
   Q_OBJECT
-public:
-  enum Shape {
-    kSquare,
-    kCircle,
-    kAnchorPoint
-  };
+ public:
+  enum Shape { kSquare, kCircle, kAnchorPoint };
 
   explicit PointGizmo(const Shape &shape, bool smaller, QObject *parent = nullptr);
   explicit PointGizmo(const Shape &shape, QObject *parent = nullptr);
@@ -54,7 +49,7 @@ public:
 
   QRectF GetClickingRect(const QTransform &t) const;
 
-private:
+ private:
   static double GetStandardRadius();
 
   QRectF GetDrawingRect(const QTransform &transform, double radius) const;
@@ -64,9 +59,8 @@ private:
   QPointF point_;
 
   bool smaller_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // POINTGIZMO_H
+#endif  // POINTGIZMO_H

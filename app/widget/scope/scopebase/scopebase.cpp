@@ -26,28 +26,19 @@ namespace olive {
 
 #define super ManagedDisplayWidget
 
-ScopeBase::ScopeBase(QWidget* parent) :
-  super(parent),
-  texture_(nullptr),
-  managed_tex_up_to_date_(false)
-{
+ScopeBase::ScopeBase(QWidget* parent) : super(parent), texture_(nullptr), managed_tex_up_to_date_(false) {
   EnableDefaultContextMenu();
 }
 
-void ScopeBase::SetBuffer(TexturePtr frame)
-{
+void ScopeBase::SetBuffer(TexturePtr frame) {
   texture_ = frame;
   managed_tex_up_to_date_ = false;
   update();
 }
 
-void ScopeBase::showEvent(QShowEvent* e)
-{
-  super::showEvent(e);
-}
+void ScopeBase::showEvent(QShowEvent* e) { super::showEvent(e); }
 
-void ScopeBase::DrawScope(TexturePtr managed_tex, QVariant pipeline)
-{
+void ScopeBase::DrawScope(TexturePtr managed_tex, QVariant pipeline) {
   ShaderJob job;
 
   job.Insert(QStringLiteral("ove_maintex"), NodeValue(NodeValue::kTexture, QVariant::fromValue(managed_tex)));
@@ -55,22 +46,19 @@ void ScopeBase::DrawScope(TexturePtr managed_tex, QVariant pipeline)
   renderer()->Blit(pipeline, job, GetViewportParams());
 }
 
-void ScopeBase::OnInit()
-{
+void ScopeBase::OnInit() {
   super::OnInit();
 
   pipeline_ = renderer()->CreateNativeShader(GenerateShaderCode());
 }
 
-void ScopeBase::OnPaint()
-{
+void ScopeBase::OnPaint() {
   // Clear display surface
   renderer()->ClearDestination();
 
   if (texture_) {
     // Convert reference frame to display space
-    if (!managed_tex_ || !managed_tex_up_to_date_
-        || managed_tex_->params() != texture_->params()) {
+    if (!managed_tex_ || !managed_tex_up_to_date_ || managed_tex_->params() != texture_->params()) {
       managed_tex_ = renderer()->CreateTexture(texture_->params());
 
       ColorTransformJob job;
@@ -85,8 +73,7 @@ void ScopeBase::OnPaint()
   }
 }
 
-void ScopeBase::OnDestroy()
-{
+void ScopeBase::OnDestroy() {
   managed_tex_ = nullptr;
   texture_ = nullptr;
   pipeline_.clear();
@@ -94,4 +81,4 @@ void ScopeBase::OnDestroy()
   super::OnDestroy();
 }
 
-}
+}  // namespace olive

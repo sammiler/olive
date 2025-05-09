@@ -24,16 +24,13 @@
 #include <QEvent>
 #include <QHBoxLayout>
 
-#include "core.h"
 #include "config/config.h"
+#include "core.h"
 #include "ui/icons/icons.h"
 
 namespace olive {
 
-PlaybackControls::PlaybackControls(QWidget *parent) :
-  QWidget(parent),
-  time_base_(0)
-{
+PlaybackControls::PlaybackControls(QWidget* parent) : QWidget(parent), time_base_(0) {
   // Create lower controls
   QHBoxLayout* lower_control_layout = new QHBoxLayout(this);
   lower_control_layout->setSpacing(0);
@@ -62,7 +59,7 @@ PlaybackControls::PlaybackControls(QWidget *parent) :
 
   // This is only here
   QWidget* blank_widget = new QWidget();
-  //new QHBoxLayout(blank_widget);
+  // new QHBoxLayout(blank_widget);
   blank_widget->setSizePolicy(lower_container_size_policy);
   lower_control_layout->addWidget(blank_widget);
 
@@ -162,14 +159,12 @@ PlaybackControls::PlaybackControls(QWidget *parent) :
   connect(play_blink_timer_, &QTimer::timeout, this, &PlaybackControls::PlayBlink);
 }
 
-void PlaybackControls::SetTimecodeEnabled(bool enabled)
-{
+void PlaybackControls::SetTimecodeEnabled(bool enabled) {
   lower_left_container_->setVisible(enabled);
   lower_right_container_->setVisible(enabled);
 }
 
-void PlaybackControls::SetTimebase(const rational &r)
-{
+void PlaybackControls::SetTimebase(const rational& r) {
   time_base_ = r;
   cur_tc_lbl_->SetTimebase(r);
 
@@ -179,43 +174,32 @@ void PlaybackControls::SetTimebase(const rational &r)
   setEnabled(!r.isNull());
 }
 
-void PlaybackControls::SetAudioVideoDragButtonsVisible(bool e)
-{
+void PlaybackControls::SetAudioVideoDragButtonsVisible(bool e) {
   video_drag_btn_->setVisible(e);
   audio_drag_btn_->setVisible(e);
 }
 
-void PlaybackControls::SetTime(const rational &r)
-{
-  cur_tc_lbl_->SetValue(r);
-}
+void PlaybackControls::SetTime(const rational& r) { cur_tc_lbl_->SetValue(r); }
 
-void PlaybackControls::SetEndTime(const rational &r)
-{
+void PlaybackControls::SetEndTime(const rational& r) {
   if (time_base_.isNull()) {
     return;
   }
 
   end_time_ = r;
 
-  end_tc_lbl_->setText(QString::fromStdString(Timecode::time_to_timecode(end_time_,
-                                                                         time_base_,
-                                                                         Core::instance()->GetTimecodeDisplay())));
+  end_tc_lbl_->setText(QString::fromStdString(
+      Timecode::time_to_timecode(end_time_, time_base_, Core::instance()->GetTimecodeDisplay())));
 }
 
-void PlaybackControls::ShowPauseButton()
-{
+void PlaybackControls::ShowPauseButton() {
   // Play was clicked, toggle to pause
   playpause_stack_->setCurrentWidget(pause_btn_);
 }
 
-void PlaybackControls::ShowPlayButton()
-{
-  playpause_stack_->setCurrentWidget(play_btn_);
-}
+void PlaybackControls::ShowPlayButton() { playpause_stack_->setCurrentWidget(play_btn_); }
 
-void PlaybackControls::changeEvent(QEvent *e)
-{
+void PlaybackControls::changeEvent(QEvent* e) {
   QWidget::changeEvent(e);
 
   if (e->type() == QEvent::StyleChange) {
@@ -223,8 +207,7 @@ void PlaybackControls::changeEvent(QEvent *e)
   }
 }
 
-void PlaybackControls::UpdateIcons()
-{
+void PlaybackControls::UpdateIcons() {
   go_to_start_btn_->setIcon(icon::GoToStart);
   prev_frame_btn_->setIcon(icon::PrevFrame);
   play_btn_->setIcon(icon::Play);
@@ -235,20 +218,15 @@ void PlaybackControls::UpdateIcons()
   audio_drag_btn_->setIcon(icon::Audio);
 }
 
-void PlaybackControls::SetButtonRecordingState(QPushButton *btn, bool on)
-{
+void PlaybackControls::SetButtonRecordingState(QPushButton* btn, bool on) {
   btn->setStyleSheet(on ? QStringLiteral("background: red;") : QString());
 }
 
-void PlaybackControls::TimecodeChanged()
-{
+void PlaybackControls::TimecodeChanged() {
   // Update end time
   SetEndTime(end_time_);
 }
 
-void PlaybackControls::PlayBlink()
-{
-  SetButtonRecordingState(play_btn_, play_btn_->styleSheet().isEmpty());
-}
+void PlaybackControls::PlayBlink() { SetButtonRecordingState(play_btn_, play_btn_->styleSheet().isEmpty()); }
 
-}
+}  // namespace olive

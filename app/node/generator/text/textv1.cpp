@@ -40,8 +40,7 @@ const QString TextGeneratorV1::kFontSizeInput = QStringLiteral("font_size_in");
 
 #define super Node
 
-TextGeneratorV1::TextGeneratorV1()
-{
+TextGeneratorV1::TextGeneratorV1() {
   AddInput(kTextInput, NodeValue::kText, tr("Sample Text"));
 
   AddInput(kHtmlInput, NodeValue::kBoolean, false);
@@ -57,28 +56,15 @@ TextGeneratorV1::TextGeneratorV1()
   SetFlag(kDontShowInCreateMenu);
 }
 
-QString TextGeneratorV1::Name() const
-{
-  return tr("Text (Legacy)");
-}
+QString TextGeneratorV1::Name() const { return tr("Text (Legacy)"); }
 
-QString TextGeneratorV1::id() const
-{
-  return QStringLiteral("org.olivevideoeditor.Olive.textgenerator");
-}
+QString TextGeneratorV1::id() const { return QStringLiteral("org.olivevideoeditor.Olive.textgenerator"); }
 
-QVector<Node::CategoryID> TextGeneratorV1::Category() const
-{
-  return {kCategoryGenerator};
-}
+QVector<Node::CategoryID> TextGeneratorV1::Category() const { return {kCategoryGenerator}; }
 
-QString TextGeneratorV1::Description() const
-{
-  return tr("Generate rich text.");
-}
+QString TextGeneratorV1::Description() const { return tr("Generate rich text."); }
 
-void TextGeneratorV1::Retranslate()
-{
+void TextGeneratorV1::Retranslate() {
   super::Retranslate();
 
   SetInputName(kTextInput, tr("Text"));
@@ -90,15 +76,13 @@ void TextGeneratorV1::Retranslate()
   SetComboBoxStrings(kVAlignInput, {tr("Top"), tr("Center"), tr("Bottom")});
 }
 
-void TextGeneratorV1::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const
-{
+void TextGeneratorV1::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const {
   if (!value[kTextInput].toString().isEmpty()) {
     table->Push(NodeValue::kTexture, Texture::Job(globals.vparams(), GenerateJob(value)), this);
   }
 }
 
-void TextGeneratorV1::GenerateFrame(FramePtr frame, const GenerateJob& job) const
-{
+void TextGeneratorV1::GenerateFrame(FramePtr frame, const GenerateJob &job) const {
   // This could probably be more optimized, but for now we use Qt to draw to a QImage.
   // QImages only support integer pixels and we use float pixels, so what we do here is draw onto
   // a single-channel QImage (alpha only) and then transplant that alpha channel to our float buffer
@@ -140,18 +124,18 @@ void TextGeneratorV1::GenerateFrame(FramePtr frame, const GenerateJob& job) cons
   int doc_height = text_doc.size().height();
 
   switch (valign) {
-  case kVerticalAlignTop:
-    // Push 10% inwards for title safe area
-    p.translate(0, frame->video_params().height() / 10);
-    break;
-  case kVerticalAlignCenter:
-    // Center align
-    p.translate(0, frame->video_params().height() / 2 - doc_height / 2);
-    break;
-  case kVerticalAlignBottom:
-    // Push 10% inwards for title safe area
-    p.translate(0, frame->video_params().height() - doc_height - frame->video_params().height() / 10);
-    break;
+    case kVerticalAlignTop:
+      // Push 10% inwards for title safe area
+      p.translate(0, frame->video_params().height() / 10);
+      break;
+    case kVerticalAlignCenter:
+      // Center align
+      p.translate(0, frame->video_params().height() / 2 - doc_height / 2);
+      break;
+    case kVerticalAlignBottom:
+      // Push 10% inwards for title safe area
+      p.translate(0, frame->video_params().height() - doc_height - frame->video_params().height() / 10);
+      break;
   }
 
   QAbstractTextDocumentLayout::PaintContext ctx;
@@ -160,8 +144,8 @@ void TextGeneratorV1::GenerateFrame(FramePtr frame, const GenerateJob& job) cons
 
   // Transplant alpha channel to frame
   Color rgb = job.Get(kColorInput).toColor();
-  for (int x=0; x<frame->width(); x++) {
-    for (int y=0; y<frame->height(); y++) {
+  for (int x = 0; x < frame->width(); x++) {
+    for (int y = 0; y < frame->height(); y++) {
       uchar src_alpha = img.bits()[img.bytesPerLine() * y + x];
       float alpha = float(src_alpha) / 255.0f;
 
@@ -170,4 +154,4 @@ void TextGeneratorV1::GenerateFrame(FramePtr frame, const GenerateJob& job) cons
   }
 }
 
-}
+}  // namespace olive

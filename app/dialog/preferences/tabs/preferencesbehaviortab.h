@@ -27,27 +27,26 @@
 
 namespace olive {
 
-class PreferencesBehaviorTab : public ConfigDialogBaseTab
-{
+class PreferencesBehaviorTab : public ConfigDialogBaseTab {
   Q_OBJECT
-public:
+ public:
   PreferencesBehaviorTab();
 
-  virtual void Accept(MultiUndoCommand* command) override;
+  virtual void Accept(MultiUndoCommand *command) override;
 
-private:
-  QTreeWidgetItem *AddParent(const QString& text, const QString &tooltip, QTreeWidgetItem *parent = nullptr);
-  QTreeWidgetItem *AddParent(const QString& text, QTreeWidgetItem *parent = nullptr);
+ private:
+  QTreeWidgetItem *AddParent(const QString &text, const QString &tooltip, QTreeWidgetItem *parent = nullptr);
+  QTreeWidgetItem *AddParent(const QString &text, QTreeWidgetItem *parent = nullptr);
 
-  QTreeWidgetItem *AddItem(const QString& text, const QString& config_key, const QString &tooltip, QTreeWidgetItem *parent );
-  QTreeWidgetItem *AddItem(const QString& text, const QString& config_key, QTreeWidgetItem *parent);
+  QTreeWidgetItem *AddItem(const QString &text, const QString &config_key, const QString &tooltip,
+                           QTreeWidgetItem *parent);
+  QTreeWidgetItem *AddItem(const QString &text, const QString &config_key, QTreeWidgetItem *parent);
 
-  QMap<QTreeWidgetItem*, QString> config_map_;
+  QMap<QTreeWidgetItem *, QString> config_map_;
 
-  QTreeWidget* behavior_tree_;
-
+  QTreeWidget *behavior_tree_;
 };
 
-}
+}  // namespace olive
 
-#endif // PREFERENCESBEHAVIORTAB_H
+#endif  // PREFERENCESBEHAVIORTAB_H

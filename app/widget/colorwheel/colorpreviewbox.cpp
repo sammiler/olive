@@ -26,29 +26,22 @@
 
 namespace olive {
 
-ColorPreviewBox::ColorPreviewBox(QWidget *parent) :
-  QWidget(parent),
-  to_ref_processor_(nullptr),
-  to_display_processor_(nullptr)
-{
-}
+ColorPreviewBox::ColorPreviewBox(QWidget *parent)
+    : QWidget(parent), to_ref_processor_(nullptr), to_display_processor_(nullptr) {}
 
-void ColorPreviewBox::SetColorProcessor(ColorProcessorPtr to_ref, ColorProcessorPtr to_display)
-{
+void ColorPreviewBox::SetColorProcessor(ColorProcessorPtr to_ref, ColorProcessorPtr to_display) {
   to_ref_processor_ = to_ref;
   to_display_processor_ = to_display;
 
   update();
 }
 
-void ColorPreviewBox::SetColor(const Color &c)
-{
+void ColorPreviewBox::SetColor(const Color &c) {
   color_ = c;
   update();
 }
 
-void ColorPreviewBox::paintEvent(QPaintEvent *e)
-{
+void ColorPreviewBox::paintEvent(QPaintEvent *e) {
   QWidget::paintEvent(e);
 
   QColor c;
@@ -77,4 +70,4 @@ void ColorPreviewBox::paintEvent(QPaintEvent *e)
   p.drawRect(draw_rect);
 }
 
-}
+}  // namespace olive

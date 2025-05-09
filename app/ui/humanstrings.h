@@ -8,10 +8,9 @@ namespace olive {
 
 using namespace core;
 
-class HumanStrings : public QObject
-{
+class HumanStrings : public QObject {
   Q_OBJECT
-public:
+ public:
   HumanStrings() = default;
 
   static QString SampleRateToString(const int &sample_rate);
@@ -19,9 +18,8 @@ public:
   static QString ChannelLayoutToString(const uint64_t &layout);
 
   static QString FormatToString(const SampleFormat &f);
-
 };
 
-}
+}  // namespace olive
 
-#endif // HUMANSTRINGS_H
+#endif  // HUMANSTRINGS_H

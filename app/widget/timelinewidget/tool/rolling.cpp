@@ -26,16 +26,13 @@
 
 namespace olive {
 
-RollingTool::RollingTool(TimelineWidget* parent) :
-  PointerTool(parent)
-{
+RollingTool::RollingTool(TimelineWidget* parent) : PointerTool(parent) {
   SetMovementAllowed(false);
   SetGapTrimmingAllowed(true);
 }
 
-void RollingTool::InitiateDrag(Block *clicked_item, Timeline::MovementMode trim_mode, Qt::KeyboardModifiers modifiers)
-{
+void RollingTool::InitiateDrag(Block* clicked_item, Timeline::MovementMode trim_mode, Qt::KeyboardModifiers modifiers) {
   InitiateDragInternal(clicked_item, trim_mode, modifiers, false, true, false);
 }
 
-}
+}  // namespace olive

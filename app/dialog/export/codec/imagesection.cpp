@@ -25,9 +25,7 @@
 
 namespace olive {
 
-ImageSection::ImageSection(QWidget* parent) :
-  CodecSection(parent)
-{
+ImageSection::ImageSection(QWidget* parent) : CodecSection(parent) {
   QGridLayout* layout = new QGridLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
 
@@ -51,9 +49,6 @@ ImageSection::ImageSection(QWidget* parent) :
   layout->addWidget(frame_slider_, row, 1);
 }
 
-void ImageSection::ImageSequenceCheckBoxToggled(bool e)
-{
-  frame_slider_->setEnabled(!e);
-}
+void ImageSection::ImageSequenceCheckBoxToggled(bool e) { frame_slider_->setEnabled(!e); }
 
-}
+}  // namespace olive

@@ -31,10 +31,7 @@ namespace olive {
 
 #define super SeekableWidget
 
-AudioWaveformView::AudioWaveformView(QWidget *parent) :
-  super(parent),
-  playback_(nullptr)
-{
+AudioWaveformView::AudioWaveformView(QWidget *parent) : super(parent), playback_(nullptr) {
   setAutoFillBackground(true);
   setBackgroundRole(QPalette::Base);
   setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -46,13 +43,13 @@ AudioWaveformView::AudioWaveformView(QWidget *parent) :
   setAlignment(Qt::AlignLeft | Qt::AlignTop);
 }
 
-void AudioWaveformView::SetViewer(ViewerOutput *playback)
-{
+void AudioWaveformView::SetViewer(ViewerOutput *playback) {
   if (playback_) {
     pool_.clear();
     pool_.waitForDone();
 
-    disconnect(playback_, &ViewerOutput::ConnectedWaveformChanged, viewport(), static_cast<void(QWidget::*)()>(&QWidget::update));
+    disconnect(playback_, &ViewerOutput::ConnectedWaveformChanged, viewport(),
+               static_cast<void (QWidget::*)()>(&QWidget::update));
 
     SetTimebase(0);
   }
@@ -60,14 +57,14 @@ void AudioWaveformView::SetViewer(ViewerOutput *playback)
   playback_ = playback;
 
   if (playback_) {
-    connect(playback_, &ViewerOutput::ConnectedWaveformChanged, viewport(), static_cast<void(QWidget::*)()>(&QWidget::update));
+    connect(playback_, &ViewerOutput::ConnectedWaveformChanged, viewport(),
+            static_cast<void (QWidget::*)()>(&QWidget::update));
 
     SetTimebase(playback_->GetAudioParams().sample_rate_as_time_base());
   }
 }
 
-void AudioWaveformView::drawForeground(QPainter *p, const QRectF &rect)
-{
+void AudioWaveformView::drawForeground(QPainter *p, const QRectF &rect) {
   super::drawForeground(p, rect);
 
   if (!playback_) {
@@ -79,7 +76,7 @@ void AudioWaveformView::drawForeground(QPainter *p, const QRectF &rect)
     return;
   }
 
-  const AudioParams& params = wave->GetParameters();
+  const AudioParams &params = wave->GetParameters();
   if (!params.is_valid()) {
     return;
   }
@@ -89,7 +86,7 @@ void AudioWaveformView::drawForeground(QPainter *p, const QRectF &rect)
   DrawMarkers(p);
 
   // Draw waveform
-  p->setPen(QColor(64, 255, 160)); // FIXME: Hardcoded color
+  p->setPen(QColor(64, 255, 160));  // FIXME: Hardcoded color
   wave->Draw(p, rect.toRect(), GetScale(), SceneToTime(GetScroll()));
 
   // Draw playhead
@@ -99,4 +96,4 @@ void AudioWaveformView::drawForeground(QPainter *p, const QRectF &rect)
   p->drawLine(playhead_x, 0, playhead_x, height());
 }
 
-}
+}  // namespace olive

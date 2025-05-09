@@ -21,10 +21,10 @@
 #ifndef TASK_H
 #define TASK_H
 
-#include <memory>
 #include <QDateTime>
 #include <QDebug>
 #include <QObject>
+#include <memory>
 
 #include "common/cancelableobject.h"
 
@@ -47,42 +47,27 @@ namespace olive {
  *
  * Tasks support "dependency tasks", i.e. a Task that should be complete before another Task begins.
  */
-class Task : public QObject, public CancelableObject
-{
+class Task : public QObject, public CancelableObject {
   Q_OBJECT
-public:
+ public:
   /**
    * @brief Task Constructor
    */
-  Task() :
-    title_(tr("Task")),
-    error_(tr("Unknown error")),
-    start_time_(0)
-  {
-  }
+  Task() : title_(tr("Task")), error_(tr("Unknown error")), start_time_(0) {}
 
   /**
    * @brief Retrieve the current title of this Task
    */
-  const QString& GetTitle() const
-  {
-    return title_;
-  }
+  const QString& GetTitle() const { return title_; }
 
   /**
    * @brief Returns the error that occurred if Run() returns false
    */
-  const QString& GetError() const
-  {
-    return error_;
-  }
+  const QString& GetError() const { return error_; }
 
-  const qint64& GetStartTime() const
-  {
-    return start_time_;
-  }
+  const qint64& GetStartTime() const { return start_time_; }
 
-public slots:
+ public slots:
   /**
    * @brief Run this task
    *
@@ -90,8 +75,7 @@ public slots:
    *
    * \see GetError() if this returns false.
    */
-  bool Start()
-  {
+  bool Start() {
     start_time_ = QDateTime::currentMSecsSinceEpoch();
     emit Started(start_time_);
 
@@ -111,7 +95,7 @@ public slots:
    * Override this if your class holds any persistent state that should be cleared/modified before
    * it's safe for Run() to run again.
    */
-  virtual void Reset(){}
+  virtual void Reset() {}
 
   /**
    * @brief Cancel the Task
@@ -119,12 +103,9 @@ public slots:
    * Sends a signal to the Task to stop as soon as possible. Always call this directly or connect
    * with Qt::DirectConnection, or else it'll be queued *after* the task has already finished.
    */
-  void Cancel()
-  {
-    CancelableObject::Cancel();
-  }
+  void Cancel() { CancelableObject::Cancel(); }
 
-protected:
+ protected:
   virtual bool Run() = 0;
 
   /**
@@ -133,10 +114,7 @@ protected:
    * It is recommended to use this if your Action() function ever returns FALSE to tell the user why the failure
    * occurred.
    */
-  void SetError(const QString& s)
-  {
-    error_ = s;
-  }
+  void SetError(const QString& s) { error_ = s; }
 
   /**
    * @brief Set the Task title
@@ -145,12 +123,9 @@ protected:
    * and shouldn't need to change during the life of the Task. To show an error message, it's recommended to use
    * set_error() instead.
    */
-  void SetTitle(const QString& s)
-  {
-    title_ = s;
-  }
+  void SetTitle(const QString& s) { title_ = s; }
 
-signals:
+ signals:
   void Started(qint64 start_time);
 
   /**
@@ -169,17 +144,16 @@ signals:
    *
    * Do NOT delete immediately after this signal, call deleteLater() instead.
    */
-  void Finished(Task *task, bool succeeded);
+  void Finished(Task* task, bool succeeded);
 
-private:
+ private:
   QString title_;
 
   QString error_;
 
   qint64 start_time_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // TASK_H
+#endif  // TASK_H

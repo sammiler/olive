@@ -33,13 +33,12 @@ namespace olive {
 
 #define super SeekableWidget
 
-TimeRuler::TimeRuler(bool text_visible, bool cache_status_visible, QWidget* parent) :
-  super(parent),
-  text_visible_(text_visible),
-  centered_text_(true),
-  show_cache_status_(cache_status_visible),
-  playback_cache_(nullptr)
-{
+TimeRuler::TimeRuler(bool text_visible, bool cache_status_visible, QWidget *parent)
+    : super(parent),
+      text_visible_(text_visible),
+      centered_text_(true),
+      show_cache_status_(cache_status_visible),
+      playback_cache_(nullptr) {
   QFontMetrics fm = fontMetrics();
 
   setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
@@ -54,13 +53,14 @@ TimeRuler::TimeRuler(bool text_visible, bool cache_status_visible, QWidget* pare
   UpdateHeight();
 
   // Force update if the default timecode display mode changes
-  connect(Core::instance(), &Core::TimecodeDisplayChanged, this, static_cast<void (TimeRuler::*)()>(&TimeRuler::update));
+  connect(Core::instance(), &Core::TimecodeDisplayChanged, this,
+          static_cast<void (TimeRuler::*)()>(&TimeRuler::update));
 
   // Connect context menu
   connect(this, &TimeRuler::customContextMenuRequested, this, &TimeRuler::ShowContextMenu);
 
   setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-  //horizontalScrollBar()->setVisible(false);
+  // horizontalScrollBar()->setVisible(false);
   setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   setBackgroundRole(QPalette::Window);
   setFrameShape(QFrame::NoFrame);
@@ -71,29 +71,30 @@ TimeRuler::TimeRuler(bool text_visible, bool cache_status_visible, QWidget* pare
   setAlignment(Qt::AlignLeft | Qt::AlignTop);
 }
 
-void TimeRuler::SetPlaybackCache(PlaybackCache *cache)
-{
+void TimeRuler::SetPlaybackCache(PlaybackCache *cache) {
   if (!show_cache_status_) {
     return;
   }
 
   if (playback_cache_) {
-    disconnect(playback_cache_, &PlaybackCache::Invalidated, viewport(), static_cast<void(QWidget::*)()>(&QWidget::update));
-    disconnect(playback_cache_, &PlaybackCache::Validated, viewport(), static_cast<void(QWidget::*)()>(&QWidget::update));
+    disconnect(playback_cache_, &PlaybackCache::Invalidated, viewport(),
+               static_cast<void (QWidget::*)()>(&QWidget::update));
+    disconnect(playback_cache_, &PlaybackCache::Validated, viewport(),
+               static_cast<void (QWidget::*)()>(&QWidget::update));
   }
 
   playback_cache_ = cache;
 
   if (playback_cache_) {
-    connect(playback_cache_, &PlaybackCache::Invalidated, viewport(), static_cast<void(QWidget::*)()>(&QWidget::update));
-    connect(playback_cache_, &PlaybackCache::Validated, viewport(), static_cast<void(QWidget::*)()>(&QWidget::update));
+    connect(playback_cache_, &PlaybackCache::Invalidated, viewport(),
+            static_cast<void (QWidget::*)()>(&QWidget::update));
+    connect(playback_cache_, &PlaybackCache::Validated, viewport(), static_cast<void (QWidget::*)()>(&QWidget::update));
   }
 
   update();
 }
 
-void TimeRuler::drawForeground(QPainter *p, const QRectF &rect)
-{
+void TimeRuler::drawForeground(QPainter *p, const QRectF &rect) {
   // Nothing to paint if the timebase is invalid
   if (timebase().isNull()) {
     return;
@@ -155,8 +156,8 @@ void TimeRuler::drawForeground(QPainter *p, const QRectF &rect)
 
       short_interval = long_interval;
 
-      for (div=long_rate;div>0;div--) {
-        if (long_rate%div == 0) {
+      for (div = long_rate; div > 0; div--) {
+        if (long_rate % div == 0) {
           // This division produces a whole number
           double test_frame_width = long_interval / static_cast<double>(div);
 
@@ -182,7 +183,7 @@ void TimeRuler::drawForeground(QPainter *p, const QRectF &rect)
   }
 
   int long_height = fm.height();
-  int short_height = long_height/2;
+  int short_height = long_height / 2;
   int long_y = line_bottom - long_height;
   int short_y = line_bottom - short_height;
 
@@ -194,25 +195,26 @@ void TimeRuler::drawForeground(QPainter *p, const QRectF &rect)
   // FIXME: Hardcoded number
   const int kAverageTextWidth = 200;
 
-  for (int i=GetScroll()-kAverageTextWidth;i<GetScroll()+width()+kAverageTextWidth;i++) {
+  for (int i = GetScroll() - kAverageTextWidth; i < GetScroll() + width() + kAverageTextWidth; i++) {
     double screen_pt = static_cast<double>(i);
 
     if (long_interval > -1) {
-      int this_long_unit = std::floor(screen_pt/long_interval);
+      int this_long_unit = std::floor(screen_pt / long_interval);
       if (this_long_unit != last_long_unit) {
         int line_y = long_y;
 
         if (text_visible_) {
           QRect text_rect;
           Qt::Alignment text_align;
-          QString timecode_str = QString::fromStdString(Timecode::time_to_timecode(SceneToTime(i), timebase(), Core::instance()->GetTimecodeDisplay()));
+          QString timecode_str = QString::fromStdString(
+              Timecode::time_to_timecode(SceneToTime(i), timebase(), Core::instance()->GetTimecodeDisplay()));
           int timecode_width = QtUtils::QFontMetricsWidth(fm, timecode_str);
           int timecode_left;
 
           if (centered_text_) {
-            text_rect = QRect(i - kAverageTextWidth/2, marker_height, kAverageTextWidth, fm.height());
+            text_rect = QRect(i - kAverageTextWidth / 2, marker_height, kAverageTextWidth, fm.height());
             text_align = Qt::AlignCenter;
-            timecode_left = i - timecode_width/2;
+            timecode_left = i - timecode_width / 2;
           } else {
             text_rect = QRect(i, marker_height, kAverageTextWidth, fm.height());
             text_align = Qt::AlignLeft | Qt::AlignVCenter;
@@ -223,9 +225,7 @@ void TimeRuler::drawForeground(QPainter *p, const QRectF &rect)
           }
 
           if (timecode_left > last_text_draw) {
-            p->drawText(text_rect,
-                        static_cast<int>(text_align),
-                        timecode_str);
+            p->drawText(text_rect, static_cast<int>(text_align), timecode_str);
 
             last_text_draw = timecode_left + timecode_width;
 
@@ -241,7 +241,7 @@ void TimeRuler::drawForeground(QPainter *p, const QRectF &rect)
     }
 
     if (short_interval > -1) {
-      int this_short_unit = std::floor(screen_pt/short_interval);
+      int this_short_unit = std::floor(screen_pt / short_interval);
       if (this_short_unit != last_short_unit) {
         p->drawLine(i, short_y, i, line_bottom);
         last_short_unit = this_short_unit;
@@ -255,7 +255,7 @@ void TimeRuler::drawForeground(QPainter *p, const QRectF &rect)
     int h = PlaybackCache::GetCacheIndicatorHeight();
     QRect cache_rect(0, height() - h, width(), h);
 
-    if (ViewerOutput *viewer = dynamic_cast<ViewerOutput*>(playback_cache_->parent())) {
+    if (ViewerOutput *viewer = dynamic_cast<ViewerOutput *>(playback_cache_->parent())) {
       int right = TimeToScene(viewer->GetVideoLength());
       cache_rect.setWidth(std::max(0, right));
     }
@@ -272,8 +272,7 @@ void TimeRuler::drawForeground(QPainter *p, const QRectF &rect)
   DrawPlayhead(p, playhead_pos, line_bottom);
 }
 
-void TimeRuler::TimebaseChangedEvent(const rational &tb)
-{
+void TimeRuler::TimebaseChangedEvent(const rational &tb) {
   super::TimebaseChangedEvent(tb);
 
   timebase_flipped_dbl_ = tb.flipped().toDouble();
@@ -281,13 +280,9 @@ void TimeRuler::TimebaseChangedEvent(const rational &tb)
   update();
 }
 
-int TimeRuler::CacheStatusHeight() const
-{
-  return fontMetrics().height() / 4;
-}
+int TimeRuler::CacheStatusHeight() const { return fontMetrics().height() / 4; }
 
-bool TimeRuler::ShowContextMenu(const QPoint &p)
-{
+bool TimeRuler::ShowContextMenu(const QPoint &p) {
   if (super::ShowContextMenu(p)) {
     return true;
   } else {
@@ -302,8 +297,7 @@ bool TimeRuler::ShowContextMenu(const QPoint &p)
   }
 }
 
-void TimeRuler::UpdateHeight()
-{
+void TimeRuler::UpdateHeight() {
   int height = text_height();
 
   // Add text height
@@ -322,4 +316,4 @@ void TimeRuler::UpdateHeight()
   setFixedHeight(height);
 }
 
-}
+}  // namespace olive

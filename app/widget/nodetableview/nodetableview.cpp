@@ -27,20 +27,12 @@
 
 namespace olive {
 
-NodeTableView::NodeTableView(QWidget* parent) :
-  QTreeWidget(parent)
-{
+NodeTableView::NodeTableView(QWidget* parent) : QTreeWidget(parent) {
   setColumnCount(3);
-  setHeaderLabels({tr("Type"),
-                   tr("Source"),
-                   tr("R/X"),
-                   tr("G/Y"),
-                   tr("B/Z"),
-                   tr("A/W")});
+  setHeaderLabels({tr("Type"), tr("Source"), tr("R/X"), tr("G/Y"), tr("B/Z"), tr("A/W")});
 }
 
-void NodeTableView::SelectNodes(const QVector<Node *> &nodes)
-{
+void NodeTableView::SelectNodes(const QVector<Node*>& nodes) {
   foreach (Node* n, nodes) {
     QTreeWidgetItem* top_item = new QTreeWidgetItem();
     top_item->setText(0, n->GetLabelAndName());
@@ -52,20 +44,18 @@ void NodeTableView::SelectNodes(const QVector<Node *> &nodes)
   SetTime(last_time_);
 }
 
-void NodeTableView::DeselectNodes(const QVector<Node *> &nodes)
-{
+void NodeTableView::DeselectNodes(const QVector<Node*>& nodes) {
   foreach (Node* n, nodes) {
     delete top_level_item_map_.take(n);
   }
 }
 
-void NodeTableView::SetTime(const rational &time)
-{
+void NodeTableView::SetTime(const rational& time) {
   last_time_ = time;
 
   NodeTraverser traverser;
 
-  for (auto i=top_level_item_map_.constBegin(); i!=top_level_item_map_.constEnd(); i++) {
+  for (auto i = top_level_item_map_.constBegin(); i != top_level_item_map_.constEnd(); i++) {
     Node* node = i.key();
     QTreeWidgetItem* item = i.value();
 
@@ -73,7 +63,7 @@ void NodeTableView::SetTime(const rational &time)
     NodeValueDatabase db = traverser.GenerateDatabase(node, TimeRange(time, time));
 
     // Delete any children of this item that aren't in this database
-    for (int j=0; j<item->childCount(); j++) {
+    for (int j = 0; j < item->childCount(); j++) {
       if (!db.contains(item->child(j)->data(0, Qt::UserRole).toString())) {
         delete item->takeChild(j);
         j--;
@@ -81,7 +71,7 @@ void NodeTableView::SetTime(const rational &time)
     }
 
     // Update all inputs
-    for (auto l=db.begin(); l!=db.end(); l++) {
+    for (auto l = db.begin(); l != db.end(); l++) {
       const NodeValueTable& table = l.value();
 
       if (!node->HasInputWithID(l.key())) {
@@ -91,7 +81,7 @@ void NodeTableView::SetTime(const rational &time)
 
       QTreeWidgetItem* input_item = nullptr;
 
-      for (int j=0; j<item->childCount(); j++) {
+      for (int j = 0; j < item->childCount(); j++) {
         QTreeWidgetItem* compare = item->child(j);
 
         if (compare->data(0, Qt::UserRole).toString() == l.key()) {
@@ -109,7 +99,7 @@ void NodeTableView::SetTime(const rational &time)
       }
 
       // Create children if necessary
-      while (input_item->childCount() < table.Count())  {
+      while (input_item->childCount() < table.Count()) {
         input_item->addChild(new QTreeWidgetItem());
       }
 
@@ -118,7 +108,7 @@ void NodeTableView::SetTime(const rational &time)
         delete input_item->takeChild(input_item->childCount() - 1);
       }
 
-      for (int j=0;j<table.Count();j++) {
+      for (int j = 0; j < table.Count(); j++) {
         const NodeValue& value = table.at(table.Count() - 1 - j);
 
         // Create item
@@ -137,29 +127,27 @@ void NodeTableView::SetTime(const rational &time)
         sub_item->setText(1, source_name);
 
         switch (value.type()) {
-        case NodeValue::kVideoParams:
-        case NodeValue::kAudioParams:
-          // These types have no string representation
-          break;
-        case NodeValue::kTexture:
-        {
-          // NodeTraverser puts video params in here
-          for (int k=0;k<VideoParams::kRGBAChannelCount;k++) {
-            this->setItemWidget(sub_item, 2 + k, new QCheckBox());
+          case NodeValue::kVideoParams:
+          case NodeValue::kAudioParams:
+            // These types have no string representation
+            break;
+          case NodeValue::kTexture: {
+            // NodeTraverser puts video params in here
+            for (int k = 0; k < VideoParams::kRGBAChannelCount; k++) {
+              this->setItemWidget(sub_item, 2 + k, new QCheckBox());
+            }
+            break;
           }
-          break;
-        }
-        default:
-        {
-          QVector<QVariant> split_values = value.to_split_value();
-          for (int k=0;k<split_values.size();k++) {
-            sub_item->setText(2 + k, NodeValue::ValueToString(value.type(), split_values.at(k), true));
+          default: {
+            QVector<QVariant> split_values = value.to_split_value();
+            for (int k = 0; k < split_values.size(); k++) {
+              sub_item->setText(2 + k, NodeValue::ValueToString(value.type(), split_values.at(k), true));
+            }
           }
-        }
         }
       }
     }
   }
 }
 
-}
+}  // namespace olive

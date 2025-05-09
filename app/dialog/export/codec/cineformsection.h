@@ -27,21 +27,19 @@
 
 namespace olive {
 
-class CineformSection : public CodecSection
-{
+class CineformSection : public CodecSection {
   Q_OBJECT
-public:
+ public:
   CineformSection(QWidget *parent = nullptr);
 
-  virtual void AddOpts(EncodingParams* params) override;
+  virtual void AddOpts(EncodingParams *params) override;
 
   virtual void SetOpts(const EncodingParams *p) override;
 
-private:
+ private:
   QComboBox *quality_combobox_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // CINEFORMSECTION_H
+#endif  // CINEFORMSECTION_H

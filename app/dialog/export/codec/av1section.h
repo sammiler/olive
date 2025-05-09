@@ -21,37 +21,34 @@
 #ifndef AV1SECTION_H
 #define AV1SECTION_H
 
+#include <QComboBox>
 #include <QSlider>
 #include <QStackedWidget>
-#include <QComboBox>
 
 #include "codecsection.h"
 #include "widget/slider/floatslider.h"
 
 namespace olive {
 
-class AV1CRFSection : public QWidget
-{
+class AV1CRFSection : public QWidget {
   Q_OBJECT
-public:
+ public:
   AV1CRFSection(int default_crf, QWidget* parent = nullptr);
 
   int GetValue() const;
 
   static const int kDefaultAV1CRF = 30;
 
-private:
+ private:
   static const int kMinimumCRF = 0;
   static const int kMaximumCRF = 63;
 
   QSlider* crf_slider_;
-
 };
 
-class AV1Section : public CodecSection
-{
+class AV1Section : public CodecSection {
   Q_OBJECT
-public:
+ public:
   enum CompressionMethod {
     kConstantRateFactor,
   };
@@ -61,14 +58,14 @@ public:
 
   virtual void AddOpts(EncodingParams* params) override;
 
-private:
+ private:
   QStackedWidget* compression_method_stack_;
 
   AV1CRFSection* crf_section_;
 
-  QComboBox *preset_combobox_;
+  QComboBox* preset_combobox_;
 };
 
-}
+}  // namespace olive
 
-#endif // AV1SECTION_H
+#endif  // AV1SECTION_H

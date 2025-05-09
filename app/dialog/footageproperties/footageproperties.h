@@ -42,7 +42,7 @@ namespace olive {
  */
 class FootagePropertiesDialog : public QDialog {
   Q_OBJECT
-public:
+ public:
   /**
    * @brief MediaPropertiesDialog Constructor
    *
@@ -54,23 +54,21 @@ public:
    *
    * Media object to set properties for.
    */
-  FootagePropertiesDialog(QWidget *parent, Footage* footage);
-private:
+  FootagePropertiesDialog(QWidget* parent, Footage* footage);
+
+ private:
   class StreamEnableChangeCommand : public UndoCommand {
-  public:
-    StreamEnableChangeCommand(Footage *footage,
-                              Track::Type type,
-                              int index_in_type,
-                              bool enabled);
+   public:
+    StreamEnableChangeCommand(Footage* footage, Track::Type type, int index_in_type, bool enabled);
 
     virtual Project* GetRelevantProject() const override;
 
-  protected:
+   protected:
     virtual void redo() override;
     virtual void undo() override;
 
-  private:
-    Footage *footage_;
+   private:
+    Footage* footage_;
     Track::Type type_;
     int index_;
 
@@ -103,14 +101,13 @@ private:
    */
   QDoubleSpinBox* conform_fr;
 
-private slots:
+ private slots:
   /**
    * @brief Overridden accept function for saving the properties back to the Media class
    */
   void accept();
-
 };
 
-}
+}  // namespace olive
 
-#endif // MEDIAPROPERTIESDIALOG_H
+#endif  // MEDIAPROPERTIESDIALOG_H

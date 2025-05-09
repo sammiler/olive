@@ -24,14 +24,8 @@
 
 namespace olive {
 
-KeyframeViewInputConnection::KeyframeViewInputConnection(const NodeKeyframeTrackReference &input, KeyframeView *parent) :
-  QObject(parent),
-  keyframe_view_(parent),
-  input_(input),
-  y_(0),
-  y_behavior_(kSingleRow),
-  brush_(Qt::white)
-{
+KeyframeViewInputConnection::KeyframeViewInputConnection(const NodeKeyframeTrackReference &input, KeyframeView *parent)
+    : QObject(parent), keyframe_view_(parent), input_(input), y_(0), y_behavior_(kSingleRow), brush_(Qt::white) {
   Node *n = input.input().node();
 
   connect(n, &Node::KeyframeAdded, this, &KeyframeViewInputConnection::AddKeyframe);
@@ -42,8 +36,7 @@ KeyframeViewInputConnection::KeyframeViewInputConnection(const NodeKeyframeTrack
   connect(n, &Node::KeyframeValueChanged, this, &KeyframeViewInputConnection::KeyframeChanged);
 }
 
-void KeyframeViewInputConnection::SetKeyframeY(int y)
-{
+void KeyframeViewInputConnection::SetKeyframeY(int y) {
   if (y_ != y) {
     y_ = y;
 
@@ -51,8 +44,7 @@ void KeyframeViewInputConnection::SetKeyframeY(int y)
   }
 }
 
-void KeyframeViewInputConnection::SetYBehavior(YBehavior e)
-{
+void KeyframeViewInputConnection::SetYBehavior(YBehavior e) {
   if (y_behavior_ != e) {
     y_behavior_ = e;
 
@@ -60,8 +52,7 @@ void KeyframeViewInputConnection::SetYBehavior(YBehavior e)
   }
 }
 
-void KeyframeViewInputConnection::SetBrush(const QBrush &brush)
-{
+void KeyframeViewInputConnection::SetBrush(const QBrush &brush) {
   if (brush_ != brush) {
     brush_ = brush;
 
@@ -69,32 +60,28 @@ void KeyframeViewInputConnection::SetBrush(const QBrush &brush)
   }
 }
 
-void KeyframeViewInputConnection::AddKeyframe(NodeKeyframe *key)
-{
+void KeyframeViewInputConnection::AddKeyframe(NodeKeyframe *key) {
   if (key->key_track_ref() == input_) {
     emit RequireUpdate();
   }
 }
 
-void KeyframeViewInputConnection::RemoveKeyframe(NodeKeyframe *key)
-{
+void KeyframeViewInputConnection::RemoveKeyframe(NodeKeyframe *key) {
   if (key->key_track_ref() == input_) {
     emit RequireUpdate();
   }
 }
 
-void KeyframeViewInputConnection::KeyframeChanged(NodeKeyframe *key)
-{
+void KeyframeViewInputConnection::KeyframeChanged(NodeKeyframe *key) {
   if (key->key_track_ref() == input_) {
     emit RequireUpdate();
   }
 }
 
-void KeyframeViewInputConnection::KeyframeTypeChanged(NodeKeyframe *key)
-{
+void KeyframeViewInputConnection::KeyframeTypeChanged(NodeKeyframe *key) {
   if (key->key_track_ref() == input_) {
     emit TypeChanged();
   }
 }
 
-}
+}  // namespace olive

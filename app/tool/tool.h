@@ -29,7 +29,7 @@
 namespace olive {
 
 class Tool {
-public:
+ public:
   /**
    * @brief A list of tools that can be used throughout the application
    */
@@ -108,56 +108,53 @@ public:
     kAddableCount
   };
 
-  static QString GetAddableObjectName(const AddableObject& a)
-  {
+  static QString GetAddableObjectName(const AddableObject& a) {
     switch (a) {
-    case kAddableEmpty:
-      return QCoreApplication::translate("Tool", "Empty");
-    case kAddableBars:
-      return QCoreApplication::translate("Tool", "Bars");
-    case kAddableShape:
-      return QCoreApplication::translate("Tool", "Shape");
-    case kAddableSolid:
-      return QCoreApplication::translate("Tool", "Solid");
-    case kAddableTitle:
-      return QCoreApplication::translate("Tool", "Title");
-    case kAddableTone:
-      return QCoreApplication::translate("Tool", "Tone");
-    case kAddableSubtitle:
-      return QCoreApplication::translate("Tool", "Subtitle");
-    case kAddableCount:
-      break;
+      case kAddableEmpty:
+        return QCoreApplication::translate("Tool", "Empty");
+      case kAddableBars:
+        return QCoreApplication::translate("Tool", "Bars");
+      case kAddableShape:
+        return QCoreApplication::translate("Tool", "Shape");
+      case kAddableSolid:
+        return QCoreApplication::translate("Tool", "Solid");
+      case kAddableTitle:
+        return QCoreApplication::translate("Tool", "Title");
+      case kAddableTone:
+        return QCoreApplication::translate("Tool", "Tone");
+      case kAddableSubtitle:
+        return QCoreApplication::translate("Tool", "Subtitle");
+      case kAddableCount:
+        break;
     }
 
     return QCoreApplication::translate("Tool", "Unknown");
   }
 
-  static QString GetAddableObjectID(const AddableObject& a)
-  {
+  static QString GetAddableObjectID(const AddableObject& a) {
     switch (a) {
-    case kAddableEmpty:
-      return QStringLiteral("empty");
-    case kAddableBars:
-      return QStringLiteral("bars");
-    case kAddableShape:
-      return QStringLiteral("shape");
-    case kAddableSolid:
-      return QStringLiteral("solid");
-    case kAddableTitle:
-      return QStringLiteral("title");
-    case kAddableTone:
-      return QStringLiteral("tone");
-    case kAddableSubtitle:
-      return QStringLiteral("subtitle");
-    case kAddableCount:
-      break;
+      case kAddableEmpty:
+        return QStringLiteral("empty");
+      case kAddableBars:
+        return QStringLiteral("bars");
+      case kAddableShape:
+        return QStringLiteral("shape");
+      case kAddableSolid:
+        return QStringLiteral("solid");
+      case kAddableTitle:
+        return QStringLiteral("title");
+      case kAddableTone:
+        return QStringLiteral("tone");
+      case kAddableSubtitle:
+        return QStringLiteral("subtitle");
+      case kAddableCount:
+        break;
     }
 
     return QString();
   }
-
 };
 
-}
+}  // namespace olive
 
-#endif // TOOL_H
+#endif  // TOOL_H

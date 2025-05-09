@@ -40,16 +40,15 @@ namespace olive {
  *
  * Intended to be used with a Viewer to dynamically cache parts of a sequence based on the playhead.
  */
-class PreviewAutoCacher : public QObject
-{
+class PreviewAutoCacher : public QObject {
   Q_OBJECT
-public:
+ public:
   PreviewAutoCacher(QObject *parent = nullptr);
 
   virtual ~PreviewAutoCacher() override;
 
-  RenderTicketPtr GetSingleFrame(ViewerOutput *viewer, const rational& t, bool dry = false);
-  RenderTicketPtr GetSingleFrame(Node *n, ViewerOutput *viewer, const rational& t, bool dry = false);
+  RenderTicketPtr GetSingleFrame(ViewerOutput *viewer, const rational &t, bool dry = false);
+  RenderTicketPtr GetSingleFrame(Node *n, ViewerOutput *viewer, const rational &t, bool dry = false);
 
   RenderTicketPtr GetRangeOfAudio(ViewerOutput *viewer, TimeRange range);
 
@@ -68,12 +67,12 @@ public:
    * times they may want certain non-playhead-related time ranges to be cached (i.e. entire sequence
    * or in/out range), so that can be set here.
    */
-  void ForceCacheRange(ViewerOutput *context, const TimeRange& range);
+  void ForceCacheRange(ViewerOutput *context, const TimeRange &range);
 
   /**
    * @brief Updates the range of frames to auto-cache
    */
-  void SetPlayhead(const rational& playhead);
+  void SetPlayhead(const rational &playhead);
 
   /**
    * @brief Call cancel on all currently running video tasks
@@ -95,21 +94,19 @@ public:
 
   void SetIgnoreCacheRequests(bool e) { ignore_cache_requests_ = e; }
 
-public slots:
-  void SetDisplayColorProcessor(ColorProcessorPtr processor)
-  {
-    display_color_processor_ = processor;
-  }
+ public slots:
+  void SetDisplayColorProcessor(ColorProcessorPtr processor) { display_color_processor_ = processor; }
 
-signals:
+ signals:
   void StopCacheProxyTasks();
 
   void SignalCacheProxyTaskProgress(double d);
 
-private:
+ private:
   void TryRender();
 
-  RenderTicketWatcher *RenderFrame(Node *node, ViewerOutput *context, const rational &time, PlaybackCache *cache, bool dry);
+  RenderTicketWatcher *RenderFrame(Node *node, ViewerOutput *context, const rational &time, PlaybackCache *cache,
+                                   bool dry);
 
   RenderTicketPtr RenderAudio(Node *node, ViewerOutput *context, const TimeRange &range, PlaybackCache *cache);
 
@@ -125,7 +122,7 @@ private:
   void VideoInvalidatedFromNode(ViewerOutput *context, PlaybackCache *cache, const olive::TimeRange &range);
   void AudioInvalidatedFromNode(ViewerOutput *context, PlaybackCache *cache, const olive::TimeRange &range);
 
-  Project* project_;
+  Project *project_;
 
   ProjectCopier *copier_;
 
@@ -138,16 +135,16 @@ private:
   bool pause_thumbnails_;
 
   RenderTicketPtr single_frame_render_;
-  QMap<RenderTicketWatcher*, QVector<RenderTicketPtr> > video_immediate_passthroughs_;
+  QMap<RenderTicketWatcher *, QVector<RenderTicketPtr> > video_immediate_passthroughs_;
 
   QTimer delayed_requeue_timer_;
 
   JobTime last_conform_task_;
 
-  QVector<RenderTicketWatcher*> running_video_tasks_;
-  QVector<RenderTicketWatcher*> running_audio_tasks_;
+  QVector<RenderTicketWatcher *> running_video_tasks_;
+  QVector<RenderTicketWatcher *> running_audio_tasks_;
 
-  ColorManager* copied_color_manager_;
+  ColorManager *copied_color_manager_;
 
   struct VideoJob {
     Node *node;
@@ -176,8 +173,8 @@ private:
   std::list<VideoJob> pending_video_jobs_;
   std::list<AudioJob> pending_audio_jobs_;
 
-  QHash<PlaybackCache*, VideoCacheData> video_cache_data_;
-  QHash<PlaybackCache*, AudioCacheData> audio_cache_data_;
+  QHash<PlaybackCache *, VideoCacheData> video_cache_data_;
+  QHash<PlaybackCache *, AudioCacheData> audio_cache_data_;
 
   ColorProcessorPtr display_color_processor_;
 
@@ -185,7 +182,7 @@ private:
 
   bool ignore_cache_requests_;
 
-private slots:
+ private slots:
   /**
    * @brief Handler for when the NodeGraph reports a video change over a certain time range
    */
@@ -211,14 +208,13 @@ private slots:
   /**
    * @brief Generic function called whenever the frames to render need to be (re)queued
    */
-  //void RequeueFrames();
+  // void RequeueFrames();
 
   void ConformFinished();
 
   void CacheProxyTaskCancelled();
-
 };
 
-}
+}  // namespace olive
 
-#endif // AUTOCACHER_H
+#endif  // AUTOCACHER_H

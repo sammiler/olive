@@ -27,32 +27,19 @@
 
 namespace olive {
 
-class ParamPanel : public TimeBasedPanel
-{
+class ParamPanel : public TimeBasedPanel {
   Q_OBJECT
-public:
+ public:
   ParamPanel();
 
-  NodeParamView *GetParamView() const
-  {
-    return static_cast<NodeParamView *>(GetTimeBasedWidget());
-  }
+  NodeParamView *GetParamView() const { return static_cast<NodeParamView *>(GetTimeBasedWidget()); }
 
-  const QVector<Node*> &GetContexts() const
-  {
-    return GetParamView()->GetContexts();
-  }
+  const QVector<Node *> &GetContexts() const { return GetParamView()->GetContexts(); }
 
-  void CloseContextsBelongingToProject(Project *p)
-  {
-    GetParamView()->CloseContextsBelongingToProject(p);
-  }
+  void CloseContextsBelongingToProject(Project *p) { GetParamView()->CloseContextsBelongingToProject(p); }
 
-public slots:
-  void SetSelectedNodes(const QVector<Node::ContextPair> &nodes)
-  {
-    GetParamView()->SetSelectedNodes(nodes, false);
-  }
+ public slots:
+  void SetSelectedNodes(const QVector<Node::ContextPair> &nodes) { GetParamView()->SetSelectedNodes(nodes, false); }
 
   virtual void DeleteSelected() override;
 
@@ -60,20 +47,19 @@ public slots:
 
   virtual void DeselectAll() override;
 
-  void SetContexts(const QVector<Node*> &contexts);
+  void SetContexts(const QVector<Node *> &contexts);
 
-signals:
-  void FocusedNodeChanged(Node* n);
+ signals:
+  void FocusedNodeChanged(Node *n);
 
   void SelectedNodesChanged(const QVector<Node::ContextPair> &nodes);
 
   void RequestViewerToStartEditingText();
 
-protected:
+ protected:
   virtual void Retranslate() override;
-
 };
 
-}
+}  // namespace olive
 
-#endif // PARAM_H
+#endif  // PARAM_H

@@ -22,8 +22,7 @@
 
 namespace olive {
 
-AudioParams TypeSerializer::LoadAudioParams(QXmlStreamReader *reader)
-{
+AudioParams TypeSerializer::LoadAudioParams(QXmlStreamReader *reader) {
   AudioParams a;
 
   while (XMLReadNextStartElement(reader)) {
@@ -49,8 +48,7 @@ AudioParams TypeSerializer::LoadAudioParams(QXmlStreamReader *reader)
   return a;
 }
 
-void TypeSerializer::SaveAudioParams(QXmlStreamWriter *writer, const AudioParams &a)
-{
+void TypeSerializer::SaveAudioParams(QXmlStreamWriter *writer, const AudioParams &a) {
   writer->writeTextElement(QStringLiteral("samplerate"), QString::number(a.sample_rate()));
   writer->writeTextElement(QStringLiteral("channellayout"), QString::number(a.channel_layout()));
   writer->writeTextElement(QStringLiteral("format"), QString::fromStdString(a.format().to_string()));
@@ -60,4 +58,4 @@ void TypeSerializer::SaveAudioParams(QXmlStreamWriter *writer, const AudioParams
   writer->writeTextElement(QStringLiteral("timebase"), QString::fromStdString(a.time_base().toString()));
 }
 
-}
+}  // namespace olive

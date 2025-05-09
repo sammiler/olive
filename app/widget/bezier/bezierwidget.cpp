@@ -25,9 +25,7 @@
 
 namespace olive {
 
-BezierWidget::BezierWidget(QWidget *parent) :
-  QWidget{parent}
-{
+BezierWidget::BezierWidget(QWidget *parent) : QWidget{parent} {
   QGridLayout *layout = new QGridLayout(this);
 
   int row = 0;
@@ -74,8 +72,7 @@ BezierWidget::BezierWidget(QWidget *parent) :
   bezier_layout->addWidget(cp2_y_slider_, row, 2);
 }
 
-Bezier BezierWidget::GetValue() const
-{
+Bezier BezierWidget::GetValue() const {
   Bezier b;
 
   b.set_x(x_slider_->GetValue());
@@ -88,8 +85,7 @@ Bezier BezierWidget::GetValue() const
   return b;
 }
 
-void BezierWidget::SetValue(const Bezier &b)
-{
+void BezierWidget::SetValue(const Bezier &b) {
   x_slider_->SetValue(b.x());
   y_slider_->SetValue(b.y());
   cp1_x_slider_->SetValue(b.cp1_x());
@@ -98,4 +94,4 @@ void BezierWidget::SetValue(const Bezier &b)
   cp2_y_slider_->SetValue(b.cp2_y());
 }
 
-}
+}  // namespace olive

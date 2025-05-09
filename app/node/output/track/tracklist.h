@@ -30,37 +30,24 @@ namespace olive {
 
 class Sequence;
 
-class TrackList : public QObject
-{
+class TrackList : public QObject {
   Q_OBJECT
-public:
-  TrackList(Sequence *parent, const Track::Type& type, const QString& track_input);
+ public:
+  TrackList(Sequence* parent, const Track::Type& type, const QString& track_input);
 
-  const Track::Type& type() const
-  {
-    return type_;
-  }
+  const Track::Type& type() const { return type_; }
 
-  const QVector<Track*>& GetTracks() const
-  {
-    return track_cache_;
-  }
+  const QVector<Track*>& GetTracks() const { return track_cache_; }
 
   Track* GetTrackAt(int index) const;
 
-  const rational& GetTotalLength() const
-  {
-    return total_length_;
-  }
+  const rational& GetTotalLength() const { return total_length_; }
 
-  int GetTrackCount() const
-  {
-    return track_cache_.size();
-  }
+  int GetTrackCount() const { return track_cache_.size(); }
 
   Project* GetParentGraph() const;
 
-  const QString &track_input() const;
+  const QString& track_input() const;
   NodeInput track_input(int element) const;
 
   Sequence* parent() const;
@@ -70,17 +57,11 @@ public:
   void ArrayAppend();
   void ArrayRemoveLast();
 
-  int GetArrayIndexFromCacheIndex(int index) const
-  {
-    return track_array_indexes_.at(index);
-  }
+  int GetArrayIndexFromCacheIndex(int index) const { return track_array_indexes_.at(index); }
 
-  int GetCacheIndexFromArrayIndex(int index) const
-  {
-    return track_array_indexes_.indexOf(index);
-  }
+  int GetCacheIndexFromArrayIndex(int index) const { return track_array_indexes_.indexOf(index); }
 
-public slots:
+ public slots:
   /**
    * @brief Slot for when the track connection is added
    */
@@ -91,18 +72,18 @@ public slots:
    */
   void TrackDisconnected(Node* node, int element);
 
-signals:
+ signals:
   void TrackListChanged();
 
-  void LengthChanged(const rational &length);
+  void LengthChanged(const rational& length);
 
   void TrackAdded(Track* track);
 
   void TrackRemoved(Track* track);
 
-  void TrackHeightChanged(Track *track, int height);
+  void TrackHeightChanged(Track* track, int height);
 
-private:
+ private:
   void UpdateTrackIndexesFrom(int index);
 
   /**
@@ -117,14 +98,13 @@ private:
 
   enum Track::Type type_;
 
-private slots:
+ private slots:
   /**
    * @brief Slot for when any of the track's length changes so we can update the length of the tracklist
    */
   void UpdateTotalLength();
-
 };
 
-}
+}  // namespace olive
 
-#endif // TRACKLIST_H
+#endif  // TRACKLIST_H

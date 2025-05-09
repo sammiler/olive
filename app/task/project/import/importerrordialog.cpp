@@ -27,15 +27,14 @@
 
 namespace olive {
 
-ProjectImportErrorDialog::ProjectImportErrorDialog(const QStringList& filenames, QWidget* parent) :
-  QDialog(parent)
-{
+ProjectImportErrorDialog::ProjectImportErrorDialog(const QStringList& filenames, QWidget* parent) : QDialog(parent) {
   QVBoxLayout* layout = new QVBoxLayout(this);
 
   setWindowTitle(tr("Import Error"));
 
-  layout->addWidget(new QLabel(tr("The following files failed to import. Olive likely does not "
-                                  "support their formats.")));
+  layout->addWidget(
+      new QLabel(tr("The following files failed to import. Olive likely does not "
+                    "support their formats.")));
 
   QListWidget* list_widget = new QListWidget();
   foreach (const QString& s, filenames) {
@@ -50,4 +49,4 @@ ProjectImportErrorDialog::ProjectImportErrorDialog(const QStringList& filenames,
   layout->addWidget(buttons);
 }
 
-}
+}  // namespace olive

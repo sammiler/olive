@@ -27,29 +27,27 @@
 
 namespace olive {
 
-class ColorPreviewBox : public QWidget
-{
+class ColorPreviewBox : public QWidget {
   Q_OBJECT
-public:
+ public:
   ColorPreviewBox(QWidget* parent = nullptr);
 
   void SetColorProcessor(ColorProcessorPtr to_ref, ColorProcessorPtr to_display);
 
-public slots:
+ public slots:
   void SetColor(const Color& c);
 
-protected:
+ protected:
   virtual void paintEvent(QPaintEvent* e) override;
 
-private:
+ private:
   Color color_;
 
   ColorProcessorPtr to_ref_processor_;
 
   ColorProcessorPtr to_display_processor_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // COLORPREVIEWBOX_H
+#endif  // COLORPREVIEWBOX_H

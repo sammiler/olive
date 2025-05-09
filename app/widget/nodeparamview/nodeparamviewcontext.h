@@ -22,31 +22,21 @@
 #define NODEPARAMVIEWCONTEXT_H
 
 #include "nodeparamviewdockarea.h"
-#include "nodeparamviewitembase.h"
 #include "nodeparamviewitem.h"
+#include "nodeparamviewitembase.h"
 
 namespace olive {
 
-class NodeParamViewContext : public NodeParamViewItemBase
-{
+class NodeParamViewContext : public NodeParamViewItemBase {
   Q_OBJECT
-public:
+ public:
   NodeParamViewContext(QWidget *parent = nullptr);
 
-  NodeParamViewDockArea *GetDockArea() const
-  {
-    return dock_area_;
-  }
+  NodeParamViewDockArea *GetDockArea() const { return dock_area_; }
 
-  const QVector<Node*> &GetContexts() const
-  {
-    return contexts_;
-  }
+  const QVector<Node *> &GetContexts() const { return contexts_; }
 
-  const QVector<NodeParamViewItem*> &GetItems() const
-  {
-    return items_;
-  }
+  const QVector<NodeParamViewItem *> &GetItems() const { return items_; }
 
   NodeParamViewItem *GetItem(Node *node, Node *ctx);
 
@@ -64,39 +54,32 @@ public:
 
   void SetEffectType(Track::Type type);
 
-signals:
+ signals:
   void AboutToDeleteItem(NodeParamViewItem *item);
 
-public slots:
-  void AddContext(Node *node)
-  {
-    contexts_.append(node);
-  }
+ public slots:
+  void AddContext(Node *node) { contexts_.append(node); }
 
-  void RemoveContext(Node *node)
-  {
-    contexts_.removeOne(node);
-  }
+  void RemoveContext(Node *node) { contexts_.removeOne(node); }
 
-protected slots:
+ protected slots:
   virtual void Retranslate() override;
 
-private:
+ private:
   NodeParamViewDockArea *dock_area_;
 
-  QVector<Node*> contexts_;
+  QVector<Node *> contexts_;
 
-  QVector<NodeParamViewItem*> items_;
+  QVector<NodeParamViewItem *> items_;
 
   Track::Type type_;
 
-private slots:
+ private slots:
   void AddEffectButtonClicked();
 
   void AddEffectMenuItemTriggered(QAction *a);
-
 };
 
-}
+}  // namespace olive
 
-#endif // NODEPARAMVIEWCONTEXT_H
+#endif  // NODEPARAMVIEWCONTEXT_H

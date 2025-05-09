@@ -27,41 +27,38 @@
 
 namespace olive {
 
-class FrameHashCache : public PlaybackCache
-{
+class FrameHashCache : public PlaybackCache {
   Q_OBJECT
-public:
-  FrameHashCache(QObject* parent = nullptr);
+ public:
+  FrameHashCache(QObject *parent = nullptr);
 
   const rational &GetTimebase() const { return timebase_; }
 
-  void SetTimebase(const rational& tb);
+  void SetTimebase(const rational &tb);
 
   void ValidateTimestamp(const int64_t &ts);
   void ValidateTime(const rational &time);
 
-  bool IsFrameCached(const rational &time) const
-  {
-    return GetValidatedRanges().contains(time);
-  }
+  bool IsFrameCached(const rational &time) const { return GetValidatedRanges().contains(time); }
 
   QString GetValidCacheFilename(const rational &time) const;
 
-  static bool SaveCacheFrame(const QString& filename, FramePtr frame);
+  static bool SaveCacheFrame(const QString &filename, FramePtr frame);
   bool SaveCacheFrame(const int64_t &time, FramePtr frame) const;
-  static bool SaveCacheFrame(const QString& cache_path, const QUuid &uuid, const int64_t &time, FramePtr frame);
-  static bool SaveCacheFrame(const QString& cache_path, const QUuid &uuid, const rational &time, const rational &tb, FramePtr frame);
-  static FramePtr LoadCacheFrame(const QString& cache_path, const QUuid &uuid, const int64_t &time);
+  static bool SaveCacheFrame(const QString &cache_path, const QUuid &uuid, const int64_t &time, FramePtr frame);
+  static bool SaveCacheFrame(const QString &cache_path, const QUuid &uuid, const rational &time, const rational &tb,
+                             FramePtr frame);
+  static FramePtr LoadCacheFrame(const QString &cache_path, const QUuid &uuid, const int64_t &time);
   FramePtr LoadCacheFrame(const int64_t &time) const;
-  static FramePtr LoadCacheFrame(const QString& fn);
+  static FramePtr LoadCacheFrame(const QString &fn);
 
   virtual void SetPassthrough(PlaybackCache *cache) override;
 
-protected:
+ protected:
   virtual void LoadStateEvent(QDataStream &stream) override;
   virtual void SaveStateEvent(QDataStream &stream) override;
 
-private:
+ private:
   rational ToTime(const int64_t &ts) const;
   int64_t ToTimestamp(const rational &ts, Timecode::Rounding rounding = Timecode::kRound) const;
 
@@ -71,29 +68,24 @@ private:
   QString CachePathName(const int64_t &time) const;
   QString CachePathName(const rational &time) const;
 
-  static QString CachePathName(const QString& cache_path, const QUuid &cache_id, const int64_t &time);
-  static QString CachePathName(const QString& cache_path, const QUuid &cache_id, const rational &time, const rational &tb);
+  static QString CachePathName(const QString &cache_path, const QUuid &cache_id, const int64_t &time);
+  static QString CachePathName(const QString &cache_path, const QUuid &cache_id, const rational &time,
+                               const rational &tb);
 
   rational timebase_;
 
-private slots:
+ private slots:
   void HashDeleted(const QString &path, const QString &filename);
 
-  void ProjectInvalidated(Project* p);
-
+  void ProjectInvalidated(Project *p);
 };
 
-class ThumbnailCache : public FrameHashCache
-{
+class ThumbnailCache : public FrameHashCache {
   Q_OBJECT
-public:
-  ThumbnailCache(QObject* parent = nullptr) :
-    FrameHashCache(parent)
-  {
-    SetTimebase(rational(1, 10));
-  }
+ public:
+  ThumbnailCache(QObject *parent = nullptr) : FrameHashCache(parent) { SetTimebase(rational(1, 10)); }
 };
 
-}
+}  // namespace olive
 
-#endif // VIDEORENDERFRAMECACHE_H
+#endif  // VIDEORENDERFRAMECACHE_H

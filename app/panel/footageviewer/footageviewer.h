@@ -23,8 +23,8 @@
 
 #include <QOpenGLFunctions>
 
-#include "panel/viewer/viewerbase.h"
 #include "panel/project/footagemanagementpanel.h"
+#include "panel/viewer/viewerbase.h"
 #include "widget/viewer/footageviewer.h"
 
 namespace olive {
@@ -34,23 +34,21 @@ namespace olive {
  */
 class FootageViewerPanel : public ViewerPanelBase, public FootageManagementPanel {
   Q_OBJECT
-public:
+ public:
   FootageViewerPanel();
 
   void OverrideWorkArea(const TimeRange &r);
 
-  FootageViewerWidget *GetFootageViewerWidget() const
-  {
-    return static_cast<FootageViewerWidget*>(GetTimeBasedWidget());
+  FootageViewerWidget *GetFootageViewerWidget() const {
+    return static_cast<FootageViewerWidget *>(GetTimeBasedWidget());
   }
 
   virtual QVector<ViewerOutput *> GetSelectedFootage() const override;
 
-protected:
+ protected:
   virtual void Retranslate() override;
-
 };
 
-}
+}  // namespace olive
 
-#endif // FOOTAGE_VIEWER_PANEL_H
+#endif  // FOOTAGE_VIEWER_PANEL_H

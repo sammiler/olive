@@ -23,8 +23,7 @@
 #include <QCoreApplication>
 #include <QDebug>
 
-CommandLineParser::~CommandLineParser()
-{
+CommandLineParser::~CommandLineParser() {
   foreach (const KnownOption& o, options_) {
     delete o.option;
   }
@@ -34,8 +33,9 @@ CommandLineParser::~CommandLineParser()
   }
 }
 
-const CommandLineParser::Option *CommandLineParser::AddOption(const QStringList &strings, const QString &description, bool takes_arg, const QString &arg_placeholder, bool hidden)
-{
+const CommandLineParser::Option* CommandLineParser::AddOption(const QStringList& strings, const QString& description,
+                                                              bool takes_arg, const QString& arg_placeholder,
+                                                              bool hidden) {
   Option* o = new Option();
 
   options_.append({strings, description, o, takes_arg, arg_placeholder, hidden});
@@ -43,8 +43,9 @@ const CommandLineParser::Option *CommandLineParser::AddOption(const QStringList 
   return o;
 }
 
-const CommandLineParser::PositionalArgument *CommandLineParser::AddPositionalArgument(const QString &name, const QString &description, bool required)
-{
+const CommandLineParser::PositionalArgument* CommandLineParser::AddPositionalArgument(const QString& name,
+                                                                                      const QString& description,
+                                                                                      bool required) {
   PositionalArgument* a = new PositionalArgument();
 
   positional_args_.append({name, description, a, required});
@@ -52,11 +53,10 @@ const CommandLineParser::PositionalArgument *CommandLineParser::AddPositionalArg
   return a;
 }
 
-void CommandLineParser::Process(const QVector<QString> &argv)
-{
+void CommandLineParser::Process(const QVector<QString>& argv) {
   int positional_index = 0;
 
-  for (int i=1; i<argv.size(); i++) {
+  for (int i = 1; i < argv.size(); i++) {
     if (argv[i][0] == '-') {
       // Must be an option
 
@@ -65,7 +65,7 @@ void CommandLineParser::Process(const QVector<QString> &argv)
 
       bool matched_known = false;
 
-      for (int j=0; j<options_.size(); j++) {
+      for (int j = 0; j < options_.size(); j++) {
         KnownOption& o = options_[j];
 
         foreach (const QString& s, o.args) {
@@ -73,8 +73,8 @@ void CommandLineParser::Process(const QVector<QString> &argv)
             // Flag discovered!
             o.option->Set();
 
-            if (o.takes_arg && i+1 < argv.size()) {
-              o.option->SetSetting(argv[i+1]);
+            if (o.takes_arg && i + 1 < argv.size()) {
+              o.option->SetSetting(argv[i + 1]);
               i++;
             }
 
@@ -84,7 +84,7 @@ void CommandLineParser::Process(const QVector<QString> &argv)
         }
       }
 
-found_flag:
+    found_flag:
       if (!matched_known) {
         qWarning() << "Unknown parameter:" << argv[i];
       }
@@ -101,16 +101,14 @@ found_flag:
   }
 }
 
-void CommandLineParser::PrintHelp(const char* filename)
-{
-  printf("%s %s\n",
-         QCoreApplication::applicationName().toUtf8().constData(),
+void CommandLineParser::PrintHelp(const char* filename) {
+  printf("%s %s\n", QCoreApplication::applicationName().toUtf8().constData(),
          QCoreApplication::applicationVersion().toUtf8().constData());
 
   printf("Copyright (C) 2018-2022 Olive Team\n");
 
   QString positional_args;
-  for (int i=0; i<positional_args_.size(); i++) {
+  for (int i = 0; i < positional_args_.size(); i++) {
     if (i > 0) {
       positional_args.append(' ');
     }
@@ -146,7 +144,7 @@ void CommandLineParser::PrintHelp(const char* filename)
 
     QString all_args;
 
-    for (int i=0; i<o.args.size(); i++) {
+    for (int i = 0; i < o.args.size(); i++) {
       if (i > 0) {
         all_args.append(QStringLiteral(", "));
       }

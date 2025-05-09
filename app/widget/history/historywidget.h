@@ -27,24 +27,22 @@
 
 namespace olive {
 
-class HistoryWidget : public QTreeView
-{
+class HistoryWidget : public QTreeView {
   Q_OBJECT
-public:
+ public:
   HistoryWidget(QWidget *parent = nullptr);
 
-private:
+ private:
   UndoStack *stack_;
 
   size_t current_row_;
 
-private slots:
+ private slots:
   void indexChanged(int i);
 
   void currentRowChanged(const QModelIndex &current, const QModelIndex &previous);
-
 };
 
-}
+}  // namespace olive
 
-#endif // HISTORYWIDGET_H
+#endif  // HISTORYWIDGET_H

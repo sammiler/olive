@@ -21,10 +21,10 @@
 #ifndef LIBOLIVECORE_VALUE_H
 #define LIBOLIVECORE_VALUE_H
 
-#include <map>
 #include <stdint.h>
-#include <string>
 #include <string.h>
+#include <map>
+#include <string>
 #include <vector>
 
 namespace olive::core {
@@ -32,9 +32,8 @@ namespace olive::core {
 /**
  * @brief Generic type container
  */
-class Value
-{
-public:
+class Value {
+ public:
   enum Type {
     /// Null/no data
     NONE,
@@ -49,48 +48,40 @@ public:
     STRING
   };
 
-  Value()
-  {
-    type_ = NONE;
-  }
+  Value() { type_ = NONE; }
 
-  Value(int64_t v)
-  {
+  Value(int64_t v) {
     data_.resize(sizeof(int64_t));
     memcpy(data_.data(), &v, sizeof(int64_t));
     type_ = INT;
   }
 
-  Value(double v)
-  {
+  Value(double v) {
     data_.resize(sizeof(double));
     memcpy(data_.data(), &v, sizeof(int64_t));
     type_ = FLOAT;
   }
 
-  Value(const char *s)
-  {
+  Value(const char *s) {
     size_t sz = strlen(s);
     data_.resize(sz);
     memcpy(data_.data(), s, sz);
     type_ = STRING;
   }
 
-  Value(const std::string &s)
-  {
+  Value(const std::string &s) {
     data_.resize(s.size());
     memcpy(data_.data(), s.data(), data_.size());
     type_ = STRING;
   }
 
-private:
+ private:
   std::vector<uint8_t> data_;
   Type type_;
-
 };
 
 using ValueMap = std::map<std::string, Value>;
 
-}
+}  // namespace olive::core
 
-#endif // LIBOLIVECORE_VALUE_H
+#endif  // LIBOLIVECORE_VALUE_H

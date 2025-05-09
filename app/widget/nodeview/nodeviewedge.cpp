@@ -34,15 +34,9 @@ namespace olive {
 
 #define super QGraphicsPathItem
 
-NodeViewEdge::NodeViewEdge(Node *output, const NodeInput &input,
-                           NodeViewItem* from_item, NodeViewItem* to_item,
-                           QGraphicsItem* parent) :
-  super(parent),
-  output_(output),
-  input_(input),
-  from_item_(from_item),
-  to_item_(to_item)
-{
+NodeViewEdge::NodeViewEdge(Node *output, const NodeInput &input, NodeViewItem *from_item, NodeViewItem *to_item,
+                           QGraphicsItem *parent)
+    : super(parent), output_(output), input_(input), from_item_(from_item), to_item_(to_item) {
   Init();
   SetConnected(true);
 
@@ -50,16 +44,11 @@ NodeViewEdge::NodeViewEdge(Node *output, const NodeInput &input,
   to_item_->AddEdge(this);
 }
 
-NodeViewEdge::NodeViewEdge(QGraphicsItem *parent) :
-  QGraphicsPathItem(parent),
-  from_item_(nullptr),
-  to_item_(nullptr)
-{
+NodeViewEdge::NodeViewEdge(QGraphicsItem *parent) : QGraphicsPathItem(parent), from_item_(nullptr), to_item_(nullptr) {
   Init();
 }
 
-NodeViewEdge::~NodeViewEdge()
-{
+NodeViewEdge::~NodeViewEdge() {
   if (from_item_) {
     from_item_->RemoveEdge(this);
   }
@@ -69,8 +58,7 @@ NodeViewEdge::~NodeViewEdge()
   }
 }
 
-void NodeViewEdge::set_from_item(NodeViewItem *i)
-{
+void NodeViewEdge::set_from_item(NodeViewItem *i) {
   if (from_item_) {
     from_item_->RemoveEdge(this);
   }
@@ -84,8 +72,7 @@ void NodeViewEdge::set_from_item(NodeViewItem *i)
   Adjust();
 }
 
-void NodeViewEdge::set_to_item(NodeViewItem *i)
-{
+void NodeViewEdge::set_to_item(NodeViewItem *i) {
   if (to_item_) {
     to_item_->RemoveEdge(this);
   }
@@ -99,43 +86,37 @@ void NodeViewEdge::set_to_item(NodeViewItem *i)
   Adjust();
 }
 
-void NodeViewEdge::Adjust()
-{
+void NodeViewEdge::Adjust() {
   // Draw a line between the two
   SetPoints(from_item()->GetOutputPoint(), to_item()->GetInputPoint());
 }
 
-void NodeViewEdge::SetConnected(bool c)
-{
+void NodeViewEdge::SetConnected(bool c) {
   connected_ = c;
 
   update();
 }
 
-void NodeViewEdge::SetHighlighted(bool e)
-{
+void NodeViewEdge::SetHighlighted(bool e) {
   highlighted_ = e;
 
   update();
 }
 
-void NodeViewEdge::SetPoints(const QPointF &start, const QPointF &end)
-{
+void NodeViewEdge::SetPoints(const QPointF &start, const QPointF &end) {
   cached_start_ = start;
   cached_end_ = end;
 
   UpdateCurve();
 }
 
-void NodeViewEdge::SetCurved(bool e)
-{
+void NodeViewEdge::SetCurved(bool e) {
   curved_ = e;
 
   UpdateCurve();
 }
 
-void NodeViewEdge::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *)
-{
+void NodeViewEdge::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *) {
   QPalette::ColorGroup group;
   QPalette::ColorRole role;
 
@@ -159,8 +140,7 @@ void NodeViewEdge::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
   painter->drawPath(path());
 }
 
-void NodeViewEdge::Init()
-{
+void NodeViewEdge::Init() {
   connected_ = false;
   highlighted_ = false;
   curved_ = true;
@@ -174,8 +154,7 @@ void NodeViewEdge::Init()
   edge_width_ = QFontMetrics(QFont()).height() / 12;
 }
 
-void NodeViewEdge::UpdateCurve()
-{
+void NodeViewEdge::UpdateCurve() {
   const QPointF &start = cached_start_;
   const QPointF &end = cached_end_;
 
@@ -185,13 +164,13 @@ void NodeViewEdge::UpdateCurve()
   double angle = std::atan2(end.y() - start.y(), end.x() - start.x());
 
   if (curved_) {
-
     double half_x = lerp(start.x(), end.x(), 0.5);
     double half_y = lerp(start.y(), end.y(), 0.5);
 
     QPointF cp1, cp2;
 
-    NodeViewCommon::FlowDirection from_flow = from_item_ ? from_item_->GetFlowDirection() : NodeViewCommon::kInvalidDirection;
+    NodeViewCommon::FlowDirection from_flow =
+        from_item_ ? from_item_->GetFlowDirection() : NodeViewCommon::kInvalidDirection;
     NodeViewCommon::FlowDirection to_flow = to_item_ ? to_item_->GetFlowDirection() : NodeViewCommon::kInvalidDirection;
 
     if (from_flow == NodeViewCommon::kInvalidDirection && to_flow == NodeViewCommon::kInvalidDirection) {
@@ -244,12 +223,10 @@ void NodeViewEdge::UpdateCurve()
     }
 
   } else {
-
     path.lineTo(end);
-
   }
 
   setPath(mapFromScene(path));
 }
 
-}
+}  // namespace olive

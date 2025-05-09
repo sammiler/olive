@@ -27,10 +27,9 @@
 
 namespace olive {
 
-class PolygonGizmo : public DraggableGizmo
-{
+class PolygonGizmo : public DraggableGizmo {
   Q_OBJECT
-public:
+ public:
   explicit PolygonGizmo(QObject *parent = nullptr);
 
   const QPolygonF &GetPolygon() const { return polygon_; }
@@ -38,11 +37,10 @@ public:
 
   virtual void Draw(QPainter *p) const override;
 
-private:
+ private:
   QPolygonF polygon_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // POLYGONGIZMO_H
+#endif  // POLYGONGIZMO_H

@@ -30,35 +30,36 @@
 
 namespace olive {
 
-class SequenceDialogPresetTab : public QWidget, public PresetManager<SequencePreset>
-{
+class SequenceDialogPresetTab : public QWidget, public PresetManager<SequencePreset> {
   Q_OBJECT
-public:
+ public:
   SequenceDialogPresetTab(QWidget* parent = nullptr);
 
-public slots:
+ public slots:
   void SaveParametersAsPreset(SequencePreset preset);
 
-signals:
+ signals:
   void PresetChanged(const SequencePreset& preset);
 
   void PresetAccepted();
 
-private:
-  QTreeWidgetItem *CreateFolder(const QString& name);
+ private:
+  QTreeWidgetItem* CreateFolder(const QString& name);
 
-  QTreeWidgetItem *CreateHDPresetFolder(const QString& name, int width, int height, int divider);
+  QTreeWidgetItem* CreateHDPresetFolder(const QString& name, int width, int height, int divider);
 
-  QTreeWidgetItem *CreateSDPresetFolder(const QString& name, int width, int height, const rational &frame_rate, const rational& standard_par, const rational& wide_par, int divider);
+  QTreeWidgetItem* CreateSDPresetFolder(const QString& name, int width, int height, const rational& frame_rate,
+                                        const rational& standard_par, const rational& wide_par, int divider);
 
   QTreeWidgetItem* GetSelectedItem();
   QTreeWidgetItem* GetSelectedCustomPreset();
 
-  void AddStandardItem(QTreeWidgetItem* folder, PresetPtr preset, const QString &description = QString());
+  void AddStandardItem(QTreeWidgetItem* folder, PresetPtr preset, const QString& description = QString());
 
   void AddCustomItem(QTreeWidgetItem* folder, PresetPtr preset, int index, const QString& description = QString());
 
-  void AddItemInternal(QTreeWidgetItem* folder, PresetPtr preset, bool is_custom, int index, const QString& description = QString());
+  void AddItemInternal(QTreeWidgetItem* folder, PresetPtr preset, bool is_custom, int index,
+                       const QString& description = QString());
 
   QTreeWidget* preset_tree_;
 
@@ -66,17 +67,16 @@ private:
 
   QVector<PresetPtr> default_preset_data_;
 
-private slots:
-  void SelectedItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
+ private slots:
+  void SelectedItemChanged(QTreeWidgetItem* current, QTreeWidgetItem* previous);
 
-  void ItemDoubleClicked(QTreeWidgetItem *item, int column);
+  void ItemDoubleClicked(QTreeWidgetItem* item, int column);
 
   void ShowContextMenu();
 
   void DeleteSelectedPreset();
-
 };
 
-}
+}  // namespace olive
 
-#endif // SEQUENCEDIALOGPRESETTAB_H
+#endif  // SEQUENCEDIALOGPRESETTAB_H

@@ -24,10 +24,8 @@
 
 namespace olive {
 
-ParamPanel::ParamPanel() :
-  TimeBasedPanel(QStringLiteral("ParamPanel"))
-{
-  NodeParamView* view = new NodeParamView(this);
+ParamPanel::ParamPanel() : TimeBasedPanel(QStringLiteral("ParamPanel")) {
+  NodeParamView *view = new NodeParamView(this);
   connect(view, &NodeParamView::FocusedNodeChanged, this, &ParamPanel::FocusedNodeChanged);
   connect(view, &NodeParamView::SelectedNodesChanged, this, &ParamPanel::SelectedNodesChanged);
   connect(view, &NodeParamView::RequestViewerToStartEditingText, this, &ParamPanel::RequestViewerToStartEditingText);
@@ -37,29 +35,16 @@ ParamPanel::ParamPanel() :
   Retranslate();
 }
 
-void ParamPanel::DeleteSelected()
-{
-  static_cast<NodeParamView*>(GetTimeBasedWidget())->DeleteSelected();
+void ParamPanel::DeleteSelected() { static_cast<NodeParamView *>(GetTimeBasedWidget())->DeleteSelected(); }
+
+void ParamPanel::SelectAll() { static_cast<NodeParamView *>(GetTimeBasedWidget())->SelectAll(); }
+
+void ParamPanel::DeselectAll() { static_cast<NodeParamView *>(GetTimeBasedWidget())->DeselectAll(); }
+
+void ParamPanel::SetContexts(const QVector<Node *> &contexts) {
+  static_cast<NodeParamView *>(GetTimeBasedWidget())->SetContexts(contexts);
 }
 
-void ParamPanel::SelectAll()
-{
-  static_cast<NodeParamView*>(GetTimeBasedWidget())->SelectAll();
-}
+void ParamPanel::Retranslate() { SetTitle(tr("Parameter Editor")); }
 
-void ParamPanel::DeselectAll()
-{
-  static_cast<NodeParamView*>(GetTimeBasedWidget())->DeselectAll();
-}
-
-void ParamPanel::SetContexts(const QVector<Node *> &contexts)
-{
-  static_cast<NodeParamView*>(GetTimeBasedWidget())->SetContexts(contexts);
-}
-
-void ParamPanel::Retranslate()
-{
-  SetTitle(tr("Parameter Editor"));
-}
-
-}
+}  // namespace olive

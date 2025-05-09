@@ -27,11 +27,8 @@
 
 namespace olive {
 
-NodeParamViewItemTitleBar::NodeParamViewItemTitleBar(QWidget *parent) :
-  QWidget(parent),
-  draw_border_(true)
-{
-  QHBoxLayout* layout = new QHBoxLayout(this);
+NodeParamViewItemTitleBar::NodeParamViewItemTitleBar(QWidget *parent) : QWidget(parent), draw_border_(true) {
+  QHBoxLayout *layout = new QHBoxLayout(this);
 
   collapse_btn_ = new CollapseButton(this);
   connect(collapse_btn_, &QPushButton::clicked, this, &NodeParamViewItemTitleBar::ExpandedStateChanged);
@@ -63,16 +60,14 @@ NodeParamViewItemTitleBar::NodeParamViewItemTitleBar(QWidget *parent) :
   connect(enabled_checkbox_, &QCheckBox::clicked, this, &NodeParamViewItemTitleBar::EnabledCheckBoxClicked);
 }
 
-void NodeParamViewItemTitleBar::SetExpanded(bool e)
-{
+void NodeParamViewItemTitleBar::SetExpanded(bool e) {
   draw_border_ = e;
   collapse_btn_->setChecked(e);
 
   update();
 }
 
-void NodeParamViewItemTitleBar::paintEvent(QPaintEvent *event)
-{
+void NodeParamViewItemTitleBar::paintEvent(QPaintEvent *event) {
   QWidget::paintEvent(event);
 
   if (draw_border_) {
@@ -85,18 +80,16 @@ void NodeParamViewItemTitleBar::paintEvent(QPaintEvent *event)
   }
 }
 
-void NodeParamViewItemTitleBar::mousePressEvent(QMouseEvent *event)
-{
+void NodeParamViewItemTitleBar::mousePressEvent(QMouseEvent *event) {
   QWidget::mousePressEvent(event);
 
   emit Clicked();
 }
 
-void NodeParamViewItemTitleBar::mouseDoubleClickEvent(QMouseEvent *event)
-{
+void NodeParamViewItemTitleBar::mouseDoubleClickEvent(QMouseEvent *event) {
   QWidget::mouseDoubleClickEvent(event);
 
   collapse_btn_->click();
 }
 
-}
+}  // namespace olive

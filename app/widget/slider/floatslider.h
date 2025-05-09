@@ -25,17 +25,12 @@
 
 namespace olive {
 
-class FloatSlider : public DecimalSliderBase
-{
+class FloatSlider : public DecimalSliderBase {
   Q_OBJECT
-public:
+ public:
   FloatSlider(QWidget* parent = nullptr);
 
-  enum DisplayType {
-    kNormal,
-    kDecibel,
-    kPercentage
-  };
+  enum DisplayType { kNormal, kDecibel, kPercentage };
 
   double GetValue() const;
 
@@ -55,23 +50,22 @@ public:
 
   static QString ValueToString(double val, DisplayType display, int decimal_places, bool autotrim_decimal_places);
 
-protected:
+ protected:
   virtual QString ValueToString(const QVariant& v) const override;
 
   virtual QVariant StringToValue(const QString& s, bool* ok) const override;
 
-  virtual QVariant AdjustDragDistanceInternal(const QVariant &start, const double &drag) const override;
+  virtual QVariant AdjustDragDistanceInternal(const QVariant& start, const double& drag) const override;
 
-  virtual void ValueSignalEvent(const QVariant &value) override;
+  virtual void ValueSignalEvent(const QVariant& value) override;
 
-signals:
+ signals:
   void ValueChanged(double);
 
-private:
+ private:
   DisplayType display_type_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // FLOATSLIDER_H
+#endif  // FLOATSLIDER_H

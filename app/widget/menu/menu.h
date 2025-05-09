@@ -21,8 +21,8 @@
 #ifndef WIDGETMENU_H
 #define WIDGETMENU_H
 
-#include <QMenuBar>
 #include <QMenu>
+#include <QMenuBar>
 #include <QMetaMethod>
 
 #include "common/define.h"
@@ -44,9 +44,8 @@ namespace olive {
  *
  * It is always recommended to use this over QMenu in any situation.
  */
-class Menu : public QMenu
-{
-public:
+class Menu : public QMenu {
+ public:
   Menu(QMenuBar* bar);
 
   template <typename Func>
@@ -56,10 +55,7 @@ public:
    * This Menu can be connected to a slot that's triggered when the Menu is "about to show". Use `receiver` and
    * `member` to connect this (same syntax as QObject::connect) or leave as nullptr to not.
    */
-  Menu(QMenuBar* bar,
-       const typename QtPrivate::FunctionPointer<Func>::Object *receiver,
-       Func member)
-  {
+  Menu(QMenuBar* bar, const typename QtPrivate::FunctionPointer<Func>::Object* receiver, Func member) {
     bar->addMenu(this);
 
     Init();
@@ -75,10 +71,7 @@ public:
    * This Menu can be connected to a slot that's triggered when the Menu is "about to show". Use `receiver` and
    * `member` to connect this (same syntax as QObject::connect) or leave as nullptr to not.
    */
-  Menu(Menu* menu,
-       const typename QtPrivate::FunctionPointer<Func>::Object *receiver,
-       Func member)
-  {
+  Menu(Menu* menu, const typename QtPrivate::FunctionPointer<Func>::Object* receiver, Func member) {
     menu->addMenu(this);
 
     Init();
@@ -119,11 +112,8 @@ public:
    *
    * The QAction that was created and added to this Menu
    */
-  QAction* AddItem(const QString& id,
-                   const typename QtPrivate::FunctionPointer<Func>::Object *receiver,
-                   Func member,
-                   const QKeySequence &key = QKeySequence())
-  {
+  QAction* AddItem(const QString& id, const typename QtPrivate::FunctionPointer<Func>::Object* receiver, Func member,
+                   const QKeySequence& key = QKeySequence()) {
     QAction* a = CreateItem(this, id, receiver, member, key);
 
     addAction(a);
@@ -131,11 +121,9 @@ public:
     return a;
   }
 
-  QAction* AddActionWithData(const QString& text,
-                             const QVariant& d,
-                             const QVariant& compare);
+  QAction* AddActionWithData(const QString& text, const QVariant& d, const QVariant& compare);
 
-  QAction *InsertAlphabetically(const QString& s);
+  QAction* InsertAlphabetically(const QString& s);
   void InsertAlphabetically(QAction* entry);
   void InsertAlphabetically(Menu* menu);
 
@@ -167,19 +155,12 @@ public:
    *
    * The QAction that was created and added to this Menu
    */
-  static QAction* CreateItem(QObject* parent,
-                             const QString& id,
-                             const typename QtPrivate::FunctionPointer<Func>::Object *receiver,
-                             Func member,
-                             const QKeySequence &key = QKeySequence())
-  {
+  static QAction* CreateItem(QObject* parent, const QString& id,
+                             const typename QtPrivate::FunctionPointer<Func>::Object* receiver, Func member,
+                             const QKeySequence& key = QKeySequence()) {
     QAction* a = new QAction(parent);
 
-    ConformItem(a,
-                id,
-                receiver,
-                member,
-                key);
+    ConformItem(a, id, receiver, member, key);
 
     return a;
   }
@@ -211,32 +192,25 @@ public:
    *
    * Default keyboard sequence
    */
-  static void ConformItem(QAction *a,
-                          const QString& id,
-                          const typename QtPrivate::FunctionPointer<Func>::Object *receiver,
-                          Func member,
-                          const QKeySequence &key = QKeySequence())
-  {
+  static void ConformItem(QAction* a, const QString& id,
+                          const typename QtPrivate::FunctionPointer<Func>::Object* receiver, Func member,
+                          const QKeySequence& key = QKeySequence()) {
     ConformItem(a, id, key);
 
     connect(a, &QAction::triggered, receiver, member);
   }
 
-  static void ConformItem(QAction *a,
-                          const QString& id,
-                          const QKeySequence &key = QKeySequence());
+  static void ConformItem(QAction* a, const QString& id, const QKeySequence& key = QKeySequence());
 
-private:
+ private:
   void Init();
 
   template <typename Func>
-  void ConnectAboutToShow(const typename QtPrivate::FunctionPointer<Func>::Object *receiver, Func member)
-  {
+  void ConnectAboutToShow(const typename QtPrivate::FunctionPointer<Func>::Object* receiver, Func member) {
     connect(this, &Menu::aboutToShow, receiver, member);
   }
-
 };
 
-}
+}  // namespace olive
 
-#endif // WIDGETMENU_H
+#endif  // WIDGETMENU_H

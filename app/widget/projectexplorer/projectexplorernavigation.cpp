@@ -28,11 +28,9 @@
 
 namespace olive {
 
-ProjectExplorerNavigation::ProjectExplorerNavigation(QWidget *parent) :
-  QWidget(parent)
-{
+ProjectExplorerNavigation::ProjectExplorerNavigation(QWidget *parent) : QWidget(parent) {
   // Create widget layout
-  QHBoxLayout* layout = new QHBoxLayout(this);
+  QHBoxLayout *layout = new QHBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
 
   // Create "directory up" button
@@ -58,23 +56,13 @@ ProjectExplorerNavigation::ProjectExplorerNavigation(QWidget *parent) :
   UpdateIcons();
 }
 
-void ProjectExplorerNavigation::set_text(const QString &s)
-{
-  dir_lbl_->setText(s);
-}
+void ProjectExplorerNavigation::set_text(const QString &s) { dir_lbl_->setText(s); }
 
-void ProjectExplorerNavigation::set_dir_up_enabled(bool e)
-{
-  dir_up_btn_->setEnabled(e);
-}
+void ProjectExplorerNavigation::set_dir_up_enabled(bool e) { dir_up_btn_->setEnabled(e); }
 
-void ProjectExplorerNavigation::set_size_value(int s)
-{
-  size_slider_->setValue(s);
-}
+void ProjectExplorerNavigation::set_size_value(int s) { size_slider_->setValue(s); }
 
-void ProjectExplorerNavigation::changeEvent(QEvent *e)
-{
+void ProjectExplorerNavigation::changeEvent(QEvent *e) {
   if (e->type() == QEvent::LanguageChange) {
     Retranslate();
   } else if (e->type() == QEvent::StyleChange) {
@@ -83,17 +71,13 @@ void ProjectExplorerNavigation::changeEvent(QEvent *e)
   QWidget::changeEvent(e);
 }
 
-void ProjectExplorerNavigation::Retranslate()
-{
-  dir_up_btn_->setToolTip(tr("Go to parent folder"));
-}
+void ProjectExplorerNavigation::Retranslate() { dir_up_btn_->setToolTip(tr("Go to parent folder")); }
 
-void ProjectExplorerNavigation::UpdateIcons()
-{
+void ProjectExplorerNavigation::UpdateIcons() {
   dir_up_btn_->setIcon(icon::DirUp);
   size_slider_->setMinimum(kProjectIconSizeMinimum);
   size_slider_->setMaximum(kProjectIconSizeMaximum);
   size_slider_->setValue(kProjectIconSizeDefault);
 }
 
-}
+}  // namespace olive

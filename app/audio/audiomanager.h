@@ -21,15 +21,15 @@
 #ifndef AUDIOMANAGER_H
 #define AUDIOMANAGER_H
 
-#include <memory>
-#include <QtConcurrent/QtConcurrent>
-#include <QThread>
 #include <portaudio.h>
+#include <QThread>
+#include <QtConcurrent/QtConcurrent>
+#include <memory>
 
-#include "audiovisualwaveform.h"
 #include "audio/audioprocessor.h"
-#include "common/define.h"
+#include "audiovisualwaveform.h"
 #include "codec/ffmpeg/ffmpegencoder.h"
+#include "common/define.h"
 #include "render/audioplaybackcache.h"
 #include "render/previewaudiodevice.h"
 
@@ -41,32 +41,25 @@ namespace olive {
  * Wraps around a QAudioOutput and AudioHybridDevice, connecting them together and exposing audio functionality to
  * the rest of the system.
  */
-class AudioManager : public QObject
-{
+class AudioManager : public QObject {
   Q_OBJECT
-public:
+ public:
   static void CreateInstance();
   static void DestroyInstance();
 
-  static AudioManager* instance();
+  static AudioManager *instance();
 
   void SetOutputNotifyInterval(int n);
 
-  bool PushToOutput(const AudioParams &params, const QByteArray& samples, QString *error = nullptr);
+  bool PushToOutput(const AudioParams &params, const QByteArray &samples, QString *error = nullptr);
 
   void ClearBufferedOutput();
 
   void StopOutput();
 
-  PaDeviceIndex GetOutputDevice() const
-  {
-    return output_device_;
-  }
+  PaDeviceIndex GetOutputDevice() const { return output_device_; }
 
-  PaDeviceIndex GetInputDevice() const
-  {
-    return input_device_;
-  }
+  PaDeviceIndex GetInputDevice() const { return input_device_; }
 
   void SetOutputDevice(PaDeviceIndex device);
 
@@ -83,12 +76,12 @@ public:
 
   static PaStreamParameters GetPortAudioParams(const AudioParams &p, PaDeviceIndex device);
 
-signals:
+ signals:
   void OutputNotify();
 
   void OutputParamsChanged();
 
-private:
+ private:
   AudioManager();
 
   virtual ~AudioManager() override;
@@ -97,7 +90,7 @@ private:
 
   void CloseOutputStream();
 
-  static AudioManager* instance_;
+  static AudioManager *instance_;
 
   PaDeviceIndex output_device_;
   PaStream *output_stream_;
@@ -108,9 +101,8 @@ private:
   PaStream *input_stream_;
 
   FFmpegEncoder *input_encoder_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // AUDIOMANAGER_H
+#endif  // AUDIOMANAGER_H

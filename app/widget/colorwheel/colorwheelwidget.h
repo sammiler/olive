@@ -27,16 +27,15 @@
 
 namespace olive {
 
-class ColorWheelWidget : public ColorSwatchWidget
-{
+class ColorWheelWidget : public ColorSwatchWidget {
   Q_OBJECT
-public:
+ public:
   ColorWheelWidget(QWidget* parent = nullptr);
 
-signals:
+ signals:
   void DiameterChanged(int radius);
 
-protected:
+ protected:
   virtual Color GetColorFromScreenPos(const QPoint& p) const override;
 
   virtual void resizeEvent(QResizeEvent* e) override;
@@ -45,7 +44,7 @@ protected:
 
   virtual void SelectedColorChangedEvent(const Color& c, bool external) override;
 
-private:
+ private:
   int GetDiameter() const;
 
   qreal GetRadius() const;
@@ -56,8 +55,8 @@ private:
     qreal hypotenuse;
   };
 
-  Triangle GetTriangleFromCoords(const QPoint &center, const QPoint& p) const;
-  Triangle GetTriangleFromCoords(const QPoint &center, qreal y, qreal x) const;
+  Triangle GetTriangleFromCoords(const QPoint& center, const QPoint& p) const;
+  Triangle GetTriangleFromCoords(const QPoint& center, qreal y, qreal x) const;
 
   Color GetColorFromTriangle(const Triangle& tri) const;
   QPoint GetCoordsFromColor(const Color& c) const;
@@ -67,9 +66,8 @@ private:
   float val_;
 
   bool force_redraw_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // COLORWHEELWIDGET_H
+#endif  // COLORWHEELWIDGET_H

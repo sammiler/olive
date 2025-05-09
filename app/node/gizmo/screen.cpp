@@ -22,10 +22,6 @@
 
 namespace olive {
 
-ScreenGizmo::ScreenGizmo(QObject *parent)
-  : DraggableGizmo{parent}
-{
+ScreenGizmo::ScreenGizmo(QObject *parent) : DraggableGizmo{parent} {}
 
-}
-
-}
+}  // namespace olive

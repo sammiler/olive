@@ -22,9 +22,7 @@
 
 namespace olive {
 
-ViewerPanel::ViewerPanel(const QString &object_name) :
-  ViewerPanelBase(object_name)
-{
+ViewerPanel::ViewerPanel(const QString& object_name) : ViewerPanelBase(object_name) {
   // Set ViewerWidget as the central widget
   ViewerWidget* vw = new ViewerWidget(this);
   SetViewerWidget(vw);
@@ -33,11 +31,10 @@ ViewerPanel::ViewerPanel(const QString &object_name) :
   Retranslate();
 }
 
-void ViewerPanel::Retranslate()
-{
+void ViewerPanel::Retranslate() {
   ViewerPanelBase::Retranslate();
 
   SetTitle(tr("Viewer"));
 }
 
-}
+}  // namespace olive

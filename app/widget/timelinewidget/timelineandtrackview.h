@@ -24,16 +24,14 @@
 #include <QSplitter>
 #include <QWidget>
 
-#include "view/timelineview.h"
 #include "trackview/trackview.h"
+#include "view/timelineview.h"
 
 namespace olive {
 
-class TimelineAndTrackView : public QWidget
-{
-public:
-  TimelineAndTrackView(Qt::Alignment vertical_alignment = Qt::AlignTop,
-                       QWidget* parent = nullptr);
+class TimelineAndTrackView : public QWidget {
+ public:
+  TimelineAndTrackView(Qt::Alignment vertical_alignment = Qt::AlignTop, QWidget* parent = nullptr);
 
   QSplitter* splitter() const;
 
@@ -41,20 +39,19 @@ public:
 
   TrackView* track_view() const;
 
-private:
+ private:
   QSplitter* splitter_;
 
   TimelineView* view_;
 
   TrackView* track_view_;
 
-private slots:
+ private slots:
   void ViewValueChanged(int v);
 
   void TracksValueChanged(int v);
-
 };
 
-}
+}  // namespace olive
 
-#endif // TIMELINEANDTRACKVIEW_H
+#endif  // TIMELINEANDTRACKVIEW_H

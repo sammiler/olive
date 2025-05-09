@@ -21,13 +21,13 @@
 #ifndef PROJECT_H
 #define PROJECT_H
 
-#include <memory>
 #include <QObject>
 #include <QUuid>
+#include <memory>
 
+#include "node/color/colormanager/colormanager.h"
 #include "node/output/viewer/viewer.h"
 #include "node/project/footage/footage.h"
-#include "node/color/colormanager/colormanager.h"
 #include "window/mainwindow/mainwindowlayoutinfo.h"
 
 namespace olive {
@@ -43,15 +43,10 @@ namespace olive {
  * * Project Settings
  * * Window Layout
  */
-class Project : public QObject
-{
+class Project : public QObject {
   Q_OBJECT
-public:
-  enum CacheSetting {
-    kCacheUseDefaultLocation,
-    kCacheStoreAlongsideProject,
-    kCacheCustomPath
-  };
+ public:
+  enum CacheSetting { kCacheUseDefaultLocation, kCacheStoreAlongsideProject, kCacheCustomPath };
 
   Project();
 
@@ -65,10 +60,7 @@ public:
   /**
    * @brief Retrieve a complete list of the nodes belonging to this graph
    */
-  const QVector<Node*>& nodes() const
-  {
-    return node_children_;
-  }
+  const QVector<Node *> &nodes() const { return node_children_; }
 
   void Initialize();
 
@@ -79,9 +71,9 @@ public:
 
   QString name() const;
 
-  const QString& filename() const;
+  const QString &filename() const;
   QString pretty_filename() const;
-  void set_filename(const QString& s);
+  void set_filename(const QString &s);
 
   Folder *root() const { return root_; }
   ColorManager *color_manager() const { return color_manager_; }
@@ -97,15 +89,9 @@ public:
   QString get_cache_alongside_project_path() const;
   QString cache_path() const;
 
-  const QUuid& GetUuid() const
-  {
-    return uuid_;
-  }
+  const QUuid &GetUuid() const { return uuid_; }
 
-  void SetUuid(const QUuid &uuid)
-  {
-    uuid_ = uuid;
-  }
+  void SetUuid(const QUuid &uuid) { uuid_ = uuid; }
 
   void RegenerateUuid();
 
@@ -114,15 +100,9 @@ public:
    *
    * May help for resolving relative paths.
    */
-  const QString &GetSavedURL() const
-  {
-    return saved_url_;
-  }
+  const QString &GetSavedURL() const { return saved_url_; }
 
-  void SetSavedURL(const QString &url)
-  {
-    saved_url_ = url;
-  }
+  void SetSavedURL(const QString &url) { saved_url_ = url; }
 
   /**
    * @brief Find project parent from object
@@ -146,22 +126,24 @@ public:
   QString GetSetting(const QString &key) const { return settings_.value(key); }
   void SetSetting(const QString &key, const QString &value);
 
-  CacheSetting GetCacheLocationSetting() const { return static_cast<CacheSetting>(GetSetting(kCacheLocationSettingKey).toInt()); }
+  CacheSetting GetCacheLocationSetting() const {
+    return static_cast<CacheSetting>(GetSetting(kCacheLocationSettingKey).toInt());
+  }
   void SetCacheLocationSetting(CacheSetting s) { SetSetting(kCacheLocationSettingKey, QString::number(s)); }
 
   QString GetCustomCachePath() const { return GetSetting(kCachePathKey); }
   void SetCustomCachePath(const QString &path) { SetSetting(kCachePathKey, path); }
 
   QString GetColorConfigFilename() const { return GetSetting(kColorConfigFilename); }
-  void SetColorConfigFilename(const QString& s) { SetSetting(kColorConfigFilename, s); }
+  void SetColorConfigFilename(const QString &s) { SetSetting(kColorConfigFilename, s); }
 
   QString GetDefaultInputColorSpace() const { return GetSetting(kDefaultInputColorSpaceKey); }
-  void SetDefaultInputColorSpace(const QString& s) { SetSetting(kDefaultInputColorSpaceKey, s); }
+  void SetDefaultInputColorSpace(const QString &s) { SetSetting(kDefaultInputColorSpaceKey, s); }
 
   QString GetColorReferenceSpace() const { return GetSetting(kColorReferenceSpace); }
-  void SetColorReferenceSpace(const QString& s) { SetSetting(kColorReferenceSpace, s); }
+  void SetColorReferenceSpace(const QString &s) { SetSetting(kColorReferenceSpace, s); }
 
-signals:
+ signals:
   void NameChanged();
 
   void ModifiedChanged(bool e);
@@ -169,20 +151,20 @@ signals:
   /**
    * @brief Signal emitted when a Node is added to the graph
    */
-  void NodeAdded(Node* node);
+  void NodeAdded(Node *node);
 
   /**
    * @brief Signal emitted when a Node is removed from the graph
    */
-  void NodeRemoved(Node* node);
+  void NodeRemoved(Node *node);
 
-  void InputConnected(Node *output, const NodeInput& input);
+  void InputConnected(Node *output, const NodeInput &input);
 
-  void InputDisconnected(Node *output, const NodeInput& input);
+  void InputDisconnected(Node *output, const NodeInput &input);
 
-  void ValueChanged(const NodeInput& input);
+  void ValueChanged(const NodeInput &input);
 
-  void InputValueHintChanged(const NodeInput& input);
+  void InputValueHintChanged(const NodeInput &input);
 
   void GroupAddedInputPassthrough(NodeGroup *group, const NodeInput &input);
 
@@ -192,13 +174,13 @@ signals:
 
   void SettingChanged(const QString &key, const QString &value);
 
-protected:
-  virtual void childEvent(QChildEvent* event) override;
+ protected:
+  virtual void childEvent(QChildEvent *event) override;
 
-private:
+ private:
   QUuid uuid_;
 
-  Folder* root_;
+  Folder *root_;
 
   QString filename_;
 
@@ -210,12 +192,11 @@ private:
 
   ColorManager *color_manager_;
 
-  QVector<Node*> node_children_;
+  QVector<Node *> node_children_;
 
   QMap<QString, QString> settings_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // PROJECT_H
+#endif  // PROJECT_H

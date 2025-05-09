@@ -39,10 +39,9 @@ class ActionSearchList;
  * A popup window (accessible through Help > Action Search) that allows users to search for a menu command by typing
  * rather than browsing through the menu bar. This can be created from anywhere provided olive::MainWindow is valid.
  */
-class ActionSearch : public QDialog
-{
+class ActionSearch : public QDialog {
   Q_OBJECT
-public:
+ public:
   /**
    * @brief ActionSearch Constructor
    *
@@ -58,7 +57,7 @@ public:
    * @brief Set the menu bar to use in this action search
    */
   void SetMenuBar(QMenuBar* menu_bar);
-private slots:
+ private slots:
   /**
    * @brief Update the list of actions according to a search query
    *
@@ -82,7 +81,7 @@ private slots:
    * The current menu to loop over. In most cases, this should be left as nullptr when called externally.
    * search_update() will fill this automatically as it needs while calling itself recursively.
    */
-  void search_update(const QString& s, const QString &p = nullptr, QMenu *parent = nullptr);
+  void search_update(const QString& s, const QString& p = nullptr, QMenu* parent = nullptr);
 
   /**
    * @brief Perform the currently selected action
@@ -108,7 +107,8 @@ private slots:
    * selection is already at the bottom of the list, this is a no-op.
    */
   void move_selection_down();
-private:
+
+ private:
   /**
    * @brief Main widget that shows the list of commands
    */
@@ -128,7 +128,7 @@ private:
  */
 class ActionSearchList : public QListWidget {
   Q_OBJECT
-public:
+ public:
   /**
    * @brief ActionSearchList Constructor
    * @param parent
@@ -136,12 +136,13 @@ public:
    * Usually ActionSearch.
    */
   ActionSearchList(QWidget* parent);
-protected:
+
+ protected:
   /**
    * @brief Override of QListWidget's double click event that emits a signal.
    */
-  void mouseDoubleClickEvent(QMouseEvent *);
-signals:
+  void mouseDoubleClickEvent(QMouseEvent*);
+ signals:
   /**
    * @brief Signal emitted when a QListWidget item is double clicked.
    */
@@ -156,7 +157,7 @@ signals:
  */
 class ActionSearchEntry : public QLineEdit {
   Q_OBJECT
-public:
+ public:
   /**
    * @brief ActionSearchEntry
    * @param parent
@@ -164,14 +165,15 @@ public:
    * Usually ActionSearch.
    */
   ActionSearchEntry(QWidget* parent);
-protected:
+
+ protected:
   /**
    * @brief Override of QLineEdit's key press event that listens for up/down key presses.
    * @param event
    */
-  virtual bool event(QEvent *e) override;
+  virtual bool event(QEvent* e) override;
 
-signals:
+ signals:
   /**
    * @brief Emitted when the user presses the up arrow key.
    */
@@ -183,6 +185,6 @@ signals:
   void moveSelectionDown();
 };
 
-}
+}  // namespace olive
 
-#endif // ACTIONSEARCH_H
+#endif  // ACTIONSEARCH_H

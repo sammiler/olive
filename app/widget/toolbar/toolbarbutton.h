@@ -30,9 +30,8 @@ namespace olive {
 /**
  * @brief Simple derived class of QPushButton to contain an Tool ID. Used as the main widget through Toolbar.
  */
-class ToolbarButton : public QPushButton
-{
-public:
+class ToolbarButton : public QPushButton {
+ public:
   /**
    * @brief ToolbarButton Constructor
    *
@@ -52,13 +51,14 @@ public:
    * Set in the constructor and shouldn't change throughout its lifetime.
    */
   const Tool::Item& tool();
-private:
+
+ private:
   /**
    * @brief Internal tool value
    */
   Tool::Item tool_;
 };
 
-}
+}  // namespace olive
 
-#endif // TOOLBARBUTTON_H
+#endif  // TOOLBARBUTTON_H

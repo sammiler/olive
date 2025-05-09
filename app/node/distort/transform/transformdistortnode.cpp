@@ -31,8 +31,7 @@ const QString TransformDistortNode::kInterpolationInput = QStringLiteral("interp
 
 #define super MatrixGenerator
 
-TransformDistortNode::TransformDistortNode()
-{
+TransformDistortNode::TransformDistortNode() {
   AddInput(kParentInput, NodeValue::kMatrix);
 
   AddInput(kAutoscaleInput, NodeValue::kCombo, 0);
@@ -57,7 +56,7 @@ TransformDistortNode::TransformDistortNode()
   anchor_gizmo_->AddInput(NodeKeyframeTrackReference(NodeInput(this, kPositionInput), 0));
   anchor_gizmo_->AddInput(NodeKeyframeTrackReference(NodeInput(this, kPositionInput), 1));
 
-  for (int i=0; i<kGizmoScaleCount; i++) {
+  for (int i = 0; i < kGizmoScaleCount; i++) {
     point_gizmo_[i] = AddDraggableGizmo<PointGizmo>();
     point_gizmo_[i]->AddInput(NodeKeyframeTrackReference(NodeInput(this, kScaleInput), 0));
     point_gizmo_[i]->AddInput(NodeKeyframeTrackReference(NodeInput(this, kScaleInput), 1));
@@ -68,8 +67,7 @@ TransformDistortNode::TransformDistortNode()
   SetEffectInput(kTextureInput);
 }
 
-void TransformDistortNode::Retranslate()
-{
+void TransformDistortNode::Retranslate() {
   super::Retranslate();
 
   SetInputName(kParentInput, tr("Parent"));
@@ -81,8 +79,7 @@ void TransformDistortNode::Retranslate()
   SetComboBoxStrings(kInterpolationInput, {tr("Nearest Neighbor"), tr("Bilinear"), tr("Mipmapped Bilinear")});
 }
 
-void TransformDistortNode::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const
-{
+void TransformDistortNode::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const {
   // Generate matrix
   QMatrix4x4 generated_matrix = GenerateMatrix(value, false, false, false, value[kParentInput].toMatrix());
 
@@ -101,7 +98,8 @@ void TransformDistortNode::Value(const NodeValueRow &value, const NodeGlobals &g
       ShaderJob job;
       job.Insert(QStringLiteral("ove_maintex"), texture_meta);
       job.Insert(QStringLiteral("ove_mvpmat"), NodeValue(NodeValue::kMatrix, real_matrix, this));
-      job.SetInterpolation(QStringLiteral("ove_maintex"), static_cast<Texture::Interpolation>(value[kInterpolationInput].toInt()));
+      job.SetInterpolation(QStringLiteral("ove_maintex"),
+                           static_cast<Texture::Interpolation>(value[kInterpolationInput].toInt()));
 
       // Use global resolution rather than texture resolution because this may result in a size change
       job_to_push = Texture::Job(globals.vparams(), job);
@@ -118,24 +116,21 @@ void TransformDistortNode::Value(const NodeValueRow &value, const NodeGlobals &g
   }
 }
 
-ShaderCode TransformDistortNode::GetShaderCode(const ShaderRequest &request) const
-{
+ShaderCode TransformDistortNode::GetShaderCode(const ShaderRequest &request) const {
   Q_UNUSED(request);
 
   // Returns default frag and vert shader
   return ShaderCode();
 }
 
-void TransformDistortNode::GizmoDragStart(const NodeValueRow &row, double x, double y, const rational &time)
-{
-  DraggableGizmo *gizmo = static_cast<DraggableGizmo*>(sender());
+void TransformDistortNode::GizmoDragStart(const NodeValueRow &row, double x, double y, const rational &time) {
+  DraggableGizmo *gizmo = static_cast<DraggableGizmo *>(sender());
 
   if (gizmo == anchor_gizmo_) {
-
-    gizmo_inverted_transform_ = GenerateMatrix(row, true, true, false, row[kParentInput].toMatrix()).toTransform().inverted();
+    gizmo_inverted_transform_ =
+        GenerateMatrix(row, true, true, false, row[kParentInput].toMatrix()).toTransform().inverted();
 
   } else if (IsAScaleGizmo(gizmo)) {
-
     // Dragging scale handle
     TexturePtr tex = row[kTextureInput].toTexture();
     if (!tex) {
@@ -143,10 +138,10 @@ void TransformDistortNode::GizmoDragStart(const NodeValueRow &row, double x, dou
     }
 
     gizmo_scale_uniform_ = row[kUniformScaleInput].toBool();
-    gizmo_anchor_pt_ = (row[kAnchorInput].toVec2() + gizmo->GetGlobals().nonsquare_resolution()/2).toPointF();
+    gizmo_anchor_pt_ = (row[kAnchorInput].toVec2() + gizmo->GetGlobals().nonsquare_resolution() / 2).toPointF();
 
-    if (gizmo == point_gizmo_[kGizmoScaleTopLeft] || gizmo == point_gizmo_[kGizmoScaleTopRight]
-        || gizmo == point_gizmo_[kGizmoScaleBottomLeft] || gizmo == point_gizmo_[kGizmoScaleBottomRight]) {
+    if (gizmo == point_gizmo_[kGizmoScaleTopLeft] || gizmo == point_gizmo_[kGizmoScaleTopRight] ||
+        gizmo == point_gizmo_[kGizmoScaleBottomLeft] || gizmo == point_gizmo_[kGizmoScaleBottomRight]) {
       gizmo_scale_axes_ = kGizmoScaleBoth;
     } else if (gizmo == point_gizmo_[kGizmoScaleCenterLeft] || gizmo == point_gizmo_[kGizmoScaleCenterRight]) {
       gizmo_scale_axes_ = kGizmoScaleXOnly;
@@ -157,43 +152,38 @@ void TransformDistortNode::GizmoDragStart(const NodeValueRow &row, double x, dou
     // Store texture size
     VideoParams texture_params = tex->params();
     QVector2D texture_sz(texture_params.square_pixel_width(), texture_params.height());
-    gizmo_scale_anchor_ = row[kAnchorInput].toVec2() + texture_sz/2;
+    gizmo_scale_anchor_ = row[kAnchorInput].toVec2() + texture_sz / 2;
 
-    if (gizmo == point_gizmo_[kGizmoScaleTopRight]
-        || gizmo == point_gizmo_[kGizmoScaleBottomRight]
-        || gizmo == point_gizmo_[kGizmoScaleCenterRight]) {
+    if (gizmo == point_gizmo_[kGizmoScaleTopRight] || gizmo == point_gizmo_[kGizmoScaleBottomRight] ||
+        gizmo == point_gizmo_[kGizmoScaleCenterRight]) {
       // Right handles, flip X axis
       gizmo_scale_anchor_.setX(texture_sz.x() - gizmo_scale_anchor_.x());
     }
 
-    if (gizmo == point_gizmo_[kGizmoScaleBottomLeft]
-        || gizmo == point_gizmo_[kGizmoScaleBottomRight]
-        || gizmo == point_gizmo_[kGizmoScaleBottomCenter]) {
+    if (gizmo == point_gizmo_[kGizmoScaleBottomLeft] || gizmo == point_gizmo_[kGizmoScaleBottomRight] ||
+        gizmo == point_gizmo_[kGizmoScaleBottomCenter]) {
       // Bottom handles, flip Y axis
       gizmo_scale_anchor_.setY(texture_sz.y() - gizmo_scale_anchor_.y());
     }
 
     // Store current matrix
-    gizmo_inverted_transform_ = GenerateMatrix(row, true, true, true, row[kParentInput].toMatrix()).toTransform().inverted();
+    gizmo_inverted_transform_ =
+        GenerateMatrix(row, true, true, true, row[kParentInput].toMatrix()).toTransform().inverted();
 
   } else if (gizmo == rotation_gizmo_) {
-
-    gizmo_anchor_pt_ = (row[kAnchorInput].toVec2() + gizmo->GetGlobals().nonsquare_resolution()/2).toPointF();
+    gizmo_anchor_pt_ = (row[kAnchorInput].toVec2() + gizmo->GetGlobals().nonsquare_resolution() / 2).toPointF();
     gizmo_start_angle_ = std::atan2(y - gizmo_anchor_pt_.y(), x - gizmo_anchor_pt_.x());
     gizmo_last_angle_ = gizmo_start_angle_;
     gizmo_last_alt_angle_ = std::atan2(x - gizmo_anchor_pt_.x(), y - gizmo_anchor_pt_.y());
     gizmo_rotate_wrap_ = 0;
     gizmo_rotate_last_dir_ = kDirectionNone;
-
   }
 }
 
-void TransformDistortNode::GizmoDragMove(double x, double y, const Qt::KeyboardModifiers &modifiers)
-{
-  DraggableGizmo *gizmo = static_cast<DraggableGizmo*>(sender());
+void TransformDistortNode::GizmoDragMove(double x, double y, const Qt::KeyboardModifiers &modifiers) {
+  DraggableGizmo *gizmo = static_cast<DraggableGizmo *>(sender());
 
   if (gizmo == poly_gizmo_) {
-
     NodeInputDragger &x_drag = gizmo->GetDraggers()[0];
     NodeInputDragger &y_drag = gizmo->GetDraggers()[1];
 
@@ -201,7 +191,6 @@ void TransformDistortNode::GizmoDragMove(double x, double y, const Qt::KeyboardM
     y_drag.Drag(y_drag.GetStartValue().toDouble() + y);
 
   } else if (gizmo == anchor_gizmo_) {
-
     NodeInputDragger &x_anchor_drag = gizmo->GetDraggers()[0];
     NodeInputDragger &y_anchor_drag = gizmo->GetDraggers()[1];
     NodeInputDragger &x_pos_drag = gizmo->GetDraggers()[2];
@@ -215,7 +204,6 @@ void TransformDistortNode::GizmoDragMove(double x, double y, const Qt::KeyboardM
     y_pos_drag.Drag(y_pos_drag.GetStartValue().toDouble() + y);
 
   } else if (gizmo == rotation_gizmo_) {
-
     double raw_angle = std::atan2(y - gizmo_anchor_pt_.y(), x - gizmo_anchor_pt_.x());
     double alt_angle = std::atan2(x - gizmo_anchor_pt_.x(), y - gizmo_anchor_pt_.y());
 
@@ -243,7 +231,7 @@ void TransformDistortNode::GizmoDragMove(double x, double y, const Qt::KeyboardM
     gizmo_last_angle_ = raw_angle;
     gizmo_last_alt_angle_ = alt_angle;
 
-    current_angle += M_PI*2*gizmo_rotate_wrap_;
+    current_angle += M_PI * 2 * gizmo_rotate_wrap_;
 
     // Convert radians to degrees
     double rotation_difference = (current_angle - gizmo_start_angle_) * 57.2958;
@@ -252,7 +240,6 @@ void TransformDistortNode::GizmoDragMove(double x, double y, const Qt::KeyboardM
     d.Drag(d.GetStartValue().toDouble() + rotation_difference);
 
   } else if (IsAScaleGizmo(gizmo)) {
-
     QPointF mouse_relative = gizmo_inverted_transform_.map(QPointF(x, y) - gizmo_anchor_pt_);
 
     double x_scaled_movement = qAbs(mouse_relative.x() / gizmo_scale_anchor_.x());
@@ -262,34 +249,34 @@ void TransformDistortNode::GizmoDragMove(double x, double y, const Qt::KeyboardM
     NodeInputDragger &y_drag = gizmo->GetDraggers()[1];
 
     switch (gizmo_scale_axes_) {
-    case kGizmoScaleXOnly:
-      x_drag.Drag(x_scaled_movement);
-      break;
-    case kGizmoScaleYOnly:
-      if (gizmo_scale_uniform_) {
-        x_drag.Drag(y_scaled_movement);
-      } else {
-        y_drag.Drag(y_scaled_movement);
-      }
-      break;
-    case kGizmoScaleBoth:
-      if (gizmo_scale_uniform_) {
-        double distance = std::hypot(mouse_relative.x(), mouse_relative.y());
-        double texture_diag = std::hypot(gizmo_scale_anchor_.x(), gizmo_scale_anchor_.y());
-
-        x_drag.Drag(qAbs(distance / texture_diag));
-      } else {
+      case kGizmoScaleXOnly:
         x_drag.Drag(x_scaled_movement);
-        y_drag.Drag(y_scaled_movement);
-      }
-      break;
-    }
+        break;
+      case kGizmoScaleYOnly:
+        if (gizmo_scale_uniform_) {
+          x_drag.Drag(y_scaled_movement);
+        } else {
+          y_drag.Drag(y_scaled_movement);
+        }
+        break;
+      case kGizmoScaleBoth:
+        if (gizmo_scale_uniform_) {
+          double distance = std::hypot(mouse_relative.x(), mouse_relative.y());
+          double texture_diag = std::hypot(gizmo_scale_anchor_.x(), gizmo_scale_anchor_.y());
 
+          x_drag.Drag(qAbs(distance / texture_diag));
+        } else {
+          x_drag.Drag(x_scaled_movement);
+          y_drag.Drag(y_scaled_movement);
+        }
+        break;
+    }
   }
 }
 
-QMatrix4x4 TransformDistortNode::AdjustMatrixByResolutions(const QMatrix4x4 &mat, const QVector2D &sequence_res, const QVector2D &texture_res, const QVector2D &offset, AutoScaleType autoscale_type)
-{
+QMatrix4x4 TransformDistortNode::AdjustMatrixByResolutions(const QMatrix4x4 &mat, const QVector2D &sequence_res,
+                                                           const QVector2D &texture_res, const QVector2D &offset,
+                                                           AutoScaleType autoscale_type) {
   // First, create an identity matrix
   QMatrix4x4 adjusted_matrix;
 
@@ -308,9 +295,7 @@ QMatrix4x4 TransformDistortNode::AdjustMatrixByResolutions(const QMatrix4x4 &mat
   // If auto-scale is enabled, fit the texture to the sequence (without cropping)
   if (autoscale_type != kAutoScaleNone) {
     if (autoscale_type == kAutoScaleStretch) {
-      adjusted_matrix.scale(sequence_res.x() / texture_res.x(),
-                            sequence_res.y() / texture_res.y(),
-                            1.0);
+      adjusted_matrix.scale(sequence_res.x() / texture_res.x(), sequence_res.y() / texture_res.y(), 1.0);
     } else {
       double footage_real_ar = texture_res.x() / texture_res.y();
       double sequence_real_ar = sequence_res.x() / sequence_res.y();
@@ -336,8 +321,7 @@ QMatrix4x4 TransformDistortNode::AdjustMatrixByResolutions(const QMatrix4x4 &mat
   return adjusted_matrix;
 }
 
-void TransformDistortNode::UpdateGizmoPositions(const NodeValueRow &row, const NodeGlobals &globals)
-{
+void TransformDistortNode::UpdateGizmoPositions(const NodeValueRow &row, const NodeGlobals &globals) {
   TexturePtr tex = row[kTextureInput].toTexture();
   if (!tex) {
     return;
@@ -360,17 +344,10 @@ void TransformDistortNode::UpdateGizmoPositions(const NodeValueRow &row, const N
   QMatrix4x4 rectangle_matrix;
   rectangle_matrix.scale(sequence_half_res.x(), sequence_half_res.y());
   rectangle_matrix *= AdjustMatrixByResolutions(GenerateMatrix(row, false, false, false, row[kParentInput].toMatrix()),
-                                                sequence_res,
-                                                tex_sz,
-                                                tex_offset,
-                                                autoscale);
+                                                sequence_res, tex_sz, tex_offset, autoscale);
 
   // Create rect and transform it
-  const QVector<QPointF> points = {QPointF(-1, -1),
-                                   QPointF(1, -1),
-                                   QPointF(1, 1),
-                                   QPointF(-1, 1),
-                                   QPointF(-1, -1)};
+  const QVector<QPointF> points = {QPointF(-1, -1), QPointF(1, -1), QPointF(1, 1), QPointF(-1, 1), QPointF(-1, -1)};
   QTransform rectangle_transform = rectangle_matrix.toTransform();
   QPolygonF r = rectangle_transform.map(points);
   r.translate(sequence_half_res_pt);
@@ -380,21 +357,18 @@ void TransformDistortNode::UpdateGizmoPositions(const NodeValueRow &row, const N
   QMatrix4x4 anchor_matrix;
   anchor_matrix.scale(sequence_half_res.x(), sequence_half_res.y());
   anchor_matrix *= AdjustMatrixByResolutions(GenerateMatrix(row, true, false, false, row[kParentInput].toMatrix()),
-                                             sequence_res,
-                                             tex_sz,
-                                             tex_offset,
-                                             autoscale);
+                                             sequence_res, tex_sz, tex_offset, autoscale);
   anchor_gizmo_->SetPoint(anchor_matrix.toTransform().map(QPointF(0, 0)) + sequence_half_res_pt);
 
   // Draw scale handles
   point_gizmo_[kGizmoScaleTopLeft]->SetPoint(CreateScalePoint(-1, -1, sequence_half_res_pt, rectangle_matrix));
-  point_gizmo_[kGizmoScaleTopCenter]->SetPoint(CreateScalePoint( 0, -1, sequence_half_res_pt, rectangle_matrix));
-  point_gizmo_[kGizmoScaleTopRight]->SetPoint(CreateScalePoint( 1, -1, sequence_half_res_pt, rectangle_matrix));
-  point_gizmo_[kGizmoScaleBottomLeft]->SetPoint(CreateScalePoint(-1,  1, sequence_half_res_pt, rectangle_matrix));
-  point_gizmo_[kGizmoScaleBottomCenter]->SetPoint(CreateScalePoint( 0,  1, sequence_half_res_pt, rectangle_matrix));
-  point_gizmo_[kGizmoScaleBottomRight]->SetPoint(CreateScalePoint( 1,  1, sequence_half_res_pt, rectangle_matrix));
-  point_gizmo_[kGizmoScaleCenterLeft]->SetPoint(CreateScalePoint(-1,  0, sequence_half_res_pt, rectangle_matrix));
-  point_gizmo_[kGizmoScaleCenterRight]->SetPoint(CreateScalePoint( 1,  0, sequence_half_res_pt, rectangle_matrix));
+  point_gizmo_[kGizmoScaleTopCenter]->SetPoint(CreateScalePoint(0, -1, sequence_half_res_pt, rectangle_matrix));
+  point_gizmo_[kGizmoScaleTopRight]->SetPoint(CreateScalePoint(1, -1, sequence_half_res_pt, rectangle_matrix));
+  point_gizmo_[kGizmoScaleBottomLeft]->SetPoint(CreateScalePoint(-1, 1, sequence_half_res_pt, rectangle_matrix));
+  point_gizmo_[kGizmoScaleBottomCenter]->SetPoint(CreateScalePoint(0, 1, sequence_half_res_pt, rectangle_matrix));
+  point_gizmo_[kGizmoScaleBottomRight]->SetPoint(CreateScalePoint(1, 1, sequence_half_res_pt, rectangle_matrix));
+  point_gizmo_[kGizmoScaleCenterLeft]->SetPoint(CreateScalePoint(-1, 0, sequence_half_res_pt, rectangle_matrix));
+  point_gizmo_[kGizmoScaleCenterRight]->SetPoint(CreateScalePoint(1, 0, sequence_half_res_pt, rectangle_matrix));
 
   // Use offsets to make the appearance of values that start in the top left, even though we
   // really anchor around the center
@@ -402,37 +376,31 @@ void TransformDistortNode::UpdateGizmoPositions(const NodeValueRow &row, const N
   SetInputProperty(kAnchorInput, QStringLiteral("offset"), tex_sz * 0.5);
 }
 
-QTransform TransformDistortNode::GizmoTransformation(const NodeValueRow &row, const NodeGlobals &globals) const
-{
+QTransform TransformDistortNode::GizmoTransformation(const NodeValueRow &row, const NodeGlobals &globals) const {
   if (TexturePtr texture = row[kTextureInput].toTexture()) {
-    //auto m = GenerateMatrix(row, false, false, false, row[kParentInput].toMatrix());
+    // auto m = GenerateMatrix(row, false, false, false, row[kParentInput].toMatrix());
     auto m = GenerateMatrix(row, false, false, false, QMatrix4x4());
     return GenerateAutoScaledMatrix(m, row, globals, texture->params()).toTransform();
   }
   return super::GizmoTransformation(row, globals);
 }
 
-QPointF TransformDistortNode::CreateScalePoint(double x, double y, const QPointF &half_res, const QMatrix4x4 &mat)
-{
+QPointF TransformDistortNode::CreateScalePoint(double x, double y, const QPointF &half_res, const QMatrix4x4 &mat) {
   return mat.map(QPointF(x, y)) + half_res;
 }
 
-QMatrix4x4 TransformDistortNode::GenerateAutoScaledMatrix(const QMatrix4x4& generated_matrix, const NodeValueRow& value, const NodeGlobals &globals, const VideoParams& texture_params) const
-{
+QMatrix4x4 TransformDistortNode::GenerateAutoScaledMatrix(const QMatrix4x4 &generated_matrix, const NodeValueRow &value,
+                                                          const NodeGlobals &globals,
+                                                          const VideoParams &texture_params) const {
   const QVector2D &sequence_res = globals.nonsquare_resolution();
   QVector2D texture_res(texture_params.square_pixel_width(), texture_params.height());
   AutoScaleType autoscale = static_cast<AutoScaleType>(value[kAutoscaleInput].toInt());
 
-  return AdjustMatrixByResolutions(generated_matrix,
-                                   sequence_res,
-                                   texture_res,
-                                   texture_params.offset(),
-                                   autoscale);
+  return AdjustMatrixByResolutions(generated_matrix, sequence_res, texture_res, texture_params.offset(), autoscale);
 }
 
-bool TransformDistortNode::IsAScaleGizmo(NodeGizmo *g) const
-{
-  for (int i=0; i<kGizmoScaleCount; i++) {
+bool TransformDistortNode::IsAScaleGizmo(NodeGizmo *g) const {
+  for (int i = 0; i < kGizmoScaleCount; i++) {
     if (point_gizmo_[i] == g) {
       return true;
     }
@@ -441,9 +409,8 @@ bool TransformDistortNode::IsAScaleGizmo(NodeGizmo *g) const
   return false;
 }
 
-TransformDistortNode::RotationDirection TransformDistortNode::GetDirectionFromAngles(double last, double current)
-{
+TransformDistortNode::RotationDirection TransformDistortNode::GetDirectionFromAngles(double last, double current) {
   return (current > last) ? kDirectionPositive : kDirectionNegative;
 }
 
-}
+}  // namespace olive

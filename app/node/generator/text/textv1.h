@@ -25,10 +25,9 @@
 
 namespace olive {
 
-class TextGeneratorV1 : public Node
-{
+class TextGeneratorV1 : public Node {
   Q_OBJECT
-public:
+ public:
   TextGeneratorV1();
 
   NODE_DEFAULT_FUNCTIONS(TextGeneratorV1)
@@ -40,7 +39,7 @@ public:
 
   virtual void Retranslate() override;
 
-  virtual void Value(const NodeValueRow& value, const NodeGlobals &globals, NodeValueTable *table) const override;
+  virtual void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
 
   virtual void GenerateFrame(FramePtr frame, const GenerateJob &job) const override;
 
@@ -50,9 +49,8 @@ public:
   static const QString kVAlignInput;
   static const QString kFontInput;
   static const QString kFontSizeInput;
-
 };
 
-}
+}  // namespace olive
 
-#endif // TEXTGENERATORV1_H
+#endif  // TEXTGENERATORV1_H

@@ -25,13 +25,11 @@
 
 namespace olive {
 
-bool XMLReadNextStartElement(QXmlStreamReader *reader, CancelAtom *cancel_atom)
-{
+bool XMLReadNextStartElement(QXmlStreamReader *reader, CancelAtom *cancel_atom) {
   QXmlStreamReader::TokenType token;
 
-  while ((token = reader->readNext()) != QXmlStreamReader::Invalid
-         && token != QXmlStreamReader::EndDocument
-         && (!cancel_atom || !cancel_atom->IsCancelled())) {
+  while ((token = reader->readNext()) != QXmlStreamReader::Invalid && token != QXmlStreamReader::EndDocument &&
+         (!cancel_atom || !cancel_atom->IsCancelled())) {
     if (reader->isEndElement()) {
       return false;
     } else if (reader->isStartElement()) {
@@ -42,4 +40,4 @@ bool XMLReadNextStartElement(QXmlStreamReader *reader, CancelAtom *cancel_atom)
   return false;
 }
 
-}
+}  // namespace olive

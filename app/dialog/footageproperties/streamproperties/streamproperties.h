@@ -28,17 +28,15 @@
 
 namespace olive {
 
-class StreamProperties : public QWidget
-{
-public:
+class StreamProperties : public QWidget {
+ public:
   StreamProperties(QWidget* parent = nullptr);
 
-  virtual void Accept(MultiUndoCommand*){}
+  virtual void Accept(MultiUndoCommand*) {}
 
-  virtual bool SanityCheck(){return true;}
-
+  virtual bool SanityCheck() { return true; }
 };
 
-}
+}  // namespace olive
 
-#endif // STREAMPROPERTIES_H
+#endif  // STREAMPROPERTIES_H

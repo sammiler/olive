@@ -27,10 +27,9 @@
 
 namespace olive {
 
-class LineGizmo : public NodeGizmo
-{
+class LineGizmo : public NodeGizmo {
   Q_OBJECT
-public:
+ public:
   LineGizmo(QObject *parent = nullptr);
 
   const QLineF &GetLine() const { return line_; }
@@ -38,11 +37,10 @@ public:
 
   virtual void Draw(QPainter *p) const override;
 
-private:
+ private:
   QLineF line_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // LINEGIZMO_H
+#endif  // LINEGIZMO_H

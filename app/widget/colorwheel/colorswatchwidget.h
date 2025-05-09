@@ -27,23 +27,22 @@
 
 namespace olive {
 
-class ColorSwatchWidget : public QWidget
-{
+class ColorSwatchWidget : public QWidget {
   Q_OBJECT
-public:
+ public:
   ColorSwatchWidget(QWidget* parent = nullptr);
 
   const Color& GetSelectedColor() const;
 
   void SetColorProcessor(ColorProcessorPtr to_linear, ColorProcessorPtr to_display);
 
-public slots:
+ public slots:
   void SetSelectedColor(const Color& c);
 
-signals:
+ signals:
   void SelectedColorChanged(const Color& c);
 
-protected:
+ protected:
   virtual void mousePressEvent(QMouseEvent* e) override;
 
   virtual void mouseMoveEvent(QMouseEvent* e) override;
@@ -56,7 +55,7 @@ protected:
 
   Color GetManagedColor(const Color& input) const;
 
-private:
+ private:
   void SetSelectedColorInternal(const Color& c, bool external);
 
   Color selected_color_;
@@ -64,9 +63,8 @@ private:
   ColorProcessorPtr to_linear_processor_;
 
   ColorProcessorPtr to_display_processor_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // COLORSWATCHWIDGET_H
+#endif  // COLORSWATCHWIDGET_H

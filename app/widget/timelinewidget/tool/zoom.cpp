@@ -18,25 +18,20 @@
 
 ***/
 
-#include "widget/timelinewidget/timelinewidget.h"
 #include "zoom.h"
+#include "widget/timelinewidget/timelinewidget.h"
 
 namespace olive {
 
-ZoomTool::ZoomTool(TimelineWidget *parent) :
-  TimelineTool(parent)
-{
-}
+ZoomTool::ZoomTool(TimelineWidget *parent) : TimelineTool(parent) {}
 
-void ZoomTool::MousePress(TimelineViewMouseEvent *event)
-{
+void ZoomTool::MousePress(TimelineViewMouseEvent *event) {
   Q_UNUSED(event)
 
   drag_global_start_ = QCursor::pos();
 }
 
-void ZoomTool::MouseMove(TimelineViewMouseEvent *event)
-{
+void ZoomTool::MouseMove(TimelineViewMouseEvent *event) {
   Q_UNUSED(event)
 
   if (!dragging_) {
@@ -48,8 +43,7 @@ void ZoomTool::MouseMove(TimelineViewMouseEvent *event)
   parent()->MoveRubberBandSelect(false, false);
 }
 
-void ZoomTool::MouseRelease(TimelineViewMouseEvent *event)
-{
+void ZoomTool::MouseRelease(TimelineViewMouseEvent *event) {
   int scroll_value;
 
   if (dragging_) {
@@ -58,9 +52,10 @@ void ZoomTool::MouseRelease(TimelineViewMouseEvent *event)
 
     parent()->EndRubberBandSelect();
 
-    TimelineView* reference_view = parent()->GetFirstTimelineView();
+    TimelineView *reference_view = parent()->GetFirstTimelineView();
     QPointF scene_topleft = reference_view->mapToScene(reference_view->mapFrom(parent(), screen_coords.topLeft()));
-    QPointF scene_bottomright = reference_view->mapToScene(reference_view->mapFrom(parent(), screen_coords.bottomRight()));
+    QPointF scene_bottomright =
+        reference_view->mapToScene(reference_view->mapFrom(parent(), screen_coords.bottomRight()));
 
     double scene_left = scene_topleft.x();
     double scene_right = scene_bottomright.x();
@@ -68,7 +63,8 @@ void ZoomTool::MouseRelease(TimelineViewMouseEvent *event)
     // Normalize scale to 1.0 scale
     double scene_width = (scene_right - scene_left) / parent()->GetScale();
 
-    double new_scale = qMin(parent()->GetFirstTimelineView()->GetMaximumScale(), static_cast<double>(reference_view->viewport()->width()) / scene_width);
+    double new_scale = qMin(parent()->GetFirstTimelineView()->GetMaximumScale(),
+                            static_cast<double>(reference_view->viewport()->width()) / scene_width);
 
     parent()->SetScale(new_scale);
 
@@ -92,10 +88,10 @@ void ZoomTool::MouseRelease(TimelineViewMouseEvent *event)
     // Adjust scroll location for new scale
     double frame_x = event->GetFrame().toDouble() * scale;
 
-    scroll_value = qMax(0, qRound(frame_x - parent()->GetFirstTimelineView()->viewport()->width()/2));
+    scroll_value = qMax(0, qRound(frame_x - parent()->GetFirstTimelineView()->viewport()->width() / 2));
   }
 
   parent()->QueueScroll(scroll_value);
 }
 
-}
+}  // namespace olive

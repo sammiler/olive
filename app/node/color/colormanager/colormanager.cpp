@@ -34,141 +34,99 @@ namespace olive {
 
 OCIO::ConstConfigRcPtr ColorManager::default_config_ = nullptr;
 
-ColorManager::ColorManager(Project *project) :
-  QObject(project),
-  config_(nullptr)
-{
-}
+ColorManager::ColorManager(Project *project) : QObject(project), config_(nullptr) {}
 
-void ColorManager::Init()
-{
+void ColorManager::Init() {
   // Set config to our built-in default
   config_ = GetDefaultConfig();
   SetDefaultInputColorSpace(config_->getCanonicalName(OCIO::ROLE_DEFAULT));
   project()->SetColorReferenceSpace(OCIO::ROLE_SCENE_LINEAR);
 }
 
-OCIO::ConstConfigRcPtr ColorManager::GetConfig() const
-{
-  return config_;
-}
+OCIO::ConstConfigRcPtr ColorManager::GetConfig() const { return config_; }
 
-OCIO::ConstConfigRcPtr ColorManager::CreateConfigFromFile(const QString &filename)
-{
+OCIO::ConstConfigRcPtr ColorManager::CreateConfigFromFile(const QString &filename) {
   return OCIO::Config::CreateFromFile(filename.toUtf8());
 }
 
-QString ColorManager::GetConfigFilename() const
-{
-  return project()->GetColorConfigFilename();
-}
+QString ColorManager::GetConfigFilename() const { return project()->GetColorConfigFilename(); }
 
-OCIO::ConstConfigRcPtr ColorManager::GetDefaultConfig()
-{
-  return default_config_;
-}
+OCIO::ConstConfigRcPtr ColorManager::GetDefaultConfig() { return default_config_; }
 
-void ColorManager::SetUpDefaultConfig()
-{
+void ColorManager::SetUpDefaultConfig() {
   if (!qEnvironmentVariableIsEmpty("OCIO")) {
     // Attempt to set config from "OCIO" environment variable
     try {
       default_config_ = OCIO::Config::CreateFromEnv();
 
       return;
-    } catch (OCIO::Exception& e) {
+    } catch (OCIO::Exception &e) {
       qWarning() << "Failed to load config from OCIO environment variable config:" << e.what();
     }
   }
 
   // Extract OCIO config - kind of hacky, but it'll work
-  QString dir = QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)).filePath(QStringLiteral("ocioconf"));
+  QString dir =
+      QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)).filePath(QStringLiteral("ocioconf"));
 
-  FileFunctions::CopyDirectory(QStringLiteral(":/ocioconf"),
-                               dir,
-                               true);
+  FileFunctions::CopyDirectory(QStringLiteral(":/ocioconf"), dir, true);
 
   qDebug() << "Extracting default OCIO config to" << dir;
 
   default_config_ = CreateConfigFromFile(QDir(dir).filePath(QStringLiteral("config.ocio")));
 }
 
-void ColorManager::SetConfigFilename(const QString &filename)
-{
-  project()->SetColorConfigFilename(filename);
-}
+void ColorManager::SetConfigFilename(const QString &filename) { project()->SetColorConfigFilename(filename); }
 
-QStringList ColorManager::ListAvailableDisplays()
-{
+QStringList ColorManager::ListAvailableDisplays() {
   QStringList displays;
 
   int number_of_displays = config_->getNumDisplays();
 
-  for (int i=0;i<number_of_displays;i++) {
+  for (int i = 0; i < number_of_displays; i++) {
     displays.append(config_->getDisplay(i));
   }
 
   return displays;
 }
 
-QString ColorManager::GetDefaultDisplay()
-{
-  return config_->getDefaultDisplay();
-}
+QString ColorManager::GetDefaultDisplay() { return config_->getDefaultDisplay(); }
 
-QStringList ColorManager::ListAvailableViews(QString display)
-{
+QStringList ColorManager::ListAvailableViews(QString display) {
   QStringList views;
 
   int number_of_views = config_->getNumViews(display.toUtf8());
 
-  for (int i=0;i<number_of_views;i++) {
+  for (int i = 0; i < number_of_views; i++) {
     views.append(config_->getView(display.toUtf8(), i));
   }
 
   return views;
 }
 
-QString ColorManager::GetDefaultView(const QString &display)
-{
-  return config_->getDefaultView(display.toUtf8());
-}
+QString ColorManager::GetDefaultView(const QString &display) { return config_->getDefaultView(display.toUtf8()); }
 
-QStringList ColorManager::ListAvailableLooks()
-{
+QStringList ColorManager::ListAvailableLooks() {
   QStringList looks;
 
   int number_of_looks = config_->getNumLooks();
 
-  for (int i=0;i<number_of_looks;i++) {
+  for (int i = 0; i < number_of_looks; i++) {
     looks.append(config_->getLookNameByIndex(i));
   }
 
   return looks;
 }
 
-QStringList ColorManager::ListAvailableColorspaces() const
-{
-  return ListAvailableColorspaces(config_);
-}
+QStringList ColorManager::ListAvailableColorspaces() const { return ListAvailableColorspaces(config_); }
 
-QString ColorManager::GetDefaultInputColorSpace() const
-{
-  return project()->GetDefaultInputColorSpace();
-}
+QString ColorManager::GetDefaultInputColorSpace() const { return project()->GetDefaultInputColorSpace(); }
 
-void ColorManager::SetDefaultInputColorSpace(const QString &s)
-{
-  project()->SetDefaultInputColorSpace(s);
-}
+void ColorManager::SetDefaultInputColorSpace(const QString &s) { project()->SetDefaultInputColorSpace(s); }
 
-QString ColorManager::GetReferenceColorSpace() const
-{
-  return project()->GetColorReferenceSpace();
-}
+QString ColorManager::GetReferenceColorSpace() const { return project()->GetColorReferenceSpace(); }
 
-QString ColorManager::GetCompliantColorSpace(const QString &s)
-{
+QString ColorManager::GetCompliantColorSpace(const QString &s) {
   if (ListAvailableColorspaces().contains(s)) {
     return s;
   } else {
@@ -176,8 +134,7 @@ QString ColorManager::GetCompliantColorSpace(const QString &s)
   }
 }
 
-ColorTransform ColorManager::GetCompliantColorSpace(const ColorTransform &transform, bool force_display)
-{
+ColorTransform ColorManager::GetCompliantColorSpace(const ColorTransform &transform, bool force_display) {
   if (transform.is_display() || force_display) {
     // Get display information
     QString display = transform.display();
@@ -202,7 +159,6 @@ ColorTransform ColorManager::GetCompliantColorSpace(const ColorTransform &transf
     return ColorTransform(display, view, look);
 
   } else {
-
     QString output = transform.output();
 
     if (!ListAvailableColorspaces().contains(output)) {
@@ -210,18 +166,16 @@ ColorTransform ColorManager::GetCompliantColorSpace(const ColorTransform &transf
     }
 
     return ColorTransform(output);
-
   }
 }
 
-QStringList ColorManager::ListAvailableColorspaces(OCIO::ConstConfigRcPtr config)
-{
+QStringList ColorManager::ListAvailableColorspaces(OCIO::ConstConfigRcPtr config) {
   QStringList spaces;
 
   if (config) {
     int number_of_colorspaces = config->getNumColorSpaces();
 
-    for (int i=0;i<number_of_colorspaces;i++) {
+    for (int i = 0; i < number_of_colorspaces; i++) {
       spaces.append(config->getColorSpaceNameByIndex(i));
     }
   }
@@ -229,18 +183,11 @@ QStringList ColorManager::ListAvailableColorspaces(OCIO::ConstConfigRcPtr config
   return spaces;
 }
 
-void ColorManager::GetDefaultLumaCoefs(double *rgb) const
-{
-  config_->getDefaultLumaCoefs(rgb);
-}
+void ColorManager::GetDefaultLumaCoefs(double *rgb) const { config_->getDefaultLumaCoefs(rgb); }
 
-Project *ColorManager::project() const
-{
-  return static_cast<Project*>(parent());
-}
+Project *ColorManager::project() const { return static_cast<Project *>(parent()); }
 
-void ColorManager::UpdateConfigFromFilename()
-{
+void ColorManager::UpdateConfigFromFilename() {
   try {
     QString config_filename = GetConfigFilename();
     QString old_default_cs = GetDefaultInputColorSpace();
@@ -250,7 +197,7 @@ void ColorManager::UpdateConfigFromFilename()
     // Set new default colorspace appropriately
     QString new_default = old_default_cs;
     QStringList available_cs = ListAvailableColorspaces();
-    for (int i=0; i<available_cs.size(); i++) {
+    for (int i = 0; i < available_cs.size(); i++) {
       const QString &c = available_cs.at(i);
       if (c.compare(old_default_cs, Qt::CaseInsensitive)) {
         new_default = c;
@@ -260,7 +207,8 @@ void ColorManager::UpdateConfigFromFilename()
     SetDefaultInputColorSpace(new_default);
 
     emit ConfigChanged(config_filename);
-  } catch (OCIO::Exception&) {}
+  } catch (OCIO::Exception &) {
+  }
 }
 
-}
+}  // namespace olive

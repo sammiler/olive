@@ -47,20 +47,12 @@ class MulticamWidget;
 /**
  * @brief An OpenGL-based viewer widget with playback controls (a PlaybackControls widget).
  */
-class ViewerWidget : public TimeBasedWidget
-{
+class ViewerWidget : public TimeBasedWidget {
   Q_OBJECT
-public:
-  enum WaveformMode {
-    kWFAutomatic,
-    kWFViewerOnly,
-    kWFWaveformOnly,
-    kWFViewerAndWaveform
-  };
+ public:
+  enum WaveformMode { kWFAutomatic, kWFViewerOnly, kWFWaveformOnly, kWFViewerAndWaveform };
 
-  ViewerWidget(QWidget* parent = nullptr) :
-    ViewerWidget(new ViewerDisplayWidget(), parent)
-  {}
+  ViewerWidget(QWidget* parent = nullptr) : ViewerWidget(new ViewerDisplayWidget(), parent) {}
 
   virtual ~ViewerWidget() override;
 
@@ -89,27 +81,17 @@ public:
    */
   void SetFullScreen(QScreen* screen = nullptr);
 
-  ColorManager* color_manager() const
-  {
-    return display_widget_->color_manager();
-  }
+  ColorManager* color_manager() const { return display_widget_->color_manager(); }
 
   void SetGizmos(Node* node);
 
-  void StartCapture(TimelineWidget *source, const TimeRange &time, const Track::Reference &track);
+  void StartCapture(TimelineWidget* source, const TimeRange& time, const Track::Reference& track);
 
-  void SetAudioScrubbingEnabled(bool e)
-  {
-    enable_audio_scrubbing_ = e;
-  }
+  void SetAudioScrubbingEnabled(bool e) { enable_audio_scrubbing_ = e; }
 
-  void AddPlaybackDevice(ViewerDisplayWidget *vw)
-  {
-    playback_devices_.push_back(vw);
-  }
+  void AddPlaybackDevice(ViewerDisplayWidget* vw) { playback_devices_.push_back(vw); }
 
-  void SetTimelineSelectedBlocks(const QVector<Block*> &b)
-  {
+  void SetTimelineSelectedBlocks(const QVector<Block*>& b) {
     timeline_selected_blocks_ = b;
 
     if (!IsPlaying()) {
@@ -119,8 +101,7 @@ public:
     }
   }
 
-  void SetNodeViewSelections(const QVector<Node*> &n)
-  {
+  void SetNodeViewSelections(const QVector<Node*>& n) {
     node_view_selected_ = n;
 
     if (!IsPlaying()) {
@@ -130,9 +111,9 @@ public:
     }
   }
 
-  void ConnectMulticamWidget(MulticamWidget *p);
+  void ConnectMulticamWidget(MulticamWidget* p);
 
-public slots:
+ public slots:
   void Play(bool in_to_out_only);
 
   void Play();
@@ -162,12 +143,9 @@ public slots:
 
   void UpdateTextureFromNode();
 
-  void RequestStartEditingText()
-  {
-    display_widget_->RequestStartEditingText();
-  }
+  void RequestStartEditingText() { display_widget_->RequestStartEditingText(); }
 
-signals:
+ signals:
   /**
    * @brief Wrapper for ViewerGLWidget::CursorColor()
    */
@@ -188,41 +166,34 @@ signals:
    */
   void ColorManagerChanged(ColorManager* color_manager);
 
-protected:
-  ViewerWidget(ViewerDisplayWidget *display, QWidget* parent = nullptr);
+ protected:
+  ViewerWidget(ViewerDisplayWidget* display, QWidget* parent = nullptr);
 
-  virtual void TimebaseChangedEvent(const rational &) override;
-  virtual void TimeChangedEvent(const rational &time) override;
+  virtual void TimebaseChangedEvent(const rational&) override;
+  virtual void TimeChangedEvent(const rational& time) override;
 
-  virtual void ConnectNodeEvent(ViewerOutput *) override;
-  virtual void DisconnectNodeEvent(ViewerOutput *) override;
-  virtual void ConnectedNodeChangeEvent(ViewerOutput *) override;
-  virtual void ConnectedWorkAreaChangeEvent(TimelineWorkArea *) override;
-  virtual void ConnectedMarkersChangeEvent(TimelineMarkerList *) override;
+  virtual void ConnectNodeEvent(ViewerOutput*) override;
+  virtual void DisconnectNodeEvent(ViewerOutput*) override;
+  virtual void ConnectedNodeChangeEvent(ViewerOutput*) override;
+  virtual void ConnectedWorkAreaChangeEvent(TimelineWorkArea*) override;
+  virtual void ConnectedMarkersChangeEvent(TimelineMarkerList*) override;
 
   virtual void ScaleChangedEvent(const double& s) override;
 
-  virtual void resizeEvent(QResizeEvent *event) override;
+  virtual void resizeEvent(QResizeEvent* event) override;
 
   PlaybackControls* controls_;
 
-  ViewerDisplayWidget* display_widget() const
-  {
-    return display_widget_;
-  }
+  ViewerDisplayWidget* display_widget() const { return display_widget_; }
 
-  void IgnoreNextScrubEvent()
-  {
-    ignore_scrub_++;
-  }
+  void IgnoreNextScrubEvent() { ignore_scrub_++; }
 
-  RenderTicketPtr GetSingleFrame(const rational &t, bool dry = false);
+  RenderTicketPtr GetSingleFrame(const rational& t, bool dry = false);
 
   void SetWaveformMode(WaveformMode wf);
 
-private:
-  int64_t GetTimestamp() const
-  {
+ private:
+  int64_t GetTimestamp() const {
     return Timecode::time_to_timestamp(GetConnectedNode()->GetPlayhead(), timebase(), Timecode::kFloor);
   }
 
@@ -246,7 +217,7 @@ private:
 
   void SetDisplayImage(RenderTicketPtr ticket);
 
-  RenderTicketWatcher *RequestNextFrameForQueue(bool increment = true);
+  RenderTicketWatcher* RequestNextFrameForQueue(bool increment = true);
 
   RenderTicketPtr GetFrame(const rational& t);
 
@@ -254,9 +225,10 @@ private:
 
   int DeterminePlaybackQueueSize();
 
-  static FramePtr DecodeCachedImage(const QString &cache_path, const QUuid &cache_id, const int64_t& time);
+  static FramePtr DecodeCachedImage(const QString& cache_path, const QUuid& cache_id, const int64_t& time);
 
-  static void DecodeCachedImage(RenderTicketPtr ticket, const QString &cache_path, const QUuid &cache_id, const int64_t &time);
+  static void DecodeCachedImage(RenderTicketPtr ticket, const QString& cache_path, const QUuid& cache_id,
+                                const int64_t& time);
 
   bool ShouldForceWaveform() const;
 
@@ -272,7 +244,7 @@ private:
 
   void CloseAudioProcessor();
 
-  void DetectMulticamNode(const rational &time);
+  void DetectMulticamNode(const rational& time);
 
   bool IsVideoVisible() const;
 
@@ -326,13 +298,13 @@ private:
 
   bool record_armed_;
   bool recording_;
-  TimelineWidget *recording_callback_;
+  TimelineWidget* recording_callback_;
   TimeRange recording_range_;
   Track::Reference recording_track_;
   QString recording_filename_;
 
   qint64 queue_starved_start_;
-  RenderTicketWatcher *first_requeue_watcher_;
+  RenderTicketWatcher* first_requeue_watcher_;
 
   bool enable_audio_scrubbing_;
 
@@ -345,9 +317,9 @@ private:
   QVector<Block*> timeline_selected_blocks_;
   QVector<Node*> node_view_selected_;
 
-  MulticamWidget *multicam_panel_;
+  MulticamWidget* multicam_panel_;
 
-private slots:
+ private slots:
   void PlaybackTimerUpdate();
 
   void LengthChangedSlot(const rational& length);
@@ -380,9 +352,9 @@ private slots:
 
   void RendererGeneratedFrameForQueue();
 
-  void ViewerInvalidatedVideoRange(const olive::TimeRange &range);
+  void ViewerInvalidatedVideoRange(const olive::TimeRange& range);
 
-  void UpdateWaveformModeFromMenu(QAction *a);
+  void UpdateWaveformModeFromMenu(QAction* a);
 
   void DragEntered(QDragEnterEvent* event);
 
@@ -401,7 +373,7 @@ private slots:
 
   void UpdateAudioProcessor();
 
-  void CreateAddableAt(const QRectF &f);
+  void CreateAddableAt(const QRectF& f);
 
   void HandleFirstRequeueDestroy();
 
@@ -414,9 +386,8 @@ private slots:
   void SaveFrameAsImage();
 
   void DetectMulticamNodeNow();
-
 };
 
-}
+}  // namespace olive
 
-#endif // VIEWER_WIDGET_H
+#endif  // VIEWER_WIDGET_H

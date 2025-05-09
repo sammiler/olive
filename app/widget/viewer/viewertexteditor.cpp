@@ -22,8 +22,8 @@
 
 #include <QAbstractTextDocumentLayout>
 #include <QColorDialog>
-#include <QKeyEvent>
 #include <QHBoxLayout>
+#include <QKeyEvent>
 #include <QPainter>
 #include <QScrollBar>
 #include <QTextBlock>
@@ -36,12 +36,8 @@ namespace olive {
 
 #define super QTextEdit
 
-ViewerTextEditor::ViewerTextEditor(double scale, QWidget *parent) :
-  super(parent),
-  transparent_clone_(nullptr),
-  block_update_toolbar_signal_(false),
-  forced_default_(false)
-{
+ViewerTextEditor::ViewerTextEditor(double scale, QWidget *parent)
+    : super(parent), transparent_clone_(nullptr), block_update_toolbar_signal_(false), forced_default_(false) {
   // Ensure default text color is white
   QPalette p = palette();
   p.setColor(QPalette::Text, Qt::white);
@@ -72,8 +68,7 @@ ViewerTextEditor::ViewerTextEditor(double scale, QWidget *parent) :
   setAcceptRichText(false);
 }
 
-void ViewerTextEditor::ConnectToolBar(ViewerTextEditorToolBar *toolbar)
-{
+void ViewerTextEditor::ConnectToolBar(ViewerTextEditorToolBar *toolbar) {
   connect(toolbar, &ViewerTextEditorToolBar::FamilyChanged, this, &ViewerTextEditor::SetFamily);
   connect(toolbar, &ViewerTextEditorToolBar::SizeChanged, this, &ViewerTextEditor::setFontPointSize);
   connect(toolbar, &ViewerTextEditorToolBar::StyleChanged, this, &ViewerTextEditor::SetStyle);
@@ -84,11 +79,11 @@ void ViewerTextEditor::ConnectToolBar(ViewerTextEditorToolBar *toolbar)
   connect(toolbar, &ViewerTextEditorToolBar::StretchChanged, this, &ViewerTextEditor::SetFontStretch);
   connect(toolbar, &ViewerTextEditorToolBar::KerningChanged, this, &ViewerTextEditor::SetFontKerning);
   connect(toolbar, &ViewerTextEditorToolBar::LineHeightChanged, this, &ViewerTextEditor::SetLineHeight);
-  connect(toolbar, &ViewerTextEditorToolBar::AlignmentChanged, this, [this](Qt::Alignment a){
+  connect(toolbar, &ViewerTextEditorToolBar::AlignmentChanged, this, [this](Qt::Alignment a) {
     this->setAlignment(a);
 
     // Ensure no buttons are checked that shouldn't be
-    static_cast<ViewerTextEditorToolBar*>(sender())->SetAlignment(a);
+    static_cast<ViewerTextEditorToolBar *>(sender())->SetAlignment(a);
   });
 
   UpdateToolBar(toolbar, this->currentCharFormat(), this->textCursor().blockFormat(), this->alignment());
@@ -96,8 +91,7 @@ void ViewerTextEditor::ConnectToolBar(ViewerTextEditorToolBar *toolbar)
   toolbars_.append(toolbar);
 }
 
-void ViewerTextEditor::Paint(QPainter *p, Qt::Alignment valign)
-{
+void ViewerTextEditor::Paint(QPainter *p, Qt::Alignment valign) {
   QAbstractTextDocumentLayout::PaintContext ctx;
 
   QRect clip = this->rect();
@@ -125,15 +119,15 @@ void ViewerTextEditor::Paint(QPainter *p, Qt::Alignment valign)
   }
 
   switch (valign) {
-  case Qt::AlignTop:
-    // Do nothing
-    break;
-  case Qt::AlignVCenter:
-    p->translate(0, clip.height()/2-document()->size().height()/2);
-    break;
-  case Qt::AlignBottom:
-    p->translate(0, clip.height()-document()->size().height());
-    break;
+    case Qt::AlignTop:
+      // Do nothing
+      break;
+    case Qt::AlignVCenter:
+      p->translate(0, clip.height() / 2 - document()->size().height() / 2);
+      break;
+    case Qt::AlignBottom:
+      p->translate(0, clip.height() - document()->size().height());
+      break;
   }
 
   const bool use_transparent_clone = true;
@@ -145,13 +139,12 @@ void ViewerTextEditor::Paint(QPainter *p, Qt::Alignment valign)
   }
 }
 
-void ViewerTextEditor::paintEvent(QPaintEvent *e)
-{
+void ViewerTextEditor::paintEvent(QPaintEvent *e) {
   // Disable painting
 }
 
-void ViewerTextEditor::UpdateToolBar(ViewerTextEditorToolBar *toolbar, const QTextCharFormat &f, const QTextBlockFormat &b, Qt::Alignment alignment)
-{
+void ViewerTextEditor::UpdateToolBar(ViewerTextEditorToolBar *toolbar, const QTextCharFormat &f,
+                                     const QTextBlockFormat &b, Qt::Alignment alignment) {
   QStringList families = f.fontFamilies().toStringList();
   QString family;
   if (families.isEmpty()) {
@@ -190,8 +183,7 @@ void ViewerTextEditor::UpdateToolBar(ViewerTextEditorToolBar *toolbar, const QTe
   toolbar->SetLineHeight(b.lineHeight() == 0.0 ? 100 : b.lineHeight());
 }
 
-void ViewerTextEditor::FormatChanged(const QTextCharFormat &f)
-{
+void ViewerTextEditor::FormatChanged(const QTextCharFormat &f) {
   if (!block_update_toolbar_signal_) {
     foreach (ViewerTextEditorToolBar *toolbar, toolbars_) {
       UpdateToolBar(toolbar, f, textCursor().blockFormat(), this->alignment());
@@ -203,8 +195,7 @@ void ViewerTextEditor::FormatChanged(const QTextCharFormat &f)
   }
 }
 
-void ViewerTextEditor::SetFamily(const QString &s)
-{
+void ViewerTextEditor::SetFamily(const QString &s) {
   ViewerTextEditorToolBar *toolbar = static_cast<ViewerTextEditorToolBar *>(sender());
 
   QTextCharFormat f;
@@ -215,8 +206,7 @@ void ViewerTextEditor::SetFamily(const QString &s)
   MergeCharFormat(f);
 }
 
-void ViewerTextEditor::SetStyle(const QString &s)
-{
+void ViewerTextEditor::SetStyle(const QString &s) {
   ViewerTextEditorToolBar *toolbar = static_cast<ViewerTextEditorToolBar *>(sender());
 
   QTextCharFormat f;
@@ -226,46 +216,40 @@ void ViewerTextEditor::SetStyle(const QString &s)
   MergeCharFormat(f);
 }
 
-void ViewerTextEditor::SetFontStrikethrough(bool e)
-{
+void ViewerTextEditor::SetFontStrikethrough(bool e) {
   QTextCharFormat f;
   f.setFontStrikeOut(e);
   MergeCharFormat(f);
 }
 
-void ViewerTextEditor::SetSmallCaps(bool e)
-{
+void ViewerTextEditor::SetSmallCaps(bool e) {
   QTextCharFormat f;
   f.setFontCapitalization(e ? QFont::SmallCaps : QFont::MixedCase);
   MergeCharFormat(f);
 }
 
-void ViewerTextEditor::SetFontStretch(int i)
-{
+void ViewerTextEditor::SetFontStretch(int i) {
   QTextCharFormat f;
   f.setFontStretch(i);
   MergeCharFormat(f);
 }
 
-void ViewerTextEditor::SetFontKerning(qreal i)
-{
+void ViewerTextEditor::SetFontKerning(qreal i) {
   QTextCharFormat f;
   f.setFontLetterSpacing(i);
   MergeCharFormat(f);
 }
 
-void ViewerTextEditor::MergeCharFormat(const QTextCharFormat &fmt)
-{
+void ViewerTextEditor::MergeCharFormat(const QTextCharFormat &fmt) {
   // mergeCurrentCharFormat throws a currentCharFormatChanged signal that updates the toolbar,
   // this can be undesirable if the user is currently typing a font
   block_update_toolbar_signal_ = true;
   mergeCurrentCharFormat(fmt);
-  //default_fmt_ = this->currentCharFormat();
+  // default_fmt_ = this->currentCharFormat();
   block_update_toolbar_signal_ = false;
 }
 
-void ViewerTextEditor::ApplyStyle(QTextCharFormat *format, const QString &family, const QString &style)
-{
+void ViewerTextEditor::ApplyStyle(QTextCharFormat *format, const QString &family, const QString &style) {
   // NOTE: Windows appears to require setting weight and italic manually, while macOS and Linux are
   //       perfectly fine with just the style name
   format->setFontWeight(QFontDatabase().weight(family, style));
@@ -274,20 +258,15 @@ void ViewerTextEditor::ApplyStyle(QTextCharFormat *format, const QString &family
   format->setFontStyleName(style);
 }
 
-void ViewerTextEditor::SetLineHeight(qreal i)
-{
+void ViewerTextEditor::SetLineHeight(qreal i) {
   QTextBlockFormat f = this->textCursor().blockFormat();
   f.setLineHeight(i, QTextBlockFormat::ProportionalHeight);
   this->textCursor().setBlockFormat(f);
 }
 
-void ViewerTextEditor::LockScrollBarMaximumToZero()
-{
-  static_cast<QScrollBar*>(sender())->setMaximum(0);
-}
+void ViewerTextEditor::LockScrollBarMaximumToZero() { static_cast<QScrollBar *>(sender())->setMaximum(0); }
 
-void ViewerTextEditor::DocumentChanged()
-{
+void ViewerTextEditor::DocumentChanged() {
   if (document()->blockCount() == 1 && document()->firstBlock().text().isEmpty()) {
     if (!forced_default_) {
       QTextCursor c(document()->firstBlock());
@@ -313,7 +292,8 @@ void ViewerTextEditor::DocumentChanged()
   delete transparent_clone_;
   transparent_clone_ = document()->clone(this);
   transparent_clone_->documentLayout()->setPaintDevice(&dpi_force_);
-  transparent_clone_->documentLayout()->setProperty("cursorWidth", document()->documentLayout()->property("cursorWidth"));
+  transparent_clone_->documentLayout()->setProperty("cursorWidth",
+                                                    document()->documentLayout()->property("cursorWidth"));
 
   QTextCursor cursor(transparent_clone_);
   cursor.select(QTextCursor::Document);
@@ -323,11 +303,8 @@ void ViewerTextEditor::DocumentChanged()
   cursor.mergeCharFormat(fmt);
 }
 
-ViewerTextEditorToolBar::ViewerTextEditorToolBar(QWidget *parent) :
-  QWidget(parent),
-  painted_(false),
-  drag_enabled_(true)
-{
+ViewerTextEditorToolBar::ViewerTextEditorToolBar(QWidget *parent)
+    : QWidget(parent), painted_(false), drag_enabled_(true) {
   QVBoxLayout *outer_layout = new QVBoxLayout(this);
 
   const int advanced_slider_width = QtUtils::QFontMetricsWidth(fontMetrics(), QStringLiteral("9999.9%"));
@@ -338,7 +315,8 @@ ViewerTextEditorToolBar::ViewerTextEditorToolBar(QWidget *parent) :
     outer_layout->addLayout(row_layout);
 
     font_combo_ = new QFontComboBox();
-    connect(font_combo_, &QFontComboBox::currentTextChanged, this, &ViewerTextEditorToolBar::UpdateFontStyleListAndEmitFamilyChanged);
+    connect(font_combo_, &QFontComboBox::currentTextChanged, this,
+            &ViewerTextEditorToolBar::UpdateFontStyleListAndEmitFamilyChanged);
     row_layout->addWidget(font_combo_);
 
     font_sz_slider_ = new FloatSlider();
@@ -371,7 +349,7 @@ ViewerTextEditorToolBar::ViewerTextEditorToolBar(QWidget *parent) :
 
     color_btn_ = new QPushButton();
     color_btn_->setAutoFillBackground(true);
-    connect(color_btn_, &QPushButton::clicked, this, [this]{
+    connect(color_btn_, &QPushButton::clicked, this, [this] {
       QColor c = color_btn_->property("color").value<QColor>();
 
       QColorDialog cd(c, this);
@@ -394,25 +372,25 @@ ViewerTextEditorToolBar::ViewerTextEditorToolBar(QWidget *parent) :
     align_left_btn_ = new QPushButton();
     align_left_btn_->setCheckable(true);
     align_left_btn_->setIcon(icon::TextAlignLeft);
-    connect(align_left_btn_, &QPushButton::clicked, this, [this]{emit AlignmentChanged(Qt::AlignLeft);});
+    connect(align_left_btn_, &QPushButton::clicked, this, [this] { emit AlignmentChanged(Qt::AlignLeft); });
     row_layout->addWidget(align_left_btn_);
 
     align_center_btn_ = new QPushButton();
     align_center_btn_->setCheckable(true);
     align_center_btn_->setIcon(icon::TextAlignCenter);
-    connect(align_center_btn_, &QPushButton::clicked, this, [this]{emit AlignmentChanged(Qt::AlignHCenter);});
+    connect(align_center_btn_, &QPushButton::clicked, this, [this] { emit AlignmentChanged(Qt::AlignHCenter); });
     row_layout->addWidget(align_center_btn_);
 
     align_right_btn_ = new QPushButton();
     align_right_btn_->setCheckable(true);
     align_right_btn_->setIcon(icon::TextAlignRight);
-    connect(align_right_btn_, &QPushButton::clicked, this, [this]{emit AlignmentChanged(Qt::AlignRight);});
+    connect(align_right_btn_, &QPushButton::clicked, this, [this] { emit AlignmentChanged(Qt::AlignRight); });
     row_layout->addWidget(align_right_btn_);
 
     align_justify_btn_ = new QPushButton();
     align_justify_btn_->setCheckable(true);
     align_justify_btn_->setIcon(icon::TextAlignJustify);
-    connect(align_justify_btn_, &QPushButton::clicked, this, [this]{emit AlignmentChanged(Qt::AlignJustify);});
+    connect(align_justify_btn_, &QPushButton::clicked, this, [this] { emit AlignmentChanged(Qt::AlignJustify); });
     row_layout->addWidget(align_justify_btn_);
 
     AddSpacer(row_layout);
@@ -420,19 +398,20 @@ ViewerTextEditorToolBar::ViewerTextEditorToolBar(QWidget *parent) :
     align_top_btn_ = new QPushButton();
     align_top_btn_->setCheckable(true);
     align_top_btn_->setIcon(icon::TextAlignTop);
-    connect(align_top_btn_, &QPushButton::clicked, this, [this]{emit VerticalAlignmentChanged(Qt::AlignTop);});
+    connect(align_top_btn_, &QPushButton::clicked, this, [this] { emit VerticalAlignmentChanged(Qt::AlignTop); });
     row_layout->addWidget(align_top_btn_);
 
     align_middle_btn_ = new QPushButton();
     align_middle_btn_->setCheckable(true);
     align_middle_btn_->setIcon(icon::TextAlignMiddle);
-    connect(align_middle_btn_, &QPushButton::clicked, this, [this]{emit VerticalAlignmentChanged(Qt::AlignVCenter);});
+    connect(align_middle_btn_, &QPushButton::clicked, this,
+            [this] { emit VerticalAlignmentChanged(Qt::AlignVCenter); });
     row_layout->addWidget(align_middle_btn_);
 
     align_bottom_btn_ = new QPushButton();
     align_bottom_btn_->setCheckable(true);
     align_bottom_btn_->setIcon(icon::TextAlignBottom);
-    connect(align_bottom_btn_, &QPushButton::clicked, this, [this]{emit VerticalAlignmentChanged(Qt::AlignBottom);});
+    connect(align_bottom_btn_, &QPushButton::clicked, this, [this] { emit VerticalAlignmentChanged(Qt::AlignBottom); });
     row_layout->addWidget(align_bottom_btn_);
 
     AddSpacer(row_layout);
@@ -445,7 +424,7 @@ ViewerTextEditorToolBar::ViewerTextEditorToolBar(QWidget *parent) :
 
     AddSpacer(row_layout);
 
-    row_layout->addWidget(new QLabel(tr("Stretch: "))); // FIXME: Procure icon
+    row_layout->addWidget(new QLabel(tr("Stretch: ")));  // FIXME: Procure icon
 
     stretch_slider_ = new IntegerSlider();
     stretch_slider_->SetMinimum(0);
@@ -455,7 +434,7 @@ ViewerTextEditorToolBar::ViewerTextEditorToolBar(QWidget *parent) :
     connect(stretch_slider_, &IntegerSlider::ValueChanged, this, &ViewerTextEditorToolBar::StretchChanged);
     row_layout->addWidget(stretch_slider_);
 
-    row_layout->addWidget(new QLabel(tr("Kerning: "))); // FIXME: Procure icon
+    row_layout->addWidget(new QLabel(tr("Kerning: ")));  // FIXME: Procure icon
 
     kerning_slider_ = new FloatSlider();
     kerning_slider_->SetMinimum(0);
@@ -466,7 +445,7 @@ ViewerTextEditorToolBar::ViewerTextEditorToolBar(QWidget *parent) :
     connect(kerning_slider_, &FloatSlider::ValueChanged, this, &ViewerTextEditorToolBar::KerningChanged);
     row_layout->addWidget(kerning_slider_);
 
-    row_layout->addWidget(new QLabel(tr("Line Height: "))); // FIXME: Procure icon
+    row_layout->addWidget(new QLabel(tr("Line Height: ")));  // FIXME: Procure icon
 
     line_height_slider_ = new FloatSlider();
     line_height_slider_->SetMinimum(0);
@@ -485,34 +464,27 @@ ViewerTextEditorToolBar::ViewerTextEditorToolBar(QWidget *parent) :
   resize(sizeHint());
 }
 
-void ViewerTextEditorToolBar::SetAlignment(Qt::Alignment a)
-{
+void ViewerTextEditorToolBar::SetAlignment(Qt::Alignment a) {
   align_left_btn_->setChecked(a == Qt::AlignLeft);
   align_center_btn_->setChecked(a == Qt::AlignHCenter);
   align_right_btn_->setChecked(a == Qt::AlignRight);
   align_justify_btn_->setChecked(a == Qt::AlignJustify);
 }
 
-void ViewerTextEditorToolBar::SetVerticalAlignment(Qt::Alignment a)
-{
+void ViewerTextEditorToolBar::SetVerticalAlignment(Qt::Alignment a) {
   align_top_btn_->setChecked(a == Qt::AlignTop);
   align_middle_btn_->setChecked(a == Qt::AlignVCenter);
   align_bottom_btn_->setChecked(a == Qt::AlignBottom);
 }
 
-void ViewerTextEditorToolBar::SetColor(const QColor &c)
-{
+void ViewerTextEditorToolBar::SetColor(const QColor &c) {
   color_btn_->setProperty("color", c);
   color_btn_->setStyleSheet(QStringLiteral("QPushButton { background: %1; }").arg(c.name()));
 }
 
-void ViewerTextEditorToolBar::closeEvent(QCloseEvent *event)
-{
-  event->ignore();
-}
+void ViewerTextEditorToolBar::closeEvent(QCloseEvent *event) { event->ignore(); }
 
-void ViewerTextEditorToolBar::paintEvent(QPaintEvent *event)
-{
+void ViewerTextEditorToolBar::paintEvent(QPaintEvent *event) {
   if (!painted_) {
     emit FirstPaint();
     painted_ = true;
@@ -520,9 +492,8 @@ void ViewerTextEditorToolBar::paintEvent(QPaintEvent *event)
   QWidget::paintEvent(event);
 }
 
-void ViewerTextEditorToolBar::AddSpacer(QLayout *l)
-{
-  const int spacing = this->fontMetrics().height()/4;
+void ViewerTextEditorToolBar::AddSpacer(QLayout *l) {
+  const int spacing = this->fontMetrics().height() / 4;
   QWidget *a = new QWidget();
   a->setFixedSize(spacing, 1);
   l->addWidget(a);
@@ -534,8 +505,7 @@ void ViewerTextEditorToolBar::AddSpacer(QLayout *l)
   l->addWidget(b);
 }
 
-void ViewerTextEditorToolBar::UpdateFontStyleList(const QString &family)
-{
+void ViewerTextEditorToolBar::UpdateFontStyleList(const QString &family) {
   QString temp = style_combo_->currentText();
 
   style_combo_->blockSignals(true);
@@ -548,15 +518,13 @@ void ViewerTextEditorToolBar::UpdateFontStyleList(const QString &family)
   style_combo_->blockSignals(false);
 }
 
-void ViewerTextEditorToolBar::UpdateFontStyleListAndEmitFamilyChanged(const QString &family)
-{
+void ViewerTextEditorToolBar::UpdateFontStyleListAndEmitFamilyChanged(const QString &family) {
   // Ensures correct ordering of commands
   UpdateFontStyleList(family);
   emit FamilyChanged(family);
 }
 
-void ViewerTextEditorToolBar::mousePressEvent(QMouseEvent *event)
-{
+void ViewerTextEditorToolBar::mousePressEvent(QMouseEvent *event) {
   QWidget::mousePressEvent(event);
 
   if (event->button() == Qt::LeftButton && drag_enabled_) {
@@ -564,8 +532,7 @@ void ViewerTextEditorToolBar::mousePressEvent(QMouseEvent *event)
   }
 }
 
-void ViewerTextEditorToolBar::mouseMoveEvent(QMouseEvent *event)
-{
+void ViewerTextEditorToolBar::mouseMoveEvent(QMouseEvent *event) {
   QWidget::mouseMoveEvent(event);
 
   if ((event->buttons() & Qt::LeftButton) && drag_enabled_) {
@@ -573,9 +540,6 @@ void ViewerTextEditorToolBar::mouseMoveEvent(QMouseEvent *event)
   }
 }
 
-void ViewerTextEditorToolBar::mouseReleaseEvent(QMouseEvent *event)
-{
-  QWidget::mouseReleaseEvent(event);
-}
+void ViewerTextEditorToolBar::mouseReleaseEvent(QMouseEvent *event) { QWidget::mouseReleaseEvent(event); }
 
-}
+}  // namespace olive

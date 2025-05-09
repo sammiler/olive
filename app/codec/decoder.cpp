@@ -25,8 +25,8 @@
 #include <QHash>
 
 #include "codec/ffmpeg/ffmpegdecoder.h"
-#include "codec/planarfiledevice.h"
 #include "codec/oiio/oiiodecoder.h"
+#include "codec/planarfiledevice.h"
 #include "common/ffmpegutils.h"
 #include "common/filefunctions.h"
 #include "conformmanager.h"
@@ -37,19 +37,11 @@ namespace olive {
 
 const rational Decoder::kAnyTimecode = RATIONAL_MIN;
 
-Decoder::Decoder() :
-  cached_texture_(nullptr)
-{
-  UpdateLastAccessed();
-}
+Decoder::Decoder() : cached_texture_(nullptr) { UpdateLastAccessed(); }
 
-void Decoder::IncrementAccessTime(qint64 t)
-{
-  last_accessed_ += t;
-}
+void Decoder::IncrementAccessTime(qint64 t) { last_accessed_ += t; }
 
-bool Decoder::Open(const CodecStream &stream)
-{
+bool Decoder::Open(const CodecStream &stream) {
   QMutexLocker locker(&mutex_);
 
   UpdateLastAccessed();
@@ -92,8 +84,7 @@ bool Decoder::Open(const CodecStream &stream)
   }
 }
 
-TexturePtr Decoder::RetrieveVideo(const RetrieveVideoParams &p)
-{
+TexturePtr Decoder::RetrieveVideo(const RetrieveVideoParams &p) {
   QMutexLocker locker(&mutex_);
 
   UpdateLastAccessed();
@@ -123,8 +114,9 @@ TexturePtr Decoder::RetrieveVideo(const RetrieveVideoParams &p)
   return cached_texture_;
 }
 
-Decoder::RetrieveAudioStatus Decoder::RetrieveAudio(SampleBuffer &dest, const TimeRange &range, const AudioParams &params, const QString& cache_path, LoopMode loop_mode, RenderMode::Mode mode)
-{
+Decoder::RetrieveAudioStatus Decoder::RetrieveAudio(SampleBuffer &dest, const TimeRange &range,
+                                                    const AudioParams &params, const QString &cache_path,
+                                                    LoopMode loop_mode, RenderMode::Mode mode) {
   QMutexLocker locker(&mutex_);
 
   UpdateLastAccessed();
@@ -140,7 +132,8 @@ Decoder::RetrieveAudioStatus Decoder::RetrieveAudio(SampleBuffer &dest, const Ti
   }
 
   // Get conform state from ConformManager
-  ConformManager::Conform conform = ConformManager::instance()->GetConformState(id(), cache_path, stream_, params, (mode == RenderMode::kOnline));
+  ConformManager::Conform conform =
+      ConformManager::instance()->GetConformState(id(), cache_path, stream_, params, (mode == RenderMode::kOnline));
   if (conform.state == ConformManager::kConformGenerating) {
     // If we need the task, it's available in `conform.task`
     return kWaitingForConform;
@@ -154,13 +147,9 @@ Decoder::RetrieveAudioStatus Decoder::RetrieveAudio(SampleBuffer &dest, const Ti
   }
 }
 
-qint64 Decoder::GetLastAccessedTime()
-{
-  return last_accessed_;
-}
+qint64 Decoder::GetLastAccessedTime() { return last_accessed_; }
 
-void Decoder::Close()
-{
+void Decoder::Close() {
   QMutexLocker locker(&mutex_);
 
   UpdateLastAccessed();
@@ -175,8 +164,7 @@ void Decoder::Close()
   }
 }
 
-bool Decoder::ConformAudio(const QVector<QString> &output_filenames, const AudioParams &params, CancelAtom *cancelled)
-{
+bool Decoder::ConformAudio(const QVector<QString> &output_filenames, const AudioParams &params, CancelAtom *cancelled) {
   return ConformAudioInternal(output_filenames, params, cancelled);
 }
 
@@ -184,8 +172,7 @@ bool Decoder::ConformAudio(const QVector<QString> &output_filenames, const Audio
  * DECODER STATIC PUBLIC MEMBERS
  */
 
-QVector<DecoderPtr> Decoder::ReceiveListOfAllDecoders()
-{
+QVector<DecoderPtr> Decoder::ReceiveListOfAllDecoders() {
   QVector<DecoderPtr> decoders;
 
   // The order in which these decoders are added is their priority when probing. Hence FFmpeg should usually be last,
@@ -196,8 +183,7 @@ QVector<DecoderPtr> Decoder::ReceiveListOfAllDecoders()
   return decoders;
 }
 
-DecoderPtr Decoder::CreateFromID(const QString &id)
-{
+DecoderPtr Decoder::CreateFromID(const QString &id) {
   if (id.isEmpty()) {
     return nullptr;
   }
@@ -214,15 +200,13 @@ DecoderPtr Decoder::CreateFromID(const QString &id)
   return nullptr;
 }
 
-void Decoder::SignalProcessingProgress(int64_t ts, int64_t duration)
-{
+void Decoder::SignalProcessingProgress(int64_t ts, int64_t duration) {
   if (duration != AV_NOPTS_VALUE && duration != 0) {
     emit IndexProgress(static_cast<double>(ts) / static_cast<double>(duration));
   }
 }
 
-QString Decoder::TransformImageSequenceFileName(const QString &filename, const int64_t& number)
-{
+QString Decoder::TransformImageSequenceFileName(const QString &filename, const int64_t &number) {
   int digit_count = GetImageSequenceDigitCount(filename);
 
   QFileInfo file_info(filename);
@@ -230,19 +214,18 @@ QString Decoder::TransformImageSequenceFileName(const QString &filename, const i
   QString original_basename = file_info.completeBaseName();
 
   QString new_basename = original_basename.left(original_basename.size() - digit_count)
-      .append(QStringLiteral("%1").arg(number, digit_count, 10, QChar('0')));
+                             .append(QStringLiteral("%1").arg(number, digit_count, 10, QChar('0')));
 
   return file_info.dir().filePath(file_info.fileName().replace(original_basename, new_basename));
 }
 
-int Decoder::GetImageSequenceDigitCount(const QString &filename)
-{
+int Decoder::GetImageSequenceDigitCount(const QString &filename) {
   QString basename = QFileInfo(filename).completeBaseName();
 
   // See if basename contains a number at the end
   int digit_count = 0;
 
-  for (int i=basename.size()-1;i>=0;i--) {
+  for (int i = basename.size() - 1; i >= 0; i--) {
     if (basename.at(i).isDigit()) {
       digit_count++;
     } else {
@@ -253,8 +236,7 @@ int Decoder::GetImageSequenceDigitCount(const QString &filename)
   return digit_count;
 }
 
-int64_t Decoder::GetImageSequenceIndex(const QString &filename)
-{
+int64_t Decoder::GetImageSequenceIndex(const QString &filename) {
   int digit_count = GetImageSequenceDigitCount(filename);
 
   QFileInfo file_info(filename);
@@ -266,22 +248,21 @@ int64_t Decoder::GetImageSequenceIndex(const QString &filename)
   return number_only.toLongLong();
 }
 
-TexturePtr Decoder::RetrieveVideoInternal(const RetrieveVideoParams &p)
-{
+TexturePtr Decoder::RetrieveVideoInternal(const RetrieveVideoParams &p) {
   Q_UNUSED(p)
   return nullptr;
 }
 
-bool Decoder::ConformAudioInternal(const QVector<QString> &filenames, const AudioParams &params, CancelAtom *cancelled)
-{
+bool Decoder::ConformAudioInternal(const QVector<QString> &filenames, const AudioParams &params,
+                                   CancelAtom *cancelled) {
   Q_UNUSED(filenames)
   Q_UNUSED(cancelled)
   Q_UNUSED(params)
   return false;
 }
 
-bool Decoder::RetrieveAudioFromConform(SampleBuffer &sample_buffer, const QVector<QString> &conform_filenames, TimeRange range, LoopMode loop_mode, const AudioParams &input_params)
-{
+bool Decoder::RetrieveAudioFromConform(SampleBuffer &sample_buffer, const QVector<QString> &conform_filenames,
+                                       TimeRange range, LoopMode loop_mode, const AudioParams &input_params) {
   PlanarFileDevice input;
   if (input.open(conform_filenames, QFile::ReadOnly)) {
     // Offset range by audio start offset
@@ -316,7 +297,7 @@ bool Decoder::RetrieveAudioFromConform(SampleBuffer &sample_buffer, const QVecto
       } else {
         write_count = qMin(input.size() - read_index, buffer_length_in_bytes - write_index);
         input.seek(read_index);
-        input.read(reinterpret_cast<char**>(sample_buffer.to_raw_ptrs().data()), write_count, write_index);
+        input.read(reinterpret_cast<char **>(sample_buffer.to_raw_ptrs().data()), write_count, write_index);
       }
 
       read_index += write_count;
@@ -331,14 +312,10 @@ bool Decoder::RetrieveAudioFromConform(SampleBuffer &sample_buffer, const QVecto
   return false;
 }
 
-void Decoder::UpdateLastAccessed()
-{
-  last_accessed_ = QDateTime::currentMSecsSinceEpoch();
-}
+void Decoder::UpdateLastAccessed() { last_accessed_ = QDateTime::currentMSecsSinceEpoch(); }
 
-uint qHash(Decoder::CodecStream stream, uint seed)
-{
+uint qHash(Decoder::CodecStream stream, uint seed) {
   return qHash(stream.filename(), seed) ^ ::qHash(stream.stream(), seed) ^ qHash(stream.block(), seed);
 }
 
-}
+}  // namespace olive

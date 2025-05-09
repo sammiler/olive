@@ -33,11 +33,9 @@ namespace olive {
 
 class Node;
 
-class ColorTransformJob : public AcceleratedJob
-{
-public:
-  ColorTransformJob()
-  {
+class ColorTransformJob : public AcceleratedJob {
+ public:
+  ColorTransformJob() {
     processor_ = nullptr;
     custom_shader_src_ = nullptr;
     input_alpha_association_ = kAlphaNone;
@@ -45,14 +43,9 @@ public:
     force_opaque_ = false;
   }
 
-  ColorTransformJob(const NodeValueRow &row) :
-    ColorTransformJob()
-  {
-    Insert(row);
-  }
+  ColorTransformJob(const NodeValueRow &row) : ColorTransformJob() { Insert(row); }
 
-  QString id() const
-  {
+  QString id() const {
     if (id_.isEmpty()) {
       return processor_->id();
     } else {
@@ -64,8 +57,7 @@ public:
 
   const NodeValue &GetInputTexture() const { return input_texture_; }
   void SetInputTexture(const NodeValue &tex) { input_texture_ = tex; }
-  void SetInputTexture(TexturePtr tex)
-  {
+  void SetInputTexture(TexturePtr tex) {
     Q_ASSERT(!tex->IsDummy());
     input_texture_ = NodeValue(NodeValue::kTexture, tex);
   }
@@ -78,8 +70,7 @@ public:
 
   const Node *CustomShaderSource() const { return custom_shader_src_; }
   const QString &CustomShaderID() const { return custom_shader_id_; }
-  void SetNeedsCustomShader(const Node *node, const QString &id = QString())
-  {
+  void SetNeedsCustomShader(const Node *node, const QString &id = QString()) {
     custom_shader_src_ = node;
     custom_shader_id_ = id;
   }
@@ -99,7 +90,7 @@ public:
   bool GetForceOpaque() const { return force_opaque_; }
   void SetForceOpaque(bool e) { force_opaque_ = e; }
 
-private:
+ private:
   ColorProcessorPtr processor_;
   QString id_;
 
@@ -119,9 +110,8 @@ private:
   QString function_name_;
 
   bool force_opaque_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // COLORTRANSFORMJOB_H
+#endif  // COLORTRANSFORMJOB_H

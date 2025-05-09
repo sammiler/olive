@@ -24,12 +24,7 @@ namespace olive {
 
 /// Works in conjunction with `genicons.sh` to generate and utilize icons of specific sizes
 const int ICON_SIZE_COUNT = 4;
-const int ICON_SIZES[] = {
-  16,
-  32,
-  64,
-  128
-};
+const int ICON_SIZES[] = {16, 32, 64, 128};
 
 /// Internal icon library for use throughout Olive without having to regenerate constantly
 QIcon icon::GoToStart;
@@ -98,8 +93,7 @@ QIcon icon::Pencil;
 QIcon icon::Subtitles;
 QIcon icon::ColorPicker;
 
-void icon::LoadAll(const QString& theme)
-{
+void icon::LoadAll(const QString& theme) {
   GoToStart = Create(theme, "prev");
   PrevFrame = Create(theme, "rew");
   Play = Create(theme, "play");
@@ -176,11 +170,10 @@ void icon::LoadAll(const QString& theme)
   Subtitles = Create(theme, "subtitles");
 }
 
-QIcon icon::Create(const QString& theme, const QString &name)
-{
+QIcon icon::Create(const QString& theme, const QString& name) {
   QIcon icon;
 
-  for (int i=0;i<ICON_SIZE_COUNT;i++) {
+  for (int i = 0; i < ICON_SIZE_COUNT; i++) {
     icon.addFile(QStringLiteral("%1/png/%2.%3.png").arg(theme, name, QString::number(ICON_SIZES[i])),
                  QSize(ICON_SIZES[i], ICON_SIZES[i]), QIcon::Normal);
     icon.addFile(QStringLiteral("%1/png/%2.%3.disabled.png").arg(theme, name, QString::number(ICON_SIZES[i])),
@@ -190,4 +183,4 @@ QIcon icon::Create(const QString& theme, const QString &name)
   return icon;
 }
 
-}
+}  // namespace olive

@@ -25,18 +25,16 @@
 
 namespace olive {
 
-class BeamTool : public TimelineTool
-{
-public:
+class BeamTool : public TimelineTool {
+ public:
   BeamTool(TimelineWidget *parent);
 
   virtual void HoverMove(TimelineViewMouseEvent *event) override;
 
-protected:
+ protected:
   TimelineCoordinate ValidatedCoordinate(TimelineCoordinate coord);
-
 };
 
-}
+}  // namespace olive
 
-#endif // BEAMTIMELINETOOL_H
+#endif  // BEAMTIMELINETOOL_H

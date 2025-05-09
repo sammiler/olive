@@ -31,10 +31,9 @@
 
 namespace olive {
 
-class ExportSubtitlesTab : public QWidget
-{
+class ExportSubtitlesTab : public QWidget {
   Q_OBJECT
-public:
+ public:
   ExportSubtitlesTab(QWidget *parent = nullptr);
 
   bool GetSidecarEnabled() const { return sidecar_checkbox_->isChecked(); }
@@ -45,26 +44,21 @@ public:
 
   int SetFormat(ExportFormat::Format format);
 
-  ExportCodec::Codec GetSubtitleCodec()
-  {
+  ExportCodec::Codec GetSubtitleCodec() {
     return static_cast<ExportCodec::Codec>(codec_combobox_->currentData().toInt());
   }
 
-  void SetSubtitleCodec(ExportCodec::Codec c)
-  {
-    QtUtils::SetComboBoxData(codec_combobox_, c);
-  }
+  void SetSubtitleCodec(ExportCodec::Codec c) { QtUtils::SetComboBoxData(codec_combobox_, c); }
 
-private:
+ private:
   QCheckBox *sidecar_checkbox_;
 
   QLabel *sidecar_format_label_;
   ExportFormatComboBox *sidecar_format_combobox_;
 
   QComboBox *codec_combobox_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // EXPORTSUBTITLESTAB_H
+#endif  // EXPORTSUBTITLESTAB_H

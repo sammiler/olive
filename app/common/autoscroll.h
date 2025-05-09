@@ -26,14 +26,10 @@
 namespace olive {
 
 class AutoScroll {
-public:
-  enum Method {
-    kNone,
-    kPage,
-    kSmooth
-  };
+ public:
+  enum Method { kNone, kPage, kSmooth };
 };
 
-}
+}  // namespace olive
 
-#endif // AUTOSCROLL_H
+#endif  // AUTOSCROLL_H

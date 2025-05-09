@@ -7,24 +7,17 @@
 
 namespace olive {
 
-const QVector<QString> Html::kBlockTags = {
-  QStringLiteral("p"),
-  QStringLiteral("div")
-};
+const QVector<QString> Html::kBlockTags = {QStringLiteral("p"), QStringLiteral("div")};
 
-inline bool StrEquals(const QStringView &a, const QStringView &b)
-{
-  return !a.compare(b, Qt::CaseInsensitive);
-}
+inline bool StrEquals(const QStringView &a, const QStringView &b) { return !a.compare(b, Qt::CaseInsensitive); }
 
-QString Html::DocToHtml(const QTextDocument *doc)
-{
+QString Html::DocToHtml(const QTextDocument *doc) {
   QString html;
   QXmlStreamWriter writer(&html);
 
-  //writer.setAutoFormatting(true);
+  // writer.setAutoFormatting(true);
 
-  for (auto it=doc->begin(); it!=doc->end(); it=it.next()) {
+  for (auto it = doc->begin(); it != doc->end(); it = it.next()) {
     WriteBlock(&writer, it);
   }
 
@@ -36,19 +29,17 @@ struct HtmlNode {
   QTextCharFormat format;
 };
 
-QTextCharFormat MergeHtmlFormats(const QVector<HtmlNode> &stack)
-{
+QTextCharFormat MergeHtmlFormats(const QVector<HtmlNode> &stack) {
   QTextCharFormat f;
 
-  for (int i=0; i<stack.size(); i++) {
+  for (int i = 0; i < stack.size(); i++) {
     f.merge(stack.at(i).format);
   }
 
   return f;
 }
 
-void Html::HtmlToDoc(QTextDocument *doc, const QString &html)
-{
+void Html::HtmlToDoc(QTextDocument *doc, const QString &html) {
   // Empty doc
   doc->clear();
   bool inside_block = true;
@@ -71,7 +62,6 @@ void Html::HtmlToDoc(QTextDocument *doc, const QString &html)
     reader.readNext();
 
     if (reader.tokenType() == QXmlStreamReader::StartElement) {
-
       QString tag = reader.name().toString().toLower();
 
       fmt_stack.append({tag, ReadCharFormat(reader.attributes())});
@@ -89,15 +79,13 @@ void Html::HtmlToDoc(QTextDocument *doc, const QString &html)
       }
 
     } else if (reader.tokenType() == QXmlStreamReader::Characters) {
-
       QString characters = reader.text().toString();
       c.insertText(characters, current_fmt);
 
     } else if (reader.tokenType() == QXmlStreamReader::EndElement) {
-
       QString tag = reader.name().toString().toLower();
 
-      for (int i=fmt_stack.size()-1; i>=0; i--) {
+      for (int i = fmt_stack.size() - 1; i >= 0; i--) {
         if (fmt_stack.at(i).tag == tag) {
           fmt_stack.removeAt(i);
           current_fmt = MergeHtmlFormats(fmt_stack);
@@ -108,7 +96,6 @@ void Html::HtmlToDoc(QTextDocument *doc, const QString &html)
           break;
         }
       }
-
     }
   }
 
@@ -117,8 +104,7 @@ void Html::HtmlToDoc(QTextDocument *doc, const QString &html)
   }
 }
 
-void Html::WriteBlock(QXmlStreamWriter *writer, const QTextBlock &block)
-{
+void Html::WriteBlock(QXmlStreamWriter *writer, const QTextBlock &block) {
   writer->writeStartElement(QStringLiteral("p"));
 
   const QTextBlockFormat &fmt = block.blockFormat();
@@ -155,16 +141,15 @@ void Html::WriteBlock(QXmlStreamWriter *writer, const QTextBlock &block)
   auto it = block.begin();
 
   if (it != block.end()) {
-    for (; it!=block.end(); it++) {
+    for (; it != block.end(); it++) {
       WriteFragment(writer, it.fragment());
     }
   }
 
-  writer->writeEndElement(); // p
+  writer->writeEndElement();  // p
 }
 
-void Html::WriteFragment(QXmlStreamWriter *writer, const QTextFragment &fragment)
-{
+void Html::WriteFragment(QXmlStreamWriter *writer, const QTextFragment &fragment) {
   const QTextCharFormat &fmt = fragment.charFormat();
 
   writer->writeStartElement(QStringLiteral("span"));
@@ -189,11 +174,10 @@ void Html::WriteFragment(QXmlStreamWriter *writer, const QTextFragment &fragment
     writer->writeCharacters(l);
   }
 
-  writer->writeEndElement(); // span
+  writer->writeEndElement();  // span
 }
 
-void Html::WriteCSSProperty(QString *style, const QString &key, const QStringList &values)
-{
+void Html::WriteCSSProperty(QString *style, const QString &key, const QStringList &values) {
   QString value;
   foreach (QString v, values) {
     if (v.contains(' ')) {
@@ -206,15 +190,15 @@ void Html::WriteCSSProperty(QString *style, const QString &key, const QStringLis
   AppendStringAutoSpace(style, QStringLiteral("%1: %2;").arg(key, value));
 }
 
-void Html::WriteCharFormat(QString *style, const QTextCharFormat &fmt)
-{
+void Html::WriteCharFormat(QString *style, const QTextCharFormat &fmt) {
   QStringList families = fmt.fontFamilies().toStringList();
   if (!families.isEmpty()) {
     WriteCSSProperty(style, QStringLiteral("font-family"), families.first());
   }
 
   if (fmt.hasProperty(QTextFormat::FontPointSize)) {
-    WriteCSSProperty(style, QStringLiteral("font-size"), QStringLiteral("%1pt").arg(QString::number(fmt.fontPointSize())));
+    WriteCSSProperty(style, QStringLiteral("font-size"),
+                     QStringLiteral("%1pt").arg(QString::number(fmt.fontPointSize())));
   }
 
   if (fmt.hasProperty(QTextFormat::FontWeight)) {
@@ -222,7 +206,8 @@ void Html::WriteCharFormat(QString *style, const QTextCharFormat &fmt)
   }
 
   if (fmt.hasProperty(QTextFormat::FontItalic)) {
-    WriteCSSProperty(style, QStringLiteral("font-style"), fmt.fontItalic() ? QStringLiteral("italic") : QStringLiteral("normal"));
+    WriteCSSProperty(style, QStringLiteral("font-style"),
+                     fmt.fontItalic() ? QStringLiteral("italic") : QStringLiteral("normal"));
   }
 
   if (fmt.hasProperty(QTextFormat::FontStyleName)) {
@@ -254,7 +239,9 @@ void Html::WriteCharFormat(QString *style, const QTextCharFormat &fmt)
     if (color.alpha() == 255) {
       cs = color.name();
     } else if (color.alpha()) {
-      cs = QStringLiteral("rgba(%1, %2, %3, %4)").arg(QString::number(color.red()), QString::number(color.green()), QString::number(color.blue()), QString::number(color.alphaF()));
+      cs = QStringLiteral("rgba(%1, %2, %3, %4)")
+               .arg(QString::number(color.red()), QString::number(color.green()), QString::number(color.blue()),
+                    QString::number(color.alphaF()));
     }
 
     WriteCSSProperty(style, QStringLiteral("color"), cs);
@@ -268,23 +255,24 @@ void Html::WriteCharFormat(QString *style, const QTextCharFormat &fmt)
   }
 
   if (fmt.fontLetterSpacing() != 0.0) {
-    WriteCSSProperty(style, QStringLiteral("letter-spacing"), QStringLiteral("%1%").arg(QString::number(fmt.fontLetterSpacing())));
+    WriteCSSProperty(style, QStringLiteral("letter-spacing"),
+                     QStringLiteral("%1%").arg(QString::number(fmt.fontLetterSpacing())));
   }
 
   if (fmt.fontStretch() != 0) {
-    WriteCSSProperty(style, QStringLiteral("font-stretch"), QStringLiteral("%1%").arg(QString::number(fmt.fontStretch())));
+    WriteCSSProperty(style, QStringLiteral("font-stretch"),
+                     QStringLiteral("%1%").arg(QString::number(fmt.fontStretch())));
   }
 }
 
-QTextCharFormat Html::ReadCharFormat(const QXmlStreamAttributes &attributes)
-{
+QTextCharFormat Html::ReadCharFormat(const QXmlStreamAttributes &attributes) {
   QTextCharFormat fmt;
 
   foreach (const QXmlStreamAttribute &attr, attributes) {
     if (StrEquals(attr.name(), QStringLiteral("style"))) {
       auto css = GetCSSFromStyle(attr.value().toString());
 
-      for (auto it=css.begin(); it!=css.end(); it++) {
+      for (auto it = css.begin(); it != css.end(); it++) {
         const QString &first_val = it.value().first();
 
         if (it.key() == QStringLiteral("font-family")) {
@@ -294,7 +282,7 @@ QTextCharFormat Html::ReadCharFormat(const QXmlStreamAttributes &attributes)
             fmt.setFontPointSize(first_val.chopped(2).toDouble());
           }
         } else if (it.key() == QStringLiteral("font-weight")) {
-          fmt.setFontWeight(first_val.toInt()/8);
+          fmt.setFontWeight(first_val.toInt() / 8);
         } else if (it.key() == QStringLiteral("font-style")) {
           fmt.setFontItalic(StrEquals(first_val, QStringLiteral("italic")));
         } else if (it.key() == QStringLiteral("text-decoration")) {
@@ -346,8 +334,7 @@ QTextCharFormat Html::ReadCharFormat(const QXmlStreamAttributes &attributes)
   return fmt;
 }
 
-QTextBlockFormat Html::ReadBlockFormat(const QXmlStreamAttributes &attributes)
-{
+QTextBlockFormat Html::ReadBlockFormat(const QXmlStreamAttributes &attributes) {
   QTextBlockFormat block_fmt;
 
   foreach (const QXmlStreamAttribute &attr, attributes) {
@@ -366,7 +353,7 @@ QTextBlockFormat Html::ReadBlockFormat(const QXmlStreamAttributes &attributes)
     } else if (StrEquals(attr.name(), QStringLiteral("style"))) {
       auto css = GetCSSFromStyle(attr.value().toString());
 
-      for (auto it=css.begin(); it!=css.end(); it++) {
+      for (auto it = css.begin(); it != css.end(); it++) {
         if (it.key() == QStringLiteral("line-height")) {
           const QString &first_val = it.value().constFirst();
           if (first_val.contains(QChar('%'))) {
@@ -380,8 +367,7 @@ QTextBlockFormat Html::ReadBlockFormat(const QXmlStreamAttributes &attributes)
   return block_fmt;
 }
 
-void Html::AppendStringAutoSpace(QString *s, const QString &append)
-{
+void Html::AppendStringAutoSpace(QString *s, const QString &append) {
   if (!s->isEmpty()) {
     s->append(QChar(' '));
   }
@@ -389,8 +375,7 @@ void Html::AppendStringAutoSpace(QString *s, const QString &append)
   s->append(append);
 }
 
-QMap<QString, QStringList> Html::GetCSSFromStyle(const QString &s)
-{
+QMap<QString, QStringList> Html::GetCSSFromStyle(const QString &s) {
   QMap<QString, QStringList> map;
 
   QStringList list = s.split(QChar(';'));
@@ -409,7 +394,7 @@ QMap<QString, QStringList> Html::GetCSSFromStyle(const QString &s)
     const QString &val = kv.at(1);
     QChar in_quote(0);
     QString current_str;
-    for (int i=0; i<val.size(); i++) {
+    for (int i = 0; i < val.size(); i++) {
       const QChar &current_char = val.at(i);
 
       if (!in_quote.isNull()) {
@@ -447,4 +432,4 @@ QMap<QString, QStringList> Html::GetCSSFromStyle(const QString &s)
   return map;
 }
 
-}
+}  // namespace olive

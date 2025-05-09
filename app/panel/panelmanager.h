@@ -21,8 +21,8 @@
 #ifndef PANELFOCUSMANAGER_H
 #define PANELFOCUSMANAGER_H
 
-#include <QObject>
 #include <QList>
+#include <QObject>
 
 #include "panel/panel.h"
 
@@ -42,10 +42,9 @@ namespace olive {
  * PanelFocusManager's SLOT(FocusChanged()) connects to the QApplication instance's SIGNAL(focusChanged()) so that
  * it always knows when focus has changed within the application.
  */
-class PanelManager : public QObject
-{
+class PanelManager : public QObject {
   Q_OBJECT
-public:
+ public:
   PanelManager(QObject* parent = nullptr);
 
   /**
@@ -74,9 +73,9 @@ public:
    */
   PanelWidget* CurrentlyHovered() const;
 
-  PanelWidget *GetPanelWithName(const QString &name) const;
+  PanelWidget* GetPanelWithName(const QString& name) const;
 
-  template<class T>
+  template <class T>
   /**
    * @brief Get most recently focused panel of a certain type
    *
@@ -103,7 +102,7 @@ public:
    */
   static PanelManager* instance();
 
-  template<class T>
+  template <class T>
   /**
    * @brief Get a list of panels of a certain type
    */
@@ -112,19 +111,16 @@ public:
   /**
    * @brief Panel should call this upon construction so it can be kept track of
    */
-  void RegisterPanel(PanelWidget *panel);
+  void RegisterPanel(PanelWidget* panel);
 
   /**
    * @brief Panel should call this upon destruction so no invalid pointers will be kept for it
    */
-  void UnregisterPanel(PanelWidget *panel);
+  void UnregisterPanel(PanelWidget* panel);
 
-  void SetSuppressChangedSignal(bool e)
-  {
-    suppress_changed_signal_ = e;
-  }
+  void SetSuppressChangedSignal(bool e) { suppress_changed_signal_ = e; }
 
-public slots:
+ public slots:
   /**
    * @brief Connect this to a QApplication's SIGNAL(focusChanged())
    *
@@ -132,13 +128,13 @@ public slots:
    */
   void FocusChanged(QWidget* old, QWidget* now);
 
-signals:
+ signals:
   /**
    * @brief Signal emitted when the currently focused panel changes
    */
   void FocusedPanelChanged(PanelWidget* panel);
 
-private:
+ private:
   /**
    * @brief History array for traversing through (see MostRecentlyFocused())
    */
@@ -150,15 +146,13 @@ private:
   static PanelManager* instance_;
 
   bool suppress_changed_signal_;
-
 };
 
-template<class T>
-T* PanelManager::MostRecentlyFocused()
-{
+template <class T>
+T* PanelManager::MostRecentlyFocused() {
   T* cast_test;
 
-  for (int i=0;i<focus_history_.size();i++) {
+  for (int i = 0; i < focus_history_.size(); i++) {
     cast_test = dynamic_cast<T*>(focus_history_.at(i));
 
     if (cast_test != nullptr) {
@@ -169,9 +163,8 @@ T* PanelManager::MostRecentlyFocused()
   return nullptr;
 }
 
-template<class T>
-QList<T*> PanelManager::GetPanelsOfType()
-{
+template <class T>
+QList<T*> PanelManager::GetPanelsOfType() {
   QList<T*> panels;
 
   T* cast_test;
@@ -187,6 +180,6 @@ QList<T*> PanelManager::GetPanelsOfType()
   return panels;
 }
 
-}
+}  // namespace olive
 
-#endif // PANELFOCUSMANAGER_H
+#endif  // PANELFOCUSMANAGER_H

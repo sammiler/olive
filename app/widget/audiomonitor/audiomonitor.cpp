@@ -31,16 +31,12 @@
 namespace olive {
 
 const int kDecibelStep = 6;
-const int kDecibelMinimum = -198; // Must be divisible by kDecibelStep for infinity to appear
+const int kDecibelMinimum = -198;  // Must be divisible by kDecibelStep for infinity to appear
 const int kMaximumSmoothness = 8;
 
-QVector<AudioMonitor*> AudioMonitor::instances_;
+QVector<AudioMonitor *> AudioMonitor::instances_;
 
-AudioMonitor::AudioMonitor(QWidget *parent) :
-  QOpenGLWidget(parent),
-  waveform_(nullptr),
-  cached_channels_(0)
-{
+AudioMonitor::AudioMonitor(QWidget *parent) : QOpenGLWidget(parent), waveform_(nullptr), cached_channels_(0) {
   instances_.append(this);
 
   values_.resize(kMaximumSmoothness);
@@ -48,17 +44,13 @@ AudioMonitor::AudioMonitor(QWidget *parent) :
   this->setMinimumWidth(this->fontMetrics().height());
 }
 
-AudioMonitor::~AudioMonitor()
-{
-  instances_.removeOne(this);
-}
+AudioMonitor::~AudioMonitor() { instances_.removeOne(this); }
 
-void AudioMonitor::SetParams(const AudioParams &params)
-{
+void AudioMonitor::SetParams(const AudioParams &params) {
   if (params_ != params) {
     params_ = params;
 
-    for (int i=0;i<values_.size();i++) {
+    for (int i = 0; i < values_.size(); i++) {
       values_[i].resize(params_.channel_count());
       values_[i].fill(0);
     }
@@ -70,16 +62,14 @@ void AudioMonitor::SetParams(const AudioParams &params)
   }
 }
 
-void AudioMonitor::Stop()
-{
+void AudioMonitor::Stop() {
   waveform_ = nullptr;
 
   // We don't stop the update loop here so that the monitor can show a smooth fade out. The update
   // loop will stop itself since file_ and waveform_ are null.
 }
 
-void AudioMonitor::PushSampleBuffer(const SampleBuffer &d)
-{
+void AudioMonitor::PushSampleBuffer(const SampleBuffer &d) {
   if (!params_.channel_count()) {
     return;
   }
@@ -96,8 +86,7 @@ void AudioMonitor::PushSampleBuffer(const SampleBuffer &d)
   SetUpdateLoop(true);
 }
 
-void AudioMonitor::StartWaveform(const AudioWaveformCache *waveform, const rational &start, int playback_speed)
-{
+void AudioMonitor::StartWaveform(const AudioWaveformCache *waveform, const rational &start, int playback_speed) {
   Stop();
 
   waveform_length_ = waveform->length();
@@ -115,19 +104,17 @@ void AudioMonitor::StartWaveform(const AudioWaveformCache *waveform, const ratio
   SetUpdateLoop(true);
 }
 
-void AudioMonitor::SetUpdateLoop(bool e)
-{
+void AudioMonitor::SetUpdateLoop(bool e) {
   if (e) {
-    connect(this, &AudioMonitor::frameSwapped, this, static_cast<void(AudioMonitor::*)()>(&AudioMonitor::update));
+    connect(this, &AudioMonitor::frameSwapped, this, static_cast<void (AudioMonitor::*)()>(&AudioMonitor::update));
 
     update();
   } else {
-    disconnect(this, &AudioMonitor::frameSwapped, this, static_cast<void(AudioMonitor::*)()>(&AudioMonitor::update));
+    disconnect(this, &AudioMonitor::frameSwapped, this, static_cast<void (AudioMonitor::*)()>(&AudioMonitor::update));
   }
 }
 
-void AudioMonitor::paintGL()
-{
+void AudioMonitor::paintGL() {
   QPainter p(this);
   QPalette palette = qApp->palette();
   QRect geometry(0, 0, width(), height());
@@ -171,7 +158,7 @@ void AudioMonitor::paintGL()
     // Derive dB label rect
     if (draw_text) {
       // Insert meter rect
-      full_meter_rect.adjust(db_width/2, 0, 0, -font_height);
+      full_meter_rect.adjust(db_width / 2, 0, 0, -font_height);
 
       db_labels_rect = full_meter_rect;
       db_labels_rect.setTop(db_labels_rect.bottom());
@@ -194,7 +181,7 @@ void AudioMonitor::paintGL()
       int db_width_and_line = db_width + db_line_length;
 
       // Insert meter rect
-      full_meter_rect.adjust(db_width_and_line, 0, 0, -font_height/2);
+      full_meter_rect.adjust(db_width_and_line, 0, 0, -font_height / 2);
 
       db_labels_rect = full_meter_rect;
       db_labels_rect.setX(0);
@@ -208,9 +195,7 @@ void AudioMonitor::paintGL()
     peaks_pos = 0;
   }
 
-  if (cached_background_.size() != size()
-      || cached_channels_ != params_.channel_count()) {
-
+  if (cached_background_.size() != size() || cached_channels_ != params_.channel_count()) {
     cached_channels_ = params_.channel_count();
 
     // Generate new background
@@ -227,7 +212,7 @@ void AudioMonitor::paintGL()
 
       cached_painter.setPen(palette.text().color());
 
-      for (int i=0;i>=kDecibelMinimum;i-=kDecibelStep) {
+      for (int i = 0; i >= kDecibelMinimum; i -= kDecibelStep) {
         QString db_label;
         qreal log_val;
 
@@ -246,17 +231,19 @@ void AudioMonitor::paintGL()
         if (horizontal) {
           int x = db_labels_rect.x() + qRound(log_val * db_labels_rect.width());
 
-          db_marking_rect = QRect(x - db_width/2, db_labels_rect.top() + db_line_length, db_width, db_labels_rect.height() - db_line_length);
+          db_marking_rect = QRect(x - db_width / 2, db_labels_rect.top() + db_line_length, db_width,
+                                  db_labels_rect.height() - db_line_length);
           db_line = QLine(x, db_labels_rect.top(), x, db_labels_rect.top() + db_line_length);
 
-          overlaps_infinity = db_marking_rect.left() < db_labels_rect.left() + db_width/2;
+          overlaps_infinity = db_marking_rect.left() < db_labels_rect.left() + db_width / 2;
         } else {
           int y = db_labels_rect.y() + db_labels_rect.height() - qRound(log_val * db_labels_rect.height());
 
-          db_marking_rect = QRect(db_labels_rect.x(), y - font_height/2, db_labels_rect.width() - db_line_length, font_height);
-          db_line = QLine(db_marking_rect.right()+1, y, db_labels_rect.width(), y);
+          db_marking_rect =
+              QRect(db_labels_rect.x(), y - font_height / 2, db_labels_rect.width() - db_line_length, font_height);
+          db_line = QLine(db_marking_rect.right() + 1, y, db_labels_rect.width(), y);
 
-          overlaps_infinity = db_marking_rect.bottom() >= db_labels_rect.bottom()-font_height;
+          overlaps_infinity = db_marking_rect.bottom() >= db_labels_rect.bottom() - font_height;
         }
 
         if (overlaps_infinity && i == kDecibelMinimum) {
@@ -285,15 +272,11 @@ void AudioMonitor::paintGL()
         g.setFinalStop(full_meter_rect.bottomLeft());
       }
 
-      g.setStops({
-                   QGradientStop(0.0, Qt::red),
-                   QGradientStop(0.25, Qt::yellow),
-                   QGradientStop(1.0, Qt::green)
-                 });
+      g.setStops({QGradientStop(0.0, Qt::red), QGradientStop(0.25, Qt::yellow), QGradientStop(1.0, Qt::green)});
 
       cached_painter.setPen(Qt::black);
 
-      for (int i=0;i<params_.channel_count();i++) {
+      for (int i = 0; i < params_.channel_count(); i++) {
         QRect peaks_rect, meter_rect;
 
         if (horizontal) {
@@ -360,7 +343,7 @@ void AudioMonitor::paintGL()
 
   bool all_zeroes = true;
 
-  for (int i=0;i<params_.channel_count();i++) {
+  for (int i = 0; i < params_.channel_count(); i++) {
     // Validate value and whether it peaked
     double vol = vals.at(i);
     if (vol > 1.0) {
@@ -408,14 +391,12 @@ void AudioMonitor::paintGL()
   }
 }
 
-void AudioMonitor::mousePressEvent(QMouseEvent *)
-{
+void AudioMonitor::mousePressEvent(QMouseEvent *) {
   peaked_.fill(false);
   update();
 }
 
-void AudioMonitor::UpdateValuesFromWaveform(QVector<double> &v, qint64 delta_time)
-{
+void AudioMonitor::UpdateValuesFromWaveform(QVector<double> &v, qint64 delta_time) {
   // Delta time is provided in milliseconds, so we convert to seconds in rational
   rational length(delta_time, 1000);
 
@@ -426,33 +407,31 @@ void AudioMonitor::UpdateValuesFromWaveform(QVector<double> &v, qint64 delta_tim
   waveform_time_ += length;
 }
 
-void AudioMonitor::AudioVisualWaveformSampleToInternalValues(const AudioVisualWaveform::Sample &in, QVector<double> &out)
-{
-  for (size_t i=0; i<in.size(); i++) {
+void AudioMonitor::AudioVisualWaveformSampleToInternalValues(const AudioVisualWaveform::Sample &in,
+                                                             QVector<double> &out) {
+  for (size_t i = 0; i < in.size(); i++) {
     float max = qMax(qAbs(in.at(i).min), qAbs(in.at(i).max));
 
-    int output_index = i%out.size();
+    int output_index = i % out.size();
     if (max > out.at(output_index)) {
       out[output_index] = max;
     }
   }
 }
 
-void AudioMonitor::PushValue(const QVector<double> &v)
-{
-  int lim = values_.size()-1;
-  for (int i=0; i<lim; i++) {
-    values_[i] = values_[i+1];
+void AudioMonitor::PushValue(const QVector<double> &v) {
+  int lim = values_.size() - 1;
+  for (int i = 0; i < lim; i++) {
+    values_[i] = values_[i + 1];
   }
   values_[lim] = v;
 }
 
-void AudioMonitor::BytesToSampleSummary(const QByteArray &b, QVector<double> &v)
-{
-  const float* samples = reinterpret_cast<const float*>(b.constData());
+void AudioMonitor::BytesToSampleSummary(const QByteArray &b, QVector<double> &v) {
+  const float *samples = reinterpret_cast<const float *>(b.constData());
   int nb_samples = b.size() / sizeof(float);
 
-  for (int i=0;i<nb_samples;i++) {
+  for (int i = 0; i < nb_samples; i++) {
     int channel = i % params_.channel_count();
 
     float abs_sample = samples[i];
@@ -463,21 +442,20 @@ void AudioMonitor::BytesToSampleSummary(const QByteArray &b, QVector<double> &v)
   }
 }
 
-QVector<double> AudioMonitor::GetAverages() const
-{
+QVector<double> AudioMonitor::GetAverages() const {
   QVector<double> v(params_.channel_count(), 0);
 
-  for (int i=0;i<values_.size();i++) {
-    for (int j=0;j<v.size();j++) {
+  for (int i = 0; i < values_.size(); i++) {
+    for (int j = 0; j < v.size(); j++) {
       v[j] += values_.at(i).at(j);
     }
   }
 
-  for (int i=0;i<v.size();i++) {
+  for (int i = 0; i < v.size(); i++) {
     v[i] /= static_cast<double>(values_.size());
   }
 
   return v;
 }
 
-}
+}  // namespace olive

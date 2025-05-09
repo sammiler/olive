@@ -20,8 +20,6 @@
 
 #include "loadotio.h"
 
-
-
 #include <opentimelineio/clip.h>
 #include <opentimelineio/externalReference.h>
 #include <opentimelineio/gap.h>
@@ -49,20 +47,16 @@
 
 namespace olive {
 
-LoadOTIOTask::LoadOTIOTask(const QString& s) :
-  ProjectLoadBaseTask(s)
-{
-}
+LoadOTIOTask::LoadOTIOTask(const QString& s) : ProjectLoadBaseTask(s) {}
 
-bool LoadOTIOTask::Run()
-{
+bool LoadOTIOTask::Run() {
   OTIO::ErrorStatus es;
 
   auto root = OTIO::SerializableObjectWithMetadata::from_json_file(GetFilename().toUtf8().constData(), &es);
 
   if (es.outcome != OTIO::ErrorStatus::Outcome::OK) {
     SetError(tr("Failed to load OpenTimelineIO from file \"%1\" \n\nOpenTimelineIO Error:\n\n%2")
-        .arg(GetFilename(), QString::fromStdString(es.full_description)));
+                 .arg(GetFilename(), QString::fromStdString(es.full_description)));
     return false;
   }
 
@@ -74,10 +68,11 @@ bool LoadOTIOTask::Run()
 
   if (root->schema_name() == "SerializableCollection") {
     // This is a number of timelines
-    std::vector<OTIO::SerializableObject::Retainer<OTIO::SerializableObject>>& root_children = static_cast<OTIO::SerializableCollection*>(root)->children();
+    std::vector<OTIO::SerializableObject::Retainer<OTIO::SerializableObject>>& root_children =
+        static_cast<OTIO::SerializableCollection*>(root)->children();
 
     timelines.resize(root_children.size());
-    for (size_t j=0; j<root_children.size(); j++) {
+    for (size_t j = 0; j < root_children.size(); j++) {
       timelines[j] = static_cast<OTIO::Timeline*>(root_children[j].value);
     }
   } else if (root->schema_name() == "Timeline") {
@@ -123,16 +118,13 @@ bool LoadOTIOTask::Run()
 
   // Dialog has to be called from the main thread so we pass the list of sequences here.
   bool accepted = false;
-  QMetaObject::invokeMethod(Core::instance(),
-                            "DialogImportOTIOShow",
-                            Qt::BlockingQueuedConnection,
-                            Q_RETURN_ARG(bool, accepted),
-                            Q_ARG(QList<Sequence*>,timeline_sequnce_map.values()));
+  QMetaObject::invokeMethod(Core::instance(), "DialogImportOTIOShow", Qt::BlockingQueuedConnection,
+                            Q_RETURN_ARG(bool, accepted), Q_ARG(QList<Sequence*>, timeline_sequnce_map.values()));
 
   if (!accepted) {
     // Cancel to indicate to caller that this task did not complete and to simply dispose of it
     Cancel();
-    qDeleteAll(timeline_sequnce_map); // Clear sequences
+    qDeleteAll(timeline_sequnce_map);  // Clear sequences
     return true;
   }
 
@@ -184,26 +176,21 @@ bool LoadOTIOTask::Run()
       bool prev_block_transition = false;
 
       for (auto otio_block_retainer : clip_map) {
-
         auto otio_block = otio_block_retainer.value;
 
         Block* block = nullptr;
 
         if (otio_block->schema_name() == "Clip") {
-
           block = new ClipBlock();
 
         } else if (otio_block->schema_name() == "Gap") {
-
           block = new GapBlock();
 
         } else if (otio_block->schema_name() == "Transition") {
-
           // Todo: Look into OTIO supported transitions and add them to Olive
           block = new CrossDissolveTransition();
 
         } else {
-
           // We don't know what this is yet, just create a gap for now so that *something* is there
           qWarning() << "Found unknown block type:" << otio_block->schema_name().c_str();
           block = new GapBlock();
@@ -241,7 +228,8 @@ bool LoadOTIOTask::Run()
           OTIO::Transition* otio_block_transition = static_cast<OTIO::Transition*>(otio_block);
 
           // Set how far the transition eats into the previous clip
-          transition_block->set_offsets_and_length(rational::fromRationalTime(otio_block_transition->in_offset()), rational::fromRationalTime(otio_block_transition->out_offset()));
+          transition_block->set_offsets_and_length(rational::fromRationalTime(otio_block_transition->in_offset()),
+                                                   rational::fromRationalTime(otio_block_transition->out_offset()));
 
           if (previous_block) {
             Node::ConnectEdge(previous_block, NodeInput(transition_block, TransitionBlock::kOutBlockInput));
@@ -273,7 +261,8 @@ bool LoadOTIOTask::Run()
           }
           if (otio_clip->media_reference()->schema_name() == "ExternalReference") {
             // Link footage
-            QString footage_url = QString::fromStdString(static_cast<OTIO::ExternalReference*>(otio_clip->media_reference())->target_url());
+            QString footage_url = QString::fromStdString(
+                static_cast<OTIO::ExternalReference*>(otio_clip->media_reference())->target_url());
 
             Footage* probed_item;
 
@@ -283,7 +272,6 @@ bool LoadOTIOTask::Run()
               probed_item = new Footage(footage_url);
               imported_footage.insert(footage_url, probed_item);
               probed_item->setParent(project_);
-
 
               QFileInfo info(probed_item->filename());
               probed_item->SetLabel(info.fileName());
@@ -300,7 +288,6 @@ bool LoadOTIOTask::Run()
 
             // Position footage in its context
             block->SetNodePositionInContext(probed_item, QPointF(-2, 0));
-
 
             if (track->type() == Track::kVideo) {
               TransformDistortNode* transform = new TransformDistortNode();
@@ -330,5 +317,4 @@ bool LoadOTIOTask::Run()
   return true;
 }
 
-}
-
+}  // namespace olive

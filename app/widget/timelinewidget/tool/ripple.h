@@ -25,16 +25,17 @@
 
 namespace olive {
 
-class RippleTool : public PointerTool
-{
-public:
+class RippleTool : public PointerTool {
+ public:
   RippleTool(TimelineWidget* parent);
-protected:
-  virtual void FinishDrag(TimelineViewMouseEvent *event) override;
 
-  virtual void InitiateDrag(Block* clicked_item, Timeline::MovementMode trim_mode, Qt::KeyboardModifiers modifiers) override;
+ protected:
+  virtual void FinishDrag(TimelineViewMouseEvent* event) override;
+
+  virtual void InitiateDrag(Block* clicked_item, Timeline::MovementMode trim_mode,
+                            Qt::KeyboardModifiers modifiers) override;
 };
 
-}
+}  // namespace olive
 
-#endif // RIPPLETIMELINETOOL_H
+#endif  // RIPPLETIMELINETOOL_H

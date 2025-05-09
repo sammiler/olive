@@ -32,8 +32,7 @@ const QString StrokeFilterNode::kInnerInput = QStringLiteral("inner_in");
 
 #define super Node
 
-StrokeFilterNode::StrokeFilterNode()
-{
+StrokeFilterNode::StrokeFilterNode() {
   AddInput(kTextureInput, NodeValue::kTexture, InputFlags(kInputFlagNotKeyframable));
 
   AddInput(kColorInput, NodeValue::kColor, QVariant::fromValue(Color(1.0f, 1.0f, 1.0f, 1.0f)));
@@ -52,28 +51,15 @@ StrokeFilterNode::StrokeFilterNode()
   SetEffectInput(kTextureInput);
 }
 
-QString StrokeFilterNode::Name() const
-{
-  return tr("Stroke");
-}
+QString StrokeFilterNode::Name() const { return tr("Stroke"); }
 
-QString StrokeFilterNode::id() const
-{
-  return QStringLiteral("org.olivevideoeditor.Olive.stroke");
-}
+QString StrokeFilterNode::id() const { return QStringLiteral("org.olivevideoeditor.Olive.stroke"); }
 
-QVector<Node::CategoryID> StrokeFilterNode::Category() const
-{
-  return {kCategoryFilter};
-}
+QVector<Node::CategoryID> StrokeFilterNode::Category() const { return {kCategoryFilter}; }
 
-QString StrokeFilterNode::Description() const
-{
-  return tr("Creates a stroke outline around an image.");
-}
+QString StrokeFilterNode::Description() const { return tr("Creates a stroke outline around an image."); }
 
-void StrokeFilterNode::Retranslate()
-{
+void StrokeFilterNode::Retranslate() {
   super::Retranslate();
 
   SetInputName(kTextureInput, tr("Input"));
@@ -83,11 +69,9 @@ void StrokeFilterNode::Retranslate()
   SetInputName(kInnerInput, tr("Inner"));
 }
 
-void StrokeFilterNode::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const
-{
+void StrokeFilterNode::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const {
   if (TexturePtr tex = value[kTextureInput].toTexture()) {
-    if (value[kRadiusInput].toDouble() > 0.0
-        && value[kOpacityInput].toDouble() > 0.0) {
+    if (value[kRadiusInput].toDouble() > 0.0 && value[kOpacityInput].toDouble() > 0.0) {
       ShaderJob job(value);
       job.Insert(QStringLiteral("resolution_in"), NodeValue(NodeValue::kVec2, tex->virtual_resolution(), this));
       table->Push(NodeValue::kTexture, tex->toJob(job), this);
@@ -97,11 +81,10 @@ void StrokeFilterNode::Value(const NodeValueRow &value, const NodeGlobals &globa
   }
 }
 
-ShaderCode StrokeFilterNode::GetShaderCode(const ShaderRequest &request) const
-{
+ShaderCode StrokeFilterNode::GetShaderCode(const ShaderRequest &request) const {
   Q_UNUSED(request)
 
   return ShaderCode(FileFunctions::ReadFileAsString(":/shaders/stroke.frag"));
 }
 
-}
+}  // namespace olive

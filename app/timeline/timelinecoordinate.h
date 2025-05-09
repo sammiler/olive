@@ -25,9 +25,8 @@
 
 namespace olive {
 
-class TimelineCoordinate
-{
-public:
+class TimelineCoordinate {
+ public:
   TimelineCoordinate();
   TimelineCoordinate(const rational& frame, const Track::Reference& track);
   TimelineCoordinate(const rational& frame, const Track::Type& track_type, const int& track_index);
@@ -38,13 +37,12 @@ public:
   void SetFrame(const rational& frame);
   void SetTrack(const Track::Reference& track);
 
-private:
+ private:
   rational frame_;
 
   Track::Reference track_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // TIMELINECOORDINATE_H
+#endif  // TIMELINECOORDINATE_H

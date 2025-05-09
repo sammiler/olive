@@ -27,10 +27,7 @@ namespace olive {
 
 #define super QDockWidget
 
-NodeParamViewItemBase::NodeParamViewItemBase(QWidget *parent) :
-  super(parent),
-  highlighted_(false)
-{
+NodeParamViewItemBase::NodeParamViewItemBase(QWidget *parent) : super(parent), highlighted_(false) {
   // Create title bar widget
   title_bar_ = new NodeParamViewItemTitleBar(this);
 
@@ -55,13 +52,9 @@ NodeParamViewItemBase::NodeParamViewItemBase(QWidget *parent) :
   setFocusPolicy(Qt::ClickFocus);
 }
 
-bool NodeParamViewItemBase::IsExpanded() const
-{
-  return title_bar_->IsExpanded();
-}
+bool NodeParamViewItemBase::IsExpanded() const { return title_bar_->IsExpanded(); }
 
-QString NodeParamViewItemBase::GetTitleBarTextFromNode(Node *n)
-{
+QString NodeParamViewItemBase::GetTitleBarTextFromNode(Node *n) {
   if (n->GetLabel().isEmpty()) {
     return n->Name();
   } else {
@@ -69,8 +62,7 @@ QString NodeParamViewItemBase::GetTitleBarTextFromNode(Node *n)
   }
 }
 
-void NodeParamViewItemBase::SetBody(QWidget *body)
-{
+void NodeParamViewItemBase::SetBody(QWidget *body) {
   body_ = body;
   body_->setParent(this);
 
@@ -79,8 +71,7 @@ void NodeParamViewItemBase::SetBody(QWidget *body)
   }
 }
 
-void NodeParamViewItemBase::paintEvent(QPaintEvent *event)
-{
+void NodeParamViewItemBase::paintEvent(QPaintEvent *event) {
   super::paintEvent(event);
 
   // Draw border if focused
@@ -92,16 +83,14 @@ void NodeParamViewItemBase::paintEvent(QPaintEvent *event)
   }
 }
 
-void NodeParamViewItemBase::SetExpanded(bool e)
-{
+void NodeParamViewItemBase::SetExpanded(bool e) {
   setWidget(e ? body_ : hidden_body_);
   title_bar_->SetExpanded(e);
 
   emit ExpandedChanged(e);
 }
 
-void NodeParamViewItemBase::changeEvent(QEvent *e)
-{
+void NodeParamViewItemBase::changeEvent(QEvent *e) {
   if (e->type() == QEvent::LanguageChange) {
     Retranslate();
   }
@@ -109,18 +98,16 @@ void NodeParamViewItemBase::changeEvent(QEvent *e)
   super::changeEvent(e);
 }
 
-void NodeParamViewItemBase::moveEvent(QMoveEvent *event)
-{
+void NodeParamViewItemBase::moveEvent(QMoveEvent *event) {
   super::moveEvent(event);
 
   emit Moved();
 }
 
-void NodeParamViewItemBase::mousePressEvent(QMouseEvent *e)
-{
+void NodeParamViewItemBase::mousePressEvent(QMouseEvent *e) {
   super::mousePressEvent(e);
 
   emit Clicked();
 }
 
-}
+}  // namespace olive

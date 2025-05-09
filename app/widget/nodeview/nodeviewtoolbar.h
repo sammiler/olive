@@ -6,27 +6,23 @@
 
 namespace olive {
 
-class NodeViewToolBar : public QWidget
-{
+class NodeViewToolBar : public QWidget {
   Q_OBJECT
-public:
+ public:
   NodeViewToolBar(QWidget *parent = nullptr);
 
-public slots:
-  void SetMiniMapEnabled(bool e)
-  {
-    minimap_btn_->setChecked(e);
-  }
+ public slots:
+  void SetMiniMapEnabled(bool e) { minimap_btn_->setChecked(e); }
 
-signals:
+ signals:
   void AddNodeClicked();
 
   void MiniMapEnabledToggled(bool e);
 
-protected:
+ protected:
   virtual void changeEvent(QEvent *e) override;
 
-private:
+ private:
   void Retranslate();
 
   void UpdateIcons();
@@ -34,9 +30,8 @@ private:
   QPushButton *add_node_btn_;
 
   QPushButton *minimap_btn_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // NODEVIEWTOOLBAR_H
+#endif  // NODEVIEWTOOLBAR_H

@@ -29,16 +29,12 @@ namespace olive {
 /**
  * @brief Panel container for a TimelineWidget
  */
-class TimelinePanel : public TimeBasedPanel
-{
+class TimelinePanel : public TimeBasedPanel {
   Q_OBJECT
-public:
+ public:
   TimelinePanel(const QString &name);
 
-  inline TimelineWidget *timeline_widget() const
-  {
-    return static_cast<TimelineWidget*>(GetTimeBasedWidget());
-  }
+  inline TimelineWidget *timeline_widget() const { return static_cast<TimelineWidget *>(GetTimeBasedWidget()); }
 
   void SplitAtPlayhead();
 
@@ -87,48 +83,32 @@ public:
 
   virtual void RenameSelected() override;
 
-  void AddDefaultTransitionsToSelected()
-  {
-    timeline_widget()->AddDefaultTransitionsToSelected();
-  }
+  void AddDefaultTransitionsToSelected() { timeline_widget()->AddDefaultTransitionsToSelected(); }
 
-  void ShowSpeedDurationDialogForSelectedClips()
-  {
-    timeline_widget()->ShowSpeedDurationDialogForSelectedClips();
-  }
+  void ShowSpeedDurationDialogForSelectedClips() { timeline_widget()->ShowSpeedDurationDialogForSelectedClips(); }
 
-  void NestSelectedClips()
-  {
-    timeline_widget()->NestSelectedClips();
-  }
+  void NestSelectedClips() { timeline_widget()->NestSelectedClips(); }
 
   void InsertFootageAtPlayhead(const QVector<ViewerOutput *> &footage);
 
   void OverwriteFootageAtPlayhead(const QVector<ViewerOutput *> &footage);
 
-  const QVector<Block*>& GetSelectedBlocks() const
-  {
-    return timeline_widget()->GetSelectedBlocks();
-  }
+  const QVector<Block *> &GetSelectedBlocks() const { return timeline_widget()->GetSelectedBlocks(); }
 
-  Sequence *GetSequence() const
-  {
-    return dynamic_cast<Sequence*>(GetConnectedViewer());
-  }
+  Sequence *GetSequence() const { return dynamic_cast<Sequence *>(GetConnectedViewer()); }
 
-protected:
+ protected:
   virtual void Retranslate() override;
 
-signals:
-  void BlockSelectionChanged(const QVector<Block*>& selected_blocks);
+ signals:
+  void BlockSelectionChanged(const QVector<Block *> &selected_blocks);
 
   void RequestCaptureStart(const TimeRange &time, const Track::Reference &track);
 
   void RevealViewerInProject(ViewerOutput *r);
   void RevealViewerInFootageViewer(ViewerOutput *r, const TimeRange &range);
-
 };
 
-}
+}  // namespace olive
 
-#endif // TIMELINE_PANEL_H
+#endif  // TIMELINE_PANEL_H

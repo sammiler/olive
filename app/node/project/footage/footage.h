@@ -22,8 +22,8 @@
 #define FOOTAGE_H
 
 #include <olive/core/core.h>
-#include <QList>
 #include <QDateTime>
+#include <QList>
 
 #include "codec/decoder.h"
 #include "footagedescription.h"
@@ -40,34 +40,23 @@ namespace olive {
  * Footage objects store a list of Stream objects which store the majority of video/audio metadata. These streams
  * are identical to the stream data in the files.
  */
-class Footage : public ViewerOutput
-{
+class Footage : public ViewerOutput {
   Q_OBJECT
-public:
+ public:
   /**
    * @brief Footage Constructor
    */
-  Footage(const QString& filename = QString());
+  Footage(const QString &filename = QString());
 
   NODE_DEFAULT_FUNCTIONS(Footage)
 
-  virtual QString Name() const override
-  {
-    return tr("Media");
-  }
+  virtual QString Name() const override { return tr("Media"); }
 
-  virtual QString id() const override
-  {
-    return QStringLiteral("org.olivevideoeditor.Olive.footage");
-  }
+  virtual QString id() const override { return QStringLiteral("org.olivevideoeditor.Olive.footage"); }
 
-  virtual QVector<CategoryID> Category() const override
-  {
-    return {kCategoryProject};
-  }
+  virtual QVector<CategoryID> Category() const override { return {kCategoryProject}; }
 
-  virtual QString Description() const override
-  {
+  virtual QString Description() const override {
     return tr("Import video, audio, or still image files into the composition.");
   }
 
@@ -85,10 +74,7 @@ public:
    */
   void Clear();
 
-  bool IsValid() const
-  {
-    return valid_;
-  }
+  bool IsValid() const { return valid_; }
 
   /**
    * @brief Sets this footage to valid and ready to use
@@ -110,7 +96,7 @@ public:
    *
    * New filename
    */
-  void set_filename(const QString& s);
+  void set_filename(const QString &s);
 
   /**
    * @brief Retrieve the last modified time/date
@@ -131,16 +117,10 @@ public:
    */
   void set_timestamp(const qint64 &t);
 
-  void SetCancelPointer(CancelAtom *c)
-  {
-    cancelled_ = c;
-  }
+  void SetCancelPointer(CancelAtom *c) { cancelled_ = c; }
 
   int GetStreamIndex(Track::Type type, int index) const;
-  int GetStreamIndex(const Track::Reference& ref) const
-  {
-    return GetStreamIndex(ref.type(), ref.index());
-  }
+  int GetStreamIndex(const Track::Reference &ref) const { return GetStreamIndex(ref.type(), ref.index()); }
 
   Track::Reference GetReferenceFromRealIndex(int real_index) const;
 
@@ -151,13 +131,13 @@ public:
    *
    * A decoder ID
    */
-  const QString& decoder() const;
+  const QString &decoder() const;
 
-  static QString DescribeVideoStream(const VideoParams& params);
-  static QString DescribeAudioStream(const AudioParams& params);
-  static QString DescribeSubtitleStream(const SubtitleParams& params);
+  static QString DescribeVideoStream(const VideoParams &params);
+  static QString DescribeAudioStream(const AudioParams &params);
+  static QString DescribeSubtitleStream(const SubtitleParams &params);
 
-  virtual void Value(const NodeValueRow& value, const NodeGlobals &globals, NodeValueTable *table) const override;
+  virtual void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
 
   static QString GetStreamTypeName(Track::Type type);
 
@@ -165,7 +145,8 @@ public:
 
   virtual Node *GetConnectedSampleOutput() override;
 
-  static rational AdjustTimeByLoopMode(rational time, LoopMode loop_mode, const rational& length, VideoParams::Type type, const rational &timebase);
+  static rational AdjustTimeByLoopMode(rational time, LoopMode loop_mode, const rational &length,
+                                       VideoParams::Type type, const rational &timebase);
 
   virtual QVariant data(const DataType &d) const override;
 
@@ -176,16 +157,16 @@ public:
 
   static const QString kFilenameInput;
 
-  virtual void AddedToGraphEvent(Project *p)  override;
+  virtual void AddedToGraphEvent(Project *p) override;
   virtual void RemovedFromGraphEvent(Project *p) override;
 
-protected:
+ protected:
   virtual void InputValueChangedEvent(const QString &input, int element) override;
 
   virtual rational VerifyLengthInternal(Track::Type type) const override;
 
-private:
-  QString GetColorspaceToUse(const VideoParams& params) const;
+ private:
+  QString GetColorspaceToUse(const VideoParams &params) const;
 
   void Reprobe();
 
@@ -207,13 +188,12 @@ private:
 
   int total_stream_count_;
 
-private slots:
+ private slots:
   void CheckFootage();
 
   void DefaultColorSpaceChanged();
-
 };
 
-}
+}  // namespace olive
 
-#endif // FOOTAGE_H
+#endif  // FOOTAGE_H

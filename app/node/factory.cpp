@@ -75,30 +75,28 @@ namespace olive {
 
 QList<Node*> NodeFactory::library_;
 
-void NodeFactory::Initialize()
-{
+void NodeFactory::Initialize() {
   Destroy();
 
   // Add internal types
-  for (int i=0;i<kInternalNodeCount;i++) {
+  for (int i = 0; i < kInternalNodeCount; i++) {
     Node* created_node = CreateFromFactoryIndex(static_cast<InternalID>(i));
 
     library_.append(created_node);
   }
 }
 
-void NodeFactory::Destroy()
-{
+void NodeFactory::Destroy() {
   qDeleteAll(library_);
   library_.clear();
 }
 
-Menu *NodeFactory::CreateMenu(QWidget* parent, bool create_none_item, Node::CategoryID restrict_to, uint64_t restrict_flags)
-{
+Menu* NodeFactory::CreateMenu(QWidget* parent, bool create_none_item, Node::CategoryID restrict_to,
+                              uint64_t restrict_flags) {
   Menu* menu = new Menu(parent);
   menu->setToolTipsVisible(true);
 
-  for (int i=0;i<library_.size();i++) {
+  for (int i = 0; i < library_.size(); i++) {
     Node* n = library_.at(i);
 
     if (restrict_to != Node::kCategoryUnknown && !n->Category().contains(restrict_to)) {
@@ -119,9 +117,8 @@ Menu *NodeFactory::CreateMenu(QWidget* parent, bool create_none_item, Node::Cate
 
     Menu* destination = nullptr;
 
-    QString category_name = Node::GetCategoryName(n->Category().isEmpty()
-                                                  ? Node::kCategoryUnknown
-                                                  : n->Category().first());
+    QString category_name =
+        Node::GetCategoryName(n->Category().isEmpty() ? Node::kCategoryUnknown : n->Category().first());
 
     // See if a menu with this category name already exists
     QList<QAction*> menu_actions = menu->actions();
@@ -145,9 +142,7 @@ Menu *NodeFactory::CreateMenu(QWidget* parent, bool create_none_item, Node::Cate
   }
 
   if (create_none_item) {
-
-    QAction* none_item = new QAction(QCoreApplication::translate("NodeFactory", "None"),
-                                     menu);
+    QAction* none_item = new QAction(QCoreApplication::translate("NodeFactory", "None"), menu);
 
     none_item->setData(-1);
 
@@ -162,8 +157,7 @@ Menu *NodeFactory::CreateMenu(QWidget* parent, bool create_none_item, Node::Cate
   return menu;
 }
 
-Node* NodeFactory::CreateFromMenuAction(QAction *action)
-{
+Node* NodeFactory::CreateFromMenuAction(QAction* action) {
   int index = action->data().toInt();
 
   if (index == -1) {
@@ -173,8 +167,7 @@ Node* NodeFactory::CreateFromMenuAction(QAction *action)
   return library_.at(index)->copy();
 }
 
-QString NodeFactory::GetIDFromMenuAction(QAction *action)
-{
+QString NodeFactory::GetIDFromMenuAction(QAction* action) {
   int index = action->data().toInt();
 
   if (index == -1) {
@@ -184,8 +177,7 @@ QString NodeFactory::GetIDFromMenuAction(QAction *action)
   return library_.at(action->data().toInt())->id();
 }
 
-QString NodeFactory::GetNameFromID(const QString &id)
-{
+QString NodeFactory::GetNameFromID(const QString& id) {
   if (!id.isEmpty()) {
     foreach (Node* n, library_) {
       if (n->id() == id) {
@@ -197,8 +189,7 @@ QString NodeFactory::GetNameFromID(const QString &id)
   return QString();
 }
 
-Node *NodeFactory::CreateFromID(const QString &id)
-{
+Node* NodeFactory::CreateFromID(const QString& id) {
   foreach (Node* n, library_) {
     if (n->id() == id) {
       return n->copy();
@@ -208,113 +199,112 @@ Node *NodeFactory::CreateFromID(const QString &id)
   return nullptr;
 }
 
-Node *NodeFactory::CreateFromFactoryIndex(const NodeFactory::InternalID &id)
-{
+Node* NodeFactory::CreateFromFactoryIndex(const NodeFactory::InternalID& id) {
   switch (id) {
-  case kClipBlock:
-    return new ClipBlock();
-  case kGapBlock:
-    return new GapBlock();
-  case kPolygonGenerator:
-    return new PolygonGenerator();
-  case kMatrixGenerator:
-    return new MatrixGenerator();
-  case kTransformDistort:
-    return new TransformDistortNode();
-  case kTrackOutput:
-    return new Track();
-  case kViewerOutput:
-    return new ViewerOutput();
-  case kAudioVolume:
-    return new VolumeNode();
-  case kAudioPanning:
-    return new PanNode();
-  case kMath:
-    return new MathNode();
-  case kTrigonometry:
-    return new TrigonometryNode();
-  case kTime:
-    return new TimeInput();
-  case kBlurFilter:
-    return new BlurFilterNode();
-  case kSolidGenerator:
-    return new SolidGenerator();
-  case kMerge:
-    return new MergeNode();
-  case kStrokeFilter:
-    return new StrokeFilterNode();
-  case kTextGeneratorV1:
-    return new TextGeneratorV1();
-  case kTextGeneratorV2:
-    return new TextGeneratorV2();
-  case kTextGeneratorV3:
-    return new TextGeneratorV3();
-  case kCrossDissolveTransition:
-    return new CrossDissolveTransition();
-  case kDipToColorTransition:
-    return new DipToColorTransition();
-  case kMosaicFilter:
-    return new MosaicFilterNode();
-  case kCropDistort:
-    return new CropDistortNode();
-  case kProjectFootage:
-    return new Footage();
-  case kProjectFolder:
-    return new Folder();
-  case kProjectSequence:
-    return new Sequence();
-  case kValueNode:
-    return new ValueNode();
-  case kTimeRemapNode:
-    return new TimeRemapNode();
-  case kSubtitleBlock:
-    return new SubtitleBlock();
-  case kShapeGenerator:
-    return new ShapeNode();
-  case kColorDifferenceKeyKeying:
-    return new ColorDifferenceKeyNode();
-  case kDespillKeying:
-    return new DespillNode();
-  case kGroupNode:
-    return new NodeGroup();
-  case kOpacityEffect:
-    return new OpacityEffect();
-  case kFlipDistort:
-    return new FlipDistortNode();
-  case kNoiseGenerator:
-    return new NoiseGeneratorNode();
-  case kTimeOffsetNode:
-    return new TimeOffsetNode();
-  case kCornerPinDistort:
-    return new CornerPinDistortNode();
-  case kDisplayTransform:
-    return new DisplayTransformNode();
-  case kOCIOGradingTransformLinear:
-    return new OCIOGradingTransformLinearNode();
-  case kChromaKey:
-    return new ChromaKeyNode();
-  case kMaskDistort:
-    return new MaskDistortNode();
-  case kDropShadowFilter:
-    return new DropShadowFilter();
-  case kTimeFormat:
-    return new TimeFormatNode();
-  case kWaveDistort:
-    return new WaveDistortNode();
-  case kTileDistort:
-    return new TileDistortNode();
-  case kSwirlDistort:
-    return new SwirlDistortNode();
-  case kRippleDistort:
-    return new RippleDistortNode();
-  case kMulticamNode:
-    return new MultiCamNode();
+    case kClipBlock:
+      return new ClipBlock();
+    case kGapBlock:
+      return new GapBlock();
+    case kPolygonGenerator:
+      return new PolygonGenerator();
+    case kMatrixGenerator:
+      return new MatrixGenerator();
+    case kTransformDistort:
+      return new TransformDistortNode();
+    case kTrackOutput:
+      return new Track();
+    case kViewerOutput:
+      return new ViewerOutput();
+    case kAudioVolume:
+      return new VolumeNode();
+    case kAudioPanning:
+      return new PanNode();
+    case kMath:
+      return new MathNode();
+    case kTrigonometry:
+      return new TrigonometryNode();
+    case kTime:
+      return new TimeInput();
+    case kBlurFilter:
+      return new BlurFilterNode();
+    case kSolidGenerator:
+      return new SolidGenerator();
+    case kMerge:
+      return new MergeNode();
+    case kStrokeFilter:
+      return new StrokeFilterNode();
+    case kTextGeneratorV1:
+      return new TextGeneratorV1();
+    case kTextGeneratorV2:
+      return new TextGeneratorV2();
+    case kTextGeneratorV3:
+      return new TextGeneratorV3();
+    case kCrossDissolveTransition:
+      return new CrossDissolveTransition();
+    case kDipToColorTransition:
+      return new DipToColorTransition();
+    case kMosaicFilter:
+      return new MosaicFilterNode();
+    case kCropDistort:
+      return new CropDistortNode();
+    case kProjectFootage:
+      return new Footage();
+    case kProjectFolder:
+      return new Folder();
+    case kProjectSequence:
+      return new Sequence();
+    case kValueNode:
+      return new ValueNode();
+    case kTimeRemapNode:
+      return new TimeRemapNode();
+    case kSubtitleBlock:
+      return new SubtitleBlock();
+    case kShapeGenerator:
+      return new ShapeNode();
+    case kColorDifferenceKeyKeying:
+      return new ColorDifferenceKeyNode();
+    case kDespillKeying:
+      return new DespillNode();
+    case kGroupNode:
+      return new NodeGroup();
+    case kOpacityEffect:
+      return new OpacityEffect();
+    case kFlipDistort:
+      return new FlipDistortNode();
+    case kNoiseGenerator:
+      return new NoiseGeneratorNode();
+    case kTimeOffsetNode:
+      return new TimeOffsetNode();
+    case kCornerPinDistort:
+      return new CornerPinDistortNode();
+    case kDisplayTransform:
+      return new DisplayTransformNode();
+    case kOCIOGradingTransformLinear:
+      return new OCIOGradingTransformLinearNode();
+    case kChromaKey:
+      return new ChromaKeyNode();
+    case kMaskDistort:
+      return new MaskDistortNode();
+    case kDropShadowFilter:
+      return new DropShadowFilter();
+    case kTimeFormat:
+      return new TimeFormatNode();
+    case kWaveDistort:
+      return new WaveDistortNode();
+    case kTileDistort:
+      return new TileDistortNode();
+    case kSwirlDistort:
+      return new SwirlDistortNode();
+    case kRippleDistort:
+      return new RippleDistortNode();
+    case kMulticamNode:
+      return new MultiCamNode();
 
-  case kInternalNodeCount:
-    break;
+    case kInternalNodeCount:
+      break;
   }
 
   return nullptr;
 }
 
-}
+}  // namespace olive

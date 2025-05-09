@@ -25,27 +25,25 @@
 
 namespace olive {
 
-class ColorLabelMenu : public Menu
-{
+class ColorLabelMenu : public Menu {
   Q_OBJECT
-public:
+ public:
   ColorLabelMenu(QWidget* parent = nullptr);
 
   virtual void changeEvent(QEvent* event) override;
 
-signals:
+ signals:
   void ColorSelected(int i);
 
-private:
+ private:
   void Retranslate();
 
   QVector<QAction*> color_items_;
 
-private slots:
+ private slots:
   void ActionTriggered();
-
 };
 
-}
+}  // namespace olive
 
-#endif // COLORLABELMENU_H
+#endif  // COLORLABELMENU_H

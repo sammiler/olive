@@ -27,23 +27,21 @@
 
 namespace olive {
 
-class EditTool : public BeamTool
-{
-public:
-  EditTool(TimelineWidget* parent);
+class EditTool : public BeamTool {
+ public:
+  EditTool(TimelineWidget *parent);
 
   virtual void MousePress(TimelineViewMouseEvent *event) override;
   virtual void MouseMove(TimelineViewMouseEvent *event) override;
   virtual void MouseRelease(TimelineViewMouseEvent *event) override;
   virtual void MouseDoubleClick(TimelineViewMouseEvent *event) override;
 
-private:
+ private:
   TimelineWidgetSelections start_selections_;
 
   TimelineCoordinate start_coord_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // EDITTIMELINETOOL_H
+#endif  // EDITTIMELINETOOL_H

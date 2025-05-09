@@ -22,9 +22,6 @@
 
 namespace olive {
 
-CodecSection::CodecSection(QWidget *parent) :
-  QWidget(parent)
-{
-}
+CodecSection::CodecSection(QWidget *parent) : QWidget(parent) {}
 
-}
+}  // namespace olive

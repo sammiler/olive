@@ -24,11 +24,8 @@
 
 namespace olive {
 
-ExportTask::ExportTask(ViewerOutput *viewer_node,
-                       ColorManager* color_manager,
-                       const EncodingParams& params) :
-  params_(params)
-{
+ExportTask::ExportTask(ViewerOutput *viewer_node, ColorManager *color_manager, const EncodingParams &params)
+    : params_(params) {
   // Create a copy of the project
   copier_ = new ProjectCopier(this);
   copier_->SetProject(viewer_node->project());
@@ -49,8 +46,7 @@ ExportTask::ExportTask(ViewerOutput *viewer_node,
   SetNativeProgressSignallingEnabled(false);
 }
 
-bool ExportTask::Run()
-{
+bool ExportTask::Run() {
   // For safety, if we're overwriting, we save to a temporary filename and then only overwrite it
   // at the end
   QString real_filename = params_.filename();
@@ -93,7 +89,8 @@ bool ExportTask::Run()
     }
     sidecar_params.SetFilename(sidecar_filename);
 
-    subtitle_encoder_ = std::shared_ptr<Encoder>(Encoder::CreateFromFormat(sidecar_params.subtitle_sidecar_fmt(), sidecar_params));
+    subtitle_encoder_ =
+        std::shared_ptr<Encoder>(Encoder::CreateFromFormat(sidecar_params.subtitle_sidecar_fmt(), sidecar_params));
     if (!subtitle_encoder_) {
       SetError(tr("Failed to create subtitle encoder"));
       return false;
@@ -121,17 +118,14 @@ bool ExportTask::Run()
   QMatrix4x4 video_force_matrix;
 
   if (params_.video_enabled()) {
-
     // If a transformation matrix is applied to this video, create it here
-    if (video_params().width() != params_.video_params().width()
-        || video_params().height() != params_.video_params().height()) {
+    if (video_params().width() != params_.video_params().width() ||
+        video_params().height() != params_.video_params().height()) {
       video_force_size = QSize(params_.video_params().width(), params_.video_params().height());
 
       if (params_.video_scaling_method() != EncodingParams::kStretch) {
-        video_force_matrix = EncodingParams::GenerateMatrix(params_.video_scaling_method(),
-                                                            video_params().width(),
-                                                            video_params().height(),
-                                                            params_.video_params().width(),
+        video_force_matrix = EncodingParams::GenerateMatrix(params_.video_scaling_method(), video_params().width(),
+                                                            video_params().height(), params_.video_params().width(),
                                                             params_.video_params().height());
       }
     } else {
@@ -140,9 +134,8 @@ bool ExportTask::Run()
     }
 
     // Create color processor
-    color_processor_ = ColorProcessor::Create(color_manager_,
-                                              color_manager_->GetReferenceColorSpace(),
-                                              params_.color_transform());
+    color_processor_ =
+        ColorProcessor::Create(color_manager_, color_manager_->GetReferenceColorSpace(), params_.color_transform());
   }
 
   // Start render process
@@ -151,7 +144,8 @@ bool ExportTask::Run()
 
   if (params_.video_enabled()) {
     if (export_range_.in() > 0) {
-      export_range_.set_in(Timecode::snap_time_to_timebase(export_range_.in(), video_params().frame_rate_as_time_base()));
+      export_range_.set_in(
+          Timecode::snap_time_to_timebase(export_range_.in(), video_params().frame_rate_as_time_base()));
     }
 
     video_range = {export_range_};
@@ -165,9 +159,8 @@ bool ExportTask::Run()
     subtitle_range = export_range_;
   }
 
-  Render(color_manager_, video_range, audio_range, subtitle_range, RenderMode::kOnline, nullptr,
-         video_force_size, video_force_matrix, encoder_->GetDesiredPixelFormat(),
-         VideoParams::kRGBAChannelCount, color_processor_);
+  Render(color_manager_, video_range, audio_range, subtitle_range, RenderMode::kOnline, nullptr, video_force_size,
+         video_force_matrix, encoder_->GetDesiredPixelFormat(), VideoParams::kRGBAChannelCount, color_processor_);
 
   bool success = true;
 
@@ -193,7 +186,7 @@ bool ExportTask::Run()
     // If we were writing to a temp file, overwrite now
     if (!FileFunctions::RenameFileAllowOverwrite(params_.filename(), real_filename)) {
       SetError(tr("Failed to overwrite \"%1\". Export has been saved as \"%2\" instead.")
-               .arg(real_filename, params_.filename()));
+                   .arg(real_filename, params_.filename()));
       success = false;
     }
   }
@@ -201,15 +194,13 @@ bool ExportTask::Run()
   return success;
 }
 
-bool ExportTask::FrameDownloaded(FramePtr f, const rational &time)
-{
+bool ExportTask::FrameDownloaded(FramePtr f, const rational &time) {
   rational actual_time = time - export_range_.in();
 
   time_map_.insert(actual_time, f);
 
   while (!IsCancelled()) {
-    rational real_time = Timecode::timestamp_to_time(frame_time_,
-                                                     video_params().frame_rate_as_time_base());
+    rational real_time = Timecode::timestamp_to_time(frame_time_, video_params().frame_rate_as_time_base());
 
     if (!time_map_.contains(real_time)) {
       break;
@@ -229,8 +220,7 @@ bool ExportTask::FrameDownloaded(FramePtr f, const rational &time)
   return true;
 }
 
-bool ExportTask::AudioDownloaded(const TimeRange &range, const SampleBuffer &samples)
-{
+bool ExportTask::AudioDownloaded(const TimeRange &range, const SampleBuffer &samples) {
   TimeRange adjusted_range = range - export_range_.in();
 
   if (adjusted_range.in() == audio_time_) {
@@ -244,8 +234,7 @@ bool ExportTask::AudioDownloaded(const TimeRange &range, const SampleBuffer &sam
   return true;
 }
 
-bool ExportTask::EncodeSubtitle(const SubtitleBlock *sub)
-{
+bool ExportTask::EncodeSubtitle(const SubtitleBlock *sub) {
   if (!subtitle_encoder_->WriteSubtitle(sub)) {
     SetError(subtitle_encoder_->GetError());
     return false;
@@ -254,8 +243,7 @@ bool ExportTask::EncodeSubtitle(const SubtitleBlock *sub)
   }
 }
 
-bool ExportTask::WriteAudioLoop(const TimeRange& time, const SampleBuffer &samples)
-{
+bool ExportTask::WriteAudioLoop(const TimeRange &time, const SampleBuffer &samples) {
   if (!encoder_->WriteAudio(samples)) {
     SetError(encoder_->GetError());
     return false;
@@ -263,7 +251,7 @@ bool ExportTask::WriteAudioLoop(const TimeRange& time, const SampleBuffer &sampl
 
   audio_time_ = time.out();
 
-  for (auto it=audio_map_.begin(); it!=audio_map_.end(); it++) {
+  for (auto it = audio_map_.begin(); it != audio_map_.end(); it++) {
     TimeRange t = it.key();
     SampleBuffer s = it.value();
 
@@ -284,4 +272,4 @@ bool ExportTask::WriteAudioLoop(const TimeRange& time, const SampleBuffer &sampl
   return true;
 }
 
-}
+}  // namespace olive

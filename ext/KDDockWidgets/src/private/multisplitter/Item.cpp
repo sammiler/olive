@@ -1240,7 +1240,7 @@ void ItemBoxContainer::removeItem(Item *item, bool hardRemove)
         m_children.removeOne(item);
         delete item;
         if (!isContainer)
-            Q_EMIT root()->numItemsChanged();
+            Q_EMIT root() -> numItemsChanged();
     } else {
         item->setIsVisible(false);
         item->setGuestWidget(nullptr);
@@ -1252,7 +1252,7 @@ void ItemBoxContainer::removeItem(Item *item, bool hardRemove)
     }
 
     if (wasVisible) {
-        Q_EMIT root()->numVisibleItemsChanged(root()->numVisibleChildren());
+        Q_EMIT root() -> numVisibleItemsChanged(root()->numVisibleChildren());
     }
 
     if (isEmpty()) {
@@ -1736,8 +1736,8 @@ void ItemBoxContainer::insertItem(Item *item, int index, InitialOption option)
         simplify();
 
     if (shouldEmitVisibleChanged)
-        Q_EMIT root()->numVisibleItemsChanged(root()->numVisibleChildren());
-    Q_EMIT root()->numItemsChanged();
+        Q_EMIT root() -> numVisibleItemsChanged(root()->numVisibleChildren());
+    Q_EMIT root() -> numItemsChanged();
 }
 
 bool ItemBoxContainer::hasOrientationFor(Location loc) const

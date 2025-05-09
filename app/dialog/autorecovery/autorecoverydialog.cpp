@@ -33,16 +33,15 @@ namespace olive {
 
 #define super QDialog
 
-AutoRecoveryDialog::AutoRecoveryDialog(const QString &message, const QStringList &recoveries, bool autocheck_latest, QWidget* parent) :
-  QDialog(parent)
-{
+AutoRecoveryDialog::AutoRecoveryDialog(const QString& message, const QStringList& recoveries, bool autocheck_latest,
+                                       QWidget* parent)
+    : QDialog(parent) {
   Init(message);
 
   PopulateTree(recoveries, autocheck_latest);
 }
 
-void AutoRecoveryDialog::accept()
-{
+void AutoRecoveryDialog::accept() {
   foreach (QTreeWidgetItem* checkable, checkable_items_) {
     if (checkable->checkState(0) == Qt::Checked) {
       QString filename = checkable->data(0, kFilenameRole).toString();
@@ -53,8 +52,7 @@ void AutoRecoveryDialog::accept()
   super::accept();
 }
 
-void AutoRecoveryDialog::Init(const QString& header_text)
-{
+void AutoRecoveryDialog::Init(const QString& header_text) {
   QVBoxLayout* layout = new QVBoxLayout(this);
 
   setWindowTitle(tr("Auto-Recovery"));
@@ -72,8 +70,7 @@ void AutoRecoveryDialog::Init(const QString& header_text)
   layout->addWidget(buttons);
 }
 
-void AutoRecoveryDialog::PopulateTree(const QStringList& recoveries, bool autocheck_latest)
-{
+void AutoRecoveryDialog::PopulateTree(const QStringList& recoveries, bool autocheck_latest) {
   // Each entry in `recoveries` is a directory with 1+ recovery projects in it
   QDir autorecovery_root(FileFunctions::GetAutoRecoveryRoot());
 
@@ -102,7 +99,7 @@ void AutoRecoveryDialog::PopulateTree(const QStringList& recoveries, bool autoch
     {
       // Populate with recoveries
       QStringList entries = recovery_dir.entryList(QDir::Files | QDir::NoDotAndDotDot, QDir::Name | QDir::Reversed);
-      for (int i=0; i<entries.size(); i++) {
+      for (int i = 0; i < entries.size(); i++) {
         const QString& entry = entries.at(i);
 
         if (entry.endsWith(QStringLiteral(".ove"), Qt::CaseInsensitive)) {
@@ -124,7 +121,8 @@ void AutoRecoveryDialog::PopulateTree(const QStringList& recoveries, bool autoch
           entry_item->setData(0, kFilenameRole, recovery_dir.filePath(entry));
 
           // Allow to be checked, auto-checking the first entry
-          entry_item->setCheckState(0, (autocheck_latest && top_level->childCount() == 1) ? Qt::Checked : Qt::Unchecked);
+          entry_item->setCheckState(0,
+                                    (autocheck_latest && top_level->childCount() == 1) ? Qt::Checked : Qt::Unchecked);
 
           checkable_items_.append(entry_item);
         }
@@ -133,4 +131,4 @@ void AutoRecoveryDialog::PopulateTree(const QStringList& recoveries, bool autoch
   }
 }
 
-}
+}  // namespace olive

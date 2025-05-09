@@ -2,17 +2,16 @@
 
 namespace olive {
 
-void MainWindowLayoutInfo::toXml(QXmlStreamWriter *writer) const
-{
+void MainWindowLayoutInfo::toXml(QXmlStreamWriter *writer) const {
   writer->writeAttribute(QStringLiteral("version"), QString::number(kVersion));
 
   writer->writeStartElement(QStringLiteral("folders"));
 
-  foreach (Folder* folder, open_folders_) {
+  foreach (Folder *folder, open_folders_) {
     writer->writeTextElement(QStringLiteral("folder"), QString::number(reinterpret_cast<quintptr>(folder)));
   }
 
-  writer->writeEndElement(); // folders
+  writer->writeEndElement();  // folders
 
   writer->writeStartElement(QStringLiteral("timeline"));
 
@@ -20,7 +19,7 @@ void MainWindowLayoutInfo::toXml(QXmlStreamWriter *writer) const
     writer->writeTextElement(QStringLiteral("sequence"), QString::number(reinterpret_cast<quintptr>(sequence)));
   }
 
-  writer->writeEndElement(); // timeline
+  writer->writeEndElement();  // timeline
 
   writer->writeStartElement(QStringLiteral("viewers"));
 
@@ -28,7 +27,7 @@ void MainWindowLayoutInfo::toXml(QXmlStreamWriter *writer) const
     writer->writeTextElement(QStringLiteral("viewer"), QString::number(reinterpret_cast<quintptr>(sequence)));
   }
 
-  writer->writeEndElement(); // viewers
+  writer->writeEndElement();  // viewers
 
   writer->writeStartElement(QStringLiteral("data"));
 
@@ -45,19 +44,18 @@ void MainWindowLayoutInfo::toXml(QXmlStreamWriter *writer) const
 
       writer->writeCharacters(jt->second);
 
-      writer->writeEndElement(); // option
+      writer->writeEndElement();  // option
     }
 
-    writer->writeEndElement(); // panel
+    writer->writeEndElement();  // panel
   }
 
-  writer->writeEndElement(); // data
+  writer->writeEndElement();  // data
 
   writer->writeTextElement(QStringLiteral("state"), QString(state_.toBase64()));
 }
 
-MainWindowLayoutInfo MainWindowLayoutInfo::fromXml(QXmlStreamReader *reader, const QHash<quintptr, Node *> &node_ptrs)
-{
+MainWindowLayoutInfo MainWindowLayoutInfo::fromXml(QXmlStreamReader *reader, const QHash<quintptr, Node *> &node_ptrs) {
   MainWindowLayoutInfo info;
 
   unsigned int file_version = 0;
@@ -74,12 +72,11 @@ MainWindowLayoutInfo MainWindowLayoutInfo::fromXml(QXmlStreamReader *reader, con
 
   while (XMLReadNextStartElement(reader)) {
     if (reader->name() == QStringLiteral("folders")) {
-
       while (XMLReadNextStartElement(reader)) {
         if (reader->name() == QStringLiteral("folder")) {
           quintptr item_id = reader->readElementText().toULongLong();
 
-          Folder* open_item = static_cast<Folder*>(node_ptrs.value(item_id));
+          Folder *open_item = static_cast<Folder *>(node_ptrs.value(item_id));
           info.open_folders_.push_back(open_item);
         } else {
           reader->skipCurrentElement();
@@ -87,12 +84,11 @@ MainWindowLayoutInfo MainWindowLayoutInfo::fromXml(QXmlStreamReader *reader, con
       }
 
     } else if (reader->name() == QStringLiteral("timeline")) {
-
       while (XMLReadNextStartElement(reader)) {
         if (reader->name() == QStringLiteral("sequence")) {
           quintptr item_id = reader->readElementText().toULongLong();
 
-          Sequence *open_seq = static_cast<Sequence*>(node_ptrs.value(item_id));
+          Sequence *open_seq = static_cast<Sequence *>(node_ptrs.value(item_id));
           info.open_sequences_.push_back(open_seq);
         } else {
           reader->skipCurrentElement();
@@ -100,11 +96,9 @@ MainWindowLayoutInfo MainWindowLayoutInfo::fromXml(QXmlStreamReader *reader, con
       }
 
     } else if (reader->name() == QStringLiteral("state")) {
-
       info.state_ = QByteArray::fromBase64(reader->readElementText().toLatin1());
 
     } else if (reader->name() == QStringLiteral("data")) {
-
       while (XMLReadNextStartElement(reader)) {
         if (reader->name() == QStringLiteral("panel")) {
           QString id;
@@ -151,36 +145,20 @@ MainWindowLayoutInfo MainWindowLayoutInfo::fromXml(QXmlStreamReader *reader, con
   return info;
 }
 
-void MainWindowLayoutInfo::add_folder(olive::Folder *f)
-{
-  open_folders_.push_back(f);
-}
+void MainWindowLayoutInfo::add_folder(olive::Folder *f) { open_folders_.push_back(f); }
 
-void MainWindowLayoutInfo::add_sequence(Sequence *seq)
-{
-  open_sequences_.push_back(seq);
-}
+void MainWindowLayoutInfo::add_sequence(Sequence *seq) { open_sequences_.push_back(seq); }
 
-void MainWindowLayoutInfo::add_viewer(ViewerOutput *viewer)
-{
-  open_viewers_.push_back(viewer);
-}
+void MainWindowLayoutInfo::add_viewer(ViewerOutput *viewer) { open_viewers_.push_back(viewer); }
 
-void MainWindowLayoutInfo::set_panel_data(const QString &id, const PanelWidget::Info &data)
-{
-  panel_data_[id] = data;
-}
+void MainWindowLayoutInfo::set_panel_data(const QString &id, const PanelWidget::Info &data) { panel_data_[id] = data; }
 
-void MainWindowLayoutInfo::move_panel_data(const QString &old, const QString &now)
-{
+void MainWindowLayoutInfo::move_panel_data(const QString &old, const QString &now) {
   PanelWidget::Info tmp = panel_data_.at(old);
   panel_data_.erase(old);
   panel_data_[now] = tmp;
 }
 
-void MainWindowLayoutInfo::set_state(const QByteArray &layout)
-{
-  state_ = layout;
-}
+void MainWindowLayoutInfo::set_state(const QByteArray &layout) { state_ = layout; }
 
-}
+}  // namespace olive

@@ -49,36 +49,32 @@ namespace olive {
  * acts identically to a file-based IO device, transparently joining segments together and acting
  * like one contiguous file.
  */
-class AudioPlaybackCache : public PlaybackCache
-{
+class AudioPlaybackCache : public PlaybackCache {
   Q_OBJECT
-public:
-  AudioPlaybackCache(QObject* parent = nullptr);
+ public:
+  AudioPlaybackCache(QObject *parent = nullptr);
 
   virtual ~AudioPlaybackCache() override;
 
-  AudioParams GetParameters()
-  {
-    return params_;
-  }
+  AudioParams GetParameters() { return params_; }
 
-  void SetParameters(const AudioParams& params);
+  void SetParameters(const AudioParams &params);
 
   void WritePCM(const TimeRange &range, const TimeRangeList &valid_ranges, const SampleBuffer &samples);
 
   void WriteSilence(const TimeRange &range);
 
-private:
-  bool WritePartOfSampleBuffer(const SampleBuffer &samples, const rational &write_start, const rational &buffer_start, const rational &length);
+ private:
+  bool WritePartOfSampleBuffer(const SampleBuffer &samples, const rational &write_start, const rational &buffer_start,
+                               const rational &length);
 
   QString GetSegmentFilename(qint64 segment_index, int channel);
 
   static const qint64 kDefaultSegmentSizePerChannel;
 
   AudioParams params_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // AUDIOPLAYBACKCACHE_H
+#endif  // AUDIOPLAYBACKCACHE_H

@@ -31,11 +31,8 @@ namespace olive {
 
 #define super QDialog
 
-ProgressDialog::ProgressDialog(const QString& message, const QString& title, QWidget *parent) :
-  super(parent),
-  show_progress_(true),
-  first_show_(true)
-{
+ProgressDialog::ProgressDialog(const QString& message, const QString& title, QWidget* parent)
+    : super(parent), show_progress_(true), first_show_(true) {
   if (!title.isEmpty()) {
     setWindowTitle(title);
   }
@@ -78,8 +75,7 @@ ProgressDialog::ProgressDialog(const QString& message, const QString& title, QWi
   cancel_layout->addStretch();
 }
 
-void ProgressDialog::showEvent(QShowEvent *e)
-{
+void ProgressDialog::showEvent(QShowEvent* e) {
   super::showEvent(e);
 
   if (first_show_) {
@@ -91,8 +87,7 @@ void ProgressDialog::showEvent(QShowEvent *e)
   }
 }
 
-void ProgressDialog::closeEvent(QCloseEvent *e)
-{
+void ProgressDialog::closeEvent(QCloseEvent* e) {
   super::closeEvent(e);
 
   Core::instance()->main_window()->SetApplicationProgressStatus(MainWindow::kProgressNone);
@@ -102,8 +97,7 @@ void ProgressDialog::closeEvent(QCloseEvent *e)
   first_show_ = true;
 }
 
-void ProgressDialog::SetProgress(double value)
-{
+void ProgressDialog::SetProgress(double value) {
   if (!show_progress_) {
     return;
   }
@@ -116,8 +110,7 @@ void ProgressDialog::SetProgress(double value)
   Core::instance()->main_window()->SetApplicationProgressValue(percent);
 }
 
-void ProgressDialog::ShowErrorMessage(const QString &title, const QString &message)
-{
+void ProgressDialog::ShowErrorMessage(const QString& title, const QString& message) {
   Core::instance()->main_window()->SetApplicationProgressStatus(MainWindow::kProgressError);
 
   QMessageBox b(this);
@@ -129,14 +122,8 @@ void ProgressDialog::ShowErrorMessage(const QString &title, const QString &messa
   b.exec();
 }
 
-void ProgressDialog::DisableSenderWidget()
-{
-  static_cast<QWidget*>(sender())->setEnabled(false);
-}
+void ProgressDialog::DisableSenderWidget() { static_cast<QWidget*>(sender())->setEnabled(false); }
 
-void ProgressDialog::DisableProgressWidgets()
-{
-  show_progress_ = false;
-}
+void ProgressDialog::DisableProgressWidgets() { show_progress_ = false; }
 
-}
+}  // namespace olive

@@ -31,13 +31,12 @@ namespace olive {
  * @brief A QListView derivative that contains functionality used by both List view and Icon view (which are both based
  * on QListView)
  */
-class ProjectExplorerListViewBase : public QListView
-{
+class ProjectExplorerListViewBase : public QListView {
   Q_OBJECT
-public:
+ public:
   ProjectExplorerListViewBase(QWidget* parent);
 
-protected:
+ protected:
   /**
    * @brief Double click event override
    *
@@ -46,9 +45,9 @@ protected:
    * FIXME: This code is the same as the code in ProjectExplorerTreeView. Is there a way to merge these two through
    * subclassing?
    */
-  virtual void mouseDoubleClickEvent(QMouseEvent *event) override;
+  virtual void mouseDoubleClickEvent(QMouseEvent* event) override;
 
-signals:
+ signals:
   /**
    * @brief Unconditional double click signal
    *
@@ -57,6 +56,6 @@ signals:
   void DoubleClickedEmptyArea();
 };
 
-}
+}  // namespace olive
 
-#endif // PROJECTEXPLORERLISTVIEWBASE_H
+#endif  // PROJECTEXPLORERLISTVIEWBASE_H

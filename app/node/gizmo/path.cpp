@@ -22,14 +22,9 @@
 
 namespace olive {
 
-PathGizmo::PathGizmo(QObject *parent) :
-  DraggableGizmo{parent}
-{
+PathGizmo::PathGizmo(QObject *parent) : DraggableGizmo{parent} {}
 
-}
-
-void PathGizmo::Draw(QPainter *p) const
-{
+void PathGizmo::Draw(QPainter *p) const {
   // Draw transposed black
   QPainterPath transposed = p->transform().map(path_);
   transposed.translate(1, 1);
@@ -43,4 +38,4 @@ void PathGizmo::Draw(QPainter *p) const
   p->drawPath(path_);
 }
 
-}
+}  // namespace olive

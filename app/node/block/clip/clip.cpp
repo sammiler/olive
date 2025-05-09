@@ -22,9 +22,9 @@
 
 #include "config/config.h"
 #include "node/block/transition/transition.h"
-#include "node/project/sequence/sequence.h"
 #include "node/output/track/track.h"
 #include "node/output/viewer/viewer.h"
+#include "node/project/sequence/sequence.h"
 #include "widget/slider/floatslider.h"
 #include "widget/slider/rationalslider.h"
 
@@ -40,11 +40,7 @@ const QString ClipBlock::kMaintainAudioPitchInput = QStringLiteral("maintain_aud
 const QString ClipBlock::kAutoCacheInput = QStringLiteral("autocache_in");
 const QString ClipBlock::kLoopModeInput = QStringLiteral("loop_in");
 
-ClipBlock::ClipBlock() :
-  in_transition_(nullptr),
-  out_transition_(nullptr),
-  connected_viewer_(nullptr)
-{
+ClipBlock::ClipBlock() : in_transition_(nullptr), out_transition_(nullptr), connected_viewer_(nullptr) {
   AddInput(kMediaInInput, NodeValue::kRational, InputFlags(kInputFlagNotConnectable | kInputFlagNotKeyframable));
   SetInputProperty(kMediaInInput, QStringLiteral("view"), RationalSlider::kTime);
   SetInputProperty(kMediaInInput, QStringLiteral("viewlock"), true);
@@ -55,20 +51,21 @@ ClipBlock::ClipBlock() :
 
   AddInput(kReverseInput, NodeValue::kBoolean, false, InputFlags(kInputFlagNotConnectable | kInputFlagNotKeyframable));
 
-  AddInput(kMaintainAudioPitchInput, NodeValue::kBoolean, false, InputFlags(kInputFlagNotConnectable | kInputFlagNotKeyframable));
+  AddInput(kMaintainAudioPitchInput, NodeValue::kBoolean, false,
+           InputFlags(kInputFlagNotConnectable | kInputFlagNotKeyframable));
 
-  AddInput(kAutoCacheInput, NodeValue::kBoolean, false, InputFlags(kInputFlagNotConnectable | kInputFlagNotKeyframable));
+  AddInput(kAutoCacheInput, NodeValue::kBoolean, false,
+           InputFlags(kInputFlagNotConnectable | kInputFlagNotKeyframable));
 
   PrependInput(kBufferIn, NodeValue::kNone, InputFlags(kInputFlagNotKeyframable));
-  //SetValueHintForInput(kBufferIn, ValueHint(NodeValue::kBuffer));
+  // SetValueHintForInput(kBufferIn, ValueHint(NodeValue::kBuffer));
 
   SetEffectInput(kBufferIn);
 
   AddInput(kLoopModeInput, NodeValue::kCombo, 0, InputFlags(kInputFlagNotConnectable | kInputFlagNotKeyframable));
 }
 
-QString ClipBlock::Name() const
-{
+QString ClipBlock::Name() const {
   if (connected_viewer_ && !connected_viewer_->GetLabel().isEmpty()) {
     return connected_viewer_->GetLabel();
   } else if (track()) {
@@ -82,18 +79,11 @@ QString ClipBlock::Name() const
   return tr("Clip");
 }
 
-QString ClipBlock::id() const
-{
-  return QStringLiteral("org.olivevideoeditor.Olive.clip");
-}
+QString ClipBlock::id() const { return QStringLiteral("org.olivevideoeditor.Olive.clip"); }
 
-QString ClipBlock::Description() const
-{
-  return tr("A time-based node that represents a media source.");
-}
+QString ClipBlock::Description() const { return tr("A time-based node that represents a media source."); }
 
-void ClipBlock::set_length_and_media_out(const rational &length)
-{
+void ClipBlock::set_length_and_media_out(const rational &length) {
   if (length == this->length()) {
     return;
   }
@@ -107,8 +97,7 @@ void ClipBlock::set_length_and_media_out(const rational &length)
   super::set_length_and_media_out(length);
 }
 
-void ClipBlock::set_length_and_media_in(const rational &length)
-{
+void ClipBlock::set_length_and_media_in(const rational &length) {
   if (length == this->length()) {
     return;
   }
@@ -123,25 +112,17 @@ void ClipBlock::set_length_and_media_in(const rational &length)
   }
 }
 
-rational ClipBlock::media_in() const
-{
-  return GetStandardValue(kMediaInInput).value<rational>();
-}
+rational ClipBlock::media_in() const { return GetStandardValue(kMediaInInput).value<rational>(); }
 
-void ClipBlock::set_media_in(const rational &media_in)
-{
+void ClipBlock::set_media_in(const rational &media_in) {
   SetStandardValue(kMediaInInput, QVariant::fromValue(media_in));
 
   RequestInvalidatedFromConnected();
 }
 
-void ClipBlock::SetAutocache(bool e)
-{
-  SetStandardValue(kAutoCacheInput, e);
-}
+void ClipBlock::SetAutocache(bool e) { SetStandardValue(kAutoCacheInput, e); }
 
-void ClipBlock::DiscardCache()
-{
+void ClipBlock::DiscardCache() {
   if (Node *connected = GetConnectedOutput(kBufferIn)) {
     Track::Type type = GetTrackType();
     if (type == Track::kVideo) {
@@ -152,8 +133,7 @@ void ClipBlock::DiscardCache()
   }
 }
 
-rational ClipBlock::SequenceToMediaTime(const rational &sequence_time, uint64_t flags) const
-{
+rational ClipBlock::SequenceToMediaTime(const rational &sequence_time, uint64_t flags) const {
   // These constants are not considered "values" per se, so we don't modify them
   if (sequence_time == RATIONAL_MIN || sequence_time == RATIONAL_MAX) {
     return sequence_time;
@@ -191,15 +171,15 @@ rational ClipBlock::SequenceToMediaTime(const rational &sequence_time, uint64_t 
         media_time -= connected_viewer_->GetLength();
       }
     } else if (loop_mode() == kLoopModeClamp) {
-      media_time = std::clamp(media_time, rational(0), connected_viewer_->GetLength()-connected_viewer_->GetVideoParams().frame_rate_as_time_base());
+      media_time = std::clamp(media_time, rational(0),
+  connected_viewer_->GetLength()-connected_viewer_->GetVideoParams().frame_rate_as_time_base());
     }
   }*/
 
   return media_time;
 }
 
-rational ClipBlock::MediaToSequenceTime(const rational &media_time) const
-{
+rational ClipBlock::MediaToSequenceTime(const rational &media_time) const {
   // These constants are not considered "values" per se, so we don't modify them
   if (media_time == RATIONAL_MIN || media_time == RATIONAL_MAX) {
     return media_time;
@@ -223,8 +203,7 @@ rational ClipBlock::MediaToSequenceTime(const rational &media_time) const
   return sequence_time;
 }
 
-void ClipBlock::RequestRangeFromConnected(const TimeRange &range)
-{
+void ClipBlock::RequestRangeFromConnected(const TimeRange &range) {
   Track::Type type = GetTrackType();
 
   if (type == Track::kVideo || type == Track::kAudio) {
@@ -244,7 +223,8 @@ void ClipBlock::RequestRangeFromConnected(const TimeRange &range)
         RequestRangeForCache(connected->video_frame_cache(), max_range, range, true, IsAutocaching());
       } else if (type == Track::kAudio) {
         // Handle waveforms
-        RequestRangeForCache(connected->waveform_cache(), max_range, range, true, (OLIVE_CONFIG("TimelineWaveformMode").toInt() == Timeline::kWaveformsEnabled));
+        RequestRangeForCache(connected->waveform_cache(), max_range, range, true,
+                             (OLIVE_CONFIG("TimelineWaveformMode").toInt() == Timeline::kWaveformsEnabled));
 
         // Handle audio cache
         RequestRangeForCache(connected->audio_playback_cache(), max_range, range, true, IsAutocaching());
@@ -253,8 +233,7 @@ void ClipBlock::RequestRangeFromConnected(const TimeRange &range)
   }
 }
 
-void ClipBlock::RequestInvalidatedFromConnected(bool force_all, const TimeRange &intersect)
-{
+void ClipBlock::RequestInvalidatedFromConnected(bool force_all, const TimeRange &intersect) {
   Track::Type type = GetTrackType();
 
   if (type == Track::kVideo || type == Track::kAudio) {
@@ -291,8 +270,8 @@ void ClipBlock::RequestInvalidatedFromConnected(bool force_all, const TimeRange 
   }
 }
 
-void ClipBlock::RequestRangeForCache(PlaybackCache *cache, const TimeRange &max_range, const TimeRange &range, bool invalidate, bool request)
-{
+void ClipBlock::RequestRangeForCache(PlaybackCache *cache, const TimeRange &max_range, const TimeRange &range,
+                                     bool invalidate, bool request) {
   TimeRange r = range.Intersected(max_range);
 
   if (invalidate) {
@@ -304,8 +283,7 @@ void ClipBlock::RequestRangeForCache(PlaybackCache *cache, const TimeRange &max_
   }
 }
 
-void ClipBlock::RequestInvalidatedForCache(PlaybackCache *cache, const TimeRange &max_range)
-{
+void ClipBlock::RequestInvalidatedForCache(PlaybackCache *cache, const TimeRange &max_range) {
   TimeRangeList invalid = cache->GetInvalidatedRanges(max_range);
 
   for (const PlaybackCache::Passthrough &p : cache->GetPassthroughs()) {
@@ -317,36 +295,34 @@ void ClipBlock::RequestInvalidatedForCache(PlaybackCache *cache, const TimeRange
   }
 }
 
-bool ClipBlock::GetAdjustedThumbnailRange(TimeRange *r) const
-{
+bool ClipBlock::GetAdjustedThumbnailRange(TimeRange *r) const {
   switch (static_cast<Timeline::ThumbnailMode>(OLIVE_CONFIG("TimelineThumbnailMode").toInt())) {
-  case Timeline::kThumbnailOff:
-    // Don't cache any range
-    return false;
-  case Timeline::kThumbnailInOut:
-  {
-    // Only cache in point
-    rational in = this->media_range().in();
-    if (r->Contains(in)) {
-      // Cache only the in point
-      *r = TimeRange(in, in + thumbnail_cache()->GetTimebase());
-      return true;
-    } else {
-      // Cache nothing
+    case Timeline::kThumbnailOff:
+      // Don't cache any range
       return false;
+    case Timeline::kThumbnailInOut: {
+      // Only cache in point
+      rational in = this->media_range().in();
+      if (r->Contains(in)) {
+        // Cache only the in point
+        *r = TimeRange(in, in + thumbnail_cache()->GetTimebase());
+        return true;
+      } else {
+        // Cache nothing
+        return false;
+      }
     }
-  }
-  case Timeline::kThumbnailOn:
-    // Cache entire range
-    return true;
+    case Timeline::kThumbnailOn:
+      // Cache entire range
+      return true;
   }
 
   // Fallback
   return true;
 }
 
-void ClipBlock::InvalidateCache(const TimeRange& range, const QString& from, int element, InvalidateCacheOptions options)
-{
+void ClipBlock::InvalidateCache(const TimeRange &range, const QString &from, int element,
+                                InvalidateCacheOptions options) {
   Q_UNUSED(element)
 
   // If signal is from texture input, transform all times from media time to sequence time
@@ -374,8 +350,10 @@ void ClipBlock::InvalidateCache(const TimeRange& range, const QString& from, int
     if (new_connected_viewer != connected_viewer_) {
       if (connected_viewer_) {
         disconnect(connected_viewer_->GetMarkers(), &TimelineMarkerList::MarkerAdded, this, &ClipBlock::PreviewChanged);
-        disconnect(connected_viewer_->GetMarkers(), &TimelineMarkerList::MarkerRemoved, this, &ClipBlock::PreviewChanged);
-        disconnect(connected_viewer_->GetMarkers(), &TimelineMarkerList::MarkerModified, this, &ClipBlock::PreviewChanged);
+        disconnect(connected_viewer_->GetMarkers(), &TimelineMarkerList::MarkerRemoved, this,
+                   &ClipBlock::PreviewChanged);
+        disconnect(connected_viewer_->GetMarkers(), &TimelineMarkerList::MarkerModified, this,
+                   &ClipBlock::PreviewChanged);
       }
 
       connected_viewer_ = new_connected_viewer;
@@ -394,12 +372,11 @@ void ClipBlock::InvalidateCache(const TimeRange& range, const QString& from, int
   }
 }
 
-void ClipBlock::LinkChangeEvent()
-{
+void ClipBlock::LinkChangeEvent() {
   block_links_.clear();
 
-  foreach (Node* n, links()) {
-    ClipBlock* b = dynamic_cast<ClipBlock*>(n);
+  foreach (Node *n, links()) {
+    ClipBlock *b = dynamic_cast<ClipBlock *>(n);
 
     if (b) {
       block_links_.append(b);
@@ -407,8 +384,7 @@ void ClipBlock::LinkChangeEvent()
   }
 }
 
-void ClipBlock::InputConnectedEvent(const QString &input, int element, Node *output)
-{
+void ClipBlock::InputConnectedEvent(const QString &input, int element, Node *output) {
   super::InputConnectedEvent(input, element, output);
 
   if (input == kBufferIn) {
@@ -423,8 +399,7 @@ void ClipBlock::InputConnectedEvent(const QString &input, int element, Node *out
   }
 }
 
-void ClipBlock::InputDisconnectedEvent(const QString &input, int element, Node *output)
-{
+void ClipBlock::InputDisconnectedEvent(const QString &input, int element, Node *output) {
   super::InputDisconnectedEvent(input, element, output);
 
   if (input == kBufferIn) {
@@ -439,8 +414,7 @@ void ClipBlock::InputDisconnectedEvent(const QString &input, int element, Node *
   }
 }
 
-void ClipBlock::InputValueChangedEvent(const QString &input, int element)
-{
+void ClipBlock::InputValueChangedEvent(const QString &input, int element) {
   super::InputValueChangedEvent(input, element);
 
   if (input == kAutoCacheInput) {
@@ -462,8 +436,8 @@ void ClipBlock::InputValueChangedEvent(const QString &input, int element)
   }
 }
 
-TimeRange ClipBlock::InputTimeAdjustment(const QString& input, int element, const TimeRange& input_time, bool clamp) const
-{
+TimeRange ClipBlock::InputTimeAdjustment(const QString &input, int element, const TimeRange &input_time,
+                                         bool clamp) const {
   Q_UNUSED(element)
 
   if (input == kBufferIn) {
@@ -473,8 +447,7 @@ TimeRange ClipBlock::InputTimeAdjustment(const QString& input, int element, cons
   return super::InputTimeAdjustment(input, element, input_time, clamp);
 }
 
-TimeRange ClipBlock::OutputTimeAdjustment(const QString& input, int element, const TimeRange& input_time) const
-{
+TimeRange ClipBlock::OutputTimeAdjustment(const QString &input, int element, const TimeRange &input_time) const {
   Q_UNUSED(element)
 
   if (input == kBufferIn) {
@@ -484,8 +457,7 @@ TimeRange ClipBlock::OutputTimeAdjustment(const QString& input, int element, con
   return super::OutputTimeAdjustment(input, element, input_time);
 }
 
-void ClipBlock::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const
-{
+void ClipBlock::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const {
   Q_UNUSED(globals)
 
   // We discard most values here except for the buffer we received
@@ -497,8 +469,7 @@ void ClipBlock::Value(const NodeValueRow &value, const NodeGlobals &globals, Nod
   }
 }
 
-void ClipBlock::Retranslate()
-{
+void ClipBlock::Retranslate() {
   super::Retranslate();
 
   SetInputName(kBufferIn, tr("Buffer"));
@@ -510,8 +481,7 @@ void ClipBlock::Retranslate()
   SetComboBoxStrings(kLoopModeInput, {tr("None"), tr("Loop"), tr("Clamp")});
 }
 
-void ClipBlock::AddCachePassthroughFrom(ClipBlock *other)
-{
+void ClipBlock::AddCachePassthroughFrom(ClipBlock *other) {
   if (auto tc = this->video_frame_cache()) {
     if (auto oc = other->video_frame_cache()) {
       tc->SetPassthrough(oc);
@@ -537,18 +507,11 @@ void ClipBlock::AddCachePassthroughFrom(ClipBlock *other)
   }
 }
 
-void ClipBlock::ConnectedToPreviewEvent()
-{
-  RequestInvalidatedFromConnected();
-}
+void ClipBlock::ConnectedToPreviewEvent() { RequestInvalidatedFromConnected(); }
 
-TimeRange ClipBlock::media_range() const
-{
-  return InputTimeAdjustment(kBufferIn, -1, TimeRange(0, length()), false);
-}
+TimeRange ClipBlock::media_range() const { return InputTimeAdjustment(kBufferIn, -1, TimeRange(0, length()), false); }
 
-MultiCamNode *ClipBlock::FindMulticam()
-{
+MultiCamNode *ClipBlock::FindMulticam() {
   auto v = FindInputNodesConnectedToInput<MultiCamNode>(NodeInput(this, kBufferIn), 1);
   if (v.empty()) {
     return nullptr;
@@ -557,4 +520,4 @@ MultiCamNode *ClipBlock::FindMulticam()
   }
 }
 
-}
+}  // namespace olive

@@ -28,20 +28,19 @@
 
 namespace olive {
 
-class HandMovableView : public QGraphicsView
-{
+class HandMovableView : public QGraphicsView {
   Q_OBJECT
-public:
+ public:
   HandMovableView(QWidget* parent = nullptr);
 
   static bool WheelEventIsAZoomEvent(QWheelEvent* event);
 
   static qreal GetScrollZoomMultiplier(QWheelEvent* event);
 
-  virtual void CatchUpScrollEvent(){}
+  virtual void CatchUpScrollEvent() {}
 
-protected:
-  virtual void ToolChangedEvent(Tool::Item tool){Q_UNUSED(tool)}
+ protected:
+  virtual void ToolChangedEvent(Tool::Item tool) { Q_UNUSED(tool) }
 
   bool HandPress(QMouseEvent* event);
   bool HandMove(QMouseEvent* event);
@@ -52,11 +51,11 @@ protected:
 
   virtual void wheelEvent(QWheelEvent* event) override;
 
-  virtual void ZoomIntoCursorPosition(QWheelEvent* event, double multiplier, const QPointF &cursor_pos);
+  virtual void ZoomIntoCursorPosition(QWheelEvent* event, double multiplier, const QPointF& cursor_pos);
 
   void SetIsTimelineAxes(bool e) { is_timeline_axes_ = e; }
 
-private:
+ private:
   bool dragging_hand_;
   DragMode pre_hand_drag_mode_;
 
@@ -66,11 +65,10 @@ private:
 
   bool is_timeline_axes_;
 
-private slots:
+ private slots:
   void ApplicationToolChanged(Tool::Item tool);
-
 };
 
-}
+}  // namespace olive
 
-#endif // HANDMOVABLEVIEW_H
+#endif  // HANDMOVABLEVIEW_H

@@ -47,10 +47,10 @@
 #ifdef USE_OTIO
 #include "dialog/otioproperties/otiopropertiesdialog.h"
 #endif
+#include "dialog/preferences/preferences.h"
 #include "dialog/projectproperties/projectproperties.h"
 #include "dialog/sequence/sequence.h"
 #include "dialog/task/task.h"
-#include "dialog/preferences/preferences.h"
 #include "node/color/colormanager/colormanager.h"
 #include "node/factory.h"
 #include "node/nodeundo.h"
@@ -82,17 +82,16 @@ namespace olive {
 
 Core* Core::instance_ = nullptr;
 
-Core::Core(const CoreParams& params) :
-  main_window_(nullptr),
-  open_project_(nullptr),
-  tool_(Tool::kPointer),
-  addable_object_(Tool::kAddableEmpty),
-  snapping_(true),
-  core_params_(params),
-  magic_(false),
-  pixel_sampling_users_(0),
-  shown_cache_full_warning_(false)
-{
+Core::Core(const CoreParams& params)
+    : main_window_(nullptr),
+      open_project_(nullptr),
+      tool_(Tool::kPointer),
+      addable_object_(Tool::kAddableEmpty),
+      snapping_(true),
+      core_params_(params),
+      magic_(false),
+      pixel_sampling_users_(0),
+      shown_cache_full_warning_(false) {
   // Store reference to this object, making the assumption that Core will only ever be made in
   // main(). This will obviously break if not.
   instance_ = this;
@@ -100,13 +99,9 @@ Core::Core(const CoreParams& params) :
   translator_ = new QTranslator(this);
 }
 
-Core *Core::instance()
-{
-  return instance_;
-}
+Core* Core::instance() { return instance_; }
 
-void Core::DeclareTypesForQt()
-{
+void Core::DeclareTypesForQt() {
   qRegisterMetaType<olive::core::rational>();
   qRegisterMetaType<NodeValue>();
   qRegisterMetaType<NodeValueTable>();
@@ -125,8 +120,7 @@ void Core::DeclareTypesForQt()
   qRegisterMetaType<olive::RenderTicketPtr>();
 }
 
-void Core::Start()
-{
+void Core::Start() {
   // Load application config
   Config::Load();
 
@@ -164,36 +158,33 @@ void Core::Start()
   qInfo() << "Using Qt version:" << qVersion();
 
   switch (core_params_.run_mode()) {
-  case CoreParams::kRunNormal:
-    // Start GUI
-    StartGUI(core_params_.fullscreen());
+    case CoreParams::kRunNormal:
+      // Start GUI
+      StartGUI(core_params_.fullscreen());
 
-    // If we have a startup
-    QMetaObject::invokeMethod(this, "OpenStartupProject", Qt::QueuedConnection);
-    break;
-  case CoreParams::kHeadlessExport:
-    qInfo() << "Headless export is not fully implemented yet";
-    break;
-  case CoreParams::kHeadlessPreCache:
-    qInfo() << "Headless pre-cache is not fully implemented yet";
-    break;
+      // If we have a startup
+      QMetaObject::invokeMethod(this, "OpenStartupProject", Qt::QueuedConnection);
+      break;
+    case CoreParams::kHeadlessExport:
+      qInfo() << "Headless export is not fully implemented yet";
+      break;
+    case CoreParams::kHeadlessPreCache:
+      qInfo() << "Headless pre-cache is not fully implemented yet";
+      break;
   }
 
   // Manual crash triggering
   if (core_params_.crash_on_startup()) {
     const int interval = 5000;
     qInfo() << "Manual crash was triggered. Application will crash in" << interval << "ms";
-    QTimer *crash_timer = new QTimer(this);
+    QTimer* crash_timer = new QTimer(this);
     crash_timer->setInterval(interval);
-    connect(crash_timer, &QTimer::timeout, this, []{
-      abort();
-    });
+    connect(crash_timer, &QTimer::timeout, this, [] { abort(); });
     crash_timer->start();
   }
 }
 
-void Core::Stop()
-{
+void Core::Stop() {
   // Assume all projects have closed gracefully and no auto-recovery is necessary
   autorecovered_projects_.clear();
   SaveUnrecoveredList();
@@ -225,18 +216,11 @@ void Core::Stop()
   main_window_ = nullptr;
 }
 
-MainWindow *Core::main_window()
-{
-  return main_window_;
-}
+MainWindow* Core::main_window() { return main_window_; }
 
-UndoStack *Core::undo_stack()
-{
-  return &undo_stack_;
-}
+UndoStack* Core::undo_stack() { return &undo_stack_; }
 
-void Core::ImportFiles(const QStringList &urls, Folder* parent)
-{
+void Core::ImportFiles(const QStringList& urls, Folder* parent) {
   if (urls.isEmpty()) {
     QMessageBox::critical(main_window_, tr("Import error"), tr("Nothing to import"));
     return;
@@ -257,94 +241,67 @@ void Core::ImportFiles(const QStringList &urls, Folder* parent)
   task_dialog->open();
 }
 
-const Tool::Item &Core::tool() const
-{
-  return tool_;
-}
+const Tool::Item& Core::tool() const { return tool_; }
 
-const Tool::AddableObject &Core::GetSelectedAddableObject() const
-{
-  return addable_object_;
-}
+const Tool::AddableObject& Core::GetSelectedAddableObject() const { return addable_object_; }
 
-const QString &Core::GetSelectedTransition() const
-{
-  return selected_transition_;
-}
+const QString& Core::GetSelectedTransition() const { return selected_transition_; }
 
-void Core::SetSelectedAddableObject(const Tool::AddableObject &obj)
-{
+void Core::SetSelectedAddableObject(const Tool::AddableObject& obj) {
   addable_object_ = obj;
   emit AddableObjectChanged(addable_object_);
 }
 
-void Core::SetSelectedTransitionObject(const QString &obj)
-{
-  selected_transition_ = obj;
-}
+void Core::SetSelectedTransitionObject(const QString& obj) { selected_transition_ = obj; }
 
-void Core::ClearOpenRecentList()
-{
+void Core::ClearOpenRecentList() {
   recent_projects_.clear();
   SaveRecentProjectsList();
   emit OpenRecentListChanged();
 }
 
-void Core::CreateNewProject()
-{
+void Core::CreateNewProject() {
   // If we already have an empty/new project, switch to it
   if (CloseProject(false)) {
-    Project *p = new Project();
+    Project* p = new Project();
     p->Initialize();
     AddOpenProject(p);
   }
 }
 
-const bool &Core::snapping() const
-{
-  return snapping_;
-}
+const bool& Core::snapping() const { return snapping_; }
 
-const QStringList &Core::GetRecentProjects() const
-{
-  return recent_projects_;
-}
+const QStringList& Core::GetRecentProjects() const { return recent_projects_; }
 
-void Core::SetTool(const Tool::Item &tool)
-{
+void Core::SetTool(const Tool::Item& tool) {
   tool_ = tool;
 
   emit ToolChanged(tool_);
 }
 
-void Core::SetSnapping(const bool &b)
-{
+void Core::SetSnapping(const bool& b) {
   snapping_ = b;
 
   emit SnappingChanged(snapping_);
 }
 
-void Core::DialogAboutShow()
-{
+void Core::DialogAboutShow() {
   AboutDialog a(false, main_window_);
   a.exec();
 }
 
-void Core::DialogImportShow()
-{
+void Core::DialogImportShow() {
   // Open dialog for user to select files
-  QStringList files = QFileDialog::getOpenFileNames(main_window_,
-                                                    tr("Import footage..."));
+  QStringList files = QFileDialog::getOpenFileNames(main_window_, tr("Import footage..."));
 
   // Check if the user actually selected files to import
   if (!files.isEmpty()) {
-
     // Locate the most recently focused Project panel (assume that's the panel the user wants to import into)
     ProjectPanel* active_project_panel = PanelManager::instance()->MostRecentlyFocused<ProjectPanel>();
     Project* active_project;
 
-    if (active_project_panel == nullptr // Check that we found a Project panel
-        || (active_project = active_project_panel->project()) == nullptr) { // and that we could find an active Project
+    if (active_project_panel == nullptr                                      // Check that we found a Project panel
+        || (active_project = active_project_panel->project()) == nullptr) {  // and that we could find an active Project
       QMessageBox::critical(main_window_, tr("Failed to import footage"), tr("Failed to find active Project panel"));
       return;
     }
@@ -356,29 +313,24 @@ void Core::DialogImportShow()
   }
 }
 
-void Core::DialogPreferencesShow()
-{
+void Core::DialogPreferencesShow() {
   PreferencesDialog pd(main_window_);
   pd.exec();
 }
 
-void Core::DialogProjectPropertiesShow()
-{
-  Project *proj = GetActiveProject();
+void Core::DialogProjectPropertiesShow() {
+  Project* proj = GetActiveProject();
 
   if (proj) {
     ProjectPropertiesDialog ppd(proj, main_window_);
     ppd.exec();
   } else {
-    QMessageBox::critical(main_window_,
-                          tr("No Active Project"),
-                          tr("No project is currently open to set the properties for"),
-                          QMessageBox::Ok);
+    QMessageBox::critical(main_window_, tr("No Active Project"),
+                          tr("No project is currently open to set the properties for"), QMessageBox::Ok);
   }
 }
 
-void Core::DialogExportShow()
-{
+void Core::DialogExportShow() {
   if (ViewerOutput* viewer = GetSequenceToExport()) {
     OpenExportDialogForViewer(viewer, false);
   }
@@ -392,14 +344,13 @@ bool Core::DialogImportOTIOShow(const QList<Sequence*>& sequences) {
 }
 #endif
 
-void Core::CreateNewFolder()
-{
+void Core::CreateNewFolder() {
   // Locate the most recently focused Project panel (assume that's the panel the user wants to import into)
   ProjectPanel* active_project_panel = PanelManager::instance()->MostRecentlyFocused<ProjectPanel>();
   Project* active_project;
 
-  if (active_project_panel == nullptr // Check that we found a Project panel
-      || (active_project = active_project_panel->project()) == nullptr) { // and that we could find an active Project
+  if (active_project_panel == nullptr                                      // Check that we found a Project panel
+      || (active_project = active_project_panel->project()) == nullptr) {  // and that we could find an active Project
     QMessageBox::critical(main_window_, tr("Failed to create new folder"), tr("Failed to find active project"));
     return;
   }
@@ -425,8 +376,7 @@ void Core::CreateNewFolder()
   active_project_panel->Edit(new_folder);
 }
 
-void Core::CreateNewSequence()
-{
+void Core::CreateNewSequence() {
   Project* active_project = GetActiveProject();
 
   if (!active_project) {
@@ -444,7 +394,6 @@ void Core::CreateNewSequence()
   sd.SetUndoable(false);
 
   if (sd.exec() == QDialog::Accepted) {
-
     // Create an undoable command
     MultiUndoCommand* command = new MultiUndoCommand();
 
@@ -459,15 +408,12 @@ void Core::CreateNewSequence()
     Core::instance()->undo_stack()->push(command, tr("Created New Sequence"));
 
   } else {
-
     // If the dialog was accepted, ownership goes to the AddItemCommand. But if we get here, just delete
     delete new_sequence;
-
   }
 }
 
-void Core::AddOpenProject(Project* p, bool add_to_recents)
-{
+void Core::AddOpenProject(Project* p, bool add_to_recents) {
   // Ensure project is not open at the moment
   if (open_project_ == p) {
     return;
@@ -485,8 +431,7 @@ void Core::AddOpenProject(Project* p, bool add_to_recents)
   }
 }
 
-bool Core::AddOpenProjectFromTask(Task *task, bool add_to_recents)
-{
+bool Core::AddOpenProjectFromTask(Task* task, bool add_to_recents) {
   ProjectLoadBaseTask* load_task = static_cast<ProjectLoadBaseTask*>(task);
 
   if (!load_task->IsCancelled()) {
@@ -506,8 +451,7 @@ bool Core::AddOpenProjectFromTask(Task *task, bool add_to_recents)
   return false;
 }
 
-void Core::SetActiveProject(Project *p)
-{
+void Core::SetActiveProject(Project* p) {
   if (open_project_) {
     disconnect(open_project_, &Project::ModifiedChanged, this, &Core::ProjectWasModified);
   }
@@ -521,19 +465,18 @@ void Core::SetActiveProject(Project *p)
   }
 }
 
-void Core::ImportTaskComplete(Task* task)
-{
+void Core::ImportTaskComplete(Task* task) {
   ProjectImportTask* import_task = static_cast<ProjectImportTask*>(task);
 
-  MultiUndoCommand *command = import_task->GetCommand();
+  MultiUndoCommand* command = import_task->GetCommand();
 
-  foreach (Footage *f, import_task->GetImportedFootage()) {
+  foreach (Footage* f, import_task->GetImportedFootage()) {
     // Look for multi-layer images
     if (f->GetAudioStreamCount() == 0 && f->GetVideoStreamCount() > 1) {
       bool all_stills = true;
 
-      for (int i=0; i<f->GetVideoStreamCount(); i++) {
-        const VideoParams &vs = f->GetVideoParams(i);
+      for (int i = 0; i < f->GetVideoStreamCount(); i++) {
+        const VideoParams& vs = f->GetVideoParams(i);
         if (!(vs.video_type() == VideoParams::kVideoTypeStill && vs.enabled() == (i == 0))) {
           all_stills = false;
         }
@@ -545,7 +488,8 @@ void Core::ImportTaskComplete(Task* task)
         d.setIcon(QMessageBox::Question);
         d.setWindowTitle(tr("Multi-Layer Image"));
         d.setText(tr("The file '%1' has multiple layers. Would you like these layers to be "
-                     "separated across multiple tracks or merged into a single image?").arg(f->filename()));
+                     "separated across multiple tracks or merged into a single image?")
+                      .arg(f->filename()));
 
         auto multi_btn = d.addButton(tr("Multiple Layers"), QMessageBox::YesRole);
         auto single_btn = d.addButton(tr("Single Layer"), QMessageBox::NoRole);
@@ -554,7 +498,7 @@ void Core::ImportTaskComplete(Task* task)
         d.exec();
 
         if (d.clickedButton() == multi_btn) {
-          for (int i=0; i<f->GetVideoStreamCount(); i++) {
+          for (int i = 0; i < f->GetVideoStreamCount(); i++) {
             VideoParams vs = f->GetVideoParams(i);
             vs.set_enabled(!vs.enabled());
             f->SetVideoParams(vs, i);
@@ -580,14 +524,14 @@ void Core::ImportTaskComplete(Task* task)
   main_window_->SelectFootage(import_task->GetImportedFootage());
 }
 
-bool Core::ConfirmImageSequence(const QString& filename)
-{
+bool Core::ConfirmImageSequence(const QString& filename) {
   QMessageBox mb(main_window_);
 
   mb.setIcon(QMessageBox::Question);
   mb.setWindowTitle(tr("Possible image sequence detected"));
   mb.setText(tr("The file '%1' looks like it might be part of an image "
-                "sequence. Would you like to import it as such?").arg(filename));
+                "sequence. Would you like to import it as such?")
+                 .arg(filename));
 
   mb.addButton(QMessageBox::Yes);
   mb.addButton(QMessageBox::No);
@@ -595,13 +539,9 @@ bool Core::ConfirmImageSequence(const QString& filename)
   return (mb.exec() == QMessageBox::Yes);
 }
 
-void Core::ProjectWasModified(bool e)
-{
-  main_window_->setWindowModified(e);
-}
+void Core::ProjectWasModified(bool e) { main_window_->setWindowModified(e); }
 
-bool Core::StartHeadlessExport()
-{
+bool Core::StartHeadlessExport() {
   const QString& startup_project = core_params_.startup_project();
 
   if (startup_project.isEmpty()) {
@@ -686,17 +626,16 @@ bool Core::StartHeadlessExport()
   return false;
 }
 
-void Core::OpenStartupProject()
-{
+void Core::OpenStartupProject() {
   const QString& startup_project = core_params_.startup_project();
   bool startup_project_exists = !startup_project.isEmpty() && QFileInfo::exists(startup_project);
 
   // Load startup project
   if (!startup_project_exists && !startup_project.isEmpty()) {
-    QMessageBox::warning(main_window_,
-                         tr("Failed to open startup file"),
+    QMessageBox::warning(main_window_, tr("Failed to open startup file"),
                          tr("The project \"%1\" doesn't exist. "
-                            "A new project will be started instead.").arg(startup_project),
+                            "A new project will be started instead.")
+                             .arg(startup_project),
                          QMessageBox::Ok);
   }
 
@@ -709,8 +648,7 @@ void Core::OpenStartupProject()
   }
 }
 
-void Core::AddRecoveryProjectFromTask(Task *task)
-{
+void Core::AddRecoveryProjectFromTask(Task* task) {
   if (AddOpenProjectFromTask(task, false)) {
     ProjectLoadBaseTask* load_task = static_cast<ProjectLoadBaseTask*>(task);
 
@@ -729,8 +667,7 @@ void Core::AddRecoveryProjectFromTask(Task *task)
   }
 }
 
-void Core::StartGUI(bool full_screen)
-{
+void Core::StartGUI(bool full_screen) {
   // Set UI style
   StyleManager::Init();
 
@@ -747,13 +684,10 @@ void Core::StartGUI(bool full_screen)
   DiskManager::CreateInstance();
 
   // Connect the PanelFocusManager to the application's focus change signal
-  connect(qApp,
-          &QApplication::focusChanged,
-          PanelManager::instance(),
-          &PanelManager::FocusChanged);
+  connect(qApp, &QApplication::focusChanged, PanelManager::instance(), &PanelManager::FocusChanged);
 
   // Set KDDockWidgets flags
-  auto &config = KDDockWidgets::Config::self();
+  auto& config = KDDockWidgets::Config::self();
   auto flags = config.flags();
   flags |= KDDockWidgets::Config::Flag_TabsHaveCloseButton;
   flags |= KDDockWidgets::Config::Flag_HideTitleBarWhenTabsVisible;
@@ -797,8 +731,7 @@ void Core::StartGUI(bool full_screen)
   }
 }
 
-void Core::SaveProjectInternal(const QString& override_filename)
-{
+void Core::SaveProjectInternal(const QString& override_filename) {
   // Create save manager
   Task* psm;
 
@@ -806,8 +739,7 @@ void Core::SaveProjectInternal(const QString& override_filename)
 #ifdef USE_OTIO
     psm = new SaveOTIOTask(open_project_);
 #else
-    QMessageBox::critical(main_window_,
-                          tr("Missing OpenTimelineIO Libraries"),
+    QMessageBox::critical(main_window_, tr("Missing OpenTimelineIO Libraries"),
                           tr("This build was compiled without OpenTimelineIO and therefore "
                              "cannot open OpenTimelineIO files."));
     return;
@@ -841,8 +773,7 @@ void Core::SaveProjectInternal(const QString& override_filename)
   psm->deleteLater();
 }
 
-ViewerOutput *Core::GetSequenceToExport()
-{
+ViewerOutput* Core::GetSequenceToExport() {
   // First try the most recently focused time based window
   TimeBasedPanel* time_panel = PanelManager::instance()->MostRecentlyFocused<TimeBasedPanel>();
 
@@ -854,30 +785,27 @@ ViewerOutput *Core::GetSequenceToExport()
 
   if (time_panel && time_panel->GetConnectedViewer()) {
     if (time_panel->GetConnectedViewer()->GetLength() == 0) {
-      QMessageBox::critical(main_window_,
-                            tr("Error"),
-                            tr("This Sequence is empty. There is nothing to export."),
+      QMessageBox::critical(main_window_, tr("Error"), tr("This Sequence is empty. There is nothing to export."),
                             QMessageBox::Ok);
     } else {
       return time_panel->GetConnectedViewer();
     }
   } else {
-    QMessageBox::critical(main_window_,
-                          tr("Error"),
-                          tr("No valid sequence detected.\n\nMake sure a sequence is loaded and it has a connected Viewer node."),
-                          QMessageBox::Ok);
+    QMessageBox::critical(
+        main_window_, tr("Error"),
+        tr("No valid sequence detected.\n\nMake sure a sequence is loaded and it has a connected Viewer node."),
+        QMessageBox::Ok);
   }
 
   return nullptr;
 }
 
-QString Core::GetAutoRecoveryIndexFilename()
-{
-  return QDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath(QStringLiteral("unrecovered"));
+QString Core::GetAutoRecoveryIndexFilename() {
+  return QDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation))
+      .filePath(QStringLiteral("unrecovered"));
 }
 
-void Core::SaveUnrecoveredList()
-{
+void Core::SaveUnrecoveredList() {
   QFile autorecovery_index(GetAutoRecoveryIndexFilename());
 
   if (autorecovered_projects_.isEmpty()) {
@@ -905,23 +833,26 @@ void Core::SaveUnrecoveredList()
   }
 }
 
-bool Core::RevertProjectInternal(bool by_opening_existing)
-{
+bool Core::RevertProjectInternal(bool by_opening_existing) {
   if (open_project_->filename().isEmpty()) {
-    QMessageBox::critical(main_window_, tr("Revert"),
-                          tr("This project has not yet been saved, therefore there is no last saved state to revert to."));
+    QMessageBox::critical(
+        main_window_, tr("Revert"),
+        tr("This project has not yet been saved, therefore there is no last saved state to revert to."));
   } else {
     QString msg;
 
     if (by_opening_existing) {
       msg = tr("The project \"%1\" is already open. By re-opening it, the project will revert to "
-               "its last saved state. Any unsaved changes will be lost. Do you wish to continue?").arg(open_project_->filename());
+               "its last saved state. Any unsaved changes will be lost. Do you wish to continue?")
+                .arg(open_project_->filename());
     } else {
       msg = tr("This will revert the project \"%1\" back to its last saved state. "
-                                 "All unsaved changes will be lost. Do you wish to continue?").arg(open_project_->name());
+               "All unsaved changes will be lost. Do you wish to continue?")
+                .arg(open_project_->name());
     }
 
-    if (QMessageBox::question(main_window_, tr("Revert"), msg, QMessageBox::Ok | QMessageBox::Cancel) == QMessageBox::Ok) {
+    if (QMessageBox::question(main_window_, tr("Revert"), msg, QMessageBox::Ok | QMessageBox::Cancel) ==
+        QMessageBox::Ok) {
       // Copy filename because CloseProject is going to delete `p`
       QString filename = open_project_->filename();
 
@@ -940,8 +871,7 @@ bool Core::RevertProjectInternal(bool by_opening_existing)
   return false;
 }
 
-void Core::SaveRecentProjectsList()
-{
+void Core::SaveRecentProjectsList() {
   // Save recently opened projects
   QFile recent_projects_file(GetRecentProjectsFilePath());
   if (recent_projects_file.open(QFile::WriteOnly | QFile::Text)) {
@@ -950,13 +880,14 @@ void Core::SaveRecentProjectsList()
   }
 }
 
-void Core::SaveAutorecovery()
-{
+void Core::SaveAutorecovery() {
   if (OLIVE_CONFIG("AutorecoveryEnabled").toBool()) {
     if (open_project_ && !open_project_->has_autorecovery_been_saved()) {
-      QDir project_autorecovery_dir(QDir(FileFunctions::GetAutoRecoveryRoot()).filePath(open_project_->GetUuid().toString()));
+      QDir project_autorecovery_dir(
+          QDir(FileFunctions::GetAutoRecoveryRoot()).filePath(open_project_->GetUuid().toString()));
       if (FileFunctions::DirectoryIsValid(project_autorecovery_dir)) {
-        QString this_autorecovery_path = project_autorecovery_dir.filePath(QStringLiteral("%1.ove").arg(QString::number(QDateTime::currentSecsSinceEpoch())));
+        QString this_autorecovery_path = project_autorecovery_dir.filePath(
+            QStringLiteral("%1.ove").arg(QString::number(QDateTime::currentSecsSinceEpoch())));
 
         SaveProjectInternal(this_autorecovery_path);
 
@@ -986,7 +917,7 @@ void Core::SaveAutorecovery()
         QStringList recovery_files = project_autorecovery_dir.entryList(QDir::Files | QDir::NoDotAndDotDot, QDir::Name);
         while (recovery_files.size() > max_recoveries_per_file) {
           bool deleted = false;
-          for (int i=0; i<recovery_files.size(); i++) {
+          for (int i = 0; i < recovery_files.size(); i++) {
             const QString& f = recovery_files.at(i);
 
             if (f.endsWith(QStringLiteral(".ove"), Qt::CaseInsensitive)) {
@@ -1009,7 +940,7 @@ void Core::SaveAutorecovery()
         QMessageBox::critical(main_window_, tr("Auto-Recovery Error"),
                               tr("Failed to save auto-recovery to \"%1\". "
                                  "Olive may not have permission to this directory.")
-                              .arg(project_autorecovery_dir.absolutePath()));
+                                  .arg(project_autorecovery_dir.absolutePath()));
       }
     }
 
@@ -1018,8 +949,7 @@ void Core::SaveAutorecovery()
   }
 }
 
-void Core::ProjectSaveSucceeded(Task* task)
-{
+void Core::ProjectSaveSucceeded(Task* task) {
   Project* p = static_cast<ProjectSaveTask*>(task)->GetProject();
 
   PushRecentlyOpenedProject(p->filename());
@@ -1032,13 +962,9 @@ void Core::ProjectSaveSucceeded(Task* task)
   ShowStatusBarMessage(tr("Saved to \"%1\" successfully").arg(p->filename()));
 }
 
-Project* Core::GetActiveProject() const
-{
-  return open_project_;
-}
+Project* Core::GetActiveProject() const { return open_project_; }
 
-Folder *Core::GetSelectedFolderInActiveProject() const
-{
+Folder* Core::GetSelectedFolderInActiveProject() const {
   ProjectPanel* active_project_panel = PanelManager::instance()->MostRecentlyFocused<ProjectPanel>();
 
   if (active_project_panel) {
@@ -1048,46 +974,36 @@ Folder *Core::GetSelectedFolderInActiveProject() const
   }
 }
 
-Timecode::Display Core::GetTimecodeDisplay() const
-{
+Timecode::Display Core::GetTimecodeDisplay() const {
   return static_cast<Timecode::Display>(OLIVE_CONFIG("TimecodeDisplay").toInt());
 }
 
-void Core::SetTimecodeDisplay(Timecode::Display d)
-{
+void Core::SetTimecodeDisplay(Timecode::Display d) {
   OLIVE_CONFIG("TimecodeDisplay") = d;
 
   emit TimecodeDisplayChanged(d);
 }
 
-void Core::SetAutorecoveryInterval(int minutes)
-{
+void Core::SetAutorecoveryInterval(int minutes) {
   // Convert minutes to milliseconds
   autorecovery_timer_.setInterval(minutes * 60000);
 }
 
-void Core::CopyStringToClipboard(const QString &s)
-{
-  QGuiApplication::clipboard()->setText(s);
-}
+void Core::CopyStringToClipboard(const QString& s) { QGuiApplication::clipboard()->setText(s); }
 
-QString Core::PasteStringFromClipboard()
-{
-  return QGuiApplication::clipboard()->text();
-}
+QString Core::PasteStringFromClipboard() { return QGuiApplication::clipboard()->text(); }
 
-QString Core::GetProjectFilter(bool include_any_filter)
-{
-  static const QVector< QPair<QString, QString> > FILTERS = {
-    // Standard compressed Olive project
-    {tr("Olive Project"), QStringLiteral("ove")},
+QString Core::GetProjectFilter(bool include_any_filter) {
+  static const QVector<QPair<QString, QString> > FILTERS = {
+      // Standard compressed Olive project
+      {tr("Olive Project"), QStringLiteral("ove")},
 
-    // Uncompressed XML Olive project
-    {tr("Olive Project (Uncompressed XML)"), QStringLiteral("ovexml")},
+      // Uncompressed XML Olive project
+      {tr("Olive Project (Uncompressed XML)"), QStringLiteral("ovexml")},
 
-    // OpenTimelineIO project, if available
+  // OpenTimelineIO project, if available
 #ifdef USE_OTIO
-    {tr("OpenTimelineIO"), QStringLiteral("otio")}
+      {tr("OpenTimelineIO"), QStringLiteral("otio")}
 #endif
   };
 
@@ -1096,26 +1012,24 @@ QString Core::GetProjectFilter(bool include_any_filter)
 
   if (include_any_filter) {
     QStringList combined;
-    for (auto it=FILTERS.cbegin(); it!=FILTERS.cend(); it++) {
+    for (auto it = FILTERS.cbegin(); it != FILTERS.cend(); it++) {
       combined.append(QStringLiteral("*.%1").arg(it->second));
     }
     filters.append(QStringLiteral("%1 (%2)").arg(tr("All Supported Projects"), combined.join(' ')));
   }
 
-  for (auto it=FILTERS.cbegin(); it!=FILTERS.cend(); it++) {
+  for (auto it = FILTERS.cbegin(); it != FILTERS.cend(); it++) {
     filters.append(QStringLiteral("%1 (*.%2)").arg(it->first, it->second));
   }
 
   return filters.join(QStringLiteral(";;"));
 }
 
-QString Core::GetRecentProjectsFilePath()
-{
+QString Core::GetRecentProjectsFilePath() {
   return QDir(FileFunctions::GetConfigurationLocation()).filePath(QStringLiteral("recent"));
 }
 
-void Core::SetStartupLocale()
-{
+void Core::SetStartupLocale() {
   // Set language
   if (!core_params_.startup_language().isEmpty()) {
     if (translator_->load(core_params_.startup_language()) && QApplication::installTranslator(translator_)) {
@@ -1137,8 +1051,7 @@ void Core::SetStartupLocale()
   }
 }
 
-bool Core::SaveProject()
-{
+bool Core::SaveProject() {
   if (open_project_->filename().isEmpty()) {
     return SaveProjectAs();
   } else {
@@ -1148,36 +1061,22 @@ bool Core::SaveProject()
   }
 }
 
-void Core::ShowStatusBarMessage(const QString &s, int timeout)
-{
-  main_window_->statusBar()->showMessage(s, timeout);
-}
+void Core::ShowStatusBarMessage(const QString& s, int timeout) { main_window_->statusBar()->showMessage(s, timeout); }
 
-void Core::ClearStatusBarMessage()
-{
-  main_window_->statusBar()->clearMessage();
-}
+void Core::ClearStatusBarMessage() { main_window_->statusBar()->clearMessage(); }
 
-void Core::OpenRecoveryProject(const QString &filename)
-{
-  OpenProjectInternal(filename, true);
-}
+void Core::OpenRecoveryProject(const QString& filename) { OpenProjectInternal(filename, true); }
 
-void Core::OpenNodeInViewer(ViewerOutput *viewer)
-{
-  main_window_->OpenNodeInViewer(viewer);
-}
+void Core::OpenNodeInViewer(ViewerOutput* viewer) { main_window_->OpenNodeInViewer(viewer); }
 
-void Core::OpenExportDialogForViewer(ViewerOutput *viewer, bool start_still_image)
-{
+void Core::OpenExportDialogForViewer(ViewerOutput* viewer, bool start_still_image) {
   ExportDialog* ed = new ExportDialog(viewer, start_still_image, main_window_);
   connect(ed, &ExportDialog::finished, ed, &ExportDialog::deleteLater);
   ed->open();
   connect(ed, &ExportDialog::RequestImportFile, this, &Core::ImportSingleFile);
 }
 
-void Core::CheckForAutoRecoveries()
-{
+void Core::CheckForAutoRecoveries() {
   QFile autorecovery_index(GetAutoRecoveryIndexFilename());
   if (autorecovery_index.exists()) {
     // Uh-oh, we have auto-recoveries to prompt
@@ -1197,22 +1096,21 @@ void Core::CheckForAutoRecoveries()
       QMessageBox::critical(main_window_, tr("Auto-Recovery Error"),
                             tr("Found auto-recoveries but failed to load the auto-recovery index. "
                                "Auto-recover projects will have to be opened manually.\n\n"
-                               "Your recoverable projects are still available at: %1").arg(FileFunctions::GetAutoRecoveryRoot()));
+                               "Your recoverable projects are still available at: %1")
+                                .arg(FileFunctions::GetAutoRecoveryRoot()));
     }
   }
 }
 
-void Core::BrowseAutoRecoveries()
-{
+void Core::BrowseAutoRecoveries() {
   // List all auto-recovery entries
   AutoRecoveryDialog ard(tr("The following project versions have been auto-saved:"),
-                         QDir(FileFunctions::GetAutoRecoveryRoot()).entryList(QDir::Dirs | QDir::NoDotAndDotDot),
-                         false, main_window_);
+                         QDir(FileFunctions::GetAutoRecoveryRoot()).entryList(QDir::Dirs | QDir::NoDotAndDotDot), false,
+                         main_window_);
   ard.exec();
 }
 
-void Core::RequestPixelSamplingInViewers(bool e)
-{
+void Core::RequestPixelSamplingInViewers(bool e) {
   if (e) {
     if (pixel_sampling_users_ == 0) {
       // Signal to start pixel sampling
@@ -1230,8 +1128,7 @@ void Core::RequestPixelSamplingInViewers(bool e)
   }
 }
 
-void Core::WarnCacheFull()
-{
+void Core::WarnCacheFull() {
   if (!shown_cache_full_warning_ && main_window_) {
     shown_cache_full_warning_ = true;
 
@@ -1242,12 +1139,12 @@ void Core::WarnCacheFull()
                             "To remedy this, please do one of the following:\n\n"
                             "1. Manually clear the disk cache in Disk preferences.\n"
                             "2. Increase the maximum disk cache size in Disk preferences.\n"
-                            "3. Reduce usage of the disk cache (e.g. disable auto-cache or only cache specific sections of your sequence)."));
+                            "3. Reduce usage of the disk cache (e.g. disable auto-cache or only cache specific "
+                            "sections of your sequence)."));
   }
 }
 
-bool Core::SaveProjectAs()
-{
+bool Core::SaveProjectAs() {
   QFileDialog fd(main_window_, tr("Save Project As"));
 
   fd.setAcceptMode(QFileDialog::AcceptSave);
@@ -1273,13 +1170,9 @@ bool Core::SaveProjectAs()
   return false;
 }
 
-void Core::RevertProject()
-{
-  RevertProjectInternal(false);
-}
+void Core::RevertProject() { RevertProjectInternal(false); }
 
-void Core::PushRecentlyOpenedProject(const QString& s)
-{
+void Core::PushRecentlyOpenedProject(const QString& s) {
   if (s.isEmpty()) {
     return;
   }
@@ -1302,8 +1195,7 @@ void Core::PushRecentlyOpenedProject(const QString& s)
   emit OpenRecentListChanged();
 }
 
-void Core::OpenProjectInternal(const QString &filename, bool recovery_project)
-{
+void Core::OpenProjectInternal(const QString& filename, bool recovery_project) {
   if (open_project_) {
     // Comparing QFileInfos will handle case insensitivity and both slash directions on platforms
     // where this is necessary (not naming any names *cough* Windows)
@@ -1328,8 +1220,7 @@ void Core::OpenProjectInternal(const QString &filename, bool recovery_project)
 #ifdef USE_OTIO
     load_task = new LoadOTIOTask(filename);
 #else
-    QMessageBox::critical(main_window_,
-                          tr("Missing OpenTimelineIO Libraries"),
+    QMessageBox::critical(main_window_, tr("Missing OpenTimelineIO Libraries"),
                           tr("This build was compiled without OpenTimelineIO and therefore "
                              "cannot open OpenTimelineIO files."));
     return;
@@ -1350,15 +1241,13 @@ void Core::OpenProjectInternal(const QString &filename, bool recovery_project)
   task_dialog->open();
 }
 
-void Core::ImportSingleFile(const QString &f)
-{
-  if (Project *p = GetActiveProject()) {
+void Core::ImportSingleFile(const QString& f) {
+  if (Project* p = GetActiveProject()) {
     ImportFiles({f}, p->root());
   }
 }
 
-int Core::CountFilesInFileList(const QFileInfoList &filenames)
-{
+int Core::CountFilesInFileList(const QFileInfoList& filenames) {
   int file_count = 0;
 
   foreach (const QFileInfo& f, filenames) {
@@ -1377,8 +1266,7 @@ int Core::CountFilesInFileList(const QFileInfoList &filenames)
   return file_count;
 }
 
-bool Core::LabelNodes(const QVector<Node *> &nodes, MultiUndoCommand *parent)
-{
+bool Core::LabelNodes(const QVector<Node*>& nodes, MultiUndoCommand* parent) {
   if (nodes.isEmpty()) {
     return false;
   }
@@ -1387,7 +1275,7 @@ bool Core::LabelNodes(const QVector<Node *> &nodes, MultiUndoCommand *parent)
 
   QString start_label = nodes.first()->GetLabel();
 
-  for (int i=1; i<nodes.size(); i++) {
+  for (int i = 1; i < nodes.size(); i++) {
     if (nodes.at(i)->GetLabel() != start_label) {
       // Not all the nodes share the same name, so we'll start with a blank one
       start_label.clear();
@@ -1395,12 +1283,8 @@ bool Core::LabelNodes(const QVector<Node *> &nodes, MultiUndoCommand *parent)
     }
   }
 
-  QString s = QInputDialog::getText(main_window_,
-                                    tr("Label Node"),
-                                    tr("Set node label"),
-                                    QLineEdit::Normal,
-                                    start_label,
-                                    &ok);
+  QString s =
+      QInputDialog::getText(main_window_, tr("Label Node"), tr("Set node label"), QLineEdit::Normal, start_label, &ok);
 
   if (ok) {
     NodeRenameCommand* rename_command = new NodeRenameCommand();
@@ -1421,8 +1305,7 @@ bool Core::LabelNodes(const QVector<Node *> &nodes, MultiUndoCommand *parent)
   return false;
 }
 
-Sequence *Core::CreateNewSequenceForProject(const QString &format, Project* project)
-{
+Sequence* Core::CreateNewSequenceForProject(const QString& format, Project* project) {
   Sequence* new_sequence = new Sequence();
 
   // Get default name for this sequence (in the format "Sequence N", the first that doesn't exist)
@@ -1437,16 +1320,16 @@ Sequence *Core::CreateNewSequenceForProject(const QString &format, Project* proj
   return new_sequence;
 }
 
-void Core::OpenProjectFromRecentList(int index)
-{
+void Core::OpenProjectFromRecentList(int index) {
   const QString& open_fn = recent_projects_.at(index);
 
   if (QFileInfo::exists(open_fn)) {
     OpenProjectInternal(open_fn);
-  } else if (QMessageBox::information(main_window(),
-                                      tr("Cannot open recent project"),
-                                      tr("The project \"%1\" doesn't exist. Would you like to remove this file from the recent list?").arg(open_fn),
-                                      QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes) {
+  } else if (QMessageBox::information(
+                 main_window(), tr("Cannot open recent project"),
+                 tr("The project \"%1\" doesn't exist. Would you like to remove this file from the recent list?")
+                     .arg(open_fn),
+                 QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes) {
     recent_projects_.removeAt(index);
 
     SaveRecentProjectsList();
@@ -1455,8 +1338,7 @@ void Core::OpenProjectFromRecentList(int index)
   }
 }
 
-bool Core::CloseProject(bool auto_open_new, bool ignore_modified)
-{
+bool Core::CloseProject(bool auto_open_new, bool ignore_modified) {
   if (open_project_) {
     if (open_project_->is_modified() && !ignore_modified) {
       QMessageBox mb(main_window_);
@@ -1464,8 +1346,7 @@ bool Core::CloseProject(bool auto_open_new, bool ignore_modified)
       mb.setWindowModality(Qt::WindowModal);
       mb.setIcon(QMessageBox::Question);
       mb.setWindowTitle(tr("Unsaved Changes"));
-      mb.setText(tr("The project '%1' has unsaved changes. Would you like to save them?")
-                 .arg(open_project_->name()));
+      mb.setText(tr("The project '%1' has unsaved changes. Would you like to save them?").arg(open_project_->name()));
 
       QPushButton* yes_btn = mb.addButton(tr("Save"), QMessageBox::YesRole);
 
@@ -1489,7 +1370,7 @@ bool Core::CloseProject(bool auto_open_new, bool ignore_modified)
     // For safety, the undo stack is cleared so no commands try to affect a freed project
     undo_stack_.clear();
 
-    Project *tmp = open_project_;
+    Project* tmp = open_project_;
     SetActiveProject(nullptr);
     delete tmp;
   }
@@ -1502,8 +1383,7 @@ bool Core::CloseProject(bool auto_open_new, bool ignore_modified)
   return true;
 }
 
-void Core::CacheActiveSequence(bool in_out_only)
-{
+void Core::CacheActiveSequence(bool in_out_only) {
   TimeBasedPanel* p = PanelManager::instance()->MostRecentlyFocused<TimeBasedPanel>();
 
   if (p && p->GetConnectedViewer()) {
@@ -1528,16 +1408,13 @@ void Core::CacheActiveSequence(bool in_out_only)
         found_panel->CacheEntireSequence();
       }
     } else {
-      QMessageBox::critical(main_window_,
-                            tr("Failed to cache sequence"),
-                            tr("No active viewer found with this sequence."),
-                            QMessageBox::Ok);
+      QMessageBox::critical(main_window_, tr("Failed to cache sequence"),
+                            tr("No active viewer found with this sequence."), QMessageBox::Ok);
     }
   }
 }
 
-QString StripWindowsDriveLetter(QString s)
-{
+QString StripWindowsDriveLetter(QString s) {
   // HACK: On Windows, absolute paths are saved with a drive letter (e.g. "C:\video.mp4"). Below,
   //       we use Qt's relative path system to resolve when an entire project may be in a different
   //       folder, but the files are all in the same place relatively to the project. Unfortunately,
@@ -1558,12 +1435,11 @@ QString StripWindowsDriveLetter(QString s)
   return s;
 }
 
-bool Core::ValidateFootageInLoadedProject(Project* project, const QString& project_saved_url)
-{
+bool Core::ValidateFootageInLoadedProject(Project* project, const QString& project_saved_url) {
   QVector<Footage*> footage_we_couldnt_validate;
 
-  for (Node *n : project->nodes()) {
-    if (Footage *footage = dynamic_cast<Footage*>(n)) {
+  for (Node* n : project->nodes()) {
+    if (Footage* footage = dynamic_cast<Footage*>(n)) {
       QString footage_fn = StripWindowsDriveLetter(footage->filename());
       QString project_fn = StripWindowsDriveLetter(project_saved_url);
 
@@ -1606,8 +1482,7 @@ bool Core::ValidateFootageInLoadedProject(Project* project, const QString& proje
   return true;
 }
 
-bool Core::SetLanguage(const QString &locale)
-{
+bool Core::SetLanguage(const QString& locale) {
   QApplication::removeTranslator(translator_);
 
   QString resource_path = QStringLiteral(":/ts/%1").arg(locale);
@@ -1618,23 +1493,14 @@ bool Core::SetLanguage(const QString &locale)
   return false;
 }
 
-void Core::OpenProject()
-{
-  QString file = QFileDialog::getOpenFileName(main_window_,
-                                              tr("Open Project"),
-                                              QString(),
-                                              GetProjectFilter(true));
+void Core::OpenProject() {
+  QString file = QFileDialog::getOpenFileName(main_window_, tr("Open Project"), QString(), GetProjectFilter(true));
 
   if (!file.isEmpty()) {
     OpenProjectInternal(file);
   }
 }
 
-Core::CoreParams::CoreParams() :
-  mode_(kRunNormal),
-  run_fullscreen_(false),
-  crash_(false)
-{
-}
+Core::CoreParams::CoreParams() : mode_(kRunNormal), run_fullscreen_(false), crash_(false) {}
 
-}
+}  // namespace olive

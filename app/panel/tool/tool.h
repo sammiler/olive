@@ -28,17 +28,15 @@ namespace olive {
 /**
  * @brief A PanelWidget wrapper around a Toolbar
  */
-class ToolPanel : public PanelWidget
-{
+class ToolPanel : public PanelWidget {
   Q_OBJECT
-public:
+ public:
   ToolPanel();
 
-private:
+ private:
   virtual void Retranslate() override;
-
 };
 
-}
+}  // namespace olive
 
-#endif // TOOL_PANEL_H
+#endif  // TOOL_PANEL_H

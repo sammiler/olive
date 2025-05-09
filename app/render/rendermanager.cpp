@@ -34,13 +34,10 @@
 
 namespace olive {
 
-RenderManager* RenderManager::instance_ = nullptr;
+RenderManager *RenderManager::instance_ = nullptr;
 const rational RenderManager::kDryRunInterval = rational(10);
 
-RenderManager::RenderManager(QObject *parent) :
-  backend_(kOpenGL),
-  aggressive_gc_(0)
-{
+RenderManager::RenderManager(QObject *parent) : backend_(kOpenGL), aggressive_gc_(0) {
   if (backend_ == kOpenGL) {
     context_ = new OpenGLRenderer();
     decoder_cache_ = new DecoderCache();
@@ -57,7 +54,7 @@ RenderManager::RenderManager(QObject *parent) :
     audio_thread_ = CreateThread();
 
     waveform_threads_.resize(QThread::idealThreadCount());
-    for (size_t i=0; i<waveform_threads_.size(); i++) {
+    for (size_t i = 0; i < waveform_threads_.size(); i++) {
       waveform_threads_[i] = CreateThread();
     }
 
@@ -70,8 +67,7 @@ RenderManager::RenderManager(QObject *parent) :
   decoder_clear_timer_->start();
 }
 
-RenderManager::~RenderManager()
-{
+RenderManager::~RenderManager() {
   if (context_) {
     delete shader_cache_;
     delete decoder_cache_;
@@ -86,16 +82,14 @@ RenderManager::~RenderManager()
   }
 }
 
-RenderThread *RenderManager::CreateThread(Renderer *renderer)
-{
+RenderThread *RenderManager::CreateThread(Renderer *renderer) {
   auto t = new RenderThread(renderer, decoder_cache_, shader_cache_, this);
   render_threads_.push_back(t);
   t->start(QThread::IdlePriority);
   return t;
 }
 
-RenderTicketPtr RenderManager::RenderFrame(const RenderVideoParams &params)
-{
+RenderTicketPtr RenderManager::RenderFrame(const RenderVideoParams &params) {
   // Create ticket
   RenderTicketPtr ticket = std::make_shared<RenderTicket>();
 
@@ -128,8 +122,7 @@ RenderTicketPtr RenderManager::RenderFrame(const RenderVideoParams &params)
   return ticket;
 }
 
-RenderTicketPtr RenderManager::RenderAudio(const RenderAudioParams &params)
-{
+RenderTicketPtr RenderManager::RenderAudio(const RenderAudioParams &params) {
   // Create ticket
   RenderTicketPtr ticket = std::make_shared<RenderTicket>();
 
@@ -142,7 +135,7 @@ RenderTicketPtr RenderManager::RenderAudio(const RenderAudioParams &params)
   ticket->setProperty("mode", params.mode);
 
   if (params.generate_waveforms) {
-    size_t thread_index = last_waveform_thread_%waveform_threads_.size();
+    size_t thread_index = last_waveform_thread_ % waveform_threads_.size();
     RenderThread *thread = waveform_threads_[thread_index];
     thread->AddTicket(ticket);
     last_waveform_thread_++;
@@ -153,8 +146,7 @@ RenderTicketPtr RenderManager::RenderAudio(const RenderAudioParams &params)
   return ticket;
 }
 
-bool RenderManager::RemoveTicket(RenderTicketPtr ticket)
-{
+bool RenderManager::RemoveTicket(RenderTicketPtr ticket) {
   for (RenderThread *rt : render_threads_) {
     if (rt->RemoveTicket(ticket)) {
       return true;
@@ -164,8 +156,7 @@ bool RenderManager::RemoveTicket(RenderTicketPtr ticket)
   return false;
 }
 
-void RenderManager::SetAggressiveGarbageCollection(bool enabled)
-{
+void RenderManager::SetAggressiveGarbageCollection(bool enabled) {
   aggressive_gc_ += enabled ? 1 : -1;
 
   if (aggressive_gc_ > 0) {
@@ -175,13 +166,12 @@ void RenderManager::SetAggressiveGarbageCollection(bool enabled)
   }
 }
 
-void RenderManager::ClearOldDecoders()
-{
+void RenderManager::ClearOldDecoders() {
   QMutexLocker locker(decoder_cache_->mutex());
 
   qint64 min_age = QDateTime::currentMSecsSinceEpoch() - kDecoderMaximumInactivity;
 
-  for (auto it=decoder_cache_->begin(); it!=decoder_cache_->end(); ) {
+  for (auto it = decoder_cache_->begin(); it != decoder_cache_->end();) {
     DecoderPair decoder = it.value();
 
     if (decoder.decoder->GetLastAccessedTime() < min_age) {
@@ -193,29 +183,26 @@ void RenderManager::ClearOldDecoders()
   }
 }
 
-RenderThread::RenderThread(Renderer *renderer, DecoderCache *decoder_cache, ShaderCache *shader_cache, QObject *parent) :
-  QThread(parent),
-  cancelled_(false),
-  context_(renderer),
-  decoder_cache_(decoder_cache),
-  shader_cache_(shader_cache)
-{
+RenderThread::RenderThread(Renderer *renderer, DecoderCache *decoder_cache, ShaderCache *shader_cache, QObject *parent)
+    : QThread(parent),
+      cancelled_(false),
+      context_(renderer),
+      decoder_cache_(decoder_cache),
+      shader_cache_(shader_cache) {
   if (context_) {
     context_->Init();
     context_->moveToThread(this);
   }
 }
 
-void RenderThread::AddTicket(RenderTicketPtr ticket)
-{
+void RenderThread::AddTicket(RenderTicketPtr ticket) {
   QMutexLocker locker(&mutex_);
   ticket->moveToThread(this);
   queue_.push_back(ticket);
   wait_.wakeOne();
 }
 
-bool RenderThread::RemoveTicket(RenderTicketPtr ticket)
-{
+bool RenderThread::RemoveTicket(RenderTicketPtr ticket) {
   QMutexLocker locker(&mutex_);
 
   auto it = std::find(queue_.begin(), queue_.end(), ticket);
@@ -227,15 +214,13 @@ bool RenderThread::RemoveTicket(RenderTicketPtr ticket)
   return true;
 }
 
-void RenderThread::quit()
-{
+void RenderThread::quit() {
   QMutexLocker locker(&mutex_);
   cancelled_ = true;
   wait_.wakeOne();
 }
 
-void RenderThread::run()
-{
+void RenderThread::run() {
   if (context_) {
     context_->PostInit();
   }
@@ -276,4 +261,4 @@ void RenderThread::run()
   }
 }
 
-}
+}  // namespace olive

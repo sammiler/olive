@@ -29,16 +29,15 @@ namespace olive {
 /**
  * @brief The view widget used when ProjectExplorer is in List View
  */
-class ProjectExplorerListView : public ProjectExplorerListViewBase
-{
+class ProjectExplorerListView : public ProjectExplorerListViewBase {
   Q_OBJECT
-public:
+ public:
   ProjectExplorerListView(QWidget* parent);
 
-private:
+ private:
   ProjectExplorerListViewItemDelegate delegate_;
 };
 
-}
+}  // namespace olive
 
-#endif // PROJECTEXPLORERLISTVIEW_H
+#endif  // PROJECTEXPLORERLISTVIEW_H

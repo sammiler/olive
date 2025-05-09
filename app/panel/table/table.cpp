@@ -22,17 +22,12 @@
 
 namespace olive {
 
-NodeTablePanel::NodeTablePanel() :
-  TimeBasedPanel(QStringLiteral("NodeTablePanel"))
-{
+NodeTablePanel::NodeTablePanel() : TimeBasedPanel(QStringLiteral("NodeTablePanel")) {
   SetTimeBasedWidget(new NodeTableWidget(this));
 
   Retranslate();
 }
 
-void NodeTablePanel::Retranslate()
-{
-  SetTitle(tr("Table View"));
-}
+void NodeTablePanel::Retranslate() { SetTitle(tr("Table View")); }
 
-}
+}  // namespace olive

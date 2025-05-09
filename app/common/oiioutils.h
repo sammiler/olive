@@ -30,36 +30,34 @@
 namespace olive {
 
 class OIIOUtils {
-public:
-  static OIIO::TypeDesc::BASETYPE GetOIIOBaseTypeFromFormat(PixelFormat format)
-  {
+ public:
+  static OIIO::TypeDesc::BASETYPE GetOIIOBaseTypeFromFormat(PixelFormat format) {
     switch (format) {
-    case PixelFormat::U8:
-      return OIIO::TypeDesc::UINT8;
-    case PixelFormat::U16:
-      return OIIO::TypeDesc::UINT16;
-    case PixelFormat::F16:
-      return OIIO::TypeDesc::HALF;
-    case PixelFormat::F32:
-      return OIIO::TypeDesc::FLOAT;
-    case PixelFormat::INVALID:
-    case PixelFormat::COUNT:
-      break;
+      case PixelFormat::U8:
+        return OIIO::TypeDesc::UINT8;
+      case PixelFormat::U16:
+        return OIIO::TypeDesc::UINT16;
+      case PixelFormat::F16:
+        return OIIO::TypeDesc::HALF;
+      case PixelFormat::F32:
+        return OIIO::TypeDesc::FLOAT;
+      case PixelFormat::INVALID:
+      case PixelFormat::COUNT:
+        break;
     }
 
     return OIIO::TypeDesc::UNKNOWN;
   }
 
-  static void FrameToBuffer(const Frame *frame, OIIO::ImageBuf* buf);
+  static void FrameToBuffer(const Frame* frame, OIIO::ImageBuf* buf);
 
   static void BufferToFrame(OIIO::ImageBuf* buf, Frame* frame);
 
   static PixelFormat GetFormatFromOIIOBasetype(OIIO::TypeDesc::BASETYPE type);
 
   static rational GetPixelAspectRatioFromOIIO(const OIIO::ImageSpec& spec);
-
 };
 
-}
+}  // namespace olive
 
-#endif // OIIOUTILS_H
+#endif  // OIIOUTILS_H

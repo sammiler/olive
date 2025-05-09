@@ -21,32 +21,30 @@
 #ifndef AUDIOWAVEFORMVIEW_H
 #define AUDIOWAVEFORMVIEW_H
 
-#include <QtConcurrent/QtConcurrent>
 #include <QWidget>
+#include <QtConcurrent/QtConcurrent>
 
 #include "render/audioplaybackcache.h"
 #include "widget/timeruler/seekablewidget.h"
 
 namespace olive {
 
-class AudioWaveformView : public SeekableWidget
-{
+class AudioWaveformView : public SeekableWidget {
   Q_OBJECT
-public:
-  AudioWaveformView(QWidget* parent = nullptr);
+ public:
+  AudioWaveformView(QWidget *parent = nullptr);
 
   void SetViewer(ViewerOutput *playback);
 
-protected:
+ protected:
   virtual void drawForeground(QPainter *painter, const QRectF &rect) override;
 
-private:
+ private:
   QThreadPool pool_;
 
   ViewerOutput *playback_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // AUDIOWAVEFORMVIEW_H
+#endif  // AUDIOWAVEFORMVIEW_H

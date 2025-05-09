@@ -25,21 +25,19 @@
 
 namespace olive {
 
-class CodecStack : public QStackedWidget
-{
+class CodecStack : public QStackedWidget {
   Q_OBJECT
-public:
+ public:
   explicit CodecStack(QWidget *parent = nullptr);
 
   void addWidget(QWidget *widget);
 
-signals:
+ signals:
 
-private slots:
+ private slots:
   void OnChange(int index);
-
 };
 
-}
+}  // namespace olive
 
-#endif // CODECSTACK_H
+#endif  // CODECSTACK_H

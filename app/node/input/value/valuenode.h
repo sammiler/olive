@@ -25,31 +25,20 @@
 
 namespace olive {
 
-class ValueNode : public Node
-{
+class ValueNode : public Node {
   Q_OBJECT
-public:
+ public:
   ValueNode();
 
   NODE_DEFAULT_FUNCTIONS(ValueNode)
 
-  virtual QString Name() const override
-  {
-    return tr("Value");
-  }
+  virtual QString Name() const override { return tr("Value"); }
 
-  virtual QString id() const override
-  {
-    return QStringLiteral("org.olivevideoeditor.Olive.value");
-  }
+  virtual QString id() const override { return QStringLiteral("org.olivevideoeditor.Olive.value"); }
 
-  virtual QVector<CategoryID> Category() const override
-  {
-    return {kCategoryGenerator};
-  }
+  virtual QVector<CategoryID> Category() const override { return {kCategoryGenerator}; }
 
-  virtual QString Description() const override
-  {
+  virtual QString Description() const override {
     return tr("Create a single value that can be connected to various other inputs.");
   }
 
@@ -58,16 +47,15 @@ public:
 
   virtual void Retranslate() override;
 
-  virtual void Value(const NodeValueRow& value, const NodeGlobals &globals, NodeValueTable *table) const override;
+  virtual void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
 
-protected:
+ protected:
   virtual void InputValueChangedEvent(const QString &input, int element) override;
 
-private:
+ private:
   static const QVector<NodeValue::Type> kSupportedTypes;
-
 };
 
-}
+}  // namespace olive
 
-#endif // VALUENODE_H
+#endif  // VALUENODE_H

@@ -33,11 +33,8 @@ namespace olive {
 
 #define super QDialog
 
-SpeedDurationDialog::SpeedDurationDialog(const QVector<ClipBlock *> &clips, const rational &timebase, QWidget *parent) :
-  super(parent),
-  clips_(clips),
-  timebase_(timebase)
-{
+SpeedDurationDialog::SpeedDurationDialog(const QVector<ClipBlock *> &clips, const rational &timebase, QWidget *parent)
+    : super(parent), clips_(clips), timebase_(timebase) {
   setWindowTitle(tr("Clip Properties"));
 
   QVBoxLayout *layout = new QVBoxLayout(this);
@@ -118,7 +115,7 @@ SpeedDurationDialog::SpeedDurationDialog(const QVector<ClipBlock *> &clips, cons
   start_reverse_ = clips.first()->reverse();
   start_maintain_audio_pitch_ = clips.first()->maintain_audio_pitch();
   start_loop_ = int(clips.first()->loop_mode());
-  for (int i=1; i<clips.size(); i++) {
+  for (int i = 1; i < clips.size(); i++) {
     ClipBlock *c = clips.at(i);
 
     if (!qIsNaN(start_speed_) && !qFuzzyCompare(start_speed_, c->speed())) {
@@ -177,8 +174,7 @@ SpeedDurationDialog::SpeedDurationDialog(const QVector<ClipBlock *> &clips, cons
   }
 }
 
-void SpeedDurationDialog::accept()
-{
+void SpeedDurationDialog::accept() {
   MultiUndoCommand *command = new MultiUndoCommand();
 
   // Set duration values
@@ -198,7 +194,7 @@ void SpeedDurationDialog::accept()
     if (proposed_length != c->length()) {
       // Clip length should ideally change, but check if there's "room" to do so
       if (proposed_length > c->length() && c->next()) {
-        if (GapBlock *gap = dynamic_cast<GapBlock*>(c->next())) {
+        if (GapBlock *gap = dynamic_cast<GapBlock *>(c->next())) {
           proposed_length = qMin(proposed_length, gap->out() - c->in());
         } else {
           proposed_length = c->length();
@@ -213,7 +209,8 @@ void SpeedDurationDialog::accept()
   }
 
   if (ripple_box_->isChecked()) {
-    command->add_child(new TimelineRippleDeleteGapsAtRegionsCommand(clips_.first()->track()->sequence(), ripple_ranges));
+    command->add_child(
+        new TimelineRippleDeleteGapsAtRegionsCommand(clips_.first()->track()->sequence(), ripple_ranges));
   }
 
   // Set speed values
@@ -221,54 +218,62 @@ void SpeedDurationDialog::accept()
     if (link_box_->isChecked() && !dur_slider_->IsTristate()) {
       // Automatically determine speed from duration
       foreach (ClipBlock *c, clips_) {
-        command->add_child(new NodeParamSetStandardValueCommand(NodeKeyframeTrackReference(NodeInput(c, ClipBlock::kSpeedInput)), GetSpeedAdjustment(c->speed(), c->length(), dur_slider_->GetValue())));
+        command->add_child(
+            new NodeParamSetStandardValueCommand(NodeKeyframeTrackReference(NodeInput(c, ClipBlock::kSpeedInput)),
+                                                 GetSpeedAdjustment(c->speed(), c->length(), dur_slider_->GetValue())));
       }
     }
   } else {
     // Set speeds to value of slider
     foreach (ClipBlock *c, clips_) {
-      command->add_child(new NodeParamSetStandardValueCommand(NodeKeyframeTrackReference(NodeInput(c, ClipBlock::kSpeedInput)), speed_slider_->GetValue()));
+      command->add_child(new NodeParamSetStandardValueCommand(
+          NodeKeyframeTrackReference(NodeInput(c, ClipBlock::kSpeedInput)), speed_slider_->GetValue()));
     }
   }
 
   // Set reverse values
   if (!reverse_box_->isTristate()) {
     foreach (ClipBlock *c, clips_) {
-      command->add_child(new NodeParamSetStandardValueCommand(NodeKeyframeTrackReference(NodeInput(c, ClipBlock::kReverseInput)), reverse_box_->isChecked()));
+      command->add_child(new NodeParamSetStandardValueCommand(
+          NodeKeyframeTrackReference(NodeInput(c, ClipBlock::kReverseInput)), reverse_box_->isChecked()));
     }
   }
 
   // Set reverse values
   if (!maintain_audio_pitch_box_->isTristate()) {
     foreach (ClipBlock *c, clips_) {
-      command->add_child(new NodeParamSetStandardValueCommand(NodeKeyframeTrackReference(NodeInput(c, ClipBlock::kMaintainAudioPitchInput)), maintain_audio_pitch_box_->isChecked()));
+      command->add_child(new NodeParamSetStandardValueCommand(
+          NodeKeyframeTrackReference(NodeInput(c, ClipBlock::kMaintainAudioPitchInput)),
+          maintain_audio_pitch_box_->isChecked()));
     }
   }
 
   if (loop_combo_->currentIndex() != -1) {
     foreach (ClipBlock *c, clips_) {
-      command->add_child(new NodeParamSetStandardValueCommand(NodeKeyframeTrackReference(NodeInput(c, ClipBlock::kLoopModeInput)), loop_combo_->currentData()));
+      command->add_child(new NodeParamSetStandardValueCommand(
+          NodeKeyframeTrackReference(NodeInput(c, ClipBlock::kLoopModeInput)), loop_combo_->currentData()));
     }
   }
 
-  QString name = (clips_.size() > 1) ? tr("Set %1 Clip Properties").arg(clips_.size()) : tr("Set Clip \"%1\" Properties").arg(clips_.first()->GetLabelOrName());
+  QString name = (clips_.size() > 1) ? tr("Set %1 Clip Properties").arg(clips_.size())
+                                     : tr("Set Clip \"%1\" Properties").arg(clips_.first()->GetLabelOrName());
   Core::instance()->undo_stack()->push(command, name);
 
   super::accept();
 }
 
-rational SpeedDurationDialog::GetLengthAdjustment(const rational &original_length, double original_speed, double new_speed, const rational &timebase)
-{
-  return Timecode::snap_time_to_timebase(rational::fromDouble(original_length.toDouble() / new_speed * original_speed), timebase);
+rational SpeedDurationDialog::GetLengthAdjustment(const rational &original_length, double original_speed,
+                                                  double new_speed, const rational &timebase) {
+  return Timecode::snap_time_to_timebase(rational::fromDouble(original_length.toDouble() / new_speed * original_speed),
+                                         timebase);
 }
 
-double SpeedDurationDialog::GetSpeedAdjustment(double original_speed, const rational &original_length, const rational &new_length)
-{
+double SpeedDurationDialog::GetSpeedAdjustment(double original_speed, const rational &original_length,
+                                               const rational &new_length) {
   return original_speed / new_length.toDouble() * original_length.toDouble();
 }
 
-void SpeedDurationDialog::SpeedChanged(double s)
-{
+void SpeedDurationDialog::SpeedChanged(double s) {
   if (!link_box_->isChecked()) {
     return;
   }
@@ -280,8 +285,7 @@ void SpeedDurationDialog::SpeedChanged(double s)
   }
 }
 
-void SpeedDurationDialog::DurationChanged(const rational &r)
-{
+void SpeedDurationDialog::DurationChanged(const rational &r) {
   if (!link_box_->isChecked()) {
     return;
   }
@@ -293,4 +297,4 @@ void SpeedDurationDialog::DurationChanged(const rational &r)
   }
 }
 
-}
+}  // namespace olive

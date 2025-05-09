@@ -28,11 +28,11 @@
 
 namespace olive {
 
-class ColorSpaceChooser : public QGroupBox
-{
+class ColorSpaceChooser : public QGroupBox {
   Q_OBJECT
-public:
-  ColorSpaceChooser(ColorManager* color_manager, bool enable_input_field = true, bool enable_display_fields = true, QWidget* parent = nullptr);
+ public:
+  ColorSpaceChooser(ColorManager* color_manager, bool enable_input_field = true, bool enable_display_fields = true,
+                    QWidget* parent = nullptr);
 
   QString input() const;
   ColorTransform output() const;
@@ -40,17 +40,17 @@ public:
   void set_input(const QString& s);
   void set_output(const ColorTransform& out);
 
-signals:
+ signals:
   void InputColorSpaceChanged(const QString& input);
 
   void OutputColorSpaceChanged(const ColorTransform& out);
 
   void ColorSpaceChanged(const QString& input, const ColorTransform& out);
 
-private slots:
-  void UpdateViews(const QString &display);
+ private slots:
+  void UpdateViews(const QString& display);
 
-private:
+ private:
   ColorManager* color_manager_;
 
   QComboBox* input_combobox_;
@@ -61,11 +61,10 @@ private:
 
   QComboBox* look_combobox_;
 
-private slots:
+ private slots:
   void ComboBoxChanged();
-
 };
 
-}
+}  // namespace olive
 
-#endif // COLORSPACECHOOSER_H
+#endif  // COLORSPACECHOOSER_H

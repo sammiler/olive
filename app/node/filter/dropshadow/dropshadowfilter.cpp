@@ -34,8 +34,7 @@ const QString DropShadowFilter::kSoftnessInput = QStringLiteral("radius_in");
 const QString DropShadowFilter::kOpacityInput = QStringLiteral("opacity_in");
 const QString DropShadowFilter::kFastInput = QStringLiteral("fast_in");
 
-DropShadowFilter::DropShadowFilter()
-{
+DropShadowFilter::DropShadowFilter() {
   AddInput(kTextureInput, NodeValue::kTexture, InputFlags(kInputFlagNotKeyframable));
 
   AddInput(kColorInput, NodeValue::kColor, QVariant::fromValue(Color(0.0, 0.0, 0.0)));
@@ -57,8 +56,7 @@ DropShadowFilter::DropShadowFilter()
   SetFlag(kVideoEffect);
 }
 
-void DropShadowFilter::Retranslate()
-{
+void DropShadowFilter::Retranslate() {
   super::Retranslate();
 
   SetInputName(kTextureInput, tr("Texture"));
@@ -70,14 +68,12 @@ void DropShadowFilter::Retranslate()
   SetInputName(kFastInput, tr("Faster (Lower Quality)"));
 }
 
-ShaderCode DropShadowFilter::GetShaderCode(const ShaderRequest &request) const
-{
+ShaderCode DropShadowFilter::GetShaderCode(const ShaderRequest &request) const {
   Q_UNUSED(request)
   return ShaderCode(FileFunctions::ReadFileAsString(":/shaders/dropshadow.frag"));
 }
 
-void DropShadowFilter::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const
-{
+void DropShadowFilter::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const {
   if (TexturePtr tex = value[kTextureInput].toTexture()) {
     ShaderJob job(value);
 
@@ -94,4 +90,4 @@ void DropShadowFilter::Value(const NodeValueRow &value, const NodeGlobals &globa
   }
 }
 
-}
+}  // namespace olive

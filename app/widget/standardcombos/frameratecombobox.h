@@ -27,17 +27,14 @@
 #include <QInputDialog>
 #include <QMessageBox>
 
-#include "render/videoparams.h"
 #include "common/qtutils.h"
+#include "render/videoparams.h"
 namespace olive {
 
-class FrameRateComboBox : public QWidget
-{
+class FrameRateComboBox : public QWidget {
   Q_OBJECT
-public:
-  FrameRateComboBox(QWidget* parent = nullptr) :
-    QWidget(parent)
-  {
+ public:
+  FrameRateComboBox(QWidget* parent = nullptr) : QWidget(parent) {
     inner_ = new QComboBox();
 
     QHBoxLayout* layout = new QHBoxLayout(this);
@@ -49,11 +46,11 @@ public:
 
     old_index_ = 0;
 
-    connect(inner_, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &FrameRateComboBox::IndexChanged);
+    connect(inner_, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
+            &FrameRateComboBox::IndexChanged);
   }
 
-  rational GetFrameRate() const
-  {
+  rational GetFrameRate() const {
     if (inner_->currentIndex() == inner_->count() - 1) {
       return custom_rate_;
     } else {
@@ -61,10 +58,9 @@ public:
     }
   }
 
-  void SetFrameRate(const rational& r)
-  {
+  void SetFrameRate(const rational& r) {
     int standard_rates = inner_->count() - 1;
-    for (int i=0; i<standard_rates; i++) {
+    for (int i = 0; i < standard_rates; i++) {
       if (inner_->itemData(i).value<rational>() == r) {
         // Set standard frame rate
         old_index_ = i;
@@ -75,17 +71,16 @@ public:
 
     // If we're here, set a custom rate
     custom_rate_ = r;
-    old_index_ = inner_->count()-1;
+    old_index_ = inner_->count() - 1;
     SetInnerIndexWithoutSignal(old_index_);
     RepopulateList();
   }
 
-signals:
+ signals:
   void FrameRateChanged(const rational& frame_rate);
 
-protected:
-  virtual void changeEvent(QEvent* event) override
-  {
+ protected:
+  virtual void changeEvent(QEvent* event) override {
     QWidget::changeEvent(event);
 
     if (event->type() == QEvent::LanguageChange) {
@@ -93,9 +88,8 @@ protected:
     }
   }
 
-private slots:
-  void IndexChanged(int index)
-  {
+ private slots:
+  void IndexChanged(int index) {
     if (index == inner_->count() - 1) {
       // Custom
       QString s;
@@ -106,8 +100,8 @@ private slots:
       }
 
       while (true) {
-        s = QInputDialog::getText(this, tr("Custom Frame Rate"), tr("Enter custom frame rate:"),
-                                  QLineEdit::Normal, s, &ok);
+        s = QInputDialog::getText(this, tr("Custom Frame Rate"), tr("Enter custom frame rate:"), QLineEdit::Normal, s,
+                                  &ok);
 
         if (ok) {
           rational r;
@@ -124,7 +118,6 @@ private slots:
           }
 
           if (ok) {
-
             custom_rate_ = r;
             emit FrameRateChanged(r);
             old_index_ = index;
@@ -137,11 +130,9 @@ private slots:
           }
 
         } else {
-
           // User cancelled, revert to original value
           SetInnerIndexWithoutSignal(old_index_);
           break;
-
         }
       }
     } else {
@@ -150,9 +141,8 @@ private slots:
     }
   }
 
-private:
-  void RepopulateList()
-  {
+ private:
+  void RepopulateList() {
     int temp_index = inner_->currentIndex();
 
     inner_->blockSignals(true);
@@ -174,8 +164,7 @@ private:
     inner_->blockSignals(false);
   }
 
-  void SetInnerIndexWithoutSignal(int index)
-  {
+  void SetInnerIndexWithoutSignal(int index) {
     inner_->blockSignals(true);
     inner_->setCurrentIndex(index);
     inner_->blockSignals(false);
@@ -186,9 +175,8 @@ private:
   rational custom_rate_;
 
   int old_index_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // FRAMERATECOMBOBOX_H
+#endif  // FRAMERATECOMBOBOX_H

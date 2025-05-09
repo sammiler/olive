@@ -25,8 +25,7 @@
 
 using namespace olive::core;
 
-bool stringutils_format_test()
-{
+bool stringutils_format_test() {
   const char *expected = "Hello, world!";
   std::string f = StringUtils::format("%s, %s!", "Hello", "world");
   if (strcmp(f.c_str(), expected) != 0) {
@@ -36,8 +35,7 @@ bool stringutils_format_test()
   return true;
 }
 
-int main()
-{
+int main() {
   Tester t;
 
   t.add("StringUtils::format", stringutils_format_test);

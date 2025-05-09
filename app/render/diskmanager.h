@@ -31,10 +31,9 @@
 
 namespace olive {
 
-class DiskCacheFolder : public QObject
-{
+class DiskCacheFolder : public QObject {
   Q_OBJECT
-public:
+ public:
   DiskCacheFolder(const QString& path, QObject* parent = nullptr);
 
   virtual ~DiskCacheFolder() override;
@@ -45,39 +44,24 @@ public:
 
   void CreatedFile(const QString& filename);
 
-  const QString& GetPath() const
-  {
-    return path_;
-  }
+  const QString& GetPath() const { return path_; }
 
   void SetPath(const QString& path);
 
-  qint64 GetLimit() const
-  {
-    return limit_;
-  }
+  qint64 GetLimit() const { return limit_; }
 
-  bool GetClearOnClose() const
-  {
-    return clear_on_close_;
-  }
+  bool GetClearOnClose() const { return clear_on_close_; }
 
-  void SetLimit(qint64 l)
-  {
-    limit_ = l;
-  }
+  void SetLimit(qint64 l) { limit_ = l; }
 
-  void SetClearOnClose(bool e)
-  {
-    clear_on_close_ = e;
-  }
+  void SetClearOnClose(bool e) { clear_on_close_ = e; }
 
-  bool DeleteSpecificFile(const QString &f);
+  bool DeleteSpecificFile(const QString& f);
 
-signals:
+ signals:
   void DeletedFrame(const QString& path, const QString& filename);
 
-private:
+ private:
   struct HashTime {
     qint64 file_size;
     qint64 access_time;
@@ -103,15 +87,13 @@ private:
 
   QTimer save_timer_;
 
-private slots:
+ private slots:
   void SaveDiskCacheIndex();
-
 };
 
-class DiskManager : public QObject
-{
+class DiskManager : public QObject {
   Q_OBJECT
-public:
+ public:
   static void CreateInstance();
 
   static void DestroyInstance();
@@ -120,23 +102,16 @@ public:
 
   bool ClearDiskCache(const QString& cache_folder);
 
-  DiskCacheFolder* GetDefaultCacheFolder() const
-  {
+  DiskCacheFolder* GetDefaultCacheFolder() const {
     // The first folder will always be the default
     return open_folders_.first();
   }
 
-  const QString& GetDefaultCachePath() const
-  {
-    return GetDefaultCacheFolder()->GetPath();
-  }
+  const QString& GetDefaultCachePath() const { return GetDefaultCacheFolder()->GetPath(); }
 
   DiskCacheFolder* GetOpenFolder(const QString& path);
 
-  const QVector<DiskCacheFolder*>& GetOpenFolders() const
-  {
-    return open_folders_;
-  }
+  const QVector<DiskCacheFolder*>& GetOpenFolders() const { return open_folders_; }
 
   static bool ShowDiskCacheChangeConfirmationDialog(QWidget* parent);
 
@@ -147,19 +122,19 @@ public:
   void ShowDiskCacheSettingsDialog(DiskCacheFolder* folder, QWidget* parent);
   void ShowDiskCacheSettingsDialog(const QString& path, QWidget* parent);
 
-public slots:
+ public slots:
   void Accessed(const QString& cache_folder, const QString& filename);
 
   void CreatedFile(const QString& cache_folder, const QString& filename);
 
-  void DeleteSpecificFile(const QString &filename);
+  void DeleteSpecificFile(const QString& filename);
 
-signals:
+ signals:
   void DeletedFrame(const QString& path, const QString& filename);
 
   void InvalidateProject(Project* p);
 
-private:
+ private:
   DiskManager();
 
   virtual ~DiskManager() override;
@@ -167,9 +142,8 @@ private:
   static DiskManager* instance_;
 
   QVector<DiskCacheFolder*> open_folders_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // DISKMANAGER_H
+#endif  // DISKMANAGER_H

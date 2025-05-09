@@ -21,19 +21,18 @@
 #ifndef H264SECTION_H
 #define H264SECTION_H
 
+#include <QComboBox>
 #include <QSlider>
 #include <QStackedWidget>
-#include <QComboBox>
 
 #include "codecsection.h"
 #include "widget/slider/floatslider.h"
 
 namespace olive {
 
-class H264CRFSection : public QWidget
-{
+class H264CRFSection : public QWidget {
   Q_OBJECT
-public:
+ public:
   H264CRFSection(int default_crf, QWidget* parent = nullptr);
 
   int GetValue() const;
@@ -42,18 +41,16 @@ public:
   static const int kDefaultH264CRF = 18;
   static const int kDefaultH265CRF = 23;
 
-private:
+ private:
   static const int kMinimumCRF = 0;
   static const int kMaximumCRF = 51;
 
   QSlider* crf_slider_;
-
 };
 
-class H264BitRateSection : public QWidget
-{
+class H264BitRateSection : public QWidget {
   Q_OBJECT
-public:
+ public:
   H264BitRateSection(QWidget* parent = nullptr);
 
   /**
@@ -68,17 +65,15 @@ public:
   int64_t GetMaximumBitRate() const;
   void SetMaximumBitRate(int64_t b);
 
-private:
+ private:
   FloatSlider* target_rate_;
 
   FloatSlider* max_rate_;
-
 };
 
-class H264FileSizeSection : public QWidget
-{
+class H264FileSizeSection : public QWidget {
   Q_OBJECT
-public:
+ public:
   H264FileSizeSection(QWidget* parent = nullptr);
 
   /**
@@ -87,29 +82,23 @@ public:
   int64_t GetFileSize() const;
   void SetFileSize(int64_t f);
 
-private:
+ private:
   FloatSlider* file_size_;
-
 };
 
-class H264Section : public CodecSection
-{
+class H264Section : public CodecSection {
   Q_OBJECT
-public:
-  enum CompressionMethod {
-    kConstantRateFactor,
-    kTargetBitRate,
-    kTargetFileSize
-  };
+ public:
+  enum CompressionMethod { kConstantRateFactor, kTargetBitRate, kTargetFileSize };
 
   H264Section(QWidget* parent = nullptr);
   H264Section(int default_crf, QWidget* parent);
 
   virtual void AddOpts(EncodingParams* params) override;
 
-  virtual void SetOpts(const EncodingParams *p) override;
+  virtual void SetOpts(const EncodingParams* p) override;
 
-private:
+ private:
   QStackedWidget* compression_method_stack_;
 
   H264CRFSection* crf_section_;
@@ -118,16 +107,15 @@ private:
 
   H264FileSizeSection* filesize_section_;
 
-  QComboBox *preset_combobox_;
+  QComboBox* preset_combobox_;
 };
 
-class H265Section : public H264Section
-{
+class H265Section : public H264Section {
   Q_OBJECT
-public:
+ public:
   H265Section(QWidget* parent = nullptr);
 };
 
-}
+}  // namespace olive
 
-#endif // H264SECTION_H
+#endif  // H264SECTION_H

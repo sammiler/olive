@@ -21,8 +21,8 @@
 #include "nodecombobox.h"
 
 #include <QAction>
-#include <QEvent>
 #include <QDebug>
+#include <QEvent>
 
 #include "node/factory.h"
 #include "ui/icons/icons.h"
@@ -30,16 +30,12 @@
 
 namespace olive {
 
-NodeComboBox::NodeComboBox(QWidget *parent) :
-  QComboBox(parent)
-{
-}
+NodeComboBox::NodeComboBox(QWidget *parent) : QComboBox(parent) {}
 
-void NodeComboBox::showPopup()
-{
-  Menu* m = NodeFactory::CreateMenu(this, true);
+void NodeComboBox::showPopup() {
+  Menu *m = NodeFactory::CreateMenu(this, true);
 
-  QAction* selected = m->exec(parentWidget()->mapToGlobal(pos()));
+  QAction *selected = m->exec(parentWidget()->mapToGlobal(pos()));
 
   if (selected) {
     QString new_id = NodeFactory::GetIDFromMenuAction(selected);
@@ -50,18 +46,11 @@ void NodeComboBox::showPopup()
   delete m;
 }
 
-const QString &NodeComboBox::GetSelectedNode() const
-{
-  return selected_id_;
-}
+const QString &NodeComboBox::GetSelectedNode() const { return selected_id_; }
 
-void NodeComboBox::SetNode(const QString &id)
-{
-  SetNodeInternal(id, false);
-}
+void NodeComboBox::SetNode(const QString &id) { SetNodeInternal(id, false); }
 
-void NodeComboBox::changeEvent(QEvent *e)
-{
+void NodeComboBox::changeEvent(QEvent *e) {
   if (e->type() == QEvent::LanguageChange) {
     UpdateText();
   }
@@ -69,8 +58,7 @@ void NodeComboBox::changeEvent(QEvent *e)
   QComboBox::changeEvent(e);
 }
 
-void NodeComboBox::UpdateText()
-{
+void NodeComboBox::UpdateText() {
   clear();
 
   if (!selected_id_.isEmpty()) {
@@ -78,8 +66,7 @@ void NodeComboBox::UpdateText()
   }
 }
 
-void NodeComboBox::SetNodeInternal(const QString &id, bool emit_signal)
-{
+void NodeComboBox::SetNodeInternal(const QString &id, bool emit_signal) {
   if (selected_id_ != id) {
     selected_id_ = id;
 
@@ -91,4 +78,4 @@ void NodeComboBox::SetNodeInternal(const QString &id, bool emit_signal)
   }
 }
 
-}
+}  // namespace olive

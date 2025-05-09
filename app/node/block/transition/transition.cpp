@@ -33,10 +33,7 @@ const QString TransitionBlock::kInBlockInput = QStringLiteral("in_block_in");
 const QString TransitionBlock::kCurveInput = QStringLiteral("curve_in");
 const QString TransitionBlock::kCenterInput = QStringLiteral("center_in");
 
-TransitionBlock::TransitionBlock() :
-  connected_out_block_(nullptr),
-  connected_in_block_(nullptr)
-{
+TransitionBlock::TransitionBlock() : connected_out_block_(nullptr), connected_in_block_(nullptr) {
   AddInput(kOutBlockInput, NodeValue::kNone, InputFlags(kInputFlagNotKeyframable));
 
   AddInput(kInBlockInput, NodeValue::kNone, InputFlags(kInputFlagNotKeyframable));
@@ -50,8 +47,7 @@ TransitionBlock::TransitionBlock() :
   SetFlag(kDontShowInParamView, false);
 }
 
-void TransitionBlock::Retranslate()
-{
+void TransitionBlock::Retranslate() {
   super::Retranslate();
 
   SetInputName(kOutBlockInput, tr("From"));
@@ -60,13 +56,12 @@ void TransitionBlock::Retranslate()
   SetInputName(kCenterInput, tr("Center Offset"));
 
   // These must correspond to the CurveType enum
-  SetComboBoxStrings(kCurveInput, { tr("Linear"), tr("Exponential"), tr("Logarithmic") });
+  SetComboBoxStrings(kCurveInput, {tr("Linear"), tr("Exponential"), tr("Logarithmic")});
 }
 
-rational TransitionBlock::in_offset() const
-{
+rational TransitionBlock::in_offset() const {
   if (is_dual_transition()) {
-    return length()/2 + offset_center();
+    return length() / 2 + offset_center();
   } else if (connected_in_block()) {
     return length();
   } else {
@@ -74,10 +69,9 @@ rational TransitionBlock::in_offset() const
   }
 }
 
-rational TransitionBlock::out_offset() const
-{
+rational TransitionBlock::out_offset() const {
   if (is_dual_transition()) {
-    return length()/2 - offset_center();
+    return length() / 2 - offset_center();
   } else if (connected_out_block()) {
     return length();
   } else {
@@ -85,18 +79,11 @@ rational TransitionBlock::out_offset() const
   }
 }
 
-rational TransitionBlock::offset_center() const
-{
-  return GetStandardValue(kCenterInput).value<rational>();
-}
+rational TransitionBlock::offset_center() const { return GetStandardValue(kCenterInput).value<rational>(); }
 
-void TransitionBlock::set_offset_center(const rational &r)
-{
-  SetStandardValue(kCenterInput, QVariant::fromValue(r));
-}
+void TransitionBlock::set_offset_center(const rational &r) { SetStandardValue(kCenterInput, QVariant::fromValue(r)); }
 
-void TransitionBlock::set_offsets_and_length(const rational &in_offset, const rational &out_offset)
-{
+void TransitionBlock::set_offsets_and_length(const rational &in_offset, const rational &out_offset) {
   rational len = in_offset + out_offset;
   rational center = len / 2 - in_offset;
 
@@ -104,23 +91,15 @@ void TransitionBlock::set_offsets_and_length(const rational &in_offset, const ra
   set_offset_center(center);
 }
 
-Block *TransitionBlock::connected_out_block() const
-{
-  return connected_out_block_;
-}
+Block *TransitionBlock::connected_out_block() const { return connected_out_block_; }
 
-Block *TransitionBlock::connected_in_block() const
-{
-  return connected_in_block_;
-}
+Block *TransitionBlock::connected_in_block() const { return connected_in_block_; }
 
-double TransitionBlock::GetTotalProgress(const double &time) const
-{
+double TransitionBlock::GetTotalProgress(const double &time) const {
   return GetInternalTransitionTime(time) / length().toDouble();
 }
 
-double TransitionBlock::GetOutProgress(const double &time) const
-{
+double TransitionBlock::GetOutProgress(const double &time) const {
   if (out_offset() == 0) {
     return 0;
   }
@@ -128,8 +107,7 @@ double TransitionBlock::GetOutProgress(const double &time) const
   return std::clamp(1.0 - (GetInternalTransitionTime(time) / out_offset().toDouble()), 0.0, 1.0);
 }
 
-double TransitionBlock::GetInProgress(const double &time) const
-{
+double TransitionBlock::GetInProgress(const double &time) const {
   if (in_offset() == 0) {
     return 0;
   }
@@ -137,28 +115,20 @@ double TransitionBlock::GetInProgress(const double &time) const
   return std::clamp((GetInternalTransitionTime(time) - out_offset().toDouble()) / in_offset().toDouble(), 0.0, 1.0);
 }
 
-double TransitionBlock::GetInternalTransitionTime(const double &time) const
-{
-  return time;
-}
+double TransitionBlock::GetInternalTransitionTime(const double &time) const { return time; }
 
-void TransitionBlock::InsertTransitionTimes(AcceleratedJob *job, const double &time) const
-{
+void TransitionBlock::InsertTransitionTimes(AcceleratedJob *job, const double &time) const {
   // Provides total transition progress from 0.0 (start) - 1.0 (end)
-  job->Insert(QStringLiteral("ove_tprog_all"),
-                   NodeValue(NodeValue::kFloat, GetTotalProgress(time), this));
+  job->Insert(QStringLiteral("ove_tprog_all"), NodeValue(NodeValue::kFloat, GetTotalProgress(time), this));
 
   // Provides progress of out section from 1.0 (start) - 0.0 (end)
-  job->Insert(QStringLiteral("ove_tprog_out"),
-                   NodeValue(NodeValue::kFloat, GetOutProgress(time), this));
+  job->Insert(QStringLiteral("ove_tprog_out"), NodeValue(NodeValue::kFloat, GetOutProgress(time), this));
 
   // Provides progress of in section from 0.0 (start) - 1.0 (end)
-  job->Insert(QStringLiteral("ove_tprog_in"),
-                   NodeValue(NodeValue::kFloat, GetInProgress(time), this));
+  job->Insert(QStringLiteral("ove_tprog_in"), NodeValue(NodeValue::kFloat, GetInProgress(time), this));
 }
 
-void TransitionBlock::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const
-{
+void TransitionBlock::Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const {
   NodeValue out_buffer = value[kOutBlockInput];
   NodeValue in_buffer = value[kInBlockInput];
   NodeValue::Type data_type = (out_buffer.type() != NodeValue::kNone) ? out_buffer.type() : in_buffer.type();
@@ -200,7 +170,8 @@ void TransitionBlock::Value(const NodeValueRow &value, const NodeGlobals &global
       double time_in = globals.time().in().toDouble();
       double time_out = globals.time().out().toDouble();
 
-      const AudioParams& params = (from_samples.is_allocated()) ? from_samples.audio_params() : to_samples.audio_params();
+      const AudioParams &params =
+          (from_samples.is_allocated()) ? from_samples.audio_params() : to_samples.audio_params();
 
       SampleBuffer out_samples;
 
@@ -221,12 +192,12 @@ void TransitionBlock::Value(const NodeValueRow &value, const NodeGlobals &global
   }
 }
 
-void TransitionBlock::InvalidateCache(const TimeRange &range, const QString &from, int element, InvalidateCacheOptions options)
-{
+void TransitionBlock::InvalidateCache(const TimeRange &range, const QString &from, int element,
+                                      InvalidateCacheOptions options) {
   TimeRange r = range;
 
   if (from == kOutBlockInput || from == kInBlockInput) {
-    Block *n = dynamic_cast<Block*>(GetConnectedOutput(from));
+    Block *n = dynamic_cast<Block *>(GetConnectedOutput(from));
     if (n) {
       r = Track::TransformRangeFromBlock(n, r);
     }
@@ -235,41 +206,38 @@ void TransitionBlock::InvalidateCache(const TimeRange &range, const QString &fro
   super::InvalidateCache(r, from, element, options);
 }
 
-double TransitionBlock::TransformCurve(double linear) const
-{
+double TransitionBlock::TransformCurve(double linear) const {
   switch (static_cast<CurveType>(GetStandardValue(kCurveInput).toInt())) {
-  case kLinear:
-    break;
-  case kExponential:
-    linear *= linear;
-    break;
-  case kLogarithmic:
-    linear = std::sqrt(linear);
-    break;
+    case kLinear:
+      break;
+    case kExponential:
+      linear *= linear;
+      break;
+    case kLogarithmic:
+      linear = std::sqrt(linear);
+      break;
   }
 
   return linear;
 }
 
-void TransitionBlock::InputConnectedEvent(const QString &input, int element, Node *output)
-{
+void TransitionBlock::InputConnectedEvent(const QString &input, int element, Node *output) {
   Q_UNUSED(element)
 
   if (input == kOutBlockInput) {
     // If node is not a block, this will just be null
-    if ((connected_out_block_ = dynamic_cast<ClipBlock*>(output))) {
+    if ((connected_out_block_ = dynamic_cast<ClipBlock *>(output))) {
       connected_out_block_->set_out_transition(this);
     }
   } else if (input == kInBlockInput) {
     // If node is not a block, this will just be null
-    if ((connected_in_block_ = dynamic_cast<ClipBlock*>(output))) {
+    if ((connected_in_block_ = dynamic_cast<ClipBlock *>(output))) {
       connected_in_block_->set_in_transition(this);
     }
   }
 }
 
-void TransitionBlock::InputDisconnectedEvent(const QString &input, int element, Node *output)
-{
+void TransitionBlock::InputDisconnectedEvent(const QString &input, int element, Node *output) {
   Q_UNUSED(element)
   Q_UNUSED(output)
 
@@ -286,10 +254,10 @@ void TransitionBlock::InputDisconnectedEvent(const QString &input, int element, 
   }
 }
 
-TimeRange TransitionBlock::InputTimeAdjustment(const QString &input, int element, const TimeRange &input_time, bool clamp) const
-{
+TimeRange TransitionBlock::InputTimeAdjustment(const QString &input, int element, const TimeRange &input_time,
+                                               bool clamp) const {
   if (input == kInBlockInput || input == kOutBlockInput) {
-    Block* block = dynamic_cast<Block*>(GetConnectedOutput(input));
+    Block *block = dynamic_cast<Block *>(GetConnectedOutput(input));
     if (block) {
       // Retransform time as if it came from the track
       return input_time + in() - block->in();
@@ -299,10 +267,9 @@ TimeRange TransitionBlock::InputTimeAdjustment(const QString &input, int element
   return super::InputTimeAdjustment(input, element, input_time, clamp);
 }
 
-TimeRange TransitionBlock::OutputTimeAdjustment(const QString &input, int element, const TimeRange &input_time) const
-{
+TimeRange TransitionBlock::OutputTimeAdjustment(const QString &input, int element, const TimeRange &input_time) const {
   if (input == kInBlockInput || input == kOutBlockInput) {
-    Block* block = dynamic_cast<Block*>(GetConnectedOutput(input));
+    Block *block = dynamic_cast<Block *>(GetConnectedOutput(input));
     if (block) {
       return input_time + block->in() - in();
     }
@@ -311,4 +278,4 @@ TimeRange TransitionBlock::OutputTimeAdjustment(const QString &input, int elemen
   return super::OutputTimeAdjustment(input, element, input_time);
 }
 
-}
+}  // namespace olive

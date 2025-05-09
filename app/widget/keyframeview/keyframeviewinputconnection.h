@@ -30,49 +30,35 @@ namespace olive {
 
 class KeyframeView;
 
-class KeyframeViewInputConnection : public QObject
-{
+class KeyframeViewInputConnection : public QObject {
   Q_OBJECT
-public:
+ public:
   KeyframeViewInputConnection(const NodeKeyframeTrackReference &input, KeyframeView *parent);
 
-  const int &GetKeyframeY() const
-  {
-    return y_;
-  }
+  const int &GetKeyframeY() const { return y_; }
 
   void SetKeyframeY(int y);
 
-  enum YBehavior {
-    kSingleRow,
-    kValueIsHeight
-  };
+  enum YBehavior { kSingleRow, kValueIsHeight };
 
   void SetYBehavior(YBehavior e);
 
-  const QVector<NodeKeyframe*> &GetKeyframes() const
-  {
+  const QVector<NodeKeyframe *> &GetKeyframes() const {
     return input_.input().node()->GetKeyframeTracks(input_.input()).at(input_.track());
   }
 
-  const QBrush &GetBrush() const
-  {
-    return brush_;
-  }
+  const QBrush &GetBrush() const { return brush_; }
 
-  const NodeKeyframeTrackReference &GetReference() const
-  {
-    return input_;
-  }
+  const NodeKeyframeTrackReference &GetReference() const { return input_; }
 
   void SetBrush(const QBrush &brush);
 
-signals:
+ signals:
   void RequireUpdate();
 
   void TypeChanged();
 
-private:
+ private:
   KeyframeView *keyframe_view_;
 
   NodeKeyframeTrackReference input_;
@@ -83,7 +69,7 @@ private:
 
   QBrush brush_;
 
-private slots:
+ private slots:
   void AddKeyframe(NodeKeyframe *key);
 
   void RemoveKeyframe(NodeKeyframe *key);
@@ -91,9 +77,8 @@ private slots:
   void KeyframeChanged(NodeKeyframe *key);
 
   void KeyframeTypeChanged(NodeKeyframe *key);
-
 };
 
-}
+}  // namespace olive
 
-#endif // KEYFRAMEVIEWINPUTCONNECTION_H
+#endif  // KEYFRAMEVIEWINPUTCONNECTION_H

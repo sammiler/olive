@@ -31,10 +31,9 @@
 
 namespace olive {
 
-class ScopePanel : public PanelWidget
-{
+class ScopePanel : public PanelWidget {
   Q_OBJECT
-public:
+ public:
   enum Type {
     kTypeWaveform,
     kTypeHistogram,
@@ -48,22 +47,19 @@ public:
 
   static QString TypeToName(Type t);
 
-  void SetViewerPanel(ViewerPanelBase *vp);
+  void SetViewerPanel(ViewerPanelBase* vp);
 
-  ViewerPanelBase *GetConnectedViewerPanel() const
-  {
-    return viewer_;
-  }
+  ViewerPanelBase* GetConnectedViewerPanel() const { return viewer_; }
 
-public slots:
+ public slots:
   void SetReferenceBuffer(TexturePtr frame);
 
   void SetColorManager(ColorManager* manager);
 
-protected:
+ protected:
   virtual void Retranslate() override;
 
-private:
+ private:
   Type type_;
 
   QStackedWidget* stack_;
@@ -74,10 +70,9 @@ private:
 
   HistogramScope* histogram_;
 
-  ViewerPanelBase *viewer_;
-
+  ViewerPanelBase* viewer_;
 };
 
-}
+}  // namespace olive
 
-#endif // SCOPE_PANEL_H
+#endif  // SCOPE_PANEL_H

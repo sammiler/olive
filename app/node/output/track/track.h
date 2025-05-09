@@ -30,17 +30,10 @@ class Sequence;
 /**
  * @brief A time traversal Node for sorting through one channel/track of Blocks
  */
-class Track : public Node
-{
+class Track : public Node {
   Q_OBJECT
-public:
-  enum Type {
-    kNone = -1,
-    kVideo,
-    kAudio,
-    kSubtitle,
-    kCount
-  };
+ public:
+  enum Type { kNone = -1, kVideo, kAudio, kSubtitle, kCount };
 
   Track();
 
@@ -54,15 +47,15 @@ public:
   virtual QVector<CategoryID> Category() const override;
   virtual QString Description() const override;
 
-  virtual ActiveElements GetActiveElementsAtTime(const QString &input, const TimeRange &r) const override;
-  virtual void Value(const NodeValueRow& value, const NodeGlobals &globals, NodeValueTable *table) const override;
+  virtual ActiveElements GetActiveElementsAtTime(const QString& input, const TimeRange& r) const override;
+  virtual void Value(const NodeValueRow& value, const NodeGlobals& globals, NodeValueTable* table) const override;
 
-  virtual TimeRange InputTimeAdjustment(const QString& input, int element, const TimeRange& input_time, bool clamp) const override;
+  virtual TimeRange InputTimeAdjustment(const QString& input, int element, const TimeRange& input_time,
+                                        bool clamp) const override;
 
   virtual TimeRange OutputTimeAdjustment(const QString& input, int element, const TimeRange& input_time) const override;
 
-  static rational TransformTimeForBlock(const Block* block, const rational& time)
-  {
+  static rational TransformTimeForBlock(const Block* block, const rational& time) {
     if (time == RATIONAL_MAX || time == RATIONAL_MIN) {
       return time;
     }
@@ -70,13 +63,11 @@ public:
     return time - block->in();
   }
 
-  static TimeRange TransformRangeForBlock(const Block* block, const TimeRange& range)
-  {
+  static TimeRange TransformRangeForBlock(const Block* block, const TimeRange& range) {
     return TimeRange(TransformTimeForBlock(block, range.in()), TransformTimeForBlock(block, range.out()));
   }
 
-  static rational TransformTimeFromBlock(const Block* block, const rational& time)
-  {
+  static rational TransformTimeFromBlock(const Block* block, const rational& time) {
     if (time == RATIONAL_MAX || time == RATIONAL_MIN) {
       return time;
     }
@@ -84,87 +75,46 @@ public:
     return time + block->in();
   }
 
-  static TimeRange TransformRangeFromBlock(const Block* block, const TimeRange& range)
-  {
+  static TimeRange TransformRangeFromBlock(const Block* block, const TimeRange& range) {
     return TimeRange(TransformTimeFromBlock(block, range.in()), TransformTimeFromBlock(block, range.out()));
   }
 
   const double& GetTrackHeight() const;
   void SetTrackHeight(const double& height);
 
-  int GetTrackHeightInPixels() const
-  {
-    return InternalHeightToPixelHeight(GetTrackHeight());
-  }
+  int GetTrackHeightInPixels() const { return InternalHeightToPixelHeight(GetTrackHeight()); }
 
-  void SetTrackHeightInPixels(int h)
-  {
-    SetTrackHeight(PixelHeightToInternalHeight(h));
-  }
+  void SetTrackHeightInPixels(int h) { SetTrackHeight(PixelHeightToInternalHeight(h)); }
 
-  virtual bool LoadCustom(QXmlStreamReader *reader, SerializedData *data) override;
-  virtual void SaveCustom(QXmlStreamWriter *writer) const override;
-  virtual void PostLoadEvent(SerializedData *data) override;
+  virtual bool LoadCustom(QXmlStreamReader* reader, SerializedData* data) override;
+  virtual void SaveCustom(QXmlStreamWriter* writer) const override;
+  virtual void PostLoadEvent(SerializedData* data) override;
 
-  static int InternalHeightToPixelHeight(double h)
-  {
-    return qRound(h * QFontMetrics(QFont()).height());
-  }
+  static int InternalHeightToPixelHeight(double h) { return qRound(h * QFontMetrics(QFont()).height()); }
 
-  static double PixelHeightToInternalHeight(int h)
-  {
-    return double(h) / double(QFontMetrics(QFont()).height());
-  }
+  static double PixelHeightToInternalHeight(int h) { return double(h) / double(QFontMetrics(QFont()).height()); }
 
-  static int GetDefaultTrackHeightInPixels()
-  {
-    return InternalHeightToPixelHeight(kTrackHeightDefault);
-  }
+  static int GetDefaultTrackHeightInPixels() { return InternalHeightToPixelHeight(kTrackHeightDefault); }
 
-  static int GetMinimumTrackHeightInPixels()
-  {
-    return InternalHeightToPixelHeight(kTrackHeightMinimum);
-  }
+  static int GetMinimumTrackHeightInPixels() { return InternalHeightToPixelHeight(kTrackHeightMinimum); }
 
   virtual void Retranslate() override;
 
-  class Reference
-  {
-  public:
-    Reference() :
-      type_(kNone),
-      index_(-1)
-    {
-    }
+  class Reference {
+   public:
+    Reference() : type_(kNone), index_(-1) {}
 
-    Reference(const Track::Type& type, const int& index) :
-      type_(type),
-      index_(index)
-    {
-    }
+    Reference(const Track::Type& type, const int& index) : type_(type), index_(index) {}
 
-    const Track::Type& type() const
-    {
-      return type_;
-    }
+    const Track::Type& type() const { return type_; }
 
-    const int& index() const
-    {
-      return index_;
-    }
+    const int& index() const { return index_; }
 
-    bool operator==(const Reference& ref) const
-    {
-      return type_ == ref.type_ && index_ == ref.index_;
-    }
+    bool operator==(const Reference& ref) const { return type_ == ref.type_ && index_ == ref.index_; }
 
-    bool operator!=(const Reference& ref) const
-    {
-      return !(*this == ref);
-    }
+    bool operator!=(const Reference& ref) const { return !(*this == ref); }
 
-    bool operator<(const Track::Reference& rhs) const
-    {
+    bool operator<(const Track::Reference& rhs) const {
       if (type_ != rhs.type_) {
         return type_ < rhs.type_;
       }
@@ -172,8 +122,7 @@ public:
       return index_ < rhs.index_;
     }
 
-    QString ToString() const
-    {
+    QString ToString() const {
       QString type_string = TypeToString(type_);
       if (type_string.isEmpty()) {
         return QString();
@@ -183,43 +132,40 @@ public:
     }
 
     /// For IDs that shouldn't change between localizations
-    static QString TypeToString(Type type)
-    {
+    static QString TypeToString(Type type) {
       switch (type) {
-      case kVideo:
-        return QStringLiteral("v");
-      case kAudio:
-        return QStringLiteral("a");
-      case kSubtitle:
-        return QStringLiteral("s");
-      case kCount:
-      case kNone:
-        break;
+        case kVideo:
+          return QStringLiteral("v");
+        case kAudio:
+          return QStringLiteral("a");
+        case kSubtitle:
+          return QStringLiteral("s");
+        case kCount:
+        case kNone:
+          break;
       }
 
       return QString();
     }
 
     /// For human-facing strings
-    static QString TypeToTranslatedString(Type type)
-    {
+    static QString TypeToTranslatedString(Type type) {
       switch (type) {
-      case kVideo:
-        return tr("V");
-      case kAudio:
-        return tr("A");
-      case kSubtitle:
-        return tr("S");
-      case kCount:
-      case kNone:
-        break;
+        case kVideo:
+          return tr("V");
+        case kAudio:
+          return tr("A");
+        case kSubtitle:
+          return tr("S");
+        case kCount:
+        case kNone:
+          break;
       }
 
       return QString();
     }
 
-    static Type TypeFromString(const QString& s)
-    {
+    static Type TypeFromString(const QString& s) {
       if (s.size() >= 3) {
         if (s.at(1) == ':') {
           if (s.at(0) == 'v') {
@@ -238,8 +184,7 @@ public:
       return Track::kNone;
     }
 
-    static Reference FromString(const QString& s)
-    {
+    static Reference FromString(const QString& s) {
       Reference ref;
       Type parse_type = TypeFromString(s);
 
@@ -256,27 +201,17 @@ public:
       return ref;
     }
 
-    bool IsValid() const
-    {
-      return type_ > kNone && type_ < kCount && index_ >= 0;
-    }
+    bool IsValid() const { return type_ > kNone && type_ < kCount && index_ >= 0; }
 
-  private:
+   private:
     Track::Type type_;
 
     int index_;
-
   };
 
-  Reference ToReference() const
-  {
-    return Reference(type(), Index());
-  }
+  Reference ToReference() const { return Reference(type(), Index()); }
 
-  const int& Index() const
-  {
-    return index_;
-  }
+  const int& Index() const { return index_; }
 
   void SetIndex(const int& index);
 
@@ -323,17 +258,14 @@ public:
   /*
    * @brief Returns whether a time range is empty or only has a gap
    */
-  bool IsRangeFree(const TimeRange &range) const;
+  bool IsRangeFree(const TimeRange& range) const;
 
-  const QVector<Block *> &Blocks() const
-  {
-    return blocks_;
-  }
+  const QVector<Block*>& Blocks() const { return blocks_; }
 
-  virtual void InvalidateCache(const TimeRange& range, const QString& from, int element, InvalidateCacheOptions options) override;
+  virtual void InvalidateCache(const TimeRange& range, const QString& from, int element,
+                               InvalidateCacheOptions options) override;
 
-  Block *VisibleBlockAtTime(const rational &t) const
-  {
+  Block* VisibleBlockAtTime(const rational& t) const {
     int index = GetBlockIndexAtTime(t);
     return (index == -1) ? nullptr : blocks_.at(index);
   }
@@ -388,15 +320,9 @@ public:
 
   int GetArrayIndexFromBlock(Block* block) const;
 
-  Sequence *sequence() const
-  {
-    return sequence_;
-  }
+  Sequence* sequence() const { return sequence_; }
 
-  void set_sequence(Sequence *sequence)
-  {
-    sequence_ = sequence;
-  }
+  void set_sequence(Sequence* sequence) { sequence_ = sequence; }
 
   static const double kTrackHeightDefault;
   static const double kTrackHeightMinimum;
@@ -406,12 +332,12 @@ public:
   static const QString kMutedInput;
   static const QString kArrayMapInput;
 
-public slots:
+ public slots:
   void SetMuted(bool e);
 
   void SetLocked(bool e);
 
-signals:
+ signals:
   /**
    * @brief Signal emitted when a Block is added to this Track
    */
@@ -447,22 +373,22 @@ signals:
    */
   void BlocksRefreshed();
 
-protected:
-  virtual void InputConnectedEvent(const QString& input, int element, Node *node) override;
+ protected:
+  virtual void InputConnectedEvent(const QString& input, int element, Node* node) override;
   virtual void InputValueChangedEvent(const QString& input, int element) override;
 
-private:
+ private:
   void UpdateInOutFrom(int index);
 
   int GetArrayIndexFromCacheIndex(int index) const;
 
   int GetCacheIndexFromArrayIndex(int index) const;
 
-  int GetBlockIndexAtTime(const rational &time) const;
+  int GetBlockIndexAtTime(const rational& time) const;
 
-  void ProcessAudioTrack(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const;
+  void ProcessAudioTrack(const NodeValueRow& value, const NodeGlobals& globals, NodeValueTable* table) const;
 
-  int ConnectBlock(Block *b);
+  int ConnectBlock(Block* b);
 
   void UpdateArrayMap();
 
@@ -481,25 +407,24 @@ private:
 
   bool locked_;
 
-  Sequence *sequence_;
+  Sequence* sequence_;
 
   int ignore_arraymap_;
   bool arraymap_invalid_;
   bool ignore_arraymap_set_;
 
-private slots:
+ private slots:
   void BlockLengthChanged();
 
   void RefreshBlockCacheFromArrayMap();
-
 };
 
 uint qHash(const Track::Reference& r, uint seed = 0);
 
-QDataStream &operator<<(QDataStream &out, const Track::Reference &ref);
+QDataStream& operator<<(QDataStream& out, const Track::Reference& ref);
 
-QDataStream &operator>>(QDataStream &in, Track::Reference &ref);
+QDataStream& operator>>(QDataStream& in, Track::Reference& ref);
 
-}
+}  // namespace olive
 
-#endif // TRACK_H
+#endif  // TRACK_H

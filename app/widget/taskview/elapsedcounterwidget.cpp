@@ -29,11 +29,7 @@ namespace olive {
 
 using namespace core;
 
-ElapsedCounterWidget::ElapsedCounterWidget(QWidget* parent) :
-  QWidget(parent),
-  last_progress_(0),
-  start_time_(0)
-{
+ElapsedCounterWidget::ElapsedCounterWidget(QWidget* parent) : QWidget(parent), last_progress_(0), start_time_(0) {
   QHBoxLayout* layout = new QHBoxLayout(this);
   layout->setSpacing(layout->spacing() * 8);
   layout->setContentsMargins(0, 0, 0, 0);
@@ -49,31 +45,22 @@ ElapsedCounterWidget::ElapsedCounterWidget(QWidget* parent) :
   UpdateTimers();
 }
 
-void ElapsedCounterWidget::SetProgress(double d)
-{
+void ElapsedCounterWidget::SetProgress(double d) {
   last_progress_ = d;
   UpdateTimers();
 }
 
-void ElapsedCounterWidget::Start()
-{
-  Start(QDateTime::currentMSecsSinceEpoch());
-}
+void ElapsedCounterWidget::Start() { Start(QDateTime::currentMSecsSinceEpoch()); }
 
-void ElapsedCounterWidget::Start(qint64 start_time)
-{
+void ElapsedCounterWidget::Start(qint64 start_time) {
   start_time_ = start_time;
   elapsed_timer_.start();
   UpdateTimers();
 }
 
-void ElapsedCounterWidget::Stop()
-{
-  elapsed_timer_.stop();
-}
+void ElapsedCounterWidget::Stop() { elapsed_timer_.stop(); }
 
-void ElapsedCounterWidget::UpdateTimers()
-{
+void ElapsedCounterWidget::UpdateTimers() {
   int64_t elapsed_ms, remaining_ms;
 
   if (last_progress_ > 0) {
@@ -92,4 +79,4 @@ void ElapsedCounterWidget::UpdateTimers()
   remaining_lbl_->setText(tr("Remaining: %1").arg(QString::fromStdString(Timecode::time_to_string(remaining_ms))));
 }
 
-}
+}  // namespace olive

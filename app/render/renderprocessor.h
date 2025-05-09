@@ -29,28 +29,31 @@
 
 namespace olive {
 
-class RenderProcessor : public NodeTraverser
-{
-public:
+class RenderProcessor : public NodeTraverser {
+ public:
   virtual NodeValueDatabase GenerateDatabase(const Node *node, const TimeRange &range) override;
 
-  static void Process(RenderTicketPtr ticket, Renderer* render_ctx, DecoderCache* decoder_cache, ShaderCache* shader_cache);
+  static void Process(RenderTicketPtr ticket, Renderer *render_ctx, DecoderCache *decoder_cache,
+                      ShaderCache *shader_cache);
 
   struct RenderedWaveform {
-    const ClipBlock* block;
+    const ClipBlock *block;
     AudioVisualWaveform waveform;
     TimeRange range;
     bool silence;
   };
 
-protected:
-  virtual void ProcessVideoFootage(TexturePtr destination, const FootageJob *stream, const rational &input_time) override;
+ protected:
+  virtual void ProcessVideoFootage(TexturePtr destination, const FootageJob *stream,
+                                   const rational &input_time) override;
 
-  virtual void ProcessAudioFootage(SampleBuffer &destination, const FootageJob *stream, const TimeRange &input_time) override;
+  virtual void ProcessAudioFootage(SampleBuffer &destination, const FootageJob *stream,
+                                   const TimeRange &input_time) override;
 
   virtual void ProcessShader(TexturePtr destination, const Node *node, const ShaderJob *job) override;
 
-  virtual void ProcessSamples(SampleBuffer &destination, const Node *node, const TimeRange &range, const SampleJob &job) override;
+  virtual void ProcessSamples(SampleBuffer &destination, const Node *node, const TimeRange &range,
+                              const SampleJob &job) override;
 
   virtual void ProcessColorTransform(TexturePtr destination, const Node *node, const ColorTransformJob *job) override;
 
@@ -60,8 +63,7 @@ protected:
 
   virtual TexturePtr CreateTexture(const VideoParams &p) override;
 
-  virtual SampleBuffer CreateSampleBuffer(const AudioParams &params, int sample_count) override
-  {
+  virtual SampleBuffer CreateSampleBuffer(const AudioParams &params, int sample_count) override {
     return SampleBuffer(params, sample_count);
   }
 
@@ -69,29 +71,28 @@ protected:
 
   virtual bool UseCache() const override;
 
-private:
-  RenderProcessor(RenderTicketPtr ticket, Renderer* render_ctx, DecoderCache* decoder_cache, ShaderCache* shader_cache);
+ private:
+  RenderProcessor(RenderTicketPtr ticket, Renderer *render_ctx, DecoderCache *decoder_cache, ShaderCache *shader_cache);
 
-  TexturePtr GenerateTexture(const rational& time, const rational& frame_length);
+  TexturePtr GenerateTexture(const rational &time, const rational &frame_length);
 
   FramePtr GenerateFrame(TexturePtr texture, const rational &time);
 
   void Run();
 
-  DecoderPtr ResolveDecoderFromInput(const QString &decoder_id, const Decoder::CodecStream& stream);
+  DecoderPtr ResolveDecoderFromInput(const QString &decoder_id, const Decoder::CodecStream &stream);
 
   RenderTicketPtr ticket_;
 
-  Renderer* render_ctx_;
+  Renderer *render_ctx_;
 
-  DecoderCache* decoder_cache_;
+  DecoderCache *decoder_cache_;
 
-  ShaderCache* shader_cache_;
-
+  ShaderCache *shader_cache_;
 };
 
-}
+}  // namespace olive
 
 Q_DECLARE_METATYPE(olive::RenderProcessor::RenderedWaveform)
 
-#endif // RENDERPROCESSOR_H
+#endif  // RENDERPROCESSOR_H

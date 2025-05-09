@@ -32,8 +32,7 @@
 
 namespace olive {
 
-PreferencesGeneralTab::PreferencesGeneralTab()
-{
+PreferencesGeneralTab::PreferencesGeneralTab() {
   QVBoxLayout* layout = new QVBoxLayout(this);
 
   {
@@ -153,8 +152,7 @@ PreferencesGeneralTab::PreferencesGeneralTab()
   layout->addStretch();
 }
 
-void PreferencesGeneralTab::Accept(MultiUndoCommand *command)
-{
+void PreferencesGeneralTab::Accept(MultiUndoCommand* command) {
   Q_UNUSED(command)
 
   OLIVE_CONFIG("RectifiedWaveforms") = rectified_waveforms_->isChecked();
@@ -181,11 +179,10 @@ void PreferencesGeneralTab::Accept(MultiUndoCommand *command)
   Core::instance()->SetAutorecoveryInterval(autorecovery_interval_->GetValue());
 }
 
-void PreferencesGeneralTab::AddLanguage(const QString &locale_name)
-{
-  language_combobox_->addItem(tr("%1 (%2)").arg(QLocale(locale_name).nativeLanguageName(),
-                                                locale_name));;
+void PreferencesGeneralTab::AddLanguage(const QString& locale_name) {
+  language_combobox_->addItem(tr("%1 (%2)").arg(QLocale(locale_name).nativeLanguageName(), locale_name));
+  ;
   language_combobox_->setItemData(language_combobox_->count() - 1, locale_name);
 }
 
-}
+}  // namespace olive

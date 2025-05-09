@@ -23,8 +23,8 @@
 
 #include <QtConcurrent/QtConcurrent>
 
-#include "config/config.h"
 #include "colorprocessorcache.h"
+#include "config/config.h"
 #include "dialog/rendercancel/rendercancel.h"
 #include "node/output/viewer/viewer.h"
 #include "node/project.h"
@@ -36,10 +36,9 @@
 
 namespace olive {
 
-class RenderThread : public QThread
-{
+class RenderThread : public QThread {
   Q_OBJECT
-public:
+ public:
   RenderThread(Renderer *renderer, DecoderCache *decoder_cache, ShaderCache *shader_cache, QObject *parent = nullptr);
 
   void AddTicket(RenderTicketPtr ticket);
@@ -48,10 +47,10 @@ public:
 
   void quit();
 
-protected:
+ protected:
   virtual void run() override;
 
-private:
+ private:
   QMutex mutex_;
 
   QWaitCondition wait_;
@@ -65,13 +64,11 @@ private:
   DecoderCache *decoder_cache_;
 
   ShaderCache *shader_cache_;
-
 };
 
-class RenderManager : public QObject
-{
+class RenderManager : public QObject {
   Q_OBJECT
-public:
+ public:
   enum Backend {
     /// Graphics acceleration provided by OpenGL
     kOpenGL,
@@ -80,32 +77,20 @@ public:
     kDummy
   };
 
-  static void CreateInstance()
-  {
-    instance_ = new RenderManager();
-  }
+  static void CreateInstance() { instance_ = new RenderManager(); }
 
-  static void DestroyInstance()
-  {
+  static void DestroyInstance() {
     delete instance_;
     instance_ = nullptr;
   }
 
-  static RenderManager* instance()
-  {
-    return instance_;
-  }
+  static RenderManager *instance() { return instance_; }
 
-  enum ReturnType {
-    kTexture,
-    kFrame,
-    kNull
-  };
+  enum ReturnType { kTexture, kFrame, kNull };
 
   struct RenderVideoParams {
     RenderVideoParams(Node *n, const VideoParams &vparam, const AudioParams &aparam, const rational &t,
-                ColorManager *colorman, RenderMode::Mode m)
-    {
+                      ColorManager *colorman, RenderMode::Mode m) {
       node = n;
       video_params = vparam;
       audio_params = aparam;
@@ -121,8 +106,7 @@ public:
       multicam = nullptr;
     }
 
-    void AddCache(FrameHashCache *cache)
-    {
+    void AddCache(FrameHashCache *cache) {
       cache_dir = cache->GetCacheDirectory();
       cache_timebase = cache->GetTimebase();
       cache_id = cache->GetUuid().toString();
@@ -162,8 +146,7 @@ public:
   RenderTicketPtr RenderFrame(const RenderVideoParams &params);
 
   struct RenderAudioParams {
-    RenderAudioParams(Node *n, const TimeRange &time, const AudioParams &aparam, RenderMode::Mode m)
-    {
+    RenderAudioParams(Node *n, const TimeRange &time, const AudioParams &aparam, RenderMode::Mode m) {
       node = n;
       range = time;
       audio_params = aparam;
@@ -191,47 +174,35 @@ public:
 
   bool RemoveTicket(RenderTicketPtr ticket);
 
-  enum TicketType {
-    kTypeVideo,
-    kTypeAudio
-  };
+  enum TicketType { kTypeVideo, kTypeAudio };
 
-  Backend backend() const
-  {
-    return backend_;
-  }
+  Backend backend() const { return backend_; }
 
-  PreviewAutoCacher *GetCacher() const
-  {
-    return auto_cacher_;
-  }
+  PreviewAutoCacher *GetCacher() const { return auto_cacher_; }
 
-  void SetProject(Project *p)
-  {
-    auto_cacher_->SetProject(p);
-  }
+  void SetProject(Project *p) { auto_cacher_->SetProject(p); }
 
-public slots:
+ public slots:
   void SetAggressiveGarbageCollection(bool enabled);
 
-signals:
+ signals:
 
-private:
-  RenderManager(QObject* parent = nullptr);
+ private:
+  RenderManager(QObject *parent = nullptr);
 
   virtual ~RenderManager() override;
 
   RenderThread *CreateThread(Renderer *renderer = nullptr);
 
-  static RenderManager* instance_;
+  static RenderManager *instance_;
 
-  Renderer* context_;
+  Renderer *context_;
 
   Backend backend_;
 
-  DecoderCache* decoder_cache_;
+  DecoderCache *decoder_cache_;
 
-  ShaderCache* shader_cache_;
+  ShaderCache *shader_cache_;
 
   static constexpr auto kDecoderMaximumInactivityAggressive = 1000;
   static constexpr auto kDecoderMaximumInactivity = 5000;
@@ -251,13 +222,12 @@ private:
 
   PreviewAutoCacher *auto_cacher_;
 
-private slots:
+ private slots:
   void ClearOldDecoders();
-
 };
 
-}
+}  // namespace olive
 
 Q_DECLARE_METATYPE(olive::RenderManager::TicketType)
 
-#endif // RENDERBACKEND_H
+#endif  // RENDERBACKEND_H

@@ -27,9 +27,8 @@
 
 namespace olive {
 
-class TimelineWidgetSelections : public QHash<Track::Reference, TimeRangeList>
-{
-public:
+class TimelineWidgetSelections : public QHash<Track::Reference, TimeRangeList> {
+ public:
   TimelineWidgetSelections() = default;
 
   void ShiftTime(const rational& diff);
@@ -40,17 +39,15 @@ public:
 
   void TrimOut(const rational& diff);
 
-  void Subtract(const TimelineWidgetSelections &selections);
+  void Subtract(const TimelineWidgetSelections& selections);
 
-  TimelineWidgetSelections Subtracted(const TimelineWidgetSelections &selections) const
-  {
+  TimelineWidgetSelections Subtracted(const TimelineWidgetSelections& selections) const {
     TimelineWidgetSelections copy = *this;
     copy.Subtract(selections);
     return copy;
   }
-
 };
 
-}
+}  // namespace olive
 
-#endif // TIMELINEWIDGETSELECTIONS_H
+#endif  // TIMELINEWIDGETSELECTIONS_H

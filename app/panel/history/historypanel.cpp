@@ -24,17 +24,12 @@
 
 namespace olive {
 
-HistoryPanel::HistoryPanel() :
-  PanelWidget(QStringLiteral("HistoryPanel"))
-{
+HistoryPanel::HistoryPanel() : PanelWidget(QStringLiteral("HistoryPanel")) {
   SetWidgetWithPadding(new HistoryWidget(this));
 
   Retranslate();
 }
 
-void HistoryPanel::Retranslate()
-{
-  SetTitle(tr("History"));
-}
+void HistoryPanel::Retranslate() { SetTitle(tr("History")); }
 
-}
+}  // namespace olive

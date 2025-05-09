@@ -23,24 +23,20 @@
 
 namespace olive {
 
-SequenceViewerPanel::SequenceViewerPanel() :
-  ViewerPanel(QStringLiteral("SequenceViewerPanel"))
-{
+SequenceViewerPanel::SequenceViewerPanel() : ViewerPanel(QStringLiteral("SequenceViewerPanel")) {
   // Set strings
   Retranslate();
 }
 
-void SequenceViewerPanel::StartCapture(const TimeRange &time, const Track::Reference &track)
-{
+void SequenceViewerPanel::StartCapture(const TimeRange &time, const Track::Reference &track) {
   TimelinePanel *tp = static_cast<TimelinePanel *>(sender());
-  static_cast<ViewerWidget*>(GetTimeBasedWidget())->StartCapture(tp->timeline_widget(), time, track);
+  static_cast<ViewerWidget *>(GetTimeBasedWidget())->StartCapture(tp->timeline_widget(), time, track);
 }
 
-void SequenceViewerPanel::Retranslate()
-{
+void SequenceViewerPanel::Retranslate() {
   ViewerPanel::Retranslate();
 
   SetTitle(tr("Sequence Viewer"));
 }
 
-}
+}  // namespace olive

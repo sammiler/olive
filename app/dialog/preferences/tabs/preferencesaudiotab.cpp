@@ -29,13 +29,12 @@
 
 namespace olive {
 
-PreferencesAudioTab::PreferencesAudioTab()
-{
-  QVBoxLayout* audio_tab_layout = new QVBoxLayout(this);
+PreferencesAudioTab::PreferencesAudioTab() {
+  QVBoxLayout *audio_tab_layout = new QVBoxLayout(this);
 
   {
     // Backend Layout
-    QGridLayout* main_layout = new QGridLayout();
+    QGridLayout *main_layout = new QGridLayout();
     main_layout->setContentsMargins(0, 0, 0, 0);
 
     int row = 0;
@@ -43,27 +42,28 @@ PreferencesAudioTab::PreferencesAudioTab()
     main_layout->addWidget(new QLabel(tr("Backend:")), row, 0);
 
     audio_backend_combobox_ = new QComboBox();
-    connect(audio_backend_combobox_, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &PreferencesAudioTab::RefreshDevices);
+    connect(audio_backend_combobox_, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
+            &PreferencesAudioTab::RefreshDevices);
     main_layout->addWidget(audio_backend_combobox_, row, 1);
 
     audio_tab_layout->addLayout(main_layout);
   }
 
   {
-    QGroupBox* groupbox = new QGroupBox();
+    QGroupBox *groupbox = new QGroupBox();
     audio_tab_layout->addWidget(groupbox);
 
-    QVBoxLayout* layout = new QVBoxLayout(groupbox);
+    QVBoxLayout *layout = new QVBoxLayout(groupbox);
 
     int row = 0;
 
     {
       // Output Group
-      QGroupBox* output_group = new QGroupBox();
+      QGroupBox *output_group = new QGroupBox();
       output_group->setTitle(tr("Output"));
       layout->addWidget(output_group);
 
-      QGridLayout* output_layout = new QGridLayout(output_group);
+      QGridLayout *output_layout = new QGridLayout(output_group);
 
       output_layout->addWidget(new QLabel(tr("Device:")), row, 0);
 
@@ -100,7 +100,8 @@ PreferencesAudioTab::PreferencesAudioTab()
 
         output_fmt_combo_ = new SampleFormatComboBox();
         output_fmt_combo_->SetPackedFormats();
-        output_fmt_combo_->SetSampleFormat(SampleFormat::from_string(OLIVE_CONFIG("AudioOutputSampleFormat").toString().toUtf8().constData()));
+        output_fmt_combo_->SetSampleFormat(
+            SampleFormat::from_string(OLIVE_CONFIG("AudioOutputSampleFormat").toString().toUtf8().constData()));
         output_param_layout->addWidget(output_fmt_combo_, output_row, 1);
       }
     }
@@ -108,11 +109,11 @@ PreferencesAudioTab::PreferencesAudioTab()
     row = 0;
 
     {
-      QGroupBox* input_group = new QGroupBox();
+      QGroupBox *input_group = new QGroupBox();
       input_group->setTitle(tr("Input"));
       layout->addWidget(input_group);
 
-      QGridLayout* input_layout = new QGridLayout(input_group);
+      QGridLayout *input_layout = new QGridLayout(input_group);
 
       input_layout->addWidget(new QLabel(tr("Device:")), row, 0);
 
@@ -140,15 +141,17 @@ PreferencesAudioTab::PreferencesAudioTab()
       record_options_->SetFormat(record_format_combo_->GetFormat());
       record_options_->SetCodec(static_cast<ExportCodec::Codec>(OLIVE_CONFIG("AudioRecordingCodec").toInt()));
       record_options_->sample_rate_combobox()->SetSampleRate(OLIVE_CONFIG("AudioRecordingSampleRate").toInt());
-      record_options_->channel_layout_combobox()->SetChannelLayout(OLIVE_CONFIG("AudioRecordingChannelLayout").toULongLong());
+      record_options_->channel_layout_combobox()->SetChannelLayout(
+          OLIVE_CONFIG("AudioRecordingChannelLayout").toULongLong());
       record_options_->bit_rate_slider()->SetValue(OLIVE_CONFIG("AudioRecordingBitRate").toInt());
-      record_options_->sample_format_combobox()->SetSampleFormat(SampleFormat::from_string(OLIVE_CONFIG("AudioRecordingSampleFormat").toString().toUtf8().constData()));
+      record_options_->sample_format_combobox()->SetSampleFormat(
+          SampleFormat::from_string(OLIVE_CONFIG("AudioRecordingSampleFormat").toString().toUtf8().constData()));
       recording_layout->addWidget(record_options_);
 
       connect(record_format_combo_, &ExportFormatComboBox::FormatChanged, record_options_, &ExportAudioTab::SetFormat);
     }
 
-    QHBoxLayout* refresh_layout = new QHBoxLayout();
+    QHBoxLayout *refresh_layout = new QHBoxLayout();
     layout->addLayout(refresh_layout);
     refresh_layout->addStretch();
 
@@ -164,8 +167,7 @@ PreferencesAudioTab::PreferencesAudioTab()
   RefreshBackends();
 }
 
-void PreferencesAudioTab::Accept(MultiUndoCommand *command)
-{
+void PreferencesAudioTab::Accept(MultiUndoCommand *command) {
   Q_UNUSED(command)
 
   // Get device indexes
@@ -187,17 +189,18 @@ void PreferencesAudioTab::Accept(MultiUndoCommand *command)
   OLIVE_CONFIG("AudioRecordingFormat") = record_format_combo_->GetFormat();
   OLIVE_CONFIG("AudioRecordingCodec") = record_options_->GetCodec();
   OLIVE_CONFIG("AudioRecordingSampleRate") = record_options_->sample_rate_combobox()->GetSampleRate();
-  OLIVE_CONFIG("AudioRecordingChannelLayout") = QVariant::fromValue(record_options_->channel_layout_combobox()->GetChannelLayout());
+  OLIVE_CONFIG("AudioRecordingChannelLayout") =
+      QVariant::fromValue(record_options_->channel_layout_combobox()->GetChannelLayout());
   OLIVE_CONFIG("AudioRecordingBitRate") = QVariant::fromValue(record_options_->bit_rate_slider()->GetValue());
-  OLIVE_CONFIG("AudioRecordingSampleFormat") = QString::fromStdString(record_options_->sample_format_combobox()->GetSampleFormat().to_string());
+  OLIVE_CONFIG("AudioRecordingSampleFormat") =
+      QString::fromStdString(record_options_->sample_format_combobox()->GetSampleFormat().to_string());
 
-  emit AudioManager::instance()->OutputParamsChanged();
+  emit AudioManager::instance() -> OutputParamsChanged();
 }
 
-void PreferencesAudioTab::RefreshBackends()
-{
+void PreferencesAudioTab::RefreshBackends() {
   audio_backend_combobox_->clear();
-  for (PaHostApiIndex i=0, end=Pa_GetHostApiCount(); i<end; i++) {
+  for (PaHostApiIndex i = 0, end = Pa_GetHostApiCount(); i < end; i++) {
     const PaHostApiInfo *info = Pa_GetHostApiInfo(i);
 
     audio_backend_combobox_->addItem(info->name);
@@ -208,8 +211,7 @@ void PreferencesAudioTab::RefreshBackends()
   AttemptToSetDevicesFromConfig();
 }
 
-void PreferencesAudioTab::RefreshDevices()
-{
+void PreferencesAudioTab::RefreshDevices() {
   if (audio_backend_combobox_->count() == 0) {
     return;
   }
@@ -220,7 +222,7 @@ void PreferencesAudioTab::RefreshDevices()
   audio_output_devices_->clear();
   audio_input_devices_->clear();
 
-  for (int i=0; i<host->deviceCount; i++) {
+  for (int i = 0; i < host->deviceCount; i++) {
     PaDeviceIndex device_index = Pa_HostApiDeviceIndexToDeviceIndex(host_index, i);
     const PaDeviceInfo *device = Pa_GetDeviceInfo(device_index);
 
@@ -234,14 +236,12 @@ void PreferencesAudioTab::RefreshDevices()
   }
 }
 
-void PreferencesAudioTab::HardRefreshBackends()
-{
+void PreferencesAudioTab::HardRefreshBackends() {
   AudioManager::instance()->HardReset();
   RefreshBackends();
 }
 
-void PreferencesAudioTab::AttemptToSetDevicesFromConfig()
-{
+void PreferencesAudioTab::AttemptToSetDevicesFromConfig() {
   // Load with currently active devices
   PaDeviceIndex current_output_index = AudioManager::instance()->GetOutputDevice();
   PaDeviceIndex current_input_index = AudioManager::instance()->GetInputDevice();
@@ -271,4 +271,4 @@ void PreferencesAudioTab::AttemptToSetDevicesFromConfig()
   }
 }
 
-}
+}  // namespace olive

@@ -24,41 +24,32 @@
 #include <QApplication>
 #include <QDebug>
 #include <QFontComboBox>
-#include <QTextEdit>
 #include <QPushButton>
+#include <QTextEdit>
 
 #include "widget/slider/floatslider.h"
 #include "widget/slider/integerslider.h"
 
 namespace olive {
 
-class ViewerTextEditorToolBar : public QWidget
-{
+class ViewerTextEditorToolBar : public QWidget {
   Q_OBJECT
-public:
+ public:
   ViewerTextEditorToolBar(QWidget *parent = nullptr);
 
-  QString GetFontFamily() const
-  {
-    return font_combo_->currentText();
-  }
+  QString GetFontFamily() const { return font_combo_->currentText(); }
 
-  QString GetFontStyleName() const
-  {
-    return style_combo_->currentText();
-  }
+  QString GetFontStyleName() const { return style_combo_->currentText(); }
 
-public slots:
-  void SetFontFamily(QString s)
-  {
+ public slots:
+  void SetFontFamily(QString s) {
     font_combo_->blockSignals(true);
     font_combo_->setCurrentFont(s);
     UpdateFontStyleList(s);
     font_combo_->blockSignals(false);
   }
 
-  void SetStyle(QString style)
-  {
+  void SetStyle(QString style) {
     style_combo_->blockSignals(true);
     style_combo_->setCurrentText(style);
     style_combo_->blockSignals(false);
@@ -75,7 +66,7 @@ public slots:
   void SetKerning(qreal i) { kerning_slider_->SetValue(i); }
   void SetLineHeight(qreal i) { line_height_slider_->SetValue(i); }
 
-signals:
+ signals:
   void FamilyChanged(const QString &s);
   void SizeChanged(double d);
   void StyleChanged(const QString &s);
@@ -91,7 +82,7 @@ signals:
 
   void FirstPaint();
 
-protected:
+ protected:
   virtual void mousePressEvent(QMouseEvent *event) override;
 
   virtual void mouseMoveEvent(QMouseEvent *event) override;
@@ -102,7 +93,7 @@ protected:
 
   virtual void paintEvent(QPaintEvent *event) override;
 
-private:
+ private:
   void AddSpacer(QLayout *l);
 
   QPoint drag_anchor_;
@@ -136,17 +127,15 @@ private:
 
   bool drag_enabled_;
 
-private slots:
+ private slots:
   void UpdateFontStyleList(const QString &family);
 
   void UpdateFontStyleListAndEmitFamilyChanged(const QString &family);
-
 };
 
-class ViewerTextEditor : public QTextEdit
-{
+class ViewerTextEditor : public QTextEdit {
   Q_OBJECT
-public:
+ public:
   ViewerTextEditor(double scale, QWidget *parent = nullptr);
 
   void ConnectToolBar(ViewerTextEditorToolBar *toolbar);
@@ -158,11 +147,12 @@ public:
   virtual void dragLeaveEvent(QDragLeaveEvent *e) override { return QTextEdit::dragLeaveEvent(e); }
   virtual void dropEvent(QDropEvent *e) override { return QTextEdit::dropEvent(e); }
 
-protected:
+ protected:
   virtual void paintEvent(QPaintEvent *event) override;
 
-private:
-  static void UpdateToolBar(ViewerTextEditorToolBar *toolbar, const QTextCharFormat &f, const QTextBlockFormat &b, Qt::Alignment alignment);
+ private:
+  static void UpdateToolBar(ViewerTextEditorToolBar *toolbar, const QTextCharFormat &f, const QTextBlockFormat &b,
+                            Qt::Alignment alignment);
 
   void MergeCharFormat(const QTextCharFormat &fmt);
 
@@ -179,7 +169,7 @@ private:
   bool forced_default_;
   QTextCharFormat default_fmt_;
 
-private slots:
+ private slots:
   void FormatChanged(const QTextCharFormat &f);
 
   void SetFamily(const QString &s);
@@ -199,9 +189,8 @@ private slots:
   void LockScrollBarMaximumToZero();
 
   void DocumentChanged();
-
 };
 
-}
+}  // namespace olive
 
-#endif // VIEWERTEXTEDITOR_H
+#endif  // VIEWERTEXTEDITOR_H

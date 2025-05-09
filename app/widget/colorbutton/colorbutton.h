@@ -28,30 +28,26 @@
 
 namespace olive {
 
-class ColorButton : public QPushButton
-{
+class ColorButton : public QPushButton {
   Q_OBJECT
-public:
+ public:
   ColorButton(ColorManager* color_manager, bool show_dialog_on_click, QWidget* parent = nullptr);
-  ColorButton(ColorManager* color_manager, QWidget* parent = nullptr) :
-    ColorButton(color_manager, true, parent)
-  {
-  }
+  ColorButton(ColorManager* color_manager, QWidget* parent = nullptr) : ColorButton(color_manager, true, parent) {}
 
   const ManagedColor& GetColor() const;
 
-public slots:
+ public slots:
   void SetColor(const ManagedColor& c);
 
-signals:
+ signals:
   void ColorChanged(const ManagedColor& c);
 
-private slots:
+ private slots:
   void ShowColorDialog();
 
   void ColorDialogFinished(int e);
 
-private:
+ private:
   void UpdateColor();
 
   ColorManager* color_manager_;
@@ -61,9 +57,8 @@ private:
   ColorProcessorPtr color_processor_;
 
   bool dialog_open_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // COLORBUTTON_H
+#endif  // COLORBUTTON_H

@@ -27,17 +27,15 @@
 
 namespace olive {
 
-class CollapseButton : public QPushButton
-{
+class CollapseButton : public QPushButton {
   Q_OBJECT
-public:
+ public:
   CollapseButton(QWidget* parent = nullptr);
 
-private slots:
+ private slots:
   void UpdateIcon(bool e);
-
 };
 
-}
+}  // namespace olive
 
-#endif // COLLAPSEBUTTON_H
+#endif  // COLLAPSEBUTTON_H

@@ -36,66 +36,49 @@
  * the user as a command line argument. Therefore we needed a custom implementation that could
  * parse arguments without the need for a Q(Core)Application to be present already.
  */
-class CommandLineParser
-{
-public:
+class CommandLineParser {
+ public:
   ~CommandLineParser();
 
   DISABLE_COPY_MOVE(CommandLineParser)
 
-  class PositionalArgument
-  {
-  public:
+  class PositionalArgument {
+   public:
     PositionalArgument() = default;
 
-    const QString& GetSetting() const
-    {
-      return setting_;
-    }
+    const QString& GetSetting() const { return setting_; }
 
-    void SetSetting(const QString& s)
-    {
-      setting_ = s;
-    }
+    void SetSetting(const QString& s) { setting_ = s; }
 
-  private:
+   private:
     QString setting_;
-
   };
 
   class Option : public PositionalArgument {
-  public:
-    Option()
-    {
-      is_set_ = false;
-    }
+   public:
+    Option() { is_set_ = false; }
 
-    bool IsSet() const
-    {
-      return is_set_;
-    }
+    bool IsSet() const { return is_set_; }
 
-    void Set()
-    {
-      is_set_ = true;
-    }
+    void Set() { is_set_ = true; }
 
-  private:
+   private:
     bool is_set_;
-
   };
 
   CommandLineParser() = default;
 
-  const Option* AddOption(const QStringList& strings, const QString& description, bool takes_arg = false, const QString& arg_placeholder = QString(), bool hidden = false);
+  const Option* AddOption(const QStringList& strings, const QString& description, bool takes_arg = false,
+                          const QString& arg_placeholder = QString(), bool hidden = false);
 
-  const PositionalArgument* AddPositionalArgument(const QString& name, const QString& description, bool required = false);
+  const PositionalArgument* AddPositionalArgument(const QString& name, const QString& description,
+                                                  bool required = false);
 
-  void Process(const QVector<QString> &argv);
+  void Process(const QVector<QString>& argv);
 
   void PrintHelp(const char* filename);
 
-private:
+ private:
   struct KnownOption {
     QStringList args;
     QString description;
@@ -115,7 +98,6 @@ private:
   QVector<KnownOption> options_;
 
   QVector<KnownPositionalArgument> positional_args_;
-
 };
 
-#endif // COMMANDLINEPARSER_H
+#endif  // COMMANDLINEPARSER_H

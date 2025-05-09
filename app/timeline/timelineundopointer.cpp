@@ -30,8 +30,7 @@ namespace olive {
 //
 // BlockTrimCommand
 //
-void BlockTrimCommand::redo()
-{
+void BlockTrimCommand::redo() {
   if (doing_nothing_) {
     return;
   }
@@ -85,8 +84,7 @@ void BlockTrimCommand::redo()
   }
 }
 
-void BlockTrimCommand::undo()
-{
+void BlockTrimCommand::undo() {
   if (doing_nothing_) {
     return;
   }
@@ -139,8 +137,7 @@ void BlockTrimCommand::undo()
   }
 }
 
-void BlockTrimCommand::prepare()
-{
+void BlockTrimCommand::prepare() {
   // Store old length
   old_length_ = block_->length();
 
@@ -165,7 +162,8 @@ void BlockTrimCommand::prepare()
 
   if (needs_adjacent_) {
     // If we're trimming shorter, we need an adjacent, so check if we have a viable one.
-    we_created_adjacent_ = (trim_diff_ > 0 && (!adjacent_ || (!dynamic_cast<GapBlock*>(adjacent_) && !trim_is_a_roll_edit_)));
+    we_created_adjacent_ =
+        (trim_diff_ > 0 && (!adjacent_ || (!dynamic_cast<GapBlock*>(adjacent_) && !trim_is_a_roll_edit_)));
 
     if (we_created_adjacent_) {
       // We shortened but don't have a viable adjacent to lengthen, so we create one
@@ -182,8 +180,7 @@ void BlockTrimCommand::prepare()
 //
 // TrackSlideCommand
 //
-void TrackSlideCommand::redo()
-{
+void TrackSlideCommand::redo() {
   // Make sure all movement blocks' old positions are invalidated
   TimeRange invalidate_range(blocks_.first()->in(), blocks_.last()->out());
 
@@ -240,9 +237,7 @@ void TrackSlideCommand::redo()
                              qMax(invalidate_range.out(), blocks_.last()->out()));
 }
 
-
-void TrackSlideCommand::undo()
-{
+void TrackSlideCommand::undo() {
   // Make sure all movement blocks' old positions are invalidated
   TimeRange invalidate_range(blocks_.first()->in(), blocks_.last()->out());
 
@@ -283,8 +278,7 @@ void TrackSlideCommand::undo()
                              qMax(invalidate_range.out(), blocks_.last()->out()));
 }
 
-void TrackSlideCommand::prepare()
-{
+void TrackSlideCommand::prepare() {
   if (!in_adjacent_) {
     in_adjacent_ = new GapBlock();
     in_adjacent_->set_length_and_media_out(movement_);
@@ -307,26 +301,24 @@ void TrackSlideCommand::prepare()
 //
 // TrackPlaceBlockCommand
 //
-TrackPlaceBlockCommand::~TrackPlaceBlockCommand()
-{
+TrackPlaceBlockCommand::~TrackPlaceBlockCommand() {
   delete ripple_remove_command_;
   qDeleteAll(add_track_commands_);
 }
 
-void TrackPlaceBlockCommand::redo()
-{
+void TrackPlaceBlockCommand::redo() {
   // Determine if we need to add tracks
   if (track_index_ >= timeline_->GetTracks().size()) {
     if (add_track_commands_.isEmpty()) {
       // First redo, create tracks now
       add_track_commands_.resize(track_index_ - timeline_->GetTracks().size() + 1);
 
-      for (int i=0; i<add_track_commands_.size(); i++) {
+      for (int i = 0; i < add_track_commands_.size(); i++) {
         add_track_commands_[i] = new TimelineAddTrackCommand(timeline_);
       }
     }
 
-    for (int i=0; i<add_track_commands_.size(); i++) {
+    for (int i = 0; i < add_track_commands_.size(); i++) {
       add_track_commands_.at(i)->redo_now();
     }
   }
@@ -360,8 +352,7 @@ void TrackPlaceBlockCommand::redo()
   }
 }
 
-void TrackPlaceBlockCommand::undo()
-{
+void TrackPlaceBlockCommand::undo() {
   Track* t = timeline_->GetTrackAt(track_index_);
 
   TimeRange insert_range(insert_->in(), insert_->out());
@@ -378,9 +369,9 @@ void TrackPlaceBlockCommand::undo()
   }
 
   // Remove tracks if we added them
-  for (int i=add_track_commands_.size()-1; i>=0; i--) {
+  for (int i = add_track_commands_.size() - 1; i >= 0; i--) {
     add_track_commands_.at(i)->undo_now();
   }
 }
 
-}
+}  // namespace olive

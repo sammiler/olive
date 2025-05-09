@@ -25,11 +25,8 @@
 
 namespace olive {
 
-ViewerWindow::ViewerWindow(QWidget *parent) :
-  QWidget(parent, Qt::Window | Qt::WindowStaysOnTopHint),
-  pixel_aspect_(1)
-{
-  QVBoxLayout* layout = new QVBoxLayout(this);
+ViewerWindow::ViewerWindow(QWidget *parent) : QWidget(parent, Qt::Window | Qt::WindowStaysOnTopHint), pixel_aspect_(1) {
+  QVBoxLayout *layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
   layout->setSpacing(0);
 
@@ -37,13 +34,9 @@ ViewerWindow::ViewerWindow(QWidget *parent) :
   layout->addWidget(display_widget_);
 }
 
-ViewerDisplayWidget *ViewerWindow::display_widget() const
-{
-  return display_widget_;
-}
+ViewerDisplayWidget *ViewerWindow::display_widget() const { return display_widget_; }
 
-void ViewerWindow::SetVideoParams(const VideoParams &params)
-{
+void ViewerWindow::SetVideoParams(const VideoParams &params) {
   width_ = params.width();
   height_ = params.height();
   pixel_aspect_ = params.pixel_aspect_ratio();
@@ -51,23 +44,20 @@ void ViewerWindow::SetVideoParams(const VideoParams &params)
   UpdateMatrix();
 }
 
-void ViewerWindow::SetResolution(int width, int height)
-{
+void ViewerWindow::SetResolution(int width, int height) {
   width_ = width;
   height_ = height;
 
   UpdateMatrix();
 }
 
-void ViewerWindow::SetPixelAspectRatio(const rational &pixel_aspect)
-{
+void ViewerWindow::SetPixelAspectRatio(const rational &pixel_aspect) {
   pixel_aspect_ = pixel_aspect;
 
   UpdateMatrix();
 }
 
-void ViewerWindow::keyPressEvent(QKeyEvent *e)
-{
+void ViewerWindow::keyPressEvent(QKeyEvent *e) {
   QWidget::keyPressEvent(e);
 
   if (e->key() == Qt::Key_Escape) {
@@ -75,15 +65,13 @@ void ViewerWindow::keyPressEvent(QKeyEvent *e)
   }
 }
 
-void ViewerWindow::closeEvent(QCloseEvent *e)
-{
+void ViewerWindow::closeEvent(QCloseEvent *e) {
   QWidget::closeEvent(e);
 
   deleteLater();
 }
 
-void ViewerWindow::UpdateMatrix()
-{
+void ViewerWindow::UpdateMatrix() {
   // Set GL widget matrix to maintain this texture's aspect ratio
   double window_ar = static_cast<double>(this->width()) / static_cast<double>(this->height());
   double image_ar = static_cast<double>(width_) / static_cast<double>(height_) * pixel_aspect_.toDouble();
@@ -101,4 +89,4 @@ void ViewerWindow::UpdateMatrix()
   display_widget_->SetMatrixZoom(mat);
 }
 
-}
+}  // namespace olive

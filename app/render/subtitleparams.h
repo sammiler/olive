@@ -31,16 +31,11 @@ using namespace olive::core;
 
 namespace olive {
 
-class Subtitle
-{
-public:
+class Subtitle {
+ public:
   Subtitle() = default;
 
-  Subtitle(const TimeRange &time, const QString &text) :
-    range_(time),
-    text_(text)
-  {
-  }
+  Subtitle(const TimeRange &time, const QString &text) : range_(time), text_(text) {}
 
   const TimeRange &time() const { return range_; }
   void set_time(const TimeRange &t) { range_ = t; }
@@ -48,35 +43,28 @@ public:
   const QString &text() const { return text_; }
   void set_text(const QString &t) { text_ = t; }
 
-private:
+ private:
   TimeRange range_;
 
   QString text_;
-
 };
 
-class SubtitleParams : public std::vector<Subtitle>
-{
-public:
-  SubtitleParams()
-  {
+class SubtitleParams : public std::vector<Subtitle> {
+ public:
+  SubtitleParams() {
     stream_index_ = 0;
     enabled_ = true;
   }
 
   static QString GenerateASSHeader();
 
-  void Load(QXmlStreamReader* reader);
+  void Load(QXmlStreamReader *reader);
 
-  void Save(QXmlStreamWriter* writer) const;
+  void Save(QXmlStreamWriter *writer) const;
 
-  bool is_valid() const
-  {
-    return !this->empty();
-  }
+  bool is_valid() const { return !this->empty(); }
 
-  rational duration() const
-  {
+  rational duration() const {
     if (this->empty()) {
       return 0;
     } else {
@@ -90,16 +78,15 @@ public:
   bool enabled() const { return enabled_; }
   void set_enabled(bool e) { enabled_ = e; }
 
-private:
+ private:
   int stream_index_;
 
   bool enabled_;
-
 };
 
-}
+}  // namespace olive
 
 Q_DECLARE_METATYPE(olive::Subtitle)
 Q_DECLARE_METATYPE(olive::SubtitleParams)
 
-#endif // SUBTITLEPARAMS_H
+#endif  // SUBTITLEPARAMS_H

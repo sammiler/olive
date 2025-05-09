@@ -26,12 +26,8 @@ namespace olive {
 
 #define super ProgressDialog
 
-TaskDialog::TaskDialog(Task* task, const QString& title, QWidget *parent) :
-  super(task->GetTitle(), title, parent),
-  task_(task),
-  destroy_on_close_(true),
-  already_shown_(false)
-{
+TaskDialog::TaskDialog(Task* task, const QString& title, QWidget* parent)
+    : super(task->GetTitle(), title, parent), task_(task), destroy_on_close_(true), already_shown_(false) {
   // Clear task when this dialog is destroyed
   task_->setParent(this);
 
@@ -43,8 +39,7 @@ TaskDialog::TaskDialog(Task* task, const QString& title, QWidget *parent) :
   connect(this, &TaskDialog::Cancelled, task_, &Task::Cancel, Qt::DirectConnection);
 }
 
-void TaskDialog::showEvent(QShowEvent *e)
-{
+void TaskDialog::showEvent(QShowEvent* e) {
   super::showEvent(e);
 
   if (!already_shown_) {
@@ -52,24 +47,22 @@ void TaskDialog::showEvent(QShowEvent *e)
     QFutureWatcher<bool>* task_watcher = new QFutureWatcher<bool>();
 
     // Listen for when the task finishes
-    connect(task_watcher, &QFutureWatcher<bool>::finished,
-            this, &TaskDialog::TaskFinished, Qt::QueuedConnection);
+    connect(task_watcher, &QFutureWatcher<bool>::finished, this, &TaskDialog::TaskFinished, Qt::QueuedConnection);
 
     // Run task in another thread with QtConcurrent
     task_watcher->setFuture(
 #if QT_VERSION_MAJOR >= 6
-          QtConcurrent::run(&Task::Start, task_)
+        QtConcurrent::run(&Task::Start, task_)
 #else
-          QtConcurrent::run(task_, &Task::Start)
+        QtConcurrent::run(task_, &Task::Start)
 #endif
-          );
+    );
 
     already_shown_ = true;
   }
 }
 
-void TaskDialog::closeEvent(QCloseEvent *e)
-{
+void TaskDialog::closeEvent(QCloseEvent* e) {
   // Cancel task if it is running
   task_->Cancel();
 
@@ -85,8 +78,7 @@ void TaskDialog::closeEvent(QCloseEvent *e)
   }
 }
 
-void TaskDialog::TaskFinished()
-{
+void TaskDialog::TaskFinished() {
   QFutureWatcher<bool>* task_watcher = static_cast<QFutureWatcher<bool>*>(sender());
 
   if (task_watcher->result()) {
@@ -101,4 +93,4 @@ void TaskDialog::TaskFinished()
   close();
 }
 
-}
+}  // namespace olive

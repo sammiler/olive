@@ -32,10 +32,9 @@ using namespace core;
 /**
  * @brief A static object that provides various "stock" menus for use throughout the application
  */
-class MenuShared : public QObject
-{
+class MenuShared : public QObject {
   Q_OBJECT
-public:
+ public:
   MenuShared();
   virtual ~MenuShared() override;
 
@@ -56,15 +55,12 @@ public:
 
   static MenuShared* instance();
 
-  QAction* edit_delete_item()
-  {
-    return edit_delete_item_;
-  }
+  QAction* edit_delete_item() { return edit_delete_item_; }
 
-public slots:
+ public slots:
   void DeleteSelectedTriggered();
 
-private:
+ private:
   // "New" menu shared items
   QAction* new_project_item_;
   QAction* new_sequence_item_;
@@ -111,7 +107,7 @@ private:
 
   static MenuShared* instance_;
 
-private slots:
+ private slots:
   void SplitAtPlayheadTriggered();
 
   void RippleDeleteTriggered();
@@ -159,9 +155,8 @@ private slots:
   void SpeedDurationTriggered();
 
   void AddableItemTriggered();
-
 };
 
-}
+}  // namespace olive
 
-#endif // MENUSHARED_H
+#endif  // MENUSHARED_H

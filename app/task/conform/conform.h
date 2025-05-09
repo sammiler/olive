@@ -27,16 +27,16 @@
 
 namespace olive {
 
-class ConformTask : public Task
-{
+class ConformTask : public Task {
   Q_OBJECT
-public:
-  ConformTask(const QString &decoder_id, const Decoder::CodecStream &stream, const AudioParams& params, const QVector<QString> &output_filenames);
+ public:
+  ConformTask(const QString &decoder_id, const Decoder::CodecStream &stream, const AudioParams &params,
+              const QVector<QString> &output_filenames);
 
-protected:
+ protected:
   virtual bool Run() override;
 
-private:
+ private:
   QString decoder_id_;
 
   Decoder::CodecStream stream_;
@@ -44,9 +44,8 @@ private:
   AudioParams params_;
 
   QVector<QString> output_filenames_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // CONFORMTASK_H
+#endif  // CONFORMTASK_H

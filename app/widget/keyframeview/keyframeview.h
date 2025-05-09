@@ -32,11 +32,10 @@
 
 namespace olive {
 
-class KeyframeView : public TimeBasedView, public TimeTargetObject
-{
+class KeyframeView : public TimeBasedView, public TimeTargetObject {
   Q_OBJECT
-public:
-  KeyframeView(QWidget* parent = nullptr);
+ public:
+  KeyframeView(QWidget *parent = nullptr);
 
   void DeleteSelected();
 
@@ -44,7 +43,7 @@ public:
   using InputConnections = QVector<ElementConnections>;
   using NodeConnections = QMap<QString, InputConnections>;
 
-  NodeConnections AddKeyframesOfNode(Node* n);
+  NodeConnections AddKeyframesOfNode(Node *n);
 
   InputConnections AddKeyframesOfInput(Node *n, const QString &input);
 
@@ -60,21 +59,14 @@ public:
 
   void Clear();
 
-  const std::vector<NodeKeyframe*> &GetSelectedKeyframes() const
-  {
-    return selection_manager_.GetSelectedObjects();
-  }
+  const std::vector<NodeKeyframe *> &GetSelectedKeyframes() const { return selection_manager_.GetSelectedObjects(); }
 
-  const QVector<KeyframeViewInputConnection*> &GetKeyframeTracks() const
-  {
-    return tracks_;
-  }
+  const QVector<KeyframeViewInputConnection *> &GetKeyframeTracks() const { return tracks_; }
 
   virtual void SelectionManagerSelectEvent(void *obj) override;
   virtual void SelectionManagerDeselectEvent(void *obj) override;
 
-  void SetMaxScroll(int i)
-  {
+  void SetMaxScroll(int i) {
     max_scroll_ = i;
     UpdateSceneRect();
   }
@@ -85,23 +77,24 @@ public:
 
   virtual void CatchUpScrollEvent() override;
 
-signals:
+ signals:
   void Dragged(int current_x, int current_y);
 
   void SelectionChanged();
 
   void Released();
 
-protected:
+ protected:
   virtual void mousePressEvent(QMouseEvent *event) override;
   virtual void mouseMoveEvent(QMouseEvent *event) override;
   virtual void mouseReleaseEvent(QMouseEvent *event) override;
 
   virtual void drawForeground(QPainter *painter, const QRectF &rect) override;
 
-  virtual void DrawKeyframe(QPainter *painter, NodeKeyframe *key, KeyframeViewInputConnection *track, const QRectF &key_rect);
+  virtual void DrawKeyframe(QPainter *painter, NodeKeyframe *key, KeyframeViewInputConnection *track,
+                            const QRectF &key_rect);
 
-  virtual void ScaleChangedEvent(const double& scale) override;
+  virtual void ScaleChangedEvent(const double &scale) override;
 
   virtual void TimeTargetChangedEvent(ViewerOutput *v) override;
 
@@ -109,28 +102,22 @@ protected:
 
   virtual void ContextMenuEvent(Menu &m);
 
-  virtual bool FirstChanceMousePress(QMouseEvent *event){return false;}
-  virtual void FirstChanceMouseMove(QMouseEvent *event){}
-  virtual void FirstChanceMouseRelease(QMouseEvent *event){}
+  virtual bool FirstChanceMousePress(QMouseEvent *event) { return false; }
+  virtual void FirstChanceMouseMove(QMouseEvent *event) {}
+  virtual void FirstChanceMouseRelease(QMouseEvent *event) {}
 
-  virtual void KeyframeDragStart(QMouseEvent *event){}
-  virtual void KeyframeDragMove(QMouseEvent *event, QString &tip){}
-  virtual void KeyframeDragRelease(QMouseEvent *event, MultiUndoCommand *command){}
+  virtual void KeyframeDragStart(QMouseEvent *event) {}
+  virtual void KeyframeDragMove(QMouseEvent *event, QString &tip) {}
+  virtual void KeyframeDragRelease(QMouseEvent *event, MultiUndoCommand *command) {}
 
   void SelectKeyframe(NodeKeyframe *key);
 
   void DeselectKeyframe(NodeKeyframe *key);
 
-  bool IsKeyframeSelected(NodeKeyframe *key) const
-  {
-    return selection_manager_.IsSelected(key);
-  }
+  bool IsKeyframeSelected(NodeKeyframe *key) const { return selection_manager_.IsSelected(key); }
 
   rational GetUnadjustedKeyframeTime(NodeKeyframe *key, const rational &time);
-  rational GetUnadjustedKeyframeTime(NodeKeyframe *key)
-  {
-    return GetUnadjustedKeyframeTime(key, key->time());
-  }
+  rational GetUnadjustedKeyframeTime(NodeKeyframe *key) { return GetUnadjustedKeyframeTime(key, key->time()); }
 
   rational GetAdjustedKeyframeTime(NodeKeyframe *key);
 
@@ -138,20 +125,17 @@ protected:
 
   virtual qreal GetKeyframeSceneY(KeyframeViewInputConnection *track, NodeKeyframe *key);
 
-  void SetAutoSelectSiblings(bool e)
-  {
-    autoselect_siblings_ = e;
-  }
+  void SetAutoSelectSiblings(bool e) { autoselect_siblings_ = e; }
 
-  virtual void SceneRectUpdateEvent(QRectF& rect) override;
+  virtual void SceneRectUpdateEvent(QRectF &rect) override;
 
-protected slots:
+ protected slots:
   void Redraw();
 
-private:
-  rational CalculateNewTimeFromScreen(const rational& old_time, double cursor_diff);
+ private:
+  rational CalculateNewTimeFromScreen(const rational &old_time, double cursor_diff);
 
-  QVector<KeyframeViewInputConnection*> tracks_;
+  QVector<KeyframeViewInputConnection *> tracks_;
 
   TimeBasedViewSelectionManager<NodeKeyframe> selection_manager_;
 
@@ -161,15 +145,14 @@ private:
 
   bool first_chance_mouse_event_;
 
-private slots:
+ private slots:
   void ShowContextMenu();
 
   void ShowKeyframePropertiesDialog();
 
   void UpdateRubberBandForScroll();
-
 };
 
-}
+}  // namespace olive
 
-#endif // KEYFRAMEVIEWBASE_H
+#endif  // KEYFRAMEVIEWBASE_H

@@ -25,10 +25,9 @@
 
 namespace olive {
 
-class MergeNode : public Node
-{
+class MergeNode : public Node {
   Q_OBJECT
-public:
+ public:
   MergeNode();
 
   NODE_DEFAULT_FUNCTIONS(MergeNode)
@@ -40,19 +39,18 @@ public:
 
   virtual void Retranslate() override;
 
-  virtual ShaderCode GetShaderCode(const ShaderRequest &request) const override;
-  virtual void Value(const NodeValueRow& value, const NodeGlobals &globals, NodeValueTable *table) const override;
+  virtual ShaderCode GetShaderCode(const ShaderRequest& request) const override;
+  virtual void Value(const NodeValueRow& value, const NodeGlobals& globals, NodeValueTable* table) const override;
 
   static const QString kBaseIn;
   static const QString kBlendIn;
 
-private:
+ private:
   NodeInput* base_in_;
 
   NodeInput* blend_in_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // MERGENODE_H
+#endif  // MERGENODE_H

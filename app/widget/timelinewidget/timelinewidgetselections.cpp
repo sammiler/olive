@@ -22,15 +22,13 @@
 
 namespace olive {
 
-void TimelineWidgetSelections::ShiftTime(const rational &diff)
-{
-  for (auto it=this->begin(); it!=this->end(); it++) {
+void TimelineWidgetSelections::ShiftTime(const rational &diff) {
+  for (auto it = this->begin(); it != this->end(); it++) {
     it.value().shift(diff);
   }
 }
 
-void TimelineWidgetSelections::ShiftTracks(Track::Type type, int diff)
-{
+void TimelineWidgetSelections::ShiftTracks(Track::Type type, int diff) {
   TimelineWidgetSelections cached_selections;
 
   {
@@ -47,30 +45,27 @@ void TimelineWidgetSelections::ShiftTracks(Track::Type type, int diff)
   }
 
   // Then re-insert them with the diff applied
-  for (auto it=cached_selections.cbegin(); it!=cached_selections.cend(); it++) {
+  for (auto it = cached_selections.cbegin(); it != cached_selections.cend(); it++) {
     Track::Reference ref(it.key().type(), it.key().index() + diff);
 
     this->insert(ref, it.value());
   }
 }
 
-void TimelineWidgetSelections::TrimIn(const rational &diff)
-{
-  for (auto it=this->begin(); it!=this->end(); it++) {
+void TimelineWidgetSelections::TrimIn(const rational &diff) {
+  for (auto it = this->begin(); it != this->end(); it++) {
     it.value().trim_in(diff);
   }
 }
 
-void TimelineWidgetSelections::TrimOut(const rational &diff)
-{
-  for (auto it=this->begin(); it!=this->end(); it++) {
+void TimelineWidgetSelections::TrimOut(const rational &diff) {
+  for (auto it = this->begin(); it != this->end(); it++) {
     it.value().trim_out(diff);
   }
 }
 
-void TimelineWidgetSelections::Subtract(const TimelineWidgetSelections &selections)
-{
-  for (auto it=selections.cbegin(); it!=selections.cend(); it++) {
+void TimelineWidgetSelections::Subtract(const TimelineWidgetSelections &selections) {
+  for (auto it = selections.cbegin(); it != selections.cend(); it++) {
     const Track::Reference &track = it.key();
     const TimeRangeList &their_list = it.value();
 
@@ -81,4 +76,4 @@ void TimelineWidgetSelections::Subtract(const TimelineWidgetSelections &selectio
   }
 }
 
-}
+}  // namespace olive

@@ -25,44 +25,36 @@
 
 namespace olive {
 
-class OpenSequenceCommand : public UndoCommand
-{
-public:
-  OpenSequenceCommand(Sequence* sequence) :
-    sequence_(sequence)
-  {}
+class OpenSequenceCommand : public UndoCommand {
+ public:
+  OpenSequenceCommand(Sequence* sequence) : sequence_(sequence) {}
 
-  virtual Project* GetRelevantProject() const override {return nullptr;}
+  virtual Project* GetRelevantProject() const override { return nullptr; }
 
-protected:
+ protected:
   virtual void redo() override;
 
   virtual void undo() override;
 
-private:
+ private:
   Sequence* sequence_;
-
 };
 
-class CloseSequenceCommand : public UndoCommand
-{
-public:
-  CloseSequenceCommand(Sequence* sequence) :
-    sequence_(sequence)
-  {}
+class CloseSequenceCommand : public UndoCommand {
+ public:
+  CloseSequenceCommand(Sequence* sequence) : sequence_(sequence) {}
 
-  virtual Project* GetRelevantProject() const override {return nullptr;}
+  virtual Project* GetRelevantProject() const override { return nullptr; }
 
-protected:
+ protected:
   virtual void redo() override;
 
   virtual void undo() override;
 
-private:
+ private:
   Sequence* sequence_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // MAINWINDOWUNDO_H
+#endif  // MAINWINDOWUNDO_H

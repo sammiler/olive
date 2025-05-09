@@ -9,9 +9,7 @@
 
 namespace olive {
 
-SequenceDialogParameterTab::SequenceDialogParameterTab(Sequence* sequence, QWidget* parent) :
-  QWidget(parent)
-{
+SequenceDialogParameterTab::SequenceDialogParameterTab(Sequence* sequence, QWidget* parent) : QWidget(parent) {
   QVBoxLayout* layout = new QVBoxLayout(this);
 
   int row = 0;
@@ -19,7 +17,7 @@ SequenceDialogParameterTab::SequenceDialogParameterTab(Sequence* sequence, QWidg
   // Set up video section
   QGroupBox* video_group = new QGroupBox();
   video_group->setTitle(tr("Video"));
-  QGridLayout *video_layout = new QGridLayout(video_group);
+  QGridLayout* video_layout = new QGridLayout(video_group);
   video_layout->addWidget(new QLabel(tr("Width:")), row, 0);
   width_slider_ = new IntegerSlider();
   width_slider_->SetMinimum(0);
@@ -96,8 +94,8 @@ SequenceDialogParameterTab::SequenceDialogParameterTab(Sequence* sequence, QWidg
   audio_sample_rate_field_->SetSampleRate(ap.sample_rate());
   audio_channels_field_->SetChannelLayout(ap.channel_layout());
 
-  connect(preview_resolution_field_, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
-          this, &SequenceDialogParameterTab::UpdatePreviewResolutionLabel);
+  connect(preview_resolution_field_, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
+          &SequenceDialogParameterTab::UpdatePreviewResolutionLabel);
 
   layout->addStretch();
 
@@ -108,8 +106,7 @@ SequenceDialogParameterTab::SequenceDialogParameterTab(Sequence* sequence, QWidg
   UpdatePreviewResolutionLabel();
 }
 
-void SequenceDialogParameterTab::PresetChanged(const SequencePreset &preset)
-{
+void SequenceDialogParameterTab::PresetChanged(const SequencePreset& preset) {
   width_slider_->SetValue(preset.width());
   height_slider_->SetValue(preset.height());
   framerate_combo_->SetFrameRate(preset.frame_rate());
@@ -122,33 +119,21 @@ void SequenceDialogParameterTab::PresetChanged(const SequencePreset &preset)
   preview_autocache_field_->setChecked(preset.preview_autocache());
 }
 
-void SequenceDialogParameterTab::SavePresetClicked()
-{
-  emit SaveParametersAsPreset({QString(),
-                               GetSelectedVideoWidth(),
-                               GetSelectedVideoHeight(),
-                               GetSelectedVideoFrameRate(),
-                               GetSelectedVideoPixelAspect(),
-                               GetSelectedVideoInterlacingMode(),
-                               GetSelectedAudioSampleRate(),
-                               GetSelectedAudioChannelLayout(),
-                               GetSelectedPreviewResolution(),
-                               GetSelectedPreviewFormat(),
-                               GetSelectedPreviewAutoCache()});
+void SequenceDialogParameterTab::SavePresetClicked() {
+  emit SaveParametersAsPreset({QString(), GetSelectedVideoWidth(), GetSelectedVideoHeight(),
+                               GetSelectedVideoFrameRate(), GetSelectedVideoPixelAspect(),
+                               GetSelectedVideoInterlacingMode(), GetSelectedAudioSampleRate(),
+                               GetSelectedAudioChannelLayout(), GetSelectedPreviewResolution(),
+                               GetSelectedPreviewFormat(), GetSelectedPreviewAutoCache()});
 }
 
-void SequenceDialogParameterTab::UpdatePreviewResolutionLabel()
-{
-  VideoParams test_param(GetSelectedVideoWidth(),
-                         GetSelectedVideoHeight(),
-                         PixelFormat::INVALID,
-                         VideoParams::kInternalChannelCount,
-                         rational(1),
-                         VideoParams::kInterlaceNone,
+void SequenceDialogParameterTab::UpdatePreviewResolutionLabel() {
+  VideoParams test_param(GetSelectedVideoWidth(), GetSelectedVideoHeight(), PixelFormat::INVALID,
+                         VideoParams::kInternalChannelCount, rational(1), VideoParams::kInterlaceNone,
                          preview_resolution_field_->currentData().toInt());
 
-  preview_resolution_label_->setText(tr("(%1x%2)").arg(QString::number(test_param.effective_width()),
-                                                       QString::number(test_param.effective_height())));
+  preview_resolution_label_->setText(
+      tr("(%1x%2)").arg(QString::number(test_param.effective_width()), QString::number(test_param.effective_height())));
 }
 
-}
+}  // namespace olive

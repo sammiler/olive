@@ -26,17 +26,15 @@
 
 namespace olive {
 
-class ProjectLoadTask : public ProjectLoadBaseTask
-{
+class ProjectLoadTask : public ProjectLoadBaseTask {
   Q_OBJECT
-public:
+ public:
   ProjectLoadTask(const QString& filename);
 
-protected:
+ protected:
   virtual bool Run() override;
-
 };
 
-}
+}  // namespace olive
 
-#endif // PROJECTLOADMANAGER_H
+#endif  // PROJECTLOADMANAGER_H

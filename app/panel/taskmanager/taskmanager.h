@@ -29,18 +29,17 @@ namespace olive {
 /**
  * @brief A PanelWidget wrapper around a TaskView widget
  */
-class TaskManagerPanel : public PanelWidget
-{
+class TaskManagerPanel : public PanelWidget {
   Q_OBJECT
-public:
+ public:
   TaskManagerPanel();
 
-private:
+ private:
   virtual void Retranslate() override;
 
   TaskView* view_;
 };
 
-}
+}  // namespace olive
 
-#endif // TASKMANAGER_H
+#endif  // TASKMANAGER_H

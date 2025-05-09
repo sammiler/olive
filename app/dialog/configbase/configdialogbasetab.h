@@ -28,9 +28,8 @@
 
 namespace olive {
 
-class ConfigDialogBaseTab : public QWidget
-{
-public:
+class ConfigDialogBaseTab : public QWidget {
+ public:
   ConfigDialogBaseTab() = default;
 
   virtual bool Validate();
@@ -38,6 +37,6 @@ public:
   virtual void Accept(MultiUndoCommand *parent) = 0;
 };
 
-}
+}  // namespace olive
 
-#endif // PREFERENCESTAB_H
+#endif  // PREFERENCESTAB_H

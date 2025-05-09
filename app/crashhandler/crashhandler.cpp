@@ -26,8 +26,8 @@
 #include <QDir>
 #include <QFile>
 #include <QFontDatabase>
-#include <QLabel>
 #include <QHttpMultiPart>
+#include <QLabel>
 #include <QMessageBox>
 #include <QNetworkAccessManager>
 #include <QProcess>
@@ -44,8 +44,7 @@
 
 namespace olive {
 
-CrashHandlerDialog::CrashHandlerDialog(QObject * parent,const QString& report_path)
-{
+CrashHandlerDialog::CrashHandlerDialog(QObject* parent, const QString& report_path) {
   setWindowTitle(tr("Olive"));
   setWindowFlags(Qt::WindowStaysOnTopHint);
 
@@ -54,16 +53,18 @@ CrashHandlerDialog::CrashHandlerDialog(QObject * parent,const QString& report_pa
 
   QVBoxLayout* layout = new QVBoxLayout(this);
 
-  layout->addWidget(new QLabel(tr("We're sorry, Olive has crashed. Please help us fix it by "
-                                  "sending an error report.")));
+  layout->addWidget(
+      new QLabel(tr("We're sorry, Olive has crashed. Please help us fix it by "
+                    "sending an error report.")));
 
   QSplitter* splitter = new QSplitter(Qt::Vertical);
   splitter->setChildrenCollapsible(false);
   layout->addWidget(splitter);
 
   summary_edit_ = new QTextEdit();
-  summary_edit_->setPlaceholderText(tr("Describe what you were doing in as much detail as "
-                                       "possible. If you can, provide steps to reproduce this crash."));
+  summary_edit_->setPlaceholderText(
+      tr("Describe what you were doing in as much detail as "
+         "possible. If you can, provide steps to reproduce this crash."));
 
   splitter->addWidget(summary_edit_);
 
@@ -102,16 +103,14 @@ CrashHandlerDialog::CrashHandlerDialog(QObject * parent,const QString& report_pa
   GenerateReport();
 }
 
-void CrashHandlerDialog::SetGUIObjectsEnabled(bool e)
-{
+void CrashHandlerDialog::SetGUIObjectsEnabled(bool e) {
   summary_edit_->setEnabled(e);
   crash_report_->setEnabled(e);
   send_report_btn_->setEnabled(e);
   dont_send_btn_->setEnabled(e);
 }
 
-QString CrashHandlerDialog::GetSymbolPath()
-{
+QString CrashHandlerDialog::GetSymbolPath() {
   QDir app_path(qApp->applicationDirPath());
   QString symbols_path;
 
@@ -128,12 +127,11 @@ QString CrashHandlerDialog::GetSymbolPath()
   return symbols_path;
 }
 
-void CrashHandlerDialog::GenerateReport()
-{
+void CrashHandlerDialog::GenerateReport() {
   QProcess* p = new QProcess();
 
-  connect(p, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
-          this, &CrashHandlerDialog::ReadProcessFinished);
+  connect(p, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this,
+          &CrashHandlerDialog::ReadProcessFinished);
   connect(p, &QProcess::readyReadStandardOutput, this, &CrashHandlerDialog::ReadProcessHasData);
 
   QString stackwalk_filename = FileFunctions::GetFormattedExecutableForPlatform(QStringLiteral("minidump_stackwalk"));
@@ -143,8 +141,7 @@ void CrashHandlerDialog::GenerateReport()
   crash_report_->setText(QStringLiteral("Trying to run: %1").arg(stackwalk_bin));
 }
 
-void CrashHandlerDialog::ReplyFinished(QNetworkReply* reply)
-{
+void CrashHandlerDialog::ReplyFinished(QNetworkReply* reply) {
   waiting_for_upload_ = false;
 
   if (reply->error() == QNetworkReply::NoError) {
@@ -163,10 +160,9 @@ void CrashHandlerDialog::ReplyFinished(QNetworkReply* reply)
   }
 }
 
-void CrashHandlerDialog::HandleSslErrors(QNetworkReply *reply, const QList<QSslError> &se)
-{
+void CrashHandlerDialog::HandleSslErrors(QNetworkReply* reply, const QList<QSslError>& se) {
   QStringList errors;
-  for (const QSslError &err : se) {
+  for (const QSslError& err : se) {
     errors.append(err.errorString());
   }
 
@@ -179,8 +175,7 @@ void CrashHandlerDialog::HandleSslErrors(QNetworkReply *reply, const QList<QSslE
   b.exec();
 }
 
-void CrashHandlerDialog::AttemptToFindReport()
-{
+void CrashHandlerDialog::AttemptToFindReport() {
   // If we found it, use it, otherwise wait a second and try again
   if (report_filename_.isEmpty()) {
     // Couldn't find report, try again in one second
@@ -190,20 +185,17 @@ void CrashHandlerDialog::AttemptToFindReport()
   }
 }
 
-void CrashHandlerDialog::ReadProcessHasData()
-{
+void CrashHandlerDialog::ReadProcessHasData() {
   report_data_.append(static_cast<QProcess*>(sender())->readAllStandardOutput());
 }
 
-void CrashHandlerDialog::ReadProcessFinished()
-{
+void CrashHandlerDialog::ReadProcessFinished() {
   SetGUIObjectsEnabled(true);
   crash_report_->setText(report_data_);
   delete sender();
 }
 
-void CrashHandlerDialog::SendErrorReport()
-{
+void CrashHandlerDialog::SendErrorReport() {
   if (summary_edit_->document()->isEmpty()) {
     QMessageBox b(this);
     b.setIcon(QMessageBox::Question);
@@ -249,12 +241,13 @@ void CrashHandlerDialog::SendErrorReport()
   // Create dump section
   QHttpPart dump_part;
   dump_part.setHeader(QNetworkRequest::ContentTypeHeader, QStringLiteral("application/octet-stream"));
-  dump_part.setHeader(QNetworkRequest::ContentDispositionHeader, QStringLiteral("form-data; name=\"dump\"; filename=\"%1\"")
-                      .arg(QFileInfo(report_filename_).fileName()));
+  dump_part.setHeader(
+      QNetworkRequest::ContentDispositionHeader,
+      QStringLiteral("form-data; name=\"dump\"; filename=\"%1\"").arg(QFileInfo(report_filename_).fileName()));
   QFile* dump_file = new QFile(report_filename_);
   dump_file->open(QFile::ReadOnly);
   dump_part.setBodyDevice(dump_file);
-  dump_file->setParent(multipart); // Delete file with multipart
+  dump_file->setParent(multipart);  // Delete file with multipart
   multipart->append(dump_part);
 
   // Find symbol file
@@ -279,9 +272,10 @@ void CrashHandlerDialog::SendErrorReport()
     b.setIcon(QMessageBox::Critical);
     b.setWindowModality(Qt::WindowModal);
     b.setWindowTitle(tr("Failed to send report"));
-    b.setText(tr("Failed to find symbols necessary to send report. "
-                 "This is a packaging issue. Please notify "
-                 "the maintainers of this package."));
+    b.setText(
+        tr("Failed to find symbols necessary to send report. "
+           "This is a packaging issue. Please notify "
+           "the maintainers of this package."));
     b.addButton(QMessageBox::Ok);
     b.exec();
     return;
@@ -297,8 +291,8 @@ void CrashHandlerDialog::SendErrorReport()
   QString symbol_full_path = symbol_dir.filePath(symbol_filename);
   QHttpPart sym_part;
   sym_part.setHeader(QNetworkRequest::ContentTypeHeader, QStringLiteral("application/octet-stream"));
-  sym_part.setHeader(QNetworkRequest::ContentDispositionHeader, QStringLiteral("form-data; name=\"sym\"; filename=\"%1\"")
-                     .arg(symbol_filename));
+  sym_part.setHeader(QNetworkRequest::ContentDispositionHeader,
+                     QStringLiteral("form-data; name=\"sym\"; filename=\"%1\"").arg(symbol_filename));
   QFile sym_file(symbol_full_path);
 
   if (!sym_file.open(QFile::ReadOnly)) {
@@ -306,8 +300,9 @@ void CrashHandlerDialog::SendErrorReport()
     b.setIcon(QMessageBox::Critical);
     b.setWindowModality(Qt::WindowModal);
     b.setWindowTitle(tr("Failed to send report"));
-    b.setText(tr("Failed to open symbol file. You may not have "
-                 "permission to access it."));
+    b.setText(
+        tr("Failed to open symbol file. You may not have "
+           "permission to access it."));
     b.addButton(QMessageBox::Ok);
     b.exec();
     return;
@@ -325,14 +320,14 @@ void CrashHandlerDialog::SendErrorReport()
   waiting_for_upload_ = true;
 }
 
-void CrashHandlerDialog::closeEvent(QCloseEvent* e)
-{
+void CrashHandlerDialog::closeEvent(QCloseEvent* e) {
   QMessageBox b(this);
   b.setIcon(QMessageBox::Warning);
   b.setWindowModality(Qt::WindowModal);
   b.setWindowTitle(tr("Confirm Close"));
-  b.setText(tr("Crash report is still uploading. Closing now may result in no "
-               "report being sent. Are you sure you wish to close?"));
+  b.setText(
+      tr("Crash report is still uploading. Closing now may result in no "
+         "report being sent. Are you sure you wish to close?"));
   b.addButton(QMessageBox::Ok);
   b.addButton(QMessageBox::Cancel);
 
@@ -344,22 +339,21 @@ void CrashHandlerDialog::closeEvent(QCloseEvent* e)
   exit(0);
 }
 
-}
+}  // namespace olive
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char* argv[]) {
   QString report;
 
 #ifdef Q_OS_WINDOWS
   int num_args;
-  LPWSTR *args = CommandLineToArgvW(GetCommandLineW(), &num_args);
+  LPWSTR* args = CommandLineToArgvW(GetCommandLineW(), &num_args);
 
   report = QString::fromWCharArray(args[1]);
   LocalFree(args);
 #endif
 
   QApplication a(argc, argv);
-  olive::FileWatcher watcher (report);
+  olive::FileWatcher watcher(report);
 
   return a.exec();
 }

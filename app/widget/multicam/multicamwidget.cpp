@@ -30,11 +30,7 @@ namespace olive {
 
 #define super TimeBasedWidget
 
-MulticamWidget::MulticamWidget(QWidget *parent) :
-  super{false, false, parent},
-  node_(nullptr),
-  clip_(nullptr)
-{
+MulticamWidget::MulticamWidget(QWidget *parent) : super{false, false, parent}, node_(nullptr), clip_(nullptr) {
   auto layout = new QVBoxLayout(this);
 
   sizer_ = new ViewerSizer(this);
@@ -52,14 +48,13 @@ MulticamWidget::MulticamWidget(QWidget *parent) :
   layout->addWidget(this->ruler());
   layout->addWidget(this->scrollbar());
 
-  for (int i=0; i<9; i++) {
-    new QShortcut(QStringLiteral("Ctrl+%1").arg(QString::number(i+1)), this, this, [this, i]{Switch(i, false);});
-    new QShortcut(QString::number(i+1), this, this, [this, i]{Switch(i, true);});
+  for (int i = 0; i < 9; i++) {
+    new QShortcut(QStringLiteral("Ctrl+%1").arg(QString::number(i + 1)), this, this, [this, i] { Switch(i, false); });
+    new QShortcut(QString::number(i + 1), this, this, [this, i] { Switch(i, true); });
   }
 }
 
-void MulticamWidget::SetMulticamNodeInternal(ViewerOutput *viewer, MultiCamNode *n, ClipBlock *clip)
-{
+void MulticamWidget::SetMulticamNodeInternal(ViewerOutput *viewer, MultiCamNode *n, ClipBlock *clip) {
   if (GetConnectedNode() != viewer) {
     ConnectViewerNode(viewer);
   }
@@ -74,8 +69,7 @@ void MulticamWidget::SetMulticamNodeInternal(ViewerOutput *viewer, MultiCamNode 
   }
 }
 
-void MulticamWidget::SetMulticamNode(ViewerOutput *viewer, MultiCamNode *n, ClipBlock *clip, const rational &time)
-{
+void MulticamWidget::SetMulticamNode(ViewerOutput *viewer, MultiCamNode *n, ClipBlock *clip, const rational &time) {
   if (time.isNaN() || !GetConnectedNode() || time == GetConnectedNode()->GetPlayhead()) {
     SetMulticamNodeInternal(viewer, n, clip);
     play_queue_.clear();
@@ -85,8 +79,7 @@ void MulticamWidget::SetMulticamNode(ViewerOutput *viewer, MultiCamNode *n, Clip
   }
 }
 
-void MulticamWidget::ConnectNodeEvent(ViewerOutput *n)
-{
+void MulticamWidget::ConnectNodeEvent(ViewerOutput *n) {
   connect(n, &ViewerOutput::SizeChanged, sizer_, &ViewerSizer::SetChildSize);
   connect(n, &ViewerOutput::PixelAspectChanged, sizer_, &ViewerSizer::SetPixelAspectRatio);
 
@@ -95,14 +88,12 @@ void MulticamWidget::ConnectNodeEvent(ViewerOutput *n)
   sizer_->SetPixelAspectRatio(vp.pixel_aspect_ratio());
 }
 
-void MulticamWidget::DisconnectNodeEvent(ViewerOutput *n)
-{
+void MulticamWidget::DisconnectNodeEvent(ViewerOutput *n) {
   disconnect(n, &ViewerOutput::SizeChanged, sizer_, &ViewerSizer::SetChildSize);
   disconnect(n, &ViewerOutput::PixelAspectChanged, sizer_, &ViewerSizer::SetPixelAspectRatio);
 }
 
-void MulticamWidget::TimeChangedEvent(const rational &t)
-{
+void MulticamWidget::TimeChangedEvent(const rational &t) {
   super::TimeChangedEvent(t);
 
   if (!play_queue_.empty()) {
@@ -114,8 +105,7 @@ void MulticamWidget::TimeChangedEvent(const rational &t)
   }
 }
 
-void MulticamWidget::Switch(int source, bool split_clip)
-{
+void MulticamWidget::Switch(int source, bool split_clip) {
   if (!node_) {
     return;
   }
@@ -127,8 +117,9 @@ void MulticamWidget::Switch(int source, bool split_clip)
 
   BlockSplitPreservingLinksCommand *split = nullptr;
 
-  if (clip_ && split_clip && clip_->in() < GetConnectedNode()->GetPlayhead() && clip_->out() > GetConnectedNode()->GetPlayhead()) {
-    QVector<Block*> blocks;
+  if (clip_ && split_clip && clip_->in() < GetConnectedNode()->GetPlayhead() &&
+      clip_->out() > GetConnectedNode()->GetPlayhead()) {
+    QVector<Block *> blocks;
 
     blocks.append(clip_);
     blocks.append(clip_->block_links());
@@ -137,17 +128,19 @@ void MulticamWidget::Switch(int source, bool split_clip)
     split->redo_now();
     command->add_child(split);
 
-    clip = static_cast<ClipBlock*>(split->GetSplit(clip_, 0));
+    clip = static_cast<ClipBlock *>(split->GetSplit(clip_, 0));
 
     cam = clip->FindMulticam();
   }
 
-  command->add_child(new NodeParamSetStandardValueCommand(NodeKeyframeTrackReference(NodeInput(cam, cam->kCurrentInput)), source));
+  command->add_child(
+      new NodeParamSetStandardValueCommand(NodeKeyframeTrackReference(NodeInput(cam, cam->kCurrentInput)), source));
 
   for (Block *link : clip->block_links()) {
-    if (ClipBlock *clink = dynamic_cast<ClipBlock*>(link)) {
+    if (ClipBlock *clink = dynamic_cast<ClipBlock *>(link)) {
       if (MultiCamNode *mlink = clink->FindMulticam()) {
-        command->add_child(new NodeParamSetStandardValueCommand(NodeKeyframeTrackReference(NodeInput(mlink, mlink->kCurrentInput)), source));
+        command->add_child(new NodeParamSetStandardValueCommand(
+            NodeKeyframeTrackReference(NodeInput(mlink, mlink->kCurrentInput)), source));
       }
     }
   }
@@ -159,8 +152,7 @@ void MulticamWidget::Switch(int source, bool split_clip)
   emit Switched();
 }
 
-void MulticamWidget::DisplayClicked(const QPoint &p)
-{
+void MulticamWidget::DisplayClicked(const QPoint &p) {
   if (!node_) {
     return;
   }
@@ -178,12 +170,12 @@ void MulticamWidget::DisplayClicked(const QPoint &p)
 
   int multi = std::max(cols, rows);
 
-  int c = click.x() / (width/multi);
-  int r = click.y() / (height/multi);
+  int c = click.x() / (width / multi);
+  int r = click.y() / (height / multi);
 
   int source = node_->RowsColsToIndex(r, c, rows, cols);
 
   Switch(source, true);
 }
 
-}
+}  // namespace olive

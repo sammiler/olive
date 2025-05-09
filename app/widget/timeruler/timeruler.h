@@ -24,30 +24,29 @@
 #include <QTimer>
 #include <QWidget>
 
-#include "seekablewidget.h"
 #include "render/playbackcache.h"
+#include "seekablewidget.h"
 
 namespace olive {
 
-class TimeRuler : public SeekableWidget
-{
+class TimeRuler : public SeekableWidget {
   Q_OBJECT
-public:
+ public:
   TimeRuler(bool text_visible = true, bool cache_status_visible = false, QWidget* parent = nullptr);
 
   void SetCenteredText(bool c);
 
   void SetPlaybackCache(PlaybackCache* cache);
 
-protected:
-  virtual void drawForeground(QPainter *painter, const QRectF &rect) override;
+ protected:
+  virtual void drawForeground(QPainter* painter, const QRectF& rect) override;
 
   virtual void TimebaseChangedEvent(const rational& tb) override;
 
-protected slots:
-  virtual bool ShowContextMenu(const QPoint &p) override;
+ protected slots:
+  virtual bool ShowContextMenu(const QPoint& p) override;
 
-private:
+ private:
   void UpdateHeight();
 
   int CacheStatusHeight() const;
@@ -63,9 +62,8 @@ private:
   bool show_cache_status_;
 
   PlaybackCache* playback_cache_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // TIMERULER_H
+#endif  // TIMERULER_H

@@ -25,10 +25,9 @@
 
 namespace olive {
 
-class DropShadowFilter : public Node
-{
+class DropShadowFilter : public Node {
   Q_OBJECT
-public:
+ public:
   DropShadowFilter();
 
   NODE_DEFAULT_FUNCTIONS(DropShadowFilter)
@@ -41,7 +40,7 @@ public:
   virtual void Retranslate() override;
 
   virtual ShaderCode GetShaderCode(const ShaderRequest &request) const override;
-  virtual void Value(const NodeValueRow& value, const NodeGlobals &globals, NodeValueTable *table) const override;
+  virtual void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
 
   static const QString kTextureInput;
   static const QString kColorInput;
@@ -50,9 +49,8 @@ public:
   static const QString kSoftnessInput;
   static const QString kOpacityInput;
   static const QString kFastInput;
-
 };
 
-}
+}  // namespace olive
 
-#endif // DROPSHADOWFILTER_H
+#endif  // DROPSHADOWFILTER_H

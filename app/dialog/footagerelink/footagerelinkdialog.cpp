@@ -31,14 +31,13 @@
 
 namespace olive {
 
-FootageRelinkDialog::FootageRelinkDialog(const QVector<Footage *> &footage, QWidget* parent) :
-  QDialog(parent),
-  footage_(footage)
-{
+FootageRelinkDialog::FootageRelinkDialog(const QVector<Footage*>& footage, QWidget* parent)
+    : QDialog(parent), footage_(footage) {
   QVBoxLayout* layout = new QVBoxLayout(this);
 
-  layout->addWidget(new QLabel("The following files couldn't be found. Clips using them will be "
-                               "unplayable until they're relinked."));
+  layout->addWidget(
+      new QLabel("The following files couldn't be found. Clips using them will be "
+                 "unplayable until they're relinked."));
 
   table_ = new QTreeWidget();
 
@@ -53,7 +52,7 @@ FootageRelinkDialog::FootageRelinkDialog(const QVector<Footage *> &footage, QWid
   table_->header()->setSectionResizeMode(1, QHeaderView::Stretch);
   table_->header()->setStretchLastSection(false);
 
-  for (int i=0; i<footage.size(); i++) {
+  for (int i = 0; i < footage.size(); i++) {
     Footage* f = footage.at(i);
     QTreeWidgetItem* item = new QTreeWidgetItem();
 
@@ -81,28 +80,22 @@ FootageRelinkDialog::FootageRelinkDialog(const QVector<Footage *> &footage, QWid
   layout->addWidget(buttons);
 
   setWindowTitle(tr("Relink Footage"));
-
-
 }
 
-void FootageRelinkDialog::UpdateFootageItem(int index)
-{
+void FootageRelinkDialog::UpdateFootageItem(int index) {
   Footage* f = footage_.at(index);
   QTreeWidgetItem* item = table_->topLevelItem(index);
   item->setIcon(0, f->data(Node::ICON).value<QIcon>());
   item->setText(1, f->filename());
 }
 
-void FootageRelinkDialog::BrowseForFootage()
-{
+void FootageRelinkDialog::BrowseForFootage() {
   int index = sender()->property("index").toInt();
   Footage* f = footage_.at(index);
 
   QFileInfo info(f->filename());
 
-  QString new_fn = QFileDialog::getOpenFileName(this,
-                                                tr("Relink \"%1\"").arg(f->GetLabel()),
-                                                info.absolutePath());
+  QString new_fn = QFileDialog::getOpenFileName(this, tr("Relink \"%1\"").arg(f->GetLabel()), info.absolutePath());
 
   // Originally, this function would attempt to filter to the exact filename of the missing file.
   // However, this would break on Windows if the filename had any spaces in it. The reason is
@@ -111,7 +104,7 @@ void FootageRelinkDialog::BrowseForFootage()
   // space in it, it just does a global replace of ' ' to ';'. There's no way around it, outside of
   // bypassing Qt entirely and using Win32's GetOpenFileName() directly. As annoying as it is, I've
   // just disabled it for now.
-  //QStringLiteral("%1 (\"%1\");;%2 (*)").arg(info.fileName(), tr("All Files")));
+  // QStringLiteral("%1 (\"%1\");;%2 (*)").arg(info.fileName(), tr("All Files")));
 
   // We received a new filename
   if (!new_fn.isEmpty()) {
@@ -132,7 +125,7 @@ void FootageRelinkDialog::BrowseForFootage()
     UpdateFootageItem(index);
 
     // Check all other footage files for matches
-    for (int it=0; it<footage_.size(); it++) {
+    for (int it = 0; it < footage_.size(); it++) {
       Footage* other_footage = footage_.at(it);
 
       // Ignore current footage file and footage that's already valid of course
@@ -160,7 +153,7 @@ void FootageRelinkDialog::BrowseForFootage()
   // Check where the next invalid footage is. If there is none, accept automatically. Otherwise,
   // jump to that footage so the user knows where it is.
   int next_invalid = -1;
-  for (int i=0; i<footage_.size(); i++) {
+  for (int i = 0; i < footage_.size(); i++) {
     if (!footage_.at(i)->IsValid()) {
       next_invalid = i;
       break;
@@ -173,11 +166,9 @@ void FootageRelinkDialog::BrowseForFootage()
   } else {
     // Jump to next invalid footage
     QModelIndex idx = table_->model()->index(next_invalid, 0);
-    table_->selectionModel()->select(idx,
-                                     QItemSelectionModel::Select | QItemSelectionModel::Rows);
+    table_->selectionModel()->select(idx, QItemSelectionModel::Select | QItemSelectionModel::Rows);
     table_->scrollTo(idx);
-
   }
 }
 
-}
+}  // namespace olive

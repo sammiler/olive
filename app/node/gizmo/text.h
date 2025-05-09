@@ -26,10 +26,9 @@
 
 namespace olive {
 
-class TextGizmo : public NodeGizmo
-{
+class TextGizmo : public NodeGizmo {
   Q_OBJECT
-public:
+ public:
   explicit TextGizmo(QObject *parent = nullptr);
 
   const QRectF &GetRect() const { return rect_; }
@@ -45,13 +44,13 @@ public:
   Qt::Alignment GetVerticalAlignment() const { return valign_; }
   void SetVerticalAlignment(Qt::Alignment va);
 
-signals:
+ signals:
   void Activated();
   void Deactivated();
   void VerticalAlignmentChanged(Qt::Alignment va);
   void RectChanged(const QRectF &r);
 
-private:
+ private:
   QRectF rect_;
 
   QString text_;
@@ -59,9 +58,8 @@ private:
   NodeKeyframeTrackReference input_;
 
   Qt::Alignment valign_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // TEXTGIZMO_H
+#endif  // TEXTGIZMO_H

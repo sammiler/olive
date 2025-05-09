@@ -347,7 +347,7 @@ void Config::setDropIndicatorsInhibited(bool inhibit) const
 {
     if (d->m_dropIndicatorsInhibited != inhibit) {
         d->m_dropIndicatorsInhibited = inhibit;
-        Q_EMIT DockRegistry::self()->dropIndicatorsInhibitedChanged(inhibit);
+        Q_EMIT DockRegistry::self() -> dropIndicatorsInhibitedChanged(inhibit);
     }
 }
 

@@ -29,10 +29,9 @@
 
 namespace olive {
 
-class ShapeNodeBase : public GeneratorWithMerge
-{
+class ShapeNodeBase : public GeneratorWithMerge {
   Q_OBJECT
-public:
+ public:
   ShapeNodeBase(bool create_color_input = true);
 
   virtual void Retranslate() override;
@@ -45,17 +44,15 @@ public:
   static const QString kSizeInput;
   static const QString kColorInput;
 
-protected:
-  PolygonGizmo *poly_gizmo() const
-  {
-    return poly_gizmo_;
-  }
+ protected:
+  PolygonGizmo *poly_gizmo() const { return poly_gizmo_; }
 
-protected slots:
+ protected slots:
   virtual void GizmoDragMove(double x, double y, const Qt::KeyboardModifiers &modifiers) override;
 
-private:
-  QVector2D GenerateGizmoAnchor(const QVector2D &pos, const QVector2D &size, NodeGizmo *gizmo, QVector2D *pt = nullptr) const;
+ private:
+  QVector2D GenerateGizmoAnchor(const QVector2D &pos, const QVector2D &size, NodeGizmo *gizmo,
+                                QVector2D *pt = nullptr) const;
 
   bool IsGizmoTop(NodeGizmo *g) const;
   bool IsGizmoBottom(NodeGizmo *g) const;
@@ -69,9 +66,8 @@ private:
   static const int kGizmoWholeRect = kGizmoScaleCount;
   PointGizmo *point_gizmo_[kGizmoScaleCount];
   PolygonGizmo *poly_gizmo_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // SHAPENODEBASE_H
+#endif  // SHAPENODEBASE_H

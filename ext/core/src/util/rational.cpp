@@ -28,8 +28,7 @@ namespace olive::core {
 
 const rational rational::NaN = rational(0, 0);
 
-rational rational::fromDouble(const double &flt, bool* ok)
-{
+rational rational::fromDouble(const double &flt, bool *ok) {
   if (isnan(flt)) {
     // Return NaN rational
     if (ok) *ok = false;
@@ -54,28 +53,26 @@ rational rational::fromDouble(const double &flt, bool* ok)
   return r;
 }
 
-rational rational::fromString(const std::string &str, bool* ok)
-{
+rational rational::fromString(const std::string &str, bool *ok) {
   std::vector<std::string> elements = StringUtils::split(str, '/');
 
   switch (elements.size()) {
-  case 1:
-    return rational(StringUtils::to_int(elements.front(), ok));
-  case 2:
-    return rational(StringUtils::to_int(elements.at(0), ok), StringUtils::to_int(elements.at(1), ok));
-  default:
-    // Returns NaN with ok set to false
-    if (ok) {
-      *ok = false;
-    }
-    return NaN;
+    case 1:
+      return rational(StringUtils::to_int(elements.front(), ok));
+    case 2:
+      return rational(StringUtils::to_int(elements.at(0), ok), StringUtils::to_int(elements.at(1), ok));
+    default:
+      // Returns NaN with ok set to false
+      if (ok) {
+        *ok = false;
+      }
+      return NaN;
   }
 }
 
-//Function: convert to double
+// Function: convert to double
 
-double rational::toDouble() const
-{
+double rational::toDouble() const {
   if (r_.den != 0) {
     return av_q2d(r_);
   } else {
@@ -83,14 +80,10 @@ double rational::toDouble() const
   }
 }
 
-AVRational rational::toAVRational() const
-{
-  return r_;
-}
+AVRational rational::toAVRational() const { return r_; }
 
 #ifdef USE_OTIO
-opentime::RationalTime rational::toRationalTime(double framerate) const
-{
+opentime::RationalTime rational::toRationalTime(double framerate) const {
   // Is this the best way of doing this?
   // Olive can store rationals as 0/0 which causes errors in OTIO
   opentime::RationalTime time = opentime::RationalTime(r_.num, r_.den == 0 ? 1 : r_.den);
@@ -98,28 +91,22 @@ opentime::RationalTime rational::toRationalTime(double framerate) const
 }
 #endif
 
-rational rational::flipped() const
-{
+rational rational::flipped() const {
   rational r = *this;
   r.flip();
   return r;
 }
 
-void rational::flip()
-{
+void rational::flip() {
   if (!isNull()) {
     std::swap(r_.den, r_.num);
     fix_signs();
   }
 }
 
-std::string rational::toString() const
-{
-  return StringUtils::format("%d/%d", r_.num, r_.den);
-}
+std::string rational::toString() const { return StringUtils::format("%d/%d", r_.num, r_.den); }
 
-void rational::fix_signs()
-{
+void rational::fix_signs() {
   if (r_.den < 0) {
     // Normalize so that denominator is always positive
     r_.den = -r_.den;
@@ -133,22 +120,17 @@ void rational::fix_signs()
   }
 }
 
-void rational::reduce()
-{
-  av_reduce(&r_.num, &r_.den, r_.num, r_.den, INT_MAX);
-}
+void rational::reduce() { av_reduce(&r_.num, &r_.den, r_.num, r_.den, INT_MAX); }
 
-//Assignment Operators
+// Assignment Operators
 
-const rational& rational::operator=(const rational &rhs)
-{
+const rational &rational::operator=(const rational &rhs) {
   r_ = rhs.r_;
   return *this;
 }
 
-const rational& rational::operator+=(const rational &rhs)
-{
-  if(*this == RATIONAL_MIN || *this == RATIONAL_MAX || rhs == RATIONAL_MIN || rhs == RATIONAL_MAX) {
+const rational &rational::operator+=(const rational &rhs) {
+  if (*this == RATIONAL_MIN || *this == RATIONAL_MAX || rhs == RATIONAL_MIN || rhs == RATIONAL_MAX) {
     *this = NaN;
   } else if (!isNaN()) {
     if (rhs.isNaN()) {
@@ -162,8 +144,7 @@ const rational& rational::operator+=(const rational &rhs)
   return *this;
 }
 
-const rational& rational::operator-=(const rational &rhs)
-{
+const rational &rational::operator-=(const rational &rhs) {
   if (*this == RATIONAL_MIN || *this == RATIONAL_MAX || rhs == RATIONAL_MIN || rhs == RATIONAL_MAX) {
     *this = NaN;
   } else if (!isNaN()) {
@@ -178,8 +159,7 @@ const rational& rational::operator-=(const rational &rhs)
   return *this;
 }
 
-const rational& rational::operator*=(const rational &rhs)
-{
+const rational &rational::operator*=(const rational &rhs) {
   if (*this == RATIONAL_MIN || *this == RATIONAL_MAX || rhs == RATIONAL_MIN || rhs == RATIONAL_MAX) {
     *this = NaN;
   } else if (!isNaN()) {
@@ -194,8 +174,7 @@ const rational& rational::operator*=(const rational &rhs)
   return *this;
 }
 
-const rational& rational::operator/=(const rational &rhs)
-{
+const rational &rational::operator/=(const rational &rhs) {
   if (*this == RATIONAL_MIN || *this == RATIONAL_MAX || rhs == RATIONAL_MIN || rhs == RATIONAL_MAX) {
     *this = NaN;
   } else if (!isNaN()) {
@@ -210,68 +189,50 @@ const rational& rational::operator/=(const rational &rhs)
   return *this;
 }
 
-//Binary math operators
+// Binary math operators
 
-rational rational::operator+(const rational &rhs) const
-{
+rational rational::operator+(const rational &rhs) const {
   rational answer(*this);
   answer += rhs;
   return answer;
 }
 
-rational rational::operator-(const rational &rhs) const
-{
+rational rational::operator-(const rational &rhs) const {
   rational answer(*this);
   answer -= rhs;
   return answer;
 }
 
-rational rational::operator/(const rational &rhs) const
-{
+rational rational::operator/(const rational &rhs) const {
   rational answer(*this);
   answer /= rhs;
   return answer;
 }
 
-rational rational::operator*(const rational &rhs) const
-{
+rational rational::operator*(const rational &rhs) const {
   rational answer(*this);
   answer *= rhs;
   return answer;
 }
 
-//Relational and equality operators
+// Relational and equality operators
 
-bool rational::operator<(const rational &rhs) const
-{
-  return av_cmp_q(r_, rhs.r_) == -1;
-}
+bool rational::operator<(const rational &rhs) const { return av_cmp_q(r_, rhs.r_) == -1; }
 
-bool rational::operator<=(const rational &rhs) const
-{
+bool rational::operator<=(const rational &rhs) const {
   int cmp = av_cmp_q(r_, rhs.r_);
   return cmp == 0 || cmp == -1;
 }
 
-bool rational::operator>(const rational &rhs) const
-{
-  return av_cmp_q(r_, rhs.r_) == 1;
-}
+bool rational::operator>(const rational &rhs) const { return av_cmp_q(r_, rhs.r_) == 1; }
 
-bool rational::operator>=(const rational &rhs) const
-{
+bool rational::operator>=(const rational &rhs) const {
   int cmp = av_cmp_q(r_, rhs.r_);
   return cmp == 0 || cmp == 1;
 }
 
-bool rational::operator==(const rational &rhs) const
-{
-  return av_cmp_q(r_, rhs.r_) == 0;
-}
+bool rational::operator==(const rational &rhs) const { return av_cmp_q(r_, rhs.r_) == 0; }
 
-bool rational::operator!=(const rational &rhs) const
-{
-  return !(*this == rhs);
-}
+bool rational::operator!=(const rational &rhs) const { return !(*this == rhs); }
 
-}
+}  // namespace olive::core

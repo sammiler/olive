@@ -36,11 +36,8 @@ namespace olive {
 
 #define super QDialog
 
-ProjectPropertiesDialog::ProjectPropertiesDialog(Project* p, QWidget *parent) :
-  super(parent),
-  working_project_(p),
-  ocio_config_is_valid_(true)
-{
+ProjectPropertiesDialog::ProjectPropertiesDialog(Project* p, QWidget* parent)
+    : super(parent), working_project_(p), ocio_config_is_valid_(true) {
   QVBoxLayout* layout = new QVBoxLayout(this);
 
   setWindowTitle(tr("Project Properties for '%1'").arg(working_project_->name()));
@@ -110,7 +107,7 @@ ProjectPropertiesDialog::ProjectPropertiesDialog(Project* p, QWidget *parent) :
     disk_cache_radios_[Project::kCacheUseDefaultLocation] = new QRadioButton(tr("Use Default Location"));
     disk_cache_radios_[Project::kCacheStoreAlongsideProject] = new QRadioButton(tr("Store Alongside Project"));
     disk_cache_radios_[Project::kCacheCustomPath] = new QRadioButton(tr("Use Custom Location:"));
-    for (int i=0; i<kDiskCacheRadioCount; i++) {
+    for (int i = 0; i < kDiskCacheRadioCount; i++) {
       disk_cache_btn_group->addButton(disk_cache_radios_[i]);
       cache_layout->addWidget(disk_cache_radios_[i]);
     }
@@ -121,7 +118,8 @@ ProjectPropertiesDialog::ProjectPropertiesDialog(Project* p, QWidget *parent) :
     cache_layout->addWidget(custom_cache_path_);
 
     // Ensure custom cache path "enabled" is tied to the radio button being checked
-    connect(disk_cache_radios_[Project::kCacheCustomPath], &QRadioButton::toggled, custom_cache_path_, &PathWidget::setEnabled);
+    connect(disk_cache_radios_[Project::kCacheCustomPath], &QRadioButton::toggled, custom_cache_path_,
+            &PathWidget::setEnabled);
 
     // Check the radio button that should currently be active
     disk_cache_radios_[working_project_->GetCacheLocationSetting()]->setChecked(true);
@@ -134,15 +132,13 @@ ProjectPropertiesDialog::ProjectPropertiesDialog(Project* p, QWidget *parent) :
     tabs->addTab(cache_group, tr("Disk Cache"));
   }
 
-  QDialogButtonBox* dialog_btns = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel,
-                                                       Qt::Horizontal);
+  QDialogButtonBox* dialog_btns = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal);
   layout->addWidget(dialog_btns);
   connect(dialog_btns, &QDialogButtonBox::accepted, this, &ProjectPropertiesDialog::accept);
   connect(dialog_btns, &QDialogButtonBox::rejected, this, &ProjectPropertiesDialog::reject);
 }
 
-void ProjectPropertiesDialog::accept()
-{
+void ProjectPropertiesDialog::accept() {
   if (!ocio_config_is_valid_) {
     QMessageBox mb(this);
     mb.setWindowModality(Qt::WindowModal);
@@ -176,7 +172,7 @@ void ProjectPropertiesDialog::accept()
 
     working_project_->SetCustomCachePath(custom_cache_path_->text());
 
-    emit DiskManager::instance()->InvalidateProject(working_project_);
+    emit DiskManager::instance() -> InvalidateProject(working_project_);
   }
 
   // This should ripple changes throughout the graph/cache that the color config has changed, and
@@ -194,8 +190,7 @@ void ProjectPropertiesDialog::accept()
   super::accept();
 }
 
-bool ProjectPropertiesDialog::VerifyPathAndWarnIfBad(const QString &path)
-{
+bool ProjectPropertiesDialog::VerifyPathAndWarnIfBad(const QString& path) {
   if (!FileFunctions::DirectoryIsValid(path)) {
     QMessageBox mb(this);
     mb.setWindowModality(Qt::WindowModal);
@@ -210,16 +205,14 @@ bool ProjectPropertiesDialog::VerifyPathAndWarnIfBad(const QString &path)
   return true;
 }
 
-void ProjectPropertiesDialog::BrowseForOCIOConfig()
-{
+void ProjectPropertiesDialog::BrowseForOCIOConfig() {
   QString fn = QFileDialog::getOpenFileName(this, tr("Browse for OpenColorIO configuration"));
   if (!fn.isEmpty()) {
     ocio_filename_->setText(fn);
   }
 }
 
-void ProjectPropertiesDialog::OCIOFilenameUpdated()
-{
+void ProjectPropertiesDialog::OCIOFilenameUpdated() {
   default_input_colorspace_->clear();
 
   try {
@@ -241,7 +234,7 @@ void ProjectPropertiesDialog::OCIOFilenameUpdated()
       default_input_colorspace_->addItem(cs);
 
       if (cs == working_project_->color_manager()->GetDefaultInputColorSpace()) {
-        default_input_colorspace_->setCurrentIndex(default_input_colorspace_->count()-1);
+        default_input_colorspace_->setCurrentIndex(default_input_colorspace_->count() - 1);
       }
     }
   } catch (OCIO::Exception& e) {
@@ -251,8 +244,7 @@ void ProjectPropertiesDialog::OCIOFilenameUpdated()
   }
 }
 
-void ProjectPropertiesDialog::OpenDiskCacheSettings()
-{
+void ProjectPropertiesDialog::OpenDiskCacheSettings() {
   if (disk_cache_radios_[Project::kCacheUseDefaultLocation]->isChecked()) {
     DiskManager::instance()->ShowDiskCacheSettingsDialog(DiskManager::instance()->GetDefaultCacheFolder(), this);
   } else if (disk_cache_radios_[Project::kCacheStoreAlongsideProject]->isChecked()) {
@@ -262,4 +254,4 @@ void ProjectPropertiesDialog::OpenDiskCacheSettings()
   }
 }
 
-}
+}  // namespace olive

@@ -28,57 +28,40 @@
 
 namespace olive {
 
-class ColorTransform
-{
-public:
-  ColorTransform()
-  {
-    is_display_ = false;
-  }
+class ColorTransform {
+ public:
+  ColorTransform() { is_display_ = false; }
 
-  ColorTransform(const QString& output)
-  {
+  ColorTransform(const QString& output) {
     is_display_ = false;
     output_ = output;
   }
 
-  ColorTransform(const QString& display, const QString& view, const QString& look)
-  {
+  ColorTransform(const QString& display, const QString& view, const QString& look) {
     is_display_ = true;
     output_ = display;
     view_ = view;
     look_ = look;
   }
 
-  bool is_display() const {
-    return is_display_;
-  }
+  bool is_display() const { return is_display_; }
 
-  const QString& display() const {
-    return output_;
-  }
+  const QString& display() const { return output_; }
 
-  const QString& output() const {
-    return output_;
-  }
+  const QString& output() const { return output_; }
 
-  const QString& view() const {
-    return view_;
-  }
+  const QString& view() const { return view_; }
 
-  const QString& look() const {
-    return look_;
-  }
+  const QString& look() const { return look_; }
 
-private:
+ private:
   QString output_;
 
   bool is_display_;
   QString view_;
   QString look_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // COLORTRANSFORM_H
+#endif  // COLORTRANSFORM_H

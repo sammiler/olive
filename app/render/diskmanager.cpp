@@ -34,10 +34,9 @@
 
 namespace olive {
 
-DiskManager* DiskManager::instance_ = nullptr;
+DiskManager *DiskManager::instance_ = nullptr;
 
-DiskManager::DiskManager()
-{
+DiskManager::DiskManager() {
   // Add default cache location
   QFile default_disk_cache_file(GetDefaultDiskCacheConfigFile());
   if (default_disk_cache_file.open(QFile::ReadOnly)) {
@@ -47,8 +46,7 @@ DiskManager::DiskManager()
       if (FileFunctions::DirectoryIsValid(default_dir)) {
         GetOpenFolder(default_dir);
       } else {
-        QMessageBox::warning(nullptr,
-                             tr("Disk Cache Error"),
+        QMessageBox::warning(nullptr, tr("Disk Cache Error"),
                              tr("Unable to set custom application disk cache. Using default instead."));
       }
     }
@@ -75,8 +73,7 @@ DiskManager::DiskManager()
   }
 }
 
-DiskManager::~DiskManager()
-{
+DiskManager::~DiskManager() {
   QFile default_disk_cache_file(GetDefaultDiskCacheConfigFile());
   if (default_disk_cache_file.open(QFile::WriteOnly)) {
     if (GetDefaultDiskCachePath() != GetDefaultCachePath()) {
@@ -87,113 +84,93 @@ DiskManager::~DiskManager()
   }
 }
 
-void DiskManager::CreateInstance()
-{
-  instance_ = new DiskManager();
-}
+void DiskManager::CreateInstance() { instance_ = new DiskManager(); }
 
-void DiskManager::DestroyInstance()
-{
+void DiskManager::DestroyInstance() {
   delete instance_;
   instance_ = nullptr;
 }
 
-DiskManager *DiskManager::instance()
-{
-  return instance_;
-}
+DiskManager *DiskManager::instance() { return instance_; }
 
-void DiskManager::Accessed(const QString &cache_folder, const QString &filename)
-{
-  DiskCacheFolder* f = GetOpenFolder(cache_folder);
+void DiskManager::Accessed(const QString &cache_folder, const QString &filename) {
+  DiskCacheFolder *f = GetOpenFolder(cache_folder);
 
   f->Accessed(filename);
 }
 
-void DiskManager::CreatedFile(const QString &cache_folder, const QString &filename)
-{
-  DiskCacheFolder* f = GetOpenFolder(cache_folder);
+void DiskManager::CreatedFile(const QString &cache_folder, const QString &filename) {
+  DiskCacheFolder *f = GetOpenFolder(cache_folder);
 
   f->CreatedFile(filename);
 }
 
-void DiskManager::DeleteSpecificFile(const QString &filename)
-{
-  foreach (DiskCacheFolder* f, open_folders_) {
+void DiskManager::DeleteSpecificFile(const QString &filename) {
+  foreach (DiskCacheFolder *f, open_folders_) {
     f->DeleteSpecificFile(filename);
   }
 }
 
-bool DiskManager::ClearDiskCache(const QString &cache_folder)
-{
-  DiskCacheFolder* f = GetOpenFolder(cache_folder);
+bool DiskManager::ClearDiskCache(const QString &cache_folder) {
+  DiskCacheFolder *f = GetOpenFolder(cache_folder);
 
   return f->ClearCache();
 }
 
-DiskCacheFolder *DiskManager::GetOpenFolder(const QString &path)
-{
+DiskCacheFolder *DiskManager::GetOpenFolder(const QString &path) {
   // If path is empty, this must mean default
   if (path.isEmpty()) {
     return GetDefaultCacheFolder();
   }
 
   // See if we have an existing path with this name
-  foreach (DiskCacheFolder* f, open_folders_) {
+  foreach (DiskCacheFolder *f, open_folders_) {
     if (f->GetPath() == path) {
       return f;
     }
   }
 
   // We must have to open this folder
-  DiskCacheFolder* f = new DiskCacheFolder(path, this);
+  DiskCacheFolder *f = new DiskCacheFolder(path, this);
   connect(f, &DiskCacheFolder::DeletedFrame, this, &DiskManager::DeletedFrame);
   open_folders_.append(f);
 
   return f;
 }
 
-bool DiskManager::ShowDiskCacheChangeConfirmationDialog(QWidget *parent)
-{
-  return (QMessageBox::question(parent,
-                                tr("Disk Cache"),
+bool DiskManager::ShowDiskCacheChangeConfirmationDialog(QWidget *parent) {
+  return (QMessageBox::question(parent, tr("Disk Cache"),
                                 tr("You've chosen to change the default disk cache location. This "
                                    "will invalidate your current cache. Would you like to continue?"),
                                 QMessageBox::Ok | QMessageBox::Cancel) == QMessageBox::Ok);
 }
 
-QString DiskManager::GetDefaultDiskCacheConfigFile()
-{
+QString DiskManager::GetDefaultDiskCacheConfigFile() {
   return QDir(FileFunctions::GetConfigurationLocation()).filePath(QStringLiteral("defaultdiskcache"));
 }
 
-QString DiskManager::GetDefaultDiskCachePath()
-{
+QString DiskManager::GetDefaultDiskCachePath() {
   return QDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("mediacache");
 }
 
-void DiskManager::ShowDiskCacheSettingsDialog(DiskCacheFolder *folder, QWidget *parent)
-{
+void DiskManager::ShowDiskCacheSettingsDialog(DiskCacheFolder *folder, QWidget *parent) {
   DiskCacheDialog d(folder, parent);
   d.exec();
 }
 
-void DiskManager::ShowDiskCacheSettingsDialog(const QString &path, QWidget *parent)
-{
+void DiskManager::ShowDiskCacheSettingsDialog(const QString &path, QWidget *parent) {
   if (!FileFunctions::DirectoryIsValid(path)) {
     QMessageBox::critical(parent, tr("Disk Cache Error"),
                           tr("Failed to open disk cache at \"%1\". Try a different folder.").arg(path));
     return;
   }
 
-  DiskCacheFolder* folder = GetOpenFolder(path);
+  DiskCacheFolder *folder = GetOpenFolder(path);
 
   ShowDiskCacheSettingsDialog(folder, parent);
 }
 
-DiskCacheFolder::DiskCacheFolder(const QString &path, QObject *parent) :
-  QObject(parent)
-{
+DiskCacheFolder::DiskCacheFolder(const QString &path, QObject *parent) : QObject(parent) {
   SetPath(path);
 
   save_timer_.setInterval(OLIVE_CONFIG("DiskCacheSaveInterval").toInt());
@@ -201,13 +178,9 @@ DiskCacheFolder::DiskCacheFolder(const QString &path, QObject *parent) :
   save_timer_.start();
 }
 
-DiskCacheFolder::~DiskCacheFolder()
-{
-  CloseCacheFolder();
-}
+DiskCacheFolder::~DiskCacheFolder() { CloseCacheFolder(); }
 
-bool DiskCacheFolder::ClearCache()
-{
+bool DiskCacheFolder::ClearCache() {
   bool deleted_files = true;
 
   auto i = disk_data_.begin();
@@ -229,8 +202,7 @@ bool DiskCacheFolder::ClearCache()
   return deleted_files;
 }
 
-void DiskCacheFolder::Accessed(const QString &filename)
-{
+void DiskCacheFolder::Accessed(const QString &filename) {
   if (!disk_data_.contains(filename)) {
     return;
   }
@@ -238,8 +210,7 @@ void DiskCacheFolder::Accessed(const QString &filename)
   disk_data_[filename].access_time = QDateTime::currentMSecsSinceEpoch();
 }
 
-void DiskCacheFolder::CreatedFile(const QString &filename)
-{
+void DiskCacheFolder::CreatedFile(const QString &filename) {
   qint64 file_size = QFile(filename).size();
 
   disk_data_.insert(filename, {file_size, QDateTime::currentMSecsSinceEpoch()});
@@ -251,14 +222,13 @@ void DiskCacheFolder::CreatedFile(const QString &filename)
   }
 }
 
-void DiskCacheFolder::SetPath(const QString &path)
-{
+void DiskCacheFolder::SetPath(const QString &path) {
   // If this is currently set to a folder, close it out now
   CloseCacheFolder();
 
   // Signal that disk cache is gone
   if (!disk_data_.empty()) {
-    for (auto it=disk_data_.cbegin(); it!=disk_data_.cend(); it++) {
+    for (auto it = disk_data_.cbegin(); it != disk_data_.cend(); it++) {
       emit DeletedFrame(path_, it.key());
     }
     disk_data_.clear();
@@ -267,7 +237,7 @@ void DiskCacheFolder::SetPath(const QString &path)
   // Set defaults
   clear_on_close_ = false;
   consumption_ = 0;
-  limit_ = 21474836480; // Default to 20 GB
+  limit_ = 21474836480;  // Default to 20 GB
 
   // Set path
   path_ = path;
@@ -305,8 +275,7 @@ void DiskCacheFolder::SetPath(const QString &path)
   }
 }
 
-bool DiskCacheFolder::DeleteFileInternal(QMap<QString, HashTime>::iterator hash_to_delete)
-{
+bool DiskCacheFolder::DeleteFileInternal(QMap<QString, HashTime>::iterator hash_to_delete) {
   // Cache HashTime object
   QString filename = hash_to_delete.key();
   HashTime ht = hash_to_delete.value();
@@ -328,9 +297,8 @@ bool DiskCacheFolder::DeleteFileInternal(QMap<QString, HashTime>::iterator hash_
   return false;
 }
 
-bool DiskCacheFolder::DeleteSpecificFile(const QString &f)
-{
-  for (auto it=disk_data_.begin(); it!=disk_data_.end(); it++) {
+bool DiskCacheFolder::DeleteSpecificFile(const QString &f) {
+  for (auto it = disk_data_.begin(); it != disk_data_.end(); it++) {
     if (it.key() == f) {
       // Break out of this loop, assuming we'll only have one instance of each filename
       return DeleteFileInternal(it);
@@ -340,12 +308,11 @@ bool DiskCacheFolder::DeleteSpecificFile(const QString &f)
   return false;
 }
 
-bool DiskCacheFolder::DeleteLeastRecent()
-{
+bool DiskCacheFolder::DeleteLeastRecent() {
   auto hash_to_delete = disk_data_.begin();
 
   if (disk_data_.begin() != disk_data_.end()) {
-    for (auto it=disk_data_.begin()+1; it!=disk_data_.end(); it++) {
+    for (auto it = disk_data_.begin() + 1; it != disk_data_.end(); it++) {
       if (it->access_time < hash_to_delete->access_time) {
         hash_to_delete = it;
       }
@@ -363,8 +330,7 @@ bool DiskCacheFolder::DeleteLeastRecent()
   }
 }
 
-void DiskCacheFolder::CloseCacheFolder()
-{
+void DiskCacheFolder::CloseCacheFolder() {
   if (path_.isEmpty()) {
     return;
   }
@@ -379,8 +345,7 @@ void DiskCacheFolder::CloseCacheFolder()
   SaveDiskCacheIndex();
 }
 
-void DiskCacheFolder::SaveDiskCacheIndex()
-{
+void DiskCacheFolder::SaveDiskCacheIndex() {
   QFile cache_index_file(index_path_);
 
   if (cache_index_file.open(QFile::WriteOnly)) {
@@ -389,8 +354,8 @@ void DiskCacheFolder::SaveDiskCacheIndex()
     ds << limit_;
     ds << clear_on_close_;
 
-    for (auto it=disk_data_.cbegin(); it!=disk_data_.cend(); it++) {
-      const HashTime& ht = it.value();
+    for (auto it = disk_data_.cbegin(); it != disk_data_.cend(); it++) {
+      const HashTime &ht = it.value();
 
       ds << it.key();
       ds << ht.file_size;
@@ -403,4 +368,4 @@ void DiskCacheFolder::SaveDiskCacheIndex()
   }
 }
 
-}
+}  // namespace olive

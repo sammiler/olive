@@ -27,26 +27,21 @@
 
 namespace olive {
 
-class ColorCodingComboBox : public QComboBox
-{
+class ColorCodingComboBox : public QComboBox {
   Q_OBJECT
-public:
+ public:
   ColorCodingComboBox(QWidget* parent = nullptr);
 
   virtual void showPopup() override;
 
   void SetColor(int index);
 
-  int GetSelectedColor() const
-  {
-    return index_;
-  }
+  int GetSelectedColor() const { return index_; }
 
-private:
+ private:
   int index_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // COLORCODINGCOMBOBOX_H
+#endif  // COLORCODINGCOMBOBOX_H

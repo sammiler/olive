@@ -33,121 +33,84 @@
 namespace olive {
 
 class BlockResizeCommand : public UndoCommand {
-public:
-  BlockResizeCommand(Block* block, rational new_length) :
-    block_(block),
-    new_length_(new_length)
-  {
-  }
+ public:
+  BlockResizeCommand(Block* block, rational new_length) : block_(block), new_length_(new_length) {}
 
-  virtual Project* GetRelevantProject() const override
-  {
-    return block_->project();
-  }
+  virtual Project* GetRelevantProject() const override { return block_->project(); }
 
-protected:
+ protected:
   virtual void redo() override;
   virtual void undo() override;
 
-private:
+ private:
   Block* block_;
   rational old_length_;
   rational new_length_;
-
 };
 
 class BlockResizeWithMediaInCommand : public UndoCommand {
-public:
-  BlockResizeWithMediaInCommand(Block* block, rational new_length) :
-    block_(block),
-    new_length_(new_length)
-  {
-  }
+ public:
+  BlockResizeWithMediaInCommand(Block* block, rational new_length) : block_(block), new_length_(new_length) {}
 
-  virtual Project* GetRelevantProject() const
-  {
-    return block_->project();
-  }
+  virtual Project* GetRelevantProject() const { return block_->project(); }
 
-protected:
+ protected:
   virtual void redo();
   virtual void undo();
 
-private:
+ private:
   Block* block_;
   rational old_length_;
   rational new_length_;
-
 };
 
 class BlockSetMediaInCommand : public UndoCommand {
-public:
-  BlockSetMediaInCommand(ClipBlock* block, rational new_media_in) :
-    block_(block),
-    new_media_in_(new_media_in)
-  {
-  }
+ public:
+  BlockSetMediaInCommand(ClipBlock* block, rational new_media_in) : block_(block), new_media_in_(new_media_in) {}
 
-  virtual Project* GetRelevantProject() const
-  {
-    return block_->project();
-  }
+  virtual Project* GetRelevantProject() const { return block_->project(); }
 
-protected:
+ protected:
   virtual void redo();
   virtual void undo();
 
-private:
+ private:
   ClipBlock* block_;
   rational old_media_in_;
   rational new_media_in_;
-
 };
 
 class TimelineAddTrackCommand : public UndoCommand {
-public:
-  TimelineAddTrackCommand(TrackList *timeline) :
-    TimelineAddTrackCommand(timeline, OLIVE_CONFIG("AutoMergeTracks").toBool())
-  {
-  }
+ public:
+  TimelineAddTrackCommand(TrackList* timeline)
+      : TimelineAddTrackCommand(timeline, OLIVE_CONFIG("AutoMergeTracks").toBool()) {}
 
-  TimelineAddTrackCommand(TrackList *timeline, bool automerge_tracks);
+  TimelineAddTrackCommand(TrackList* timeline, bool automerge_tracks);
 
-  static Track* RunImmediately(TrackList *timeline)
-  {
+  static Track* RunImmediately(TrackList* timeline) {
     TimelineAddTrackCommand c(timeline);
     c.redo();
     return c.track();
   }
 
-  static Track* RunImmediately(TrackList *timeline, bool automerge)
-  {
+  static Track* RunImmediately(TrackList* timeline, bool automerge) {
     TimelineAddTrackCommand c(timeline, automerge);
     c.redo();
     return c.track();
   }
 
-  virtual ~TimelineAddTrackCommand() override
-  {
-    delete position_command_;
-  }
+  virtual ~TimelineAddTrackCommand() override { delete position_command_; }
 
-  Track* track() const
-  {
-    return track_;
-  }
+  Track* track() const { return track_; }
 
-  virtual Project* GetRelevantProject() const override
-  {
-    return timeline_->parent()->project();
-  }
+  virtual Project* GetRelevantProject() const override { return timeline_->parent()->project(); }
 
-protected:
+ protected:
   virtual void redo() override;
 
   virtual void undo() override;
 
-private:
+ private:
   TrackList* timeline_;
 
   Track* track_;
@@ -160,65 +123,46 @@ private:
   MultiUndoCommand* position_command_;
 
   QObject memory_manager_;
-
 };
 
-class TimelineRemoveTrackCommand : public UndoCommand
-{
-public:
-  TimelineRemoveTrackCommand(Track *track) :
-    track_(track),
-    remove_command_(nullptr)
-  {}
+class TimelineRemoveTrackCommand : public UndoCommand {
+ public:
+  TimelineRemoveTrackCommand(Track* track) : track_(track), remove_command_(nullptr) {}
 
-  virtual ~TimelineRemoveTrackCommand()
-  {
-    delete remove_command_;
-  }
+  virtual ~TimelineRemoveTrackCommand() { delete remove_command_; }
 
-  virtual Project* GetRelevantProject() const override
-  {
-    return track_->project();
-  }
+  virtual Project* GetRelevantProject() const override { return track_->project(); }
 
-protected:
+ protected:
   virtual void prepare() override;
 
   virtual void redo() override;
 
   virtual void undo() override;
 
-private:
-  Track *track_;
+ private:
+  Track* track_;
 
-  TrackList *list_;
+  TrackList* list_;
 
   int index_;
 
-  UndoCommand *remove_command_;
-
+  UndoCommand* remove_command_;
 };
 
 class TransitionRemoveCommand : public UndoCommand {
-public:
-  TransitionRemoveCommand(TransitionBlock* block, bool remove_from_graph) :
-    block_(block),
-    remove_from_graph_(remove_from_graph),
-    remove_command_(nullptr)
-  {
-  }
+ public:
+  TransitionRemoveCommand(TransitionBlock* block, bool remove_from_graph)
+      : block_(block), remove_from_graph_(remove_from_graph), remove_command_(nullptr) {}
 
-  virtual Project* GetRelevantProject() const override
-  {
-    return track_->project();
-  }
+  virtual Project* GetRelevantProject() const override { return track_->project(); }
 
-protected:
+ protected:
   virtual void redo() override;
 
   virtual void undo() override;
 
-private:
+ private:
   TransitionBlock* block_;
 
   Track* track_;
@@ -228,32 +172,26 @@ private:
 
   bool remove_from_graph_;
   UndoCommand* remove_command_;
-
 };
 
 class TrackReplaceBlockWithGapCommand : public UndoCommand {
-public:
-  TrackReplaceBlockWithGapCommand(Track* track, Block* block, bool handle_transitions = true) :
-    track_(track),
-    block_(block),
-    existing_gap_(nullptr),
-    existing_merged_gap_(nullptr),
-    our_gap_(nullptr),
-    handle_transitions_(handle_transitions)
-  {
-  }
+ public:
+  TrackReplaceBlockWithGapCommand(Track* track, Block* block, bool handle_transitions = true)
+      : track_(track),
+        block_(block),
+        existing_gap_(nullptr),
+        existing_merged_gap_(nullptr),
+        our_gap_(nullptr),
+        handle_transitions_(handle_transitions) {}
 
-  virtual Project* GetRelevantProject() const override
-  {
-    return block_->project();
-  }
+  virtual Project* GetRelevantProject() const override { return block_->project(); }
 
-protected:
+ protected:
   virtual void redo() override;
 
   virtual void undo() override;
 
-private:
+ private:
   void CreateRemoveTransitionCommandIfNecessary(bool next);
 
   Track* track_;
@@ -269,71 +207,45 @@ private:
   QObject memory_manager_;
 
   QVector<TransitionRemoveCommand*> transition_remove_commands_;
-
 };
 
 class BlockEnableDisableCommand : public UndoCommand {
-public:
-  BlockEnableDisableCommand(Block* block, bool enabled) :
-    block_(block),
-    old_enabled_(block_->is_enabled()),
-    new_enabled_(enabled)
-  {
-  }
+ public:
+  BlockEnableDisableCommand(Block* block, bool enabled)
+      : block_(block), old_enabled_(block_->is_enabled()), new_enabled_(enabled) {}
 
-  virtual Project* GetRelevantProject() const override
-  {
-    return block_->project();
-  }
+  virtual Project* GetRelevantProject() const override { return block_->project(); }
 
-protected:
-  virtual void redo() override
-  {
-    block_->set_enabled(new_enabled_);
-  }
+ protected:
+  virtual void redo() override { block_->set_enabled(new_enabled_); }
 
-  virtual void undo() override
-  {
-    block_->set_enabled(old_enabled_);
-  }
+  virtual void undo() override { block_->set_enabled(old_enabled_); }
 
-private:
+ private:
   Block* block_;
 
   bool old_enabled_;
 
   bool new_enabled_;
-
 };
 
 class TrackListInsertGaps : public UndoCommand {
-public:
-  TrackListInsertGaps(TrackList* track_list, const rational& point, const rational& length) :
-    track_list_(track_list),
-    point_(point),
-    length_(length),
-    split_command_(nullptr)
-  {
-  }
+ public:
+  TrackListInsertGaps(TrackList* track_list, const rational& point, const rational& length)
+      : track_list_(track_list), point_(point), length_(length), split_command_(nullptr) {}
 
-  virtual ~TrackListInsertGaps() override
-  {
-    delete split_command_;
-  }
+  virtual ~TrackListInsertGaps() override { delete split_command_; }
 
-  virtual Project* GetRelevantProject() const override
-  {
-    return track_list_->parent()->project();
-  }
+  virtual Project* GetRelevantProject() const override { return track_list_->parent()->project(); }
 
-protected:
+ protected:
   virtual void prepare() override;
 
   virtual void redo() override;
 
   virtual void undo() override;
 
-private:
+ private:
   TrackList* track_list_;
 
   rational point_;
@@ -355,64 +267,46 @@ private:
   BlockSplitPreservingLinksCommand* split_command_;
 
   QObject memory_manager_;
-
 };
 
-class TimelineAddDefaultTransitionCommand : public UndoCommand
-{
-public:
-  TimelineAddDefaultTransitionCommand(const QVector<ClipBlock*> &clips, const rational &timebase) :
-    clips_(clips),
-    timebase_(timebase)
-  {}
+class TimelineAddDefaultTransitionCommand : public UndoCommand {
+ public:
+  TimelineAddDefaultTransitionCommand(const QVector<ClipBlock*>& clips, const rational& timebase)
+      : clips_(clips), timebase_(timebase) {}
 
-  virtual ~TimelineAddDefaultTransitionCommand() override
-  {
-    qDeleteAll(commands_);
-  }
+  virtual ~TimelineAddDefaultTransitionCommand() override { qDeleteAll(commands_); }
 
-  virtual Project* GetRelevantProject() const override
-  {
-    return clips_.empty() ? nullptr : clips_.first()->project();
-  }
+  virtual Project* GetRelevantProject() const override { return clips_.empty() ? nullptr : clips_.first()->project(); }
 
-protected:
+ protected:
   virtual void prepare() override;
 
-  virtual void redo() override
-  {
-    for (auto it=commands_.cbegin(); it!=commands_.cend(); it++) {
+  virtual void redo() override {
+    for (auto it = commands_.cbegin(); it != commands_.cend(); it++) {
       (*it)->redo_now();
     }
   }
 
-  virtual void undo() override
-  {
-    for (auto it=commands_.crbegin(); it!=commands_.crend(); it++) {
+  virtual void undo() override {
+    for (auto it = commands_.crbegin(); it != commands_.crend(); it++) {
       (*it)->undo_now();
     }
   }
 
-private:
-  enum CreateTransitionMode {
-    kIn,
-    kOut,
-    kOutDual
-  };
+ private:
+  enum CreateTransitionMode { kIn, kOut, kOutDual };
 
-  void AddTransition(ClipBlock *c, CreateTransitionMode mode);
-  void AdjustClipLength(ClipBlock *c, const rational &transition_length, bool out);
-  void ValidateTransitionLength(ClipBlock *c, rational &transition_length);
-
+  void AddTransition(ClipBlock* c, CreateTransitionMode mode);
+  void AdjustClipLength(ClipBlock* c, const rational& transition_length, bool out);
+  void ValidateTransitionLength(ClipBlock* c, rational& transition_length);
 
   QVector<ClipBlock*> clips_;
   rational timebase_;
   QVector<UndoCommand*> commands_;
 
   QHash<ClipBlock*, rational> lengths_;
-
 };
 
-}
+}  // namespace olive
 
-#endif // TIMELINEUNDOGENERAL_H
+#endif  // TIMELINEUNDOGENERAL_H

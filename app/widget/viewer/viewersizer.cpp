@@ -29,15 +29,8 @@
 
 namespace olive {
 
-ViewerSizer::ViewerSizer(QWidget *parent) :
-  QWidget(parent),
-  widget_(nullptr),
-  width_(0),
-  height_(0),
-  pixel_aspect_(1),
-  zoom_(-1),
-  current_widget_scale_(0)
-{
+ViewerSizer::ViewerSizer(QWidget *parent)
+    : QWidget(parent), widget_(nullptr), width_(0), height_(0), pixel_aspect_(1), zoom_(-1), current_widget_scale_(0) {
   horiz_scrollbar_ = new QScrollBar(Qt::Horizontal, this);
   horiz_scrollbar_->setVisible(false);
   connect(horiz_scrollbar_, &QScrollBar::valueChanged, this, &ViewerSizer::ScrollBarMoved);
@@ -49,8 +42,7 @@ ViewerSizer::ViewerSizer(QWidget *parent) :
   setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 }
 
-void ViewerSizer::SetWidget(QWidget *widget)
-{
+void ViewerSizer::SetWidget(QWidget *widget) {
   // Delete any previous widgets occupying this space
   delete widget_;
 
@@ -64,41 +56,37 @@ void ViewerSizer::SetWidget(QWidget *widget)
   }
 }
 
-QSize ViewerSizer::GetContainerSize() const
-{
+QSize ViewerSizer::GetContainerSize() const {
   double s = GetRealCurrentZoom();
-  return QSize(std::min(this->width(), int(width_ * s)) - vert_scrollbar_->width(), std::min(int(height_ * s), this->height()) - horiz_scrollbar_->height());
+  return QSize(std::min(this->width(), int(width_ * s)) - vert_scrollbar_->width(),
+               std::min(int(height_ * s), this->height()) - horiz_scrollbar_->height());
 }
 
-void ViewerSizer::SetChildSize(int width, int height)
-{
+void ViewerSizer::SetChildSize(int width, int height) {
   width_ = width;
   height_ = height;
 
   UpdateSize();
 }
 
-void ViewerSizer::SetPixelAspectRatio(const rational &pixel_aspect)
-{
+void ViewerSizer::SetPixelAspectRatio(const rational &pixel_aspect) {
   pixel_aspect_ = pixel_aspect;
 
   UpdateSize();
 }
 
-void ViewerSizer::SetZoom(double percent)
-{
+void ViewerSizer::SetZoom(double percent) {
   zoom_ = percent;
 
   UpdateSize();
 }
 
-void ViewerSizer::SetZoomAnchored(double next_scale, double cursor_x, double cursor_y)
-{
+void ViewerSizer::SetZoomAnchored(double next_scale, double cursor_x, double cursor_y) {
   if (next_scale > 0) {
     double cur_scale = GetRealCurrentZoom();
 
     // Clamp scale within safe values
-    next_scale = std::clamp(next_scale, kZoomLevels[0], kZoomLevels[kZoomLevelCount-1]);
+    next_scale = std::clamp(next_scale, kZoomLevels[0], kZoomLevels[kZoomLevelCount - 1]);
 
     int anchor_x = qRound(double(cursor_x + horiz_scrollbar_->value()) / cur_scale * next_scale - cursor_x);
     int anchor_y = qRound(double(cursor_y + vert_scrollbar_->value()) / cur_scale * next_scale - cursor_y);
@@ -115,8 +103,7 @@ void ViewerSizer::SetZoomAnchored(double next_scale, double cursor_x, double cur
   }
 }
 
-void ViewerSizer::HandDragMove(int x, int y)
-{
+void ViewerSizer::HandDragMove(int x, int y) {
   if (horiz_scrollbar_->isVisible()) {
     horiz_scrollbar_->setValue(horiz_scrollbar_->value() - x);
   }
@@ -126,11 +113,10 @@ void ViewerSizer::HandDragMove(int x, int y)
   }
 }
 
-bool ViewerSizer::eventFilter(QObject *watched, QEvent *event)
-{
+bool ViewerSizer::eventFilter(QObject *watched, QEvent *event) {
   if (watched == widget_) {
     if (event->type() == QEvent::Wheel) {
-      QWheelEvent *w = static_cast<QWheelEvent*>(event);
+      QWheelEvent *w = static_cast<QWheelEvent *>(event);
 
       if (HandMovableView::WheelEventIsAZoomEvent(w)) {
         double next_scale = GetRealCurrentZoom() * HandMovableView::GetScrollZoomMultiplier(w);
@@ -149,15 +135,13 @@ bool ViewerSizer::eventFilter(QObject *watched, QEvent *event)
   return QWidget::eventFilter(watched, event);
 }
 
-void ViewerSizer::resizeEvent(QResizeEvent *event)
-{
+void ViewerSizer::resizeEvent(QResizeEvent *event) {
   QWidget::resizeEvent(event);
 
   UpdateSize();
 }
 
-void ViewerSizer::UpdateSize()
-{
+void ViewerSizer::UpdateSize() {
   if (widget_ == nullptr) {
     return;
   }
@@ -207,35 +191,29 @@ void ViewerSizer::UpdateSize()
   widget_->resize(available_width, available_height);
 
   // Adjust to aspect ratio
-  double sequence_aspect_ratio = double(width_) / double(height_)
-      * pixel_aspect_.toDouble();
+  double sequence_aspect_ratio = double(width_) / double(height_) * pixel_aspect_.toDouble();
   double our_aspect_ratio = double(available_width) / double(available_height);
 
   QMatrix4x4 child_matrix;
   double current_scale;
 
   if (our_aspect_ratio > sequence_aspect_ratio) {
-
     // This container is wider than the image, scale by height
     child_matrix.scale(sequence_aspect_ratio / our_aspect_ratio, 1.0);
     current_scale = double(available_height) / double(height_);
 
   } else {
-
     // This container is taller than the image, scale by width
     child_matrix.scale(1.0, our_aspect_ratio / sequence_aspect_ratio);
     current_scale = double(available_width) / double(width_);
-
   }
 
   current_widget_scale_ = current_scale;
 
   if (zoom_ > 0) {
-
     // Scale to get to the requested zoom
     double zoom_diff = zoom_ / current_scale;
     child_matrix.scale(zoom_diff, zoom_diff, 1.0);
-
   }
 
   emit RequestScale(child_matrix);
@@ -243,13 +221,9 @@ void ViewerSizer::UpdateSize()
   ScrollBarMoved();
 }
 
-int ViewerSizer::GetZoomedValue(int value)
-{
-  return qRound(value * zoom_);
-}
+int ViewerSizer::GetZoomedValue(int value) { return qRound(value * zoom_); }
 
-double ViewerSizer::GetRealCurrentZoom() const
-{
+double ViewerSizer::GetRealCurrentZoom() const {
   if (zoom_ < 0) {
     // Currently set to "fit"
     return current_widget_scale_;
@@ -259,22 +233,21 @@ double ViewerSizer::GetRealCurrentZoom() const
   }
 }
 
-void ViewerSizer::ScrollBarMoved()
-{
+void ViewerSizer::ScrollBarMoved() {
   QMatrix4x4 mat;
 
   float x_scroll, y_scroll;
 
   if (horiz_scrollbar_->isVisible()) {
     int zoomed_width = GetZoomedValue(width_);
-    x_scroll = (zoomed_width/2 - horiz_scrollbar_->value() - widget_->width() / 2) * (2.0 / zoomed_width);
+    x_scroll = (zoomed_width / 2 - horiz_scrollbar_->value() - widget_->width() / 2) * (2.0 / zoomed_width);
   } else {
     x_scroll = 0;
   }
 
   if (vert_scrollbar_->isVisible()) {
     int zoomed_height = GetZoomedValue(height_);
-    y_scroll = (zoomed_height/2 - vert_scrollbar_->value() - widget_->height() / 2) * (2.0 / zoomed_height);
+    y_scroll = (zoomed_height / 2 - vert_scrollbar_->value() - widget_->height() / 2) * (2.0 / zoomed_height);
   } else {
     y_scroll = 0;
   }
@@ -285,4 +258,4 @@ void ViewerSizer::ScrollBarMoved()
   emit RequestTranslate(mat);
 }
 
-}
+}  // namespace olive

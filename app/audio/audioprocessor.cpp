@@ -21,8 +21,8 @@
 #include "audioprocessor.h"
 
 extern "C" {
-#include <libavfilter/buffersrc.h>
 #include <libavfilter/buffersink.h>
+#include <libavfilter/buffersrc.h>
 }
 
 #include <QDebug>
@@ -31,20 +31,15 @@ extern "C" {
 
 namespace olive {
 
-AudioProcessor::AudioProcessor()
-{
+AudioProcessor::AudioProcessor() {
   filter_graph_ = nullptr;
   in_frame_ = nullptr;
   out_frame_ = nullptr;
 }
 
-AudioProcessor::~AudioProcessor()
-{
-  Close();
-}
+AudioProcessor::~AudioProcessor() { Close(); }
 
-bool AudioProcessor::Open(const AudioParams &from, const AudioParams &to, double tempo)
-{
+bool AudioProcessor::Open(const AudioParams &from, const AudioParams &to, double tempo) {
   if (filter_graph_) {
     qWarning() << "Tried to open a processor that was already open";
     return false;
@@ -61,17 +56,14 @@ bool AudioProcessor::Open(const AudioParams &from, const AudioParams &to, double
 
   // Set up audio buffer args
   char filter_args[200];
-  snprintf(filter_args, 200, "time_base=%d/%d:sample_rate=%d:sample_fmt=%d:channel_layout=0x%" PRIx64,
-           1,
-           from.sample_rate(),
-           from.sample_rate(),
-           from_fmt_,
-           from.channel_layout());
+  snprintf(filter_args, 200, "time_base=%d/%d:sample_rate=%d:sample_fmt=%d:channel_layout=0x%" PRIx64, 1,
+           from.sample_rate(), from.sample_rate(), from_fmt_, from.channel_layout());
 
   int r;
 
   // Create buffersrc (input)
-  r = avfilter_graph_create_filter(&buffersrc_ctx_, avfilter_get_by_name("abuffer"), "in", filter_args, nullptr, filter_graph_);
+  r = avfilter_graph_create_filter(&buffersrc_ctx_, avfilter_get_by_name("abuffer"), "in", filter_args, nullptr,
+                                   filter_graph_);
   if (r < 0) {
     qCritical() << "Failed to create buffersrc:" << r;
     Close();
@@ -84,8 +76,8 @@ bool AudioProcessor::Open(const AudioParams &from, const AudioParams &to, double
   // Create tempo
   bool create_tempo;
   if ((create_tempo = !qFuzzyCompare(tempo, 1.0))) {
-    // Create audio tempo filters: FFmpeg's atempo can only be set between 0.5 and 2.0. If the requested speed is outside
-    // those boundaries, we need to daisychain more than one together.
+    // Create audio tempo filters: FFmpeg's atempo can only be set between 0.5 and 2.0. If the requested speed is
+    // outside those boundaries, we need to daisychain more than one together.
     double base = (tempo > 1.0) ? 2.0 : 0.5;
     double speed_log = log(tempo) / log(base);
 
@@ -95,7 +87,7 @@ bool AudioProcessor::Open(const AudioParams &from, const AudioParams &to, double
     // Set speed_log to the remainder
     speed_log -= whole;
 
-    for (int i=0;i<=whole;i++) {
+    for (int i = 0; i <= whole; i++) {
       double filter_tempo = (i == whole) ? std::pow(base, speed_log) : base;
 
       if (qFuzzyCompare(filter_tempo, 1.0)) {
@@ -103,9 +95,7 @@ bool AudioProcessor::Open(const AudioParams &from, const AudioParams &to, double
         continue;
       }
 
-      previous_filter = CreateTempoFilter(filter_graph_,
-                                          previous_filter,
-                                          filter_tempo);
+      previous_filter = CreateTempoFilter(filter_graph_, previous_filter, filter_tempo);
 
       if (!previous_filter) {
         qCritical() << "Failed to create audio tempo filter";
@@ -116,14 +106,13 @@ bool AudioProcessor::Open(const AudioParams &from, const AudioParams &to, double
   }
 
   // Create conversion filter
-  if (from.sample_rate() != to.sample_rate() || from.channel_layout() != to.channel_layout() || from.format() != to.format()
-      || (to.format().is_planar() && create_tempo)) { // Tempo processor automatically converts to packed,
-                                                  // so if the desired output is planar, it'll need
-                                                  // to be converted
+  if (from.sample_rate() != to.sample_rate() || from.channel_layout() != to.channel_layout() ||
+      from.format() != to.format() ||
+      (to.format().is_planar() && create_tempo)) {  // Tempo processor automatically converts to packed,
+                                                    // so if the desired output is planar, it'll need
+                                                    // to be converted
     snprintf(filter_args, 200, "sample_fmts=%s:sample_rates=%d:channel_layouts=0x%" PRIx64,
-             av_get_sample_fmt_name(to_fmt_),
-             to.sample_rate(),
-             to.channel_layout());
+             av_get_sample_fmt_name(to_fmt_), to.sample_rate(), to.channel_layout());
 
     AVFilterContext *c;
     r = avfilter_graph_create_filter(&c, avfilter_get_by_name("aformat"), "fmt", filter_args, nullptr, filter_graph_);
@@ -144,7 +133,8 @@ bool AudioProcessor::Open(const AudioParams &from, const AudioParams &to, double
   }
 
   // Create buffersink (output)
-  r = avfilter_graph_create_filter(&buffersink_ctx_, avfilter_get_by_name("abuffersink"), "out", nullptr, nullptr, filter_graph_);
+  r = avfilter_graph_create_filter(&buffersink_ctx_, avfilter_get_by_name("abuffersink"), "out", nullptr, nullptr,
+                                   filter_graph_);
   if (r < 0) {
     qCritical() << "Failed to create buffersink:" << r;
     Close();
@@ -191,8 +181,7 @@ bool AudioProcessor::Open(const AudioParams &from, const AudioParams &to, double
   return true;
 }
 
-void AudioProcessor::Close()
-{
+void AudioProcessor::Close() {
   if (filter_graph_) {
     avfilter_graph_free(&filter_graph_);
     filter_graph_ = nullptr;
@@ -211,8 +200,7 @@ void AudioProcessor::Close()
   }
 }
 
-int AudioProcessor::Convert(float **in, int nb_in_samples, AudioProcessor::Buffer *output)
-{
+int AudioProcessor::Convert(float **in, int nb_in_samples, AudioProcessor::Buffer *output) {
   if (!IsOpen()) {
     qCritical() << "Tried to convert on closed processor";
     return -1;
@@ -223,8 +211,8 @@ int AudioProcessor::Convert(float **in, int nb_in_samples, AudioProcessor::Buffe
   if (in && nb_in_samples) {
     // Set frame parameters
     in_frame_->nb_samples = nb_in_samples;
-    for (int i=0; i<from_.channel_count(); i++) {
-      in_frame_->data[i] = reinterpret_cast<uint8_t*>(in[i]);
+    for (int i = 0; i < from_.channel_count(); i++) {
+      in_frame_->data[i] = reinterpret_cast<uint8_t *>(in[i]);
       in_frame_->linesize[i] = from_.samples_to_bytes(nb_in_samples);
     }
 
@@ -265,7 +253,7 @@ int AudioProcessor::Convert(float **in, int nb_in_samples, AudioProcessor::Buffe
         nb_bytes *= to_.channel_count();
       }
 
-      for (int i=0; i<nb_channels; i++) {
+      for (int i = 0; i < nb_channels; i++) {
         result[i].resize(byte_offset + nb_bytes);
         memcpy(result[i].data() + byte_offset, out_frame_->data[i], nb_bytes);
       }
@@ -277,28 +265,27 @@ int AudioProcessor::Convert(float **in, int nb_in_samples, AudioProcessor::Buffe
   return r;
 }
 
-void AudioProcessor::Flush()
-{
+void AudioProcessor::Flush() {
   int r = av_buffersrc_add_frame_flags(buffersrc_ctx_, nullptr, AV_BUFFERSRC_FLAG_KEEP_REF);
   if (r < 0) {
     qCritical() << "Failed to flush:" << r;
   }
 }
 
-AVFilterContext *AudioProcessor::CreateTempoFilter(AVFilterGraph* graph, AVFilterContext* link, const double &tempo)
-{
+AVFilterContext *AudioProcessor::CreateTempoFilter(AVFilterGraph *graph, AVFilterContext *link, const double &tempo) {
   // Set up tempo param, which is taken as a C string
   char speed_param[20];
   snprintf(speed_param, 20, "%f", tempo);
 
-  AVFilterContext* tempo_ctx = nullptr;
+  AVFilterContext *tempo_ctx = nullptr;
 
-  if (avfilter_graph_create_filter(&tempo_ctx, avfilter_get_by_name("atempo"), "atempo", speed_param, nullptr, graph) >= 0
-      && avfilter_link(link, 0, tempo_ctx, 0) == 0) {
+  if (avfilter_graph_create_filter(&tempo_ctx, avfilter_get_by_name("atempo"), "atempo", speed_param, nullptr, graph) >=
+          0 &&
+      avfilter_link(link, 0, tempo_ctx, 0) == 0) {
     return tempo_ctx;
   }
 
   return nullptr;
 }
 
-}
+}  // namespace olive

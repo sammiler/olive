@@ -30,33 +30,32 @@ namespace olive {
 
 class TimelineWidget;
 
-class TimelineTool
-{
-public:
-  TimelineTool(TimelineWidget* parent);
+class TimelineTool {
+ public:
+  TimelineTool(TimelineWidget *parent);
   virtual ~TimelineTool();
 
-  virtual void MousePress(TimelineViewMouseEvent *){}
-  virtual void MouseMove(TimelineViewMouseEvent *){}
-  virtual void MouseRelease(TimelineViewMouseEvent *){}
-  virtual void MouseDoubleClick(TimelineViewMouseEvent *){}
+  virtual void MousePress(TimelineViewMouseEvent *) {}
+  virtual void MouseMove(TimelineViewMouseEvent *) {}
+  virtual void MouseRelease(TimelineViewMouseEvent *) {}
+  virtual void MouseDoubleClick(TimelineViewMouseEvent *) {}
 
-  virtual void HoverMove(TimelineViewMouseEvent *){}
+  virtual void HoverMove(TimelineViewMouseEvent *) {}
 
-  virtual void DragEnter(TimelineViewMouseEvent *){}
-  virtual void DragMove(TimelineViewMouseEvent *){}
-  virtual void DragLeave(QDragLeaveEvent *){}
-  virtual void DragDrop(TimelineViewMouseEvent *){}
+  virtual void DragEnter(TimelineViewMouseEvent *) {}
+  virtual void DragMove(TimelineViewMouseEvent *) {}
+  virtual void DragLeave(QDragLeaveEvent *) {}
+  virtual void DragDrop(TimelineViewMouseEvent *) {}
 
-  TimelineWidget* parent();
+  TimelineWidget *parent();
 
-  Sequence* sequence();
+  Sequence *sequence();
 
-  static Timeline::MovementMode FlipTrimMode(const Timeline::MovementMode& trim_mode);
+  static Timeline::MovementMode FlipTrimMode(const Timeline::MovementMode &trim_mode);
 
-  static rational SnapMovementToTimebase(const rational& start, rational movement, const rational& timebase);
+  static rational SnapMovementToTimebase(const rational &start, rational movement, const rational &timebase);
 
-protected:
+ protected:
   /**
    * @brief Validates Ghosts that are moving horizontally (time-based)
    *
@@ -74,7 +73,7 @@ protected:
 
   void GetGhostData(rational *earliest_point, rational *latest_point);
 
-  void InsertGapsAtGhostDestination(MultiUndoCommand* command);
+  void InsertGapsAtGhostDestination(MultiUndoCommand *command);
 
   std::vector<rational> snap_points_;
 
@@ -84,11 +83,10 @@ protected:
 
   static const int kDefaultDistanceFromOutput;
 
-private:
-  TimelineWidget* parent_;
-
+ private:
+  TimelineWidget *parent_;
 };
 
-}
+}  // namespace olive
 
-#endif // TIMELINETOOL_H
+#endif  // TIMELINETOOL_H

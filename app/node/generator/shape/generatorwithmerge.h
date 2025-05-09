@@ -25,10 +25,9 @@
 
 namespace olive {
 
-class GeneratorWithMerge : public Node
-{
+class GeneratorWithMerge : public Node {
   Q_OBJECT
-public:
+ public:
   GeneratorWithMerge();
 
   virtual void Retranslate() override;
@@ -37,11 +36,10 @@ public:
 
   static const QString kBaseInput;
 
-protected:
+ protected:
   void PushMergableJob(const NodeValueRow &value, TexturePtr job, NodeValueTable *table) const;
-
 };
 
-}
+}  // namespace olive
 
-#endif // GENERATORWITHMERGE_H
+#endif  // GENERATORWITHMERGE_H

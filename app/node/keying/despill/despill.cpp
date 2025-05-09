@@ -26,8 +26,7 @@ const QString DespillNode::kPreserveLuminanceInput = QStringLiteral("preserve_lu
 
 #define super Node
 
-DespillNode::DespillNode()
-{
+DespillNode::DespillNode() {
   AddInput(kTextureInput, NodeValue::kTexture, InputFlags(kInputFlagNotKeyframable));
 
   AddInput(kColorInput, NodeValue::kCombo, 0);
@@ -40,28 +39,15 @@ DespillNode::DespillNode()
   SetEffectInput(kTextureInput);
 }
 
-QString DespillNode::Name() const
-{
-  return tr("Despill");
-}
+QString DespillNode::Name() const { return tr("Despill"); }
 
-QString DespillNode::id() const
-{
-  return QStringLiteral("org.olivevideoeditor.Olive.despill");
-}
+QString DespillNode::id() const { return QStringLiteral("org.olivevideoeditor.Olive.despill"); }
 
-QVector<Node::CategoryID> DespillNode::Category() const
-{
-  return {kCategoryKeying};
-}
+QVector<Node::CategoryID> DespillNode::Category() const { return {kCategoryKeying}; }
 
-QString DespillNode::Description() const
-{
-  return tr("Selection of simple depsill operations");
-}
+QString DespillNode::Description() const { return tr("Selection of simple depsill operations"); }
 
-void DespillNode::Retranslate()
-{
+void DespillNode::Retranslate() {
   super::Retranslate();
 
   SetInputName(kTextureInput, tr("Input"));
@@ -88,7 +74,7 @@ void DespillNode::Value(const NodeValueRow &value, const NodeGlobals &globals, N
   double luma_coeffs[3] = {0.0f, 0.0f, 0.0f};
   project()->color_manager()->GetDefaultLumaCoefs(luma_coeffs);
   job.Insert(QStringLiteral("luma_coeffs"),
-                  NodeValue(NodeValue::kVec3, QVector3D(luma_coeffs[0], luma_coeffs[1], luma_coeffs[2])));
+             NodeValue(NodeValue::kVec3, QVector3D(luma_coeffs[0], luma_coeffs[1], luma_coeffs[2])));
 
   // If there's no texture, no need to run an operation
   if (TexturePtr tex = job.Get(kTextureInput).toTexture()) {
@@ -96,5 +82,4 @@ void DespillNode::Value(const NodeValueRow &value, const NodeGlobals &globals, N
   }
 }
 
-
-} // namespace olive
+}  // namespace olive

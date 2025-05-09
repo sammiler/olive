@@ -27,15 +27,12 @@
 
 namespace olive {
 
-class PixelFormatComboBox : public QComboBox
-{
+class PixelFormatComboBox : public QComboBox {
   Q_OBJECT
-public:
-  PixelFormatComboBox(bool float_only, QWidget* parent = nullptr) :
-    QComboBox(parent)
-  {
+ public:
+  PixelFormatComboBox(bool float_only, QWidget* parent = nullptr) : QComboBox(parent) {
     // Set up preview formats
-    for (int i=0;i<PixelFormat::COUNT;i++) {
+    for (int i = 0; i < PixelFormat::COUNT; i++) {
       PixelFormat pix_fmt = static_cast<PixelFormat::Format>(i);
 
       if (!float_only || pix_fmt.is_float()) {
@@ -44,23 +41,18 @@ public:
     }
   }
 
-  PixelFormat GetPixelFormat() const
-  {
-    return static_cast<PixelFormat::Format>(this->currentData().toInt());
-  }
+  PixelFormat GetPixelFormat() const { return static_cast<PixelFormat::Format>(this->currentData().toInt()); }
 
-  void SetPixelFormat(PixelFormat fmt)
-  {
-    for (int i=0; i<this->count(); i++) {
+  void SetPixelFormat(PixelFormat fmt) {
+    for (int i = 0; i < this->count(); i++) {
       if (this->itemData(i).toInt() == fmt) {
         this->setCurrentIndex(i);
         break;
       }
     }
   }
-
 };
 
-}
+}  // namespace olive
 
-#endif // PIXELFORMATCOMBOBOX_H
+#endif  // PIXELFORMATCOMBOBOX_H

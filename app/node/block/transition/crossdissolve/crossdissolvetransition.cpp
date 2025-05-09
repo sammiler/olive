@@ -22,44 +22,29 @@
 
 namespace olive {
 
-CrossDissolveTransition::CrossDissolveTransition()
-{
-}
+CrossDissolveTransition::CrossDissolveTransition() {}
 
-QString CrossDissolveTransition::Name() const
-{
-  return tr("Cross Dissolve");
-}
+QString CrossDissolveTransition::Name() const { return tr("Cross Dissolve"); }
 
-QString CrossDissolveTransition::id() const
-{
-  return QStringLiteral("org.olivevideoeditor.Olive.crossdissolve");
-}
+QString CrossDissolveTransition::id() const { return QStringLiteral("org.olivevideoeditor.Olive.crossdissolve"); }
 
-QVector<Node::CategoryID> CrossDissolveTransition::Category() const
-{
-  return {kCategoryTransition};
-}
+QVector<Node::CategoryID> CrossDissolveTransition::Category() const { return {kCategoryTransition}; }
 
-QString CrossDissolveTransition::Description() const
-{
-  return tr("Smoothly transition between two clips.");
-}
+QString CrossDissolveTransition::Description() const { return tr("Smoothly transition between two clips."); }
 
-ShaderCode CrossDissolveTransition::GetShaderCode(const ShaderRequest &request) const
-{
+ShaderCode CrossDissolveTransition::GetShaderCode(const ShaderRequest &request) const {
   Q_UNUSED(request)
 
   return ShaderCode(FileFunctions::ReadFileAsString(":/shaders/crossdissolve.frag"), QString());
 }
 
-void CrossDissolveTransition::SampleJobEvent(const SampleBuffer &from_samples, const SampleBuffer &to_samples, SampleBuffer &out_samples, double time_in) const
-{
-  for (size_t i=0; i<out_samples.sample_count(); i++) {
+void CrossDissolveTransition::SampleJobEvent(const SampleBuffer &from_samples, const SampleBuffer &to_samples,
+                                             SampleBuffer &out_samples, double time_in) const {
+  for (size_t i = 0; i < out_samples.sample_count(); i++) {
     double this_sample_time = out_samples.audio_params().samples_to_time(i).toDouble() + time_in;
     double progress = GetTotalProgress(this_sample_time);
 
-    for (int j=0; j<out_samples.audio_params().channel_count(); j++) {
+    for (int j = 0; j < out_samples.audio_params().channel_count(); j++) {
       out_samples.data(j)[i] = 0;
 
       if (from_samples.is_allocated()) {
@@ -80,4 +65,4 @@ void CrossDissolveTransition::SampleJobEvent(const SampleBuffer &from_samples, c
   }
 }
 
-}
+}  // namespace olive
