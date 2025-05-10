@@ -101,7 +101,7 @@
     {
       "os": "Windows",
       "description": "Windows下envPath需要包含CMake所需要的环境",
-      "generator": "Ninja",
+      "generator": "Visual Studio 17 2022",
       "CMAKE_CXX_STANDARD": "17",
       "C_COMPILER": "clang-cl",
       "CXX_COMPILER": "clang-cl",
@@ -109,6 +109,14 @@
       "RC": "rc",
       "MT": "mt",
       "MC": "mc",
+      "architecture": {
+        "value": "x64",
+        "strategy": "set"
+      },
+      "toolset": {
+        "value": "ClangCL",
+        "strategy": "set"
+      },
       "debug_flag": {
         "CMAKE_CXX_FLAGS": "/EHsc /W3 /Zi /FS /MDd /D_ITERATOR_DEBUG_LEVEL=2 /O0",
         "CMAKE_C_FLAGS": "/EHsc /W3 /Zi /FS /MDd /D_ITERATOR_DEBUG_LEVEL=2 /O0"

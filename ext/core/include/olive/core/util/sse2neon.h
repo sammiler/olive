@@ -56,9 +56,7 @@
  */
 /* _mm_min|max_ps|ss|pd|sd */
 
-
 #if defined(__aarch64__)
-
 
 #ifndef SSE2NEON_PRECISE_MINMAX
 #define SSE2NEON_PRECISE_MINMAX (0)
