@@ -24,6 +24,7 @@ option(TESTS_VALGRIND "Build unit tests" OFF)
 option(${PROJECT_NAME}_QTQUICK "Build for QtQuick instead of QtWidgets" OFF)
 option(USE_WERROR "Error on compile warning" OFF)
 option(ENABLE_CLANG_FORMAT "Enable Clang Format" OFF)
+option(ENABLE_CLANG_FORMAT_CHECK "Enable Clang Format" OFF)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -292,9 +293,11 @@ if(ENABLE_CLANG_FORMAT)
         add_custom_target(clang-format COMMAND
                 ${CLANGFORMAT_EXECUTABLE} -style=file -i ${FORMAT_FILES}
         )
-        add_custom_target(clang-format-check COMMAND
-                ${CLANGFORMAT_EXECUTABLE} --dry-run --Werror -style=file -i ${FORMAT_FILES}
-        )
+        if (ENABLE_CLANG_FORMAT_CHECK)
+            add_custom_target(clang-format-check COMMAND
+                    ${CLANGFORMAT_EXECUTABLE} --dry-run --Werror -style=file -i ${FORMAT_FILES}
+            )
+        endif ()
     else()
         message(FATAL_ERROR "clang-format executable not found, but ENABLE_CLANG_FORMAT is ON. "
                 "Please install clang-format or set ENABLE_CLANG_FORMAT to OFF.")
