@@ -25,6 +25,10 @@ add_executable(
         ${SOURCES}
         $<TARGET_OBJECTS:olive-version-obj>
 )
+if (WIN32)
+    target_compile_definitions(olive-crashhandler PRIVATE NOMINMAX)
+endif ()
+
 
 # Disable console appearing on crash handler dialog
 set_target_properties(olive-crashhandler PROPERTIES
