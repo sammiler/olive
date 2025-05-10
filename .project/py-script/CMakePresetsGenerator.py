@@ -252,6 +252,7 @@ class PresetGenerator:
                         "name": base_test_preset_name_for_type,
                         "displayName": f"运行测试 ({display_os_name} {build_type_suffix_for_tests.capitalize()})",
                         "configurePreset": configure_preset_ref,
+                        "configuration": build_type_suffix_for_tests.capitalize(),
                         "output": {"outputOnFailure": True, "verbosity": "default"},
                         "execution": {"jobs": 1, "timeout": DEFAULT_TEST_TIMEOUT}
                     }
@@ -288,6 +289,7 @@ class PresetGenerator:
                             "name": launcher_test_preset_name,
                             "displayName": f"运行测试 ({step_spec.get('description', launcher_command_list[0])}, {display_os_name} {build_type_suffix_for_tests.capitalize()})",
                             "configurePreset": configure_preset_ref,
+                            "configuration": "Debug",
                             "output": current_base_test_preset_obj.get("output", {}).copy(),
                             "execution": execution_config
                         })
