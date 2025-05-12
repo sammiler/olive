@@ -62,7 +62,14 @@ function(olive_add_test GROUP NAME SOURCE)
             ${OLIVE_COMPILE_OPTIONS}
     )
     # 修改 add_test 使用完整路径
-    add_test(NAME ${NAME} COMMAND "${CMAKE_BINARY_DIR}/bin/${NAME}")
+    if (CMAKE_GENERATOR MATCHES "Visual Studio")
+        message(STATUS "CMAKE_GENERATOR VS:${CMAKE_GENERATOR}")
+        add_test(NAME ${NAME} COMMAND "${CMAKE_BINARY_DIR}/bin/Debug/${NAME}")
+    else ()
+        message(STATUS "CMAKE_GENERATOR OTHER:${CMAKE_GENERATOR}")
+        add_test(NAME ${NAME} COMMAND "${CMAKE_BINARY_DIR}/bin/${NAME}")
+    endif ()
+
     set_tests_properties(${NAME} PROPERTIES WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
     message(STATUS "Added test ${NAME} with command ${CMAKE_BINARY_DIR}/bin/${NAME}")
 endfunction()

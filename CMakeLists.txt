@@ -25,7 +25,6 @@ option(${PROJECT_NAME}_QTQUICK "Build for QtQuick instead of QtWidgets" OFF)
 option(USE_WERROR "Error on compile warning" OFF)
 option(ENABLE_CLANG_FORMAT "Enable Clang Format" OFF)
 option(ENABLE_CLANG_FORMAT_CHECK "Enable Clang Format" OFF)
-option(ENABLE_CLANG_TIDY "Enable clang-tidy checks and automatic fixes" OFF) # 建议默认关闭
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -289,16 +288,68 @@ if(ENABLE_CLANG_FORMAT)
     if(CLANGFORMAT_EXECUTABLE)
         message(STATUS "Found clang-format: ${CLANGFORMAT_EXECUTABLE}")
 
-        file(GLOB_RECURSE FORMAT_FILES "app/*.h" "app/*.cpp" "ext/*.cpp" "ext/*.h")
-
-        add_custom_target(clang-format COMMAND
-                ${CLANGFORMAT_EXECUTABLE} -style=file -i ${FORMAT_FILES}
+        # Gather all files to format recursively
+        file(GLOB_RECURSE FORMAT_FILES
+                "${CMAKE_SOURCE_DIR}/app/*.h"
+                "${CMAKE_SOURCE_DIR}/app/*.cpp"
+                "${CMAKE_SOURCE_DIR}/ext/*.cpp"
+                "${CMAKE_SOURCE_DIR}/ext/*.h"
         )
-        if (ENABLE_CLANG_FORMAT_CHECK)
-            add_custom_target(clang-format-check COMMAND
-                    ${CLANGFORMAT_EXECUTABLE} --dry-run --Werror -style=file -i ${FORMAT_FILES}
-            )
-        endif ()
+
+        # Check if files were found
+        list(LENGTH FORMAT_FILES FILE_COUNT)
+        if(FILE_COUNT EQUAL 0)
+            message(WARNING "No files found for clang-format. Check file patterns or directories.")
+        else()
+            # Debug: Print number of files found
+            message(STATUS "Found ${FILE_COUNT} files for formatting")
+
+            # Define batch size (adjust as needed)
+            set(BATCH_SIZE 50)
+            # Calculate number of batches
+            math(EXPR BATCH_COUNT "(${FILE_COUNT} + ${BATCH_SIZE} - 1) / ${BATCH_SIZE}")
+            math(EXPR BATCH_COUNT "${BATCH_COUNT} - 1") # Adjust for 0-based indexing
+
+            # Create clang-format target with batched commands
+            set(CLANG_FORMAT_TARGETS)
+            foreach(i RANGE 0 ${BATCH_COUNT})
+                math(EXPR START "${i} * ${BATCH_SIZE}")
+                # Ensure we don't exceed the list length
+                math(EXPR REMAINING_FILES "${FILE_COUNT} - ${START}")
+                if(REMAINING_FILES GREATER 0)
+                    list(SUBLIST FORMAT_FILES ${START} ${BATCH_SIZE} BATCH_FILES)
+                    add_custom_command(
+                            OUTPUT clang-format-batch-${i}
+                            COMMAND ${CLANGFORMAT_EXECUTABLE} -style=file -i ${BATCH_FILES}
+                            COMMENT "Formatting batch ${i} of ${BATCH_COUNT}"
+                            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+                    )
+                    list(APPEND CLANG_FORMAT_TARGETS clang-format-batch-${i})
+                endif()
+            endforeach()
+            add_custom_target(clang-format DEPENDS ${CLANG_FORMAT_TARGETS})
+
+            # Create clang-format-check target with batched commands
+            if(ENABLE_CLANG_FORMAT_CHECK)
+                set(CLANG_FORMAT_CHECK_TARGETS)
+                foreach(i RANGE 0 ${BATCH_COUNT})
+                    math(EXPR START "${i} * ${BATCH_SIZE}")
+                    # Ensure we don't exceed the list length
+                    math(EXPR REMAINING_FILES "${FILE_COUNT} - ${START}")
+                    if(REMAINING_FILES GREATER 0)
+                        list(SUBLIST FORMAT_FILES ${START} ${BATCH_SIZE} BATCH_FILES)
+                        add_custom_command(
+                                OUTPUT clang-format-check-batch-${i}
+                                COMMAND ${CLANGFORMAT_EXECUTABLE} --dry-run --Werror -style=file -i ${BATCH_FILES}
+                                COMMENT "Checking format batch ${i} of ${BATCH_COUNT}"
+                                WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+                        )
+                        list(APPEND CLANG_FORMAT_CHECK_TARGETS clang-format-check-batch-${i})
+                    endif()
+                endforeach()
+                add_custom_target(clang-format-check DEPENDS ${CLANG_FORMAT_CHECK_TARGETS})
+            endif()
+        endif()
     else()
         message(FATAL_ERROR "clang-format executable not found, but ENABLE_CLANG_FORMAT is ON. "
                 "Please install clang-format or set ENABLE_CLANG_FORMAT to OFF.")
