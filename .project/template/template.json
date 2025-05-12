@@ -72,6 +72,14 @@
           }
         },
         {
+          "description": "ClangTidy Fix",
+          "type": "build",
+          "target": "clang-tidy-fix",
+          "option": {
+            "ENABLE_CLANG_TIDY": true
+          }
+        },
+        {
           "description": "Valgrind",
           "type": "test",
           "option": {
