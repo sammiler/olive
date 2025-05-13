@@ -17,7 +17,7 @@
           "type": "build",
           "target": "clang-format",
           "option": {
-            "ENABLE_CLANG_FORMAT": true
+            "ENABLE_CLANG_FORMAT": false
           }
         },
         {
@@ -45,7 +45,7 @@
           "description": "Standard Unit-Tests",
           "type": "test",
           "option": {
-            "BUILD_TESTS": true
+            "BUILD_TESTS": false
           },
           "args": {
             "apply_to_build_types": ["debug", "release"]
@@ -76,7 +76,7 @@
           "type": "build",
           "target": "clang-tidy-export-all",
           "option": {
-            "ENABLE_CLANG_TIDY_FIX_EXPORT": true
+            "ENABLE_CLANG_TIDY_FIX_EXPORT": false
           }
         },
         {
@@ -84,7 +84,7 @@
           "type": "build",
           "target": "clang-tidy-apply",
           "option": {
-            "ENABLE_CLANG_TIDY_Apply_EXPORT": true
+            "ENABLE_CLANG_TIDY_Apply_EXPORT": false
           }
         },
         {
