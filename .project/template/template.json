@@ -72,6 +72,22 @@
           }
         },
         {
+          "description": "ClangTidy Export",
+          "type": "build",
+          "target": "clang-tidy-export-all",
+          "option": {
+            "ENABLE_CLANG_TIDY_FIX_EXPORT": false
+          }
+        },
+        {
+          "description": "ClangTidy Apply",
+          "type": "build",
+          "target": "clang-tidy-apply-all",
+          "option": {
+            "ENABLE_CLANG_TIDY_FIX_EXPORT": true
+          }
+        },
+        {
           "description": "Valgrind",
           "type": "test",
           "option": {

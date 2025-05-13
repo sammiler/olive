@@ -25,6 +25,9 @@ option(${PROJECT_NAME}_QTQUICK "Build for QtQuick instead of QtWidgets" OFF)
 option(USE_WERROR "Error on compile warning" OFF)
 option(ENABLE_CLANG_FORMAT "Enable Clang Format" OFF)
 option(ENABLE_CLANG_FORMAT_CHECK "Enable Clang Format" OFF)
+option(ENABLE_CLANG_TIDY_FIX_EXPORT "Enable Clang Tidy --export-fixes target" OFF)
+option(ENABLE_CLANG_TIDY_Apply_EXPORT "Enable Clang Tidy --apply" OFF)
+
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -35,52 +38,13 @@ set(CMAKE_AUTORCC ON)
 
 set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE) # 这个设置保留，对 RPATH有好处
 
-# -----------------------------------------------------------------------------
-# 将你寻找和设置 clang-tidy 的代码块（包括 find_package(LLVM...) 和
-# set(CMAKE_CXX_CLANG_TIDY ...) 等）主要逻辑移动到这里
-# -----------------------------------------------------------------------------
-set(MY_CLANG_TIDY_EXE "")
-
-find_package(LLVM  QUIET CONFIG COMPONENTS clang-tidy) # 使用一个合适的 LLVM 版本
-
-if(LLVM_FOUND)
-    message(STATUS "LLVM package found. Trying to get its clang-tidy executable.")
-    if(DEFINED LLVM_ClangTidy_EXECUTABLE AND EXISTS "${LLVM_ClangTidy_EXECUTABLE}")
-        set(MY_CLANG_TIDY_EXE "${LLVM_ClangTidy_EXECUTABLE}")
-    elseif(TARGET LLVM::clang-tidy)
-        get_target_property(MY_CLANG_TIDY_EXE LLVM::clang-tidy LOCATION)
-    elseif(DEFINED LLVM_TOOLS_BINARY_DIR AND EXISTS "${LLVM_TOOLS_BINARY_DIR}/clang-tidy")
-        set(MY_CLANG_TIDY_EXE "${LLVM_TOOLS_BINARY_DIR}/clang-tidy")
-    else()
-        message(WARNING "LLVM package found, but specific clang-tidy path not determined. Trying general find_program.")
-        find_program(MY_CLANG_TIDY_EXE_FALLBACK clang-tidy) # 如果 vcpkg toolchain 生效，这里也可能找到
-        set(MY_CLANG_TIDY_EXE "${MY_CLANG_TIDY_EXE_FALLBACK}")
-    endif()
-else()
-    message(WARNING "LLVM package (for clang-tidy) not found. Trying general find_program for clang-tidy.")
-    find_program(MY_CLANG_TIDY_EXE clang-tidy)
-endif()
-
-if(MY_CLANG_TIDY_EXE AND EXISTS "${MY_CLANG_TIDY_EXE}")
-    message(STATUS "Using clang-tidy: ${MY_CLANG_TIDY_EXE}")
-    set(OLIVE_CLANG_TIDY_COMMAND "${MY_CLANG_TIDY_EXE}" "--fix")
-    # 如果需要，可以在这里 list(APPEND OLIVE_CLANG_TIDY_COMMAND "-header-filter=...")
-    # 但更推荐在 .clang-tidy 文件中设置 HeaderFilterRegex
-
-    set(CMAKE_CXX_CLANG_TIDY ${OLIVE_CLANG_TIDY_COMMAND})
-    if(CMAKE_C_COMPILER_LOADED)
-        set(CMAKE_C_CLANG_TIDY ${OLIVE_CLANG_TIDY_COMMAND})
-    endif()
-    message(STATUS "clang-tidy with --fix enabled. Will use .clang-tidy file from project root for checks.")
-else()
-    message(WARNING "clang-tidy executable not found. Clang-tidy integration will be skipped.")
-endif()
-# --- clang-tidy 设置结束 --
 
 # Generates a compile_commands.json in the build dir, link that to the repo
 # root to enrich your IDE with clangd language server protocol functionalities
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+#Clang Tidy ,format
+include(cmake/ClangUtil.cmake)
 # Sanitizers
 add_library(olive-sanitizers INTERFACE)
 include(cmake/Sanitizers.cmake)
@@ -248,7 +212,26 @@ list(APPEND OLIVE_DEFINITIONS
         __STDC_FORMAT_MACROS)
 # Link PortAudio
 find_package(portaudio REQUIRED)
-set(CMAKE_REQUIRED_INCLUDES ${PORTAUDIO_INCLUDE_DIRS})
+set(PORTAUDIO_ACTUAL_INCLUDE_DIRS "") # 用于存储从 target 获取的路径
+
+# 检查导入目标是否存在 (通常是包名，或 包名::包名，或 包名大写::包名)
+# 你可以先尝试 'portaudio'，如果不行再试试 'PortAudio::portaudio'
+if(TARGET portaudio) # 根据你贴的片段，目标名可能是全小写的 'portaudio'
+    get_target_property(PORTAUDIO_ACTUAL_INCLUDE_DIRS portaudio INTERFACE_INCLUDE_DIRECTORIES)
+    message(STATUS "DEBUG:   Found target 'portaudio'. INTERFACE_INCLUDE_DIRECTORIES = ${PORTAUDIO_ACTUAL_INCLUDE_DIRS}")
+elseif(TARGET PortAudio::portaudio) # 另一种常见的命名方式
+    get_target_property(PORTAUDIO_ACTUAL_INCLUDE_DIRS PortAudio::portaudio INTERFACE_INCLUDE_DIRECTORIES)
+    message(STATUS "DEBUG:   Found target 'PortAudio::portaudio'. INTERFACE_INCLUDE_DIRECTORIES = ${PORTAUDIO_ACTUAL_INCLUDE_DIRS}")
+else()
+    message(WARNING "DEBUG:   Could not find imported target 'portaudio' or 'PortAudio::portaudio'. Will try legacy PortAudio_INCLUDE_DIRS.")
+    # 如果没有找到导入目标，作为后备，再检查一下传统的变量（尽管我们知道它可能是空的）
+    if(PortAudio_INCLUDE_DIRS)
+        set(PORTAUDIO_ACTUAL_INCLUDE_DIRS ${PortAudio_INCLUDE_DIRS})
+        message(STATUS "DEBUG:   Using legacy PortAudio_INCLUDE_DIRS = ${PORTAUDIO_ACTUAL_INCLUDE_DIRS}")
+    endif()
+endif ()
+
+set(CMAKE_REQUIRED_INCLUDES ${PORTAUDIO_ACTUAL_INCLUDE_DIRS})
 include(CheckIncludeFileCXX)
 check_include_file_cxx("pa_jack.h" PA_HAS_JACK)
 if (PA_HAS_JACK)
@@ -321,83 +304,3 @@ if (BUILD_TESTS)
     enable_testing()
     add_subdirectory(tests)
 endif ()
-
-if(ENABLE_CLANG_FORMAT)
-    # Formatting may change with different versions of clang-format.
-    # Test new versions before changing the allowed version here to avoid
-    # accidental broad changes to formatting.
-    find_program(CLANGFORMAT_EXECUTABLE
-            NAMES clang-format-14  clang-format
-            DOC "Path to clang-format executable")
-    if(CLANGFORMAT_EXECUTABLE)
-        message(STATUS "Found clang-format: ${CLANGFORMAT_EXECUTABLE}")
-
-        # Gather all files to format recursively
-        file(GLOB_RECURSE FORMAT_FILES
-                "${CMAKE_SOURCE_DIR}/app/*.h"
-                "${CMAKE_SOURCE_DIR}/app/*.cpp"
-                "${CMAKE_SOURCE_DIR}/ext/*.cpp"
-                "${CMAKE_SOURCE_DIR}/ext/*.h"
-        )
-
-        # Check if files were found
-        list(LENGTH FORMAT_FILES FILE_COUNT)
-        if(FILE_COUNT EQUAL 0)
-            message(WARNING "No files found for clang-format. Check file patterns or directories.")
-        else()
-            # Debug: Print number of files found
-            message(STATUS "Found ${FILE_COUNT} files for formatting")
-
-            # Define batch size (adjust as needed)
-            set(BATCH_SIZE 50)
-            # Calculate number of batches
-            math(EXPR BATCH_COUNT "(${FILE_COUNT} + ${BATCH_SIZE} - 1) / ${BATCH_SIZE}")
-            math(EXPR BATCH_COUNT "${BATCH_COUNT} - 1") # Adjust for 0-based indexing
-
-            # Create clang-format target with batched commands
-            set(CLANG_FORMAT_TARGETS)
-            foreach(i RANGE 0 ${BATCH_COUNT})
-                math(EXPR START "${i} * ${BATCH_SIZE}")
-                # Ensure we don't exceed the list length
-                math(EXPR REMAINING_FILES "${FILE_COUNT} - ${START}")
-                if(REMAINING_FILES GREATER 0)
-                    list(SUBLIST FORMAT_FILES ${START} ${BATCH_SIZE} BATCH_FILES)
-                    add_custom_command(
-                            OUTPUT clang-format-batch-${i}
-                            COMMAND ${CLANGFORMAT_EXECUTABLE} -style=file -i ${BATCH_FILES}
-                            COMMENT "Formatting batch ${i} of ${BATCH_COUNT}"
-                            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-                    )
-                    list(APPEND CLANG_FORMAT_TARGETS clang-format-batch-${i})
-                endif()
-            endforeach()
-            add_custom_target(clang-format DEPENDS ${CLANG_FORMAT_TARGETS})
-
-            # Create clang-format-check target with batched commands
-            if(ENABLE_CLANG_FORMAT_CHECK)
-                set(CLANG_FORMAT_CHECK_TARGETS)
-                foreach(i RANGE 0 ${BATCH_COUNT})
-                    math(EXPR START "${i} * ${BATCH_SIZE}")
-                    # Ensure we don't exceed the list length
-                    math(EXPR REMAINING_FILES "${FILE_COUNT} - ${START}")
-                    if(REMAINING_FILES GREATER 0)
-                        list(SUBLIST FORMAT_FILES ${START} ${BATCH_SIZE} BATCH_FILES)
-                        add_custom_command(
-                                OUTPUT clang-format-check-batch-${i}
-                                COMMAND ${CLANGFORMAT_EXECUTABLE} --dry-run --Werror -style=file -i ${BATCH_FILES}
-                                COMMENT "Checking format batch ${i} of ${BATCH_COUNT}"
-                                WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-                        )
-                        list(APPEND CLANG_FORMAT_CHECK_TARGETS clang-format-check-batch-${i})
-                    endif()
-                endforeach()
-                add_custom_target(clang-format-check DEPENDS ${CLANG_FORMAT_CHECK_TARGETS})
-            endif()
-        endif()
-    else()
-        message(FATAL_ERROR "clang-format executable not found, but ENABLE_CLANG_FORMAT is ON. "
-                "Please install clang-format or set ENABLE_CLANG_FORMAT to OFF.")
-    endif()
-endif()
-
-
