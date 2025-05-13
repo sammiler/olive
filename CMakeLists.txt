@@ -36,7 +36,6 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
-set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE) # 这个设置保留，对 RPATH有好处
 
 
 # Generates a compile_commands.json in the build dir, link that to the repo
