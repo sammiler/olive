@@ -50,7 +50,7 @@ class ViewerSafeMarginInfo {
  private:
   bool enabled_;
 
-  double ratio_;
+  double ratio_{};
 };
 
 }  // namespace olive

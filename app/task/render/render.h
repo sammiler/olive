@@ -89,7 +89,7 @@ class RenderTask : public Task {
                    FrameHashCache *cache, const QSize &force_size, const QMatrix4x4 &force_matrix,
                    PixelFormat force_format, int force_channel_count, ColorProcessorPtr force_color_output);
 
-  ViewerOutput *viewer_;
+  ViewerOutput *viewer_{};
 
   VideoParams video_params_;
 
@@ -103,7 +103,7 @@ class RenderTask : public Task {
 
   bool native_progress_signalling_;
 
-  int64_t total_number_of_frames_;
+  int64_t total_number_of_frames_{};
 
  private slots:
   void TicketDone(RenderTicketWatcher *watcher);

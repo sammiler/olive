@@ -129,12 +129,12 @@ void ProjectPanel::ItemDoubleClickSlot(Node* item) {
   } else if (dynamic_cast<Footage*>(item)) {
     // Open this footage in a FootageViewer
     auto panel = PanelManager::instance()->MostRecentlyFocused<FootageViewerPanel>();
-    panel->ConnectViewerNode(static_cast<Footage*>(item));
+    panel->ConnectViewerNode(dynamic_cast<Footage*>(item));
     panel->raise();
     panel->setFocus();
   } else if (dynamic_cast<Sequence*>(item)) {
     // Open this sequence in the Timeline
-    Core::instance()->main_window()->OpenSequence(static_cast<Sequence*>(item));
+    Core::instance()->main_window()->OpenSequence(dynamic_cast<Sequence*>(item));
   }
 }
 
@@ -178,7 +178,7 @@ QVector<ViewerOutput*> ProjectPanel::GetSelectedFootage() const {
 
   foreach (Node* i, items) {
     if (dynamic_cast<ViewerOutput*>(i)) {
-      footage.append(static_cast<ViewerOutput*>(i));
+      footage.append(dynamic_cast<ViewerOutput*>(i));
     }
   }
 

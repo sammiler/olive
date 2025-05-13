@@ -245,21 +245,21 @@ class VideoParams {
   int divider_;
 
   // Cached values
-  int effective_width_;
-  int effective_height_;
-  int effective_depth_;
-  int par_width_;
+  int effective_width_{};
+  int effective_height_{};
+  int effective_depth_{};
+  int par_width_{};
 
-  bool enabled_;
-  int stream_index_;
+  bool enabled_{};
+  int stream_index_{};
   Type video_type_;
   rational frame_rate_;
-  int64_t start_time_;
-  int64_t duration_;
-  bool premultiplied_alpha_;
+  int64_t start_time_{};
+  int64_t duration_{};
+  bool premultiplied_alpha_{};
   QString colorspace_;
-  float x_;
-  float y_;
+  float x_{};
+  float y_{};
   ColorRange color_range_;
 };
 

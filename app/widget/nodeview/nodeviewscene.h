@@ -64,7 +64,7 @@ class NodeViewScene : public QGraphicsScene {
  private:
   QHash<Node *, NodeViewContext *> context_map_;
 
-  Project *graph_;
+  Project *graph_{};
 
   NodeViewCommon::FlowDirection direction_;
 

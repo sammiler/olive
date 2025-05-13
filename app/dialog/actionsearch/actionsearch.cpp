@@ -209,7 +209,7 @@ ActionSearchEntry::ActionSearchEntry(QWidget *parent) : QLineEdit(parent) {}
 bool ActionSearchEntry::event(QEvent *e) {
   switch (e->type()) {
     case QEvent::ShortcutOverride:
-      switch (static_cast<QKeyEvent *>(e)->key()) {
+      switch (dynamic_cast<QKeyEvent *>(e)->key()) {
         case Qt::Key_Up:
         case Qt::Key_Down:
           e->accept();
@@ -218,7 +218,7 @@ bool ActionSearchEntry::event(QEvent *e) {
       break;
     case QEvent::KeyPress:
       // Listen for up/down, otherwise pass the key event to the base class.
-      switch (static_cast<QKeyEvent *>(e)->key()) {
+      switch (dynamic_cast<QKeyEvent *>(e)->key()) {
         case Qt::Key_Up:
           e->accept();
           emit moveSelectionUp();

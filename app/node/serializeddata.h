@@ -33,7 +33,7 @@ class NodeGroup;
 struct SerializedData {
   struct SerializedConnection {
     NodeInput input;
-    quintptr output_node;
+    quintptr output_node{};
   };
 
   struct BlockLink {
@@ -42,11 +42,11 @@ struct SerializedData {
   };
 
   struct GroupLink {
-    NodeGroup *group;
+    NodeGroup *group{};
     QString passthrough_id;
-    quintptr input_node;
+    quintptr input_node{};
     QString input_id;
-    int input_element;
+    int input_element{};
     QString custom_name;
     InputFlags custom_flags;
     NodeValue::Type data_type;

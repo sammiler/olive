@@ -71,7 +71,7 @@ class CornerPinDistortNode : public Node {
  private:
   // Gizmo variables
   static const int kGizmoCornerCount = 4;
-  PointGizmo *gizmo_resize_handle_[kGizmoCornerCount];
+  PointGizmo *gizmo_resize_handle_[kGizmoCornerCount]{};
   PolygonGizmo *gizmo_whole_rect_;
 };
 

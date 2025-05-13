@@ -36,7 +36,7 @@ TabWidgetWidget::TabWidgetWidget(Frame *parent, TabWidgetOptions options)
     , TabWidget(this, parent)
     , m_tabBar(Config::self().frameworkWidgetFactory()->createTabBar(this))
 {
-    setTabBar(static_cast<QTabBar *>(m_tabBar->asWidget()));
+    setTabBar(dynamic_cast<QTabBar *>(m_tabBar->asWidget()));
     setTabsClosable(Config::self().flags() & Config::Flag_TabsHaveCloseButton);
 
     setContextMenuPolicy(Qt::CustomContextMenu);

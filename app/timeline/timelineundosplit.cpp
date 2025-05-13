@@ -31,7 +31,7 @@ namespace olive {
 //
 void BlockSplitCommand::prepare() {
   reconnect_tree_command_ = new MultiUndoCommand();
-  new_block_ = static_cast<Block*>(Node::CopyNodeInGraph(block_, reconnect_tree_command_));
+  new_block_ = dynamic_cast<Block*>(Node::CopyNodeInGraph(block_, reconnect_tree_command_));
 }
 
 void BlockSplitCommand::redo() {
@@ -56,7 +56,7 @@ void BlockSplitCommand::redo() {
   track->InsertBlockAfter(new_block(), block_);
 
   if (ClipBlock* new_clip = dynamic_cast<ClipBlock*>(new_block_)) {
-    ClipBlock* old_clip = static_cast<ClipBlock*>(block_);
+    ClipBlock* old_clip = dynamic_cast<ClipBlock*>(block_);
     new_clip->AddCachePassthroughFrom(old_clip);
   }
 

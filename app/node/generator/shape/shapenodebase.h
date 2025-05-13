@@ -64,7 +64,7 @@ class ShapeNodeBase : public GeneratorWithMerge {
 
   // Gizmo variables
   static const int kGizmoWholeRect = kGizmoScaleCount;
-  PointGizmo *point_gizmo_[kGizmoScaleCount];
+  PointGizmo *point_gizmo_[kGizmoScaleCount]{};
   PolygonGizmo *poly_gizmo_;
 };
 

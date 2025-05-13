@@ -66,7 +66,7 @@ void NodeValueTree::Retranslate() { setHeaderLabels({QString(), tr("Type"), tr("
 
 void NodeValueTree::RadioButtonChecked(bool e) {
   if (e) {
-    QRadioButton *btn = static_cast<QRadioButton *>(sender());
+    QRadioButton *btn = dynamic_cast<QRadioButton *>(sender());
     Node::ValueHint hint = btn->property("hint").value<Node::ValueHint>();
     NodeInput input = btn->property("input").value<NodeInput>();
 

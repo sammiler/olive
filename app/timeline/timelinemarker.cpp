@@ -45,7 +45,7 @@ void TimelineMarker::set_time(const TimeRange &time) {
 void TimelineMarker::set_time(const rational &time) { set_time(TimeRange(time, time + time_.length())); }
 
 bool TimelineMarker::has_sibling_at_time(const rational &t) const {
-  TimelineMarker *m = static_cast<TimelineMarkerList *>(parent())->GetMarkerAtTime(t);
+  TimelineMarker *m = dynamic_cast<TimelineMarkerList *>(parent())->GetMarkerAtTime(t);
   return m && m != this;
 }
 
@@ -236,10 +236,10 @@ bool TimelineMarkerList::RemoveFromList(TimelineMarker *marker) {
   return false;
 }
 
-void TimelineMarkerList::HandleMarkerModification() { emit MarkerModified(static_cast<TimelineMarker *>(sender())); }
+void TimelineMarkerList::HandleMarkerModification() { emit MarkerModified(dynamic_cast<TimelineMarker *>(sender())); }
 
 void TimelineMarkerList::HandleMarkerTimeChange() {
-  TimelineMarker *m = static_cast<TimelineMarker *>(sender());
+  TimelineMarker *m = dynamic_cast<TimelineMarker *>(sender());
 
   auto it = std::find(markers_.begin(), markers_.end(), m);
 

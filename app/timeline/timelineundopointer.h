@@ -74,7 +74,7 @@ class BlockTrimCommand : public UndoCommand {
   virtual void undo() override;
 
  private:
-  bool doing_nothing_;
+  bool doing_nothing_{};
   rational trim_diff_;
 
   Track* track_;
@@ -83,14 +83,14 @@ class BlockTrimCommand : public UndoCommand {
   rational new_length_;
   Timeline::MovementMode mode_;
 
-  Block* adjacent_;
-  bool needs_adjacent_;
-  bool we_created_adjacent_;
-  bool we_removed_adjacent_;
+  Block* adjacent_{};
+  bool needs_adjacent_{};
+  bool we_created_adjacent_{};
+  bool we_removed_adjacent_{};
   UndoCommand* deleted_adjacent_command_;
 
   bool trim_is_a_roll_edit_;
-  bool remove_block_from_graph_;
+  bool remove_block_from_graph_{};
 
   QObject memory_manager_;
 };
@@ -130,11 +130,11 @@ class TrackSlideCommand : public UndoCommand {
   QList<Block*> blocks_;
   rational movement_;
 
-  bool we_created_in_adjacent_;
+  bool we_created_in_adjacent_{};
   bool we_removed_in_adjacent_;
   Block* in_adjacent_;
   UndoCommand* in_adjacent_remove_command_;
-  bool we_created_out_adjacent_;
+  bool we_created_out_adjacent_{};
   bool we_removed_out_adjacent_;
   Block* out_adjacent_;
   UndoCommand* out_adjacent_remove_command_;

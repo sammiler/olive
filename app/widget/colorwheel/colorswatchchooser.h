@@ -48,10 +48,10 @@ class ColorSwatchChooser : public QWidget {
   static const int kRowCount = 4;
   static const int kColCount = 8;
   static const int kBtnCount = kRowCount * kColCount;
-  ColorButton *buttons_[kBtnCount];
+  ColorButton *buttons_[kBtnCount]{};
 
   ManagedColor current_;
-  ColorButton *menu_btn_;
+  ColorButton *menu_btn_{};
 
  private slots:
   void HandleButtonClick();

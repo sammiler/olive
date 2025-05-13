@@ -124,9 +124,9 @@ class Frame {
 
   rational timestamp_;
 
-  int linesize_;
+  int linesize_{};
 
-  int linesize_pixels_;
+  int linesize_pixels_{};
 };
 
 }  // namespace olive

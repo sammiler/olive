@@ -72,7 +72,7 @@ class FootagePropertiesDialog : public QDialog {
     Track::Type type_;
     int index_;
 
-    bool old_enabled_;
+    bool old_enabled_{};
     bool new_enabled_;
   };
 
@@ -99,7 +99,7 @@ class FootagePropertiesDialog : public QDialog {
   /**
    * @brief Frame rate to conform to
    */
-  QDoubleSpinBox* conform_fr;
+  QDoubleSpinBox* conform_fr{};
 
  private slots:
   /**

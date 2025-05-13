@@ -95,18 +95,18 @@ class OpenGLRenderer : public Renderer {
 
   QOpenGLContext *context_;
 
-  QOpenGLFunctions *functions_;
+  QOpenGLFunctions *functions_{};
 
   QOffscreenSurface surface_;
 
   GLuint framebuffer_;
 
   struct TextureCacheKey {
-    int width;
-    int height;
-    int depth;
+    int width{};
+    int height{};
+    int depth{};
     PixelFormat format;
-    int channel_count;
+    int channel_count{};
 
     bool operator==(const TextureCacheKey &rhs) const {
       return width == rhs.width && height == rhs.height && depth == rhs.depth && format == rhs.format &&

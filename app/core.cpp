@@ -432,7 +432,7 @@ void Core::AddOpenProject(Project* p, bool add_to_recents) {
 }
 
 bool Core::AddOpenProjectFromTask(Task* task, bool add_to_recents) {
-  ProjectLoadBaseTask* load_task = static_cast<ProjectLoadBaseTask*>(task);
+  ProjectLoadBaseTask* load_task = dynamic_cast<ProjectLoadBaseTask*>(task);
 
   if (!load_task->IsCancelled()) {
     Project* project = load_task->GetLoadedProject();
@@ -466,7 +466,7 @@ void Core::SetActiveProject(Project* p) {
 }
 
 void Core::ImportTaskComplete(Task* task) {
-  ProjectImportTask* import_task = static_cast<ProjectImportTask*>(task);
+  ProjectImportTask* import_task = dynamic_cast<ProjectImportTask*>(task);
 
   MultiUndoCommand* command = import_task->GetCommand();
 
@@ -650,7 +650,7 @@ void Core::OpenStartupProject() {
 
 void Core::AddRecoveryProjectFromTask(Task* task) {
   if (AddOpenProjectFromTask(task, false)) {
-    ProjectLoadBaseTask* load_task = static_cast<ProjectLoadBaseTask*>(task);
+    ProjectLoadBaseTask* load_task = dynamic_cast<ProjectLoadBaseTask*>(task);
 
     Project* project = load_task->GetLoadedProject();
 
@@ -747,11 +747,11 @@ void Core::SaveProjectInternal(const QString& override_filename) {
   } else {
     bool use_compression = !open_project_->filename().endsWith(QStringLiteral(".ovexml"), Qt::CaseInsensitive);
     psm = new ProjectSaveTask(open_project_, use_compression);
-    static_cast<ProjectSaveTask*>(psm)->SetLayout(main_window_->SaveLayout());
+    dynamic_cast<ProjectSaveTask*>(psm)->SetLayout(main_window_->SaveLayout());
 
     if (!override_filename.isEmpty()) {
       // Set override filename if provided
-      static_cast<ProjectSaveTask*>(psm)->SetOverrideFilename(override_filename);
+      dynamic_cast<ProjectSaveTask*>(psm)->SetOverrideFilename(override_filename);
     }
   }
 
@@ -950,7 +950,7 @@ void Core::SaveAutorecovery() {
 }
 
 void Core::ProjectSaveSucceeded(Task* task) {
-  Project* p = static_cast<ProjectSaveTask*>(task)->GetProject();
+  Project* p = dynamic_cast<ProjectSaveTask*>(task)->GetProject();
 
   PushRecentlyOpenedProject(p->filename());
 

@@ -59,9 +59,9 @@ class ViewerWindow : public QWidget {
  private:
   void UpdateMatrix();
 
-  int width_;
+  int width_{};
 
-  int height_;
+  int height_{};
 
   ViewerDisplayWidget* display_widget_;
 

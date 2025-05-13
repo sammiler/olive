@@ -123,7 +123,7 @@ void RippleTool::FinishDrag(TimelineViewMouseEvent* event) {
 
       Track* track = parent()->GetTrackFromReference(ghost->GetTrack());
 
-      TrackListRippleToolCommand::RippleInfo info;
+      TrackListRippleToolCommand::RippleInfo info{};
       Block* b = QtUtils::ValueToPtr<Block>(ghost->GetData(TimelineViewGhostItem::kAttachedBlock));
 
       if (b) {

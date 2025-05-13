@@ -41,13 +41,13 @@ ManagedDisplayWidget::ManagedDisplayWidget(QWidget* parent)
     // Create OpenGL widget
     inner_widget_ = new ManagedDisplayWidgetOpenGL();
     inner_widget_->setAttribute(Qt::WA_TranslucentBackground, false);
-    connect(static_cast<ManagedDisplayWidgetOpenGL*>(inner_widget_), &ManagedDisplayWidgetOpenGL::OnInit, this,
+    connect(dynamic_cast<ManagedDisplayWidgetOpenGL*>(inner_widget_), &ManagedDisplayWidgetOpenGL::OnInit, this,
             &ManagedDisplayWidget::OnInit, Qt::DirectConnection);
-    connect(static_cast<ManagedDisplayWidgetOpenGL*>(inner_widget_), &ManagedDisplayWidgetOpenGL::OnDestroy, this,
+    connect(dynamic_cast<ManagedDisplayWidgetOpenGL*>(inner_widget_), &ManagedDisplayWidgetOpenGL::OnDestroy, this,
             &ManagedDisplayWidget::OnDestroy, Qt::DirectConnection);
-    connect(static_cast<ManagedDisplayWidgetOpenGL*>(inner_widget_), &ManagedDisplayWidgetOpenGL::OnPaint, this,
+    connect(dynamic_cast<ManagedDisplayWidgetOpenGL*>(inner_widget_), &ManagedDisplayWidgetOpenGL::OnPaint, this,
             &ManagedDisplayWidget::OnPaint, Qt::DirectConnection);
-    connect(static_cast<ManagedDisplayWidgetOpenGL*>(inner_widget_), &ManagedDisplayWidgetOpenGL::frameSwapped, this,
+    connect(dynamic_cast<ManagedDisplayWidgetOpenGL*>(inner_widget_), &ManagedDisplayWidgetOpenGL::frameSwapped, this,
             &ManagedDisplayWidget::frameSwapped, Qt::DirectConnection);
 
     inner_widget_->installEventFilter(this);
@@ -72,7 +72,7 @@ ManagedDisplayWidget::~ManagedDisplayWidget() {
   MANAGEDDISPLAYWIDGET_DEFAULT_DESTRUCTOR_INNER;
 
   if (RenderManager::instance()->backend() == RenderManager::kOpenGL) {
-    disconnect(static_cast<ManagedDisplayWidgetOpenGL*>(inner_widget_), &ManagedDisplayWidgetOpenGL::OnDestroy, this,
+    disconnect(dynamic_cast<ManagedDisplayWidgetOpenGL*>(inner_widget_), &ManagedDisplayWidgetOpenGL::OnDestroy, this,
                &ManagedDisplayWidget::OnDestroy);
   }
 }
@@ -197,9 +197,9 @@ void ManagedDisplayWidget::SetColorTransform(const ColorTransform& transform) {
 
 void ManagedDisplayWidget::OnInit() {
   if (RenderManager::instance()->backend() == RenderManager::kOpenGL) {
-    QOpenGLContext* context = static_cast<ManagedDisplayWidgetOpenGL*>(inner_widget_)->context();
-    static_cast<OpenGLRenderer*>(attached_renderer_)->Init(context);
-    static_cast<OpenGLRenderer*>(attached_renderer_)->PostInit();
+    QOpenGLContext* context = dynamic_cast<ManagedDisplayWidgetOpenGL*>(inner_widget_)->context();
+    dynamic_cast<OpenGLRenderer*>(attached_renderer_)->Init(context);
+    dynamic_cast<OpenGLRenderer*>(attached_renderer_)->PostInit();
   }
 }
 
@@ -211,19 +211,19 @@ void ManagedDisplayWidget::ColorProcessorChangedEvent() { update(); }
 
 void ManagedDisplayWidget::makeCurrent() {
   if (RenderManager::instance()->backend() == RenderManager::kOpenGL) {
-    static_cast<ManagedDisplayWidgetOpenGL*>(inner_widget_)->makeCurrent();
+    dynamic_cast<ManagedDisplayWidgetOpenGL*>(inner_widget_)->makeCurrent();
   }
 }
 
 void ManagedDisplayWidget::doneCurrent() {
   if (RenderManager::instance()->backend() == RenderManager::kOpenGL) {
-    static_cast<ManagedDisplayWidgetOpenGL*>(inner_widget_)->doneCurrent();
+    dynamic_cast<ManagedDisplayWidgetOpenGL*>(inner_widget_)->doneCurrent();
   }
 }
 
 QPaintDevice* ManagedDisplayWidget::paint_device() const {
   if (RenderManager::instance()->backend() == RenderManager::kOpenGL) {
-    return static_cast<ManagedDisplayWidgetOpenGL*>(inner_widget_);
+    return dynamic_cast<ManagedDisplayWidgetOpenGL*>(inner_widget_);
   } else {
     return nullptr;
   }
@@ -244,7 +244,7 @@ VideoParams ManagedDisplayWidget::GetViewportParams() const {
 
 void ManagedDisplayWidget::update() {
   if (RenderManager::instance()->backend() == RenderManager::kOpenGL) {
-    static_cast<ManagedDisplayWidgetOpenGL*>(inner_widget_)->update();
+    dynamic_cast<ManagedDisplayWidgetOpenGL*>(inner_widget_)->update();
   }
 }
 
@@ -260,7 +260,7 @@ bool ManagedDisplayWidget::eventFilter(QObject* o, QEvent* e) {
       PanelManager::instance()->FocusChanged(nullptr, this);
       break;
     case QEvent::ContextMenu: {
-      QContextMenuEvent* ctx = static_cast<QContextMenuEvent*>(e);
+      QContextMenuEvent* ctx = dynamic_cast<QContextMenuEvent*>(e);
       emit customContextMenuRequested(ctx->pos());
       return true;
     }

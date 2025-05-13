@@ -116,7 +116,7 @@ class TimelineWidget : public TimeBasedWidget {
   /**
    * @brief Timelines should always be connected to sequences
    */
-  Sequence* sequence() const { return static_cast<Sequence*>(GetConnectedNode()); }
+  Sequence* sequence() const { return dynamic_cast<Sequence*>(GetConnectedNode()); }
 
   const QVector<Block*>& GetSelectedBlocks() const { return selected_blocks_; }
 
@@ -288,8 +288,8 @@ class TimelineWidget : public TimeBasedWidget {
   QVector<QPointF> rubberband_scene_pos_;
   TimelineWidgetSelections rubberband_old_selections_;
   QVector<Block*> rubberband_now_selected_;
-  bool rubberband_enable_selecting_;
-  bool rubberband_select_links_;
+  bool rubberband_enable_selecting_{};
+  bool rubberband_select_links_{};
 
   TimelineWidgetSelections selections_;
 
@@ -311,7 +311,7 @@ class TimelineWidget : public TimeBasedWidget {
 
   QVector<Block*> added_blocks_;
 
-  int deferred_scroll_value_;
+  int deferred_scroll_value_{};
 
   bool use_audio_time_units_;
 

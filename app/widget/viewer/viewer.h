@@ -258,7 +258,7 @@ class ViewerWidget : public TimeBasedWidget {
 
   bool time_changed_from_timer_;
 
-  bool play_in_to_out_only_;
+  bool play_in_to_out_only_{};
 
   AudioWaveformView* waveform_view_;
 
@@ -266,12 +266,12 @@ class ViewerWidget : public TimeBasedWidget {
 
   ViewerDisplayWidget* display_widget_;
 
-  ViewerDisplayWidget* context_menu_widget_;
+  ViewerDisplayWidget* context_menu_widget_{};
 
   QTimer playback_backup_timer_;
 
-  int64_t playback_queue_next_frame_;
-  int64_t dry_run_next_frame_;
+  int64_t playback_queue_next_frame_{};
+  int64_t dry_run_next_frame_{};
   QVector<ViewerDisplayWidget*> playback_devices_;
 
   bool prequeuing_video_;
@@ -281,8 +281,8 @@ class ViewerWidget : public TimeBasedWidget {
 
   rational last_length_;
 
-  int prequeue_length_;
-  int prequeue_count_;
+  int prequeue_length_{};
+  int prequeue_count_{};
 
   QVector<RenderTicketWatcher*> queue_watchers_;
 
@@ -298,12 +298,12 @@ class ViewerWidget : public TimeBasedWidget {
 
   bool record_armed_;
   bool recording_;
-  TimelineWidget* recording_callback_;
+  TimelineWidget* recording_callback_{};
   TimeRange recording_range_;
   Track::Reference recording_track_;
   QString recording_filename_;
 
-  qint64 queue_starved_start_;
+  qint64 queue_starved_start_{};
   RenderTicketWatcher* first_requeue_watcher_;
 
   bool enable_audio_scrubbing_;

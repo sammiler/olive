@@ -59,7 +59,7 @@ class ProjectPropertiesDialog : public QDialog {
   PathWidget* custom_cache_path_;
 
   static const int kDiskCacheRadioCount = 3;
-  QRadioButton* disk_cache_radios_[kDiskCacheRadioCount];
+  QRadioButton* disk_cache_radios_[kDiskCacheRadioCount]{};
 
  private slots:
   void BrowseForOCIOConfig();

@@ -70,7 +70,7 @@ class TrackRippleRemoveAreaCommand : public UndoCommand {
 
  private:
   struct TrimOperation {
-    Block* block;
+    Block* block{};
     rational old_length;
     rational new_length;
   };
@@ -86,7 +86,7 @@ class TrackRippleRemoveAreaCommand : public UndoCommand {
   TrimOperation trim_out_;
   QVector<RemoveOperation> removals_;
   TrimOperation trim_in_;
-  Block* insert_previous_;
+  Block* insert_previous_{};
   bool allow_splitting_gaps_;
 
   BlockSplitCommand* splice_split_command_;
@@ -156,7 +156,7 @@ class TrackListRippleToolCommand : public UndoCommand {
 
   struct WorkingData {
     GapBlock* created_gap = nullptr;
-    Block* removed_gap_after;
+    Block* removed_gap_after{};
     rational old_length;
     rational earliest_point_of_change;
   };

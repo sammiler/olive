@@ -156,7 +156,7 @@ void TrackViewSplitterHandle::mousePressEvent(QMouseEvent *) {}
 
 void TrackViewSplitterHandle::mouseMoveEvent(QMouseEvent *) {
   if (dragging_) {
-    static_cast<TrackViewSplitter *>(parent())->HandleReceiver(this, QCursor::pos().y() - drag_y_);
+    dynamic_cast<TrackViewSplitter *>(parent())->HandleReceiver(this, QCursor::pos().y() - drag_y_);
   }
 
   drag_y_ = QCursor::pos().y();

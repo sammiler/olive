@@ -56,7 +56,7 @@ class ConformManager : public QObject {
   struct ConformData {
     Decoder::CodecStream stream;
     AudioParams params;
-    ConformTask *task;
+    ConformTask *task{};
     QVector<QString> working_filename;
     QVector<QString> finished_filename;
   };

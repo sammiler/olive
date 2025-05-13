@@ -124,7 +124,7 @@ Menu* NodeFactory::CreateMenu(QWidget* parent, bool create_none_item, Node::Cate
     QList<QAction*> menu_actions = menu->actions();
     foreach (QAction* action, menu_actions) {
       if (action->menu() && action->menu()->title() == category_name) {
-        destination = static_cast<Menu*>(action->menu());
+        destination = dynamic_cast<Menu*>(action->menu());
         break;
       }
     }

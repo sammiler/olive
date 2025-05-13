@@ -194,7 +194,7 @@ class NodeViewItem : public QObject, public QGraphicsRectItem {
   NodeViewItemConnector *input_connector_;
   NodeViewItemConnector *output_connector_;
 
-  bool has_connectable_inputs_;
+  bool has_connectable_inputs_{};
 
   bool label_as_output_;
 

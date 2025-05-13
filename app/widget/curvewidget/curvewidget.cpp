@@ -138,7 +138,7 @@ bool CurveWidget::Paste() {
     return true;
   }
 
-  return view_->Paste(std::bind(&CurveWidget::GetSelectedNodeWithID, this, std::placeholders::_1));
+  return view_->Paste([this](const QString &id) { return GetSelectedNodeWithID(id); });
 }
 
 void CurveWidget::SetNodes(const QVector<Node *> &nodes) {
@@ -269,7 +269,7 @@ void CurveWidget::SelectionChanged() {
 }
 
 void CurveWidget::KeyframeTypeButtonTriggered(bool checked) {
-  QPushButton *key_btn = static_cast<QPushButton *>(sender());
+  QPushButton *key_btn = dynamic_cast<QPushButton *>(sender());
 
   if (!checked) {
     // Keyframe buttons cannot be checked off, we undo this action here

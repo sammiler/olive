@@ -57,7 +57,7 @@ class TimeRuler : public SeekableWidget {
 
   bool centered_text_;
 
-  double timebase_flipped_dbl_;
+  double timebase_flipped_dbl_{};
 
   bool show_cache_status_;
 

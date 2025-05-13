@@ -57,7 +57,7 @@ QModelIndex ProjectViewModel::index(int row, int column, const QModelIndex &pare
   }
 
   // Get the parent object, we assume it's a folder since only folders can have children
-  Folder *item_parent = static_cast<Folder *>(GetItemObjectFromIndex(parent));
+  Folder *item_parent = dynamic_cast<Folder *>(GetItemObjectFromIndex(parent));
 
   // Return an index to this object
   return createIndex(row, column, item_parent->item_child(row));
@@ -97,7 +97,7 @@ int ProjectViewModel::rowCount(const QModelIndex &parent) const {
   }
 
   // Otherwise, the index must contain a valid pointer, so we just return its child count
-  return static_cast<Folder *>(GetItemObjectFromIndex(parent))->item_child_count();
+  return dynamic_cast<Folder *>(GetItemObjectFromIndex(parent))->item_child_count();
 }
 
 int ProjectViewModel::columnCount(const QModelIndex &parent) const {
@@ -347,7 +347,7 @@ bool ProjectViewModel::dropMimeData(const QMimeData *data, Qt::DropAction action
       // no-op
 
       if (item != drop_location && item->folder() != drop_location &&
-          (!dynamic_cast<Folder *>(item) || !ItemIsParentOfChild(static_cast<Folder *>(item), drop_location))) {
+          (!dynamic_cast<Folder *>(item) || !ItemIsParentOfChild(dynamic_cast<Folder *>(item), drop_location))) {
         move_command->add_child(new NodeEdgeRemoveCommand(
             item, NodeInput(item->folder(), Folder::kChildInput, item->folder()->index_of_child_in_array(item))));
         move_command->add_child(new FolderAddChild(drop_location, item));
@@ -390,7 +390,7 @@ bool ProjectViewModel::dropMimeData(const QMimeData *data, Qt::DropAction action
     }
 
     // Trigger an import
-    Core::instance()->ImportFiles(urls, static_cast<Folder *>(drop_item));
+    Core::instance()->ImportFiles(urls, dynamic_cast<Folder *>(drop_item));
 
     return true;
   }
@@ -463,7 +463,7 @@ void ProjectViewModel::DisconnectItem(Node *n) {
 }
 
 void ProjectViewModel::FolderBeginInsertItem(Node *n, int insert_index) {
-  Folder *folder = static_cast<Folder *>(sender());
+  Folder *folder = dynamic_cast<Folder *>(sender());
 
   ConnectItem(n);
 
@@ -479,7 +479,7 @@ void ProjectViewModel::FolderBeginInsertItem(Node *n, int insert_index) {
 void ProjectViewModel::FolderEndInsertItem() { endInsertRows(); }
 
 void ProjectViewModel::FolderBeginRemoveItem(Node *n, int child_index) {
-  Folder *folder = static_cast<Folder *>(sender());
+  Folder *folder = dynamic_cast<Folder *>(sender());
 
   DisconnectItem(n);
 
@@ -495,7 +495,7 @@ void ProjectViewModel::FolderBeginRemoveItem(Node *n, int child_index) {
 void ProjectViewModel::FolderEndRemoveItem() { endRemoveRows(); }
 
 void ProjectViewModel::ItemRenamed() {
-  Node *item = static_cast<Node *>(sender());
+  Node *item = dynamic_cast<Node *>(sender());
 
   QModelIndex index = CreateIndexFromItem(item);
 

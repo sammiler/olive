@@ -49,7 +49,7 @@ class TrackViewItem : public QWidget {
   FocusableLineEdit* line_edit_;
 
   QPushButton* mute_button_;
-  QPushButton* solo_button_;
+  QPushButton* solo_button_{};
   QPushButton* lock_button_;
 
   Track* track_;

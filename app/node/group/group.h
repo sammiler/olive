@@ -130,7 +130,7 @@ class NodeGroupSetOutputPassthrough : public UndoCommand {
   NodeGroup *group_;
 
   Node *new_output_;
-  Node *old_output_;
+  Node *old_output_{};
 };
 
 }  // namespace olive

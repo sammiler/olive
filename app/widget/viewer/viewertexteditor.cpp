@@ -83,7 +83,7 @@ void ViewerTextEditor::ConnectToolBar(ViewerTextEditorToolBar *toolbar) {
     this->setAlignment(a);
 
     // Ensure no buttons are checked that shouldn't be
-    static_cast<ViewerTextEditorToolBar *>(sender())->SetAlignment(a);
+    dynamic_cast<ViewerTextEditorToolBar *>(sender())->SetAlignment(a);
   });
 
   UpdateToolBar(toolbar, this->currentCharFormat(), this->textCursor().blockFormat(), this->alignment());
@@ -196,7 +196,7 @@ void ViewerTextEditor::FormatChanged(const QTextCharFormat &f) {
 }
 
 void ViewerTextEditor::SetFamily(const QString &s) {
-  ViewerTextEditorToolBar *toolbar = static_cast<ViewerTextEditorToolBar *>(sender());
+  ViewerTextEditorToolBar *toolbar = dynamic_cast<ViewerTextEditorToolBar *>(sender());
 
   QTextCharFormat f;
   f.setFontFamilies({s});
@@ -207,7 +207,7 @@ void ViewerTextEditor::SetFamily(const QString &s) {
 }
 
 void ViewerTextEditor::SetStyle(const QString &s) {
-  ViewerTextEditorToolBar *toolbar = static_cast<ViewerTextEditorToolBar *>(sender());
+  ViewerTextEditorToolBar *toolbar = dynamic_cast<ViewerTextEditorToolBar *>(sender());
 
   QTextCharFormat f;
 
@@ -264,7 +264,7 @@ void ViewerTextEditor::SetLineHeight(qreal i) {
   this->textCursor().setBlockFormat(f);
 }
 
-void ViewerTextEditor::LockScrollBarMaximumToZero() { static_cast<QScrollBar *>(sender())->setMaximum(0); }
+void ViewerTextEditor::LockScrollBarMaximumToZero() { dynamic_cast<QScrollBar *>(sender())->setMaximum(0); }
 
 void ViewerTextEditor::DocumentChanged() {
   if (document()->blockCount() == 1 && document()->firstBlock().text().isEmpty()) {

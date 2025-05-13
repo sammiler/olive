@@ -186,13 +186,13 @@ class NodeKeyframe : public QObject {
 
   QString input_;
 
-  int track_;
+  int track_{};
 
-  int element_;
+  int element_{};
 
-  NodeKeyframe* previous_;
+  NodeKeyframe* previous_{};
 
-  NodeKeyframe* next_;
+  NodeKeyframe* next_{};
 };
 
 using NodeKeyframeTrack = QVector<NodeKeyframe*>;

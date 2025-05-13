@@ -141,7 +141,7 @@ FramePtr FrameHashCache::LoadCacheFrame(const QString &fn) {
       int height = dw.max.y - dw.min.y + 1;
       bool has_alpha = file.header().channels().findChannel("A");
 
-      int div = qMax(1, static_cast<const Imf::IntAttribute &>(file.header()["oliveDivider"]).value());
+      int div = qMax(1, dynamic_cast<const Imf::IntAttribute &>(file.header()["oliveDivider"]).value());
 
       PixelFormat image_format;
       if (pix_type == Imf::HALF) {
@@ -217,7 +217,7 @@ FramePtr FrameHashCache::LoadCacheFrame(const QString &fn) {
 
 void FrameHashCache::SetPassthrough(PlaybackCache *cache) {
   super::SetPassthrough(cache);
-  SetTimebase(static_cast<FrameHashCache *>(cache)->GetTimebase());
+  SetTimebase(dynamic_cast<FrameHashCache *>(cache)->GetTimebase());
 }
 
 void FrameHashCache::LoadStateEvent(QDataStream &stream) {

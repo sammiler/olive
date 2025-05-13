@@ -38,7 +38,7 @@ class ProjectSerializer210907 : public ProjectSerializer {
   struct XMLNodeData {
     struct SerializedConnection {
       NodeInput input;
-      quintptr output_node;
+      quintptr output_node{};
     };
 
     struct BlockLink {
@@ -47,10 +47,10 @@ class ProjectSerializer210907 : public ProjectSerializer {
     };
 
     struct GroupLink {
-      NodeGroup *group;
-      quintptr input_node;
+      NodeGroup *group{};
+      quintptr input_node{};
       QString input_id;
-      int input_element;
+      int input_element{};
     };
 
     QHash<quintptr, Node *> node_ptrs;

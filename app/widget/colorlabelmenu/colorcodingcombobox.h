@@ -39,7 +39,7 @@ class ColorCodingComboBox : public QComboBox {
   int GetSelectedColor() const { return index_; }
 
  private:
-  int index_;
+  int index_{};
 };
 
 }  // namespace olive

@@ -381,18 +381,18 @@ void TrackReplaceBlockWithGapCommand::redo() {
 
     if (previous_is_a_gap && next_is_a_gap) {
       // Clip is preceded and followed by a gap, so we'll merge the two
-      existing_gap_ = static_cast<GapBlock*>(previous);
+      existing_gap_ = dynamic_cast<GapBlock*>(previous);
 
-      existing_merged_gap_ = static_cast<GapBlock*>(next);
+      existing_merged_gap_ = dynamic_cast<GapBlock*>(next);
       new_gap_length += existing_merged_gap_->length();
       track_->RippleRemoveBlock(existing_merged_gap_);
       existing_merged_gap_->setParent(&memory_manager_);
     } else if (previous_is_a_gap) {
       // Extend this gap to fill space left by block
-      existing_gap_ = static_cast<GapBlock*>(previous);
+      existing_gap_ = dynamic_cast<GapBlock*>(previous);
     } else if (next_is_a_gap) {
       // Extend this gap to fill space left by block
-      existing_gap_ = static_cast<GapBlock*>(next);
+      existing_gap_ = dynamic_cast<GapBlock*>(next);
     }
 
     if (existing_gap_) {
@@ -423,7 +423,7 @@ void TrackReplaceBlockWithGapCommand::redo() {
       track_->RippleRemoveBlock(preceding);
       preceding->setParent(&memory_manager_);
 
-      existing_merged_gap_ = static_cast<GapBlock*>(preceding);
+      existing_merged_gap_ = dynamic_cast<GapBlock*>(preceding);
     }
   }
 }
@@ -527,7 +527,7 @@ void TimelineAddDefaultTransitionCommand::prepare() {
     ClipBlock* c = *it;
 
     // Handle in transition
-    if (clips_.contains(static_cast<ClipBlock*>(c->previous()))) {
+    if (clips_.contains(dynamic_cast<ClipBlock*>(c->previous()))) {
       // Do nothing, assume this will be handled by a dual transition from that clip
     } else if (dynamic_cast<GapBlock*>(c->previous()) || !c->previous()) {
       // Create in transition
@@ -535,7 +535,7 @@ void TimelineAddDefaultTransitionCommand::prepare() {
     }
 
     // Handle out transition
-    if (clips_.contains(static_cast<ClipBlock*>(c->next()))) {
+    if (clips_.contains(dynamic_cast<ClipBlock*>(c->next()))) {
       AddTransition(c, kOutDual);
     } else if (dynamic_cast<GapBlock*>(c->next()) || !c->next()) {
       // Create out transition
@@ -574,13 +574,13 @@ void TimelineAddDefaultTransitionCommand::AddTransition(ClipBlock* c, CreateTran
       case kOutDual: {
         rational half_length = transition_length / 2;
 
-        ValidateTransitionLength(static_cast<ClipBlock*>(c->next()), half_length);
+        ValidateTransitionLength(dynamic_cast<ClipBlock*>(c->next()), half_length);
         ValidateTransitionLength(c, half_length);
 
         transition_length = half_length * 2;
 
         if (transition_length > 0) {
-          AdjustClipLength(static_cast<ClipBlock*>(c->next()), half_length, false);
+          AdjustClipLength(dynamic_cast<ClipBlock*>(c->next()), half_length, false);
           AdjustClipLength(c, half_length, true);
         }
         break;

@@ -149,7 +149,7 @@ ProjectSerializer210528::LoadData ProjectSerializer210528::Load(Project *project
 
     if (Track *t = dynamic_cast<Track *>(n)) {
       for (int i = 0; i < t->InputArraySize(Track::kBlockInput); i++) {
-        Block *b = static_cast<Block *>(t->GetConnectedOutput(Track::kBlockInput, i));
+        Block *b = dynamic_cast<Block *>(t->GetConnectedOutput(Track::kBlockInput, i));
         if (!b->track()) {
           t->AppendBlock(b);
         }

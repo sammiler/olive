@@ -104,7 +104,7 @@ class CurveView : public KeyframeView {
 
   struct BezierPoint {
     QRectF rect;
-    NodeKeyframe *keyframe;
+    NodeKeyframe *keyframe{};
     NodeKeyframe::BezierType type;
   };
 

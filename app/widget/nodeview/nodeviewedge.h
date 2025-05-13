@@ -100,23 +100,23 @@ class NodeViewEdge : public QGraphicsPathItem {
 
   void UpdateCurve();
 
-  Node* output_;
+  Node* output_{};
 
   NodeInput input_;
 
-  int element_;
+  int element_{};
 
   NodeViewItem* from_item_;
 
   NodeViewItem* to_item_;
 
-  int edge_width_;
+  int edge_width_{};
 
-  bool connected_;
+  bool connected_{};
 
-  bool highlighted_;
+  bool highlighted_{};
 
-  bool curved_;
+  bool curved_{};
 
   QPointF cached_start_;
   QPointF cached_end_;

@@ -32,7 +32,7 @@ class ParamPanel : public TimeBasedPanel {
  public:
   ParamPanel();
 
-  NodeParamView *GetParamView() const { return static_cast<NodeParamView *>(GetTimeBasedWidget()); }
+  NodeParamView *GetParamView() const { return dynamic_cast<NodeParamView *>(GetTimeBasedWidget()); }
 
   const QVector<Node *> &GetContexts() const { return GetParamView()->GetContexts(); }
 

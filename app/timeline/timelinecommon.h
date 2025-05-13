@@ -43,9 +43,9 @@ class Timeline {
   static bool IsATrimMode(MovementMode mode) { return mode == kTrimIn || mode == kTrimOut; }
 
   struct EditToInfo {
-    Track* track;
+    Track* track{};
     rational nearest_time;
-    Block* nearest_block;
+    Block* nearest_block{};
   };
 };
 

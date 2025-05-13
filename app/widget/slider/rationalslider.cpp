@@ -169,7 +169,7 @@ void RationalSlider::ShowDisplayTypeMenu() {
 }
 
 void RationalSlider::SetDisplayTypeFromMenu() {
-  QAction *action = static_cast<QAction *>(sender());
+  QAction *action = dynamic_cast<QAction *>(sender());
 
   DisplayType type = static_cast<DisplayType>(action->data().toInt());
 

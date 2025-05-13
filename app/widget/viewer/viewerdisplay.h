@@ -353,14 +353,14 @@ class ViewerDisplayWidget : public ManagedDisplayWidget, public TimeTargetObject
 
   bool deinterlace_;
 
-  qint64 fps_timer_start_;
-  int fps_timer_update_count_;
+  qint64 fps_timer_start_{};
+  int fps_timer_update_count_{};
 
   bool show_fps_;
   int frames_skipped_;
 
   QVector<double> frame_rate_averages_;
-  int frame_rate_average_count_;
+  int frame_rate_average_count_{};
 
   bool show_widget_background_;
 
@@ -387,7 +387,7 @@ class ViewerDisplayWidget : public ManagedDisplayWidget, public TimeTargetObject
   // Playback
   ViewerQueue queue_;
 
-  ViewerPlaybackTimer timer_;
+  ViewerPlaybackTimer timer_{};
 
   rational playback_timebase_;
 
@@ -397,10 +397,10 @@ class ViewerDisplayWidget : public ManagedDisplayWidget, public TimeTargetObject
 
   bool queue_starved_;
 
-  TextGizmo *active_text_gizmo_;
+  TextGizmo *active_text_gizmo_{};
   QPointF text_edit_pos_;
   ViewerTextEditor *text_edit_;
-  ViewerTextEditorToolBar *text_toolbar_;
+  ViewerTextEditorToolBar *text_toolbar_{};
   QTransform text_transform_;
   QTransform text_transform_inverted_;
 

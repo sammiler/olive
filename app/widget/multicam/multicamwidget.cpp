@@ -128,7 +128,7 @@ void MulticamWidget::Switch(int source, bool split_clip) {
     split->redo_now();
     command->add_child(split);
 
-    clip = static_cast<ClipBlock *>(split->GetSplit(clip_, 0));
+    clip = dynamic_cast<ClipBlock *>(split->GetSplit(clip_, 0));
 
     cam = clip->FindMulticam();
   }

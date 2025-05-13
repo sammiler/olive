@@ -144,7 +144,7 @@ OTIO::Track* SaveOTIOTask::SerializeTrack(Track* track, double sequence_rate, ra
           // OTIO ExternalReference uses the source clips frame rate (or sample rate) as opposed to
           // the sequences rate
           double source_frame_rate =
-              static_cast<ClipBlock*>(block)->connected_viewer()->GetVideoParams().frame_rate().toDouble();
+              dynamic_cast<ClipBlock*>(block)->connected_viewer()->GetVideoParams().frame_rate().toDouble();
           available_range =
               OTIO::TimeRange(OTIO::RationalTime(0, source_frame_rate),
                               OTIO::RationalTime(media_nodes.first()->GetVideoParams().duration(), source_frame_rate));
@@ -165,7 +165,7 @@ OTIO::Track* SaveOTIOTask::SerializeTrack(Track* track, double sequence_rate, ra
     } else if (dynamic_cast<TransitionBlock*>(block)) {
       auto otio_transition = new OTIO::Transition(block->GetLabel().toUtf8().constData());
 
-      TransitionBlock* our_transition = static_cast<TransitionBlock*>(block);
+      TransitionBlock* our_transition = dynamic_cast<TransitionBlock*>(block);
 
       otio_transition->set_in_offset(our_transition->in_offset().toRationalTime());
       otio_transition->set_out_offset(our_transition->out_offset().toRationalTime());

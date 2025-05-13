@@ -49,7 +49,7 @@ class RenderCancelDialog : public ProgressDialog {
 
   int total_workers_;
 
-  int waiting_workers_;
+  int waiting_workers_{};
 };
 
 }  // namespace olive

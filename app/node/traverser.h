@@ -127,8 +127,8 @@ class NodeTraverser {
 
   CancelAtom *cancel_;
 
-  const Node *transform_start_;
-  const Node *transform_now_;
+  const Node *transform_start_{};
+  const Node *transform_now_{};
   QTransform *transform_;
 
   std::list<Block *> block_stack_;

@@ -131,7 +131,7 @@ void PreferencesKeyboardTab::reset_default_shortcut() {
   QList<QTreeWidgetItem*> items = keyboard_tree_->selectedItems();
   for (int i = 0; i < items.size(); i++) {
     QTreeWidgetItem* item = keyboard_tree_->selectedItems().at(i);
-    static_cast<KeySequenceEditor*>(keyboard_tree_->itemWidget(item, 1))->reset_to_default();
+    dynamic_cast<KeySequenceEditor*>(keyboard_tree_->itemWidget(item, 1))->reset_to_default();
   }
 }
 
@@ -171,7 +171,7 @@ bool PreferencesKeyboardTab::refine_shortcut_list(const QString& s, QTreeWidgetI
         } else {
           QString shortcut;
           if (keyboard_tree_->itemWidget(item, 1) != nullptr) {
-            shortcut = static_cast<QKeySequenceEdit*>(keyboard_tree_->itemWidget(item, 1))->keySequence().toString();
+            shortcut = dynamic_cast<QKeySequenceEdit*>(keyboard_tree_->itemWidget(item, 1))->keySequence().toString();
           }
           if (item->text(0).contains(s, Qt::CaseInsensitive) || shortcut.contains(s, Qt::CaseInsensitive)) {
             all_children_are_hidden = false;

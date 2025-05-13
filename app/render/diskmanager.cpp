@@ -259,7 +259,7 @@ void DiskCacheFolder::SetPath(const QString &path) {
 
     while (!cache_index_file.atEnd()) {
       QString filename;
-      HashTime h;
+      HashTime h{};
 
       ds >> filename;
       ds >> h.file_size;

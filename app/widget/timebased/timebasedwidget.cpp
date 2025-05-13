@@ -156,7 +156,7 @@ void TimeBasedWidget::UpdateMaximumScroll() {
 }
 
 void TimeBasedWidget::ScrollBarResizeBegan(int current_bar_width, bool top_handle) {
-  QScrollBar *bar = static_cast<QScrollBar *>(sender());
+  QScrollBar *bar = dynamic_cast<QScrollBar *>(sender());
 
   scrollbar_start_width_ = current_bar_width;
   scrollbar_start_value_ = bar->value();
@@ -165,7 +165,7 @@ void TimeBasedWidget::ScrollBarResizeBegan(int current_bar_width, bool top_handl
 }
 
 void TimeBasedWidget::ScrollBarResizeMoved(int movement) {
-  ResizableScrollBar *bar = static_cast<ResizableScrollBar *>(sender());
+  ResizableScrollBar *bar = dynamic_cast<ResizableScrollBar *>(sender());
 
   // Negate movement for the top handle
   if (scrollbar_top_handle_) {

@@ -119,7 +119,7 @@ bool ColorValuesWidget::eventFilter(QObject *watcher, QEvent *event) {
     color_picker_btn_->setChecked(false);
     return true;
   } else if (event->type() == QEvent::KeyPress) {
-    QKeyEvent *key_ev = static_cast<QKeyEvent *>(event);
+    QKeyEvent *key_ev = dynamic_cast<QKeyEvent *>(event);
 
     if (key_ev->key() == Qt::Key_Escape) {
       color_picker_btn_->setChecked(false);

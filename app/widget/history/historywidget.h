@@ -35,7 +35,7 @@ class HistoryWidget : public QTreeView {
  private:
   UndoStack *stack_;
 
-  size_t current_row_;
+  size_t current_row_{};
 
  private slots:
   void indexChanged(int i);

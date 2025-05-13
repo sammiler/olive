@@ -131,7 +131,7 @@ class InputFlags {
 struct NodeInputPair {
   bool operator==(const NodeInputPair &rhs) const { return node == rhs.node && input == rhs.input; }
 
-  Node *node;
+  Node *node{};
   QString input;
 };
 

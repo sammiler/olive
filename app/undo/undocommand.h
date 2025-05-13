@@ -56,9 +56,9 @@ class UndoCommand {
   virtual void undo() = 0;
 
  private:
-  bool modified_;
+  bool modified_{};
 
-  Project* project_;
+  Project* project_{};
 
   bool prepared_;
 

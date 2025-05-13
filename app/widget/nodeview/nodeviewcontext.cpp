@@ -317,13 +317,13 @@ void NodeViewContext::AddEdgeInternal(Node *output, const NodeInput &input, Node
 }
 
 void NodeViewContext::GroupAddedNode(Node *node) {
-  NodeGroup *group = static_cast<NodeGroup *>(sender());
+  NodeGroup *group = dynamic_cast<NodeGroup *>(sender());
 
   AddNodeInternal(node, item_map_.value(group));
 }
 
 void NodeViewContext::GroupRemovedNode(Node *node) {
-  NodeGroup *group = static_cast<NodeGroup *>(sender());
+  NodeGroup *group = dynamic_cast<NodeGroup *>(sender());
 
   if (item_map_.value(node) == item_map_.value(group)) {
     item_map_.remove(node);

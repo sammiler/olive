@@ -121,7 +121,7 @@ void CropDistortNode::UpdateGizmoPositions(const NodeValueRow &row, const NodeGl
 }
 
 void CropDistortNode::GizmoDragMove(double x_diff, double y_diff, const Qt::KeyboardModifiers &modifiers) {
-  DraggableGizmo *gizmo = static_cast<DraggableGizmo *>(sender());
+  DraggableGizmo *gizmo = dynamic_cast<DraggableGizmo *>(sender());
 
   QVector2D res = temp_resolution_;
   x_diff /= res.x();

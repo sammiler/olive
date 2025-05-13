@@ -107,7 +107,7 @@ class VideoStreamProperties : public StreamProperties {
     rational new_pixel_ar_;
     VideoParams::ColorRange new_range_;
 
-    bool old_premultiplied_;
+    bool old_premultiplied_{};
     QString old_colorspace_;
     VideoParams::Interlacing old_interlacing_;
     rational old_pixel_ar_;
@@ -130,10 +130,10 @@ class VideoStreamProperties : public StreamProperties {
     int video_index_;
 
     int64_t new_start_index_;
-    int64_t old_start_index_;
+    int64_t old_start_index_{};
 
     int64_t new_duration_;
-    int64_t old_duration_;
+    int64_t old_duration_{};
 
     rational new_frame_rate_;
     rational old_frame_rate_;

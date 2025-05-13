@@ -56,7 +56,7 @@ class PreviewAudioDevice : public QIODevice {
 
   QByteArray buffer_;
 
-  int bytes_per_frame_;
+  int bytes_per_frame_{};
 
   qint64 notify_interval_;
 

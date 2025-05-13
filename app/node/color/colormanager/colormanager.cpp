@@ -185,7 +185,7 @@ QStringList ColorManager::ListAvailableColorspaces(OCIO::ConstConfigRcPtr config
 
 void ColorManager::GetDefaultLumaCoefs(double *rgb) const { config_->getDefaultLumaCoefs(rgb); }
 
-Project *ColorManager::project() const { return static_cast<Project *>(parent()); }
+Project *ColorManager::project() const { return dynamic_cast<Project *>(parent()); }
 
 void ColorManager::UpdateConfigFromFilename() {
   try {

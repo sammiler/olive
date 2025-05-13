@@ -47,7 +47,7 @@ class NodeSetPositionCommand : public UndoCommand {
   Node* context_;
   Node::Position pos_;
   Node::Position old_pos_;
-  bool added_;
+  bool added_{};
 };
 
 class NodeSetPositionAndDependenciesRecursivelyCommand : public UndoCommand {
@@ -91,7 +91,7 @@ class NodeRemovePositionFromContextCommand : public UndoCommand {
 
   Node::Position old_pos_;
 
-  bool contained_;
+  bool contained_{};
 };
 
 class NodeRemovePositionFromAllContextsCommand : public UndoCommand {
@@ -169,7 +169,7 @@ class NodeArrayResizeCommand : public UndoCommand {
   Node* node_;
   QString input_;
   int size_;
-  int old_size_;
+  int old_size_{};
 
   Node::InputConnections removed_connections_;
 };
@@ -215,7 +215,7 @@ class NodeArrayRemoveCommand : public UndoCommand {
   int index_;
 
   SplitValue standard_value_;
-  bool is_keyframing_;
+  bool is_keyframing_{};
   QVector<NodeKeyframeTrack> keyframes_;
   QObject memory_manager_;
 };
@@ -325,7 +325,7 @@ class NodeRemoveWithExclusiveDependenciesAndDisconnect : public UndoCommand {
 
   virtual Project* GetRelevantProject() const override {
     if (command_) {
-      return static_cast<const NodeRemoveAndDisconnectCommand*>(command_->child(0))->GetRelevantProject();
+      return dynamic_cast<const NodeRemoveAndDisconnectCommand*>(command_->child(0))->GetRelevantProject();
     } else {
       return node_->project();
     }
@@ -382,7 +382,7 @@ class NodeLinkCommand : public UndoCommand {
   Node* a_;
   Node* b_;
   bool link_;
-  bool done_;
+  bool done_{};
 };
 
 class NodeUnlinkAllCommand : public UndoCommand {
@@ -467,7 +467,7 @@ class NodeOverrideColorCommand : public UndoCommand {
  private:
   Node* node_;
 
-  int old_index_;
+  int old_index_{};
 
   int new_index_;
 };
@@ -495,10 +495,10 @@ class NodeViewDeleteCommand : public UndoCommand {
   QVector<Node::OutputConnection> edges_;
 
   struct RemovedNode {
-    Node* node;
-    Node* context;
+    Node* node{};
+    Node* context{};
     QPointF pos;
-    Project* removed_from_graph;
+    Project* removed_from_graph{};
   };
 
   QVector<RemovedNode> removed_nodes_;
@@ -519,7 +519,7 @@ class NodeParamSetKeyframingCommand : public UndoCommand {
  private:
   NodeInput input_;
   bool new_setting_;
-  bool old_setting_;
+  bool old_setting_{};
 };
 
 class NodeParamInsertKeyframeCommand : public UndoCommand {

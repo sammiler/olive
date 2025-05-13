@@ -185,8 +185,8 @@ class NodeView : public HandMovableView {
   NodeViewContext *GetContextItemFromNodeItem(NodeViewItem *item);
 
   struct AttachedItem {
-    NodeViewItem *item;
-    Node *node;
+    NodeViewItem *item{};
+    Node *node{};
     QPointF original_pos;
   };
 
@@ -200,8 +200,8 @@ class NodeView : public HandMovableView {
   NodeViewItem *create_edge_output_item_;
   NodeViewItem *create_edge_input_item_;
   NodeInput create_edge_input_;
-  bool create_edge_already_exists_;
-  bool create_edge_from_output_;
+  bool create_edge_already_exists_{};
+  bool create_edge_from_output_{};
 
   QVector<NodeViewItem *> create_edge_expanded_items_;
 

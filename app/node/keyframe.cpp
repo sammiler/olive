@@ -54,7 +54,7 @@ NodeKeyframe *NodeKeyframe::copy(int element, QObject *parent) const {
 
 NodeKeyframe *NodeKeyframe::copy(QObject *parent) const { return copy(element_, parent); }
 
-Node *NodeKeyframe::parent() const { return static_cast<Node *>(QObject::parent()); }
+Node *NodeKeyframe::parent() const { return dynamic_cast<Node *>(QObject::parent()); }
 
 const rational &NodeKeyframe::time() const { return time_; }
 

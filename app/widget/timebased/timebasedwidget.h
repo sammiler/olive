@@ -211,15 +211,15 @@ class TimeBasedWidget : public TimelineScaledWidget {
 
   bool toggle_show_all_;
 
-  double toggle_show_all_old_scale_;
-  int toggle_show_all_old_scroll_;
+  double toggle_show_all_old_scale_{};
+  int toggle_show_all_old_scroll_{};
 
   bool auto_set_timebase_;
 
-  int scrollbar_start_width_;
-  double scrollbar_start_value_;
-  double scrollbar_start_scale_;
-  bool scrollbar_top_handle_;
+  int scrollbar_start_width_{};
+  double scrollbar_start_value_{};
+  double scrollbar_start_scale_{};
+  bool scrollbar_top_handle_{};
 
   TimelineWorkArea *workarea_;
   TimelineMarkerList *markers_;
@@ -227,8 +227,8 @@ class TimeBasedWidget : public TimelineScaledWidget {
   QTimer *catchup_scroll_timer_;
   struct CatchUpScrollData {
     qint64 last_forced = 0;
-    int maximum;
-    int value;
+    int maximum{};
+    int value{};
   };
   QMap<QScrollBar *, CatchUpScrollData> catchup_scroll_values_;
 

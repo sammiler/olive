@@ -41,7 +41,7 @@ class AutoRecoveryDialog : public QDialog {
 
   void PopulateTree(const QStringList& recoveries, bool autocheck);
 
-  QTreeWidget* tree_widget_;
+  QTreeWidget* tree_widget_{};
 
   QVector<QTreeWidgetItem*> checkable_items_;
 

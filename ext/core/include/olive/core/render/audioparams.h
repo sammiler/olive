@@ -120,14 +120,14 @@ class AudioParams {
 
   uint64_t channel_layout_;
 
-  int channel_count_;
+  int channel_count_{};
 
   SampleFormat format_;
 
   // Footage-specific
-  int enabled_;  // Switching this to int fixes GCC 11 stringop-overflow issue, I guess a byte-alignment issue?
-  int stream_index_;
-  int64_t duration_;
+  int enabled_{};  // Switching this to int fixes GCC 11 stringop-overflow issue, I guess a byte-alignment issue?
+  int stream_index_{};
+  int64_t duration_{};
   rational timebase_;
 };
 

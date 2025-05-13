@@ -186,7 +186,7 @@ void CrashHandlerDialog::AttemptToFindReport() {
 }
 
 void CrashHandlerDialog::ReadProcessHasData() {
-  report_data_.append(static_cast<QProcess*>(sender())->readAllStandardOutput());
+  report_data_.append(dynamic_cast<QProcess*>(sender())->readAllStandardOutput());
 }
 
 void CrashHandlerDialog::ReadProcessFinished() {

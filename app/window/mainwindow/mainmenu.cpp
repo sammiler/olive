@@ -324,7 +324,7 @@ void MainMenu::changeEvent(QEvent* e) {
 
 void MainMenu::ToolItemTriggered() {
   // Assume the sender is a QAction
-  QAction* action = static_cast<QAction*>(sender());
+  QAction* action = dynamic_cast<QAction*>(sender());
 
   // Assume its data() is a member of Tool::Item
   Tool::Item tool = static_cast<Tool::Item>(action->data().toInt());
@@ -548,7 +548,7 @@ void MainMenu::GoToInTriggered() { PanelManager::instance()->CurrentlyFocused()-
 void MainMenu::GoToOutTriggered() { PanelManager::instance()->CurrentlyFocused()->GoToOut(); }
 
 void MainMenu::OpenRecentItemTriggered() {
-  Core::instance()->OpenProjectFromRecentList(static_cast<QAction*>(sender())->data().toInt());
+  Core::instance()->OpenProjectFromRecentList(dynamic_cast<QAction*>(sender())->data().toInt());
 }
 
 void MainMenu::SequenceCacheTriggered() { Core::instance()->CacheActiveSequence(false); }

@@ -108,7 +108,7 @@ class Folder : public Node {
 
     Node* child_;
 
-    int remove_index_;
+    int remove_index_{};
 
     MultiUndoCommand* subcommand_;
   };

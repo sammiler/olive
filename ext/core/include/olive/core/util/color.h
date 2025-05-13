@@ -132,7 +132,7 @@ class Color {
   }
 
  private:
-  DataType data_[RGBA];
+  DataType data_[RGBA]{};
 };
 
 }  // namespace olive::core

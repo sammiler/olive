@@ -75,7 +75,7 @@ QVector<DockWidgetBase *> SideBar::dockWidgets() const
 
 void SideBar::onDockWidgetDestroyed(QObject *dw)
 {
-    removeDockWidget(static_cast<DockWidgetBase *>(dw));
+    removeDockWidget(dynamic_cast<DockWidgetBase *>(dw));
 }
 
 void SideBar::updateSize()

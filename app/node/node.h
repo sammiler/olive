@@ -962,7 +962,7 @@ class Node : public QObject {
     SplitValue default_value;
     QHash<QString, QVariant> properties;
     QString human_name;
-    int array_size;
+    int array_size{};
   };
 
   NodeInputImmediate* CreateImmediate(const QString& input);

@@ -222,7 +222,7 @@ Frame::List LayoutWidget::frames() const
     result.reserve(items.size());
 
     for (Layouting::Item *item : items) {
-        if (auto f = static_cast<Frame *>(item->guestAsQObject()))
+        if (auto f = dynamic_cast<Frame *>(item->guestAsQObject()))
             result.push_back(f);
     }
 

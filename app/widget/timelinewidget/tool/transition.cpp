@@ -93,7 +93,7 @@ void TransitionTool::MouseRelease(TimelineViewMouseEvent *event) {
         transition = new CrossDissolveTransition();
       } else {
         transition =
-            static_cast<TransitionBlock *>(NodeFactory::CreateFromID(Core::instance()->GetSelectedTransition()));
+            dynamic_cast<TransitionBlock *>(NodeFactory::CreateFromID(Core::instance()->GetSelectedTransition()));
       }
 
       // Set transition length
@@ -177,7 +177,7 @@ bool TransitionTool::GetBlocksAtCoord(const TimelineCoordinate &coord, ClipBlock
   rational tenth_point = block_at_time->length() / 10;
   Block *other_block = nullptr;
   if (cursor_frame < (block_at_time->in() + block_at_time->length() / 2)) {
-    if (static_cast<ClipBlock *>(block_at_time)->in_transition()) {
+    if (dynamic_cast<ClipBlock *>(block_at_time)->in_transition()) {
       // This clip already has a transition here
       return false;
     }
@@ -194,7 +194,7 @@ bool TransitionTool::GetBlocksAtCoord(const TimelineCoordinate &coord, ClipBlock
       other_block = adjacent;
     }
   } else {
-    if (static_cast<ClipBlock *>(block_at_time)->out_transition()) {
+    if (dynamic_cast<ClipBlock *>(block_at_time)->out_transition()) {
       // This clip already has a transition here
       return false;
     }
@@ -212,8 +212,8 @@ bool TransitionTool::GetBlocksAtCoord(const TimelineCoordinate &coord, ClipBlock
     }
   }
 
-  *primary = static_cast<ClipBlock *>(block_at_time);
-  *secondary = static_cast<ClipBlock *>(other_block);
+  *primary = dynamic_cast<ClipBlock *>(block_at_time);
+  *secondary = dynamic_cast<ClipBlock *>(other_block);
   *ptrim_mode = trim_mode;
   *start_point = transition_start_point;
 

@@ -83,8 +83,8 @@ class NodeParamViewItemBody : public QWidget {
     NodeParamViewWidgetBridge *widget_bridge;
     NodeParamViewConnectedLabel *connected_label;
     NodeParamViewKeyframeControl *key_control;
-    QGridLayout *layout;
-    int row;
+    QGridLayout *layout{};
+    int row{};
     QPushButton *extra_btn;
     QCheckBox *optional_checkbox;
 

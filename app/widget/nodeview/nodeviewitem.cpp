@@ -432,7 +432,7 @@ QVariant NodeViewItem::itemChange(QGraphicsItem::GraphicsItemChange change, cons
 void NodeViewItem::ReadjustAllEdges() {
   foreach (NodeViewEdge *edge, edges_) {
     if (NodeViewItem *to_item = edge->to_item()) {
-      static_cast<NodeViewItem *>(to_item->parentItem())->UpdateFlowDirectionOfInputItem(to_item);
+      dynamic_cast<NodeViewItem *>(to_item->parentItem())->UpdateFlowDirectionOfInputItem(to_item);
     }
 
     edge->Adjust();

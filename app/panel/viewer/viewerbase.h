@@ -32,7 +32,7 @@ class ViewerPanelBase : public TimeBasedPanel {
  public:
   ViewerPanelBase(const QString &object_name);
 
-  ViewerWidget *GetViewerWidget() const { return static_cast<ViewerWidget *>(GetTimeBasedWidget()); }
+  ViewerWidget *GetViewerWidget() const { return dynamic_cast<ViewerWidget *>(GetTimeBasedWidget()); }
 
   virtual void PlayPause() override;
 

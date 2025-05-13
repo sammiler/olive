@@ -39,7 +39,7 @@ class TransitionTool : public AddTool {
   bool GetBlocksAtCoord(const TimelineCoordinate &coord, ClipBlock **primary, ClipBlock **secondary,
                         Timeline::MovementMode *trim_mode, rational *start_point);
 
-  bool dual_transition_;
+  bool dual_transition_{};
 };
 
 }  // namespace olive

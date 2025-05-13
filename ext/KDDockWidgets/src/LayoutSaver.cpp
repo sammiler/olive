@@ -479,7 +479,7 @@ QByteArray LayoutSaver::Layout::toJson() const
 
 bool LayoutSaver::Layout::fromJson(const QByteArray &jsonData)
 {
-    QJsonParseError error;
+    QJsonParseError error{};
     QJsonDocument doc = QJsonDocument::fromJson(jsonData, &error);
     if (error.error == QJsonParseError::NoError) {
         fromVariantMap(doc.toVariant().toMap());

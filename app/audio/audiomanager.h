@@ -92,12 +92,12 @@ class AudioManager : public QObject {
 
   static AudioManager *instance_;
 
-  PaDeviceIndex output_device_;
+  PaDeviceIndex output_device_{};
   PaStream *output_stream_;
   AudioParams output_params_;
   PreviewAudioDevice *output_buffer_;
 
-  PaDeviceIndex input_device_;
+  PaDeviceIndex input_device_{};
   PaStream *input_stream_;
 
   FFmpegEncoder *input_encoder_;

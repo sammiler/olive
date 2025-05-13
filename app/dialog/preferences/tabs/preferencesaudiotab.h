@@ -53,7 +53,7 @@ class PreferencesAudioTab : public ConfigDialogBaseTab {
   /**
    * @brief UI widget for editing the recording channels
    */
-  QComboBox* recording_combobox_;
+  QComboBox* recording_combobox_{};
 
   /**
    * @brief Button that triggers a refresh of the available audio devices

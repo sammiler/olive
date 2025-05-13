@@ -176,7 +176,7 @@ class MarkerRemoveCommand : public UndoCommand {
 
  private:
   TimelineMarker* marker_;
-  QObject* marker_list_;
+  QObject* marker_list_{};
 
   QObject memory_manager_;
 };
@@ -193,7 +193,7 @@ class MarkerChangeColorCommand : public UndoCommand {
 
  private:
   TimelineMarker* marker_;
-  int old_color_;
+  int old_color_{};
   int new_color_;
 };
 

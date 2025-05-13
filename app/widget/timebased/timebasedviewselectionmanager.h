@@ -404,7 +404,7 @@ class TimeBasedViewSelectionManager {
 
   TimeBasedWidget::SnapMask snap_mask_;
 
-  TimeTargetObject *time_target_;
+  TimeTargetObject *time_target_{};
 
   QString last_used_tip_format_;
 };

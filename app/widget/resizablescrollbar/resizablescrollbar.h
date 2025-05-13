@@ -62,9 +62,9 @@ class ResizableScrollBar : public QScrollBar {
 
   MouseHandleState mouse_handle_state_;
 
-  bool dragging_;
+  bool dragging_{};
 
-  int drag_start_point_;
+  int drag_start_point_{};
 };
 
 }  // namespace olive

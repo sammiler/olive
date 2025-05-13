@@ -142,7 +142,7 @@ class TimelineView : public TimeBasedView {
 
   QMap<TimelineMarker *, QRectF> clip_marker_rects_;
 
-  bool recording_overlay_;
+  bool recording_overlay_{};
   TimelineCoordinate recording_coord_;
 
  private slots:

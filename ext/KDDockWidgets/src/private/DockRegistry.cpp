@@ -731,7 +731,7 @@ bool DockRegistry::eventFilter(QObject *watched, QEvent *event)
         auto p = watched;
         while (p) {
             if (auto dw = qobject_cast<DockWidgetBase *>(p))
-                return onDockWidgetPressed(dw, static_cast<QMouseEvent *>(event));
+                return onDockWidgetPressed(dw, dynamic_cast<QMouseEvent *>(event));
 
             if (auto layoutWidget = qobject_cast<LayoutWidget *>(p)) {
                 if (auto mw = layoutWidget->mainWindow()) {

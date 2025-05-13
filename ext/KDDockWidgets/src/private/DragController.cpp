@@ -763,7 +763,7 @@ bool DragController::eventFilter(QObject *o, QEvent *e)
         if (auto dropArea = qobject_cast<DropArea *>(o)) {
             switch (int(e->type())) {
             case QEvent::DragEnter:
-                if (activeState()->handleDragEnter(static_cast<QDragEnterEvent *>(e), dropArea))
+                if (activeState()->handleDragEnter(dynamic_cast<QDragEnterEvent *>(e), dropArea))
                     return true;
                 break;
             case QEvent::DragLeave:
@@ -771,11 +771,11 @@ bool DragController::eventFilter(QObject *o, QEvent *e)
                     return true;
                 break;
             case QEvent::DragMove:
-                if (activeState()->handleDragMove(static_cast<QDragMoveEvent *>(e), dropArea))
+                if (activeState()->handleDragMove(dynamic_cast<QDragMoveEvent *>(e), dropArea))
                     return true;
                 break;
             case QEvent::Drop:
-                if (activeState()->handleDrop(static_cast<QDropEvent *>(e), dropArea))
+                if (activeState()->handleDrop(dynamic_cast<QDropEvent *>(e), dropArea))
                     return true;
                 break;
             }
@@ -832,7 +832,7 @@ bool DragController::eventFilter(QObject *o, QEvent *e)
 
 StateBase *DragController::activeState() const
 {
-    return static_cast<StateBase *>(currentState());
+    return dynamic_cast<StateBase *>(currentState());
 }
 
 #if defined(Q_OS_WIN)

@@ -258,7 +258,7 @@ void MenuShared::DefaultTransitionTriggered() {
 
 void MenuShared::TimecodeDisplayTriggered() {
   // Assume the sender is a QAction
-  QAction *action = static_cast<QAction *>(sender());
+  QAction *action = dynamic_cast<QAction *>(sender());
 
   // Assume its data() is a member of Timecode::Display
   Timecode::Display display = static_cast<Timecode::Display>(action->data().toInt());
@@ -280,7 +280,7 @@ void MenuShared::SpeedDurationTriggered() {
 }
 
 void MenuShared::AddableItemTriggered() {
-  QAction *a = static_cast<QAction *>(sender());
+  QAction *a = dynamic_cast<QAction *>(sender());
   Tool::AddableObject i = static_cast<Tool::AddableObject>(a->data().toInt());
   Core::instance()->SetTool(Tool::kAdd);
   Core::instance()->SetSelectedAddableObject(i);

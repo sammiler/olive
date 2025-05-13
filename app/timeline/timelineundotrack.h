@@ -44,7 +44,7 @@ class TrackRippleRemoveBlockCommand : public UndoCommand {
 
   Block* block_;
 
-  Block* before_;
+  Block* before_{};
 };
 
 class TrackPrependBlockCommand : public UndoCommand {

@@ -79,11 +79,11 @@ class DiskCacheFolder : public QObject {
 
   QMap<QString, HashTime> disk_data_;
 
-  qint64 consumption_;
+  qint64 consumption_{};
 
-  qint64 limit_;
+  qint64 limit_{};
 
-  bool clear_on_close_;
+  bool clear_on_close_{};
 
   QTimer save_timer_;
 

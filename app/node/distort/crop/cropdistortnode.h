@@ -67,7 +67,7 @@ class CropDistortNode : public Node {
   void CreateCropSideInput(const QString &id);
 
   // Gizmo variables
-  PointGizmo *point_gizmo_[kGizmoScaleCount];
+  PointGizmo *point_gizmo_[kGizmoScaleCount]{};
   PolygonGizmo *poly_gizmo_;
   QVector2D temp_resolution_;
 };

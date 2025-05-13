@@ -124,7 +124,7 @@ ShaderCode TransformDistortNode::GetShaderCode(const ShaderRequest &request) con
 }
 
 void TransformDistortNode::GizmoDragStart(const NodeValueRow &row, double x, double y, const rational &time) {
-  DraggableGizmo *gizmo = static_cast<DraggableGizmo *>(sender());
+  DraggableGizmo *gizmo = dynamic_cast<DraggableGizmo *>(sender());
 
   if (gizmo == anchor_gizmo_) {
     gizmo_inverted_transform_ =
@@ -181,7 +181,7 @@ void TransformDistortNode::GizmoDragStart(const NodeValueRow &row, double x, dou
 }
 
 void TransformDistortNode::GizmoDragMove(double x, double y, const Qt::KeyboardModifiers &modifiers) {
-  DraggableGizmo *gizmo = static_cast<DraggableGizmo *>(sender());
+  DraggableGizmo *gizmo = dynamic_cast<DraggableGizmo *>(sender());
 
   if (gizmo == poly_gizmo_) {
     NodeInputDragger &x_drag = gizmo->GetDraggers()[0];

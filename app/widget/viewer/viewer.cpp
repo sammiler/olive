@@ -544,7 +544,7 @@ void ViewerWidget::ShowSubtitleProperties() {
 }
 
 void ViewerWidget::DryRunFinished() {
-  RenderTicketWatcher *w = static_cast<RenderTicketWatcher *>(sender());
+  RenderTicketWatcher *w = dynamic_cast<RenderTicketWatcher *>(sender());
 
   if (dry_run_watchers_.contains(w)) {
     RequestNextDryRun();
@@ -742,7 +742,7 @@ void ViewerWidget::ReceivedAudioBufferForPlayback() {
 }
 
 void ViewerWidget::ReceivedAudioBufferForScrubbing() {
-  RenderTicketWatcher *watcher = static_cast<RenderTicketWatcher *>(sender());
+  RenderTicketWatcher *watcher = dynamic_cast<RenderTicketWatcher *>(sender());
 
   while (!audio_scrub_watchers_.empty() && audio_scrub_watchers_.front() != watcher) {
     audio_scrub_watchers_.pop_front();
@@ -1193,13 +1193,13 @@ void ViewerWidget::ContextMenuSetCustomSafeMargins() {
 }
 
 void ViewerWidget::WindowAboutToClose() {
-  ViewerWindow *vw = static_cast<ViewerWindow *>(sender());
+  ViewerWindow *vw = dynamic_cast<ViewerWindow *>(sender());
   windows_.remove(windows_.key(vw));
   playback_devices_.removeOne(vw->display_widget());
 }
 
 void ViewerWidget::RendererGeneratedFrame() {
-  RenderTicketWatcher *ticket = static_cast<RenderTicketWatcher *>(sender());
+  RenderTicketWatcher *ticket = dynamic_cast<RenderTicketWatcher *>(sender());
 
   if (ticket->HasResult()) {
     if (nonqueue_watchers_.contains(ticket)) {
@@ -1218,7 +1218,7 @@ void ViewerWidget::RendererGeneratedFrame() {
 }
 
 void ViewerWidget::RendererGeneratedFrameForQueue() {
-  RenderTicketWatcher *watcher = static_cast<RenderTicketWatcher *>(sender());
+  RenderTicketWatcher *watcher = dynamic_cast<RenderTicketWatcher *>(sender());
 
   if (queue_watchers_.contains(watcher)) {
     queue_watchers_.removeOne(watcher);
@@ -1269,7 +1269,7 @@ void ViewerWidget::ShowContextMenu(const QPoint &pos) {
     return;
   }
 
-  Menu menu(static_cast<QWidget *>(sender()));
+  Menu menu(dynamic_cast<QWidget *>(sender()));
 
   context_menu_widget_ = dynamic_cast<ViewerDisplayWidget *>(sender());
 
@@ -1457,7 +1457,7 @@ void ViewerWidget::ShowContextMenu(const QPoint &pos) {
   auto save_frame_as_image = menu.addAction(tr("Save Frame As Image"));
   connect(save_frame_as_image, &QAction::triggered, this, &ViewerWidget::SaveFrameAsImage);
 
-  menu.exec(static_cast<QWidget *>(sender())->mapToGlobal(pos));
+  menu.exec(dynamic_cast<QWidget *>(sender())->mapToGlobal(pos));
 }
 
 void ViewerWidget::Play(bool in_to_out_only) {

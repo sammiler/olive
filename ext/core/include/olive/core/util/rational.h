@@ -129,7 +129,7 @@ class rational {
   void fix_signs();
   void reduce();
 
-  AVRational r_;
+  AVRational r_{};
 };
 
 #define RATIONAL_MIN rational(INT_MIN)

@@ -365,7 +365,7 @@ void MainWindow::SetProject(Project *p) {
       if (tbp && tbp->GetConnectedViewer() && tbp->GetConnectedViewer()->project() == project_) {
         if (dynamic_cast<TimelinePanel *>(tbp)) {
           // Prefer our CloseSequence function which will delete any unnecessary timeline panels
-          CloseSequence(static_cast<Sequence *>(tbp->GetConnectedViewer()));
+          CloseSequence(dynamic_cast<Sequence *>(tbp->GetConnectedViewer()));
         } else {
           tbp->DisconnectViewerNode();
         }
@@ -470,12 +470,12 @@ void MainWindow::StatusBarDoubleClicked() {
 }
 
 void MainWindow::NodePanelGroupOpenedOrClosed() {
-  NodePanel *p = static_cast<NodePanel *>(sender());
+  NodePanel *p = dynamic_cast<NodePanel *>(sender());
   param_panel_->SetContexts(p->GetContexts());
 }
 
 void MainWindow::TimelinePanelSelectionChanged(const QVector<Block *> &blocks) {
-  TimelinePanel *panel = static_cast<TimelinePanel *>(sender());
+  TimelinePanel *panel = dynamic_cast<TimelinePanel *>(sender());
 
   if (PanelManager::instance()->CurrentlyFocused(false) == panel) {
     UpdateNodePanelContextFromTimelinePanel(panel);
@@ -535,12 +535,12 @@ void MainWindow::UpdateTitle() {
 }
 
 void MainWindow::TimelineCloseRequested() {
-  TimelinePanel *t = static_cast<TimelinePanel *>(sender());
+  TimelinePanel *t = dynamic_cast<TimelinePanel *>(sender());
   RemoveTimelinePanel(t);
 }
 
 void MainWindow::ViewerCloseRequested() {
-  ViewerPanel *panel = static_cast<ViewerPanel *>(sender());
+  ViewerPanel *panel = dynamic_cast<ViewerPanel *>(sender());
 
   if (panel == scope_panel_->GetConnectedViewerPanel()) {
     scope_panel_->SetViewerPanel(sequence_viewer_panel_);
@@ -552,7 +552,7 @@ void MainWindow::ViewerCloseRequested() {
 }
 
 void MainWindow::ViewerWithPanelRemovedFromGraph() {
-  ViewerOutput *vo = static_cast<ViewerOutput *>(sender());
+  ViewerOutput *vo = dynamic_cast<ViewerOutput *>(sender());
   ViewerPanel *panel = nullptr;
 
   foreach (ViewerPanel *p, viewer_panels_) {
@@ -570,7 +570,7 @@ void MainWindow::ViewerWithPanelRemovedFromGraph() {
 }
 
 void MainWindow::FolderPanelCloseRequested() {
-  ProjectPanel *panel = static_cast<ProjectPanel *>(sender());
+  ProjectPanel *panel = dynamic_cast<ProjectPanel *>(sender());
   RemovePanelInternal(folder_panels_, panel);
   panel->deleteLater();
 }

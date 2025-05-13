@@ -76,7 +76,7 @@ MainWindowLayoutInfo MainWindowLayoutInfo::fromXml(QXmlStreamReader *reader, con
         if (reader->name() == QStringLiteral("folder")) {
           quintptr item_id = reader->readElementText().toULongLong();
 
-          Folder *open_item = static_cast<Folder *>(node_ptrs.value(item_id));
+          Folder *open_item = dynamic_cast<Folder *>(node_ptrs.value(item_id));
           info.open_folders_.push_back(open_item);
         } else {
           reader->skipCurrentElement();
@@ -88,7 +88,7 @@ MainWindowLayoutInfo MainWindowLayoutInfo::fromXml(QXmlStreamReader *reader, con
         if (reader->name() == QStringLiteral("sequence")) {
           quintptr item_id = reader->readElementText().toULongLong();
 
-          Sequence *open_seq = static_cast<Sequence *>(node_ptrs.value(item_id));
+          Sequence *open_seq = dynamic_cast<Sequence *>(node_ptrs.value(item_id));
           info.open_sequences_.push_back(open_seq);
         } else {
           reader->skipCurrentElement();

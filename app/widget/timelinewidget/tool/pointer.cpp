@@ -441,9 +441,9 @@ void PointerTool::InitiateDragInternal(Block* clicked_item, Timeline::MovementMo
             !dynamic_cast<GapBlock*>(adjacent) &&
             !(dynamic_cast<TransitionBlock*>(block) &&
               ((trim_mode == Timeline::kTrimIn &&
-                static_cast<TransitionBlock*>(block)->connected_out_block() == adjacent) ||
+                dynamic_cast<TransitionBlock*>(block)->connected_out_block() == adjacent) ||
                (trim_mode == Timeline::kTrimOut &&
-                static_cast<TransitionBlock*>(block)->connected_in_block() == adjacent)))) {
+                dynamic_cast<TransitionBlock*>(block)->connected_in_block() == adjacent)))) {
           adjacent = nullptr;
         }
 
@@ -664,12 +664,12 @@ void PointerTool::FinishDrag(TimelineViewMouseEvent* event) {
       if (duplicate_clips) {
         // Duplicate rather than move
         // Place the copy instead of the original block
-        Block* new_block = static_cast<Block*>(Node::CopyNodeInGraph(block, command));
+        Block* new_block = dynamic_cast<Block*>(Node::CopyNodeInGraph(block, command));
         relinks.insert(block, new_block);
         block = new_block;
 
         if (ClipBlock* new_clip = dynamic_cast<ClipBlock*>(block)) {
-          new_clip->AddCachePassthroughFrom(static_cast<ClipBlock*>(p.block));
+          new_clip->AddCachePassthroughFrom(dynamic_cast<ClipBlock*>(p.block));
         }
       }
 
@@ -691,19 +691,19 @@ void PointerTool::FinishDrag(TimelineViewMouseEvent* event) {
 
         // Re-connect transitions where applicable
         if (ClipBlock* og_clip = dynamic_cast<ClipBlock*>(it.key())) {
-          ClipBlock* cp_clip = static_cast<ClipBlock*>(it.value());
+          ClipBlock* cp_clip = dynamic_cast<ClipBlock*>(it.value());
 
           TransitionBlock* og_in_transition = og_clip->in_transition();
           TransitionBlock* og_out_transition = og_clip->out_transition();
 
           if (og_in_transition && relinks.contains(og_in_transition)) {
-            TransitionBlock* cp_in_transition = static_cast<TransitionBlock*>(relinks.value(og_in_transition));
+            TransitionBlock* cp_in_transition = dynamic_cast<TransitionBlock*>(relinks.value(og_in_transition));
             command->add_child(
                 new NodeEdgeAddCommand(cp_clip, NodeInput(cp_in_transition, TransitionBlock::kInBlockInput)));
           }
 
           if (og_out_transition && relinks.contains(og_out_transition)) {
-            TransitionBlock* cp_out_transition = static_cast<TransitionBlock*>(relinks.value(og_out_transition));
+            TransitionBlock* cp_out_transition = dynamic_cast<TransitionBlock*>(relinks.value(og_out_transition));
             command->add_child(
                 new NodeEdgeAddCommand(cp_clip, NodeInput(cp_out_transition, TransitionBlock::kOutBlockInput)));
           }

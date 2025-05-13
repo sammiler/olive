@@ -145,7 +145,7 @@ DockWidgetBase *FrameWidget::dockWidgetAt_impl(int index) const
 
 QTabBar *FrameWidget::tabBar() const
 {
-    auto tw = static_cast<QTabWidget *>(m_tabWidget->asWidget());
+    auto tw = dynamic_cast<QTabWidget *>(m_tabWidget->asWidget());
     return tw->tabBar();
 }
 

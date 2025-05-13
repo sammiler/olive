@@ -48,10 +48,10 @@ class ProjectSerializer210528 : public ProjectSerializer {
     };
 
     struct GroupLink {
-      NodeGroup *group;
-      quintptr input_node;
+      NodeGroup *group{};
+      quintptr input_node{};
       QString input_id;
-      int input_element;
+      int input_element{};
     };
 
     QHash<quintptr, Node *> node_ptrs;

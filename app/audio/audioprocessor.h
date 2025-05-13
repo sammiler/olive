@@ -62,9 +62,9 @@ class AudioProcessor {
 
   AVFilterGraph *filter_graph_;
 
-  AVFilterContext *buffersrc_ctx_;
+  AVFilterContext *buffersrc_ctx_{};
 
-  AVFilterContext *buffersink_ctx_;
+  AVFilterContext *buffersink_ctx_{};
 
   AudioParams from_;
   AVSampleFormat from_fmt_;

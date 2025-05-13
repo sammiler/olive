@@ -84,13 +84,13 @@ class TransformDistortNode : public MatrixGenerator {
   bool IsAScaleGizmo(NodeGizmo *g) const;
 
   // Gizmo variables
-  double gizmo_start_angle_;
+  double gizmo_start_angle_{};
   QTransform gizmo_inverted_transform_;
   QPointF gizmo_anchor_pt_;
-  bool gizmo_scale_uniform_;
-  double gizmo_last_angle_;
-  double gizmo_last_alt_angle_;
-  int gizmo_rotate_wrap_;
+  bool gizmo_scale_uniform_{};
+  double gizmo_last_angle_{};
+  double gizmo_last_alt_angle_{};
+  int gizmo_rotate_wrap_{};
 
   enum RotationDirection {
     kDirectionNone,
@@ -108,7 +108,7 @@ class TransformDistortNode : public MatrixGenerator {
   QVector2D gizmo_scale_anchor_;
 
   // Gizmo on screen object storage
-  PointGizmo *point_gizmo_[kGizmoScaleCount];
+  PointGizmo *point_gizmo_[kGizmoScaleCount]{};
   PointGizmo *anchor_gizmo_;
   PolygonGizmo *poly_gizmo_;
   ScreenGizmo *rotation_gizmo_;

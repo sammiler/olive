@@ -116,7 +116,7 @@ void ViewerSizer::HandDragMove(int x, int y) {
 bool ViewerSizer::eventFilter(QObject *watched, QEvent *event) {
   if (watched == widget_) {
     if (event->type() == QEvent::Wheel) {
-      QWheelEvent *w = static_cast<QWheelEvent *>(event);
+      QWheelEvent *w = dynamic_cast<QWheelEvent *>(event);
 
       if (HandMovableView::WheelEventIsAZoomEvent(w)) {
         double next_scale = GetRealCurrentZoom() * HandMovableView::GetScrollZoomMultiplier(w);

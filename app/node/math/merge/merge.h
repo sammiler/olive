@@ -46,9 +46,9 @@ class MergeNode : public Node {
   static const QString kBlendIn;
 
  private:
-  NodeInput* base_in_;
+  NodeInput* base_in_{};
 
-  NodeInput* blend_in_;
+  NodeInput* blend_in_{};
 };
 
 }  // namespace olive

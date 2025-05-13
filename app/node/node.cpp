@@ -71,7 +71,7 @@ Node::~Node() {
   }
 }
 
-Project *Node::parent() const { return static_cast<Project *>(QObject::parent()); }
+Project *Node::parent() const { return dynamic_cast<Project *>(QObject::parent()); }
 
 Project *Node::project() const { return Project::GetProjectFromObject(this); }
 
@@ -960,7 +960,7 @@ Node *Node::CopyNodeAndDependencyGraphMinusItemsInternal(QMap<Node *, Node *> &c
 
   // If this is a group, copy input and output passthroughs
   if (NodeGroup *src_group = dynamic_cast<NodeGroup *>(node)) {
-    NodeGroup *dst_group = static_cast<NodeGroup *>(copy);
+    NodeGroup *dst_group = dynamic_cast<NodeGroup *>(copy);
 
     for (auto it = src_group->GetInputPassthroughs().cbegin(); it != src_group->GetInputPassthroughs().cend(); it++) {
       // This node should have been created by the context loop above
@@ -2110,7 +2110,7 @@ void Node::childEvent(QChildEvent *event) {
 }
 
 void Node::InvalidateFromKeyframeBezierInChange() {
-  NodeKeyframe *key = static_cast<NodeKeyframe *>(sender());
+  NodeKeyframe *key = dynamic_cast<NodeKeyframe *>(sender());
   const NodeKeyframeTrack &track = GetTrackFromKeyframe(key);
   int keyframe_index = track.indexOf(key);
 
@@ -2125,7 +2125,7 @@ void Node::InvalidateFromKeyframeBezierInChange() {
 }
 
 void Node::InvalidateFromKeyframeBezierOutChange() {
-  NodeKeyframe *key = static_cast<NodeKeyframe *>(sender());
+  NodeKeyframe *key = dynamic_cast<NodeKeyframe *>(sender());
   const NodeKeyframeTrack &track = GetTrackFromKeyframe(key);
   int keyframe_index = track.indexOf(key);
 
@@ -2140,7 +2140,7 @@ void Node::InvalidateFromKeyframeBezierOutChange() {
 }
 
 void Node::InvalidateFromKeyframeTimeChange() {
-  NodeKeyframe *key = static_cast<NodeKeyframe *>(sender());
+  NodeKeyframe *key = dynamic_cast<NodeKeyframe *>(sender());
   NodeInputImmediate *immediate = GetImmediate(key->input(), key->element());
   TimeRange original_range = GetRangeAffectedByKeyframe(key);
 
@@ -2168,14 +2168,14 @@ void Node::InvalidateFromKeyframeTimeChange() {
 }
 
 void Node::InvalidateFromKeyframeValueChange() {
-  NodeKeyframe *key = static_cast<NodeKeyframe *>(sender());
+  NodeKeyframe *key = dynamic_cast<NodeKeyframe *>(sender());
   ParameterValueChanged(key->key_track_ref().input(), GetRangeAffectedByKeyframe(key));
 
   emit KeyframeValueChanged(key);
 }
 
 void Node::InvalidateFromKeyframeTypeChanged() {
-  NodeKeyframe *key = static_cast<NodeKeyframe *>(sender());
+  NodeKeyframe *key = dynamic_cast<NodeKeyframe *>(sender());
   const NodeKeyframeTrack &track = GetTrackFromKeyframe(key);
 
   if (track.size() == 1) {

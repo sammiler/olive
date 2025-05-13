@@ -164,7 +164,7 @@ ToolbarButton* Toolbar::CreateNonToolButton() {
 
 void Toolbar::ToolButtonClicked() {
   // Get new tool from ToolbarButton object
-  Tool::Item new_tool = static_cast<ToolbarButton*>(sender())->tool();
+  Tool::Item new_tool = dynamic_cast<ToolbarButton*>(sender())->tool();
 
   // Set checked state of all tool buttons
   // NOTE: Not necessary if this is appropriately connected to Core

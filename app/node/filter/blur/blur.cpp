@@ -166,7 +166,7 @@ void BlurFilterNode::UpdateGizmoPositions(const NodeValueRow &row, const NodeGlo
 }
 
 void BlurFilterNode::GizmoDragMove(double x, double y, const Qt::KeyboardModifiers &modifiers) {
-  DraggableGizmo *gizmo = static_cast<DraggableGizmo *>(sender());
+  DraggableGizmo *gizmo = dynamic_cast<DraggableGizmo *>(sender());
 
   if (gizmo == radial_center_gizmo_) {
     NodeInputDragger &x_drag = gizmo->GetDraggers()[0];

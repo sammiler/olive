@@ -69,15 +69,15 @@ bool LoadOTIOTask::Run() {
   if (root->schema_name() == "SerializableCollection") {
     // This is a number of timelines
     std::vector<OTIO::SerializableObject::Retainer<OTIO::SerializableObject>>& root_children =
-        static_cast<OTIO::SerializableCollection*>(root)->children();
+        dynamic_cast<OTIO::SerializableCollection*>(root)->children();
 
     timelines.resize(root_children.size());
     for (size_t j = 0; j < root_children.size(); j++) {
-      timelines[j] = static_cast<OTIO::Timeline*>(root_children[j].value);
+      timelines[j] = dynamic_cast<OTIO::Timeline*>(root_children[j].value);
     }
   } else if (root->schema_name() == "Timeline") {
     // This is a single timeline
-    timelines.push_back(static_cast<OTIO::Timeline*>(root));
+    timelines.push_back(dynamic_cast<OTIO::Timeline*>(root));
   } else {
     // Unknown root, we don't know what to do with this
     SetError(tr("Unknown OpenTimelineIO root element"));
@@ -111,7 +111,7 @@ bool LoadOTIOTask::Run() {
 
     // Get number of clips for loading bar
     foreach (auto track, timeline->tracks()->children()) {
-      auto otio_track = static_cast<OTIO::Track*>(track.value);
+      auto otio_track = dynamic_cast<OTIO::Track*>(track.value);
       number_of_clips += otio_track->children().size();
     }
   }
@@ -141,7 +141,7 @@ bool LoadOTIOTask::Run() {
 
     // Iterate through tracks
     for (auto c : timeline->tracks()->children()) {
-      auto otio_track = static_cast<OTIO::Track*>(c.value);
+      auto otio_track = dynamic_cast<OTIO::Track*>(c.value);
 
       // Create a new track
       Track* track = nullptr;
@@ -206,26 +206,26 @@ bool LoadOTIOTask::Run() {
 
         if (otio_block->schema_name() == "Clip" || otio_block->schema_name() == "Gap") {
           start_time =
-              rational::fromDouble(static_cast<OTIO::Item*>(otio_block)->source_range()->start_time().to_seconds());
+              rational::fromDouble(dynamic_cast<OTIO::Item*>(otio_block)->source_range()->start_time().to_seconds());
           duration =
-              rational::fromDouble(static_cast<OTIO::Item*>(otio_block)->source_range()->duration().to_seconds());
+              rational::fromDouble(dynamic_cast<OTIO::Item*>(otio_block)->source_range()->duration().to_seconds());
 
           if (otio_block->schema_name() == "Clip") {
-            static_cast<ClipBlock*>(block)->set_media_in(start_time);
+            dynamic_cast<ClipBlock*>(block)->set_media_in(start_time);
           }
           block->set_length_and_media_out(duration);
         }
 
         // If the previous block was a transition, connect the current block to it
         if (prev_block_transition) {
-          TransitionBlock* previous_transition_block = static_cast<TransitionBlock*>(previous_block);
+          TransitionBlock* previous_transition_block = dynamic_cast<TransitionBlock*>(previous_block);
           Node::ConnectEdge(block, NodeInput(previous_transition_block, TransitionBlock::kInBlockInput));
           prev_block_transition = false;
         }
 
         if (otio_block->schema_name() == "Transition") {
-          TransitionBlock* transition_block = static_cast<TransitionBlock*>(block);
-          OTIO::Transition* otio_block_transition = static_cast<OTIO::Transition*>(otio_block);
+          TransitionBlock* transition_block = dynamic_cast<TransitionBlock*>(block);
+          OTIO::Transition* otio_block_transition = dynamic_cast<OTIO::Transition*>(otio_block);
 
           // Set how far the transition eats into the previous clip
           transition_block->set_offsets_and_length(rational::fromRationalTime(otio_block_transition->in_offset()),
@@ -255,14 +255,14 @@ bool LoadOTIOTask::Run() {
         previous_block = block;
 
         if (otio_block->schema_name() == "Clip") {
-          auto otio_clip = static_cast<OTIO::Clip*>(otio_block);
+          auto otio_clip = dynamic_cast<OTIO::Clip*>(otio_block);
           if (!otio_clip->media_reference()) {
             continue;
           }
           if (otio_clip->media_reference()->schema_name() == "ExternalReference") {
             // Link footage
             QString footage_url = QString::fromStdString(
-                static_cast<OTIO::ExternalReference*>(otio_clip->media_reference())->target_url());
+                dynamic_cast<OTIO::ExternalReference*>(otio_clip->media_reference())->target_url());
 
             Footage* probed_item;
 

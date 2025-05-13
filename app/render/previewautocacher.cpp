@@ -114,7 +114,7 @@ void PreviewAutoCacher::ClearSingleFrameRendersThatArentRunning() {
 }
 
 void PreviewAutoCacher::VideoInvalidatedFromCache(ViewerOutput *context, const TimeRange &range) {
-  PlaybackCache *cache = static_cast<PlaybackCache *>(sender());
+  PlaybackCache *cache = dynamic_cast<PlaybackCache *>(sender());
 
   cache->ClearRequestRange(range);
 
@@ -122,7 +122,7 @@ void PreviewAutoCacher::VideoInvalidatedFromCache(ViewerOutput *context, const T
 }
 
 void PreviewAutoCacher::AudioInvalidatedFromCache(ViewerOutput *context, const TimeRange &range) {
-  PlaybackCache *cache = static_cast<PlaybackCache *>(sender());
+  PlaybackCache *cache = dynamic_cast<PlaybackCache *>(sender());
 
   cache->ClearRequestRange(range);
 
@@ -130,7 +130,7 @@ void PreviewAutoCacher::AudioInvalidatedFromCache(ViewerOutput *context, const T
 }
 
 void PreviewAutoCacher::CancelForCache() {
-  PlaybackCache *cache = static_cast<PlaybackCache *>(sender());
+  PlaybackCache *cache = dynamic_cast<PlaybackCache *>(sender());
 
   if (dynamic_cast<FrameHashCache *>(cache) || dynamic_cast<ThumbnailCache *>(cache)) {
     for (auto it = pending_video_jobs_.begin(); it != pending_video_jobs_.end();) {
@@ -153,7 +153,7 @@ void PreviewAutoCacher::CancelForCache() {
 
 void PreviewAutoCacher::AudioRendered() {
   // Receive watcher
-  RenderTicketWatcher *watcher = static_cast<RenderTicketWatcher *>(sender());
+  RenderTicketWatcher *watcher = dynamic_cast<RenderTicketWatcher *>(sender());
 
   // If the task list doesn't contain this watcher, presumably it was cleared as a result of a
   // viewer switch, so we'll completely ignore this watcher
@@ -207,7 +207,7 @@ void PreviewAutoCacher::AudioRendered() {
 }
 
 void PreviewAutoCacher::VideoRendered() {
-  RenderTicketWatcher *watcher = static_cast<RenderTicketWatcher *>(sender());
+  RenderTicketWatcher *watcher = dynamic_cast<RenderTicketWatcher *>(sender());
 
   const QStringList bad_cache_names = watcher->GetTicket()->property("badcache").toStringList();
   if (!bad_cache_names.empty()) {

@@ -275,7 +275,7 @@ void TimelineWidget::ScaleChangedEvent(const double &scale) {
 }
 
 void TimelineWidget::ConnectNodeEvent(ViewerOutput *n) {
-  Sequence *s = static_cast<Sequence *>(n);
+  Sequence *s = dynamic_cast<Sequence *>(n);
 
   connect(s, &Sequence::TrackAdded, this, &TimelineWidget::AddTrack);
   connect(s, &Sequence::TrackRemoved, this, &TimelineWidget::RemoveTrack);
@@ -308,7 +308,7 @@ void TimelineWidget::ConnectNodeEvent(ViewerOutput *n) {
 }
 
 void TimelineWidget::DisconnectNodeEvent(ViewerOutput *n) {
-  Sequence *s = static_cast<Sequence *>(n);
+  Sequence *s = dynamic_cast<Sequence *>(n);
 
   disconnect(s, &Sequence::TrackAdded, this, &TimelineWidget::AddTrack);
   disconnect(s, &Sequence::TrackRemoved, this, &TimelineWidget::RemoveTrack);
@@ -477,7 +477,7 @@ void TimelineWidget::DeleteSelected(bool ripple) {
     if (dynamic_cast<ClipBlock *>(b)) {
       clips_to_delete.append(b);
     } else if (dynamic_cast<TransitionBlock *>(b)) {
-      transitions_to_delete.append(static_cast<TransitionBlock *>(b));
+      transitions_to_delete.append(dynamic_cast<TransitionBlock *>(b));
     }
   }
 
@@ -1115,12 +1115,12 @@ void TimelineWidget::RemoveTrack(Track *track) {
   }
 }
 
-void TimelineWidget::TrackUpdated() { UpdateViewports(static_cast<Track *>(sender())->type()); }
+void TimelineWidget::TrackUpdated() { UpdateViewports(dynamic_cast<Track *>(sender())->type()); }
 
-void TimelineWidget::BlockUpdated() { UpdateViewports(static_cast<Block *>(sender())->track()->type()); }
+void TimelineWidget::BlockUpdated() { UpdateViewports(dynamic_cast<Block *>(sender())->track()->type()); }
 
 void TimelineWidget::UpdateHorizontalSplitters() {
-  QSplitter *sender_splitter = static_cast<QSplitter *>(sender());
+  QSplitter *sender_splitter = dynamic_cast<QSplitter *>(sender());
 
   foreach (TimelineAndTrackView *tview, views_) {
     QSplitter *recv_splitter = tview->splitter();
@@ -1294,7 +1294,7 @@ void TimelineWidget::FrameRateChanged() { SetTimebase(GetConnectedNode()->GetVid
 void TimelineWidget::SampleRateChanged() { UpdateViewTimebases(); }
 
 void TimelineWidget::TrackIndexChanged(int old, int now) {
-  Track *track = static_cast<Track *>(sender());
+  Track *track = dynamic_cast<Track *>(sender());
 
   Track::Reference old_ref(track->type(), old);
   Track::Reference new_ref(track->type(), now);
@@ -1311,7 +1311,7 @@ void TimelineWidget::SignalBlockSelectionChange() {
 }
 
 void TimelineWidget::RevealInFootageViewer() {
-  QAction *a = static_cast<QAction *>(sender());
+  QAction *a = dynamic_cast<QAction *>(sender());
 
   ViewerOutput *item_to_reveal = reinterpret_cast<ViewerOutput *>(a->data().value<quintptr>());
   TimeRange r = a->property("range").value<TimeRange>();
@@ -1320,7 +1320,7 @@ void TimelineWidget::RevealInFootageViewer() {
 }
 
 void TimelineWidget::RevealInProject() {
-  QAction *a = static_cast<QAction *>(sender());
+  QAction *a = dynamic_cast<QAction *>(sender());
 
   ViewerOutput *item_to_reveal = reinterpret_cast<ViewerOutput *>(a->data().value<quintptr>());
 
@@ -1816,7 +1816,7 @@ bool TimelineWidget::PasteInternal(bool insert) {
     rational paste_end = paste_start;
 
     for (auto it = res.GetLoadData().properties.cbegin(); it != res.GetLoadData().properties.cend(); it++) {
-      rational length = static_cast<Block *>(it.key())->length();
+      rational length = dynamic_cast<Block *>(it.key())->length();
       rational in = rational::fromString(it.value()[QStringLiteral("in")].toUtf8().constData());
 
       paste_end = qMax(paste_end, paste_start + in + length);
@@ -1828,7 +1828,7 @@ bool TimelineWidget::PasteInternal(bool insert) {
   }
 
   for (auto it = res.GetLoadData().properties.cbegin(); it != res.GetLoadData().properties.cend(); it++) {
-    Block *block = static_cast<Block *>(it.key());
+    Block *block = dynamic_cast<Block *>(it.key());
     rational in = rational::fromString(it.value()[QStringLiteral("in")].toUtf8().constData());
     Track::Reference track = Track::Reference::FromString(it.value()[QStringLiteral("track")]);
 

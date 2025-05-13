@@ -143,9 +143,9 @@ class TimelineRemoveTrackCommand : public UndoCommand {
  private:
   Track* track_;
 
-  TrackList* list_;
+  TrackList* list_{};
 
-  int index_;
+  int index_{};
 
   UndoCommand* remove_command_;
 };
@@ -165,10 +165,10 @@ class TransitionRemoveCommand : public UndoCommand {
  private:
   TransitionBlock* block_;
 
-  Track* track_;
+  Track* track_{};
 
-  Block* out_block_;
-  Block* in_block_;
+  Block* out_block_{};
+  Block* in_block_{};
 
   bool remove_from_graph_;
   UndoCommand* remove_command_;
@@ -199,7 +199,7 @@ class TrackReplaceBlockWithGapCommand : public UndoCommand {
 
   GapBlock* existing_gap_;
   GapBlock* existing_merged_gap_;
-  bool existing_gap_precedes_;
+  bool existing_gap_precedes_{};
   GapBlock* our_gap_;
 
   bool handle_transitions_;

@@ -45,7 +45,7 @@ PathWidget::PathWidget(const QString &path, QWidget *parent) : QWidget(parent) {
 
 void PathWidget::BrowseClicked() {
   QString dir =
-      QFileDialog::getExistingDirectory(static_cast<QWidget *>(parent()), tr("Browse for path"), path_edit_->text());
+      QFileDialog::getExistingDirectory(dynamic_cast<QWidget *>(parent()), tr("Browse for path"), path_edit_->text());
 
   if (!dir.isEmpty()) {
     path_edit_->setText(dir);

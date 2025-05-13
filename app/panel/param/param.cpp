@@ -35,14 +35,14 @@ ParamPanel::ParamPanel() : TimeBasedPanel(QStringLiteral("ParamPanel")) {
   Retranslate();
 }
 
-void ParamPanel::DeleteSelected() { static_cast<NodeParamView *>(GetTimeBasedWidget())->DeleteSelected(); }
+void ParamPanel::DeleteSelected() { dynamic_cast<NodeParamView *>(GetTimeBasedWidget())->DeleteSelected(); }
 
-void ParamPanel::SelectAll() { static_cast<NodeParamView *>(GetTimeBasedWidget())->SelectAll(); }
+void ParamPanel::SelectAll() { dynamic_cast<NodeParamView *>(GetTimeBasedWidget())->SelectAll(); }
 
-void ParamPanel::DeselectAll() { static_cast<NodeParamView *>(GetTimeBasedWidget())->DeselectAll(); }
+void ParamPanel::DeselectAll() { dynamic_cast<NodeParamView *>(GetTimeBasedWidget())->DeselectAll(); }
 
 void ParamPanel::SetContexts(const QVector<Node *> &contexts) {
-  static_cast<NodeParamView *>(GetTimeBasedWidget())->SetContexts(contexts);
+  dynamic_cast<NodeParamView *>(GetTimeBasedWidget())->SetContexts(contexts);
 }
 
 void ParamPanel::Retranslate() { SetTitle(tr("Parameter Editor")); }

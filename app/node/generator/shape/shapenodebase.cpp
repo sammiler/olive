@@ -113,7 +113,7 @@ void ShapeNodeBase::SetRect(QRectF rect, const VideoParams &sequence_res, MultiU
 }
 
 void ShapeNodeBase::GizmoDragMove(double x, double y, const Qt::KeyboardModifiers &modifiers) {
-  DraggableGizmo *gizmo = static_cast<DraggableGizmo *>(sender());
+  DraggableGizmo *gizmo = dynamic_cast<DraggableGizmo *>(sender());
 
   NodeInputDragger &x_drag = gizmo->GetDraggers()[0];
   NodeInputDragger &y_drag = gizmo->GetDraggers()[1];

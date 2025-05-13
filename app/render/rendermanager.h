@@ -216,7 +216,7 @@ class RenderManager : public QObject {
   RenderThread *audio_thread_;
 
   std::vector<RenderThread *> waveform_threads_;
-  size_t last_waveform_thread_;
+  size_t last_waveform_thread_{};
 
   std::list<RenderThread *> render_threads_;
 

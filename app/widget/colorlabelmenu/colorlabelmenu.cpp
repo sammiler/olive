@@ -68,7 +68,7 @@ void ColorLabelMenu::Retranslate() {
 }
 
 void ColorLabelMenu::ActionTriggered() {
-  QAction *a = static_cast<QAction *>(sender());
+  QAction *a = dynamic_cast<QAction *>(sender());
   emit ColorSelected(a->data().toInt());
 }
 

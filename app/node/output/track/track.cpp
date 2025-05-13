@@ -696,7 +696,7 @@ void Track::RefreshBlockCacheFromArrayMap() {
   arraymap_invalid_ = false;
 
   for (int i = 0; i < block_array_indexes_.size(); i++) {
-    Block *b = static_cast<Block *>(GetConnectedOutput(kBlockInput, block_array_indexes_.at(i)));
+    Block *b = dynamic_cast<Block *>(GetConnectedOutput(kBlockInput, block_array_indexes_.at(i)));
 
     Block::set_previous_next(prev, b);
 
@@ -722,7 +722,7 @@ void Track::RefreshBlockCacheFromArrayMap() {
 
 void Track::BlockLengthChanged() {
   // Assumes sender is a Block
-  Block *b = static_cast<Block *>(sender());
+  Block *b = dynamic_cast<Block *>(sender());
 
   UpdateInOutFrom(blocks_.indexOf(b));
 }

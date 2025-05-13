@@ -70,7 +70,7 @@ void ColorSwatchChooser::SetDefaultColor(int index) {
 }
 
 void ColorSwatchChooser::HandleButtonClick() {
-  auto b = static_cast<ColorButton *>(sender());
+  auto b = dynamic_cast<ColorButton *>(sender());
 
   emit ColorClicked(b->GetColor());
   SetCurrentColor(b->GetColor());
@@ -87,7 +87,7 @@ void ColorSwatchChooser::HandleContextMenu() {
   auto reset_action = m.addAction(tr("Reset To Default"));
   connect(reset_action, &QAction::triggered, this, &ColorSwatchChooser::ResetMenuButton);
 
-  menu_btn_ = static_cast<ColorButton *>(sender());
+  menu_btn_ = dynamic_cast<ColorButton *>(sender());
 
   m.exec(QCursor::pos());
 }

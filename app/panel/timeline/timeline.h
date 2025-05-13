@@ -34,7 +34,7 @@ class TimelinePanel : public TimeBasedPanel {
  public:
   TimelinePanel(const QString &name);
 
-  inline TimelineWidget *timeline_widget() const { return static_cast<TimelineWidget *>(GetTimeBasedWidget()); }
+  inline TimelineWidget *timeline_widget() const { return dynamic_cast<TimelineWidget *>(GetTimeBasedWidget()); }
 
   void SplitAtPlayhead();
 

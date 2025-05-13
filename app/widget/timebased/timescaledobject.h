@@ -69,7 +69,7 @@ class TimeScaledObject {
  private:
   rational timebase_;
 
-  double timebase_dbl_;
+  double timebase_dbl_{};
 
   double scale_;
 

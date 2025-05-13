@@ -237,7 +237,7 @@ bool ViewerDisplayWidget::eventFilter(QObject *o, QEvent *e) {
   if (o == this->inner_widget()) {
     switch (e->type()) {
       case QEvent::MouseButtonPress: {
-        QMouseEvent *mouse = static_cast<QMouseEvent *>(e);
+        QMouseEvent *mouse = dynamic_cast<QMouseEvent *>(e);
         if (!(mouse->flags() & Qt::MouseEventCreatedDoubleClick)) {
           if (OnMousePress(mouse)) {
             return true;
@@ -246,34 +246,34 @@ bool ViewerDisplayWidget::eventFilter(QObject *o, QEvent *e) {
         break;
       }
       case QEvent::MouseMove:
-        EmitColorAtCursor(static_cast<QMouseEvent *>(e));
-        if (OnMouseMove(static_cast<QMouseEvent *>(e))) {
+        EmitColorAtCursor(dynamic_cast<QMouseEvent *>(e));
+        if (OnMouseMove(dynamic_cast<QMouseEvent *>(e))) {
           return true;
         }
         break;
       case QEvent::MouseButtonRelease:
-        if (OnMouseRelease(static_cast<QMouseEvent *>(e))) {
+        if (OnMouseRelease(dynamic_cast<QMouseEvent *>(e))) {
           return true;
         }
         break;
       case QEvent::MouseButtonDblClick:
-        if (OnMouseDoubleClick(static_cast<QMouseEvent *>(e))) {
+        if (OnMouseDoubleClick(dynamic_cast<QMouseEvent *>(e))) {
           return true;
         }
         break;
       case QEvent::ShortcutOverride:
       case QEvent::KeyPress:
-        if (OnKeyPress(static_cast<QKeyEvent *>(e))) {
+        if (OnKeyPress(dynamic_cast<QKeyEvent *>(e))) {
           return true;
         }
         break;
       case QEvent::KeyRelease:
-        if (OnKeyRelease(static_cast<QKeyEvent *>(e))) {
+        if (OnKeyRelease(dynamic_cast<QKeyEvent *>(e))) {
           return true;
         }
         break;
       case QEvent::DragEnter: {
-        auto drag_enter = static_cast<QDragEnterEvent *>(e);
+        auto drag_enter = dynamic_cast<QDragEnterEvent *>(e);
         if (text_edit_) {
           ForwardDragEventToTextEdit(drag_enter);
         } else {
@@ -286,7 +286,7 @@ bool ViewerDisplayWidget::eventFilter(QObject *o, QEvent *e) {
         break;
       }
       case QEvent::DragMove: {
-        auto drag_move = static_cast<QDragMoveEvent *>(e);
+        auto drag_move = dynamic_cast<QDragMoveEvent *>(e);
         if (text_edit_) {
           ForwardDragEventToTextEdit(drag_move);
         }
@@ -297,7 +297,7 @@ bool ViewerDisplayWidget::eventFilter(QObject *o, QEvent *e) {
         break;
       }
       case QEvent::DragLeave: {
-        auto drag_leave = static_cast<QDragLeaveEvent *>(e);
+        auto drag_leave = dynamic_cast<QDragLeaveEvent *>(e);
         if (text_edit_) {
           ForwardDragEventToTextEdit(drag_leave);
         } else {
@@ -310,7 +310,7 @@ bool ViewerDisplayWidget::eventFilter(QObject *o, QEvent *e) {
         break;
       }
       case QEvent::Drop: {
-        auto drop = static_cast<QDropEvent *>(e);
+        auto drop = dynamic_cast<QDropEvent *>(e);
         if (text_edit_) {
           ForwardDragEventToTextEdit(drop);
         } else {
@@ -1272,7 +1272,7 @@ void ViewerDisplayWidget::UpdateFromQueue() {
 }
 
 void ViewerDisplayWidget::TextEditChanged() {
-  ViewerTextEditor *editor = static_cast<ViewerTextEditor *>(sender());
+  ViewerTextEditor *editor = dynamic_cast<ViewerTextEditor *>(sender());
 
   TextGizmo *gizmo = reinterpret_cast<TextGizmo *>(editor->property("gizmo").value<quintptr>());
 

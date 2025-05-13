@@ -84,7 +84,7 @@ AudioVisualWaveform::Sample AudioWaveformCache::GetSummaryFromTime(const rationa
 rational AudioWaveformCache::length() const { return waveforms_->length(); }
 
 void AudioWaveformCache::SetPassthrough(PlaybackCache *cache) {
-  AudioWaveformCache *c = static_cast<AudioWaveformCache *>(cache);
+  AudioWaveformCache *c = dynamic_cast<AudioWaveformCache *>(cache);
 
   for (const TimeRange &r : c->GetValidatedRanges()) {
     WaveformPassthrough t = r;

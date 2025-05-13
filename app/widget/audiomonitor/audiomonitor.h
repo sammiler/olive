@@ -87,13 +87,13 @@ class AudioMonitor : public QOpenGLWidget {
 
   AudioParams params_;
 
-  qint64 last_time_;
+  qint64 last_time_{};
 
   const AudioWaveformCache *waveform_;
   rational waveform_time_;
   rational waveform_length_;
 
-  int playback_speed_;
+  int playback_speed_{};
 
   QVector<QVector<double> > values_;
   QVector<bool> peaked_;

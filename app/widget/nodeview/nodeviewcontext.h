@@ -68,9 +68,9 @@ class NodeViewContext : public QObject, public QGraphicsRectItem {
 
   NodeViewCommon::FlowDirection flow_dir_;
 
-  bool curved_edges_;
+  bool curved_edges_{};
 
-  int last_titlebar_height_;
+  int last_titlebar_height_{};
 
   QMap<Node *, NodeViewItem *> item_map_;
 

@@ -40,7 +40,7 @@ class TrackViewSplitterHandle : public QSplitterHandle {
   virtual void paintEvent(QPaintEvent *e) override;
 
  private:
-  int drag_y_;
+  int drag_y_{};
 
   bool dragging_;
 };

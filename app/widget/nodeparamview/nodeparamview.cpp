@@ -74,7 +74,7 @@ NodeParamView::NodeParamView(bool create_keyframe_view, QWidget *parent)
     connect(c, &NodeParamViewContext::AboutToDeleteItem, this, &NodeParamView::ItemAboutToBeRemoved,
             Qt::DirectConnection);
 
-    NodeParamViewItemTitleBar *title_bar = static_cast<NodeParamViewItemTitleBar *>(c->titleBarWidget());
+    NodeParamViewItemTitleBar *title_bar = dynamic_cast<NodeParamViewItemTitleBar *>(c->titleBarWidget());
 
     if (i == Track::kVideo || i == Track::kAudio) {
       c->SetEffectType(static_cast<Track::Type>(i));
@@ -257,7 +257,7 @@ void NodeParamView::UpdateContexts() {
 
     if (IsGroupMode()) {
       // Check inputs that have been passed through
-      NodeGroup *group = static_cast<NodeGroup *>(contexts_.first());
+      NodeGroup *group = dynamic_cast<NodeGroup *>(contexts_.first());
       for (auto it = group->GetInputPassthroughs().cbegin(); it != group->GetInputPassthroughs().cend(); it++) {
         GroupInputPassthroughAdded(group, it->second);
       }
@@ -293,17 +293,17 @@ void NodeParamView::ItemAboutToBeRemoved(NodeParamViewItem *item) {
   }
 }
 
-void NodeParamView::ItemClicked() { ToggleSelect(static_cast<NodeParamViewItem *>(sender())); }
+void NodeParamView::ItemClicked() { ToggleSelect(dynamic_cast<NodeParamViewItem *>(sender())); }
 
 void NodeParamView::SelectNodeFromConnectedLink(Node *node) {
-  NodeParamViewItem *item = static_cast<NodeParamViewItem *>(sender());
+  NodeParamViewItem *item = dynamic_cast<NodeParamViewItem *>(sender());
 
   Node::ContextPair p = {node, item->GetContext()};
   SetSelectedNodes({p});
 }
 
 void NodeParamView::RequestEditTextInViewer() {
-  NodeParamViewItem *item = static_cast<NodeParamViewItem *>(sender());
+  NodeParamViewItem *item = dynamic_cast<NodeParamViewItem *>(sender());
 
   SetSelectedNodes({item});
   emit RequestViewerToStartEditingText();
@@ -823,7 +823,7 @@ void NodeParamView::UpdateGlobalScrollBar() {
 }
 
 void NodeParamView::PinNode(bool pin) {
-  NodeParamViewItem *item = static_cast<NodeParamViewItem *>(sender());
+  NodeParamViewItem *item = dynamic_cast<NodeParamViewItem *>(sender());
   Node *node = item->GetNode();
 
   if (pin) {
@@ -905,7 +905,7 @@ void NodeParamView::UpdateElementY() {
 }
 
 void NodeParamView::NodeAddedToContext(Node *n) {
-  Node *ctx = static_cast<Node *>(sender());
+  Node *ctx = dynamic_cast<Node *>(sender());
   NodeParamViewContext *item = GetContextItemFromContext(ctx);
 
   AddNode(n, ctx, item);
@@ -918,7 +918,7 @@ void NodeParamView::NodeAddedToContext(Node *n) {
 }
 
 void NodeParamView::NodeRemovedFromContext(Node *n) {
-  Node *ctx = static_cast<Node *>(sender());
+  Node *ctx = dynamic_cast<Node *>(sender());
 
   foreach (NodeParamViewContext *ctx_item, context_items_) {
     ctx_item->RemoveNode(n, ctx);
@@ -930,7 +930,7 @@ void NodeParamView::NodeRemovedFromContext(Node *n) {
 }
 
 void NodeParamView::InputCheckBoxChanged(const NodeInput &input, bool e) {
-  NodeGroup *group = static_cast<NodeGroup *>(contexts_.first());
+  NodeGroup *group = dynamic_cast<NodeGroup *>(contexts_.first());
 
   if (e) {
     group->AddInputPassthrough(input);
@@ -952,7 +952,7 @@ void NodeParamView::GroupInputPassthroughRemoved(NodeGroup *group, const NodeInp
 }
 
 void NodeParamView::InputArraySizeChanged(const QString &input, int, int new_size) {
-  NodeParamViewItem *sender = static_cast<NodeParamViewItem *>(this->sender());
+  NodeParamViewItem *sender = dynamic_cast<NodeParamViewItem *>(this->sender());
 
   KeyframeView::NodeConnections &connections = sender->GetKeyframeConnections();
   KeyframeView::InputConnections &inputs = connections[input];

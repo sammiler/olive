@@ -45,7 +45,7 @@ class TimelineViewGhostItem {
   };
 
   struct AttachedFootage {
-    ViewerOutput* footage;
+    ViewerOutput* footage{};
     QString output;
   };
 
@@ -58,7 +58,7 @@ class TimelineViewGhostItem {
     ghost->SetIn(block->in());
     ghost->SetOut(block->out());
     if (dynamic_cast<ClipBlock*>(block)) {
-      ghost->SetMediaIn(static_cast<ClipBlock*>(block)->media_in());
+      ghost->SetMediaIn(dynamic_cast<ClipBlock*>(block)->media_in());
     }
     ghost->SetTrack(block->track()->ToReference());
     ghost->SetData(kAttachedBlock, QtUtils::PtrToValue(block));

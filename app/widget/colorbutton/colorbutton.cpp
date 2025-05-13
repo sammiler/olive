@@ -58,7 +58,7 @@ void ColorButton::ShowColorDialog() {
 }
 
 void ColorButton::ColorDialogFinished(int e) {
-  ColorDialog *cd = static_cast<ColorDialog *>(sender());
+  ColorDialog *cd = dynamic_cast<ColorDialog *>(sender());
 
   if (e == QDialog::Accepted) {
     color_ = cd->GetSelectedColor();

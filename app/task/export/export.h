@@ -65,7 +65,7 @@ class ExportTask : public RenderTask {
 
   ColorProcessorPtr color_processor_;
 
-  int64_t frame_time_;
+  int64_t frame_time_{};
 
   rational audio_time_;
 

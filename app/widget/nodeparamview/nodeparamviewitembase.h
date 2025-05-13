@@ -78,7 +78,7 @@ class NodeParamViewItemBase : public QDockWidget {
  private:
   NodeParamViewItemTitleBar *title_bar_;
 
-  QWidget *body_;
+  QWidget *body_{};
 
   QWidget *hidden_body_;
 

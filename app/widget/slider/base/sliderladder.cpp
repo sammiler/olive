@@ -95,7 +95,7 @@ SliderLadder::SliderLadder(double drag_multiplier, int nb_outer_values, QString 
     drag_start_x_ = QCursor::pos().x();
     drag_start_y_ = QCursor::pos().y();
 
-    static_cast<QGuiApplication *>(QApplication::instance())->setOverrideCursor(Qt::BlankCursor);
+    dynamic_cast<QGuiApplication *>(QApplication::instance())->setOverrideCursor(Qt::BlankCursor);
 #endif
   }
 }
@@ -111,7 +111,7 @@ SliderLadder::~SliderLadder() {
     CGAssociateMouseAndMouseCursorPosition(true);
     CGDisplayShowCursor(kCGDirectMainDisplay);
 #else
-    static_cast<QGuiApplication *>(QApplication::instance())->restoreOverrideCursor();
+    dynamic_cast<QGuiApplication *>(QApplication::instance())->restoreOverrideCursor();
 #endif
   }
 }

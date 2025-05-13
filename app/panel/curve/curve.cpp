@@ -30,23 +30,23 @@ CurvePanel::CurvePanel() : TimeBasedPanel(QStringLiteral("CurvePanel")) {
   Retranslate();
 }
 
-void CurvePanel::DeleteSelected() { static_cast<CurveWidget*>(GetTimeBasedWidget())->DeleteSelected(); }
+void CurvePanel::DeleteSelected() { dynamic_cast<CurveWidget*>(GetTimeBasedWidget())->DeleteSelected(); }
 
-void CurvePanel::SelectAll() { static_cast<CurveWidget*>(GetTimeBasedWidget())->SelectAll(); }
+void CurvePanel::SelectAll() { dynamic_cast<CurveWidget*>(GetTimeBasedWidget())->SelectAll(); }
 
-void CurvePanel::DeselectAll() { static_cast<CurveWidget*>(GetTimeBasedWidget())->DeselectAll(); }
+void CurvePanel::DeselectAll() { dynamic_cast<CurveWidget*>(GetTimeBasedWidget())->DeselectAll(); }
 
 void CurvePanel::SetNodes(const QVector<Node*>& nodes) {
-  static_cast<CurveWidget*>(GetTimeBasedWidget())->SetNodes(nodes);
+  dynamic_cast<CurveWidget*>(GetTimeBasedWidget())->SetNodes(nodes);
 }
 
 void CurvePanel::IncreaseTrackHeight() {
-  CurveWidget* c = static_cast<CurveWidget*>(GetTimeBasedWidget());
+  CurveWidget* c = dynamic_cast<CurveWidget*>(GetTimeBasedWidget());
   c->SetVerticalScale(c->GetVerticalScale() * 2);
 }
 
 void CurvePanel::DecreaseTrackHeight() {
-  CurveWidget* c = static_cast<CurveWidget*>(GetTimeBasedWidget());
+  CurveWidget* c = dynamic_cast<CurveWidget*>(GetTimeBasedWidget());
   c->SetVerticalScale(c->GetVerticalScale() * 0.5);
 }
 

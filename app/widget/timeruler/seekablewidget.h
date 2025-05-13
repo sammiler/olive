@@ -127,7 +127,7 @@ class SeekableWidget : public TimeBasedView {
   ResizeMode resize_mode_;
   TimeRange resize_item_range_;
   QPointF resize_start_;
-  uint32_t resize_snap_mask_;
+  uint32_t resize_snap_mask_{};
 
   int marker_top_;
   int marker_bottom_;

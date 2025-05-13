@@ -361,7 +361,7 @@ void ExportDialog::StartExport() {
 }
 
 void ExportDialog::ExportFinished() {
-  TaskDialog *td = static_cast<TaskDialog *>(sender());
+  TaskDialog *td = dynamic_cast<TaskDialog *>(sender());
 
   if (td->GetTask()->IsCancelled()) {
     // If this task was cancelled, we stay open so the user can potentially queue another export
@@ -411,7 +411,7 @@ void ExportDialog::PresetComboBoxChanged() {
     return;
   }
 
-  QComboBox *c = static_cast<QComboBox *>(sender());
+  QComboBox *c = dynamic_cast<QComboBox *>(sender());
 
   int preset_number = c->currentData().toInt();
   if (preset_number == kPresetDefault) {

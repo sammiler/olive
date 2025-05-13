@@ -194,7 +194,7 @@ void SequenceDialogPresetTab::SelectedItemChanged(QTreeWidgetItem* current, QTre
                                 ? GetPreset(preset_index)
                                 : default_preset_data_.at(preset_index);
 
-    emit PresetChanged(*static_cast<SequencePreset*>(preset_data.get()));
+    emit PresetChanged(*dynamic_cast<SequencePreset*>(preset_data.get()));
   }
 }
 

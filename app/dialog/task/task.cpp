@@ -79,7 +79,7 @@ void TaskDialog::closeEvent(QCloseEvent* e) {
 }
 
 void TaskDialog::TaskFinished() {
-  QFutureWatcher<bool>* task_watcher = static_cast<QFutureWatcher<bool>*>(sender());
+  QFutureWatcher<bool>* task_watcher = dynamic_cast<QFutureWatcher<bool>*>(sender());
 
   if (task_watcher->result()) {
     emit TaskSucceeded(task_);

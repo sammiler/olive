@@ -48,7 +48,7 @@ class ScrollingLabel : public QWidget {
 
   QStringList text_;
 
-  int text_height_;
+  int text_height_{};
 
   QTimer timer_;
 

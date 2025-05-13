@@ -37,10 +37,10 @@ class RenderProcessor : public NodeTraverser {
                       ShaderCache *shader_cache);
 
   struct RenderedWaveform {
-    const ClipBlock *block;
+    const ClipBlock *block{};
     AudioVisualWaveform waveform;
     TimeRange range;
-    bool silence;
+    bool silence{};
   };
 
  protected:

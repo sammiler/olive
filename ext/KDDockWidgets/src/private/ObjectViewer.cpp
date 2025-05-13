@@ -281,7 +281,7 @@ void ObjectViewer::contextMenuEvent(QContextMenuEvent *ev)
 
 bool ObjectViewer::eventFilter(QObject *watched, QEvent *event)
 {
-    auto widget = static_cast<QWidget *>(watched);
+    auto widget = dynamic_cast<QWidget *>(watched);
     if (event->type() == QEvent::Show || event->type() == QEvent::Hide) {
         updateItemAppearence(m_itemMap.value(watched));
         return false;

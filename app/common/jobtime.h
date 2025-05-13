@@ -27,7 +27,7 @@ class JobTime {
   bool operator>=(const JobTime &rhs) const { return value_ >= rhs.value_; }
 
  private:
-  uint64_t value_;
+  uint64_t value_{};
 };
 
 }  // namespace olive

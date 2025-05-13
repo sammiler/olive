@@ -126,7 +126,7 @@ class PlaybackCache : public QObject {
   TimeRangeList validated_;
 
   TimeRangeList requested_;
-  ViewerOutput *request_context_;
+  ViewerOutput *request_context_{};
 
   QUuid uuid_;
 

@@ -382,7 +382,7 @@ void NodeParamViewItemBody::InputArraySizeChangedInternal(Node* node, const QStr
   ArrayUI& array_ui = array_ui_[nip];
 
   if (size != array_ui.count) {
-    QGridLayout* grid = static_cast<QGridLayout*>(array_ui.widget->layout());
+    QGridLayout* grid = dynamic_cast<QGridLayout*>(array_ui.widget->layout());
 
     if (array_ui.count < size) {
       // Our UI count is smaller than the size, create more
@@ -414,7 +414,7 @@ void NodeParamViewItemBody::InputArraySizeChangedInternal(Node* node, const QStr
 }
 
 void NodeParamViewItemBody::ArrayCollapseBtnPressed(bool checked) {
-  const NodeInputPair& input = array_collapse_buttons_.key(static_cast<CollapseButton*>(sender()));
+  const NodeInputPair& input = array_collapse_buttons_.key(dynamic_cast<CollapseButton*>(sender()));
 
   array_ui_.value(input).widget->setVisible(checked);
   if (checked) {
@@ -429,7 +429,7 @@ void NodeParamViewItemBody::ArrayCollapseBtnPressed(bool checked) {
 void NodeParamViewItemBody::InputArraySizeChanged(const QString& input, int old_sz, int size) {
   Q_UNUSED(old_sz)
 
-  NodeInputPair nip = input_group_lookup_.value({static_cast<Node*>(sender()), input});
+  NodeInputPair nip = input_group_lookup_.value({dynamic_cast<Node*>(sender()), input});
 
   InputArraySizeChangedInternal(nip.node, nip.input, size);
 }
@@ -473,7 +473,7 @@ void NodeParamViewItemBody::ArrayRemoveClicked() {
 }
 
 void NodeParamViewItemBody::ToggleArrayExpanded() {
-  NodeParamViewWidgetBridge* bridge = static_cast<NodeParamViewWidgetBridge*>(sender());
+  NodeParamViewWidgetBridge* bridge = dynamic_cast<NodeParamViewWidgetBridge*>(sender());
 
   for (auto it = input_ui_map_.cbegin(); it != input_ui_map_.cend(); it++) {
     if (it.value().widget_bridge == bridge) {
@@ -512,12 +512,12 @@ void NodeParamViewItemBody::ReplaceWidgets(const NodeInput& input) {
 
 void NodeParamViewItemBody::ShowSpeedDurationDialogForNode() {
   // We should only get there if the node is a clip, determined by the dynamic_cast in CreateWidgets
-  SpeedDurationDialog sdd({static_cast<ClipBlock*>(node_)}, timebase_, this);
+  SpeedDurationDialog sdd({dynamic_cast<ClipBlock*>(node_)}, timebase_, this);
   sdd.exec();
 }
 
 void NodeParamViewItemBody::OptionalCheckBoxClicked(bool e) {
-  QCheckBox* cb = static_cast<QCheckBox*>(sender());
+  QCheckBox* cb = dynamic_cast<QCheckBox*>(sender());
 
   for (auto it = input_ui_map_.cbegin(); it != input_ui_map_.cend(); it++) {
     if (it.value().optional_checkbox == cb) {

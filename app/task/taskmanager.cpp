@@ -99,7 +99,7 @@ void TaskManager::CancelTask(Task* t) {
 }
 
 void TaskManager::TaskFinished() {
-  QFutureWatcher<bool>* watcher = static_cast<QFutureWatcher<bool>*>(sender());
+  QFutureWatcher<bool>* watcher = dynamic_cast<QFutureWatcher<bool>*>(sender());
   Task* t = tasks_.value(watcher);
 
   tasks_.remove(watcher);

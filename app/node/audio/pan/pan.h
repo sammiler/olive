@@ -48,8 +48,8 @@ class PanNode : public Node {
   static const QString kPanningInput;
 
  private:
-  NodeInput *samples_input_;
-  NodeInput *panning_input_;
+  NodeInput *samples_input_{};
+  NodeInput *panning_input_{};
 };
 
 }  // namespace olive

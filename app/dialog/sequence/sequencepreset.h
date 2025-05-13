@@ -115,16 +115,16 @@ class SequencePreset : public Preset {
   bool preview_autocache() const { return preview_autocache_; }
 
  private:
-  int width_;
-  int height_;
+  int width_{};
+  int height_{};
   rational frame_rate_;
   rational pixel_aspect_;
   VideoParams::Interlacing interlacing_;
-  int sample_rate_;
-  uint64_t channel_layout_;
-  int preview_divider_;
+  int sample_rate_{};
+  uint64_t channel_layout_{};
+  int preview_divider_{};
   PixelFormat preview_format_;
-  bool preview_autocache_;
+  bool preview_autocache_{};
 };
 
 }  // namespace olive

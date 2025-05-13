@@ -77,7 +77,7 @@ class ExportVideoTab : public QWidget {
 
   void SetOCIOColorSpace(const QString& s) { color_space_chooser_->set_input(s); }
 
-  CodecSection* GetCodecSection() const { return static_cast<CodecSection*>(codec_stack_->currentWidget()); }
+  CodecSection* GetCodecSection() const { return dynamic_cast<CodecSection*>(codec_stack_->currentWidget()); }
 
   void SetCodecSection(CodecSection* section) {
     if (section) {
@@ -121,28 +121,28 @@ class ExportVideoTab : public QWidget {
   QWidget* SetupColorSection();
   QWidget* SetupCodecSection();
 
-  QComboBox* codec_combobox_;
-  FrameRateComboBox* frame_rate_combobox_;
-  QCheckBox* maintain_aspect_checkbox_;
-  QComboBox* scaling_method_combobox_;
+  QComboBox* codec_combobox_{};
+  FrameRateComboBox* frame_rate_combobox_{};
+  QCheckBox* maintain_aspect_checkbox_{};
+  QComboBox* scaling_method_combobox_{};
 
-  CodecStack* codec_stack_;
-  ImageSection* image_section_;
-  H264Section* h264_section_;
-  H264Section* h265_section_;
-  AV1Section* av1_section_;
-  CineformSection* cineform_section_;
+  CodecStack* codec_stack_{};
+  ImageSection* image_section_{};
+  H264Section* h264_section_{};
+  H264Section* h265_section_{};
+  AV1Section* av1_section_{};
+  CineformSection* cineform_section_{};
 
-  ColorSpaceChooser* color_space_chooser_;
+  ColorSpaceChooser* color_space_chooser_{};
 
-  IntegerSlider* width_slider_;
-  IntegerSlider* height_slider_;
+  IntegerSlider* width_slider_{};
+  IntegerSlider* height_slider_{};
 
   ColorManager* color_manager_;
 
-  InterlacedComboBox* interlaced_combobox_;
-  PixelAspectRatioComboBox* pixel_aspect_combobox_;
-  PixelFormatComboBox* pixel_format_field_;
+  InterlacedComboBox* interlaced_combobox_{};
+  PixelAspectRatioComboBox* pixel_aspect_combobox_{};
+  PixelFormatComboBox* pixel_format_field_{};
 
   int threads_;
 

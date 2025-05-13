@@ -75,7 +75,7 @@ void TrackList::TrackConnected(Node *node, int element) {
 
   connect(track, &Track::TrackLengthChanged, this, &TrackList::UpdateTotalLength);
   connect(track, &Track::TrackHeightChanged, this, [this]() {
-    Track *t = static_cast<Track *>(sender());
+    Track *t = dynamic_cast<Track *>(sender());
     emit TrackHeightChanged(t, t->GetTrackHeightInPixels());
   });
 
@@ -139,7 +139,7 @@ const QString &TrackList::track_input() const { return track_input_; }
 
 NodeInput TrackList::track_input(int element) const { return NodeInput(parent(), track_input(), element); }
 
-Sequence *TrackList::parent() const { return static_cast<Sequence *>(QObject::parent()); }
+Sequence *TrackList::parent() const { return dynamic_cast<Sequence *>(QObject::parent()); }
 
 int TrackList::ArraySize() const { return parent()->InputArraySize(track_input()); }
 

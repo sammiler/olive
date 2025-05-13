@@ -239,7 +239,7 @@ void ProjectExplorer::UpdateNavBarText() {
 }
 
 QAbstractItemView* ProjectExplorer::CurrentView() const {
-  return static_cast<QAbstractItemView*>(stacked_widget_->currentWidget());
+  return dynamic_cast<QAbstractItemView*>(stacked_widget_->currentWidget());
 }
 
 void ProjectExplorer::ViewEmptyAreaDoubleClickedSlot() { emit DoubleClickedItem(nullptr); }
@@ -401,20 +401,20 @@ void ProjectExplorer::ShowItemPropertiesDialog() {
 
   // FIXME: Support for multiple items
   if (dynamic_cast<Footage*>(sel)) {
-    FootagePropertiesDialog fpd(this, static_cast<Footage*>(sel));
+    FootagePropertiesDialog fpd(this, dynamic_cast<Footage*>(sel));
     fpd.exec();
 
   } else if (dynamic_cast<Folder*>(sel)) {
     Core::instance()->LabelNodes(context_menu_items_);
 
   } else if (dynamic_cast<Sequence*>(sel)) {
-    SequenceDialog sd(static_cast<Sequence*>(sel), SequenceDialog::kExisting, this);
+    SequenceDialog sd(dynamic_cast<Sequence*>(sel), SequenceDialog::kExisting, this);
     sd.exec();
   }
 }
 
 void ProjectExplorer::RevealSelectedFootage() {
-  Footage* footage = static_cast<Footage*>(context_menu_items_.first());
+  Footage* footage = dynamic_cast<Footage*>(context_menu_items_.first());
 
 #if defined(Q_OS_WINDOWS)
   // Explorer
@@ -438,7 +438,7 @@ void ProjectExplorer::RevealSelectedFootage() {
 }
 
 void ProjectExplorer::ReplaceSelectedFootage() {
-  Footage* footage = static_cast<Footage*>(context_menu_items_.first());
+  Footage* footage = dynamic_cast<Footage*>(context_menu_items_.first());
 
   QString file = QFileDialog::getOpenFileName(this, tr("Replace Footage"));
   if (!file.isEmpty()) {
@@ -458,11 +458,11 @@ void ProjectExplorer::ReplaceSelectedFootage() {
 }
 
 void ProjectExplorer::OpenContextMenuItemInNewTab() {
-  Core::instance()->main_window()->OpenFolder(static_cast<Folder*>(context_menu_items_.first()), false);
+  Core::instance()->main_window()->OpenFolder(dynamic_cast<Folder*>(context_menu_items_.first()), false);
 }
 
 void ProjectExplorer::OpenContextMenuItemInNewWindow() {
-  Core::instance()->main_window()->OpenFolder(static_cast<Folder*>(context_menu_items_.first()), true);
+  Core::instance()->main_window()->OpenFolder(dynamic_cast<Folder*>(context_menu_items_.first()), true);
 }
 
 void ProjectExplorer::ContextMenuStartProxy(QAction* a) {
@@ -470,7 +470,7 @@ void ProjectExplorer::ContextMenuStartProxy(QAction* a) {
 
   // To get here, the `context_menu_items_` must be all kFootage
   foreach (Node* item, context_menu_items_) {
-    Footage* f = static_cast<Footage*>(item);
+    Footage* f = dynamic_cast<Footage*>(item);
 
     int sz = f->InputArraySize(Footage::kVideoParamsInput);
 
@@ -487,7 +487,7 @@ void ProjectExplorer::ContextMenuStartProxy(QAction* a) {
 }
 
 void ProjectExplorer::ViewSelectionChanged() {
-  QItemSelectionModel* model = static_cast<QItemSelectionModel*>(sender());
+  QItemSelectionModel* model = dynamic_cast<QItemSelectionModel*>(sender());
 
   QModelIndexList selection = model->selectedIndexes();
 
@@ -573,7 +573,7 @@ Folder* ProjectExplorer::GetSelectedFolder() const {
 
     if (folder == nullptr) {
       // If the folder is nullptr, cache it as this folder
-      folder = static_cast<Folder*>(sel_item);
+      folder = dynamic_cast<Folder*>(sel_item);
     } else if (folder != sel_item) {
       // If not, we've already cached a folder so we check if it's the same
       // If it isn't, we "play it safe" and use the root folder

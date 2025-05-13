@@ -122,7 +122,7 @@ void ProgressDialog::ShowErrorMessage(const QString& title, const QString& messa
   b.exec();
 }
 
-void ProgressDialog::DisableSenderWidget() { static_cast<QWidget*>(sender())->setEnabled(false); }
+void ProgressDialog::DisableSenderWidget() { dynamic_cast<QWidget*>(sender())->setEnabled(false); }
 
 void ProgressDialog::DisableProgressWidgets() { show_progress_ = false; }
 

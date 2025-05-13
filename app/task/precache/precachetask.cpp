@@ -42,7 +42,7 @@ PreCacheTask::PreCacheTask(Footage *footage, int index, Sequence *sequence) {
   Project::CopySettings(footage->project(), project_);
 
   // Copy footage node so it can precache without any modifications from the user screwing it up
-  footage_ = static_cast<Footage *>(footage->copy());
+  footage_ = dynamic_cast<Footage *>(footage->copy());
   footage_->setParent(project_);
   Node::CopyInputs(footage, footage_, false);
 

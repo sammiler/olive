@@ -40,7 +40,7 @@ class FootageViewerPanel : public ViewerPanelBase, public FootageManagementPanel
   void OverrideWorkArea(const TimeRange &r);
 
   FootageViewerWidget *GetFootageViewerWidget() const {
-    return static_cast<FootageViewerWidget *>(GetTimeBasedWidget());
+    return dynamic_cast<FootageViewerWidget *>(GetTimeBasedWidget());
   }
 
   virtual QVector<ViewerOutput *> GetSelectedFootage() const override;

@@ -314,7 +314,7 @@ void NodeView::Duplicate() {
       }
 
       if (NodeGroup *src_group = dynamic_cast<NodeGroup *>(og)) {
-        NodeGroup *dst_group = static_cast<NodeGroup *>(copy);
+        NodeGroup *dst_group = dynamic_cast<NodeGroup *>(copy);
 
         for (auto it = src_group->GetInputPassthroughs().cbegin(); it != src_group->GetInputPassthroughs().cend();
              it++) {
@@ -442,7 +442,7 @@ void NodeView::mousePressEvent(QMouseEvent *event) {
     if (!create_edge_output_item_ && !create_edge_input_item_) {
       // Determine if user clicked on a connector
       if (NodeViewItemConnector *connector = dynamic_cast<NodeViewItemConnector *>(item)) {
-        NodeViewItem *attached = static_cast<NodeViewItem *>(connector->parentItem());
+        NodeViewItem *attached = dynamic_cast<NodeViewItem *>(connector->parentItem());
 
         if (connector->IsOutput()) {
           create_edge_output_item_ = attached;
@@ -895,7 +895,7 @@ void NodeView::UpdateViewportOnMiniMap() {
 void NodeView::MoveToScenePoint(const QPointF &pos) { centerOn(pos); }
 
 void NodeView::NodeRemovedFromGraph() {
-  Node *context = static_cast<Node *>(sender());
+  Node *context = dynamic_cast<Node *>(sender());
 
   RemoveContext(context);
 
@@ -1130,7 +1130,7 @@ void NodeView::ZoomIntoCursorPosition(QWheelEvent *event, double multiplier, con
 
 bool NodeView::event(QEvent *event) {
   if (event->type() == QEvent::ShortcutOverride) {
-    QKeyEvent *se = static_cast<QKeyEvent *>(event);
+    QKeyEvent *se = dynamic_cast<QKeyEvent *>(event);
     if (se->key() == Qt::Key_Left || se->key() == Qt::Key_Right || se->key() == Qt::Key_Up ||
         se->key() == Qt::Key_Down) {
       se->accept();

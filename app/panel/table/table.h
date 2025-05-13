@@ -33,11 +33,11 @@ class NodeTablePanel : public TimeBasedPanel {
 
  public slots:
   void SelectNodes(const QVector<Node*>& nodes) {
-    static_cast<NodeTableWidget*>(GetTimeBasedWidget())->SelectNodes(nodes);
+    dynamic_cast<NodeTableWidget*>(GetTimeBasedWidget())->SelectNodes(nodes);
   }
 
   void DeselectNodes(const QVector<Node*>& nodes) {
-    static_cast<NodeTableWidget*>(GetTimeBasedWidget())->DeselectNodes(nodes);
+    dynamic_cast<NodeTableWidget*>(GetTimeBasedWidget())->DeselectNodes(nodes);
   }
 
  private:

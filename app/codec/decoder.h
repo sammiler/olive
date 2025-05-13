@@ -20,6 +20,7 @@
 
 #ifndef DECODER_H
 #define DECODER_H
+#include <atomic>
 
 extern "C" {
 #include <libswresample/swresample.h>
@@ -268,7 +269,7 @@ class Decoder : public QObject {
 
   TexturePtr cached_texture_;
   rational cached_time_;
-  int cached_divider_;
+  int cached_divider_{};
 };
 
 uint qHash(Decoder::CodecStream stream, uint seed = 0);

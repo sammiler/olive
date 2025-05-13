@@ -146,18 +146,18 @@ class FFmpegDecoder : public Decoder {
   static int MaximumQueueSize();
 
   SwsContext* sws_ctx_;
-  int sws_src_width_;
-  int sws_src_height_;
+  int sws_src_width_{};
+  int sws_src_height_{};
   AVPixelFormat sws_src_format_;
-  int sws_dst_width_;
-  int sws_dst_height_;
+  int sws_dst_width_{};
+  int sws_dst_height_{};
   AVPixelFormat sws_dst_format_;
   AVColorRange sws_colrange_;
   AVColorSpace sws_colspace_;
 
   AVPacket* working_packet_;
 
-  int64_t second_ts_;
+  int64_t second_ts_{};
 
   std::list<AVFramePtr> cached_frames_;
 

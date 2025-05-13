@@ -144,7 +144,7 @@ class PreviewAutoCacher : public QObject {
   QVector<RenderTicketWatcher *> running_video_tasks_;
   QVector<RenderTicketWatcher *> running_audio_tasks_;
 
-  ColorManager *copied_color_manager_;
+  ColorManager *copied_color_manager_{};
 
   struct VideoJob {
     Node *node;

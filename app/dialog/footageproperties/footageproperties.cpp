@@ -135,7 +135,7 @@ FootagePropertiesDialog::FootagePropertiesDialog(QWidget *parent, Footage *foota
 void FootagePropertiesDialog::accept() {
   // Perform sanity check on all pages
   for (int i = 0; i < stacked_widget_->count(); i++) {
-    if (!static_cast<StreamProperties *>(stacked_widget_->widget(i))->SanityCheck()) {
+    if (!dynamic_cast<StreamProperties *>(stacked_widget_->widget(i))->SanityCheck()) {
       // Switch to the failed panel in question
       stacked_widget_->setCurrentIndex(i);
 
@@ -179,7 +179,7 @@ void FootagePropertiesDialog::accept() {
   }
 
   for (int i = 0; i < stacked_widget_->count(); i++) {
-    static_cast<StreamProperties *>(stacked_widget_->widget(i))->Accept(command);
+    dynamic_cast<StreamProperties *>(stacked_widget_->widget(i))->Accept(command);
   }
 
   Core::instance()->undo_stack()->push(command, tr("Set Footage \"%1\" Properties").arg(footage_->GetLabel()));
