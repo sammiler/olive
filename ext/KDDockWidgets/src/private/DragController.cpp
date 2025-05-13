@@ -973,7 +973,7 @@ WidgetType *DragController::qtTopLevelUnderCursor() const
             return tl;
 
         return qtTopLevelUnderCursor_impl<WidgetType *>(globalPos,
-                                                        DockRegistry::self()->topLevels(/*excludeFloating=*/true),
+                                                        DockRegistry::self()->topLevels(/*excludeFloatingDocks=*/true),
                                                         tlwBeingDragged);
     }
 

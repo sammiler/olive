@@ -81,7 +81,7 @@ void NodeViewItemConnector::SetFlowDirection(NodeViewCommon::FlowDirection dir) 
 QPainterPath NodeViewItemConnector::shape() const {
   // Yes, we skip QGraphicsPolygonItem because it adds the polygon. QGraphicsItem adds the
   // boundingRect which we modify below
-  return QGraphicsItem::shape();  // clazy:exclude=skipped-base-method
+  return QGraphicsPolygonItem::shape();  // clazy:exclude=skipped-base-method
 }
 
 QRectF NodeViewItemConnector::boundingRect() const {

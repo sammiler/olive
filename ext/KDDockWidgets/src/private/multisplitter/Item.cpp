@@ -788,7 +788,7 @@ void Item::turnIntoPlaceholder()
     // Turning into placeholder just means hiding it. So we can show it again in its original position.
     // Call removeItem() so we share the code for making the neighbours grow into the space that becomes available
     // after hiding this one
-    parentContainer()->removeItem(this, /*hardDelete=*/false);
+    parentContainer()->removeItem(this, /*hardRemove=*/false);
 }
 
 void Item::updateObjectName()
@@ -1258,10 +1258,10 @@ void ItemBoxContainer::removeItem(Item *item, bool hardRemove)
     if (isEmpty()) {
         // Empty container is useless, delete it
         if (auto p = parentContainer())
-            p->removeItem(this, /*hardDelete=*/true);
+            p->removeItem(this, /*hardRemove=*/true);
     } else if (!hasVisibleChildren()) {
         if (auto p = parentContainer()) {
-            p->removeItem(this, /*hardDelete=*/false);
+            p->removeItem(this, /*hardRemove=*/false);
             setGeometry(QRect());
         }
     } else {

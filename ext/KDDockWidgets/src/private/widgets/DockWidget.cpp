@@ -63,7 +63,7 @@ bool DockWidget::event(QEvent *e)
         onHidden(e->spontaneous());
     }
 
-    return QWidget::event(e);
+    return KDDockWidgets::QWidgetAdapter::event(e);
 }
 
 void DockWidget::closeEvent(QCloseEvent *e)

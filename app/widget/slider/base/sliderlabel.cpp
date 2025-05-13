@@ -86,7 +86,7 @@ void SliderLabel::mouseReleaseEvent(QMouseEvent *e) {
 }
 
 void SliderLabel::focusInEvent(QFocusEvent *event) {
-  QWidget::focusInEvent(event);
+  QLabel::focusInEvent(event);
 
   if (event->reason() == Qt::TabFocusReason) {
     emit focused();
@@ -94,7 +94,7 @@ void SliderLabel::focusInEvent(QFocusEvent *event) {
 }
 
 void SliderLabel::changeEvent(QEvent *event) {
-  QWidget::changeEvent(event);
+  QLabel::changeEvent(event);
 
   if (override_color_enabled_ && event->type() == QEvent::StyleChange) {
     SetColor(override_color_);

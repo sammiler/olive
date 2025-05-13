@@ -440,7 +440,7 @@ void MainWindow::closeEvent(QCloseEvent *e) {
 
   SaveCustomShortcuts();
 
-  QMainWindow::closeEvent(e);
+  KDDockWidgets::MainWindow::closeEvent(e);
 }
 
 #ifdef Q_OS_WINDOWS
