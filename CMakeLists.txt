@@ -16,7 +16,7 @@
 
 cmake_minimum_required(VERSION 3.13 FATAL_ERROR)
 
-project(olive-editor VERSION 0.2.0 LANGUAGES CXX)
+project(olive-editor VERSION 0.2.0 LANGUAGES CXX C)
 option(BUILD_QT6 "Build with Qt 6 over 5 (experimental)" OFF)
 option(BUILD_DOXYGEN "Build Doxygen documentation" OFF)
 option(BUILD_TESTS "Build unit tests" ON)
@@ -32,6 +32,50 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 #set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
+
+set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE) # 这个设置保留，对 RPATH有好处
+
+# -----------------------------------------------------------------------------
+# 将你寻找和设置 clang-tidy 的代码块（包括 find_package(LLVM...) 和
+# set(CMAKE_CXX_CLANG_TIDY ...) 等）主要逻辑移动到这里
+# -----------------------------------------------------------------------------
+set(MY_CLANG_TIDY_EXE "")
+
+find_package(LLVM  QUIET CONFIG COMPONENTS clang-tidy) # 使用一个合适的 LLVM 版本
+
+if(LLVM_FOUND)
+    message(STATUS "LLVM package found. Trying to get its clang-tidy executable.")
+    if(DEFINED LLVM_ClangTidy_EXECUTABLE AND EXISTS "${LLVM_ClangTidy_EXECUTABLE}")
+        set(MY_CLANG_TIDY_EXE "${LLVM_ClangTidy_EXECUTABLE}")
+    elseif(TARGET LLVM::clang-tidy)
+        get_target_property(MY_CLANG_TIDY_EXE LLVM::clang-tidy LOCATION)
+    elseif(DEFINED LLVM_TOOLS_BINARY_DIR AND EXISTS "${LLVM_TOOLS_BINARY_DIR}/clang-tidy")
+        set(MY_CLANG_TIDY_EXE "${LLVM_TOOLS_BINARY_DIR}/clang-tidy")
+    else()
+        message(WARNING "LLVM package found, but specific clang-tidy path not determined. Trying general find_program.")
+        find_program(MY_CLANG_TIDY_EXE_FALLBACK clang-tidy) # 如果 vcpkg toolchain 生效，这里也可能找到
+        set(MY_CLANG_TIDY_EXE "${MY_CLANG_TIDY_EXE_FALLBACK}")
+    endif()
+else()
+    message(WARNING "LLVM package (for clang-tidy) not found. Trying general find_program for clang-tidy.")
+    find_program(MY_CLANG_TIDY_EXE clang-tidy)
+endif()
+
+if(MY_CLANG_TIDY_EXE AND EXISTS "${MY_CLANG_TIDY_EXE}")
+    message(STATUS "Using clang-tidy: ${MY_CLANG_TIDY_EXE}")
+    set(OLIVE_CLANG_TIDY_COMMAND "${MY_CLANG_TIDY_EXE}" "--fix")
+    # 如果需要，可以在这里 list(APPEND OLIVE_CLANG_TIDY_COMMAND "-header-filter=...")
+    # 但更推荐在 .clang-tidy 文件中设置 HeaderFilterRegex
+
+    set(CMAKE_CXX_CLANG_TIDY ${OLIVE_CLANG_TIDY_COMMAND})
+    if(CMAKE_C_COMPILER_LOADED)
+        set(CMAKE_C_CLANG_TIDY ${OLIVE_CLANG_TIDY_COMMAND})
+    endif()
+    message(STATUS "clang-tidy with --fix enabled. Will use .clang-tidy file from project root for checks.")
+else()
+    message(WARNING "clang-tidy executable not found. Clang-tidy integration will be skipped.")
+endif()
+# --- clang-tidy 设置结束 --
 
 # Generates a compile_commands.json in the build dir, link that to the repo
 # root to enrich your IDE with clangd language server protocol functionalities
@@ -356,78 +400,4 @@ if(ENABLE_CLANG_FORMAT)
     endif()
 endif()
 
-option(ENABLE_CLANG_TIDY "Enable clang-tidy checks and automatic fixes" OFF) # 建议默认关闭
 
-if(ENABLE_CLANG_TIDY)
-
-    # --- 检查前提条件：compile_commands.json ---
-    # Clang-Tidy 需要编译命令来正确解析代码
-    if(NOT CMAKE_EXPORT_COMPILE_COMMANDS)
-        message(WARNING "ENABLE_CLANG_TIDY is ON, but CMAKE_EXPORT_COMPILE_COMMANDS is not explicitly set to ON. "
-                "Clang-Tidy relies on 'compile_commands.json' for accurate analysis. "
-                "Please add 'set(CMAKE_EXPORT_COMPILE_COMMANDS ON)' near the top of your main CMakeLists.txt.")
-    endif()
-
-    # --- 查找 Clang-Tidy 可执行文件 ---
-    # 尝试查找不同版本的 clang-tidy，优先使用带版本号的（如果存在）
-    find_program(CLANGTIDY_EXECUTABLE
-            NAMES clang-tidy-16 clang-tidy-15 clang-tidy-14 clang-tidy # 您可以根据需要添加更多版本
-            DOC "Path to clang-tidy executable")
-
-    if(CLANGTIDY_EXECUTABLE)
-        message(STATUS "Found clang-tidy: ${CLANGTIDY_EXECUTABLE}")
-
-        # --- 选择要进行 Tidy 的文件 ---
-        # 使用 GLOB_RECURSE 查找指定目录下的 C++ 源文件和头文件
-        # 注意：GLOB_RECURSE 返回绝对路径
-        file(GLOB_RECURSE TIDY_FILES
-                "app/*.h"
-                "app/*.cpp"
-                "ext/*.cpp"
-                "ext/*.h"
-                # 您可以根据项目结构调整路径和模式
-        )
-
-        if(NOT TIDY_FILES)
-            message(WARNING "ENABLE_CLANG_TIDY: No files found matching the specified patterns.")
-        else()
-            # --- 添加自定义目标：运行 clang-tidy 并自动修复 ---
-            # 这个目标需要手动执行（例如 'make clang-tidy-fix' 或 'ninja clang-tidy-fix'）
-            add_custom_target(clang-tidy-fix
-                    COMMAND ${CLANGTIDY_EXECUTABLE}
-                    --fix              # 应用 Clang-Tidy 建议的修复
-                    # --fix-errors     # 或者只修复明确的错误（更保守）
-                    # -p ${CMAKE_BINARY_DIR} # 可选：显式指定编译数据库路径，但通常clang-tidy能自动找到
-                    # --quiet          # 可选：减少输出信息
-                    # 您可以在这里添加 --checks='...' 来指定检查项，
-                    # 但如果省略，它会使用 .clang-tidy 文件或默认检查项。
-                    ${TIDY_FILES}
-                    COMMENT "Running clang-tidy to apply automatic fixes (using .clang-tidy or defaults)..."
-                    VERBATIM # 确保命令行参数被正确处理
-            )
-            message(STATUS "Added target 'clang-tidy-fix'. Run manually, e.g., 'make clang-tidy-fix'.")
-
-            # --- 添加可选的自定义目标：仅检查，发现问题则失败 ---
-            option(ENABLE_CLANG_TIDY_CHECK "Enable clang-tidy check target (fails build on issues)" OFF)
-            if(ENABLE_CLANG_TIDY_CHECK)
-                add_custom_target(clang-tidy-check
-                        COMMAND ${CLANGTIDY_EXECUTABLE}
-                        # 不带 --fix，仅进行检查并报告问题
-                        # 如果发现任何需要修改的地方，clang-tidy 会返回非零退出码，这将导致此目标失败
-                        # -p ${CMAKE_BINARY_DIR} # 可选
-                        # --quiet          # 可选
-                        ${TIDY_FILES}
-                        COMMENT "Running clang-tidy checks (will fail build on issues)..."
-                        VERBATIM
-                )
-                message(STATUS "Added target 'clang-tidy-check'. Run manually or add to CI pipeline.")
-            endif() # ENABLE_CLANG_TIDY_CHECK
-        endif() # TIDY_FILES
-
-    else()
-        # 如果启用了 Clang-Tidy 但找不到可执行文件，则报错
-        message(FATAL_ERROR "clang-tidy executable not found, but ENABLE_CLANG_TIDY is ON. "
-                "Please install clang-tidy (version matching your compiler is recommended) "
-                "or set ENABLE_CLANG_TIDY to OFF.")
-    endif() # CLANGTIDY_EXECUTABLE
-endif() # ENABLE_CLANG_TIDY
