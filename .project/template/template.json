@@ -60,7 +60,7 @@
           "type": "build",
           "target": "clang-format",
           "option": {
-            "ENABLE_CLANG_FORMAT": true
+            "ENABLE_CLANG_FORMAT": false
           }
         },
         {
@@ -68,15 +68,7 @@
           "type": "build",
           "target": "clang-format-check",
           "option": {
-            "ENABLE_CLANG_FORMAT_CHECK": true
-          }
-        },
-        {
-          "description": "ClangTidy Fix",
-          "type": "build",
-          "target": "clang-tidy-fix",
-          "option": {
-            "ENABLE_CLANG_TIDY": true
+            "ENABLE_CLANG_FORMAT_CHECK": false
           }
         },
         {
