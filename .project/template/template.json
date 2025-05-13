@@ -76,15 +76,15 @@
           "type": "build",
           "target": "clang-tidy-export-all",
           "option": {
-            "ENABLE_CLANG_TIDY_FIX_EXPORT": false
+            "ENABLE_CLANG_TIDY_FIX_EXPORT": true
           }
         },
         {
           "description": "ClangTidy Apply",
           "type": "build",
-          "target": "clang-tidy-apply-all",
+          "target": "clang-tidy-apply",
           "option": {
-            "ENABLE_CLANG_TIDY_FIX_EXPORT": true
+            "ENABLE_CLANG_TIDY_Apply_EXPORT": true
           }
         },
         {

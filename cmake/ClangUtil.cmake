@@ -1,4 +1,4 @@
-
+include_guard(GLOBAL)
 if (ENABLE_CLANG_FORMAT)
     # Formatting may change with different versions of clang-format.
     # Test new versions before changing the allowed version here to avoid
@@ -77,8 +77,6 @@ if (ENABLE_CLANG_FORMAT)
     endif ()
 endif ()
 
-# 首先，定义一个选项来控制是否启用 clang-tidy 的修复导出功能
-option(ENABLE_CLANG_TIDY_FIX_EXPORT "Enable clang-tidy --export-fixes target" OFF) # 默认关闭
 
 if (ENABLE_CLANG_TIDY_FIX_EXPORT)
     # 1. 找到 clang-tidy 可执行文件
@@ -210,7 +208,7 @@ if (ENABLE_CLANG_TIDY_Apply_EXPORT)
 
     if (CLANG_APPLY_REPLACEMENTS_EXE)
         # 创建自定义 Target 来应用所有导出的修复
-        add_custom_target(clang-tidy-apply-all # 我改了个稍微具体点的名字，你可以用任何你喜欢的
+        add_custom_target(clang-tidy-apply # 我改了个稍微具体点的名字，你可以用任何你喜欢的
                 COMMAND "${CLANG_APPLY_REPLACEMENTS_EXE}"
                 "${CLANG_TIDY_YAML_OUTPUT_DIR}" # 将包含所有 batch-*.yaml 文件的目录传递给它
                 # clang-apply-replacements 会扫描这个目录找 .yaml 文件
@@ -229,11 +227,6 @@ if (ENABLE_CLANG_TIDY_Apply_EXPORT)
                 "IMPORTANT: Review YAML files before running this target!"
                 VERBATIM # 确保命令和参数被正确传递
         )
-        message(STATUS "Custom target 'olive-apply-tidy-fixes' created.")
-        message(STATUS "Workflow: ")
-        message(STATUS "  1. Run: ninja clang-tidy-export-all  (or your export target name)")
-        message(STATUS "  2. CRITICAL: Manually review and edit YAML files in '${CLANG_TIDY_YAML_OUTPUT_DIR}' to ensure correctness.")
-        message(STATUS "  3. Then run: ninja olive-apply-tidy-fixes  (to apply the reviewed fixes)")
 
     else ()
         # find_program 如果设置了 REQUIRED 且没找到，这里可能不会执行，CMake会直接报错
