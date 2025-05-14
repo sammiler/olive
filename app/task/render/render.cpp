@@ -111,9 +111,9 @@ bool RenderTask::Render(ColorManager *manager, const TimeRangeList &video_range,
           }
         }
 
-        for (int i = 0; i < tracks_to_push.size(); i++) {
-          Track *this_track = list->GetTrackAt(tracks_to_push.at(i));
-          Block *this_block = this_track->Blocks().at(block_indexes.at(tracks_to_push.at(i)));
+        for (int i : tracks_to_push) {
+          Track *this_track = list->GetTrackAt(i);
+          Block *this_block = this_track->Blocks().at(block_indexes.at(i));
 
           if (const auto *sub = dynamic_cast<const SubtitleBlock *>(this_block)) {
             if (sub->is_enabled()) {
@@ -124,7 +124,7 @@ bool RenderTask::Render(ColorManager *manager, const TimeRangeList &video_range,
             }
           }
 
-          block_indexes[tracks_to_push.at(i)]++;
+          block_indexes[i]++;
         }
       } while (!tracks_to_push.isEmpty());
     }

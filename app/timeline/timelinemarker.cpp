@@ -168,9 +168,7 @@ bool TimelineMarkerList::load(QXmlStreamReader *reader) {
 }
 
 void TimelineMarkerList::save(QXmlStreamWriter *writer) const {
-  for (auto it = this->cbegin(); it != this->cend(); it++) {
-    TimelineMarker *marker = *it;
-
+  for (auto marker : *this) {
     writer->writeStartElement(QStringLiteral("marker"));
 
     marker->save(writer);

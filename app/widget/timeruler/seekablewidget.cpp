@@ -151,14 +151,12 @@ bool SeekableWidget::PasteMarkers() {
 
       // Normalize markers to start at playhead
       rational min = RATIONAL_MAX;
-      for (auto it = markers.cbegin(); it != markers.cend(); it++) {
-        min = std::min(min, (*it)->time().in());
+      for (auto marker : markers) {
+        min = std::min(min, marker->time().in());
       }
       min -= GetViewerNode()->GetPlayhead();
 
-      for (auto it = markers.cbegin(); it != markers.cend(); it++) {
-        TimelineMarker *m = *it;
-
+      for (auto m : markers) {
         m->set_time(m->time().in() - min);
 
         if (TimelineMarker *existing = markers_->GetMarkerAtTime(m->time().in())) {
@@ -503,8 +501,7 @@ bool SeekableWidget::FindResizeHandle(QMouseEvent *event) {
   } else if (event->pos().y() >= marker_top_ && event->pos().y() < marker_bottom_) {
     if (markers_) {
       // Check for markers
-      for (auto it = markers_->cbegin(); it != markers_->cend(); it++) {
-        TimelineMarker *m = *it;
+      for (auto m : *markers_) {
         if (m->time().in() != m->time().out()) {
           if (m->time().in() >= min && m->time().in() < max) {
             resize_mode_ = kResizeIn;

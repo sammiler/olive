@@ -23,6 +23,7 @@
 #include "multisplitter/Item_p.h"
 
 #include <algorithm>
+#include <memory>
 #include <utility>
 
 using namespace KDDockWidgets;
@@ -54,7 +55,7 @@ void Position::addPlaceholderItem(Layouting::Item *placeholder)
         removePlaceholder(placeholder);
     });
 
-    m_placeholders.push_back(std::unique_ptr<ItemRef>(new ItemRef(connection, placeholder)));
+    m_placeholders.push_back(std::make_unique<ItemRef>(connection, placeholder));
 
     // NOTE: We use a list instead of simply two variables to keep the placeholders, because
     // a placeholder from a FloatingWindow might become a MainWindow one without we knowing,

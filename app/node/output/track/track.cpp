@@ -564,8 +564,8 @@ void Track::ProcessAudioTrack(const NodeValueRow &value, const NodeGlobals &glob
   // Loop through active blocks retrieving their audio
   NodeValueArray arr = value[kBlockInput].toArray();
 
-  for (auto it = arr.cbegin(); it != arr.cend(); it++) {
-    Block *b = blocks_.at(GetCacheIndexFromArrayIndex(it->first));
+  for (const auto & it : arr) {
+    Block *b = blocks_.at(GetCacheIndexFromArrayIndex(it.first));
 
     TimeRange range_for_block(qMax(b->in(), range.in()), qMin(b->out(), range.out()));
 
@@ -574,7 +574,7 @@ void Track::ProcessAudioTrack(const NodeValueRow &value, const NodeGlobals &glob
     qint64 max_dest_sz = globals.aparams().time_to_samples(range_for_block.length());
 
     // Destination buffer
-    SampleBuffer samples_from_this_block = it->second.toSamples();
+    SampleBuffer samples_from_this_block = it.second.toSamples();
 
     if (samples_from_this_block.is_allocated()) {
       // If this is a clip, we might have extra speed/reverse information

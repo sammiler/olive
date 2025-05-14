@@ -31,6 +31,7 @@
 #include <QScopedValueRollback>
 #include <QTimer>
 #include <QWindow>
+#include <memory>
 
 #if defined(Q_OS_WIN)
 #if defined(Q_CC_MSVC)
@@ -307,7 +308,7 @@ void FloatingWindow::maybeCreateResizeHandler()
 
 std::unique_ptr<WindowBeingDragged> FloatingWindow::makeWindow()
 {
-    return std::unique_ptr<WindowBeingDragged>(new WindowBeingDragged(this, this));
+    return std::make_unique<WindowBeingDragged>(this, this);
 }
 
 DockWidgetBase *FloatingWindow::singleDockWidget() const

@@ -1131,8 +1131,8 @@ QVector<T*> Node::FindInputNodesConnectedToInput(const NodeInput& input, int max
 
 template <class T>
 void Node::FindInputNodeInternal(const Node* n, QVector<T*>& list, int maximum) {
-  for (auto it = n->input_connections_.cbegin(); it != n->input_connections_.cend(); it++) {
-    FindInputNodesConnectedToInputInternal(it->first, list, maximum);
+  for (const auto & input_connection : n->input_connections_) {
+    FindInputNodesConnectedToInputInternal(input_connection.first, list, maximum);
   }
 }
 

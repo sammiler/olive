@@ -47,9 +47,7 @@ NodeParamViewContext::NodeParamViewContext(QWidget *parent) : super(parent), typ
 }
 
 NodeParamViewItem *NodeParamViewContext::GetItem(Node *node, Node *ctx) {
-  for (auto it = items_.begin(); it != items_.end(); it++) {
-    NodeParamViewItem *item = *it;
-
+  for (auto item : items_) {
     if (item->GetNode() == node && item->GetContext() == ctx) {
       return item;
     }

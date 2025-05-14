@@ -37,8 +37,8 @@ void DraggableGizmo::DragMove(double x, double y, const Qt::KeyboardModifiers &m
 }
 
 void DraggableGizmo::DragEnd(MultiUndoCommand *command) {
-  for (int i = 0; i < draggers_.size(); i++) {
-    draggers_[i].End(command);
+  for (auto & dragger : draggers_) {
+    dragger.End(command);
   }
 }
 

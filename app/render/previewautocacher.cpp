@@ -665,8 +665,8 @@ void PreviewAutoCacher::SetProject(Project *project) {
 
     copier_->SetProject(project_);
 
-    for (int i = 0; i < project_->nodes().size(); i++) {
-      project_->nodes().at(i)->ConnectedToPreviewEvent();
+    for (auto i : project_->nodes()) {
+      i->ConnectedToPreviewEvent();
     }
 
     // Find copied viewer node

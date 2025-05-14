@@ -551,8 +551,7 @@ void TimelineView::DrawBlock(QPainter *painter, bool foreground, Block *block, q
               if (!marker_list->empty()) {
                 clip_marker_rects_.clear();
 
-                for (auto it = marker_list->cbegin(); it != marker_list->cend(); it++) {
-                  TimelineMarker *marker = *it;
+                for (auto marker : *marker_list) {
                   // Make sure marker is within In/Out points of the clip
                   if (marker->time().in() >= clip->media_in() &&
                       marker->time().out() <= clip->media_in() + clip->length()) {

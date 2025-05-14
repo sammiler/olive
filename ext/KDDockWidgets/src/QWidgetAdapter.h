@@ -25,8 +25,8 @@
  * @author Sérgio Martins \<sergio.martins@kdab.com\>
  */
 
-namespace KDDockWidgets {
-namespace Private {
+
+namespace KDDockWidgets::Private {
 
 inline bool isMinimized(QWindow *window)
 {
@@ -34,7 +34,7 @@ inline bool isMinimized(QWindow *window)
 }
 
 }
-}
+
 
 #ifdef KDDOCKWIDGETS_QTWIDGETS
 #include "private/multisplitter/Widget_qwidget.h"

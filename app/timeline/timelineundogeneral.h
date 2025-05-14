@@ -21,6 +21,8 @@
 #ifndef TIMELINEUNDOGENERAL_H
 #define TIMELINEUNDOGENERAL_H
 
+#include <ranges>
+
 #include "config/config.h"
 #include "node/block/clip/clip.h"
 #include "node/block/gap/gap.h"
@@ -282,14 +284,14 @@ class TimelineAddDefaultTransitionCommand : public UndoCommand {
   void prepare() override;
 
   void redo() override {
-    for (auto it = commands_.cbegin(); it != commands_.cend(); it++) {
-      (*it)->redo_now();
+    for (auto command : commands_) {
+      command->redo_now();
     }
   }
 
   void undo() override {
-    for (auto it = commands_.crbegin(); it != commands_.crend(); it++) {
-      (*it)->undo_now();
+    for (auto command : std::ranges::reverse_view(commands_)) {
+      command->undo_now();
     }
   }
 

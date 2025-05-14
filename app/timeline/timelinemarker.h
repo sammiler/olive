@@ -37,7 +37,7 @@ class TimelineMarker : public QObject {
   Q_OBJECT
  public:
   explicit TimelineMarker(QObject* parent = nullptr);
-  TimelineMarker(int color, const TimeRange& time, QString  name = QString(), QObject* parent = nullptr);
+  TimelineMarker(int color, const TimeRange& time, QString name = QString(), QObject* parent = nullptr);
 
   [[nodiscard]] const TimeRange& time() const { return time_; }
   void set_time(const TimeRange& time);
@@ -82,6 +82,9 @@ class TimelineMarkerList : public QObject {
   inline std::vector<TimelineMarker*>::iterator end() { return markers_.end(); }
   [[nodiscard]] inline std::vector<TimelineMarker*>::const_iterator cbegin() const { return markers_.cbegin(); }
   [[nodiscard]] inline std::vector<TimelineMarker*>::const_iterator cend() const { return markers_.cend(); }
+  [[nodiscard]] inline std::vector<TimelineMarker*>::const_iterator begin() const { return markers_.begin(); }
+  [[nodiscard]] inline std::vector<TimelineMarker*>::const_iterator end() const { return markers_.end(); }
+
   [[nodiscard]] inline TimelineMarker* back() const { return markers_.back(); }
   [[nodiscard]] inline TimelineMarker* front() const { return markers_.front(); }
   [[nodiscard]] inline size_t size() const { return markers_.size(); }
@@ -90,8 +93,7 @@ class TimelineMarkerList : public QObject {
   void save(QXmlStreamWriter* writer) const;
 
   [[nodiscard]] TimelineMarker* GetMarkerAtTime(const rational& t) const {
-    for (auto it = markers_.cbegin(); it != markers_.cend(); it++) {
-      TimelineMarker* m = *it;
+    for (auto m : markers_) {
       if (m->time().in() == t) {
         return m;
       }
@@ -103,9 +105,7 @@ class TimelineMarkerList : public QObject {
   [[nodiscard]] TimelineMarker* GetClosestMarkerToTime(const rational& t) const {
     TimelineMarker* closest = nullptr;
 
-    for (auto it = markers_.cbegin(); it != markers_.cend(); it++) {
-      TimelineMarker* m = *it;
-
+    for (auto m : markers_) {
       rational this_diff = rational::qAbs(m->time().in() - t);
 
       if (closest) {

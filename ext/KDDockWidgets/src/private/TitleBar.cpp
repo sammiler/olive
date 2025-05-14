@@ -24,6 +24,7 @@
 
 #include <QTimer>
 #include <QWindowStateChangeEvent>
+#include <memory>
 
 using namespace KDDockWidgets;
 
@@ -247,13 +248,13 @@ std::unique_ptr<WindowBeingDragged> TitleBar::makeWindow()
 
     if (m_floatingWindow) {
         // We're already a floating window, no detach needed
-        return std::unique_ptr<WindowBeingDragged>(new WindowBeingDragged(m_floatingWindow, this));
+        return std::make_unique<WindowBeingDragged>(m_floatingWindow, this);
     }
 
     if (FloatingWindow *fw = QWidgetAdapter::floatingWindow()) { // Already floating
         if (m_frame->isTheOnlyFrame()) { // We don't detach. This one drags the entire window instead.
             qCDebug(hovering) << "TitleBar::makeWindow no detach needed";
-            return std::unique_ptr<WindowBeingDragged>(new WindowBeingDragged(fw, this));
+            return std::make_unique<WindowBeingDragged>(fw, this);
         }
     }
 
@@ -266,7 +267,7 @@ std::unique_ptr<WindowBeingDragged> TitleBar::makeWindow()
 
     auto draggable = KDDockWidgets::usesNativeTitleBar() ? static_cast<Draggable *>(floatingWindow)
                                                          : static_cast<Draggable *>(this);
-    return std::unique_ptr<WindowBeingDragged>(new WindowBeingDragged(floatingWindow, draggable));
+    return std::make_unique<WindowBeingDragged>(floatingWindow, draggable);
 }
 
 DockWidgetBase *TitleBar::singleDockWidget() const

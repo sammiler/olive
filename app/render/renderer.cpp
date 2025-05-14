@@ -133,8 +133,8 @@ void Renderer::Destroy() {
     interlace_texture_.clear();
   }
 
-  for (auto it = texture_cache_.begin(); it != texture_cache_.end(); it++) {
-    DestroyNativeTexture(it->handle);
+  for (auto & it : texture_cache_) {
+    DestroyNativeTexture(it.handle);
   }
   texture_cache_.clear();
 

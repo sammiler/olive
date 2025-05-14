@@ -20,6 +20,8 @@
 
 #include "renderjobtracker.h"
 
+#include <ranges>
+
 namespace olive {
 
 void RenderJobTracker::insert(const TimeRange &range, JobTime job_time) {
@@ -40,9 +42,9 @@ void RenderJobTracker::insert(const TimeRangeList &ranges, JobTime job_time) {
 void RenderJobTracker::clear() { jobs_.clear(); }
 
 bool RenderJobTracker::isCurrent(const rational &time, JobTime job_time) const {
-  for (auto it = jobs_.crbegin(); it != jobs_.crend(); it++) {
-    if (it->Contains(time)) {
-      return job_time >= it->GetJobTime();
+  for (const auto & job : std::ranges::reverse_view(jobs_)) {
+    if (job.Contains(time)) {
+      return job_time >= job.GetJobTime();
     }
   }
 
@@ -52,9 +54,9 @@ bool RenderJobTracker::isCurrent(const rational &time, JobTime job_time) const {
 TimeRangeList RenderJobTracker::getCurrentSubRanges(const TimeRange &range, const JobTime &job_time) const {
   TimeRangeList current_ranges;
 
-  for (auto it = jobs_.crbegin(); it != jobs_.crend(); it++) {
-    if (job_time >= it->GetJobTime() && it->OverlapsWith(range)) {
-      current_ranges.insert(it->Intersected(range));
+  for (const auto & job : std::ranges::reverse_view(jobs_)) {
+    if (job_time >= job.GetJobTime() && job.OverlapsWith(range)) {
+      current_ranges.insert(job.Intersected(range));
     }
   }
 

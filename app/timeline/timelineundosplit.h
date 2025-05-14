@@ -73,8 +73,8 @@ class BlockSplitPreservingLinksCommand : public UndoCommand {
   void prepare() override;
 
   void redo() override {
-    for (int i = 0; i < commands_.size(); i++) {
-      commands_.at(i)->redo_now();
+    for (auto command : commands_) {
+      command->redo_now();
     }
   }
 

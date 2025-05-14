@@ -65,18 +65,18 @@ class NodeGroup : public Node {
   static bool GetInner(NodeInput *input);
 
   [[nodiscard]] QString GetIDOfPassthrough(const NodeInput &input) const {
-    for (auto it = input_passthroughs_.cbegin(); it != input_passthroughs_.cend(); it++) {
-      if (it->second == input) {
-        return it->first;
+    for (const auto & input_passthrough : input_passthroughs_) {
+      if (input_passthrough.second == input) {
+        return input_passthrough.first;
       }
     }
     return {};
   }
 
   [[nodiscard]] NodeInput GetInputFromID(const QString &id) const {
-    for (auto it = input_passthroughs_.cbegin(); it != input_passthroughs_.cend(); it++) {
-      if (it->first == id) {
-        return it->second;
+    for (const auto & input_passthrough : input_passthroughs_) {
+      if (input_passthrough.first == id) {
+        return input_passthrough.second;
       }
     }
     return {};

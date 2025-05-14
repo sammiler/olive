@@ -143,10 +143,10 @@ void MainWindow::LoadLayout(const MainWindowLayoutInfo &info) {
     OpenNodeInViewer(viewer);
   }
 
-  for (auto it = info.panel_data().cbegin(); it != info.panel_data().cend(); it++) {
+  for (const auto & it : info.panel_data()) {
     // Find panel with this ID
-    if (PanelWidget *panel = PanelManager::instance()->GetPanelWithName(it->first)) {
-      panel->LoadData(it->second);
+    if (PanelWidget *panel = PanelManager::instance()->GetPanelWithName(it.first)) {
+      panel->LoadData(it.second);
     }
   }
 
@@ -269,8 +269,7 @@ void MainWindow::OpenFolder(Folder *i, bool floating) {
 void MainWindow::OpenNodeInViewer(ViewerOutput *node) {
   ViewerPanel *existing = nullptr;
 
-  for (auto it = viewer_panels_.cbegin(); it != viewer_panels_.cend(); it++) {
-    ViewerPanel *it2 = (*it);
+  for (auto it2 : viewer_panels_) {
     if (it2->GetConnectedViewer() == node) {
       existing = it2;
       break;
@@ -809,11 +808,11 @@ void MainWindow::SetDefaultLayout() {
   curve_panel_->close();
   scope_panel_->close();
   multicam_panel_->close();
-  for (auto it = folder_panels_.cbegin(); it != folder_panels_.cend(); it++) {
-    (*it)->close();
+  for (auto folder_panel : folder_panels_) {
+    folder_panel->close();
   }
-  for (auto it = viewer_panels_.cbegin(); it != viewer_panels_.cend(); it++) {
-    (*it)->close();
+  for (auto viewer_panel : viewer_panels_) {
+    viewer_panel->close();
   }
   for (auto it = timeline_panels_.cbegin(); it != timeline_panels_.cend(); it++) {
     auto p = *it;

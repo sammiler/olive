@@ -172,10 +172,8 @@ int ProjectExplorer::ConfirmItemDeletion(Node* item) {
 
 bool ProjectExplorer::DeleteItemsInternal(const QVector<Node*>& selected, bool& check_if_item_is_in_use,
                                           MultiUndoCommand* command) {
-  for (int i = 0; i < selected.size(); i++) {
+  for (auto node : selected) {
     // Delete sequences first
-    Node* node = selected.at(i);
-
     bool can_delete_item = true;
 
     if (check_if_item_is_in_use) {
@@ -535,8 +533,8 @@ QVector<Node*> ProjectExplorer::SelectedItems() const {
   // Convert indexes to item objects
   QVector<Node*> selected_items;
 
-  for (int i = 0; i < index_list.size(); i++) {
-    QModelIndex index = sort_model_.mapToSource(index_list.at(i));
+  for (const auto & i : index_list) {
+    QModelIndex index = sort_model_.mapToSource(i);
 
     Node* item = static_cast<Node*>(index.internalPointer());
 
@@ -563,9 +561,7 @@ Folder* ProjectExplorer::GetSelectedFolder() const {
   // - Otherwise, if all folders found are the same, we'll use that to import into.
   // - If more than one folder is found, we play it safe and import into the root folder
 
-  for (int i = 0; i < selected_items.size(); i++) {
-    Node* sel_item = selected_items.at(i);
-
+  for (auto sel_item : selected_items) {
     // If this item is not a folder, presumably it's parent is
     if (!dynamic_cast<Folder*>(sel_item)) {
       sel_item = sel_item->folder();

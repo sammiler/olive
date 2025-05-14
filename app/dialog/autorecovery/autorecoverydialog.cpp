@@ -99,9 +99,7 @@ void AutoRecoveryDialog::PopulateTree(const QStringList& recoveries, bool autoch
     {
       // Populate with recoveries
       QStringList entries = recovery_dir.entryList(QDir::Files | QDir::NoDotAndDotDot, QDir::Name | QDir::Reversed);
-      for (int i = 0; i < entries.size(); i++) {
-        const QString& entry = entries.at(i);
-
+      for (const auto & entry : entries) {
         if (entry.endsWith(QStringLiteral(".ove"), Qt::CaseInsensitive)) {
           auto* entry_item = new QTreeWidgetItem(top_level);
 

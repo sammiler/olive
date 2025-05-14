@@ -118,9 +118,7 @@ void ResizableTimelineScrollBar::paintEvent(QPaintEvent* event) {
 
     // Draw markers
     if (markers_ && !markers_->empty()) {
-      for (auto it = markers_->cbegin(); it != markers_->cend(); it++) {
-        TimelineMarker* marker = *it;
-
+      for (auto marker : *markers_) {
         QColor marker_color = QtUtils::toQColor(ColorCoding::GetColor(marker->color()));
         int64_t in = qRound64(ratio * TimeToScene(marker->time().in()));
         int64_t out = qRound64(ratio * TimeToScene(marker->time().out()));

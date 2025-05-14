@@ -83,16 +83,15 @@ qint64 PlanarFileDevice::size() const {
 bool PlanarFileDevice::seek(qint64 pos) {
   bool ret = true;
 
-  for (int i = 0; i < files_.size(); i++) {
-    ret = files_[i]->seek(pos) & ret;
+  for (auto & file : files_) {
+    ret = file->seek(pos) & ret;
   }
 
   return ret;
 }
 
 void PlanarFileDevice::close() {
-  for (int i = 0; i < files_.size(); i++) {
-    QFile *f = files_.at(i);
+  for (auto f : files_) {
     if (f) {
       if (f->isOpen()) {
         f->close();

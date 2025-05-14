@@ -36,8 +36,8 @@ ConformManager::Conform ConformManager::GetConformState(const QString &decoder_i
     // We conform to a different filename until it's done to make it clear even across sessions
     // whether this conform is ready or not
     QVector<QString> working_filenames = filenames;
-    for (int i = 0; i < working_filenames.size(); i++) {
-      working_filenames[i].append(QStringLiteral(".working"));
+    for (auto & working_filename : working_filenames) {
+      working_filename.append(QStringLiteral(".working"));
     }
 
     conforming_task = new ConformTask(decoder_id, stream, params, working_filenames);
@@ -115,8 +115,8 @@ void ConformManager::ConformTaskFinished(Task *task, bool succeeded) {
     emit ConformReady();
   } else {
     // Failed, just delete the working filename if exists
-    for (int i = 0; i < data.working_filename.size(); i++) {
-      QFile::remove(data.working_filename.at(i));
+    for (const auto & i : data.working_filename) {
+      QFile::remove(i);
     }
   }
 }

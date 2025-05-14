@@ -25,6 +25,7 @@
 #include <QVector2D>
 #include <QVector3D>
 #include <QVector4D>
+#include <ranges>
 
 #include "common/qtutils.h"
 #include "core.h"
@@ -521,8 +522,8 @@ void NodeParamViewWidgetBridge::SetProperty(const QString& key, const QVariant& 
     }
 
     if (key.size() == 7) {  // just the word "disable" or "enabled"
-      for (int i = 0; i < widgets_.size(); i++) {
-        widgets_.at(i)->setEnabled(e);
+      for (auto widget : widgets_) {
+        widget->setEnabled(e);
       }
     } else {  // set specific track/widget
       bool ok;
@@ -536,8 +537,8 @@ void NodeParamViewWidgetBridge::SetProperty(const QString& key, const QVariant& 
   }
 
   if (key == QStringLiteral("tooltip")) {
-    for (int i = 0; i < widgets_.size(); i++) {
-      widgets_.at(i)->setToolTip(value.toString());
+    for (auto widget : widgets_) {
+      widget->setToolTip(value.toString());
     }
   }
 
@@ -644,8 +645,8 @@ void NodeParamViewWidgetBridge::SetProperty(const QString& key, const QVariant& 
 
     } else if (key == QStringLiteral("base")) {
       double d = value.toDouble();
-      for (int i = 0; i < widgets_.size(); i++) {
-        dynamic_cast<NumericSliderBase*>(widgets_.at(i))->SetDragMultiplier(d);
+      for (auto widget : widgets_) {
+        dynamic_cast<NumericSliderBase*>(widget)->SetDragMultiplier(d);
       }
     }
   }
@@ -763,8 +764,8 @@ void NodeParamViewWidgetBridge::InputDataTypeChanged(const QString& input, NodeV
 void NodeParamViewWidgetBridge::PropertyChanged(const QString& input, const QString& key, const QVariant& value) {
   bool found = false;
 
-  for (auto it = input_hierarchy_.cbegin(); it != input_hierarchy_.cend(); it++) {
-    if (it->input() == input) {
+  for (const auto & it : input_hierarchy_) {
+    if (it.input() == input) {
       found = true;
       break;
     }
@@ -777,8 +778,8 @@ void NodeParamViewWidgetBridge::PropertyChanged(const QString& input, const QStr
 
 void NodeParamViewWidgetBridge::UpdateProperties() {
   // Set properties from the last entry (the innermost input) to the first (the outermost)
-  for (auto it = input_hierarchy_.crbegin(); it != input_hierarchy_.crend(); it++) {
-    auto input_properties = it->node()->GetInputProperties(it->input());
+  for (const auto & it : std::ranges::reverse_view(input_hierarchy_)) {
+    auto input_properties = it.node()->GetInputProperties(it.input());
     for (auto jt = input_properties.cbegin(); jt != input_properties.cend(); jt++) {
       SetProperty(jt.key(), jt.value());
     }

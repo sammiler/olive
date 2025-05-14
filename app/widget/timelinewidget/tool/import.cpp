@@ -356,9 +356,9 @@ void ImportTool::DropGhosts(bool insert, MultiUndoCommand* parent_command) {
         // starting point
         QVector<ViewerOutput*> footage_only;
 
-        for (auto it = dragged_footage_.cbegin(); it != dragged_footage_.cend(); it++) {
-          if (!footage_only.contains(it->first)) {
-            footage_only.append(it->first);
+        for (const auto & it : dragged_footage_) {
+          if (!footage_only.contains(it.first)) {
+            footage_only.append(it.first);
           }
         }
 

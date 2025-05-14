@@ -20,6 +20,8 @@
 
 #include "timelineundoripple.h"
 
+#include <ranges>
+
 #include "timelineundocommon.h"
 
 namespace olive {
@@ -471,14 +473,14 @@ void TimelineRippleDeleteGapsAtRegionsCommand::prepare() {
 }
 
 void TimelineRippleDeleteGapsAtRegionsCommand::redo() {
-  for (auto it = commands_.cbegin(); it != commands_.cend(); it++) {
-    (*it)->redo_now();
+  for (auto command : commands_) {
+    command->redo_now();
   }
 }
 
 void TimelineRippleDeleteGapsAtRegionsCommand::undo() {
-  for (auto it = commands_.crbegin(); it != commands_.crend(); it++) {
-    (*it)->undo_now();
+  for (auto command : std::ranges::reverse_view(commands_)) {
+    command->undo_now();
   }
 }
 

@@ -128,10 +128,10 @@ void AudioVisualWaveform::OverwriteSums(const AudioVisualWaveform &sums, const r
                                         const rational &length) {
   ValidateVirtualStart(dest);
 
-  for (auto it = mipmapped_data_.begin(); it != mipmapped_data_.end(); it++) {
-    rational rate = it->first;
+  for (auto & it : mipmapped_data_) {
+    rational rate = it.first;
 
-    Sample &our_arr = it->second;
+    Sample &our_arr = it.second;
     const Sample &their_arr = sums.mipmapped_data_.at(rate);
 
     double rate_dbl = rate.toDouble();
@@ -171,10 +171,10 @@ void AudioVisualWaveform::OverwriteSums(const AudioVisualWaveform &sums, const r
 void AudioVisualWaveform::OverwriteSilence(const rational &start, const rational &length) {
   ValidateVirtualStart(start);
 
-  for (auto it = mipmapped_data_.begin(); it != mipmapped_data_.end(); it++) {
-    rational rate = it->first;
+  for (auto & it : mipmapped_data_) {
+    rational rate = it.first;
 
-    Sample &our_arr = it->second;
+    Sample &our_arr = it.second;
 
     double rate_dbl = rate.toDouble();
 
@@ -206,10 +206,10 @@ void AudioVisualWaveform::TrimIn(rational length) {
     length = -length;
   }
 
-  for (auto it = mipmapped_data_.begin(); it != mipmapped_data_.end(); it++) {
-    rational rate = it->first;
+  for (auto & it : mipmapped_data_) {
+    rational rate = it.first;
     double rate_dbl = rate.toDouble();
-    Sample &data = it->second;
+    Sample &data = it.second;
 
     size_t chop_length = time_to_samples(length, rate_dbl);
     if (chop_length == 0) {
@@ -247,10 +247,10 @@ void AudioVisualWaveform::Resize(const rational &length) {
     return;
   }
 
-  for (auto it = mipmapped_data_.begin(); it != mipmapped_data_.end(); it++) {
-    rational rate = it->first;
+  for (auto & it : mipmapped_data_) {
+    rational rate = it.first;
     double rate_dbl = rate.toDouble();
-    Sample &data = it->second;
+    Sample &data = it.second;
 
     size_t chop_length = time_to_samples(length, rate_dbl);
 

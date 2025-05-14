@@ -15,8 +15,8 @@
 #include <QMouseEvent>
 #include <QDropEvent>
 
-namespace KDDockWidgets {
-namespace Qt5Qt6Compat {
+
+namespace KDDockWidgets::Qt5Qt6Compat {
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 
@@ -57,6 +57,6 @@ inline QPoint eventGlobalPos(QMouseEvent *ev)
 #endif
 
 }
-}
+
 
 #endif

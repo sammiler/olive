@@ -56,11 +56,11 @@ TransformDistortNode::TransformDistortNode() {
   anchor_gizmo_->AddInput(NodeKeyframeTrackReference(NodeInput(this, kPositionInput), 0));
   anchor_gizmo_->AddInput(NodeKeyframeTrackReference(NodeInput(this, kPositionInput), 1));
 
-  for (int i = 0; i < kGizmoScaleCount; i++) {
-    point_gizmo_[i] = AddDraggableGizmo<PointGizmo>();
-    point_gizmo_[i]->AddInput(NodeKeyframeTrackReference(NodeInput(this, kScaleInput), 0));
-    point_gizmo_[i]->AddInput(NodeKeyframeTrackReference(NodeInput(this, kScaleInput), 1));
-    point_gizmo_[i]->SetDragValueBehavior(PointGizmo::kAbsolute);
+  for (auto & i : point_gizmo_) {
+    i = AddDraggableGizmo<PointGizmo>();
+    i->AddInput(NodeKeyframeTrackReference(NodeInput(this, kScaleInput), 0));
+    i->AddInput(NodeKeyframeTrackReference(NodeInput(this, kScaleInput), 1));
+    i->SetDragValueBehavior(PointGizmo::kAbsolute);
   }
 
   SetFlag(kVideoEffect);
@@ -400,8 +400,8 @@ QMatrix4x4 TransformDistortNode::GenerateAutoScaledMatrix(const QMatrix4x4 &gene
 }
 
 bool TransformDistortNode::IsAScaleGizmo(NodeGizmo *g) const {
-  for (int i = 0; i < kGizmoScaleCount; i++) {
-    if (point_gizmo_[i] == g) {
+  for (auto i : point_gizmo_) {
+    if (i == g) {
       return true;
     }
   }

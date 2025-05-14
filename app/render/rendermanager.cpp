@@ -54,8 +54,8 @@ RenderManager::RenderManager(QObject *parent) : backend_(kOpenGL), aggressive_gc
     audio_thread_ = CreateThread();
 
     waveform_threads_.resize(QThread::idealThreadCount());
-    for (size_t i = 0; i < waveform_threads_.size(); i++) {
-      waveform_threads_[i] = CreateThread();
+    for (auto & waveform_thread : waveform_threads_) {
+      waveform_thread = CreateThread();
     }
 
     auto_cacher_ = new PreviewAutoCacher(this);

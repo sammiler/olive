@@ -328,8 +328,7 @@ void ProjectSerializer230220::Save(QXmlStreamWriter *writer, const SaveData &dat
 
     writer->writeAttribute(QStringLiteral("version"), QString::number(1));
 
-    for (auto it = data.GetOnlySerializeMarkers().cbegin(); it != data.GetOnlySerializeMarkers().cend(); it++) {
-      TimelineMarker *marker = *it;
+    for (auto marker : data.GetOnlySerializeMarkers()) {
       writer->writeStartElement(QStringLiteral("marker"));
       marker->save(writer);
       writer->writeEndElement();  // marker
@@ -344,8 +343,7 @@ void ProjectSerializer230220::Save(QXmlStreamWriter *writer, const SaveData &dat
     // Organize keyframes into node+input
     QHash<QString, QHash<QString, QMap<int, QMap<int, QVector<NodeKeyframe *> > > > > organized;
 
-    for (auto it = data.GetOnlySerializeKeyframes().cbegin(); it != data.GetOnlySerializeKeyframes().cend(); it++) {
-      NodeKeyframe *key = *it;
+    for (auto key : data.GetOnlySerializeKeyframes()) {
       organized[key->parent()->id()][key->input()][key->element()][key->track()].append(key);
     }
 
@@ -464,9 +462,7 @@ void ProjectSerializer230220::PostConnect(const QVector<Node *> &nodes, Serializ
     Node::Link(a, b);
   }
 
-  for (auto it = nodes.cbegin(); it != nodes.cend(); it++) {
-    Node *n = *it;
-
+  for (auto n : nodes) {
     n->PostLoadEvent(project_data);
 
     n->SetCachesEnabled(true);

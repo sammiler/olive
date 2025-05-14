@@ -174,8 +174,8 @@ void ColorSwatchChooser::SaveSwatches() {
     const uint version = 1;
     d << version;
 
-    for (int i = 0; i < kBtnCount; i++) {
-      const ManagedColor &c = buttons_[i]->GetColor();
+    for (auto & button : buttons_) {
+      const ManagedColor &c = button->GetColor();
       d << c.red();
       d << c.green();
       d << c.blue();

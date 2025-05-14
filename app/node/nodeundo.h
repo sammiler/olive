@@ -159,8 +159,8 @@ class NodeArrayResizeCommand : public UndoCommand {
   }
 
   void undo() override {
-    for (auto it = removed_connections_.cbegin(); it != removed_connections_.cend(); it++) {
-      Node::ConnectEdge(it->second, it->first);
+    for (const auto & removed_connection : removed_connections_) {
+      Node::ConnectEdge(removed_connection.second, removed_connection.first);
     }
     removed_connections_.clear();
 

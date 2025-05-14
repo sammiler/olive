@@ -22,7 +22,7 @@
 
 #include <algorithm>
 #include <cmath>
-#include <string.h>
+#include <cstring>
 #include <utility>
 
 #include "util/cpuoptimize.h"

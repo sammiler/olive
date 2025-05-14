@@ -197,8 +197,7 @@ void ColorManager::UpdateConfigFromFilename() {
     // Set new default colorspace appropriately
     QString new_default = old_default_cs;
     QStringList available_cs = ListAvailableColorspaces();
-    for (int i = 0; i < available_cs.size(); i++) {
-      const QString &c = available_cs.at(i);
+    for (const auto & c : available_cs) {
       if (c.compare(old_default_cs, Qt::CaseInsensitive)) {
         new_default = c;
         break;

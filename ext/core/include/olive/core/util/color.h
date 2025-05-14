@@ -34,8 +34,8 @@ class Color {
   static constexpr unsigned int RGBA = 4;
 
   Color() {
-    for (unsigned int i = 0; i < RGBA; i++) {
-      data_[i] = 0.0;
+    for (float & i : data_) {
+      i = 0.0;
     }
   }
 

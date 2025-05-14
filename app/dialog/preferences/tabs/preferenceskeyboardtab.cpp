@@ -75,8 +75,8 @@ void PreferencesKeyboardTab::Accept(MultiUndoCommand* command) {
   Q_UNUSED(command)
 
   // Save keyboard shortcuts
-  for (int i = 0; i < key_shortcut_fields_.size(); i++) {
-    key_shortcut_fields_.at(i)->set_action_shortcut();
+  for (auto key_shortcut_field : key_shortcut_fields_) {
+    key_shortcut_field->set_action_shortcut();
   }
 
   main_window_->SaveLayout();
@@ -85,8 +85,8 @@ void PreferencesKeyboardTab::Accept(MultiUndoCommand* command) {
 void PreferencesKeyboardTab::setup_kbd_shortcuts(QMenuBar* menubar) {
   QList<QAction*> menus = menubar->actions();
 
-  for (int i = 0; i < menus.size(); i++) {
-    QMenu* menu = menus.at(i)->menu();
+  for (auto i : menus) {
+    QMenu* menu = i->menu();
 
     auto* item = new QTreeWidgetItem(keyboard_tree_);
     item->setText(0, menu->title().replace("&", ""));
@@ -107,9 +107,7 @@ void PreferencesKeyboardTab::setup_kbd_shortcuts(QMenuBar* menubar) {
 
 void PreferencesKeyboardTab::setup_kbd_shortcut_worker(QMenu* menu, QTreeWidgetItem* parent) {
   QList<QAction*> actions = menu->actions();
-  for (int i = 0; i < actions.size(); i++) {
-    QAction* a = actions.at(i);
-
+  for (auto a : actions) {
     if (!a->isSeparator() && a->property("keyignore").isNull()) {
       auto* item = new QTreeWidgetItem(parent);
       item->setText(0, a->text().replace("&", ""));
@@ -139,8 +137,8 @@ void PreferencesKeyboardTab::reset_all_shortcuts() {
   if (QMessageBox::question(this, tr("Confirm Reset All Shortcuts"),
                             tr("Are you sure you wish to reset all keyboard shortcuts to their defaults?"),
                             QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes) {
-    for (int i = 0; i < key_shortcut_fields_.size(); i++) {
-      key_shortcut_fields_.at(i)->reset_to_default();
+    for (auto key_shortcut_field : key_shortcut_fields_) {
+      key_shortcut_field->reset_to_default();
     }
   }
 }
@@ -197,8 +195,8 @@ void PreferencesKeyboardTab::load_shortcut_file() {
     if (f.exists() && f.open(QFile::ReadOnly)) {
       QString ba = f.readAll();
       f.close();
-      for (int i = 0; i < key_shortcut_fields_.size(); i++) {
-        int index = ba.indexOf(key_shortcut_fields_.at(i)->action_name());
+      for (auto key_shortcut_field : key_shortcut_fields_) {
+        int index = ba.indexOf(key_shortcut_field->action_name());
         if (index == 0 || (index > 0 && ba.at(index - 1) == '\n')) {
           while (index < ba.size() && ba.at(index) != '\t') index++;
           QString ks;
@@ -207,9 +205,9 @@ void PreferencesKeyboardTab::load_shortcut_file() {
             ks.append(ba.at(index));
             index++;
           }
-          key_shortcut_fields_.at(i)->setKeySequence(ks);
+          key_shortcut_field->setKeySequence(ks);
         } else {
-          key_shortcut_fields_.at(i)->reset_to_default();
+          key_shortcut_field->reset_to_default();
         }
       }
     } else {
@@ -224,8 +222,8 @@ void PreferencesKeyboardTab::save_shortcut_file() {
     QFile f(fn);
     if (f.open(QFile::WriteOnly)) {
       bool start = true;
-      for (int i = 0; i < key_shortcut_fields_.size(); i++) {
-        QString s = key_shortcut_fields_.at(i)->export_shortcut();
+      for (auto key_shortcut_field : key_shortcut_fields_) {
+        QString s = key_shortcut_field->export_shortcut();
         if (!s.isEmpty()) {
           if (!start) f.write("\n");
           f.write(s.toUtf8());

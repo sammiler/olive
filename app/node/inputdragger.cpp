@@ -117,9 +117,9 @@ void NodeInputDragger::End(MultiUndoCommand* command) {
   input_being_dragged--;
 
   if (input_.input().node()->IsInputKeyframing(input_.input())) {
-    for (int i = 0; i < created_keys_.size(); i++) {
+    for (auto created_key : created_keys_) {
       // We created a keyframe in this process
-      command->add_child(new NodeParamInsertKeyframeCommand(input_.input().node(), created_keys_.at(i)));
+      command->add_child(new NodeParamInsertKeyframeCommand(input_.input().node(), created_key));
     }
 
     // We just set a keyframe's value

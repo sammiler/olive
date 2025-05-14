@@ -34,9 +34,10 @@
 #include "private/Position_p.h"
 #include "private/Utils_p.h"
 
-#include <qmath.h>
 #include <QDebug>
 #include <QFile>
+#include <memory>
+#include <qmath.h>
 
 /**
  * Some implementation details:
@@ -433,8 +434,8 @@ void LayoutSaver::Private::deleteEmptyFrames()
 
 std::unique_ptr<QSettings> LayoutSaver::Private::settings() const
 {
-    auto settings = std::unique_ptr<QSettings>(new QSettings(qApp->organizationName(),
-                                                             qApp->applicationName()));
+    auto settings = std::make_unique<QSettings>(qApp->organizationName(),
+                                                             qApp->applicationName());
     settings->beginGroup(QStringLiteral("KDDockWidgets::LayoutSaver"));
 
     return settings;

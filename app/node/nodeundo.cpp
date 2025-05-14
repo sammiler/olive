@@ -22,6 +22,7 @@
 
 #include <KDDockWidgets/src/private/Position_p.h>
 
+#include <ranges>
 #include <utility>
 
 namespace olive {
@@ -71,8 +72,8 @@ void NodeRemovePositionFromAllContextsCommand::redo() {
 }
 
 void NodeRemovePositionFromAllContextsCommand::undo() {
-  for (auto it = contexts_.crbegin(); it != contexts_.crend(); it++) {
-    it->first->SetNodePositionInContext(node_, it->second);
+  for (const auto & context : std::ranges::reverse_view(contexts_)) {
+    context.first->SetNodePositionInContext(node_, context.second);
   }
 
   contexts_.clear();
@@ -83,14 +84,14 @@ void NodeSetPositionAndDependenciesRecursivelyCommand::prepare() {
 }
 
 void NodeSetPositionAndDependenciesRecursivelyCommand::redo() {
-  for (auto it = commands_.cbegin(); it != commands_.cend(); it++) {
-    (*it)->redo_now();
+  for (auto command : commands_) {
+    command->redo_now();
   }
 }
 
 void NodeSetPositionAndDependenciesRecursivelyCommand::undo() {
-  for (auto it = commands_.crbegin(); it != commands_.crend(); it++) {
-    (*it)->undo_now();
+  for (auto command : std::ranges::reverse_view(commands_)) {
+    command->undo_now();
   }
 }
 
@@ -99,8 +100,8 @@ void NodeSetPositionAndDependenciesRecursivelyCommand::move_recursively(Node *no
   pos += Node::Position(diff);
   commands_.append(new NodeSetPositionCommand(node_, context_, pos));
 
-  for (auto it = node->input_connections().cbegin(); it != node->input_connections().cend(); it++) {
-    Node *output = it->second;
+  for (const auto & it : node->input_connections()) {
+    Node *output = it.second;
     if (context_->ContextContainsNode(output)) {
       move_recursively(output, diff);
     }
@@ -164,8 +165,8 @@ void NodeRemoveAndDisconnectCommand::prepare() {
   }
 
   // Disconnect everything
-  for (auto it = node_->input_connections().cbegin(); it != node_->input_connections().cend(); it++) {
-    command_->add_child(new NodeEdgeRemoveCommand(it->second, it->first));
+  for (const auto & it : node_->input_connections()) {
+    command_->add_child(new NodeEdgeRemoveCommand(it.second, it.first));
   }
 
   for (const Node::OutputConnection &conn : node_->output_connections()) {
@@ -218,15 +219,15 @@ void NodeViewDeleteCommand::AddNode(Node *node, Node *context) {
   Node::ContextPair p = {node, context};
   nodes_.append(p);
 
-  for (auto it = node->input_connections().cbegin(); it != node->input_connections().cend(); it++) {
-    if (context->ContextContainsNode(it->second)) {
-      AddEdge(it->second, it->first);
+  for (const auto & it : node->input_connections()) {
+    if (context->ContextContainsNode(it.second)) {
+      AddEdge(it.second, it.first);
     }
   }
 
-  for (auto it = node->output_connections().cbegin(); it != node->output_connections().cend(); it++) {
-    if (context->ContextContainsNode(it->second.node())) {
-      AddEdge(it->first, it->second);
+  for (const auto & it : node->output_connections()) {
+    if (context->ContextContainsNode(it.second.node())) {
+      AddEdge(it.first, it.second);
     }
   }
 }
@@ -291,17 +292,17 @@ void NodeViewDeleteCommand::redo() {
 }
 
 void NodeViewDeleteCommand::undo() {
-  for (auto rn = removed_nodes_.crbegin(); rn != removed_nodes_.crend(); rn++) {
-    if (rn->removed_from_graph) {
-      rn->node->setParent(rn->removed_from_graph);
+  for (const auto & removed_node : std::ranges::reverse_view(removed_nodes_)) {
+    if (removed_node.removed_from_graph) {
+      removed_node.node->setParent(removed_node.removed_from_graph);
     }
 
-    rn->context->SetNodePositionInContext(rn->node, rn->pos);
+    removed_node.context->SetNodePositionInContext(removed_node.node, removed_node.pos);
   }
   removed_nodes_.clear();
 
-  for (auto edge = edges_.crbegin(); edge != edges_.crend(); edge++) {
-    Node::ConnectEdge(edge->first, edge->second);
+  for (const auto & edge : std::ranges::reverse_view(edges_)) {
+    Node::ConnectEdge(edge.first, edge.second);
   }
 }
 
@@ -412,14 +413,14 @@ void NodeImmediateRemoveAllKeyframesCommand::prepare() {
 }
 
 void NodeImmediateRemoveAllKeyframesCommand::redo() {
-  for (auto it = keys_.cbegin(); it != keys_.cend(); it++) {
-    (*it)->setParent(&memory_manager_);
+  for (auto key : keys_) {
+    key->setParent(&memory_manager_);
   }
 }
 
 void NodeImmediateRemoveAllKeyframesCommand::undo() {
-  for (auto it = keys_.crbegin(); it != keys_.crend(); it++) {
-    (*it)->setParent(&memory_manager_);
+  for (auto key : std::ranges::reverse_view(keys_)) {
+    key->setParent(&memory_manager_);
   }
 }
 

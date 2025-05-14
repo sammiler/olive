@@ -20,7 +20,7 @@
 
 #include "util/tests.h"
 
-#include <stdarg.h>
+#include <cstdarg>
 #include <cstddef>
 #include <cstdio>
 

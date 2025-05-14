@@ -32,8 +32,8 @@ struct HtmlNode {
 QTextCharFormat MergeHtmlFormats(const QVector<HtmlNode> &stack) {
   QTextCharFormat f;
 
-  for (int i = 0; i < stack.size(); i++) {
-    f.merge(stack.at(i).format);
+  for (const auto & i : stack) {
+    f.merge(i.format);
   }
 
   return f;
@@ -394,9 +394,7 @@ QMap<QString, QStringList> Html::GetCSSFromStyle(const QString &s) {
     const QString &val = kv.at(1);
     QChar in_quote(0);
     QString current_str;
-    for (int i = 0; i < val.size(); i++) {
-      const QChar &current_char = val.at(i);
-
+    for (auto current_char : val) {
       if (!in_quote.isNull()) {
         // If inside quotes and character isn't quote, indiscriminately append char
         if (current_char == in_quote) {

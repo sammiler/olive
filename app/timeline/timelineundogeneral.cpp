@@ -20,6 +20,8 @@
 
 #include "timelineundogeneral.h"
 
+#include <ranges>
+
 #include "node/block/clip/clip.h"
 #include "node/block/transition/transition.h"
 #include "node/factory.h"
@@ -363,8 +365,8 @@ void TrackReplaceBlockWithGapCommand::redo() {
     CreateRemoveTransitionCommandIfNecessary(false);
     CreateRemoveTransitionCommandIfNecessary(true);
   }
-  for (auto it = transition_remove_commands_.cbegin(); it != transition_remove_commands_.cend(); it++) {
-    (*it)->redo_now();
+  for (auto transition_remove_command : transition_remove_commands_) {
+    transition_remove_command->redo_now();
   }
 
   if (block_->next()) {
@@ -476,8 +478,8 @@ void TrackReplaceBlockWithGapCommand::undo() {
     track_->AppendBlock(block_);
   }
 
-  for (auto it = transition_remove_commands_.crbegin(); it != transition_remove_commands_.crend(); it++) {
-    (*it)->undo_now();
+  for (auto transition_remove_command : std::ranges::reverse_view(transition_remove_commands_)) {
+    transition_remove_command->undo_now();
   }
 }
 
@@ -524,9 +526,7 @@ void TimelineRemoveTrackCommand::undo() {
 }
 
 void TimelineAddDefaultTransitionCommand::prepare() {
-  for (auto it = clips_.cbegin(); it != clips_.cend(); it++) {
-    ClipBlock* c = *it;
-
+  for (auto c : clips_) {
     // Handle in transition
     if (clips_.contains(dynamic_cast<ClipBlock*>(c->previous()))) {
       // Do nothing, assume this will be handled by a dual transition from that clip

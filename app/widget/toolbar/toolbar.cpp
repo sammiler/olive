@@ -70,9 +70,7 @@ Toolbar::Toolbar(QWidget* parent) : super(parent) {
 
 void Toolbar::SetTool(const Tool::Item& tool) {
   // For each tool, set the "checked" state to whether the button's tool is the current tool
-  for (int i = 0; i < toolbar_btns_.size(); i++) {
-    ToolbarButton* btn = toolbar_btns_.at(i);
-
+  for (auto btn : toolbar_btns_) {
     btn->setChecked(btn->tool() == tool);
   }
 }

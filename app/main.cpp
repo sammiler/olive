@@ -33,16 +33,17 @@ extern "C" {
 
 #include <csignal>
 
-#include <QApplication>
-#include <QCommandLineParser>
-#include <QMessageBox>
-#include <QProcess>
-#include <QSurfaceFormat>
 #include "common/commandlineparser.h"
 #include "common/debug.h"
 #include "core.h"
 #include "node/project/serializer/serializer.h"
 #include "version.h"
+#include <QApplication>
+#include <QCommandLineParser>
+#include <QMessageBox>
+#include <QProcess>
+#include <QSurfaceFormat>
+#include <memory>
 
 #ifdef _WIN32
 #include <Windows.h>
@@ -269,9 +270,9 @@ int main(int argc, char *argv[]) {
     }
 #endif  // _WIN32
 
-    a.reset(new QApplication(argc, argv));
+    a = std::make_unique<QApplication>(argc, argv);
   } else {
-    a.reset(new QCoreApplication(argc, argv));
+    a = std::make_unique<QCoreApplication>(argc, argv);
   }
 
 #ifdef _WIN32

@@ -93,8 +93,8 @@ NodeValue NodeTraverser::GenerateRowValue(const Node *node, const QString &input
     auto tables = value.value<NodeValueTableArray>();
     NodeValueArray output;
 
-    for (auto it = tables.begin(); it != tables.end(); it++) {
-      output[it->first] = GenerateRowValueElement(node, input, it->first, &it->second, time);
+    for (auto & table : tables) {
+      output[table.first] = GenerateRowValueElement(node, input, table.first, &table.second, time);
     }
 
     value = NodeValue(value.type(), QVariant::fromValue(output), value.source(), value.array(), value.tag());

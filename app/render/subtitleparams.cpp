@@ -147,11 +147,11 @@ void SubtitleParams::Save(QXmlStreamWriter *writer) const {
   writer->writeTextElement(QStringLiteral("enabled"), QString::number(enabled_));
 
   writer->writeStartElement(QStringLiteral("subtitles"));
-  for (auto it = this->cbegin(); it != this->cend(); it++) {
+  for (const auto & it : *this) {
     writer->writeStartElement(QStringLiteral("subtitle"));
-    writer->writeAttribute(QStringLiteral("in"), QString::fromStdString(it->time().in().toString()));
-    writer->writeAttribute(QStringLiteral("out"), QString::fromStdString(it->time().out().toString()));
-    writer->writeCharacters(it->text());
+    writer->writeAttribute(QStringLiteral("in"), QString::fromStdString(it.time().in().toString()));
+    writer->writeAttribute(QStringLiteral("out"), QString::fromStdString(it.time().out().toString()));
+    writer->writeCharacters(it.text());
     writer->writeEndElement();  // subtitle
   }
   writer->writeEndElement();  // subtitles

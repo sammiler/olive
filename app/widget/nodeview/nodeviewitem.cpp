@@ -238,9 +238,9 @@ void NodeViewItem::SetExpanded(bool e, bool hide_titlebar) {
       }
 
       QVector<NodeViewEdge *> edges = edges_;
-      for (auto it = edges.cbegin(); it != edges.cend(); it++) {
-        if ((*it)->to_item() == this) {
-          (*it)->set_to_item(GetItemForInput((*it)->input()));
+      for (auto edge : edges) {
+        if (edge->to_item() == this) {
+          edge->set_to_item(GetItemForInput(edge->input()));
         }
       }
     } else {
@@ -253,9 +253,9 @@ void NodeViewItem::SetExpanded(bool e, bool hide_titlebar) {
       }
 
       QVector<NodeViewEdge *> edges = edges_;
-      for (auto it = edges.cbegin(); it != edges.cend(); it++) {
-        if ((*it)->to_item() == this) {
-          (*it)->set_to_item(GetItemForInput((*it)->input()));
+      for (auto edge : edges) {
+        if (edge->to_item() == this) {
+          edge->set_to_item(GetItemForInput(edge->input()));
         }
       }
     }

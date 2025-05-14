@@ -278,10 +278,10 @@ void NodeParamView::UpdateContexts() {
 
 void NodeParamView::ItemAboutToBeRemoved(NodeParamViewItem *item) {
   if (keyframe_view_) {
-    for (auto it = item->GetKeyframeConnections().begin(); it != item->GetKeyframeConnections().end(); it++) {
-      for (auto jt = it->begin(); jt != it->end(); jt++) {
-        for (auto kt = jt->begin(); kt != jt->end(); kt++) {
-          keyframe_view_->RemoveKeyframesOfTrack(*kt);
+    for (auto & it : item->GetKeyframeConnections()) {
+      for (auto jt = it.begin(); jt != it.end(); jt++) {
+        for (auto & kt : *jt) {
+          keyframe_view_->RemoveKeyframesOfTrack(kt);
         }
       }
     }
@@ -354,14 +354,14 @@ void NodeParamView::ConnectedNodeChangeEvent(ViewerOutput *n) {
 
 void ReconnectOutputsIfNotDeletingNode(MultiUndoCommand *c, NodeViewDeleteCommand *dc, Node *output, Node *deleting,
                                        Node *context) {
-  for (auto it = deleting->output_connections().cbegin(); it != deleting->output_connections().cend(); it++) {
-    const NodeInput &proposed_reconnect = it->second;
+  for (const auto & it : deleting->output_connections()) {
+    const NodeInput &proposed_reconnect = it.second;
 
     if (dc->ContainsNode(proposed_reconnect.node(), context)) {
       // Uh-oh we're deleting this node too, instead connect to its outputs
       ReconnectOutputsIfNotDeletingNode(c, dc, output, proposed_reconnect.node(), context);
     } else {
-      c->add_child(new NodeEdgeAddCommand(output, it->second));
+      c->add_child(new NodeEdgeAddCommand(output, it.second));
     }
   }
 }
@@ -461,9 +461,7 @@ void NodeParamView::SetSelectedNodes(const QVector<Node::ContextPair> &nodes, bo
   QVector<NodeParamViewItem *> items;
 
   foreach (const Node::ContextPair &n, nodes) {
-    for (auto it = context_items_.cbegin(); it != context_items_.cend(); it++) {
-      NodeParamViewContext *ctx = *it;
-
+    for (auto ctx : context_items_) {
       NodeParamViewItem *item = ctx->GetItem(n.node, n.context);
 
       if (item) {
@@ -713,8 +711,8 @@ int GetDistanceBetweenNodes(Node *start, Node *end) {
     return 0;
   }
 
-  for (auto it = start->input_connections().cbegin(); it != start->input_connections().cend(); it++) {
-    int this_node_dist = GetDistanceBetweenNodes(it->second, end);
+  for (const auto & it : start->input_connections()) {
+    int this_node_dist = GetDistanceBetweenNodes(it.second, end);
     if (this_node_dist != -1) {
       return 1 + this_node_dist;
     }
@@ -870,8 +868,7 @@ void NodeParamView::PinNode(bool pin) {
 
 void NodeParamView::UpdateElementY() {
   for (NodeParamViewContext *ctx : context_items_) {
-    for (auto it = ctx->GetItems().cbegin(); it != ctx->GetItems().cend(); it++) {
-      NodeParamViewItem *item = *it;
+    for (auto item : ctx->GetItems()) {
       Node *node = item->GetNode();
       const KeyframeView::NodeConnections &connections = item->GetKeyframeConnections();
 

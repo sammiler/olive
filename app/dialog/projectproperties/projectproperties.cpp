@@ -107,9 +107,9 @@ ProjectPropertiesDialog::ProjectPropertiesDialog(Project* p, QWidget* parent)
     disk_cache_radios_[Project::kCacheUseDefaultLocation] = new QRadioButton(tr("Use Default Location"));
     disk_cache_radios_[Project::kCacheStoreAlongsideProject] = new QRadioButton(tr("Store Alongside Project"));
     disk_cache_radios_[Project::kCacheCustomPath] = new QRadioButton(tr("Use Custom Location:"));
-    for (int i = 0; i < kDiskCacheRadioCount; i++) {
-      disk_cache_btn_group->addButton(disk_cache_radios_[i]);
-      cache_layout->addWidget(disk_cache_radios_[i]);
+    for (auto & disk_cache_radio : disk_cache_radios_) {
+      disk_cache_btn_group->addButton(disk_cache_radio);
+      cache_layout->addWidget(disk_cache_radio);
     }
 
     // Create custom cache path widget

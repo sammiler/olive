@@ -85,9 +85,7 @@ QStringList QtUtils::WordWrapString(const QString &s, const QFontMetrics &fm, in
   QStringList lines = s.split('\n');
 
   // Iterate every line
-  for (int i = 0; i < lines.size(); i++) {
-    QString this_line = lines.at(i);
-
+  for (auto this_line : lines) {
     while (this_line.size() > 1 && QFontMetricsWidth(fm, this_line) >= bounding_width) {
       int old_size = this_line.size();
       int hard_break = -1;

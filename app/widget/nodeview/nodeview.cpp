@@ -27,6 +27,7 @@
 #include <QPushButton>
 #include <QScrollBar>
 #include <QToolTip>
+#include <ranges>
 
 #include "node/audio/volume/volume.h"
 #include "node/distort/transform/transformdistortnode.h"
@@ -316,11 +317,10 @@ void NodeView::Duplicate() {
       if (auto *src_group = dynamic_cast<NodeGroup *>(og)) {
         auto *dst_group = dynamic_cast<NodeGroup *>(copy);
 
-        for (auto it = src_group->GetInputPassthroughs().cbegin(); it != src_group->GetInputPassthroughs().cend();
-             it++) {
-          NodeInput input = it->second;
+        for (const auto & it : src_group->GetInputPassthroughs()) {
+          NodeInput input = it.second;
           input.set_node(new_nodes.at(selected.indexOf(input.node())));
-          dst_group->AddInputPassthrough(input, it->first);
+          dst_group->AddInputPassthrough(input, it.first);
         }
 
         dst_group->SetOutputPassthrough(new_nodes.at(selected.indexOf(src_group->GetOutputPassthrough())));
@@ -1599,8 +1599,8 @@ void NodeView::EndEdgeDrag(bool cancel) {
   create_edge_input_item_ = nullptr;
 
   // Collapse any items we expanded
-  for (auto it = create_edge_expanded_items_.crbegin(); it != create_edge_expanded_items_.crend(); it++) {
-    CollapseItem(*it);
+  for (auto create_edge_expanded_item : std::ranges::reverse_view(create_edge_expanded_items_)) {
+    CollapseItem(create_edge_expanded_item);
   }
   create_edge_expanded_items_.clear();
 
@@ -1612,9 +1612,7 @@ void NodeView::PostPaste(const QVector<Node *> &new_nodes, const Node::PositionM
 
   NodeViewItem *first_item = nullptr;
 
-  for (int i = 0; i < new_nodes.size(); i++) {
-    Node *node = new_nodes.at(i);
-
+  for (auto node : new_nodes) {
     // Determine if item had a position, if not don't create an item for it
     NodeViewItem *new_item;
 
@@ -1636,9 +1634,7 @@ void NodeView::PostPaste(const QVector<Node *> &new_nodes, const Node::PositionM
 
   // Correct positions
   if (first_item) {
-    for (int i = 0; i < new_attached.size(); i++) {
-      AttachedItem &ai = new_attached[i];
-
+    for (auto & ai : new_attached) {
       if (ai.item) {
         ai.original_pos = ai.item->pos() - first_item->pos();
       }

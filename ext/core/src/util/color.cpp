@@ -21,9 +21,8 @@
 #include "util/color.h"
 
 #include <Imath/half.h>
-#include <math.h>
-#include <stdint.h>
 #include <cmath>
+#include <cstdint>
 
 namespace olive::core {
 
@@ -238,32 +237,32 @@ Color &Color::operator-=(const Color &rhs) {
 }
 
 Color &Color::operator+=(const DataType &rhs) {
-  for (int i = 0; i < RGBA; i++) {
-    data_[i] += rhs;
+  for (float & i : data_) {
+    i += rhs;
   }
 
   return *this;
 }
 
 Color &Color::operator-=(const DataType &rhs) {
-  for (int i = 0; i < RGBA; i++) {
-    data_[i] -= rhs;
+  for (float & i : data_) {
+    i -= rhs;
   }
 
   return *this;
 }
 
 Color &Color::operator*=(const DataType &rhs) {
-  for (int i = 0; i < RGBA; i++) {
-    data_[i] *= rhs;
+  for (float & i : data_) {
+    i *= rhs;
   }
 
   return *this;
 }
 
 Color &Color::operator/=(const DataType &rhs) {
-  for (int i = 0; i < RGBA; i++) {
-    data_[i] /= rhs;
+  for (float & i : data_) {
+    i /= rhs;
   }
 
   return *this;

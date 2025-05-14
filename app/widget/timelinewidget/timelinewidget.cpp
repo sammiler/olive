@@ -239,8 +239,7 @@ void TimelineWidget::TimeChangedEvent(const rational &t) {
 
     QVector<Block *> new_blocks;
 
-    for (auto it = sequence()->GetTracks().cbegin(); it != sequence()->GetTracks().cend(); it++) {
-      Track *track = *it;
+    for (auto track : sequence()->GetTracks()) {
       if (track->IsLocked()) {
         continue;
       }
@@ -670,7 +669,7 @@ bool TimelineWidget::Paste() {
   }
 
   // Give last chance to NodeParamView
-  return NodeParamView::Paste(this, std::bind(&TimelineWidget::GenerateExistingPasteMap, this, std::placeholders::_1));
+  return NodeParamView::Paste(this, [this](auto && PH1) { return GenerateExistingPasteMap(std::forward<decltype(PH1)>(PH1)); });
 }
 
 void TimelineWidget::PasteInsert() { PasteInternal(true); }
@@ -1439,9 +1438,9 @@ void TimelineWidget::MulticamEnabledTriggered(bool e) {
           QVector<NodeInput> inputs = c->FindWaysNodeArrivesHere(s);
           for (const NodeInput &i : inputs) {
             if (auto *mcn = dynamic_cast<MultiCamNode *>(i.node())) {
-              for (auto it = mcn->output_connections().cbegin(); it != mcn->output_connections().cend(); it++) {
-                command->add_child(new NodeEdgeRemoveCommand(it->first, it->second));
-                command->add_child(new NodeEdgeAddCommand(s, it->second));
+              for (const auto & it : mcn->output_connections()) {
+                command->add_child(new NodeEdgeRemoveCommand(it.first, it.second));
+                command->add_child(new NodeEdgeAddCommand(s, it.second));
               }
 
               command->add_child(new NodeRemoveAndDisconnectCommand(mcn));
@@ -1804,9 +1803,7 @@ bool TimelineWidget::PasteInternal(bool insert) {
     }
   }
 
-  for (auto it = res.GetLoadData().promised_connections.cbegin(); it != res.GetLoadData().promised_connections.cend();
-       it++) {
-    auto oc = *it;
+  for (auto oc : res.GetLoadData().promised_connections) {
     command->add_child(new NodeEdgeAddCommand(oc.first, oc.second));
   }
 

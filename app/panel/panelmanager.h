@@ -152,8 +152,8 @@ template <class T>
 T* PanelManager::MostRecentlyFocused() {
   T* cast_test;
 
-  for (int i = 0; i < focus_history_.size(); i++) {
-    cast_test = dynamic_cast<T*>(focus_history_.at(i));
+  for (auto i : focus_history_) {
+    cast_test = dynamic_cast<T*>(i);
 
     if (cast_test != nullptr) {
       return cast_test;

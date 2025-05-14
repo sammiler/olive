@@ -20,7 +20,7 @@
 
 #include "util/stringutils.h"
 
-#include <stdarg.h>
+#include <cstdarg>
 #include <cstring>
 #include <stdexcept>
 

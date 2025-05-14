@@ -20,6 +20,9 @@
 
 #include "math.h"
 
+#include <QString>
+#include <cmath>
+
 namespace olive {
 
 const QString MathNode::kMethodIn = QStringLiteral("method_in");

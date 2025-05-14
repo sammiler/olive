@@ -33,6 +33,7 @@
 #include <QPushButton>
 #include <QScreen>
 #include <QTextEdit>
+#include <ranges>
 
 #include "common/define.h"
 #include "common/html.h"
@@ -496,8 +497,8 @@ void ViewerDisplayWidget::OnPaint() {
       QPainter p(paint_device());
 
       double average = 0.0;
-      for (int i = 0; i < frame_rate_averages_.size(); i++) {
-        average += frame_rate_averages_[i];
+      for (double frame_rate_average : frame_rate_averages_) {
+        average += frame_rate_average;
       }
       average /= double(frame_rate_averages_.size());
 
@@ -641,8 +642,7 @@ NodeGizmo *ViewerDisplayWidget::TryGizmoPress(const NodeValueRow &row, const QPo
     return nullptr;
   }
 
-  for (auto it = gizmos_->GetGizmos().crbegin(); it != gizmos_->GetGizmos().crend(); it++) {
-    NodeGizmo *gizmo = *it;
+  for (auto gizmo : std::ranges::reverse_view(gizmos_->GetGizmos())) {
     if (gizmo->IsVisible()) {
       if (auto *point = dynamic_cast<PointGizmo *>(gizmo)) {
         if (point->GetClickingRect(gizmo_last_draw_transform_).contains(p)) {

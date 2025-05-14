@@ -1013,14 +1013,14 @@ QString Core::GetProjectFilter(bool include_any_filter) {
 
   if (include_any_filter) {
     QStringList combined;
-    for (auto it = FILTERS.cbegin(); it != FILTERS.cend(); it++) {
-      combined.append(QStringLiteral("*.%1").arg(it->second));
+    for (const auto & it : FILTERS) {
+      combined.append(QStringLiteral("*.%1").arg(it.second));
     }
     filters.append(QStringLiteral("%1 (%2)").arg(tr("All Supported Projects"), combined.join(' ')));
   }
 
-  for (auto it = FILTERS.cbegin(); it != FILTERS.cend(); it++) {
-    filters.append(QStringLiteral("%1 (*.%2)").arg(it->first, it->second));
+  for (const auto & it : FILTERS) {
+    filters.append(QStringLiteral("%1 (*.%2)").arg(it.first, it.second));
   }
 
   return filters.join(QStringLiteral(";;"));

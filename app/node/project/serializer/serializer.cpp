@@ -23,6 +23,7 @@
 #include <QApplication>
 #include <QFile>
 #include <QXmlStreamReader>
+#include <memory>
 
 #include "common/xmlutils.h"
 #include "core.h"
@@ -67,10 +68,10 @@ ProjectSerializer::Result ProjectSerializer::Load(Project *project, const QStrin
       // File is compressed, decompress into memory
       QByteArray b;
       b = qUncompress(project_file.readAll());
-      reader.reset(new QXmlStreamReader(b));
+      reader = std::make_unique<QXmlStreamReader>(b);
     } else {
       project_file.seek(0);
-      reader.reset(new QXmlStreamReader(&project_file));
+      reader = std::make_unique<QXmlStreamReader>(&project_file);
     }
 
     Result inner_result = Load(project, reader.get(), load_type);

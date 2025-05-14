@@ -20,7 +20,7 @@
 
 #include "util/rational.h"
 
-#include <math.h>
+#include <cmath>
 
 #include "util/stringutils.h"
 
@@ -29,7 +29,7 @@ namespace olive::core {
 const rational rational::NaN = rational(0, 0);
 
 rational rational::fromDouble(const double &flt, bool *ok) {
-  if (isnan(flt)) {
+  if (std::isnan(flt)) {
     // Return NaN rational
     if (ok) *ok = false;
     return NaN;

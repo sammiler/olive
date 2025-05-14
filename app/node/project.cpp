@@ -69,8 +69,8 @@ void Project::Initialize() {
 void Project::Clear() {
   // By deleting the last nodes first, we assume that nodes that are most important are deleted last
   // (e.g. Project's ColorManager or ProjectSettingsNode.
-  for (auto it = node_children_.cbegin(); it != node_children_.cend(); it++) {
-    (*it)->SetCachesEnabled(false);
+  for (auto it : node_children_) {
+    it->SetCachesEnabled(false);
   }
 
   while (!node_children_.isEmpty()) {
@@ -218,16 +218,16 @@ void Project::childEvent(QChildEvent *event) {
       node->AddedToGraphEvent(this);
 
       // Emit input connections
-      for (auto it = node->input_connections().cbegin(); it != node->input_connections().cend(); it++) {
-        if (nodes().contains(it->second)) {
-          emit InputConnected(it->second, it->first);
+      for (const auto & it : node->input_connections()) {
+        if (nodes().contains(it.second)) {
+          emit InputConnected(it.second, it.first);
         }
       }
 
       // Emit output connections
-      for (auto it = node->output_connections().cbegin(); it != node->output_connections().cend(); it++) {
-        if (nodes().contains(it->second.node())) {
-          emit InputConnected(it->first, it->second);
+      for (const auto & it : node->output_connections()) {
+        if (nodes().contains(it.second.node())) {
+          emit InputConnected(it.first, it.second);
         }
       }
 

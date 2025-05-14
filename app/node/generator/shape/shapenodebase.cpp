@@ -53,8 +53,8 @@ ShapeNodeBase::ShapeNodeBase(bool create_color_input) {
       NodeKeyframeTrackReference(NodeInput(this, kPositionInput), 0),
       NodeKeyframeTrackReference(NodeInput(this, kPositionInput), 1),
   });
-  for (int i = 0; i < kGizmoScaleCount; i++) {
-    point_gizmo_[i] = AddDraggableGizmo<PointGizmo>(pos_n_sz, PointGizmo::kAbsolute);
+  for (auto & i : point_gizmo_) {
+    i = AddDraggableGizmo<PointGizmo>(pos_n_sz, PointGizmo::kAbsolute);
   }
 }
 

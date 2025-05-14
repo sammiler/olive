@@ -91,7 +91,7 @@ std::unique_ptr<WindowBeingDragged> TabBar::makeWindow()
 
     auto draggable = KDDockWidgets::usesNativeTitleBar() ? static_cast<Draggable *>(floatingWindow)
                                                          : static_cast<Draggable *>(this);
-    return std::unique_ptr<WindowBeingDragged>(new WindowBeingDragged(floatingWindow, draggable));
+    return std::make_unique<WindowBeingDragged>(floatingWindow, draggable);
 }
 
 bool TabBar::isWindow() const
@@ -227,7 +227,7 @@ std::unique_ptr<WindowBeingDragged> TabWidget::makeWindow()
         if (floatingWindow->hasSingleFrame()) {
             // We're already in a floating window, and it only has 1 dock widget.
             // So there's no detachment to be made, we just move the window.
-            return std::unique_ptr<WindowBeingDragged>(new WindowBeingDragged(floatingWindow, this));
+            return std::make_unique<WindowBeingDragged>(floatingWindow, this);
         }
     }
 
@@ -240,7 +240,7 @@ std::unique_ptr<WindowBeingDragged> TabWidget::makeWindow()
     floatingWindow->setSuggestedGeometry(r, SuggestedGeometryHint_GeometryIsFromDocked);
     floatingWindow->show();
 
-    return std::unique_ptr<WindowBeingDragged>(new WindowBeingDragged(floatingWindow, this));
+    return std::make_unique<WindowBeingDragged>(floatingWindow, this);
 }
 
 bool TabWidget::isWindow() const

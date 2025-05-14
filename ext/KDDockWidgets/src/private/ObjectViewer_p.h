@@ -32,8 +32,8 @@ QT_BEGIN_NAMESPACE
 class QStandardItem;
 QT_END_NAMESPACE
 
-namespace KDDockWidgets {
-namespace Debug {
+
+namespace KDDockWidgets::Debug {
 
 class ObjectViewer : public QWidget // clazy:exclude=missing-qobject-macro
 {
@@ -77,7 +77,7 @@ protected:
     bool eventFilter(QObject *watched, QEvent *event) override;
 };
 }
-}
+
 
 
 #endif

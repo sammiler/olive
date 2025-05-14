@@ -26,8 +26,8 @@ QT_BEGIN_NAMESPACE
 class QEventLoop;
 QT_END_NAMESPACE
 
-namespace KDDockWidgets {
-namespace Debug {
+
+namespace KDDockWidgets::Debug {
 
 class DebugWindow : public QWidget
 {
@@ -51,7 +51,7 @@ protected:
     void mousePressEvent(QMouseEvent *event) override;
 };
 }
-}
+
 
 #endif
 

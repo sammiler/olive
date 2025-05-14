@@ -708,9 +708,7 @@ bool TimeBasedWidget::SnapPoint(const std::vector<rational> &start_times, ration
   }
 
   if ((snap_points & kSnapToClips) && GetSnapBlocks()) {
-    for (auto it = GetSnapBlocks()->cbegin(); it != GetSnapBlocks()->cend(); it++) {
-      Block *b = *it;
-
+    for (auto b : *GetSnapBlocks()) {
       qreal rect_left = TimeToScene(b->in());
       qreal rect_right = TimeToScene(b->out());
 
@@ -725,9 +723,7 @@ bool TimeBasedWidget::SnapPoint(const std::vector<rational> &start_times, ration
         if (auto *clip = dynamic_cast<ClipBlock *>(b)) {
           if (clip->connected_viewer()) {
             TimelineMarkerList *markers = clip->connected_viewer()->GetMarkers();
-            for (auto jt = markers->cbegin(); jt != markers->cend(); jt++) {
-              TimelineMarker *marker = *jt;
-
+            for (auto marker : *markers) {
               TimeRange marker_range = marker->time() + clip->in() - clip->media_in();
 
               qreal marker_in_screen = TimeToScene(marker_range.in());
@@ -743,9 +739,7 @@ bool TimeBasedWidget::SnapPoint(const std::vector<rational> &start_times, ration
   }
 
   if ((snap_points & kSnapToMarkers) && ruler()->GetMarkers()) {
-    for (auto it = ruler()->GetMarkers()->cbegin(); it != ruler()->GetMarkers()->cend(); it++) {
-      TimelineMarker *m = *it;
-
+    for (auto m : *ruler()->GetMarkers()) {
       // Ignore selected markers
       if (std::find(ruler()->GetSelectedMarkers().cbegin(), ruler()->GetSelectedMarkers().cend(), m) !=
           ruler()->GetSelectedMarkers().cend()) {
@@ -771,11 +765,9 @@ bool TimeBasedWidget::SnapPoint(const std::vector<rational> &start_times, ration
   }
 
   if ((snap_points & kSnapToKeyframes) && GetSnapKeyframes()) {
-    for (auto it = GetSnapKeyframes()->cbegin(); it != GetSnapKeyframes()->cend(); it++) {
-      const QVector<NodeKeyframe *> &keys = (*it)->GetKeyframes();
-      for (auto jt = keys.cbegin(); jt != keys.cend(); jt++) {
-        NodeKeyframe *key = *jt;
-
+    for (auto it : *GetSnapKeyframes()) {
+      const QVector<NodeKeyframe *> &keys = it->GetKeyframes();
+      for (auto key : keys) {
         auto ignore = GetSnapIgnoreKeyframes();
         if (ignore && std::find(ignore->cbegin(), ignore->cend(), key) != ignore->cend()) {
           continue;

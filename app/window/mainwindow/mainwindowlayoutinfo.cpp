@@ -31,18 +31,18 @@ void MainWindowLayoutInfo::toXml(QXmlStreamWriter *writer) const {
 
   writer->writeStartElement(QStringLiteral("data"));
 
-  for (auto it = panel_data_.cbegin(); it != panel_data_.cend(); it++) {
+  for (const auto & it : panel_data_) {
     writer->writeStartElement(QStringLiteral("panel"));
 
-    writer->writeAttribute(QStringLiteral("id"), it->first);
+    writer->writeAttribute(QStringLiteral("id"), it.first);
 
-    const PanelWidget::Info &info = it->second;
-    for (auto jt = info.cbegin(); jt != info.cend(); jt++) {
+    const PanelWidget::Info &info = it.second;
+    for (const auto & jt : info) {
       writer->writeStartElement(QStringLiteral("option"));
 
-      writer->writeAttribute(QStringLiteral("name"), jt->first);
+      writer->writeAttribute(QStringLiteral("name"), jt.first);
 
-      writer->writeCharacters(jt->second);
+      writer->writeCharacters(jt.second);
 
       writer->writeEndElement();  // option
     }

@@ -89,8 +89,8 @@ void TextGeneratorV3::Value(const NodeValueRow &value, const NodeGlobals &global
     if (!args.empty()) {
       QStringList list;
       list.reserve(args.size());
-      for (size_t i = 0; i < args.size(); i++) {
-        list.append(args[i].toString());
+      for (const auto & arg : args) {
+        list.append(arg.second.toString());
       }
 
       text = FormatString(text, list);
