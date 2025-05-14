@@ -54,10 +54,10 @@ public:
     ~MainWindow() override;
 
     ///@brief returns the sidebar for the specified location
-    [[nodiscard]]  SideBar *sideBar(SideBarLocation) const override;
+    [[nodiscard]] SideBar *sideBar(SideBarLocation) const override;
 
     //@brief returns the margins for the contents widget
-    [[nodiscard]]  QMargins centerWidgetMargins() const override;
+    [[nodiscard]] QMargins centerWidgetMargins() const override;
 
     //@brief sets the margins for the contents widgets
     void setCenterWidgetMargins(QMargins);
@@ -65,12 +65,12 @@ public:
     ///@brief returns the internal layout
     /// this is rarely needed unless you want to layout other widgets next to the
     /// main dock widget layout
-    [[nodiscard]]  QHBoxLayout *internalLayout() const;
+    [[nodiscard]] QHBoxLayout *internalLayout() const;
 
 protected:
     void closeEvent(QCloseEvent *) override;
     void resizeEvent(QResizeEvent *) override;
-    [[nodiscard]]  QRect centralAreaGeometry() const override;
+    [[nodiscard]] QRect centralAreaGeometry() const override;
 
 private:
     using QMainWindow::setCentralWidget;

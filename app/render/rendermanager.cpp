@@ -54,7 +54,7 @@ RenderManager::RenderManager(QObject *parent) : backend_(kOpenGL), aggressive_gc
     audio_thread_ = CreateThread();
 
     waveform_threads_.resize(QThread::idealThreadCount());
-    for (auto & waveform_thread : waveform_threads_) {
+    for (auto &waveform_thread : waveform_threads_) {
       waveform_thread = CreateThread();
     }
 
@@ -146,7 +146,7 @@ RenderTicketPtr RenderManager::RenderAudio(const RenderAudioParams &params) {
   return ticket;
 }
 
-bool RenderManager::RemoveTicket(const RenderTicketPtr& ticket) {
+bool RenderManager::RemoveTicket(const RenderTicketPtr &ticket) {
   for (RenderThread *rt : render_threads_) {
     if (rt->RemoveTicket(ticket)) {
       return true;
@@ -195,14 +195,14 @@ RenderThread::RenderThread(Renderer *renderer, DecoderCache *decoder_cache, Shad
   }
 }
 
-void RenderThread::AddTicket(const RenderTicketPtr& ticket) {
+void RenderThread::AddTicket(const RenderTicketPtr &ticket) {
   QMutexLocker locker(&mutex_);
   ticket->moveToThread(this);
   queue_.push_back(ticket);
   wait_.wakeOne();
 }
 
-bool RenderThread::RemoveTicket(const RenderTicketPtr& ticket) {
+bool RenderThread::RemoveTicket(const RenderTicketPtr &ticket) {
   QMutexLocker locker(&mutex_);
 
   auto it = std::find(queue_.begin(), queue_.end(), ticket);

@@ -49,8 +49,9 @@ class NodeTraverser {
   NodeValue GenerateRowValueElement(const Node *node, const QString &input, int element, NodeValueTable *table,
                                     const TimeRange &time);
   static int GenerateRowValueElementIndex(const Node::ValueHint &hint, NodeValue::Type preferred_type,
-                                   const NodeValueTable *table);
-  static int GenerateRowValueElementIndex(const Node *node, const QString &input, int element, const NodeValueTable *table);
+                                          const NodeValueTable *table);
+  static int GenerateRowValueElementIndex(const Node *node, const QString &input, int element,
+                                          const NodeValueTable *table);
 
   void Transform(QTransform *transform, const Node *start, const Node *end, const TimeRange &range);
 

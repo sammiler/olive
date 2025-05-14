@@ -764,7 +764,7 @@ void NodeParamViewWidgetBridge::InputDataTypeChanged(const QString& input, NodeV
 void NodeParamViewWidgetBridge::PropertyChanged(const QString& input, const QString& key, const QVariant& value) {
   bool found = false;
 
-  for (const auto & it : input_hierarchy_) {
+  for (const auto& it : input_hierarchy_) {
     if (it.input() == input) {
       found = true;
       break;
@@ -778,7 +778,7 @@ void NodeParamViewWidgetBridge::PropertyChanged(const QString& input, const QStr
 
 void NodeParamViewWidgetBridge::UpdateProperties() {
   // Set properties from the last entry (the innermost input) to the first (the outermost)
-  for (const auto & it : std::ranges::reverse_view(input_hierarchy_)) {
+  for (const auto& it : std::ranges::reverse_view(input_hierarchy_)) {
     auto input_properties = it.node()->GetInputProperties(it.input());
     for (auto jt = input_properties.cbegin(); jt != input_properties.cend(); jt++) {
       SetProperty(jt.key(), jt.value());

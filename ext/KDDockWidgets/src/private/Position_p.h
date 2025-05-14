@@ -41,7 +41,7 @@ class LayoutWidget;
 // Just a RAII class so we don't forget to unref
 struct ItemRef
 {
-    explicit ItemRef(QMetaObject::Connection , Layouting::Item *);
+    explicit ItemRef(QMetaObject::Connection, Layouting::Item *);
     ~ItemRef();
 
     [[nodiscard]] bool isInMainWindow() const;

@@ -77,7 +77,9 @@ class ExportVideoTab : public QWidget {
 
   void SetOCIOColorSpace(const QString& s) { color_space_chooser_->set_input(s); }
 
-  [[nodiscard]] CodecSection* GetCodecSection() const { return dynamic_cast<CodecSection*>(codec_stack_->currentWidget()); }
+  [[nodiscard]] CodecSection* GetCodecSection() const {
+    return dynamic_cast<CodecSection*>(codec_stack_->currentWidget());
+  }
 
   void SetCodecSection(CodecSection* section) {
     if (section) {

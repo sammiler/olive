@@ -42,7 +42,7 @@ void RenderJobTracker::insert(const TimeRangeList &ranges, JobTime job_time) {
 void RenderJobTracker::clear() { jobs_.clear(); }
 
 bool RenderJobTracker::isCurrent(const rational &time, JobTime job_time) const {
-  for (const auto & job : std::ranges::reverse_view(jobs_)) {
+  for (const auto &job : std::ranges::reverse_view(jobs_)) {
     if (job.Contains(time)) {
       return job_time >= job.GetJobTime();
     }
@@ -54,7 +54,7 @@ bool RenderJobTracker::isCurrent(const rational &time, JobTime job_time) const {
 TimeRangeList RenderJobTracker::getCurrentSubRanges(const TimeRange &range, const JobTime &job_time) const {
   TimeRangeList current_ranges;
 
-  for (const auto & job : std::ranges::reverse_view(jobs_)) {
+  for (const auto &job : std::ranges::reverse_view(jobs_)) {
     if (job_time >= job.GetJobTime() && job.OverlapsWith(range)) {
       current_ranges.insert(job.Intersected(range));
     }

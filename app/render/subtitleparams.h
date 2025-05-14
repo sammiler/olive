@@ -21,11 +21,11 @@
 #ifndef SUBTITLEPARAMS_H
 #define SUBTITLEPARAMS_H
 
+#include <olive/core/core.h>
 #include <QRect>
 #include <QString>
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
-#include <olive/core/core.h>
 #include <utility>
 
 using namespace olive::core;

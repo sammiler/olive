@@ -44,7 +44,7 @@ class Texture {
   /**
    * @brief Construct a dummy texture with no renderer backend
    */
-  explicit Texture(VideoParams  param) : renderer_(nullptr), params_(std::move(param)), job_(nullptr) {}
+  explicit Texture(VideoParams param) : renderer_(nullptr), params_(std::move(param)), job_(nullptr) {}
 
   template <typename T>
   Texture(const VideoParams& p, const T& j) : Texture(p) {
@@ -54,7 +54,7 @@ class Texture {
   /**
    * @brief Construct a real texture linked to a renderer backend
    */
-  Texture(Renderer* renderer, QVariant  native, VideoParams  param)
+  Texture(Renderer* renderer, QVariant native, VideoParams param)
       : renderer_(renderer), params_(std::move(param)), id_(std::move(native)), job_(nullptr) {}
 
   ~Texture();
@@ -83,7 +83,9 @@ class Texture {
 
   [[nodiscard]] int height() const { return params_.effective_height(); }
 
-  [[nodiscard]] QVector2D virtual_resolution() const { return {static_cast<float>(params_.square_pixel_width()), static_cast<float>(params_.height())}; }
+  [[nodiscard]] QVector2D virtual_resolution() const {
+    return {static_cast<float>(params_.square_pixel_width()), static_cast<float>(params_.height())};
+  }
 
   [[nodiscard]] PixelFormat format() const { return params_.format(); }
 

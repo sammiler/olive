@@ -26,11 +26,11 @@ extern "C" {
 #include <libswresample/swresample.h>
 }
 
+#include <stdint.h>
 #include <QFileInfo>
 #include <QMutex>
 #include <QObject>
 #include <QWaitCondition>
-#include <stdint.h>
 #include <utility>
 
 #include "node/block/block.h"
@@ -83,7 +83,7 @@ class Decoder : public QObject {
    public:
     CodecStream() : stream_(-1), block_(nullptr) {}
 
-    CodecStream(QString  filename, int stream, Block* block)
+    CodecStream(QString filename, int stream, Block* block)
         : filename_(std::move(filename)), stream_(stream), block_(block) {}
 
     [[nodiscard]] bool IsValid() const { return !filename_.isEmpty() && stream_ >= 0; }

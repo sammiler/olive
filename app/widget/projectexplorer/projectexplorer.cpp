@@ -533,7 +533,7 @@ QVector<Node*> ProjectExplorer::SelectedItems() const {
   // Convert indexes to item objects
   QVector<Node*> selected_items;
 
-  for (const auto & i : index_list) {
+  for (const auto& i : index_list) {
     QModelIndex index = sort_model_.mapToSource(i);
 
     Node* item = static_cast<Node*>(index.internalPointer());

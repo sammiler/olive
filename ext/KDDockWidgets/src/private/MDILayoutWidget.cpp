@@ -24,8 +24,7 @@ MDILayoutWidget::MDILayoutWidget(QWidgetOrQuick *parent)
     setRootItem(m_rootItem);
 }
 
-MDILayoutWidget::~MDILayoutWidget()
-= default;
+MDILayoutWidget::~MDILayoutWidget() = default;
 
 void MDILayoutWidget::addDockWidget(DockWidgetBase *dw, QPoint localPt, InitialOption addingOption)
 {

@@ -36,7 +36,7 @@ ConformManager::Conform ConformManager::GetConformState(const QString &decoder_i
     // We conform to a different filename until it's done to make it clear even across sessions
     // whether this conform is ready or not
     QVector<QString> working_filenames = filenames;
-    for (auto & working_filename : working_filenames) {
+    for (auto &working_filename : working_filenames) {
       working_filename.append(QStringLiteral(".working"));
     }
 
@@ -63,11 +63,11 @@ QVector<QString> ConformManager::GetConformedFilename(const QString &cache_path,
   QVector<QString> filenames(params.channel_count());
 
   for (int i = 0; i < filenames.size(); i++) {
-    QString index_fn =
-        QStringLiteral("%1-%2.%3.%4.%5.%6.pcm")
-            .arg(FileFunctions::GetUniqueFileIdentifier(stream.filename()), QString::number(stream.stream()),
-                 QString::number(params.sample_rate()), QString::number(static_cast<SampleFormat::Format>(params.format())),
-                 QString::number(params.channel_layout()), QString::number(i));
+    QString index_fn = QStringLiteral("%1-%2.%3.%4.%5.%6.pcm")
+                           .arg(FileFunctions::GetUniqueFileIdentifier(stream.filename()),
+                                QString::number(stream.stream()), QString::number(params.sample_rate()),
+                                QString::number(static_cast<SampleFormat::Format>(params.format())),
+                                QString::number(params.channel_layout()), QString::number(i));
 
     filenames[i] = QDir(cache_path).filePath(index_fn);
   }
@@ -115,7 +115,7 @@ void ConformManager::ConformTaskFinished(Task *task, bool succeeded) {
     emit ConformReady();
   } else {
     // Failed, just delete the working filename if exists
-    for (const auto & i : data.working_filename) {
+    for (const auto &i : data.working_filename) {
       QFile::remove(i);
     }
   }

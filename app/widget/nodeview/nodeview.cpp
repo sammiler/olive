@@ -317,7 +317,7 @@ void NodeView::Duplicate() {
       if (auto *src_group = dynamic_cast<NodeGroup *>(og)) {
         auto *dst_group = dynamic_cast<NodeGroup *>(copy);
 
-        for (const auto & it : src_group->GetInputPassthroughs()) {
+        for (const auto &it : src_group->GetInputPassthroughs()) {
           NodeInput input = it.second;
           input.set_node(new_nodes.at(selected.indexOf(input.node())));
           dst_group->AddInputPassthrough(input, it.first);
@@ -1583,9 +1583,9 @@ void NodeView::EndEdgeDrag(bool cancel) {
           // the node itself, because sometimes a node may not be in the context but another node
           // representing it will be (e.g. groups)
           if (!scene_.context_map().value(create_edge_input_item_->GetContext())->GetItemFromMap(creating_output)) {
-            command->add_child(
-                new NodeSetPositionCommand(creating_output, create_edge_input_item_->GetContext(),
-                                           Node::Position(scene_.context_map()
+            command->add_child(new NodeSetPositionCommand(
+                creating_output, create_edge_input_item_->GetContext(),
+                Node::Position(scene_.context_map()
                                    .value(create_edge_input_item_->GetContext())
                                    ->MapScenePosToNodePosInContext(create_edge_output_item_->scenePos()))));
           }
@@ -1634,7 +1634,7 @@ void NodeView::PostPaste(const QVector<Node *> &new_nodes, const Node::PositionM
 
   // Correct positions
   if (first_item) {
-    for (auto & ai : new_attached) {
+    for (auto &ai : new_attached) {
       if (ai.item) {
         ai.original_pos = ai.item->pos() - first_item->pos();
       }

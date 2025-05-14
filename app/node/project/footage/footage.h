@@ -120,7 +120,9 @@ class Footage : public ViewerOutput {
   void SetCancelPointer(CancelAtom *c) { cancelled_ = c; }
 
   [[nodiscard]] int GetStreamIndex(Track::Type type, int index) const;
-  [[nodiscard]] int GetStreamIndex(const Track::Reference &ref) const { return GetStreamIndex(ref.type(), ref.index()); }
+  [[nodiscard]] int GetStreamIndex(const Track::Reference &ref) const {
+    return GetStreamIndex(ref.type(), ref.index());
+  }
 
   [[nodiscard]] Track::Reference GetReferenceFromRealIndex(int real_index) const;
 

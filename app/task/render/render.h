@@ -43,7 +43,7 @@ class RenderTask : public Task {
               const TimeRange &subtitle_range, RenderMode::Mode mode, FrameHashCache *cache,
               const QSize &force_size = QSize(0, 0), const QMatrix4x4 &force_matrix = QMatrix4x4(),
               PixelFormat force_format = PixelFormat(PixelFormat::INVALID), int force_channel_count = 0,
-              const ColorProcessorPtr& force_color_output = nullptr);
+              const ColorProcessorPtr &force_color_output = nullptr);
 
   virtual bool DownloadFrame(QThread *thread, FramePtr frame, const rational &time);
 

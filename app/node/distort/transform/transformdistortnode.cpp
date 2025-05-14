@@ -56,7 +56,7 @@ TransformDistortNode::TransformDistortNode() {
   anchor_gizmo_->AddInput(NodeKeyframeTrackReference(NodeInput(this, kPositionInput), 0));
   anchor_gizmo_->AddInput(NodeKeyframeTrackReference(NodeInput(this, kPositionInput), 1));
 
-  for (auto & i : point_gizmo_) {
+  for (auto &i : point_gizmo_) {
     i = AddDraggableGizmo<PointGizmo>();
     i->AddInput(NodeKeyframeTrackReference(NodeInput(this, kScaleInput), 0));
     i->AddInput(NodeKeyframeTrackReference(NodeInput(this, kScaleInput), 1));

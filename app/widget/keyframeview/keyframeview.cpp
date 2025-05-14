@@ -190,7 +190,7 @@ bool KeyframeView::CopySelected(bool cut) {
   return false;
 }
 
-bool KeyframeView::Paste(const std::function<Node *(const QString &)>& find_node_function) {
+bool KeyframeView::Paste(const std::function<Node *(const QString &)> &find_node_function) {
   if (!GetViewerNode()) {
     return false;
   }

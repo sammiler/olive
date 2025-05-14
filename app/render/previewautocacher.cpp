@@ -86,7 +86,7 @@ RenderTicketPtr PreviewAutoCacher::GetSingleFrame(Node *n, ViewerOutput *viewer,
   return sfr;
 }
 
-RenderTicketPtr PreviewAutoCacher::GetRangeOfAudio(ViewerOutput *viewer, const TimeRange& range) {
+RenderTicketPtr PreviewAutoCacher::GetRangeOfAudio(ViewerOutput *viewer, const TimeRange &range) {
   Node *copy = copier_->GetCopy(viewer->GetConnectedSampleOutput());
   return RenderAudio(copy, viewer, range, nullptr);
 }

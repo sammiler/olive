@@ -31,9 +31,14 @@ class FootageJob : public AcceleratedJob {
  public:
   FootageJob() : type_(Track::kNone) {}
 
-  FootageJob(const TimeRange& time, QString  decoder, QString  filename, Track::Type type,
-             const rational& length, LoopMode loop_mode)
-      : time_(time), decoder_(std::move(decoder)), filename_(std::move(filename)), type_(type), length_(length), loop_mode_(loop_mode) {}
+  FootageJob(const TimeRange& time, QString decoder, QString filename, Track::Type type, const rational& length,
+             LoopMode loop_mode)
+      : time_(time),
+        decoder_(std::move(decoder)),
+        filename_(std::move(filename)),
+        type_(type),
+        length_(length),
+        loop_mode_(loop_mode) {}
 
   [[nodiscard]] const QString& decoder() const { return decoder_; }
 

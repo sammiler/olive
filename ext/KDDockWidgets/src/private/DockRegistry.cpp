@@ -73,8 +73,7 @@ DockRegistry::DockRegistry(QObject *parent)
     initKDDockWidgetResources();
 }
 
-DockRegistry::~DockRegistry()
-= default;
+DockRegistry::~DockRegistry() = default;
 
 void DockRegistry::maybeDelete()
 {
@@ -144,7 +143,7 @@ bool DockRegistry::isProcessingAppQuitEvent() const
     return m_isProcessingAppQuitEvent;
 }
 
-bool DockRegistry::affinitiesMatch(const QStringList &affinities1, const QStringList &affinities2) 
+bool DockRegistry::affinitiesMatch(const QStringList &affinities1, const QStringList &affinities2)
 {
     if (affinities1.isEmpty() && affinities2.isEmpty())
         return true;
@@ -271,7 +270,7 @@ MainWindowBase::List DockRegistry::mainWindowsWithAffinity(const QStringList &af
     return result;
 }
 
-LayoutWidget *DockRegistry::layoutForItem(const Layouting::Item *item) 
+LayoutWidget *DockRegistry::layoutForItem(const Layouting::Item *item)
 {
     if (!item->hostWidget())
         return nullptr;
@@ -282,7 +281,7 @@ LayoutWidget *DockRegistry::layoutForItem(const Layouting::Item *item)
     return nullptr;
 }
 
-bool DockRegistry::itemIsInMainWindow(const Layouting::Item *item) 
+bool DockRegistry::itemIsInMainWindow(const Layouting::Item *item)
 {
     if (LayoutWidget *layout = layoutForItem(item)) {
         return layout->isInMainWindow(/*honourNesting=*/true);
@@ -579,7 +578,7 @@ bool DockRegistry::hasFloatingWindows() const
     });
 }
 
-QWindow *DockRegistry::windowForHandle(WId id) 
+QWindow *DockRegistry::windowForHandle(WId id)
 {
     const QWindowList windows = qApp->topLevelWindows();
     for (QWindow *w : windows) {
@@ -672,7 +671,7 @@ void DockRegistry::clear(const QStringList &affinities)
 
 void DockRegistry::clear(const DockWidgetBase::List &dockWidgets,
                          const MainWindowBase::List &mainWindows,
-                         const QStringList &affinities) 
+                         const QStringList &affinities)
 {
     for (auto dw : qAsConst(dockWidgets)) {
         if (affinities.isEmpty() || affinitiesMatch(affinities, dw->affinities())) {

@@ -53,8 +53,7 @@ MultiSplitter::MultiSplitter(QWidgetOrQuick *parent)
     setMinimumSize(minimumSize());
 }
 
-MultiSplitter::~MultiSplitter()
-= default;
+MultiSplitter::~MultiSplitter() = default;
 
 bool MultiSplitter::validateInputs(QWidgetOrQuick *widget, Location location,
                                    const Frame *relativeToFrame, InitialOption option) const

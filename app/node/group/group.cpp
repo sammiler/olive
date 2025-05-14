@@ -194,7 +194,7 @@ void NodeGroup::PostLoadEvent(SerializedData *data) {
 QString NodeGroup::AddInputPassthrough(const NodeInput &input, const QString &force_id) {
   Q_ASSERT(ContextContainsNode(input.node()));
 
-  for (const auto & input_passthrough : input_passthroughs_) {
+  for (const auto &input_passthrough : input_passthroughs_) {
     if (input_passthrough.second == input) {
       // Already passing this input through
       return input_passthrough.first;
@@ -214,7 +214,7 @@ QString NodeGroup::AddInputPassthrough(const NodeInput &input, const QString &fo
     id = force_id;
 
     bool already_exists = false;
-    for (const auto & input_passthrough : input_passthroughs_) {
+    for (const auto &input_passthrough : input_passthroughs_) {
       if (input_passthrough.first == id) {
         already_exists = true;
         break;
@@ -253,7 +253,7 @@ void NodeGroup::SetOutputPassthrough(Node *node) {
 }
 
 bool NodeGroup::ContainsInputPassthrough(const NodeInput &input) const {
-  for (const auto & input_passthrough : input_passthroughs_) {
+  for (const auto &input_passthrough : input_passthroughs_) {
     if (input_passthrough.second == input) {
       return true;
     }

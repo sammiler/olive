@@ -134,8 +134,8 @@ void SequenceDialog::accept() {
 
   if (make_undoable_) {
     // Make undoable command to change the parameters
-    auto* param_command = new SequenceParamCommand(
-        sequence_, video_params, audio_params, name_field_->text(), olive::SequenceDialogParameterTab::GetSelectedPreviewAutoCache());
+    auto* param_command = new SequenceParamCommand(sequence_, video_params, audio_params, name_field_->text(),
+                                                   olive::SequenceDialogParameterTab::GetSelectedPreviewAutoCache());
 
     Core::instance()->undo_stack()->push(param_command,
                                          tr("Set Sequence Parameters For \"%1\"").arg(sequence_->GetLabel()));
@@ -167,9 +167,8 @@ void SequenceDialog::SetAsDefaultClicked() {
   }
 }
 
-SequenceDialog::SequenceParamCommand::SequenceParamCommand(Sequence* s, VideoParams  video_params,
-                                                           AudioParams  audio_params, QString  name,
-                                                           bool autocache)
+SequenceDialog::SequenceParamCommand::SequenceParamCommand(Sequence* s, VideoParams video_params,
+                                                           AudioParams audio_params, QString name, bool autocache)
     : sequence_(s),
       new_video_params_(std::move(video_params)),
       new_audio_params_(std::move(audio_params)),

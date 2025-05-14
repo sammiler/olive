@@ -66,28 +66,28 @@ public:
     /// @brief Returns whether this layout is in a MainWindow
     /// @param honourNesting If true, then we'll count DropAreas/MDIAreas which are nested into DropAreas/MDIAreas as inside the main window.
     /// otherwise, only direct parenting is considered
-    [[nodiscard]]  bool isInMainWindow(bool honourNesting = false) const;
+    [[nodiscard]] bool isInMainWindow(bool honourNesting = false) const;
 
-    [[nodiscard]]  MainWindowBase *mainWindow(bool honourNesting = false) const;
+    [[nodiscard]] MainWindowBase *mainWindow(bool honourNesting = false) const;
 
-    [[nodiscard]]  FloatingWindow *floatingWindow() const;
+    [[nodiscard]] FloatingWindow *floatingWindow() const;
 
     /**
      * @brief returns the layout's minimum size
      * @ref setLayoutMinimumSize
      */
-    [[nodiscard]]  QSize layoutMinimumSize() const;
+    [[nodiscard]] QSize layoutMinimumSize() const;
 
     /**
      * @brief returns the layout's maximum size hint
      */
-    [[nodiscard]]  QSize layoutMaximumSizeHint() const;
+    [[nodiscard]] QSize layoutMaximumSizeHint() const;
 
     /**
      * @brief returns the contents width.
      * Usually it's the same width as the respective parent MultiSplitter.
      */
-    [[nodiscard]]  int width() const
+    [[nodiscard]] int width() const
     {
         return size().width();
     }
@@ -96,7 +96,7 @@ public:
      * @brief returns the contents height.
      * Usually it's the same height as the respective parent MultiSplitter.
      */
-    [[nodiscard]]  int height() const
+    [[nodiscard]] int height() const
     {
         return size().height();
     }
@@ -104,10 +104,10 @@ public:
     /**
      * @brief getter for the size
      */
-    [[nodiscard]]  QSize size() const;
+    [[nodiscard]] QSize size() const;
 
     /// @brief Runs some sanity checks. Returns true if everything is OK
-    [[nodiscard]]  bool checkSanity() const;
+    [[nodiscard]] bool checkSanity() const;
 
     /// @brief clears the layout
     void clearLayout();
@@ -130,7 +130,7 @@ public:
     /**
      * @brief The list of items in this layout.
      */
-    [[nodiscard]]  QVector<Layouting::Item *> items() const;
+    [[nodiscard]] QVector<Layouting::Item *> items() const;
 
     /**
      * @brief Returns true if this layout contains the specified item.
@@ -147,21 +147,21 @@ public:
      * This includes non-visible (placeholder) Items too.
      * @sa visibleCount
      */
-    [[nodiscard]]  int count() const;
+    [[nodiscard]] int count() const;
 
     /**
      * @brief Returns the number of visible Items in this layout.
      * Which is @ref count minus @ref placeholderCount
      * @sa count
      */
-    [[nodiscard]]  int visibleCount() const;
+    [[nodiscard]] int visibleCount() const;
 
     /**
      * @brief Returns the number of placeholder items in this layout.
      * This is the same as @ref count minus @ref visibleCount
      * @sa count, visibleCount
      */
-    [[nodiscard]]  int placeholderCount() const;
+    [[nodiscard]] int placeholderCount() const;
 
     /**
      * @brief returns the Item that holds @p frame in this layout
@@ -171,10 +171,10 @@ public:
     /**
      * @brief Returns this list of Frame objects contained in this layout
      */
-    [[nodiscard]]  QList<Frame *> frames() const;
+    [[nodiscard]] QList<Frame *> frames() const;
 
     /// @brief Returns the list of dock widgets contained in this layout
-    [[nodiscard]]  QVector<DockWidgetBase *> dockWidgets() const;
+    [[nodiscard]] QVector<DockWidgetBase *> dockWidgets() const;
 
     /**
      * @brief Removes an item from this MultiSplitter.
@@ -187,7 +187,7 @@ public:
     void updateSizeConstraints();
 
     virtual bool deserialize(const LayoutSaver::MultiSplitter &);
-    [[nodiscard]]  LayoutSaver::MultiSplitter serialize() const;
+    [[nodiscard]] LayoutSaver::MultiSplitter serialize() const;
 
     void onCloseEvent(QCloseEvent *) override;
 
@@ -218,7 +218,7 @@ protected:
      * If frameOrMultiSplitter is a Frame, it returns a list of 1 element, with that frame
      * If frameOrMultiSplitter is a MultiSplitter then it returns a list of all frames it contains
      */
-    static QList<Frame *> framesFrom(QWidgetOrQuick *frameOrMultiSplitter) ;
+    static QList<Frame *> framesFrom(QWidgetOrQuick *frameOrMultiSplitter);
 
 Q_SIGNALS:
     void visibleWidgetCountChanged(int count);

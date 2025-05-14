@@ -27,7 +27,7 @@
 
 namespace olive {
 
-NodeInputImmediate::NodeInputImmediate(NodeValue::Type type, SplitValue  default_val)
+NodeInputImmediate::NodeInputImmediate(NodeValue::Type type, SplitValue default_val)
     : default_value_(std::move(default_val)), keyframing_(false) {
   set_data_type(type);
 }

@@ -509,7 +509,9 @@ void ClipBlock::AddCachePassthroughFrom(ClipBlock *other) {
 
 void ClipBlock::ConnectedToPreviewEvent() { RequestInvalidatedFromConnected(); }
 
-TimeRange ClipBlock::media_range() const { return InputTimeAdjustment(kBufferIn, -1, TimeRange(rational(0), length()), false); }
+TimeRange ClipBlock::media_range() const {
+  return InputTimeAdjustment(kBufferIn, -1, TimeRange(rational(0), length()), false);
+}
 
 MultiCamNode *ClipBlock::FindMulticam() {
   auto v = FindInputNodesConnectedToInput<MultiCamNode>(NodeInput(this, kBufferIn), 1);

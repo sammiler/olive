@@ -113,7 +113,7 @@ void RenderTicket::FinishInternal(bool has_result, QVariant result) {
 
 RenderTicketWatcher::RenderTicketWatcher(QObject *parent) : QObject(parent), ticket_(nullptr) {}
 
-void RenderTicketWatcher::SetTicket(const RenderTicketPtr& ticket) {
+void RenderTicketWatcher::SetTicket(const RenderTicketPtr &ticket) {
   if (ticket_) {
     qCritical() << "Tried to set a ticket on a RenderTicketWatcher twice";
     return;

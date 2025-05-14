@@ -73,8 +73,7 @@ public:
     QPointer<WidgetType> m_lastFocusedInScope;
 };
 
-FocusScope::Private::~Private()
-= default;
+FocusScope::Private::~Private() = default;
 
 FocusScope::FocusScope(QWidgetAdapter *thisWidget)
     : d(new Private(this, thisWidget))

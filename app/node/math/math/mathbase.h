@@ -111,7 +111,7 @@ class MathNodeBase : public Node {
   static bool NumberIsNoOp(const Operation& op, const float& number);
 
   [[nodiscard]] static ShaderCode GetShaderCodeInternal(const QString& shader_id, const QString& param_a_in,
-                                   const QString& param_b_in) ;
+                                                        const QString& param_b_in);
 
   void PushVector(NodeValueTable* output, NodeValue::Type type, const QVector4D& vec) const;
 
@@ -120,8 +120,8 @@ class MathNodeBase : public Node {
                      NodeValueTable* output) const;
 
   static void ProcessSamplesInternal(const NodeValueRow& values, Operation operation, const QString& param_a_in,
-                              const QString& param_b_in, const SampleBuffer& input, SampleBuffer& output,
-                              int index) ;
+                                     const QString& param_b_in, const SampleBuffer& input, SampleBuffer& output,
+                                     int index);
 };
 
 }  // namespace olive

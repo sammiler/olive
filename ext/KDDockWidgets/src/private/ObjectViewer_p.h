@@ -47,16 +47,16 @@ private:
     void updateSelectedWidget();
     void toggleVisible();
     static void dumpWindows();
-    static QString nameForObj(QObject *o) ;
+    static QString nameForObj(QObject *o);
     void add(QObject *obj, QStandardItem *parent);
     void remove(QObject *obj);
     void onSelectionChanged();
-    static void printProperties(QObject *) ;
+    static void printProperties(QObject *);
     [[nodiscard]] QObject *selectedObject() const;
     [[nodiscard]] QWidget *selectedWidget() const;
     void updateItemAppearence(QStandardItem *);
-    static QObject *objectForItem(QStandardItem *) ;
-    static QWidget *widgetForItem(QStandardItem *) ;
+    static QObject *objectForItem(QStandardItem *);
+    static QWidget *widgetForItem(QStandardItem *);
 
 #ifdef Q_OS_WIN
     void sendHitTest();

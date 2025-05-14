@@ -277,7 +277,7 @@ void DiskCacheFolder::SetPath(const QString &path) {
 
 bool DiskCacheFolder::DeleteFileInternal(QMap<QString, HashTime>::iterator hash_to_delete) {
   // Cache HashTime object
-  const QString& filename = hash_to_delete.key();
+  const QString &filename = hash_to_delete.key();
   HashTime ht = hash_to_delete.value();
 
   // Remove from disk

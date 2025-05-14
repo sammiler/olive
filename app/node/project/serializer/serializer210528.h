@@ -63,28 +63,28 @@ class ProjectSerializer210528 : public ProjectSerializer {
 
   void LoadNode(Node *node, XMLNodeData &xml_node_data, QXmlStreamReader *reader) const;
 
-  static void LoadColorManager(QXmlStreamReader *reader, Project *project) ;
+  static void LoadColorManager(QXmlStreamReader *reader, Project *project);
 
-  static void LoadProjectSettings(QXmlStreamReader *reader, Project *project) ;
+  static void LoadProjectSettings(QXmlStreamReader *reader, Project *project);
 
   void LoadInput(Node *node, QXmlStreamReader *reader, XMLNodeData &xml_node_data) const;
 
   static void LoadImmediate(QXmlStreamReader *reader, Node *node, const QString &input, int element,
-                     XMLNodeData &xml_node_data) ;
+                            XMLNodeData &xml_node_data);
 
-  static bool LoadPosition(QXmlStreamReader *reader, quintptr *node_ptr, Node::Position *pos) ;
+  static bool LoadPosition(QXmlStreamReader *reader, quintptr *node_ptr, Node::Position *pos);
 
-  static void PostConnect(const XMLNodeData &xml_node_data) ;
+  static void PostConnect(const XMLNodeData &xml_node_data);
 
   void LoadNodeCustom(QXmlStreamReader *reader, Node *node, XMLNodeData &xml_node_data) const;
 
-  static void LoadTimelinePoints(QXmlStreamReader *reader, ViewerOutput *points) ;
+  static void LoadTimelinePoints(QXmlStreamReader *reader, ViewerOutput *points);
 
-  static void LoadWorkArea(QXmlStreamReader *reader, TimelineWorkArea *workarea) ;
+  static void LoadWorkArea(QXmlStreamReader *reader, TimelineWorkArea *workarea);
 
-  static void LoadMarkerList(QXmlStreamReader *reader, TimelineMarkerList *markers) ;
+  static void LoadMarkerList(QXmlStreamReader *reader, TimelineMarkerList *markers);
 
-  static void LoadValueHint(Node::ValueHint *hint, QXmlStreamReader *reader) ;
+  static void LoadValueHint(Node::ValueHint *hint, QXmlStreamReader *reader);
 };
 
 }  // namespace olive

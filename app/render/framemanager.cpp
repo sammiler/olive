@@ -89,7 +89,7 @@ void FrameManager::GarbageCollection() {
 
   qint64 min_life = QDateTime::currentMSecsSinceEpoch() - kFrameLifetime;
 
-  for (auto & it : pool_) {
+  for (auto& it : pool_) {
     std::list<Buffer>& list = it.second;
 
     while (!list.empty() && list.front().time < min_life) {
@@ -102,9 +102,9 @@ void FrameManager::GarbageCollection() {
 FrameManager::~FrameManager() {
   QMutexLocker locker(&mutex_);
 
-  for (auto & it : pool_) {
+  for (auto& it : pool_) {
     std::list<Buffer>& list = it.second;
-    for (auto & jt : list) {
+    for (auto& jt : list) {
       delete[] jt.data;
     }
   }

@@ -65,7 +65,7 @@ void CommandLineParser::Process(const QVector<QString>& argv) {
 
       bool matched_known = false;
 
-      for (auto & o : options_) {
+      for (auto& o : options_) {
         foreach (const QString& s, o.args) {
           if (!s.compare(arg_basename, Qt::CaseInsensitive)) {
             // Flag discovered!

@@ -56,7 +56,7 @@ public:
      */
     void addWidget(QWidgetOrQuick *widget, KDDockWidgets::Location location,
                    Frame *relativeTo = nullptr,
-                   InitialOption option = InitialOption( DefaultSizeMode::Fair));
+                   InitialOption option = InitialOption(DefaultSizeMode::Fair));
 
     /**
      * Adds an entire MultiSplitter into this layout. The donor MultiSplitter will be deleted
@@ -80,7 +80,7 @@ public:
     bool deserialize(const LayoutSaver::MultiSplitter &) override;
 
     ///@brief returns the list of separators
-    [[nodiscard]]  QVector<Layouting::Separator *> separators() const;
+    [[nodiscard]] QVector<Layouting::Separator *> separators() const;
 
     /// @brief See docs for MainWindowBase::layoutEqually()
     void layoutEqually();
@@ -90,12 +90,12 @@ public:
 
     /// @brief Returns the number of items layed-out horizontally or vertically
     /// But honours nesting
-    [[nodiscard]]  int numSideBySide_recursive(Qt::Orientation) const;
+    [[nodiscard]] int numSideBySide_recursive(Qt::Orientation) const;
 
 private:
     friend class ::TestDocks;
 
-    [[nodiscard]]  Layouting::ItemBoxContainer *rootItem() const;
+    [[nodiscard]] Layouting::ItemBoxContainer *rootItem() const;
 
     // For debug/hardening
     bool validateInputs(QWidgetOrQuick *widget, KDDockWidgets::Location location,
@@ -109,13 +109,13 @@ private:
      * So no need to receive any location.
      * @param orientation If Qt::Vertical then returns the available height. Width otherwise.
      */
-    [[nodiscard]]  int availableLengthForOrientation(Qt::Orientation orientation) const;
+    [[nodiscard]] int availableLengthForOrientation(Qt::Orientation orientation) const;
 
     /**
      * @brief Equivalent to @ref availableLengthForOrientation but returns for both orientations.
      * width is for Qt::Vertical.
      */
-    [[nodiscard]]  QSize availableSize() const;
+    [[nodiscard]] QSize availableSize() const;
 
     Layouting::ItemBoxContainer *m_rootItem = nullptr;
 };

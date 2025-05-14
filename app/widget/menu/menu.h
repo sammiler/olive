@@ -152,29 +152,28 @@ class Menu : public QMenu {
   }
 
   template <typename Func>
-/**
- * @brief Create a menu item and add it to this menu Static Method
- *
- * @param id
- *
- * The action's unique ID
- *
- *
- * @param member
- *
- * The QObject slot to connect this action's triggered signal to
- *
- * @param key
- *
- * Default keyboard sequence
- *
- * @return
- *
- * The QAction that was created and added to this Menu
- */
-QAction* AddItem(const QString& id, Func member,
-                 const QKeySequence& key = QKeySequence()) {
-    QAction* a = CreateItem(this, id,  member, key);
+  /**
+   * @brief Create a menu item and add it to this menu Static Method
+   *
+   * @param id
+   *
+   * The action's unique ID
+   *
+   *
+   * @param member
+   *
+   * The QObject slot to connect this action's triggered signal to
+   *
+   * @param key
+   *
+   * Default keyboard sequence
+   *
+   * @return
+   *
+   * The QAction that was created and added to this Menu
+   */
+  QAction* AddItem(const QString& id, Func member, const QKeySequence& key = QKeySequence()) {
+    QAction* a = CreateItem(this, id, member, key);
 
     addAction(a);
 

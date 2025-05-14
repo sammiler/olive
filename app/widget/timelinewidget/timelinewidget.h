@@ -224,9 +224,12 @@ class TimelineWidget : public TimeBasedWidget {
 
   class SetSelectionsCommand : public UndoCommand {
    public:
-    SetSelectionsCommand(TimelineWidget* timeline, TimelineWidgetSelections  now,
-                         TimelineWidgetSelections  old, bool process_block_changes = true)
-        : timeline_(timeline), old_(std::move(old)), now_(std::move(now)), process_block_changes_(process_block_changes) {}
+    SetSelectionsCommand(TimelineWidget* timeline, TimelineWidgetSelections now, TimelineWidgetSelections old,
+                         bool process_block_changes = true)
+        : timeline_(timeline),
+          old_(std::move(old)),
+          now_(std::move(now)),
+          process_block_changes_(process_block_changes) {}
 
     [[nodiscard]] Project* GetRelevantProject() const override { return nullptr; }
 
@@ -271,7 +274,8 @@ class TimelineWidget : public TimeBasedWidget {
   void SendCatchUpScrollEvent() override;
 
  private:
-  [[nodiscard]] QVector<Timeline::EditToInfo> GetEditToInfo(const rational& playhead_time, Timeline::MovementMode mode) const;
+  [[nodiscard]] QVector<Timeline::EditToInfo> GetEditToInfo(const rational& playhead_time,
+                                                            Timeline::MovementMode mode) const;
 
   void RippleTo(Timeline::MovementMode mode);
 

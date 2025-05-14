@@ -40,7 +40,7 @@ public:
     virtual ~WindowBeingDragged();
     void init();
 
-    [[nodiscard]]  FloatingWindow *floatingWindow() const
+    [[nodiscard]] FloatingWindow *floatingWindow() const
     {
         return m_floatingWindow;
     }
@@ -53,28 +53,28 @@ public:
     bool contains(LayoutWidget *) const;
 
     ///@brief returns the affinities of the window being dragged
-    [[nodiscard]]  virtual QStringList affinities() const;
+    [[nodiscard]] virtual QStringList affinities() const;
 
     ///@brief size of the window being dragged contents
-    [[nodiscard]]  virtual QSize size() const;
+    [[nodiscard]] virtual QSize size() const;
 
     /// @brief returns the min-size of the window being dragged contents
-    [[nodiscard]]  virtual QSize minSize() const;
+    [[nodiscard]] virtual QSize minSize() const;
 
     /// @brief returns the max-size of the window being dragged contents
-    [[nodiscard]]  virtual QSize maxSize() const;
+    [[nodiscard]] virtual QSize maxSize() const;
 
     /// @brief Returns a pixmap representing this Window. For purposes of QDrag. Wayland only.
-    [[nodiscard]]  virtual QPixmap pixmap() const
+    [[nodiscard]] virtual QPixmap pixmap() const
     {
         return {};
     }
 
     /// @brief Returns the list of dock widgets being dragged
-    [[nodiscard]]  virtual QVector<DockWidgetBase *> dockWidgets() const;
+    [[nodiscard]] virtual QVector<DockWidgetBase *> dockWidgets() const;
 
     /// @brief Returns the draggable
-    [[nodiscard]]  Draggable *draggable() const;
+    [[nodiscard]] Draggable *draggable() const;
 
 protected:
     explicit WindowBeingDragged(Draggable *);
@@ -90,12 +90,12 @@ public:
     explicit WindowBeingDraggedWayland(Draggable *draggable);
     ~WindowBeingDraggedWayland() override;
 
-    [[nodiscard]]  QSize size() const override;
-    [[nodiscard]]  QSize minSize() const override;
-    [[nodiscard]]  QSize maxSize() const override;
-    [[nodiscard]]  QPixmap pixmap() const override;
-    [[nodiscard]]  QStringList affinities() const override;
-    [[nodiscard]]  QVector<DockWidgetBase *> dockWidgets() const override;
+    [[nodiscard]] QSize size() const override;
+    [[nodiscard]] QSize minSize() const override;
+    [[nodiscard]] QSize maxSize() const override;
+    [[nodiscard]] QPixmap pixmap() const override;
+    [[nodiscard]] QStringList affinities() const override;
+    [[nodiscard]] QVector<DockWidgetBase *> dockWidgets() const override;
 
     // These two are set for Wayland only, where we can't make the floating window immediately (no way to position it)
     // So we're dragging either a frame with multiple dock widgets or a single tab, keep them here.

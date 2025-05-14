@@ -211,8 +211,7 @@ void NodeParamViewItemBody::CreateWidgets(QGridLayout* layout, Node* node, const
 
     } else {
       auto* insert_element_btn = new NodeParamViewArrayButton(NodeParamViewArrayButton::kAdd, this);
-      auto* remove_element_btn =
-          new NodeParamViewArrayButton(NodeParamViewArrayButton::kRemove, this);
+      auto* remove_element_btn = new NodeParamViewArrayButton(NodeParamViewArrayButton::kRemove, this);
 
       layout->addWidget(insert_element_btn, row, kArrayInsertColumn);
       layout->addWidget(remove_element_btn, row, kArrayRemoveColumn);

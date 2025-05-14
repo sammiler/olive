@@ -23,8 +23,7 @@ DropAreaWithCentralFrame::DropAreaWithCentralFrame(QWidgetOrQuick *parent, MainW
         addWidget(m_centralFrame, KDDockWidgets::Location_OnTop, {});
 }
 
-DropAreaWithCentralFrame::~DropAreaWithCentralFrame()
-= default;
+DropAreaWithCentralFrame::~DropAreaWithCentralFrame() = default;
 
 Frame *DropAreaWithCentralFrame::createCentralFrame(MainWindowOptions options)
 {

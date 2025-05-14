@@ -55,8 +55,8 @@ class ColorWheelWidget : public ColorSwatchWidget {
     qreal hypotenuse;
   };
 
-  [[nodiscard]] static Triangle GetTriangleFromCoords(const QPoint& center, const QPoint& p) ;
-  [[nodiscard]] static Triangle GetTriangleFromCoords(const QPoint& center, qreal y, qreal x) ;
+  [[nodiscard]] static Triangle GetTriangleFromCoords(const QPoint& center, const QPoint& p);
+  [[nodiscard]] static Triangle GetTriangleFromCoords(const QPoint& center, qreal y, qreal x);
 
   [[nodiscard]] Color GetColorFromTriangle(const Triangle& tri) const;
   [[nodiscard]] QPoint GetCoordsFromColor(const Color& c) const;

@@ -32,21 +32,21 @@ public:
     explicit Widget_qwidget(QWidget *thisWidget);
     ~Widget_qwidget() override;
 
-    [[nodiscard]]  QWidget *asQWidget() const override
+    [[nodiscard]] QWidget *asQWidget() const override
     {
         return m_thisWidget;
     }
 
-    [[nodiscard]]  QSize sizeHint() const override;
-    [[nodiscard]]  QSize minSize() const override;
-    [[nodiscard]]  QSize maxSizeHint() const override;
-    [[nodiscard]]  QRect geometry() const override;
+    [[nodiscard]] QSize sizeHint() const override;
+    [[nodiscard]] QSize minSize() const override;
+    [[nodiscard]] QSize maxSizeHint() const override;
+    [[nodiscard]] QRect geometry() const override;
     void setGeometry(QRect) override;
     void setParent(Widget *) override;
     QDebug &dumpDebug(QDebug &) const override;
-    [[nodiscard]]  bool isVisible() const override;
+    [[nodiscard]] bool isVisible() const override;
     void setVisible(bool) const override;
-    [[nodiscard]]  std::unique_ptr<Widget> parentWidget() const override;
+    [[nodiscard]] std::unique_ptr<Widget> parentWidget() const override;
     void setLayoutItem(Item *) override
     {
     }

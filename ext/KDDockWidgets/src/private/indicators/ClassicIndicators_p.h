@@ -62,7 +62,7 @@ Q_SIGNALS:
 private:
     friend class KDDockWidgets::Indicator;
     friend class KDDockWidgets::IndicatorWindow;
-    [[nodiscard]] static bool rubberBandIsTopLevel() ;
+    [[nodiscard]] static bool rubberBandIsTopLevel();
     void raiseIndicators();
     [[nodiscard]] QRect geometryForRubberband(QRect localRect) const;
     void setDropLocation(DropLocation);

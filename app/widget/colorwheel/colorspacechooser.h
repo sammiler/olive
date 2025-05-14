@@ -31,8 +31,8 @@ namespace olive {
 class ColorSpaceChooser : public QGroupBox {
   Q_OBJECT
  public:
-  explicit ColorSpaceChooser(ColorManager* color_manager, bool enable_input_field = true, bool enable_display_fields = true,
-                    QWidget* parent = nullptr);
+  explicit ColorSpaceChooser(ColorManager* color_manager, bool enable_input_field = true,
+                             bool enable_display_fields = true, QWidget* parent = nullptr);
 
   [[nodiscard]] QString input() const;
   [[nodiscard]] ColorTransform output() const;

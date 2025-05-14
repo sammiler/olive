@@ -418,8 +418,7 @@ void MathNodeBase::ValueInternal(Operation operation, Pairing pairing, const QSt
 
 void MathNodeBase::ProcessSamplesInternal(const NodeValueRow &values, MathNodeBase::Operation operation,
                                           const QString &param_a_in, const QString &param_b_in,
-                                          const olive::SampleBuffer &input, olive::SampleBuffer &output,
-                                          int index) {
+                                          const olive::SampleBuffer &input, olive::SampleBuffer &output, int index) {
   // This function is only used for sample+number pairing
   NodeValue number_val = values[param_a_in];
 

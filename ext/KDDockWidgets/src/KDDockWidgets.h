@@ -126,23 +126,23 @@ struct InitialOption
     {
     }
 
-    [[nodiscard]]  bool startsHidden() const
+    [[nodiscard]] bool startsHidden() const
     {
         return visibility == InitialVisibilityOption::StartHidden;
     }
 
-    [[nodiscard]]  bool preservesCurrentTab() const
+    [[nodiscard]] bool preservesCurrentTab() const
     {
         return visibility == InitialVisibilityOption::PreserveCurrentTab;
     }
 
-    [[nodiscard]]  int preferredLength(Qt::Orientation o) const
+    [[nodiscard]] int preferredLength(Qt::Orientation o) const
     {
         return o == Qt::Horizontal ? preferredSize.width()
                                    : preferredSize.height();
     }
 
-    [[nodiscard]]  bool hasPreferredLength(Qt::Orientation o) const
+    [[nodiscard]] bool hasPreferredLength(Qt::Orientation o) const
     {
         return preferredLength(o) > 0;
     }
@@ -172,7 +172,7 @@ private:
     friend class KDDockWidgets::MultiSplitter;
     friend class KDDockWidgets::DropArea;
 
-    explicit  InitialOption(DefaultSizeMode mode)
+    explicit InitialOption(DefaultSizeMode mode)
         : sizeMode(mode)
     {
     }

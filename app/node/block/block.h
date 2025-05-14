@@ -73,7 +73,7 @@ class Block : public Node {
   void Retranslate() override;
 
   void InvalidateCache(const TimeRange& range, const QString& from, int element = -1,
-                               InvalidateCacheOptions options = InvalidateCacheOptions()) override;
+                       InvalidateCacheOptions options = InvalidateCacheOptions()) override;
 
   static const QString kLengthInput;
 

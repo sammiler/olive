@@ -25,8 +25,7 @@ Widget_qwidget::Widget_qwidget(QWidget *thisWidget)
 {
 }
 
-Widget_qwidget::~Widget_qwidget()
-= default;
+Widget_qwidget::~Widget_qwidget() = default;
 
 QSize Widget_qwidget::sizeHint() const
 {

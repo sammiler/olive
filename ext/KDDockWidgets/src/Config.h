@@ -140,7 +140,7 @@ public:
     Q_DECLARE_FLAGS(InternalFlags, InternalFlag)
 
     ///@brief returns the chosen flags
-    [[nodiscard]]  Flags flags() const;
+    [[nodiscard]] Flags flags() const;
 
     ///@brief setter for the flags
     ///@param flags the flags to set
@@ -165,7 +165,7 @@ public:
 
     ///@brief Returns the DockWidgetFactoryFunc.
     /// nullptr by default
-    [[nodiscard]]  DockWidgetFactoryFunc dockWidgetFactoryFunc() const;
+    [[nodiscard]] DockWidgetFactoryFunc dockWidgetFactoryFunc() const;
 
     ///@brief counter-part of DockWidgetFactoryFunc but for the main window.
     /// Should be rarely used. It's good practice to have the main window before restoring a layout.
@@ -174,7 +174,7 @@ public:
 
     ///@brief Returns the MainWindowFactoryFunc.
     /// nullptr by default
-    [[nodiscard]]  MainWindowFactoryFunc mainWindowFactoryFunc() const;
+    [[nodiscard]] MainWindowFactoryFunc mainWindowFactoryFunc() const;
 
     /**
      * @brief Sets the WidgetFactory.
@@ -189,14 +189,14 @@ public:
     void setFrameworkWidgetFactory(FrameworkWidgetFactory *);
 
     ///@brief getter for the framework widget factory
-    [[nodiscard]]  FrameworkWidgetFactory *frameworkWidgetFactory() const;
+    [[nodiscard]] FrameworkWidgetFactory *frameworkWidgetFactory() const;
 
     /**
      * @brief Returns the thickness of the separator.
      *
      * Default is 5px.
      */
-    [[nodiscard]]  static int separatorThickness() ;
+    [[nodiscard]] static int separatorThickness();
 
     ///@brief setter for @ref separatorThickness
     /// Note: Only use this function at startup before creating any DockWidget or MainWindow.
@@ -208,7 +208,7 @@ public:
 
     ///@brief returns the opacity to use when dragging dock widgets
     /// By default it's 1.0, fully opaque
-    [[nodiscard]]  qreal draggedWindowOpacity() const;
+    [[nodiscard]] qreal draggedWindowOpacity() const;
 
     /// @brief Allows to disable support for drop indicators while dragging
     /// By default drop indicators will be shown when dragging dock widgets.
@@ -217,7 +217,7 @@ public:
 
     /// @brief Returns whether drop indicators are inhibited.
     /// by default this is false unless you call setDropIndicatorsInhibited(true)
-    [[nodiscard]]  bool dropIndicatorsInhibited() const;
+    [[nodiscard]] bool dropIndicatorsInhibited() const;
 
     /**
      * @deprecated Use setDropIndicatorAllowedFunc() instead, and catch the DropLocation_Center case.
@@ -248,7 +248,7 @@ public:
     ///@brief Used internally by the framework. Returns the function which was passed to setTabbingAllowedFunc()
     /// By default it's nullptr.
     ///@sa setTabbingAllowedFunc().
-    [[nodiscard]]  TabbingAllowedFunc tabbingAllowedFunc() const;
+    [[nodiscard]] TabbingAllowedFunc tabbingAllowedFunc() const;
 
     /**
      * @brief Allows the client app to disallow certain docking indicators.
@@ -280,31 +280,31 @@ public:
     ///@brief Used internally by the framework. Returns the function which was passed to setDropIndicatorAllowedFunc()
     /// By default it's nullptr.
     ///@sa setDropIndicatorAllowedFunc().
-    [[nodiscard]]  DropIndicatorAllowedFunc dropIndicatorAllowedFunc() const;
+    [[nodiscard]] DropIndicatorAllowedFunc dropIndicatorAllowedFunc() const;
 
     ///@brief Sets the minimum size a dock widget can have.
     /// Widgets can still provide their own min-size and it will be respected, however it can never be
     /// smaller than this one.
     static void setAbsoluteWidgetMinSize(QSize size);
-    [[nodiscard]]  static QSize absoluteWidgetMinSize() ;
+    [[nodiscard]] static QSize absoluteWidgetMinSize();
 
     ///@brief Sets the maximum size a dock widget can have.
     /// Widgets can still provide their own max-size and it will be respected, however it can never be
     /// bigger than this one.
     static void setAbsoluteWidgetMaxSize(QSize size);
-    [[nodiscard]]  static QSize absoluteWidgetMaxSize() ;
+    [[nodiscard]] static QSize absoluteWidgetMaxSize();
 
     ///@brief Disables our internal widget's paint events
     /// By default, KDDockWidget's internal widgets reimplement paintEvent(). Disabling them
     /// (which makes the base-class, QWidget::paintEvent() be called instead) can be useful if you want to style
     // via CSS stylesheets.
     void setDisabledPaintEvents(CustomizableWidgets);
-    [[nodiscard]]  Config::CustomizableWidgets disabledPaintEvents() const;
+    [[nodiscard]] Config::CustomizableWidgets disabledPaintEvents() const;
 
     ///@internal
     ///@brief returns the internal flags.
     ///@warning Not for public consumption, support will be limited.
-    [[nodiscard]]  InternalFlags internalFlags() const;
+    [[nodiscard]] InternalFlags internalFlags() const;
 
     ///@internal
     ///@brief setter for the internal flags
@@ -315,7 +315,7 @@ public:
     /// X pixels behond the window's edge, it will float the dock widget.
     /// by default this value is 250px. Use -1 to disable
     void setMDIPopupThreshold(int);
-    [[nodiscard]]  int mdiPopupThreshold() const;
+    [[nodiscard]] int mdiPopupThreshold() const;
 
 #ifdef KDDOCKWIDGETS_QTQUICK
     ///@brief Sets the QQmlEngine to use. Applicable only when using QtQuick.

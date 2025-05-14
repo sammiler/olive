@@ -71,7 +71,7 @@ class SequencePreset : public Preset {
       } else if (reader->name() == QStringLiteral("divider")) {
         preview_divider_ = reader->readElementText().toInt();
       } else if (reader->name() == QStringLiteral("format")) {
-        preview_format_ =   static_cast<PixelFormat>(static_cast<PixelFormat::Format>(reader->readElementText().toInt()));
+        preview_format_ = static_cast<PixelFormat>(static_cast<PixelFormat::Format>(reader->readElementText().toInt()));
       } else if (reader->name() == QStringLiteral("autocache")) {
         preview_autocache_ = reader->readElementText().toInt();
       } else {
@@ -90,7 +90,8 @@ class SequencePreset : public Preset {
     writer->writeTextElement(QStringLiteral("samplerate"), QString::number(sample_rate_));
     writer->writeTextElement(QStringLiteral("chlayout"), QString::number(channel_layout_));
     writer->writeTextElement(QStringLiteral("divider"), QString::number(preview_divider_));
-    writer->writeTextElement(QStringLiteral("format"), QString::number(static_cast<PixelFormat::Format>(preview_format_)));
+    writer->writeTextElement(QStringLiteral("format"),
+                             QString::number(static_cast<PixelFormat::Format>(preview_format_)));
     writer->writeTextElement(QStringLiteral("autocache"), QString::number(preview_autocache_));
   }
 

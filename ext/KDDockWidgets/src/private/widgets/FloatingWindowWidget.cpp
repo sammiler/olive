@@ -80,7 +80,7 @@ bool FloatingWindowWidget::event(QEvent *ev)
         // intercept screen events
         m_screenChangedConnection =
             connect(windowHandle(), &QWindow::screenChanged, DockRegistry::self(),
-                    [this] { Q_EMIT DockRegistry::self()->windowChangedScreen(windowHandle()); });
+                    [this] { Q_EMIT DockRegistry::self() -> windowChangedScreen(windowHandle()); });
 
         windowHandle()->installEventFilter(this);
     }

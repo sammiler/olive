@@ -42,8 +42,8 @@ class CrossDissolveTransition : public TransitionBlock {
   [[nodiscard]] ShaderCode GetShaderCode(const ShaderRequest &request) const override;
 
  protected:
-  void SampleJobEvent(const SampleBuffer &from_samples, const SampleBuffer &to_samples,
-                              SampleBuffer &out_samples, double time_in) const override;
+  void SampleJobEvent(const SampleBuffer &from_samples, const SampleBuffer &to_samples, SampleBuffer &out_samples,
+                      double time_in) const override;
 };
 
 }  // namespace olive

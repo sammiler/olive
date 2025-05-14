@@ -147,7 +147,7 @@ FrameworkWidgetFactory *Config::frameworkWidgetFactory() const
     return d->m_frameworkWidgetFactory;
 }
 
-int Config::separatorThickness() 
+int Config::separatorThickness()
 {
     return Layouting::Config::self().separatorThickness();
 }
@@ -202,7 +202,7 @@ void Config::setAbsoluteWidgetMinSize(QSize size)
     Layouting::Item::hardcodedMinimumSize = size;
 }
 
-QSize Config::absoluteWidgetMinSize() 
+QSize Config::absoluteWidgetMinSize()
 {
     return Layouting::Item::hardcodedMinimumSize;
 }
@@ -217,7 +217,7 @@ void Config::setAbsoluteWidgetMaxSize(QSize size)
     Layouting::Item::hardcodedMaximumSize = size;
 }
 
-QSize Config::absoluteWidgetMaxSize() 
+QSize Config::absoluteWidgetMaxSize()
 {
     return Layouting::Item::hardcodedMaximumSize;
 }
@@ -347,7 +347,7 @@ void Config::setDropIndicatorsInhibited(bool inhibit) const
 {
     if (d->m_dropIndicatorsInhibited != inhibit) {
         d->m_dropIndicatorsInhibited = inhibit;
-        Q_EMIT DockRegistry::self()->dropIndicatorsInhibitedChanged(inhibit);
+        Q_EMIT DockRegistry::self() -> dropIndicatorsInhibitedChanged(inhibit);
     }
 }
 

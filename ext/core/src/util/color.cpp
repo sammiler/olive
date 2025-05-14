@@ -237,7 +237,7 @@ Color &Color::operator-=(const Color &rhs) {
 }
 
 Color &Color::operator+=(const DataType &rhs) {
-  for (float & i : data_) {
+  for (float &i : data_) {
     i += rhs;
   }
 
@@ -245,7 +245,7 @@ Color &Color::operator+=(const DataType &rhs) {
 }
 
 Color &Color::operator-=(const DataType &rhs) {
-  for (float & i : data_) {
+  for (float &i : data_) {
     i -= rhs;
   }
 
@@ -253,7 +253,7 @@ Color &Color::operator-=(const DataType &rhs) {
 }
 
 Color &Color::operator*=(const DataType &rhs) {
-  for (float & i : data_) {
+  for (float &i : data_) {
     i *= rhs;
   }
 
@@ -261,7 +261,7 @@ Color &Color::operator*=(const DataType &rhs) {
 }
 
 Color &Color::operator/=(const DataType &rhs) {
-  for (float & i : data_) {
+  for (float &i : data_) {
     i /= rhs;
   }
 

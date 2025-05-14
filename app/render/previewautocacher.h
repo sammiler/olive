@@ -51,7 +51,7 @@ class PreviewAutoCacher : public QObject {
   RenderTicketPtr GetSingleFrame(ViewerOutput *viewer, const rational &t, bool dry = false);
   RenderTicketPtr GetSingleFrame(Node *n, ViewerOutput *viewer, const rational &t, bool dry = false);
 
-  RenderTicketPtr GetRangeOfAudio(ViewerOutput *viewer, const TimeRange& range);
+  RenderTicketPtr GetRangeOfAudio(ViewerOutput *viewer, const TimeRange &range);
 
   void ClearSingleFrameRenders();
   void ClearSingleFrameRendersThatArentRunning();
@@ -86,7 +86,7 @@ class PreviewAutoCacher : public QObject {
   void CancelVideoTasks(bool and_wait_for_them_to_finish = false);
   void CancelAudioTasks(bool and_wait_for_them_to_finish = false);
 
-  [[nodiscard]] static bool IsRenderingCustomRange() ;
+  [[nodiscard]] static bool IsRenderingCustomRange();
 
   void SetRendersPaused(bool e);
   void SetThumbnailsPaused(bool e);

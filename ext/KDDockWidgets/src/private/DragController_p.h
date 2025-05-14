@@ -42,7 +42,7 @@ public:
 
     template<typename Obj, typename Signal>
     void addTransition(Obj *, Signal, State *dest);
-    [[nodiscard]]  bool isCurrentState() const;
+    [[nodiscard]] bool isCurrentState() const;
 
     virtual void onEntry() = 0;
     virtual void onExit()
@@ -59,7 +59,7 @@ class MinimalStateMachine : public QObject
 public:
     explicit MinimalStateMachine(QObject *parent = nullptr);
 
-    [[nodiscard]]  State *currentState() const;
+    [[nodiscard]] State *currentState() const;
     void setCurrentState(State *);
 
 Q_SIGNALS:
@@ -87,27 +87,27 @@ public:
     void registerDraggable(Draggable *);
     void unregisterDraggable(Draggable *);
 
-    [[nodiscard]]  bool isDragging() const;
-    [[nodiscard]]  bool isInNonClientDrag() const;
-    [[nodiscard]]  bool isInClientDrag() const;
-    [[nodiscard]]  bool isIdle() const;
+    [[nodiscard]] bool isDragging() const;
+    [[nodiscard]] bool isInNonClientDrag() const;
+    [[nodiscard]] bool isInClientDrag() const;
+    [[nodiscard]] bool isIdle() const;
 
     void grabMouseFor(QWidgetOrQuick *);
     void releaseMouse(QWidgetOrQuick *);
 
-    [[nodiscard]]  FloatingWindow *floatingWindowBeingDragged() const;
+    [[nodiscard]] FloatingWindow *floatingWindowBeingDragged() const;
 
     /// @brief Returns the current drop area under the mouse
-    [[nodiscard]]  DropArea *dropAreaUnderCursor() const;
+    [[nodiscard]] DropArea *dropAreaUnderCursor() const;
 
     ///@brief Returns the window being dragged
-    [[nodiscard]]  WindowBeingDragged *windowBeingDragged() const;
+    [[nodiscard]] WindowBeingDragged *windowBeingDragged() const;
 
     /// Experimental, internal, not for general use.
     void enableFallbackMouseGrabber();
 
     // Returns the active state
-    [[nodiscard]]  StateBase *activeState() const;
+    [[nodiscard]] StateBase *activeState() const;
 
 Q_SIGNALS:
     void mousePressed();
@@ -131,7 +131,7 @@ private:
     friend class StateDraggingWayland;
 
     explicit DragController(QObject * = nullptr);
-    [[nodiscard]]  WidgetType *qtTopLevelUnderCursor() const;
+    [[nodiscard]] WidgetType *qtTopLevelUnderCursor() const;
     Draggable *draggableForQObject(QObject *o) const;
     QPoint m_pressPos;
     QPoint m_offset;
@@ -191,7 +191,7 @@ public:
     }
 
     // Returns whether this is the current state
-    [[nodiscard]]  bool isActiveState() const;
+    [[nodiscard]] bool isActiveState() const;
 
     DragController *const q;
 };

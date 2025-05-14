@@ -356,7 +356,7 @@ void ImportTool::DropGhosts(bool insert, MultiUndoCommand* parent_command) {
         // starting point
         QVector<ViewerOutput*> footage_only;
 
-        for (const auto & it : dragged_footage_) {
+        for (const auto& it : dragged_footage_) {
           if (!footage_only.contains(it.first)) {
             footage_only.append(it.first);
           }
@@ -431,7 +431,8 @@ void ImportTool::DropGhosts(bool insert, MultiUndoCommand* parent_command) {
         int dep_pos = kDefaultDistanceFromOutput;
 
         // Position footage in its context
-        command->add_child(new NodeSetPositionCommand(footage_stream.footage, clip, Node::Position(QPointF(dep_pos, 0))));
+        command->add_child(
+            new NodeSetPositionCommand(footage_stream.footage, clip, Node::Position(QPointF(dep_pos, 0))));
 
         dep_pos++;
 
@@ -470,12 +471,11 @@ void ImportTool::DropGhosts(bool insert, MultiUndoCommand* parent_command) {
 
         // Link any clips so far that share the same Footage with this one
         for (int j = 0; j < i; j++) {
-          auto footage_compare =
-              parent()
-                  ->GetGhostItems()
-                  .at(j)
-                  ->GetData(TimelineViewGhostItem::kAttachedFootage)
-                  .value<TimelineViewGhostItem::AttachedFootage>();
+          auto footage_compare = parent()
+                                     ->GetGhostItems()
+                                     .at(j)
+                                     ->GetData(TimelineViewGhostItem::kAttachedFootage)
+                                     .value<TimelineViewGhostItem::AttachedFootage>();
 
           if (footage_compare.footage == footage_stream.footage) {
             Block::Link(block_items.at(j), clip);

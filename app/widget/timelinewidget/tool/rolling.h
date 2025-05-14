@@ -30,8 +30,7 @@ class RollingTool : public PointerTool {
   explicit RollingTool(TimelineWidget* parent);
 
  protected:
-  void InitiateDrag(Block* clicked_item, Timeline::MovementMode trim_mode,
-                            Qt::KeyboardModifiers modifiers) override;
+  void InitiateDrag(Block* clicked_item, Timeline::MovementMode trim_mode, Qt::KeyboardModifiers modifiers) override;
 };
 
 }  // namespace olive

@@ -323,7 +323,7 @@ LayoutSaver::Private *LayoutSaver::dptr() const
     return d;
 }
 
-DockWidgetBase::List LayoutSaver::restoredDockWidgets() 
+DockWidgetBase::List LayoutSaver::restoredDockWidgets()
 {
     const DockWidgetBase::List &allDockWidgets = DockRegistry::self()->dockwidgets();
     DockWidgetBase::List result;
@@ -432,10 +432,10 @@ void LayoutSaver::Private::deleteEmptyFrames() const
     }
 }
 
-std::unique_ptr<QSettings> LayoutSaver::Private::settings() 
+std::unique_ptr<QSettings> LayoutSaver::Private::settings()
 {
     auto settings = std::make_unique<QSettings>(qApp->organizationName(),
-                                                             qApp->applicationName());
+                                                qApp->applicationName());
     settings->beginGroup(QStringLiteral("KDDockWidgets::LayoutSaver"));
 
     return settings;
@@ -480,7 +480,7 @@ QByteArray LayoutSaver::Layout::toJson() const
 
 bool LayoutSaver::Layout::fromJson(const QByteArray &jsonData)
 {
-    QJsonParseError error{};
+    QJsonParseError error {};
     QJsonDocument doc = QJsonDocument::fromJson(jsonData, &error);
     if (error.error == QJsonParseError::NoError) {
         fromVariantMap(doc.toVariant().toMap());
@@ -683,7 +683,7 @@ bool LayoutSaver::Frame::hasSingleDockWidget() const
 
 bool LayoutSaver::Frame::skipsRestore() const
 {
-    return std::all_of(dockWidgets.cbegin(), dockWidgets.cend(), [](const LayoutSaver::DockWidget::Ptr& dw) {
+    return std::all_of(dockWidgets.cbegin(), dockWidgets.cend(), [](const LayoutSaver::DockWidget::Ptr &dw) {
         return dw->skipsRestore();
     });
 }

@@ -317,7 +317,8 @@ rational ViewerOutput::VerifyLengthInternal(Track::Type type) const {
   switch (type) {
     case Track::kVideo:
       if (IsInputConnected(kTextureInput)) {
-        NodeValueTable t = traverser.GenerateTable(GetConnectedOutput(kTextureInput), TimeRange(rational(0), rational(0)));
+        NodeValueTable t =
+            traverser.GenerateTable(GetConnectedOutput(kTextureInput), TimeRange(rational(0), rational(0)));
         rational r = t.Get(NodeValue::kRational, QStringLiteral("length")).toRational();
         if (!r.isNaN()) {
           return r;
@@ -326,7 +327,8 @@ rational ViewerOutput::VerifyLengthInternal(Track::Type type) const {
       break;
     case Track::kAudio:
       if (IsInputConnected(kSamplesInput)) {
-        NodeValueTable t = traverser.GenerateTable(GetConnectedOutput(kSamplesInput), TimeRange(rational(0), rational(0)));
+        NodeValueTable t =
+            traverser.GenerateTable(GetConnectedOutput(kSamplesInput), TimeRange(rational(0), rational(0)));
         rational r = t.Get(NodeValue::kRational, QStringLiteral("length")).toRational();
         if (!r.isNaN()) {
           return r;
@@ -452,7 +454,7 @@ void ViewerOutput::InputValueChangedEvent(const QString &input, int element) {
   super::InputValueChangedEvent(input, element);
 }
 
-void ViewerOutput::set_parameters_from_footage(const QVector<ViewerOutput *>& footage) {
+void ViewerOutput::set_parameters_from_footage(const QVector<ViewerOutput *> &footage) {
   foreach (ViewerOutput *f, footage) {
     QVector<VideoParams> video_streams = f->GetEnabledVideoStreams();
     QVector<AudioParams> audio_streams = f->GetEnabledAudioStreams();
@@ -478,10 +480,11 @@ void ViewerOutput::set_parameters_from_footage(const QVector<ViewerOutput *>& fo
         found_video_params = true;
       }
 
-      SetVideoParams(VideoParams(s.width(), s.height(), using_timebase,
-                                 PixelFormat(static_cast<PixelFormat::Format>(OLIVE_CONFIG("OfflinePixelFormat").toInt())),
-                                 VideoParams::kInternalChannelCount, s.pixel_aspect_ratio(), s.interlacing(),
-                                 VideoParams::generate_auto_divider(s.width(), s.height())));
+      SetVideoParams(
+          VideoParams(s.width(), s.height(), using_timebase,
+                      PixelFormat(static_cast<PixelFormat::Format>(OLIVE_CONFIG("OfflinePixelFormat").toInt())),
+                      VideoParams::kInternalChannelCount, s.pixel_aspect_ratio(), s.interlacing(),
+                      VideoParams::generate_auto_divider(s.width(), s.height())));
 
       if (found_video_params) {
         break;

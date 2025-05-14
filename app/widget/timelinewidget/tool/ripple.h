@@ -32,8 +32,7 @@ class RippleTool : public PointerTool {
  protected:
   void FinishDrag(TimelineViewMouseEvent* event) override;
 
-  void InitiateDrag(Block* clicked_item, Timeline::MovementMode trim_mode,
-                            Qt::KeyboardModifiers modifiers) override;
+  void InitiateDrag(Block* clicked_item, Timeline::MovementMode trim_mode, Qt::KeyboardModifiers modifiers) override;
 };
 
 }  // namespace olive

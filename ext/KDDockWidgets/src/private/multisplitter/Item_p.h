@@ -521,7 +521,7 @@ private:
 
     Item *visibleNeighbourFor(const Item *item, Side side) const;
     [[nodiscard]] int availableLength() const;
-    [[nodiscard]] static LengthOnSide lengthOnSide(const SizingInfo::List &sizes, int fromIndex, Side, Qt::Orientation) ;
+    [[nodiscard]] static LengthOnSide lengthOnSide(const SizingInfo::List &sizes, int fromIndex, Side, Qt::Orientation);
     int neighboursLengthFor(const Item *item, Side, Qt::Orientation) const;
     int neighboursLengthFor_recursive(const Item *item, Side, Qt::Orientation) const;
     int neighboursMinLengthFor(const Item *item, Side, Qt::Orientation) const;
@@ -534,9 +534,9 @@ private:
     void onChildVisibleChanged(Item *child, bool visible) override;
     void updateSizeConstraints();
     [[nodiscard]] SizingInfo::List sizes(bool ignoreBeingInserted = false) const;
-    [[nodiscard]] QVector<int> calculateSqueezes(const SizingInfo::List::ConstIterator& begin,
-                                   const SizingInfo::List::ConstIterator& end, int needed,
-                                   NeighbourSqueezeStrategy, bool reversed = false) const;
+    [[nodiscard]] QVector<int> calculateSqueezes(const SizingInfo::List::ConstIterator &begin,
+                                                 const SizingInfo::List::ConstIterator &end, int needed,
+                                                 NeighbourSqueezeStrategy, bool reversed = false) const;
     QRect suggestedDropRectFallback(const Item *item, const Item *relativeTo, KDDockWidgets::Location) const;
     void positionItems();
     void positionItems_recursive();

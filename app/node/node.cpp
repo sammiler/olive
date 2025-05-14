@@ -265,7 +265,7 @@ void Node::SetInputIsKeyframing(const QString &input, bool e, int element) {
 bool Node::IsInputConnected(const QString &input, int element) const { return GetConnectedOutput(input, element); }
 
 Node *Node::GetConnectedOutput(const QString &input, int element) const {
-  for (const auto & input_connection : input_connections_) {
+  for (const auto &input_connection : input_connections_) {
     if (input_connection.first.input() == input && input_connection.first.element() == element) {
       return input_connection.second;
     }
@@ -709,7 +709,7 @@ void Node::InputArrayInsert(const QString &id, int index) {
 
   // Move connections down
   InputConnections copied_edges = input_connections();
-  for (const auto & copied_edge : std::ranges::reverse_view(copied_edges)) {
+  for (const auto &copied_edge : std::ranges::reverse_view(copied_edges)) {
     if (copied_edge.first.input() == id && copied_edge.first.element() >= index) {
       // Disconnect this and reconnect it one element down
       NodeInput new_edge = copied_edge.first;
@@ -745,7 +745,7 @@ void Node::InputArrayRemove(const QString &id, int index) {
 
   // Move connections up
   InputConnections copied_edges = input_connections();
-  for (const auto & copied_edge : copied_edges) {
+  for (const auto &copied_edge : copied_edges) {
     if (copied_edge.first.input() == id && copied_edge.first.element() >= index) {
       // Disconnect this and reconnect it one element up if it's not the element being removed
       DisconnectEdge(copied_edge.second, copied_edge.first);
@@ -963,7 +963,7 @@ Node *Node::CopyNodeAndDependencyGraphMinusItemsInternal(QMap<Node *, Node *> &c
   if (auto *src_group = dynamic_cast<NodeGroup *>(node)) {
     auto *dst_group = dynamic_cast<NodeGroup *>(copy);
 
-    for (const auto & it : src_group->GetInputPassthroughs()) {
+    for (const auto &it : src_group->GetInputPassthroughs()) {
       // This node should have been created by the context loop above
       NodeInput input = it.second;
       input.set_node(created.value(input.node()));
@@ -1249,7 +1249,7 @@ void Node::Save(QXmlStreamWriter *writer) const {
 
   if (!this->input_connections().empty()) {
     writer->writeStartElement(QStringLiteral("connections"));
-    for (const auto & it : this->input_connections()) {
+    for (const auto &it : this->input_connections()) {
       writer->writeStartElement(QStringLiteral("connection"));
 
       writer->writeAttribute(QStringLiteral("input"), it.first.input());
@@ -1667,7 +1667,7 @@ QString Node::GetDisconnectCommandString(Node *output, const NodeInput &input) {
 int Node::GetInternalInputArraySize(const QString &input) { return array_immediates_.value(input).size(); }
 
 void FindWaysNodeArrivesHereRecursively(const Node *output, const Node *input, QVector<NodeInput> &v) {
-  for (const auto & it : input->input_connections()) {
+  for (const auto &it : input->input_connections()) {
     if (it.second == output) {
       v.append(it.first);
     } else {
@@ -1764,7 +1764,7 @@ void Node::CopyInput(const Node *src, Node *dst, const QString &input, bool incl
   // Copy connections
   if (include_connections) {
     // Copy all connections
-    for (const auto & it : src->input_connections()) {
+    for (const auto &it : src->input_connections()) {
       if (!traverse_arrays && it.first.element() != -1) {
         continue;
       }
@@ -1846,7 +1846,7 @@ void Node::CopyValuesOfElement(const Node *src, Node *dst, const QString &input,
 }
 
 void GetDependenciesRecursively(QVector<Node *> &list, const Node *node, bool traverse, bool exclusive_only) {
-  for (const auto & it : node->input_connections()) {
+  for (const auto &it : node->input_connections()) {
     Node *connected_node = it.second;
 
     if (!exclusive_only || !connected_node->IsItem()) {
@@ -1893,7 +1893,7 @@ void Node::GenerateFrame(FramePtr frame, const GenerateJob &job) const {
 }
 
 bool Node::InputsFrom(Node *n, bool recursively) const {
-  for (const auto & input_connection : input_connections_) {
+  for (const auto &input_connection : input_connections_) {
     Node *connected = input_connection.second;
 
     if (connected == n) {
@@ -1907,7 +1907,7 @@ bool Node::InputsFrom(Node *n, bool recursively) const {
 }
 
 bool Node::InputsFrom(const QString &id, bool recursively) const {
-  for (const auto & input_connection : input_connections_) {
+  for (const auto &input_connection : input_connections_) {
     Node *connected = input_connection.second;
 
     if (connected->id() == id) {
@@ -1923,7 +1923,7 @@ bool Node::InputsFrom(const QString &id, bool recursively) const {
 void Node::DisconnectAll() {
   // Disconnect inputs (copy map since internal map will change as we disconnect)
   InputConnections copy = input_connections_;
-  for (const auto & it : copy) {
+  for (const auto &it : copy) {
     DisconnectEdge(it.second, it.first);
   }
 
@@ -1977,12 +1977,12 @@ TimeRange Node::TransformTimeTo(TimeRange time, Node *target, TransformTimeDirec
 
   if (!path.empty()) {
     if (dir == kTransformTowardsInput) {
-      for (const auto & i : std::ranges::reverse_view(path)) {
+      for (const auto &i : std::ranges::reverse_view(path)) {
         time = i.node()->InputTimeAdjustment(i.input(), i.element(), time, false);
       }
     } else {
       // Traverse in output direction
-      for (const auto & i : path) {
+      for (const auto &i : path) {
         time = i.node()->OutputTimeAdjustment(i.input(), i.element(), time);
       }
     }
@@ -2226,7 +2226,7 @@ void Node::SetValueAtTime(const NodeInput &input, const rational &time, const QV
 }
 
 bool FindPathInternal(std::list<NodeInput> &vec, Node *from, Node *to, int &path_index) {
-  for (const auto & it : from->output_connections()) {
+  for (const auto &it : from->output_connections()) {
     const NodeInput &next = it.second;
 
     vec.push_back(next);

@@ -133,8 +133,8 @@ void MulticamWidget::Switch(int source, bool split_clip) {
     cam = clip->FindMulticam();
   }
 
-  command->add_child(
-      new NodeParamSetStandardValueCommand(NodeKeyframeTrackReference(NodeInput(cam, olive::MultiCamNode::kCurrentInput)), source));
+  command->add_child(new NodeParamSetStandardValueCommand(
+      NodeKeyframeTrackReference(NodeInput(cam, olive::MultiCamNode::kCurrentInput)), source));
 
   for (Block *link : clip->block_links()) {
     if (auto *clink = dynamic_cast<ClipBlock *>(link)) {

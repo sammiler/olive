@@ -19,8 +19,7 @@ MainWindowMDI::MainWindowMDI(const QString &uniqueName, WidgetType *parent, Qt::
 {
 }
 
-MainWindowMDI::~MainWindowMDI()
-= default;
+MainWindowMDI::~MainWindowMDI() = default;
 
 void MainWindowMDI::addDockWidget(DockWidgetBase *dockWidget, QPoint localPos, InitialOption addingOption)
 {

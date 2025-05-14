@@ -63,8 +63,9 @@ class NodeParamView : public TimeBasedWidget {
   bool CopySelected(bool cut) override;
 
   bool Paste() override;
-  static bool Paste(QWidget *parent,
-                    const std::function<QHash<Node *, Node *>(const ProjectSerializer::Result &)>& get_existing_map_function);
+  static bool Paste(
+      QWidget *parent,
+      const std::function<QHash<Node *, Node *>(const ProjectSerializer::Result &)> &get_existing_map_function);
 
  public slots:
   void SetContexts(const QVector<Node *> &contexts);
@@ -109,7 +110,9 @@ class NodeParamView : public TimeBasedWidget {
 
   NodeParamViewContext *GetContextItemFromContext(Node *ctx);
 
-  [[nodiscard]] bool IsGroupMode() const { return contexts_.size() == 1 && dynamic_cast<NodeGroup *>(contexts_.first()); }
+  [[nodiscard]] bool IsGroupMode() const {
+    return contexts_.size() == 1 && dynamic_cast<NodeGroup *>(contexts_.first());
+  }
 
   void ToggleSelect(NodeParamViewItem *item);
 

@@ -37,7 +37,7 @@ class ProjectSerializer230220 : public ProjectSerializer {
   [[nodiscard]] uint Version() const override { return 230220; }
 
  private:
-  static void PostConnect(const QVector<Node *> &nodes, SerializedData *project_data) ;
+  static void PostConnect(const QVector<Node *> &nodes, SerializedData *project_data);
 };
 
 }  // namespace olive

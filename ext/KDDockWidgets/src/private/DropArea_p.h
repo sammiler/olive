@@ -47,10 +47,10 @@ public:
     DropLocation hover(WindowBeingDragged *draggedWindow, QPoint globalPos);
     ///@brief Called when a user drops a widget via DND
     bool drop(WindowBeingDragged *droppedWindow, QPoint globalPos);
-    [[nodiscard]]  Frame::List frames() const;
+    [[nodiscard]] Frame::List frames() const;
 
-    [[nodiscard]]  Layouting::Item *centralFrame() const;
-    [[nodiscard]]  DropIndicatorOverlayInterface *dropIndicatorOverlay() const
+    [[nodiscard]] Layouting::Item *centralFrame() const;
+    [[nodiscard]] DropIndicatorOverlayInterface *dropIndicatorOverlay() const
     {
         return m_dropIndicatorOverlay;
     }
@@ -61,21 +61,21 @@ public:
 
     /// Returns whether this layout has a single dock widget which is floating
     /// Implies it's in a FloatingWindow and that it has only one dock widget
-    [[nodiscard]]  bool hasSingleFloatingFrame() const;
+    [[nodiscard]] bool hasSingleFloatingFrame() const;
 
     /// Returns whether this drop area has only 1 frame.
     /// See further explanation in FloatingWindow::hasSingleFrame()
-    [[nodiscard]]  bool hasSingleFrame() const;
+    [[nodiscard]] bool hasSingleFrame() const;
 
-    [[nodiscard]]  QStringList affinities() const;
+    [[nodiscard]] QStringList affinities() const;
     void layoutParentContainerEqually(DockWidgetBase *);
 
     /// When DockWidget::Option_MDINestable is used, docked MDI dock widgets will be wrapped inside a DropArea, so they accept drops
     /// This DropArea is created implicitly while docking, and this function will return true
-    [[nodiscard]]  bool isMDIWrapper() const;
+    [[nodiscard]] bool isMDIWrapper() const;
 
     /// Returns the helper dock widget for implementing DockWidget::Option_MDINestable.
-    [[nodiscard]]  DockWidgetBase *mdiDockWidgetWrapper() const;
+    [[nodiscard]] DockWidgetBase *mdiDockWidgetWrapper() const;
 
 private:
     Q_DISABLE_COPY(DropArea)
@@ -89,7 +89,7 @@ private:
     bool validateAffinity(T *, Frame *acceptingFrame = nullptr) const;
     bool drop(WindowBeingDragged *draggedWindow, Frame *acceptingFrame, DropLocation);
     bool drop(QWidgetOrQuick *droppedwindow, KDDockWidgets::Location location, Frame *relativeTo);
-    [[nodiscard]]  Frame *frameContainingPos(QPoint globalPos) const;
+    [[nodiscard]] Frame *frameContainingPos(QPoint globalPos) const;
     void updateFloatingActions() const;
 
     bool m_inDestructor = false;

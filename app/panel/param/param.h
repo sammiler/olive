@@ -39,7 +39,9 @@ class ParamPanel : public TimeBasedPanel {
   void CloseContextsBelongingToProject(Project *p) const { GetParamView()->CloseContextsBelongingToProject(p); }
 
  public slots:
-  void SetSelectedNodes(const QVector<Node::ContextPair> &nodes) const { GetParamView()->SetSelectedNodes(nodes, false); }
+  void SetSelectedNodes(const QVector<Node::ContextPair> &nodes) const {
+    GetParamView()->SetSelectedNodes(nodes, false);
+  }
 
   void DeleteSelected() override;
 

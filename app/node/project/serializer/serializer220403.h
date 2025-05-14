@@ -69,32 +69,32 @@ class ProjectSerializer220403 : public ProjectSerializer {
 
   void LoadNode(Node *node, XMLNodeData &xml_node_data, QXmlStreamReader *reader) const;
 
-  static void LoadColorManager(QXmlStreamReader *reader, Project *project) ;
+  static void LoadColorManager(QXmlStreamReader *reader, Project *project);
 
-  static void LoadProjectSettings(QXmlStreamReader *reader, Project *project) ;
+  static void LoadProjectSettings(QXmlStreamReader *reader, Project *project);
 
   void LoadInput(Node *node, QXmlStreamReader *reader, XMLNodeData &xml_node_data) const;
 
   void LoadImmediate(QXmlStreamReader *reader, Node *node, const QString &input, int element,
                      XMLNodeData &xml_node_data) const;
 
-  static void LoadKeyframe(QXmlStreamReader *reader, NodeKeyframe *key, NodeValue::Type data_type) ;
+  static void LoadKeyframe(QXmlStreamReader *reader, NodeKeyframe *key, NodeValue::Type data_type);
 
-  static bool LoadPosition(QXmlStreamReader *reader, quintptr *node_ptr, Node::Position *pos) ;
+  static bool LoadPosition(QXmlStreamReader *reader, quintptr *node_ptr, Node::Position *pos);
 
-  static void PostConnect(const XMLNodeData &xml_node_data) ;
+  static void PostConnect(const XMLNodeData &xml_node_data);
 
   void LoadNodeCustom(QXmlStreamReader *reader, Node *node, XMLNodeData &xml_node_data) const;
 
   void LoadTimelinePoints(QXmlStreamReader *reader, ViewerOutput *viewer) const;
 
-  static void LoadMarker(QXmlStreamReader *reader, TimelineMarker *marker) ;
+  static void LoadMarker(QXmlStreamReader *reader, TimelineMarker *marker);
 
-  static void LoadWorkArea(QXmlStreamReader *reader, TimelineWorkArea *workarea) ;
+  static void LoadWorkArea(QXmlStreamReader *reader, TimelineWorkArea *workarea);
 
-  static void LoadMarkerList(QXmlStreamReader *reader, TimelineMarkerList *markers) ;
+  static void LoadMarkerList(QXmlStreamReader *reader, TimelineMarkerList *markers);
 
-  static void LoadValueHint(Node::ValueHint *hint, QXmlStreamReader *reader) ;
+  static void LoadValueHint(Node::ValueHint *hint, QXmlStreamReader *reader);
 };
 
 }  // namespace olive

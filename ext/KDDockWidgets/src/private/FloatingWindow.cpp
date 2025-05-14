@@ -284,7 +284,7 @@ bool FloatingWindow::nativeEvent(const QByteArray &eventType, void *message, Qt5
         auto msg = static_cast<MSG *>(message);
         if (msg->message == WM_SIZING) {
             // Cancel any drag if we're resizing
-            Q_EMIT DragController::instance()->dragCanceled();
+            Q_EMIT DragController::instance() -> dragCanceled();
         }
     }
 
@@ -691,7 +691,7 @@ MainWindowBase *FloatingWindow::mainWindow() const
     return qobject_cast<MainWindowBase *>(parent());
 }
 
-QMargins FloatingWindow::contentMargins() 
+QMargins FloatingWindow::contentMargins()
 {
     return { 4, 4, 4, 4 };
 }

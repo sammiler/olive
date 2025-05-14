@@ -218,14 +218,14 @@ void Project::childEvent(QChildEvent *event) {
       node->AddedToGraphEvent(this);
 
       // Emit input connections
-      for (const auto & it : node->input_connections()) {
+      for (const auto &it : node->input_connections()) {
         if (nodes().contains(it.second)) {
           emit InputConnected(it.second, it.first);
         }
       }
 
       // Emit output connections
-      for (const auto & it : node->output_connections()) {
+      for (const auto &it : node->output_connections()) {
         if (nodes().contains(it.second.node())) {
           emit InputConnected(it.first, it.second);
         }

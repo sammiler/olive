@@ -83,7 +83,7 @@ qint64 PlanarFileDevice::size() const {
 bool PlanarFileDevice::seek(qint64 pos) {
   bool ret = true;
 
-  for (auto & file : files_) {
+  for (auto &file : files_) {
     ret = file->seek(pos) & ret;
   }
 

@@ -54,15 +54,15 @@ AboutDialog::AboutDialog(bool welcome_dialog, QWidget* parent) : QDialog(parent)
 
   // Construct About text
   auto* label = new QLabel(QStringLiteral("<html><head/><body>"
-                                            "<p><b>%1</b> %2</p>"  // AppName (version identifier)
-                                            "<p><a href=\"https://www.olivevideoeditor.org/\">"
-                                            "https://www.olivevideoeditor.org/"
-                                            "</a></p>"
-                                            "<p>%3</p>"  // First statement
-                                            "</body></html>")
-                                 .arg(QApplication::applicationName(), QApplication::applicationVersion(),
-                                      tr("Olive is a free open source non-linear video editor. "
-                                         "This software is licensed under the GNU GPL Version 3.")));
+                                          "<p><b>%1</b> %2</p>"  // AppName (version identifier)
+                                          "<p><a href=\"https://www.olivevideoeditor.org/\">"
+                                          "https://www.olivevideoeditor.org/"
+                                          "</a></p>"
+                                          "<p>%3</p>"  // First statement
+                                          "</body></html>")
+                               .arg(QApplication::applicationName(), QApplication::applicationVersion(),
+                                    tr("Olive is a free open source non-linear video editor. "
+                                       "This software is licensed under the GNU GPL Version 3.")));
 
   // Set text formatting
   label->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
@@ -88,11 +88,11 @@ AboutDialog::AboutDialog(bool welcome_dialog, QWidget* parent) : QDialog(parent)
   }
 
   auto* support_lbl = new QLabel(tr("<html>%1 "
-                                      "If you like this project, please consider making a "
-                                      "<a href='https://olivevideoeditor.org/donate.php'>one-time donation</a> or "
-                                      "<a href='https://www.patreon.com/olivevideoeditor'>pledging monthly</a> to "
-                                      "support its development.</html>")
-                                       .arg(opening_statement));
+                                    "If you like this project, please consider making a "
+                                    "<a href='https://olivevideoeditor.org/donate.php'>one-time donation</a> or "
+                                    "<a href='https://www.patreon.com/olivevideoeditor'>pledging monthly</a> to "
+                                    "support its development.</html>")
+                                     .arg(opening_statement));
   support_lbl->setWordWrap(true);
   support_lbl->setAlignment(Qt::AlignCenter);
   support_lbl->setOpenExternalLinks(true);

@@ -247,7 +247,7 @@ class ViewerDisplayWidget : public ManagedDisplayWidget, public TimeTargetObject
 
   rational GetGizmoTime();
 
-  static bool IsHandDrag(QMouseEvent *event) ;
+  static bool IsHandDrag(QMouseEvent *event);
 
   void UpdateMatrix();
 

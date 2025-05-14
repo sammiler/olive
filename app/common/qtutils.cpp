@@ -24,7 +24,7 @@
 
 namespace olive {
 
-int QtUtils::QFontMetricsWidth(const QFontMetrics& fm, const QString &s) {
+int QtUtils::QFontMetricsWidth(const QFontMetrics &fm, const QString &s) {
 #if QT_VERSION < QT_VERSION_CHECK(5, 11, 0)
   return fm.width(s);
 #else

@@ -38,7 +38,8 @@ class TimeRuler;
 class TimeBasedWidget : public TimelineScaledWidget {
   Q_OBJECT
  public:
-  explicit TimeBasedWidget(bool ruler_text_visible = true, bool ruler_cache_status_visible = false, QWidget *parent = nullptr);
+  explicit TimeBasedWidget(bool ruler_text_visible = true, bool ruler_cache_status_visible = false,
+                           QWidget *parent = nullptr);
 
   void ZoomIn();
 

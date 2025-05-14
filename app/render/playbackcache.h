@@ -52,7 +52,9 @@ class PlaybackCache : public QObject {
   }
 
   [[nodiscard]] bool HasInvalidatedRanges(const TimeRange &intersecting) const;
-  [[nodiscard]] bool HasInvalidatedRanges(const rational &length) const { return HasInvalidatedRanges(TimeRange(rational(0), length)); }
+  [[nodiscard]] bool HasInvalidatedRanges(const rational &length) const {
+    return HasInvalidatedRanges(TimeRange(rational(0), length));
+  }
 
   [[nodiscard]] QString GetCacheDirectory() const;
 

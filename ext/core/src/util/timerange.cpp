@@ -138,7 +138,7 @@ void TimeRange::normalize() {
 }
 
 void TimeRangeList::insert(const TimeRangeList &list_to_add) {
-  for (const auto & it : list_to_add) {
+  for (const auto &it : list_to_add) {
     insert(it);
   }
 }
@@ -183,7 +183,7 @@ bool TimeRangeList::contains(const TimeRange &range, bool in_inclusive, bool out
 }
 
 void TimeRangeList::shift(const rational &diff) {
-  for (auto & i : array_) {
+  for (auto &i : array_) {
     i += diff;
   }
 }
@@ -194,7 +194,7 @@ void TimeRangeList::trim_in(const rational &diff) {
 
   clear();
 
-  for (auto & r : temp.array_) {
+  for (auto &r : temp.array_) {
     r.set_in(r.in() + diff);
     insert(r);
   }
@@ -206,7 +206,7 @@ void TimeRangeList::trim_out(const rational &diff) {
 
   clear();
 
-  for (auto & r : temp.array_) {
+  for (auto &r : temp.array_) {
     r.set_out(r.out() + diff);
     insert(r);
   }

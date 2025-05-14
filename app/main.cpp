@@ -33,17 +33,17 @@ extern "C" {
 
 #include <csignal>
 
-#include "common/commandlineparser.h"
-#include "common/debug.h"
-#include "core.h"
-#include "node/project/serializer/serializer.h"
-#include "version.h"
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QMessageBox>
 #include <QProcess>
 #include <QSurfaceFormat>
 #include <memory>
+#include "common/commandlineparser.h"
+#include "common/debug.h"
+#include "core.h"
+#include "node/project/serializer/serializer.h"
+#include "version.h"
 
 #ifdef _WIN32
 #include <Windows.h>

@@ -62,7 +62,7 @@ class CurveView : public KeyframeView {
   qreal GetKeyframeSceneY(KeyframeViewInputConnection *track, NodeKeyframe *key) override;
 
   void DrawKeyframe(QPainter *painter, NodeKeyframe *key, KeyframeViewInputConnection *track,
-                            const QRectF &key_rect) override;
+                    const QRectF &key_rect) override;
 
   bool FirstChanceMousePress(QMouseEvent *event) override;
   void FirstChanceMouseMove(QMouseEvent *event) override;

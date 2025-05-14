@@ -45,7 +45,7 @@ void Frame::set_video_params(const VideoParams &params) {
   linesize_pixels_ = linesize_ / params_.GetBytesPerPixel();
 }
 
-FramePtr Frame::Interlace(const FramePtr& top, const FramePtr& bottom) {
+FramePtr Frame::Interlace(const FramePtr &top, const FramePtr &bottom) {
   if (top->video_params() != bottom->video_params()) {
     qCritical() << "Tried to interlace two frames that had incompatible parameters";
     return nullptr;

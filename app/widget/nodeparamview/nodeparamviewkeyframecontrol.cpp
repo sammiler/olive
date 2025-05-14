@@ -144,8 +144,8 @@ void NodeParamViewKeyframeControl::ToggleKeyframe(bool e) {
     // Add a keyframe here (one for each track)
     for (int i = 0; i < nb_tracks; i++) {
       auto* key = new NodeKeyframe(node_time, input_.node()->GetSplitValueAtTimeOnTrack(input_, node_time, i),
-                                           input_.node()->GetBestKeyframeTypeForTimeOnTrack(input_, node_time, i), i,
-                                           input_.element(), input_.input());
+                                   input_.node()->GetBestKeyframeTypeForTimeOnTrack(input_, node_time, i), i,
+                                   input_.element(), input_.input());
 
       command->add_child(new NodeParamInsertKeyframeCommand(input_.node(), key));
     }
@@ -222,7 +222,7 @@ void NodeParamViewKeyframeControl::KeyframeEnableBtnClicked(bool e) {
 
     for (int i = 0; i < key_vals.size(); i++) {
       auto* key = new NodeKeyframe(GetCurrentTimeAsNodeTime(), key_vals.at(i), NodeKeyframe::kDefaultType, i,
-                                           input_.element(), input_.input());
+                                   input_.element(), input_.input());
 
       command->add_child(new NodeParamInsertKeyframeCommand(input_.node(), key));
     }

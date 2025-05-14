@@ -92,7 +92,7 @@ QStringList ColorManager::ListAvailableDisplays() {
 
 QString ColorManager::GetDefaultDisplay() { return config_->getDefaultDisplay(); }
 
-QStringList ColorManager::ListAvailableViews(const QString& display) {
+QStringList ColorManager::ListAvailableViews(const QString &display) {
   QStringList views;
 
   int number_of_views = config_->getNumViews(display.toUtf8());
@@ -169,7 +169,7 @@ ColorTransform ColorManager::GetCompliantColorSpace(const ColorTransform &transf
   }
 }
 
-QStringList ColorManager::ListAvailableColorspaces(const OCIO::ConstConfigRcPtr& config) {
+QStringList ColorManager::ListAvailableColorspaces(const OCIO::ConstConfigRcPtr &config) {
   QStringList spaces;
 
   if (config) {
@@ -197,7 +197,7 @@ void ColorManager::UpdateConfigFromFilename() {
     // Set new default colorspace appropriately
     QString new_default = old_default_cs;
     QStringList available_cs = ListAvailableColorspaces();
-    for (const auto & c : available_cs) {
+    for (const auto &c : available_cs) {
       if (c.compare(old_default_cs, Qt::CaseInsensitive)) {
         new_default = c;
         break;

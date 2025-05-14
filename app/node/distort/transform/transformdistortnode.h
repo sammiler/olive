@@ -79,7 +79,7 @@ class TransformDistortNode : public MatrixGenerator {
   static QPointF CreateScalePoint(double x, double y, const QPointF &half_res, const QMatrix4x4 &mat);
 
   static QMatrix4x4 GenerateAutoScaledMatrix(const QMatrix4x4 &generated_matrix, const NodeValueRow &value,
-                                      const NodeGlobals &globals, const VideoParams &texture_params) ;
+                                             const NodeGlobals &globals, const VideoParams &texture_params);
 
   bool IsAScaleGizmo(NodeGizmo *g) const;
 

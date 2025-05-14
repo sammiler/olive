@@ -111,7 +111,8 @@ class TimelineView : public TimeBasedView {
                  const rational &out, const rational &media_in);
   void DrawBlock(QPainter *painter, bool foreground, Block *block, qreal top, qreal height) {
     auto *cb = dynamic_cast<ClipBlock *>(block);
-    return DrawBlock(painter, foreground, block, top, height, block->in(), block->out(), cb ? cb->media_in() : rational(0));
+    return DrawBlock(painter, foreground, block, top, height, block->in(), block->out(),
+                     cb ? cb->media_in() : rational(0));
   }
 
   void DrawZebraStripes(QPainter *painter, const QRectF &r);
@@ -125,7 +126,7 @@ class TimelineView : public TimeBasedView {
   [[nodiscard]] qreal GetTimelineRightBound() const;
 
   static void DrawThumbnail(QPainter *painter, const FrameHashCache *thumbs, const rational &time, int x,
-                     const QRect &preview_rect, QRect *thumb_rect) ;
+                            const QRect &preview_rect, QRect *thumb_rect);
 
   QHash<Track::Reference, TimeRangeList> *selections_;
 

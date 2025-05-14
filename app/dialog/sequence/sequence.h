@@ -104,8 +104,7 @@ class SequenceDialog : public QDialog {
    */
   class SequenceParamCommand : public UndoCommand {
    public:
-    SequenceParamCommand(Sequence* s, VideoParams  video_params, AudioParams  audio_params,
-                         QString  name, bool autocache);
+    SequenceParamCommand(Sequence* s, VideoParams video_params, AudioParams audio_params, QString name, bool autocache);
 
     [[nodiscard]] Project* GetRelevantProject() const override;
 

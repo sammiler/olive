@@ -65,7 +65,7 @@ class Renderer : public QObject {
     BlitColorManaged(job, nullptr, params);
   }
 
-  TexturePtr InterlaceTexture(const TexturePtr& top, const TexturePtr& bottom, const VideoParams &params);
+  TexturePtr InterlaceTexture(const TexturePtr &top, const TexturePtr &bottom, const VideoParams &params);
 
   QVariant GetDefaultShader();
 

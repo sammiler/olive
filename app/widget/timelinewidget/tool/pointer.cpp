@@ -610,7 +610,7 @@ void PointerTool::FinishDrag(TimelineViewMouseEvent* event) {
       if (!ghost->GetData(TimelineViewGhostItem::kTrimShouldBeIgnored).toBool()) {
         // Must be an ordinary trim/roll
         auto* c = new BlockTrimCommand(parent()->GetTrackFromReference(ghost->GetAdjustedTrack()), p.block,
-                                                   ghost->GetAdjustedLength(), ghost->GetMode());
+                                       ghost->GetAdjustedLength(), ghost->GetMode());
 
         if (event->GetModifiers() & Qt::ControlModifier) {
         }

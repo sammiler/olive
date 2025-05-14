@@ -49,28 +49,26 @@ class OpenGLRenderer : public Renderer {
   void PostInit() override;
 
   void ClearDestination(olive::Texture *texture = nullptr, double r = 0.0, double g = 0.0, double b = 0.0,
-                                double a = 0.0) override;
+                        double a = 0.0) override;
 
   QVariant CreateNativeShader(olive::ShaderCode code) override;
 
   void DestroyNativeShader(QVariant shader) override;
 
-  void UploadToTexture(const QVariant &handle, const VideoParams &params, const void *data,
-                               int linesize) override;
+  void UploadToTexture(const QVariant &handle, const VideoParams &params, const void *data, int linesize) override;
 
-  void DownloadFromTexture(const QVariant &id, const VideoParams &params, void *data,
-                                   int linesize) override;
+  void DownloadFromTexture(const QVariant &id, const VideoParams &params, void *data, int linesize) override;
 
   void Flush() override;
 
   Color GetPixelFromTexture(olive::Texture *texture, const QPointF &pt) override;
 
  protected:
-  void Blit(QVariant shader, olive::ShaderJob job, olive::Texture *destination,
-                    olive::VideoParams destination_params, bool clear_destination) override;
+  void Blit(QVariant shader, olive::ShaderJob job, olive::Texture *destination, olive::VideoParams destination_params,
+            bool clear_destination) override;
 
   QVariant CreateNativeTexture(int width, int height, int depth, PixelFormat format, int channel_count,
-                                       const void *data = nullptr, int linesize = 0) override;
+                               const void *data = nullptr, int linesize = 0) override;
 
   void DestroyNativeTexture(QVariant texture) override;
 
@@ -109,7 +107,8 @@ class OpenGLRenderer : public Renderer {
     int channel_count{};
 
     bool operator==(const TextureCacheKey &rhs) const {
-      return width == rhs.width && height == rhs.height && depth == rhs.depth && static_cast<PixelFormat::Format>(format) == static_cast<PixelFormat::Format>(rhs.format) &&
+      return width == rhs.width && height == rhs.height && depth == rhs.depth &&
+             static_cast<PixelFormat::Format>(format) == static_cast<PixelFormat::Format>(rhs.format) &&
              channel_count == rhs.channel_count;
     }
   };

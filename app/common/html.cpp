@@ -32,7 +32,7 @@ struct HtmlNode {
 QTextCharFormat MergeHtmlFormats(const QVector<HtmlNode> &stack) {
   QTextCharFormat f;
 
-  for (const auto & i : stack) {
+  for (const auto &i : stack) {
     f.merge(i.format);
   }
 

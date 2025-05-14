@@ -66,7 +66,7 @@ class Sequence : public ViewerOutput {
   void Retranslate() override;
 
   void InvalidateCache(const TimeRange &range, const QString &from, int element,
-                               InvalidateCacheOptions options) override;
+                       InvalidateCacheOptions options) override;
 
   static const QString kTrackInputFormat;
 

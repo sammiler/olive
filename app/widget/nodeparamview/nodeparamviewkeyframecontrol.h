@@ -44,7 +44,7 @@ class NodeParamViewKeyframeControl : public QWidget, public TimeTargetObject {
   void TimeTargetConnectEvent(ViewerOutput* v) override;
 
  private:
-  [[nodiscard]] static QPushButton* CreateNewToolButton(const QIcon& icon) ;
+  [[nodiscard]] static QPushButton* CreateNewToolButton(const QIcon& icon);
 
   void SetButtonsEnabled(bool e);
 

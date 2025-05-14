@@ -37,7 +37,7 @@ class GeneratorWithMerge : public Node {
   static const QString kBaseInput;
 
  protected:
-  void PushMergableJob(const NodeValueRow &value, const TexturePtr& job, NodeValueTable *table) const;
+  void PushMergableJob(const NodeValueRow &value, const TexturePtr &job, NodeValueTable *table) const;
 };
 
 }  // namespace olive

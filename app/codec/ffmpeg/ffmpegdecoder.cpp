@@ -67,8 +67,8 @@ bool FFmpegDecoder::OpenInternal() {
   return false;
 }
 
-TexturePtr FFmpegDecoder::ProcessFrameIntoTexture(const AVFramePtr& f, const RetrieveVideoParams &p,
-                                                  const AVFramePtr& original) {
+TexturePtr FFmpegDecoder::ProcessFrameIntoTexture(const AVFramePtr &f, const RetrieveVideoParams &p,
+                                                  const AVFramePtr &original) {
   // Determine native format
   AVPixelFormat ideal_fmt = FFmpegUtils::GetCompatiblePixelFormat(static_cast<AVPixelFormat>(f->format));
   PixelFormat native_fmt = GetNativePixelFormat(ideal_fmt);
@@ -343,7 +343,8 @@ FootageDescription FFmpegDecoder::Probe(const QString &filename, CancelAtom *can
                   }
                 }
 
-                pixel_aspect_ratio = rational(av_guess_sample_aspect_ratio(instance.fmt_ctx(), instance.avstream(), frame));
+                pixel_aspect_ratio =
+                    rational(av_guess_sample_aspect_ratio(instance.fmt_ctx(), instance.avstream(), frame));
 
                 frame_rate = rational(av_guess_frame_rate(instance.fmt_ctx(), instance.avstream(), frame));
 
@@ -441,8 +442,8 @@ FootageDescription FFmpegDecoder::Probe(const QString &filename, CancelAtom *can
 
               instance.Close();
             } else {
-              avstream->duration =
-                  Timecode::rescale_timestamp_ceil(footage_duration, rational(1, AV_TIME_BASE), rational(avstream->time_base));
+              avstream->duration = Timecode::rescale_timestamp_ceil(footage_duration, rational(1, AV_TIME_BASE),
+                                                                    rational(avstream->time_base));
             }
           }
 

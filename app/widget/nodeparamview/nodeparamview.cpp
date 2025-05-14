@@ -278,9 +278,9 @@ void NodeParamView::UpdateContexts() {
 
 void NodeParamView::ItemAboutToBeRemoved(NodeParamViewItem *item) {
   if (keyframe_view_) {
-    for (auto & it : item->GetKeyframeConnections()) {
-      for (auto & jt : it) {
-        for (auto & kt : jt) {
+    for (auto &it : item->GetKeyframeConnections()) {
+      for (auto &jt : it) {
+        for (auto &kt : jt) {
           keyframe_view_->RemoveKeyframesOfTrack(kt);
         }
       }
@@ -354,7 +354,7 @@ void NodeParamView::ConnectedNodeChangeEvent(ViewerOutput *n) {
 
 void ReconnectOutputsIfNotDeletingNode(MultiUndoCommand *c, NodeViewDeleteCommand *dc, Node *output, Node *deleting,
                                        Node *context) {
-  for (const auto & it : deleting->output_connections()) {
+  for (const auto &it : deleting->output_connections()) {
     const NodeInput &proposed_reconnect = it.second;
 
     if (dc->ContainsNode(proposed_reconnect.node(), context)) {
@@ -559,7 +559,7 @@ bool NodeParamView::Paste() {
 
 bool NodeParamView::Paste(
     QWidget *parent,
-    const std::function<QHash<Node *, Node *>(const ProjectSerializer::Result &)>& get_existing_map_function) {
+    const std::function<QHash<Node *, Node *>(const ProjectSerializer::Result &)> &get_existing_map_function) {
   ProjectSerializer::Result res = ProjectSerializer::Paste(ProjectSerializer::kOnlyNodes);
   if (res.GetLoadData().nodes.isEmpty()) {
     return false;
@@ -711,7 +711,7 @@ int GetDistanceBetweenNodes(Node *start, Node *end) {
     return 0;
   }
 
-  for (const auto & it : start->input_connections()) {
+  for (const auto &it : start->input_connections()) {
     int this_node_dist = GetDistanceBetweenNodes(it.second, end);
     if (this_node_dist != -1) {
       return 1 + this_node_dist;

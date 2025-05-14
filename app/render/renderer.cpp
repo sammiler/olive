@@ -37,7 +37,8 @@ TexturePtr Renderer::CreateTexture(const VideoParams &params, const void *data, 
     QMutexLocker locker(&texture_cache_lock_);
     for (auto it = texture_cache_.begin(); it != texture_cache_.end(); it++) {
       if (it->width == params.effective_width() && it->height == params.effective_height() &&
-          it->depth == params.effective_depth() && static_cast<PixelFormat::Format>(it->format) == static_cast<PixelFormat::Format>(params.format()) &&
+          it->depth == params.effective_depth() &&
+          static_cast<PixelFormat::Format>(it->format) == static_cast<PixelFormat::Format>(params.format()) &&
           it->channel_count == params.channel_count()) {
         v = it->handle;
         texture_cache_.erase(it);
@@ -89,7 +90,7 @@ void Renderer::DestroyTexture(Texture *texture) {
   }
 }
 
-TexturePtr Renderer::InterlaceTexture(const TexturePtr& top, const TexturePtr& bottom, const VideoParams &params) {
+TexturePtr Renderer::InterlaceTexture(const TexturePtr &top, const TexturePtr &bottom, const VideoParams &params) {
   color_cache_mutex_.lock();
   if (interlace_texture_.isNull()) {
     interlace_texture_ =
@@ -133,7 +134,7 @@ void Renderer::Destroy() {
     interlace_texture_.clear();
   }
 
-  for (auto & it : texture_cache_) {
+  for (auto &it : texture_cache_) {
     DestroyNativeTexture(it.handle);
   }
   texture_cache_.clear();
@@ -215,7 +216,8 @@ bool Renderer::GetColorContext(const ColorTransformJob &color_job, Renderer::Col
 
       // Allocate 3D LUT
       color_ctx.lut3d_textures[i].texture = CreateTexture(
-          VideoParams(edge_len, edge_len, edge_len, PixelFormat(PixelFormat::F32), VideoParams::kRGBChannelCount), values);
+          VideoParams(edge_len, edge_len, edge_len, PixelFormat(PixelFormat::F32), VideoParams::kRGBChannelCount),
+          values);
       color_ctx.lut3d_textures[i].name = sampler_name;
       color_ctx.lut3d_textures[i].interpolation =
           (interpolation == OCIO::INTERP_NEAREST) ? Texture::kNearest : Texture::kLinear;

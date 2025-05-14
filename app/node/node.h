@@ -325,13 +325,17 @@ class Node : public QObject {
   [[nodiscard]] bool IsInputKeyframable(const QString& input) const;
 
   [[nodiscard]] bool IsInputKeyframing(const QString& input, int element = -1) const;
-  [[nodiscard]] bool IsInputKeyframing(const NodeInput& input) const { return IsInputKeyframing(input.input(), input.element()); }
+  [[nodiscard]] bool IsInputKeyframing(const NodeInput& input) const {
+    return IsInputKeyframing(input.input(), input.element());
+  }
 
   void SetInputIsKeyframing(const QString& input, bool e, int element = -1);
   void SetInputIsKeyframing(const NodeInput& input, bool e) { SetInputIsKeyframing(input.input(), e, input.element()); }
 
   [[nodiscard]] bool IsInputConnected(const QString& input, int element = -1) const;
-  [[nodiscard]] bool IsInputConnected(const NodeInput& input) const { return IsInputConnected(input.input(), input.element()); }
+  [[nodiscard]] bool IsInputConnected(const NodeInput& input) const {
+    return IsInputConnected(input.input(), input.element());
+  }
 
   [[nodiscard]] virtual bool IsInputConnectedForRender(const QString& input, int element = -1) const {
     return IsInputConnected(input, element);
@@ -344,11 +348,15 @@ class Node : public QObject {
     return !IsInputConnected(input, element) && !IsInputKeyframing(input, element);
   }
 
-  [[nodiscard]] bool IsInputStatic(const NodeInput& input) const { return IsInputStatic(input.input(), input.element()); }
+  [[nodiscard]] bool IsInputStatic(const NodeInput& input) const {
+    return IsInputStatic(input.input(), input.element());
+  }
 
   [[nodiscard]] Node* GetConnectedOutput(const QString& input, int element = -1) const;
 
-  [[nodiscard]] Node* GetConnectedOutput(const NodeInput& input) const { return GetConnectedOutput(input.input(), input.element()); }
+  [[nodiscard]] Node* GetConnectedOutput(const NodeInput& input) const {
+    return GetConnectedOutput(input.input(), input.element());
+  }
 
   [[nodiscard]] virtual Node* GetConnectedRenderOutput(const QString& input, int element = -1) const {
     return GetConnectedOutput(input, element);
@@ -384,12 +392,14 @@ class Node : public QObject {
     return GetSplitValueAtTime(input.input(), time, input.element());
   }
 
-  [[nodiscard]] QVariant GetSplitValueAtTimeOnTrack(const QString& input, const rational& time, int track, int element = -1) const;
+  [[nodiscard]] QVariant GetSplitValueAtTimeOnTrack(const QString& input, const rational& time, int track,
+                                                    int element = -1) const;
   [[nodiscard]] QVariant GetSplitValueAtTimeOnTrack(const NodeInput& input, const rational& time, int track) const {
     return GetSplitValueAtTimeOnTrack(input.input(), time, track, input.element());
   }
 
-  [[nodiscard]] QVariant GetSplitValueAtTimeOnTrack(const NodeKeyframeTrackReference& input, const rational& time) const {
+  [[nodiscard]] QVariant GetSplitValueAtTimeOnTrack(const NodeKeyframeTrackReference& input,
+                                                    const rational& time) const {
     return GetSplitValueAtTimeOnTrack(input.input(), time, input.track());
   }
 
@@ -406,47 +416,59 @@ class Node : public QObject {
     return GetKeyframeTracks(input.input(), input.element());
   }
 
-  [[nodiscard]] QVector<NodeKeyframe*> GetKeyframesAtTime(const QString& input, const rational& time, int element = -1) const;
+  [[nodiscard]] QVector<NodeKeyframe*> GetKeyframesAtTime(const QString& input, const rational& time,
+                                                          int element = -1) const;
   [[nodiscard]] QVector<NodeKeyframe*> GetKeyframesAtTime(const NodeInput& input, const rational& time) const {
     return GetKeyframesAtTime(input.input(), time, input.element());
   }
 
-  [[nodiscard]] NodeKeyframe* GetKeyframeAtTimeOnTrack(const QString& input, const rational& time, int track, int element = -1) const;
+  [[nodiscard]] NodeKeyframe* GetKeyframeAtTimeOnTrack(const QString& input, const rational& time, int track,
+                                                       int element = -1) const;
   [[nodiscard]] NodeKeyframe* GetKeyframeAtTimeOnTrack(const NodeInput& input, const rational& time, int track) const {
     return GetKeyframeAtTimeOnTrack(input.input(), time, track, input.element());
   }
 
-  [[nodiscard]] NodeKeyframe* GetKeyframeAtTimeOnTrack(const NodeKeyframeTrackReference& input, const rational& time) const {
+  [[nodiscard]] NodeKeyframe* GetKeyframeAtTimeOnTrack(const NodeKeyframeTrackReference& input,
+                                                       const rational& time) const {
     return GetKeyframeAtTimeOnTrack(input.input(), time, input.track());
   }
 
-  [[nodiscard]] NodeKeyframe::Type GetBestKeyframeTypeForTimeOnTrack(const QString& input, const rational& time, int track,
-                                                       int element = -1) const;
+  [[nodiscard]] NodeKeyframe::Type GetBestKeyframeTypeForTimeOnTrack(const QString& input, const rational& time,
+                                                                     int track, int element = -1) const;
 
-  [[nodiscard]] NodeKeyframe::Type GetBestKeyframeTypeForTimeOnTrack(const NodeInput& input, const rational& time, int track) const {
+  [[nodiscard]] NodeKeyframe::Type GetBestKeyframeTypeForTimeOnTrack(const NodeInput& input, const rational& time,
+                                                                     int track) const {
     return GetBestKeyframeTypeForTimeOnTrack(input.input(), time, track, input.element());
   }
 
   [[nodiscard]] NodeKeyframe::Type GetBestKeyframeTypeForTimeOnTrack(const NodeKeyframeTrackReference& input,
-                                                       const rational& time) const {
+                                                                     const rational& time) const {
     return GetBestKeyframeTypeForTimeOnTrack(input.input(), time, input.track());
   }
 
   [[nodiscard]] int GetNumberOfKeyframeTracks(const QString& id) const;
-  [[nodiscard]] int GetNumberOfKeyframeTracks(const NodeInput& id) const { return GetNumberOfKeyframeTracks(id.input()); }
+  [[nodiscard]] int GetNumberOfKeyframeTracks(const NodeInput& id) const {
+    return GetNumberOfKeyframeTracks(id.input());
+  }
 
   [[nodiscard]] NodeKeyframe* GetEarliestKeyframe(const QString& id, int element = -1) const;
-  [[nodiscard]] NodeKeyframe* GetEarliestKeyframe(const NodeInput& id) const { return GetEarliestKeyframe(id.input(), id.element()); }
+  [[nodiscard]] NodeKeyframe* GetEarliestKeyframe(const NodeInput& id) const {
+    return GetEarliestKeyframe(id.input(), id.element());
+  }
 
   [[nodiscard]] NodeKeyframe* GetLatestKeyframe(const QString& id, int element = -1) const;
-  [[nodiscard]] NodeKeyframe* GetLatestKeyframe(const NodeInput& id) const { return GetLatestKeyframe(id.input(), id.element()); }
+  [[nodiscard]] NodeKeyframe* GetLatestKeyframe(const NodeInput& id) const {
+    return GetLatestKeyframe(id.input(), id.element());
+  }
 
-  [[nodiscard]] NodeKeyframe* GetClosestKeyframeBeforeTime(const QString& id, const rational& time, int element = -1) const;
+  [[nodiscard]] NodeKeyframe* GetClosestKeyframeBeforeTime(const QString& id, const rational& time,
+                                                           int element = -1) const;
   [[nodiscard]] NodeKeyframe* GetClosestKeyframeBeforeTime(const NodeInput& id, const rational& time) const {
     return GetClosestKeyframeBeforeTime(id.input(), time, id.element());
   }
 
-  [[nodiscard]] NodeKeyframe* GetClosestKeyframeAfterTime(const QString& id, const rational& time, int element = -1) const;
+  [[nodiscard]] NodeKeyframe* GetClosestKeyframeAfterTime(const QString& id, const rational& time,
+                                                          int element = -1) const;
   [[nodiscard]] NodeKeyframe* GetClosestKeyframeAfterTime(const NodeInput& id, const rational& time) const {
     return GetClosestKeyframeAfterTime(id.input(), time, id.element());
   }
@@ -459,7 +481,9 @@ class Node : public QObject {
   [[nodiscard]] QStringList GetComboBoxStrings(const QString& id) const;
 
   [[nodiscard]] QVariant GetStandardValue(const QString& id, int element = -1) const;
-  [[nodiscard]] QVariant GetStandardValue(const NodeInput& id) const { return GetStandardValue(id.input(), id.element()); }
+  [[nodiscard]] QVariant GetStandardValue(const NodeInput& id) const {
+    return GetStandardValue(id.input(), id.element());
+  }
 
   [[nodiscard]] SplitValue GetSplitStandardValue(const QString& id, int element = -1) const;
   [[nodiscard]] SplitValue GetSplitStandardValue(const NodeInput& id) const {
@@ -509,15 +533,15 @@ class Node : public QObject {
   class ValueHint {
    public:
     explicit ValueHint(const QVector<NodeValue::Type>& types = QVector<NodeValue::Type>(), int index = -1,
-                       QString  tag = QString())
+                       QString tag = QString())
         : type_(types), index_(index), tag_(std::move(tag)) {}
 
-    explicit ValueHint(const QVector<NodeValue::Type>& types, QString  tag)
+    explicit ValueHint(const QVector<NodeValue::Type>& types, QString tag)
         : type_(types), index_(-1), tag_(std::move(tag)) {}
 
     explicit ValueHint(int index) : index_(index) {}
 
-    explicit ValueHint(QString  tag) : index_(-1), tag_(std::move(tag)) {}
+    explicit ValueHint(QString tag) : index_(-1), tag_(std::move(tag)) {}
 
     [[nodiscard]] const QVector<NodeValue::Type>& types() const { return type_; }
     [[nodiscard]] const int& index() const { return index_; }
@@ -690,12 +714,13 @@ class Node : public QObject {
    * overridden to do so. Also make sure to override OutputTimeAdjustment() to provide the inverse function.
    */
   [[nodiscard]] virtual TimeRange InputTimeAdjustment(const QString& input, int element, const TimeRange& input_time,
-                                        bool clamp) const;
+                                                      bool clamp) const;
 
   /**
    * @brief The inverse of InputTimeAdjustment()
    */
-  [[nodiscard]] virtual TimeRange OutputTimeAdjustment(const QString& input, int element, const TimeRange& input_time) const;
+  [[nodiscard]] virtual TimeRange OutputTimeAdjustment(const QString& input, int element,
+                                                       const TimeRange& input_time) const;
 
   /**
    * @brief Copies inputs from from Node to another including connections
@@ -1131,7 +1156,7 @@ QVector<T*> Node::FindInputNodesConnectedToInput(const NodeInput& input, int max
 
 template <class T>
 void Node::FindInputNodeInternal(const Node* n, QVector<T*>& list, int maximum) {
-  for (const auto & input_connection : n->input_connections_) {
+  for (const auto& input_connection : n->input_connections_) {
     FindInputNodesConnectedToInputInternal(input_connection.first, list, maximum);
   }
 }

@@ -313,7 +313,7 @@ void WriteNodeMap(QXmlStreamWriter *writer, Node *node, const QVector<Node *> &n
 
   writer->writeAttribute(QStringLiteral("ptr"), QString::number(reinterpret_cast<quintptr>(node)));
 
-  for (const auto& oc : node->output_connections()) {
+  for (const auto &oc : node->output_connections()) {
     if (nodes.contains(oc.second.node())) {
       WriteNodeMap(writer, oc.second.node(), nodes);
     }

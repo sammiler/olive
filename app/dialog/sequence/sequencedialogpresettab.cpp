@@ -96,7 +96,8 @@ QTreeWidgetItem* SequenceDialogPresetTab::CreateFolder(const QString& name) {
 
 QTreeWidgetItem* SequenceDialogPresetTab::CreateHDPresetFolder(const QString& name, int width, int height,
                                                                int divider) {
-  const PixelFormat default_format = PixelFormat(static_cast<PixelFormat::Format>(OLIVE_CONFIG("OfflinePixelFormat").toInt()));
+  const PixelFormat default_format =
+      PixelFormat(static_cast<PixelFormat::Format>(OLIVE_CONFIG("OfflinePixelFormat").toInt()));
   const bool default_autocache = false;
   QTreeWidgetItem* parent = CreateFolder(name);
   AddStandardItem(parent,
@@ -125,7 +126,8 @@ QTreeWidgetItem* SequenceDialogPresetTab::CreateHDPresetFolder(const QString& na
 QTreeWidgetItem* SequenceDialogPresetTab::CreateSDPresetFolder(const QString& name, int width, int height,
                                                                const rational& frame_rate, const rational& standard_par,
                                                                const rational& wide_par, int divider) {
-  const PixelFormat default_format = PixelFormat(static_cast<PixelFormat::Format>(OLIVE_CONFIG("OfflinePixelFormat").toInt()));
+  const PixelFormat default_format =
+      PixelFormat(static_cast<PixelFormat::Format>(OLIVE_CONFIG("OfflinePixelFormat").toInt()));
   const bool default_autocache = false;
   QTreeWidgetItem* parent = CreateFolder(name);
   preset_tree_->addTopLevelItem(parent);
@@ -160,7 +162,8 @@ QTreeWidgetItem* SequenceDialogPresetTab::GetSelectedCustomPreset() {
   return nullptr;
 }
 
-void SequenceDialogPresetTab::AddStandardItem(QTreeWidgetItem* folder, const PresetPtr& preset, const QString& description) {
+void SequenceDialogPresetTab::AddStandardItem(QTreeWidgetItem* folder, const PresetPtr& preset,
+                                              const QString& description) {
   int index = default_preset_data_.size();
   default_preset_data_.append(preset);
   AddItemInternal(folder, preset, false, index, description);
@@ -171,8 +174,8 @@ void SequenceDialogPresetTab::AddCustomItem(QTreeWidgetItem* folder, const Prese
   AddItemInternal(folder, preset, true, index, description);
 }
 
-void SequenceDialogPresetTab::AddItemInternal(QTreeWidgetItem* folder, const PresetPtr& preset, bool is_custom, int index,
-                                              const QString& description) {
+void SequenceDialogPresetTab::AddItemInternal(QTreeWidgetItem* folder, const PresetPtr& preset, bool is_custom,
+                                              int index, const QString& description) {
   auto* item = new QTreeWidgetItem();
 
   item->setText(0, preset->GetName());

@@ -33,7 +33,7 @@ class Sequence;
 class TrackList : public QObject {
   Q_OBJECT
  public:
-  TrackList(Sequence* parent, const Track::Type& type, QString  track_input);
+  TrackList(Sequence* parent, const Track::Type& type, QString track_input);
 
   [[nodiscard]] const Track::Type& type() const { return type_; }
 

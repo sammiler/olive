@@ -217,8 +217,7 @@ WindowBeingDraggedWayland::WindowBeingDraggedWayland(Draggable *draggable)
     }
 }
 
-WindowBeingDraggedWayland::~WindowBeingDraggedWayland()
-= default;
+WindowBeingDraggedWayland::~WindowBeingDraggedWayland() = default;
 
 QPixmap WindowBeingDraggedWayland::pixmap() const
 {

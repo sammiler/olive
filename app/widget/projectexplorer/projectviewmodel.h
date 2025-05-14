@@ -98,7 +98,8 @@ class ProjectViewModel : public QAbstractItemModel {
   [[nodiscard]] QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
   /** Optional Qt QAbstractItemModel overrides */
-  [[nodiscard]] QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
+  [[nodiscard]] QVariant headerData(int section, Qt::Orientation orientation,
+                                    int role = Qt::DisplayRole) const override;
   [[nodiscard]] bool hasChildren(const QModelIndex &parent = QModelIndex()) const override;
   bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
   [[nodiscard]] bool canFetchMore(const QModelIndex &parent) const override;
@@ -108,7 +109,7 @@ class ProjectViewModel : public QAbstractItemModel {
   [[nodiscard]] QStringList mimeTypes() const override;
   [[nodiscard]] QMimeData *mimeData(const QModelIndexList &indexes) const override;
   bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column,
-                            const QModelIndex &drop) override;
+                    const QModelIndex &drop) override;
 
   /**
    * @brief Convenience function for creating QModelIndexes from an Item object
@@ -126,7 +127,7 @@ class ProjectViewModel : public QAbstractItemModel {
    *
    * Index of the specified item, or -1 if the item is root (in which case it has no parent).
    */
-  static int IndexOfChild(Node *item) ;
+  static int IndexOfChild(Node *item);
 
   /**
    * @brief Retrieves the Item object from a given index
@@ -140,7 +141,7 @@ class ProjectViewModel : public QAbstractItemModel {
    *
    * Checks entire "parent hierarchy" of `child` to see if `parent` is one of its parents.
    */
-  static bool ItemIsParentOfChild(Folder *parent, Node *child) ;
+  static bool ItemIsParentOfChild(Folder *parent, Node *child);
 
   void ConnectItem(Node *n);
 

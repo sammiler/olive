@@ -116,15 +116,17 @@ class TimelineViewGhostItem {
 
   [[nodiscard]] rational GetAdjustedMediaIn() const { return media_in_ + media_in_adj_; }
 
-  [[nodiscard]] Track::Reference GetAdjustedTrack() const { return Track::Reference(track_.type(), track_.index() + track_adj_); }
+  [[nodiscard]] Track::Reference GetAdjustedTrack() const {
+    return Track::Reference(track_.type(), track_.index() + track_adj_);
+  }
 
   [[nodiscard]] const Timeline::MovementMode& GetMode() const { return mode_; }
 
   void SetMode(const Timeline::MovementMode& mode) { mode_ = mode; }
 
   [[nodiscard]] bool HasBeenAdjusted() const {
-    return GetInAdjustment() != rational(0) || GetOutAdjustment() != rational(0) || GetMediaInAdjustment() != rational(0) ||
-           GetTrackAdjustment() != 0;
+    return GetInAdjustment() != rational(0) || GetOutAdjustment() != rational(0) ||
+           GetMediaInAdjustment() != rational(0) || GetTrackAdjustment() != 0;
   }
 
   [[nodiscard]] QVariant GetData(int key) const { return data_.value(key); }

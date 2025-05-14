@@ -44,16 +44,14 @@ class RenderProcessor : public NodeTraverser {
   };
 
  protected:
-  void ProcessVideoFootage(TexturePtr destination, const FootageJob *stream,
-                                   const rational &input_time) override;
+  void ProcessVideoFootage(TexturePtr destination, const FootageJob *stream, const rational &input_time) override;
 
-  void ProcessAudioFootage(SampleBuffer &destination, const FootageJob *stream,
-                                   const TimeRange &input_time) override;
+  void ProcessAudioFootage(SampleBuffer &destination, const FootageJob *stream, const TimeRange &input_time) override;
 
   void ProcessShader(TexturePtr destination, const Node *node, const ShaderJob *job) override;
 
   void ProcessSamples(SampleBuffer &destination, const Node *node, const TimeRange &range,
-                              const SampleJob &job) override;
+                      const SampleJob &job) override;
 
   void ProcessColorTransform(TexturePtr destination, const Node *node, const ColorTransformJob *job) override;
 

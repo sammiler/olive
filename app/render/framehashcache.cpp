@@ -74,7 +74,8 @@ bool FrameHashCache::SaveCacheFrame(const int64_t &time, FramePtr frame) const {
   return SaveCacheFrame(GetCacheDirectory(), GetUuid(), time, std::move(frame));
 }
 
-bool FrameHashCache::SaveCacheFrame(const QString &cache_path, const QUuid &uuid, const int64_t &time, const FramePtr& frame) {
+bool FrameHashCache::SaveCacheFrame(const QString &cache_path, const QUuid &uuid, const int64_t &time,
+                                    const FramePtr &frame) {
   if (cache_path.isEmpty()) {
     qWarning() << "Failed to save cache frame with empty path";
     return false;
@@ -93,7 +94,7 @@ bool FrameHashCache::SaveCacheFrame(const QString &cache_path, const QUuid &uuid
 }
 
 bool FrameHashCache::SaveCacheFrame(const QString &cache_path, const QUuid &uuid, const rational &time,
-                                    const rational &tb, const FramePtr& frame) {
+                                    const rational &tb, const FramePtr &frame) {
   if (cache_path.isEmpty()) {
     qWarning() << "Failed to save cache frame with empty path";
     return false;
@@ -297,7 +298,7 @@ QString FrameHashCache::CachePathName(const QString &cache_path, const QUuid &ca
   return CachePathName(cache_path, cache_id, Timecode::time_to_timestamp(time, tb, Timecode::kRound));
 }
 
-bool FrameHashCache::SaveCacheFrame(const QString &filename, const FramePtr& frame) {
+bool FrameHashCache::SaveCacheFrame(const QString &filename, const FramePtr &frame) {
   // Ensure directory is created
   QDir cache_dir = QFileInfo(filename).dir();
   if (!FileFunctions::DirectoryIsValid(cache_dir)) {
@@ -308,7 +309,7 @@ bool FrameHashCache::SaveCacheFrame(const QString &filename, const FramePtr& fra
     // Floating point types are stored in EXR
     Imf::PixelType pix_type;
 
-    if (static_cast<PixelFormat::Format>(frame->format()) ==  PixelFormat::F16) {
+    if (static_cast<PixelFormat::Format>(frame->format()) == PixelFormat::F16) {
       pix_type = Imf::HALF;
     } else {
       pix_type = Imf::FLOAT;

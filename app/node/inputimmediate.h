@@ -32,7 +32,7 @@ class NodeInput;
 
 class NodeInputImmediate {
  public:
-  NodeInputImmediate(NodeValue::Type type, SplitValue  default_val);
+  NodeInputImmediate(NodeValue::Type type, SplitValue default_val);
 
   /**
    * @brief Internal insert function, automatically does an insertion sort based on the keyframe's time
@@ -130,7 +130,9 @@ class NodeInputImmediate {
    */
   [[nodiscard]] bool has_keyframe_at_time(const rational& time) const;
 
-  [[nodiscard]] bool is_using_standard_value(int track) const { return (!is_keyframing() || keyframe_tracks_.at(track).isEmpty()); }
+  [[nodiscard]] bool is_using_standard_value(int track) const {
+    return (!is_keyframing() || keyframe_tracks_.at(track).isEmpty());
+  }
 
   void set_data_type(NodeValue::Type type);
 

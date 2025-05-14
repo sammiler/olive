@@ -31,7 +31,7 @@ namespace olive {
 
 class FootageDescription {
  public:
-  explicit FootageDescription(QString  decoder = QString()) : decoder_(std::move(decoder)), total_stream_count_(0) {}
+  explicit FootageDescription(QString decoder = QString()) : decoder_(std::move(decoder)), total_stream_count_(0) {}
 
   [[nodiscard]] bool IsValid() const {
     return !decoder_.isEmpty() &&

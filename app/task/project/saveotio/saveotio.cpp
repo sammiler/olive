@@ -92,8 +92,7 @@ bool SaveOTIOTask::Run() {
 OTIO::Timeline* SaveOTIOTask::SerializeTimeline(Sequence* sequence) {
   auto otio_timeline = new OTIO::Timeline(sequence->GetLabel().toUtf8().constData());
   // Retainers clean themselves up when the final user is removed
-  auto* timeline_retainer =
-      new OTIO::Timeline::Retainer<OTIO::Timeline>(otio_timeline);
+  auto* timeline_retainer = new OTIO::Timeline::Retainer<OTIO::Timeline>(otio_timeline);
   // Suppress unused variable warning
   Q_UNUSED(timeline_retainer);
 

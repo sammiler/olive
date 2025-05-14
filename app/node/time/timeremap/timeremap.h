@@ -38,8 +38,9 @@ class TimeRemapNode : public Node {
   [[nodiscard]] QString Description() const override;
 
   [[nodiscard]] TimeRange InputTimeAdjustment(const QString& input, int element, const TimeRange& input_time,
-                                        bool clamp) const override;
-  [[nodiscard]] TimeRange OutputTimeAdjustment(const QString& input, int element, const TimeRange& input_time) const override;
+                                              bool clamp) const override;
+  [[nodiscard]] TimeRange OutputTimeAdjustment(const QString& input, int element,
+                                               const TimeRange& input_time) const override;
 
   void Retranslate() override;
 

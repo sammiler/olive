@@ -40,8 +40,9 @@ class TimeOffsetNode : public Node {
   [[nodiscard]] QString Description() const override { return tr("Offset time passing through the graph."); }
 
   [[nodiscard]] TimeRange InputTimeAdjustment(const QString& input, int element, const TimeRange& input_time,
-                                        bool clamp) const override;
-  [[nodiscard]] TimeRange OutputTimeAdjustment(const QString& input, int element, const TimeRange& input_time) const override;
+                                              bool clamp) const override;
+  [[nodiscard]] TimeRange OutputTimeAdjustment(const QString& input, int element,
+                                               const TimeRange& input_time) const override;
 
   void Retranslate() override;
 

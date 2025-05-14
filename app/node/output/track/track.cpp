@@ -564,7 +564,7 @@ void Track::ProcessAudioTrack(const NodeValueRow &value, const NodeGlobals &glob
   // Loop through active blocks retrieving their audio
   NodeValueArray arr = value[kBlockInput].toArray();
 
-  for (const auto & it : arr) {
+  for (const auto &it : arr) {
     Block *b = blocks_.at(GetCacheIndexFromArrayIndex(it.first));
 
     TimeRange range_for_block(qMax(b->in(), range.in()), qMin(b->out(), range.out()));

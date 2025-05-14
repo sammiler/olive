@@ -64,7 +64,7 @@ class FFmpegDecoder : public Decoder {
   bool OpenInternal() override;
   TexturePtr RetrieveVideoInternal(const RetrieveVideoParams& p) override;
   bool ConformAudioInternal(const QVector<QString>& filenames, const AudioParams& params,
-                                    CancelAtom* cancelled) override;
+                            CancelAtom* cancelled) override;
   void CloseInternal() override;
 
   [[nodiscard]] rational GetAudioStartOffset() const override;

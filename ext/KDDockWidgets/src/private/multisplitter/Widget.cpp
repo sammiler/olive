@@ -22,8 +22,7 @@ Widget::Widget(QObject *thisObj)
 {
 }
 
-Widget::~Widget()
-= default;
+Widget::~Widget() = default;
 
 QString Widget::id() const
 {

@@ -27,8 +27,7 @@
 
 using namespace KDDockWidgets;
 
-Button::~Button()
-= default;
+Button::~Button() = default;
 
 void Button::paintEvent(QPaintEvent *)
 {
@@ -88,7 +87,7 @@ QSize Button::sizeHint() const
     opt.initFrom(this);
 
     const int m = style()->pixelMetric(QStyle::PM_SmallIconSize, &opt, this);
-    return {m, m};
+    return { m, m };
 }
 
 TitleBarWidget::TitleBarWidget(Frame *parent)
@@ -194,15 +193,15 @@ QSize TitleBarWidget::sizeHint() const
     const int height =
         style()->pixelMetric(QStyle::PM_HeaderDefaultSectionSizeVertical, &opt, this);
 
-    return {0, height};
+    return { 0, height };
 }
 
 QRect TitleBarWidget::iconRect() const
 {
     if (icon().isNull()) {
-        return {0, 0, 0, 0};
+        return { 0, 0, 0, 0 };
     } else {
-        return {3, 3, 30, 30};
+        return { 3, 3, 30, 30 };
     }
 }
 

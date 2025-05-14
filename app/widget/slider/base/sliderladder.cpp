@@ -37,7 +37,7 @@
 
 namespace olive {
 
-SliderLadder::SliderLadder(double drag_multiplier, int nb_outer_values, const QString& width_hint, QWidget *parent)
+SliderLadder::SliderLadder(double drag_multiplier, int nb_outer_values, const QString &width_hint, QWidget *parent)
     : QFrame(parent, Qt::Popup) {
   auto *layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
@@ -255,7 +255,7 @@ void SliderLadder::TimerUpdate() {
 
 bool SliderLadder::UsingLadders() const { return elements_.size() > 1; }
 
-SliderLadderElement::SliderLadderElement(const double &multiplier, const QString& width_hint, QWidget *parent)
+SliderLadderElement::SliderLadderElement(const double &multiplier, const QString &width_hint, QWidget *parent)
     : QWidget(parent), multiplier_(multiplier), highlighted_(false), multiplier_visible_(true) {
   auto *layout = new QVBoxLayout(this);
 

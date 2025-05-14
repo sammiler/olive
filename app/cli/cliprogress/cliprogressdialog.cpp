@@ -25,7 +25,7 @@
 
 namespace olive {
 
-CLIProgressDialog::CLIProgressDialog(QString  title, QObject* parent)
+CLIProgressDialog::CLIProgressDialog(QString title, QObject* parent)
     : QObject(parent), title_(std::move(title)), progress_(-1), drawn_(false) {
   SetProgress(0);
 }

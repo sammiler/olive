@@ -103,34 +103,34 @@ public:
      * Example: kddockwidgets_example --central-widget
      */
     Q_INVOKABLE void setPersistentCentralWidget(KDDockWidgets::QWidgetOrQuick *widget);
-    [[nodiscard]]  QWidgetOrQuick *persistentCentralWidget() const;
+    [[nodiscard]] QWidgetOrQuick *persistentCentralWidget() const;
 
     /**
      * @brief Returns the unique name that was passed via constructor.
      *        Used internally by the save/restore mechanism.
      * @internal
      */
-    [[nodiscard]]  QString uniqueName() const;
+    [[nodiscard]] QString uniqueName() const;
 
 
     /// @brief Returns the main window options that were passed via constructor.
-    [[nodiscard]]  MainWindowOptions options() const;
+    [[nodiscard]] MainWindowOptions options() const;
 
     ///@internal
     ///@brief returns the drop area.
-    [[nodiscard]]  DropAreaWithCentralFrame *dropArea() const;
+    [[nodiscard]] DropAreaWithCentralFrame *dropArea() const;
 
     ///@internal
     ///@brief returns the MultiSplitter.
-    [[nodiscard]]  MultiSplitter *multiSplitter() const;
+    [[nodiscard]] MultiSplitter *multiSplitter() const;
 
     ///@internal
     ///@brief returns the MultiSplitter.
-    [[nodiscard]]  LayoutWidget *layoutWidget() const;
+    [[nodiscard]] LayoutWidget *layoutWidget() const;
 
     ///@internal
     ///@brief Returns the MDI layout. Or nullptr if this isn't a MDI main window
-    [[nodiscard]]  MDILayoutWidget *mdiLayoutWidget() const;
+    [[nodiscard]] MDILayoutWidget *mdiLayoutWidget() const;
 
     /**
      * @brief Sets the affinities names. Dock widgets can only dock into main windows of the same affinity.
@@ -153,7 +153,7 @@ public:
     /**
      * @brief Returns the list of affinity names. Empty by default.
      */
-    [[nodiscard]]  QStringList affinities() const;
+    [[nodiscard]] QStringList affinities() const;
 
     /// @brief layouts all the widgets so they have an equal size within their parent container
     ///
@@ -196,18 +196,18 @@ public:
     sideBarForDockWidget(const KDDockWidgets::DockWidgetBase *) const;
 
     /// @brief Returns whether the specified sidebar is visible
-    Q_INVOKABLE [[nodiscard]]  bool sideBarIsVisible(KDDockWidgets::SideBarLocation) const;
+    Q_INVOKABLE [[nodiscard]] bool sideBarIsVisible(KDDockWidgets::SideBarLocation) const;
 
     /// @brief returns the dock widget which is currently overlayed. nullptr if none.
     /// This is only relevant when using the auto-hide and side-bar feature.
-    [[nodiscard]]  DockWidgetBase *overlayedDockWidget() const;
+    [[nodiscard]] DockWidgetBase *overlayedDockWidget() const;
 
     /// @brief Returns whether any side bar is visible
-    [[nodiscard]]  bool anySideBarIsVisible() const;
+    [[nodiscard]] bool anySideBarIsVisible() const;
 
     /// @brief Returns whether this main window is using an MDI layout.
     /// In other words, returns true if MainWindowOption_MDI was passed in the ctor.
-    [[nodiscard]]  bool isMDI() const;
+    [[nodiscard]] bool isMDI() const;
 
     /// @brief Closes all dock widgets which are docked into this main window
     /// This is convenience to calling DockWidget::close() individually
@@ -221,10 +221,10 @@ public:
     /// But fixes the following special cases:
     /// - QWidgets: Our MainWindow is embedded in another widget
     /// - QtQuick: Our MainWindow is QQuickItem
-    [[nodiscard]]  QRect windowGeometry() const;
+    [[nodiscard]] QRect windowGeometry() const;
 
     /// @brief Returns the margin used by overlay docks. Default: 1
-    [[nodiscard]]  int overlayMargin() const;
+    [[nodiscard]] int overlayMargin() const;
 
     /// @brief Sets the margin used by overlay docks.
     /// Does not modify currently overlayed docks
@@ -240,9 +240,9 @@ protected:
 
     void setUniqueName(const QString &uniqueName);
     void onResized(QResizeEvent *); // Because QtQuick doesn't have resizeEvent()
-    [[nodiscard]]  virtual QMargins centerWidgetMargins() const = 0;
-    [[nodiscard]]  virtual SideBar *sideBar(SideBarLocation) const = 0;
-    [[nodiscard]]  virtual QRect centralAreaGeometry() const
+    [[nodiscard]] virtual QMargins centerWidgetMargins() const = 0;
+    [[nodiscard]] virtual SideBar *sideBar(SideBarLocation) const = 0;
+    [[nodiscard]] virtual QRect centralAreaGeometry() const
     {
         return {};
     }
@@ -264,7 +264,7 @@ private:
     friend class ::TestDocks;
     friend class LayoutSaver;
     bool deserialize(const LayoutSaver::MainWindow &);
-    [[nodiscard]]  LayoutSaver::MainWindow serialize() const;
+    [[nodiscard]] LayoutSaver::MainWindow serialize() const;
 };
 }
 

@@ -50,41 +50,41 @@ public:
      * @param index the tab number from which we want the dock widget
      * @return the dock widget at tab number @p index
      */
-    [[nodiscard]]  DockWidgetBase *dockWidgetAt(int index) const;
+    [[nodiscard]] DockWidgetBase *dockWidgetAt(int index) const;
 
     ///@overload
-    [[nodiscard]]  DockWidgetBase *dockWidgetAt(QPoint localPos) const;
+    [[nodiscard]] DockWidgetBase *dockWidgetAt(QPoint localPos) const;
 
     // Draggable
     std::unique_ptr<WindowBeingDragged> makeWindow() override;
-    [[nodiscard]]  bool isWindow() const override;
+    [[nodiscard]] bool isWindow() const override;
 
     void onMousePress(QPoint localPos);
     void onMouseDoubleClick(QPoint localPos) const;
 
     ///@brief returns whether there's only 1 tab
-    [[nodiscard]]  bool hasSingleDockWidget() const;
+    [[nodiscard]] bool hasSingleDockWidget() const;
 
-    [[nodiscard]]  int numDockWidgets() const;
-    [[nodiscard]]  virtual int tabAt(QPoint localPos) const = 0;
+    [[nodiscard]] int numDockWidgets() const;
+    [[nodiscard]] virtual int tabAt(QPoint localPos) const = 0;
 
     /// @brief returns the tab text at the specified index
-    [[nodiscard]]  virtual QString text(int index) const = 0;
+    [[nodiscard]] virtual QString text(int index) const = 0;
 
     /**
      * @brief Returns this class as a QWidget (if using QtWidgets) or QQuickItem
      */
-    [[nodiscard]]  QWidgetOrQuick *asWidget() const;
+    [[nodiscard]] QWidgetOrQuick *asWidget() const;
 
     /// @brief Returns the rect of the tab at the specified index
-    [[nodiscard]]  virtual QRect rectForTab(int index) const = 0;
+    [[nodiscard]] virtual QRect rectForTab(int index) const = 0;
 
-    [[nodiscard]]  DockWidgetBase *singleDockWidget() const override;
+    [[nodiscard]] DockWidgetBase *singleDockWidget() const override;
 
     /// @reimp
-    [[nodiscard]]  bool isMDI() const override;
+    [[nodiscard]] bool isMDI() const override;
 
-    [[nodiscard]]  Frame *frame() const;
+    [[nodiscard]] Frame *frame() const;
 
     /// Like QTabBar::moveTab(from, to)
     virtual void moveTabTo(int from, int to) = 0;
@@ -106,7 +106,7 @@ public:
     /**
      * @brief returns the number of dock widgets in this TabWidget
      */
-    [[nodiscard]]  virtual int numDockWidgets() const = 0;
+    [[nodiscard]] virtual int numDockWidgets() const = 0;
 
     /**
      * @brief Removes a dock widget from the TabWidget
@@ -125,7 +125,7 @@ public:
     void setCurrentDockWidget(DockWidgetBase *);
 
     /// @brief Returns the current dock widget
-    [[nodiscard]]  DockWidgetBase *currentDockWidget() const;
+    [[nodiscard]] DockWidgetBase *currentDockWidget() const;
 
     virtual bool insertDockWidget(int index, DockWidgetBase *, const QIcon &, const QString &title) = 0;
 
@@ -140,7 +140,7 @@ public:
     /**
      * @brief Returns the current index
      */
-    [[nodiscard]]  virtual int currentIndex() const = 0;
+    [[nodiscard]] virtual int currentIndex() const = 0;
 
     ///@brief appends a dock widget into this TabWidget
     void addDockWidget(DockWidgetBase *);
@@ -148,7 +148,7 @@ public:
     /**
      * @brief Returns the dock widget tabbed at index @p index
      */
-    [[nodiscard]]  virtual DockWidgetBase *dockwidgetAt(int index) const = 0;
+    [[nodiscard]] virtual DockWidgetBase *dockwidgetAt(int index) const = 0;
 
     /**
      * @brief inserts @p dockwidget into the TabWidget, at @p index
@@ -166,23 +166,23 @@ public:
     /**
      * @brief Returns the tab bar
      */
-    [[nodiscard]]  virtual TabBar *tabBar() const = 0;
+    [[nodiscard]] virtual TabBar *tabBar() const = 0;
 
     /**
      * @brief Returns this class as a QWidget (if using QtWidgets) or QQuickItem
      */
-    [[nodiscard]]  QWidgetOrQuick *asWidget() const;
+    [[nodiscard]] QWidgetOrQuick *asWidget() const;
 
     ///@brief getter for the frame
-    [[nodiscard]]  Frame *frame() const;
+    [[nodiscard]] Frame *frame() const;
 
     // Draggable interface
     std::unique_ptr<WindowBeingDragged> makeWindow() override;
-    [[nodiscard]]  DockWidgetBase *singleDockWidget() const override;
-    [[nodiscard]]  bool isWindow() const override;
+    [[nodiscard]] DockWidgetBase *singleDockWidget() const override;
+    [[nodiscard]] bool isWindow() const override;
 
     /// @reimp
-    [[nodiscard]]  bool isMDI() const override;
+    [[nodiscard]] bool isMDI() const override;
 
     // Q_SIGNALS: // Not a OQbject
     virtual void currentTabChanged(int index) = 0;

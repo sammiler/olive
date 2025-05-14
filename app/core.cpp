@@ -20,7 +20,6 @@
 
 #include "core.h"
 
-#include "window/mainwindow/mainwindowundo.h"
 #include <QApplication>
 #include <QClipboard>
 #include <QDebug>
@@ -31,6 +30,7 @@
 #include <QMessageBox>
 #include <QStyleFactory>
 #include <utility>
+#include "window/mainwindow/mainwindowundo.h"
 #ifdef Q_OS_WINDOWS
 #include <QtPlatformHeaders/QWindowsWindowFunctions>
 #endif
@@ -83,7 +83,7 @@ namespace olive {
 
 Core* Core::instance_ = nullptr;
 
-Core::Core(CoreParams  params)
+Core::Core(CoreParams params)
     : main_window_(nullptr),
       open_project_(nullptr),
       tool_(Tool::kPointer),
@@ -1013,13 +1013,13 @@ QString Core::GetProjectFilter(bool include_any_filter) {
 
   if (include_any_filter) {
     QStringList combined;
-    for (const auto & it : FILTERS) {
+    for (const auto& it : FILTERS) {
       combined.append(QStringLiteral("*.%1").arg(it.second));
     }
     filters.append(QStringLiteral("%1 (%2)").arg(tr("All Supported Projects"), combined.join(' ')));
   }
 
-  for (const auto & it : FILTERS) {
+  for (const auto& it : FILTERS) {
     filters.append(QStringLiteral("%1 (*.%2)").arg(it.first, it.second));
   }
 

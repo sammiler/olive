@@ -43,12 +43,15 @@ class VideoParams {
   };
 
   VideoParams();
-  VideoParams(int width, int height, PixelFormat format, int nb_channels, const rational& pixel_aspect_ratio = rational(1),
-              Interlacing interlacing = kInterlaceNone, int divider = 1);
+  VideoParams(int width, int height, PixelFormat format, int nb_channels,
+              const rational& pixel_aspect_ratio = rational(1), Interlacing interlacing = kInterlaceNone,
+              int divider = 1);
   VideoParams(int width, int height, int depth, PixelFormat format, int nb_channels,
-              const rational& pixel_aspect_ratio = rational(1), Interlacing interlacing = kInterlaceNone, int divider = 1);
+              const rational& pixel_aspect_ratio = rational(1), Interlacing interlacing = kInterlaceNone,
+              int divider = 1);
   VideoParams(int width, int height, const rational& time_base, PixelFormat format, int nb_channels,
-              const rational& pixel_aspect_ratio = rational(1), Interlacing interlacing = kInterlaceNone, int divider = 1);
+              const rational& pixel_aspect_ratio = rational(1), Interlacing interlacing = kInterlaceNone,
+              int divider = 1);
 
   [[nodiscard]] int width() const { return width_; }
 
@@ -64,7 +67,9 @@ class VideoParams {
 
   [[nodiscard]] QVector2D resolution() const { return {static_cast<float>(width_), static_cast<float>(height_)}; }
 
-  [[nodiscard]] QVector2D square_resolution() const { return {static_cast<float>(par_width_), static_cast<float>(height_)}; }
+  [[nodiscard]] QVector2D square_resolution() const {
+    return {static_cast<float>(par_width_), static_cast<float>(height_)};
+  }
 
   [[nodiscard]] int height() const { return height_; }
 

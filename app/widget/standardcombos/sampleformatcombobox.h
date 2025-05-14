@@ -71,7 +71,9 @@ class SampleFormatComboBox : public QComboBox {
     }
   }
 
-  [[nodiscard]] SampleFormat GetSampleFormat() const { return SampleFormat(static_cast<SampleFormat::Format>(this->currentData().toInt())); }
+  [[nodiscard]] SampleFormat GetSampleFormat() const {
+    return SampleFormat(static_cast<SampleFormat::Format>(this->currentData().toInt()));
+  }
 
   void SetSampleFormat(SampleFormat fmt) {
     for (int i = 0; i < this->count(); i++) {

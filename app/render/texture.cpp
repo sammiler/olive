@@ -31,9 +31,7 @@ Texture::~Texture() {
     renderer_->DestroyTexture(this);
   }
 
-  
-    delete job_;
-  
+  delete job_;
 }
 
 void Texture::Upload(void *data, int linesize) {

@@ -539,7 +539,7 @@ QRect Item::geometry() const
 
 QRect Item::rect() const
 {
-    return {0, 0, width(), height()};
+    return { 0, 0, width(), height() };
 }
 
 bool Item::isContainer() const
@@ -761,8 +761,7 @@ Item::Item(bool isContainer, Widget *hostWidget, ItemContainer *parent)
     connectParent(parent);
 }
 
-Item::~Item()
-= default;
+Item::~Item() = default;
 
 bool Item::eventFilter(QObject *widget, QEvent *e)
 {
@@ -1239,7 +1238,7 @@ void ItemBoxContainer::removeItem(Item *item, bool hardRemove)
         m_children.removeOne(item);
         delete item;
         if (!isContainer)
-            Q_EMIT root()->numItemsChanged();
+            Q_EMIT root() -> numItemsChanged();
     } else {
         item->setIsVisible(false);
         item->setGuestWidget(nullptr);
@@ -1251,7 +1250,7 @@ void ItemBoxContainer::removeItem(Item *item, bool hardRemove)
     }
 
     if (wasVisible) {
-        Q_EMIT root()->numVisibleItemsChanged(root()->numVisibleChildren());
+        Q_EMIT root() -> numVisibleItemsChanged(root()->numVisibleChildren());
     }
 
     if (isEmpty()) {
@@ -1735,8 +1734,8 @@ void ItemBoxContainer::insertItem(Item *item, int index, InitialOption option)
         simplify();
 
     if (shouldEmitVisibleChanged)
-        Q_EMIT root()->numVisibleItemsChanged(root()->numVisibleChildren());
-    Q_EMIT root()->numItemsChanged();
+        Q_EMIT root() -> numVisibleItemsChanged(root()->numVisibleChildren());
+    Q_EMIT root() -> numItemsChanged();
 }
 
 bool ItemBoxContainer::hasOrientationFor(Location loc) const
@@ -1802,7 +1801,7 @@ QSize ItemBoxContainer::Private::minSize(const Item::List &items) const
             minW += separatorWaste;
     }
 
-    return {minW, minH};
+    return { minW, minH };
 }
 
 QSize ItemBoxContainer::minSize() const
@@ -2522,7 +2521,7 @@ int ItemBoxContainer::availableLength() const
 }
 
 LengthOnSide ItemBoxContainer::lengthOnSide(const SizingInfo::List &sizes, int fromIndex,
-                                            Side side, Qt::Orientation o) 
+                                            Side side, Qt::Orientation o)
 {
     if (fromIndex < 0)
         return {};
@@ -2911,8 +2910,8 @@ SizingInfo::List ItemBoxContainer::sizes(bool ignoreBeingInserted) const
     return result;
 }
 
-QVector<int> ItemBoxContainer::calculateSqueezes(const SizingInfo::List::ConstIterator& begin, // clazy:exclude=function-args-by-ref
-                                                 const SizingInfo::List::ConstIterator& end, int needed, // clazy:exclude=function-args-by-ref
+QVector<int> ItemBoxContainer::calculateSqueezes(const SizingInfo::List::ConstIterator &begin, // clazy:exclude=function-args-by-ref
+                                                 const SizingInfo::List::ConstIterator &end, int needed, // clazy:exclude=function-args-by-ref
                                                  NeighbourSqueezeStrategy strategy, bool reversed) const
 {
     QVector<int> availabilities;
@@ -3551,8 +3550,7 @@ struct ItemContainer::Private
         ( void )Config::self(); // Ensure Config ctor runs, as it registers qml types
     }
 
-    ~Private()
-    = default;
+    ~Private() = default;
     ItemContainer *const q;
 };
 

@@ -85,8 +85,7 @@ void TitleBar::init()
                                                                   // constructed
 }
 
-TitleBar::~TitleBar()
-= default;
+TitleBar::~TitleBar() = default;
 
 bool TitleBar::onDoubleClicked()
 {

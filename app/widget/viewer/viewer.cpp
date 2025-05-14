@@ -421,7 +421,7 @@ FramePtr ViewerWidget::DecodeCachedImage(const QString &cache_path, const QUuid 
   return frame;
 }
 
-void ViewerWidget::DecodeCachedImage(const RenderTicketPtr& ticket, const QString &cache_path, const QUuid &cache_id,
+void ViewerWidget::DecodeCachedImage(const RenderTicketPtr &ticket, const QString &cache_path, const QUuid &cache_id,
                                      const int64_t &time) {
   ticket->Start();
 
@@ -1049,7 +1049,7 @@ bool ViewerWidget::ViewerMightBeAStill() {
          GetConnectedNode()->GetVideoLength().isNull();
 }
 
-void ViewerWidget::SetDisplayImage(const RenderTicketPtr& ticket) {
+void ViewerWidget::SetDisplayImage(const RenderTicketPtr &ticket) {
   foreach (ViewerDisplayWidget *dw, playback_devices_) {
     QVariant push;
     if (ticket) {
@@ -1545,7 +1545,9 @@ void ViewerWidget::ShuttleRight() {
   PlayInternal(current_speed, false);
 }
 
-void ViewerWidget::SetColorTransform(const QString &transform) { SetColorTransform(ColorTransform(transform), display_widget_); }
+void ViewerWidget::SetColorTransform(const QString &transform) {
+  SetColorTransform(ColorTransform(transform), display_widget_);
+}
 
 void ViewerWidget::SetSignalCursorColorEnabled(bool e) {
   foreach (ViewerDisplayWidget *dw, playback_devices_) {

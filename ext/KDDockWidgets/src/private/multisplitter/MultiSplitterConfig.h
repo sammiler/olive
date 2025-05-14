@@ -42,7 +42,7 @@ public:
      *
      * Default is 5px.
      */
-    [[nodiscard]] static int separatorThickness() ;
+    [[nodiscard]] static int separatorThickness();
 
     ///@brief setter for @ref separatorThickness
     /// Note: Only use this function at startup before creating any Item

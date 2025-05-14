@@ -48,7 +48,7 @@ class PixelFormat {
     return 0;
   }
 
-  [[nodiscard]]  int byte_count() const { return byte_count(f_); }
+  [[nodiscard]] int byte_count() const { return byte_count(f_); }
 
   static bool is_float(Format f) {
     switch (f) {
@@ -65,7 +65,7 @@ class PixelFormat {
     return false;
   }
 
-  [[nodiscard]]  bool is_float() const { return is_float(f_); }
+  [[nodiscard]] bool is_float() const { return is_float(f_); }
 
  private:
   Format f_;

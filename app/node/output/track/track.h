@@ -51,9 +51,10 @@ class Track : public Node {
   void Value(const NodeValueRow& value, const NodeGlobals& globals, NodeValueTable* table) const override;
 
   [[nodiscard]] TimeRange InputTimeAdjustment(const QString& input, int element, const TimeRange& input_time,
-                                        bool clamp) const override;
+                                              bool clamp) const override;
 
-  [[nodiscard]] TimeRange OutputTimeAdjustment(const QString& input, int element, const TimeRange& input_time) const override;
+  [[nodiscard]] TimeRange OutputTimeAdjustment(const QString& input, int element,
+                                               const TimeRange& input_time) const override;
 
   static rational TransformTimeForBlock(const Block* block, const rational& time) {
     if (time == RATIONAL_MAX || time == RATIONAL_MIN) {
@@ -263,7 +264,7 @@ class Track : public Node {
   [[nodiscard]] const QVector<Block*>& Blocks() const { return blocks_; }
 
   void InvalidateCache(const TimeRange& range, const QString& from, int element,
-                               InvalidateCacheOptions options) override;
+                       InvalidateCacheOptions options) override;
 
   [[nodiscard]] Block* VisibleBlockAtTime(const rational& t) const {
     int index = GetBlockIndexAtTime(t);

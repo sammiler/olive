@@ -128,7 +128,7 @@ void AudioVisualWaveform::OverwriteSums(const AudioVisualWaveform &sums, const r
                                         const rational &length) {
   ValidateVirtualStart(dest);
 
-  for (auto & it : mipmapped_data_) {
+  for (auto &it : mipmapped_data_) {
     rational rate = it.first;
 
     Sample &our_arr = it.second;
@@ -171,7 +171,7 @@ void AudioVisualWaveform::OverwriteSums(const AudioVisualWaveform &sums, const r
 void AudioVisualWaveform::OverwriteSilence(const rational &start, const rational &length) {
   ValidateVirtualStart(start);
 
-  for (auto & it : mipmapped_data_) {
+  for (auto &it : mipmapped_data_) {
     rational rate = it.first;
 
     Sample &our_arr = it.second;
@@ -206,7 +206,7 @@ void AudioVisualWaveform::TrimIn(rational length) {
     length = -length;
   }
 
-  for (auto & it : mipmapped_data_) {
+  for (auto &it : mipmapped_data_) {
     rational rate = it.first;
     double rate_dbl = rate.toDouble();
     Sample &data = it.second;
@@ -247,7 +247,7 @@ void AudioVisualWaveform::Resize(const rational &length) {
     return;
   }
 
-  for (auto & it : mipmapped_data_) {
+  for (auto &it : mipmapped_data_) {
     rational rate = it.first;
     double rate_dbl = rate.toDouble();
     Sample &data = it.second;

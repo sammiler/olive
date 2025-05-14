@@ -40,8 +40,7 @@ SegmentedIndicators::SegmentedIndicators(DropArea *dropArea)
         Config::self().setDraggedWindowOpacity(s_draggedWindowOpacity);
 }
 
-SegmentedIndicators::~SegmentedIndicators()
-= default;
+SegmentedIndicators::~SegmentedIndicators() = default;
 
 DropLocation SegmentedIndicators::hover_impl(QPoint pt)
 {

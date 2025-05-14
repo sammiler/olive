@@ -357,7 +357,8 @@ void ViewerDisplayWidget::OnPaint() {
         if (!texture_ || texture_->renderer() != renderer()  // Some implementations don't like it if we upload to a
                                                              // texture created in another (albeit shared) context
             || texture_->width() != frame->width() || texture_->height() != frame->height() ||
-            static_cast<PixelFormat::Format>(texture_->format()) != static_cast<PixelFormat::Format>(frame->format()) || texture_->channel_count() != frame->channel_count()) {
+            static_cast<PixelFormat::Format>(texture_->format()) != static_cast<PixelFormat::Format>(frame->format()) ||
+            texture_->channel_count() != frame->channel_count()) {
           texture_ = renderer()->CreateTexture(frame->video_params(), frame->data(), frame->linesize_pixels());
         } else {
           texture_->Upload(frame->data(), frame->linesize_pixels());

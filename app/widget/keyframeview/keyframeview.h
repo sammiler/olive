@@ -59,7 +59,9 @@ class KeyframeView : public TimeBasedView, public TimeTargetObject {
 
   void Clear();
 
-  [[nodiscard]] const std::vector<NodeKeyframe *> &GetSelectedKeyframes() const { return selection_manager_.GetSelectedObjects(); }
+  [[nodiscard]] const std::vector<NodeKeyframe *> &GetSelectedKeyframes() const {
+    return selection_manager_.GetSelectedObjects();
+  }
 
   [[nodiscard]] const QVector<KeyframeViewInputConnection *> &GetKeyframeTracks() const { return tracks_; }
 
@@ -73,7 +75,7 @@ class KeyframeView : public TimeBasedView, public TimeTargetObject {
 
   bool CopySelected(bool cut);
 
-  bool Paste(const std::function<Node *(const QString &)>& find_node_function);
+  bool Paste(const std::function<Node *(const QString &)> &find_node_function);
 
   void CatchUpScrollEvent() override;
 

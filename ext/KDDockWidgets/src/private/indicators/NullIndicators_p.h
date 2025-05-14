@@ -32,7 +32,7 @@ public:
         return {};
     }
 
-    [[nodiscard]] static DropLocation dropLocationForPos(QPoint) 
+    [[nodiscard]] static DropLocation dropLocationForPos(QPoint)
     {
         return {};
     }

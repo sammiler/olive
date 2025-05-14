@@ -25,8 +25,6 @@
 
 #include "common/define.h"
 
-
-
 namespace olive::icon {
 
 // Playback Icons
@@ -149,8 +147,6 @@ QIcon Create(const QString &theme, const QString &name);
  */
 void LoadAll(const QString &theme);
 
-} // namespace olive::icon
-
-
+}  // namespace olive::icon
 
 #endif  // ICONS_H

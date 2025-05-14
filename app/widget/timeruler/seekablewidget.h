@@ -59,7 +59,9 @@ class SeekableWidget : public TimeBasedView {
 
   [[nodiscard]] bool HasItemsSelected() const { return !selection_manager_.GetSelectedObjects().empty(); }
 
-  [[nodiscard]] const std::vector<TimelineMarker *> &GetSelectedMarkers() const { return selection_manager_.GetSelectedObjects(); }
+  [[nodiscard]] const std::vector<TimelineMarker *> &GetSelectedMarkers() const {
+    return selection_manager_.GetSelectedObjects();
+  }
 
   void SelectionManagerSelectEvent(void *obj) override;
   void SelectionManagerDeselectEvent(void *obj) override;

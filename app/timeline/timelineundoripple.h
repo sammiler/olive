@@ -172,7 +172,8 @@ class TimelineRippleDeleteGapsAtRegionsCommand : public UndoCommand {
  public:
   using RangeList = QVector<QPair<Track*, TimeRange> >;
 
-  TimelineRippleDeleteGapsAtRegionsCommand(Sequence* vo, RangeList  regions) : timeline_(vo), regions_(std::move(regions)) {}
+  TimelineRippleDeleteGapsAtRegionsCommand(Sequence* vo, RangeList regions)
+      : timeline_(vo), regions_(std::move(regions)) {}
 
   ~TimelineRippleDeleteGapsAtRegionsCommand() override { qDeleteAll(commands_); }
 

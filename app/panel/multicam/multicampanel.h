@@ -11,7 +11,9 @@ class MulticamPanel : public TimeBasedPanel {
  public:
   MulticamPanel();
 
-  [[nodiscard]] MulticamWidget *GetMulticamWidget() const { return dynamic_cast<MulticamWidget *>(GetTimeBasedWidget()); }
+  [[nodiscard]] MulticamWidget *GetMulticamWidget() const {
+    return dynamic_cast<MulticamWidget *>(GetTimeBasedWidget());
+  }
 
  protected:
   void Retranslate() override;

@@ -124,10 +124,14 @@ class ProjectSerializer {
     void SetOnlySerializeNodes(const QVector<Node *> &only) { only_serialize_nodes_ = only; }
     void SetOnlySerializeNodesAndResolveGroups(QVector<Node *> nodes);
 
-    [[nodiscard]] const std::vector<TimelineMarker *> &GetOnlySerializeMarkers() const { return only_serialize_markers_; }
+    [[nodiscard]] const std::vector<TimelineMarker *> &GetOnlySerializeMarkers() const {
+      return only_serialize_markers_;
+    }
     void SetOnlySerializeMarkers(const std::vector<TimelineMarker *> &only) { only_serialize_markers_ = only; }
 
-    [[nodiscard]] const std::vector<NodeKeyframe *> &GetOnlySerializeKeyframes() const { return only_serialize_keyframes_; }
+    [[nodiscard]] const std::vector<NodeKeyframe *> &GetOnlySerializeKeyframes() const {
+      return only_serialize_keyframes_;
+    }
     void SetOnlySerializeKeyframes(const std::vector<NodeKeyframe *> &only) { only_serialize_keyframes_ = only; }
 
     [[nodiscard]] const SerializedProperties &GetProperties() const { return properties_; }
@@ -172,7 +176,7 @@ class ProjectSerializer {
 
   [[nodiscard]] virtual uint Version() const = 0;
 
-  [[nodiscard]] static bool IsCancelled() ;
+  [[nodiscard]] static bool IsCancelled();
 
  private:
   static Result LoadWithSerializerVersion(uint version, Project *project, QXmlStreamReader *reader, LoadType load_type);

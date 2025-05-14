@@ -87,12 +87,12 @@ public:
     ~QWidgetAdapter() override;
 
     ///@brief returns the FloatingWindow this widget is in, otherwise nullptr
-    [[nodiscard]]  FloatingWindow *floatingWindow() const;
+    [[nodiscard]] FloatingWindow *floatingWindow() const;
 
     void setFlag(Qt::WindowType, bool on = true);
     void setSize(QSize);
 
-    [[nodiscard]]  bool isTopLevel() const
+    [[nodiscard]] bool isTopLevel() const
     {
         return isWindow();
     }

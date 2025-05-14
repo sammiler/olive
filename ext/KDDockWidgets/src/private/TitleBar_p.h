@@ -58,46 +58,46 @@ public:
     ~TitleBar() override;
 
     void setTitle(const QString &title);
-    [[nodiscard]]  QString title() const
+    [[nodiscard]] QString title() const
     {
         return m_title;
     }
 
     void setIcon(const QIcon &icon);
     std::unique_ptr<WindowBeingDragged> makeWindow() override;
-    [[nodiscard]]  bool isWindow() const override;
+    [[nodiscard]] bool isWindow() const override;
 
-    [[nodiscard]]  DockWidgetBase *singleDockWidget() const override;
+    [[nodiscard]] DockWidgetBase *singleDockWidget() const override;
 
     ///@brief Returns true if this title-bar is the title bar of a floating window
-    [[nodiscard]]  bool isFloating() const;
+    [[nodiscard]] bool isFloating() const;
 
     ///@brief the list of dockwidgets under this TitleBar.
     /// There should always be at least 1. If more than 1 then they are tabbed.
-    [[nodiscard]]  DockWidgetBase::List dockWidgets() const;
+    [[nodiscard]] DockWidgetBase::List dockWidgets() const;
 
     ///@brief returns whether this title bar supports a floating/docking button
-    [[nodiscard]]  bool supportsFloatingButton() const;
+    [[nodiscard]] bool supportsFloatingButton() const;
 
     ///@brief returns whether this title bar supports a maximize/restore button
-    [[nodiscard]]  bool supportsMaximizeButton() const;
+    [[nodiscard]] bool supportsMaximizeButton() const;
 
     ///@brief returns whether this title bar supports a minimize button
-    [[nodiscard]]  bool supportsMinimizeButton() const;
+    [[nodiscard]] bool supportsMinimizeButton() const;
 
     ///@brief returns whether this title bar supports the auto-hide button
-    [[nodiscard]]  bool supportsAutoHideButton() const;
+    [[nodiscard]] bool supportsAutoHideButton() const;
 
     ///@brief returns whether this title bar has an icon
-    [[nodiscard]]  bool hasIcon() const;
+    [[nodiscard]] bool hasIcon() const;
 
     ///@brief returns whether any of the DockWidgets this TitleBar controls has a child focus
     /// Not to be confused with QWidget::hasFocus(), which just refers to 1 widget. This works more
     /// like QtQuick's FocusScope
-    [[nodiscard]]  bool isFocused() const;
+    [[nodiscard]] bool isFocused() const;
 
     ///@brief the icon
-    [[nodiscard]]  QIcon icon() const;
+    [[nodiscard]] QIcon icon() const;
 
     ///@brief toggle floating
     Q_INVOKABLE bool onDoubleClicked();
@@ -105,27 +105,27 @@ public:
 
     ///@brief Returns the tab bar which is under this title bar.
     /// It's only nullptr for the case of having a Floating Window with more than one nested Frame
-    [[nodiscard]]  TabBar *tabBar() const;
+    [[nodiscard]] TabBar *tabBar() const;
 
     ///@brief getter for m_frame
-    [[nodiscard]]  Frame *frame() const
+    [[nodiscard]] Frame *frame() const
     {
         return m_frame;
     }
 
     ///@brief getter for m_floatingWindow
-    [[nodiscard]]  FloatingWindow *floatingWindow() const
+    [[nodiscard]] FloatingWindow *floatingWindow() const
     {
         return m_floatingWindow;
     }
 
     ///@brief If this title bar belongs to a dock widget docked into the main window, returns the main window
     /// Returns nullptr otherwise
-    [[nodiscard]]  MainWindowBase *mainWindow() const;
+    [[nodiscard]] MainWindowBase *mainWindow() const;
 
     /// @brief Returns if this title bar belongs to a dock widget which is in MDI mode (inside a MDI area)
     /// For example in a main window created with MainWindowOption_MDI option
-    [[nodiscard]]  bool isMDI() const override;
+    [[nodiscard]] bool isMDI() const override;
 
     /// @brief updates the close button enabled state
     void updateButtons();
@@ -146,9 +146,9 @@ protected:
     Q_INVOKABLE void toggleMaximized();
     Q_INVOKABLE void onAutoHideClicked();
 
-    [[nodiscard]]  bool closeButtonEnabled() const;
-    [[nodiscard]]  bool floatButtonVisible() const;
-    [[nodiscard]]  QString floatButtonToolTip() const;
+    [[nodiscard]] bool closeButtonEnabled() const;
+    [[nodiscard]] bool floatButtonVisible() const;
+    [[nodiscard]] QString floatButtonToolTip() const;
 
     virtual void updateMaximizeButton()
     {
@@ -169,7 +169,7 @@ protected:
 #endif
 
     void focusInEvent(QFocusEvent *event) override;
-    [[nodiscard]]  bool isOverlayed() const;
+    [[nodiscard]] bool isOverlayed() const;
 
 private:
     friend class ::TestDocks;

@@ -127,7 +127,7 @@ void CropDistortNode::GizmoDragMove(double x_diff, double y_diff, const Qt::Keyb
   x_diff /= res.x();
   y_diff /= res.y();
 
-  for (auto & i : gizmo->GetDraggers()) {
+  for (auto &i : gizmo->GetDraggers()) {
     double s = i.GetStartValue().toDouble();
     if (i.GetInput().input().input() == kLeftInput) {
       i.Drag(s + x_diff);

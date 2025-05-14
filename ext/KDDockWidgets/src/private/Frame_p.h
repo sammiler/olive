@@ -70,7 +70,7 @@ public:
     ~Frame() override;
 
     static Frame *deserialize(const LayoutSaver::Frame &);
-    [[nodiscard]]  LayoutSaver::Frame serialize() const;
+    [[nodiscard]] LayoutSaver::Frame serialize() const;
 
     ///@brief Adds a widget into the Frame's TabWidget
     void addWidget(DockWidgetBase *, InitialOption = {});
@@ -92,7 +92,7 @@ public:
     int indexOfDockWidget(const DockWidgetBase *);
 
     ///@brief returns the index of the current tab
-    [[nodiscard]]  int currentIndex() const;
+    [[nodiscard]] int currentIndex() const;
 
     ///@brief sets the current tab index
     void setCurrentTabIndex(int index);
@@ -104,32 +104,32 @@ public:
     void insertDockWidget(DockWidgetBase *, int index);
 
     /// @brief Returns the dock widget at @p index
-    [[nodiscard]]  DockWidgetBase *dockWidgetAt(int index) const;
+    [[nodiscard]] DockWidgetBase *dockWidgetAt(int index) const;
 
     ///@brief Returns the current dock widget
-    [[nodiscard]]  DockWidgetBase *currentDockWidget() const;
+    [[nodiscard]] DockWidgetBase *currentDockWidget() const;
 
     /// @brief returns the number of dock widgets inside the frame
-    [[nodiscard]]  int dockWidgetCount() const;
+    [[nodiscard]] int dockWidgetCount() const;
 
     /// @brief returns the tab widget
-    [[nodiscard]]  TabWidget *tabWidget() const;
+    [[nodiscard]] TabWidget *tabWidget() const;
 
     void updateTitleAndIcon();
     void onDockWidgetTitleChanged();
     void updateTitleBarVisibility();
     void updateFloatingActions() const;
-    [[nodiscard]]  bool containsMouse(QPoint globalPos) const;
-    [[nodiscard]]  TitleBar *titleBar() const;
-    [[nodiscard]]  TitleBar *actualTitleBar() const;
-    [[nodiscard]]  QString title() const;
-    [[nodiscard]]  QIcon icon() const;
-    [[nodiscard]]  QVector<DockWidgetBase *> dockWidgets() const;
+    [[nodiscard]] bool containsMouse(QPoint globalPos) const;
+    [[nodiscard]] TitleBar *titleBar() const;
+    [[nodiscard]] TitleBar *actualTitleBar() const;
+    [[nodiscard]] QString title() const;
+    [[nodiscard]] QIcon icon() const;
+    [[nodiscard]] QVector<DockWidgetBase *> dockWidgets() const;
 
-    [[nodiscard]]  bool isTheOnlyFrame() const;
+    [[nodiscard]] bool isTheOnlyFrame() const;
 
     ///@brief Returns whether this frame is overlayed on top of the MainWindow (auto-hide feature);
-    [[nodiscard]]  bool isOverlayed() const;
+    [[nodiscard]] bool isOverlayed() const;
 
     ///@brief clears the FrameOption_IsOverlayed flag.
     /// For example, if you drag a side-bar overlay, then it becomes a normal floating window
@@ -141,19 +141,19 @@ public:
      * A floating frame can have multiple dock widgets (tabbed), in which case each DockWidget::isFloating() returns false,
      * in which case you can use isInFloatingWindow() which would still return true
      */
-    [[nodiscard]]  bool isFloating() const;
+    [[nodiscard]] bool isFloating() const;
 
     /**
      * @brief Returns whether this frame is in a FloatingWindow, as opposed to MainWindow.
      *
      * After setup it's equivalent to !isInMainWindow().
      */
-    [[nodiscard]]  bool isInFloatingWindow() const;
+    [[nodiscard]] bool isInFloatingWindow() const;
 
     /**
      * @brief Returns whether this frame is docked inside a MainWindow.
      */
-    [[nodiscard]]  bool isInMainWindow() const;
+    [[nodiscard]] bool isInMainWindow() const;
 
     /**
      * @brief returns if this widget is the central frame
@@ -161,13 +161,13 @@ public:
      *
      * @return whether this widget is the central frame in a main window
      */
-    [[nodiscard]]  bool isCentralFrame() const
+    [[nodiscard]] bool isCentralFrame() const
     {
         return m_options & FrameOption_IsCentralFrame;
     }
 
     /// @brief Returns whether you can DND dock widgets over this frame and tab into it
-    [[nodiscard]]  bool isDockable() const
+    [[nodiscard]] bool isDockable() const
     {
         return !(m_options & FrameOption_NonDockable);
     }
@@ -181,7 +181,7 @@ public:
      *
      * @return whether the tab widget will always show tabs, even if there's only 1 dock widget
      */
-    [[nodiscard]]  bool alwaysShowsTabs() const
+    [[nodiscard]] bool alwaysShowsTabs() const
     {
         return m_options & FrameOption_AlwaysShowsTabs;
     }
@@ -190,13 +190,13 @@ public:
     bool containsDockWidget(DockWidgetBase *dockWidget) const;
 
     ///@brief returns the FloatingWindow this frame is in, if any
-    [[nodiscard]]  FloatingWindow *floatingWindow() const;
+    [[nodiscard]] FloatingWindow *floatingWindow() const;
 
     /**
      * @brief Returns the main window this frame is in.
      * nullptr if not inside a main window.
      */
-    [[nodiscard]]  MainWindowBase *mainWindow() const;
+    [[nodiscard]] MainWindowBase *mainWindow() const;
 
     /**
      * @brief Puts the Frame back in its previous main window position
@@ -208,23 +208,23 @@ public:
     void restoreToPreviousPosition();
 
     void onCloseEvent(QCloseEvent *e) override;
-    [[nodiscard]]  int currentTabIndex() const;
+    [[nodiscard]] int currentTabIndex() const;
 
-    [[nodiscard]]  FrameOptions options() const
+    [[nodiscard]] FrameOptions options() const
     {
         return m_options;
     }
-    [[nodiscard]]  bool anyNonClosable() const;
-    [[nodiscard]]  bool anyNonDockable() const;
+    [[nodiscard]] bool anyNonClosable() const;
+    [[nodiscard]] bool anyNonDockable() const;
 
     ///@brief returns whether there's 0 dock widgets. If not persistent then the Frame will delete itself.
-    [[nodiscard]]  bool isEmpty() const
+    [[nodiscard]] bool isEmpty() const
     {
         return dockWidgetCount() == 0;
     }
 
     ///@brief returns whether there's only 1 dock widget.
-    [[nodiscard]]  bool hasSingleDockWidget() const
+    [[nodiscard]] bool hasSingleDockWidget() const
     {
         return dockWidgetCount() == 1;
     }
@@ -236,7 +236,7 @@ public:
     void onDockWidgetHidden(DockWidgetBase *w);
 
     ///@brief returns the layout item that either contains this Frame in the layout or is a placeholder
-    [[nodiscard]]  Layouting::Item *layoutItem() const;
+    [[nodiscard]] Layouting::Item *layoutItem() const;
 
     ///@brief For tests-only. Returns the number of Frame instances in the whole application.
     static int dbg_numFrames();
@@ -244,16 +244,16 @@ public:
     /**
      * @brief Returns whether a deleteLater has already been issued
      */
-    [[nodiscard]]  bool beingDeletedLater() const;
+    [[nodiscard]] bool beingDeletedLater() const;
 
     /**
      * @brief returns true if tabs are visible
      *
      * @sa hasTabsVisibleChanged()
      **/
-    [[nodiscard]]  bool hasTabsVisible() const;
+    [[nodiscard]] bool hasTabsVisible() const;
 
-    [[nodiscard]]  QStringList affinities() const;
+    [[nodiscard]] QStringList affinities() const;
 
     ///@brief sets the layout item that either contains this Frame in the layout or is a placeholder
     void setLayoutItem(Layouting::Item *item) override;
@@ -263,19 +263,19 @@ public:
      * However, when using Config::Flag_HideTitleBarWhenTabsVisible it will be the tab bar background.
      * Returns global coordinates.
      */
-    [[nodiscard]]  virtual QRect dragRect() const;
+    [[nodiscard]] virtual QRect dragRect() const;
 
     ///@brief Returns whether all dock widgets have the specified option set
-    [[nodiscard]]  bool allDockWidgetsHave(DockWidgetBase::Option) const;
+    [[nodiscard]] bool allDockWidgetsHave(DockWidgetBase::Option) const;
 
     ///@brief Returns whether at least one dock widget has the specified option set
-    [[nodiscard]]  bool anyDockWidgetsHas(DockWidgetBase::Option) const;
+    [[nodiscard]] bool anyDockWidgetsHas(DockWidgetBase::Option) const;
 
     ///@brief Returns whether all dock widgets have the specified  layout saver option set
-    [[nodiscard]]  bool allDockWidgetsHave(DockWidgetBase::LayoutSaverOption) const;
+    [[nodiscard]] bool allDockWidgetsHave(DockWidgetBase::LayoutSaverOption) const;
 
     ///@brief Returns whether at least one dock widget has the specified layout saver option set
-    [[nodiscard]]  bool anyDockWidgetsHas(DockWidgetBase::LayoutSaverOption) const;
+    [[nodiscard]] bool anyDockWidgetsHas(DockWidgetBase::LayoutSaverOption) const;
 
     /// @brief Usually we do resize via the native window manager, but if a widget is docked like
     /// in MDI mode, or in overlayed mode then we allow the user to resize with mouse
@@ -283,37 +283,37 @@ public:
 
     /// @brief Returns whether this frame is in a MDI layout
     /// Usually no, unless you're using an MDI main window
-    [[nodiscard]]  bool isMDI() const;
+    [[nodiscard]] bool isMDI() const;
 
     /// @brief Returns whether this frame was created automatically just for the purpose of supporting DockWidget::Option_MDINestable
-    [[nodiscard]]  bool isMDIWrapper() const;
+    [[nodiscard]] bool isMDIWrapper() const;
 
     /// @brief If this is an MDI wrapper frame, return the DockWidget MDI wrapper
     /// @sa isMDIWrapper
-    [[nodiscard]]  DockWidgetBase *mdiDockWidgetWrapper() const;
+    [[nodiscard]] DockWidgetBase *mdiDockWidgetWrapper() const;
 
     /// @brief If this is an MDI wrapper frame, return the DropArea MDI wrapper
     /// @sa isMDIWrapper
-    [[nodiscard]]  DropArea *mdiDropAreaWrapper() const;
+    [[nodiscard]] DropArea *mdiDropAreaWrapper() const;
 
     /// @brief If this frame is an MDI wrapper, returns the MDI frame. That is the frame you actually drag inside the MDI area
-    [[nodiscard]]  Frame *mdiFrame() const;
+    [[nodiscard]] Frame *mdiFrame() const;
 
     /// @brief Returns the MDI layout. Or nullptr if this frame isn't in a MDI layout
-    [[nodiscard]]  MDILayoutWidget *mdiLayoutWidget() const;
+    [[nodiscard]] MDILayoutWidget *mdiLayoutWidget() const;
 
     /// @brief If this frame is a MDI frame (isMDI() == true), returns whether it contains nested dock widgets (DockWidget::Option_MDINestable)
     /// @sa isMDI()
-    [[nodiscard]]  bool hasNestedMDIDockWidgets() const;
+    [[nodiscard]] bool hasNestedMDIDockWidgets() const;
 
     /// @brief See DockWidgetBase::userType()
-    [[nodiscard]]  int userType() const;
+    [[nodiscard]] int userType() const;
 
     /// @brief Returns the resize handler. Used mostly in MDI mode.
-    [[nodiscard]]  WidgetResizeHandler *resizeHandler() const;
+    [[nodiscard]] WidgetResizeHandler *resizeHandler() const;
 
     /// @brief User requested floating window flags for when this group floats
-    [[nodiscard]]  FloatingWindowFlags requestedFloatingWindowFlags() const;
+    [[nodiscard]] FloatingWindowFlags requestedFloatingWindowFlags() const;
 
 Q_SIGNALS:
     void currentDockWidgetChanged(KDDockWidgets::DockWidgetBase *);
@@ -343,7 +343,7 @@ protected:
      * This might be slightly smaller than Frame::minSize() due to the QTabWidget having some margins
      * and tab bar.
      */
-    [[nodiscard]]  QSize dockWidgetsMinSize() const;
+    [[nodiscard]] QSize dockWidgetsMinSize() const;
 
     /**
      * @brief Returns the biggest combined maxSize of all dock widgets.
@@ -356,17 +356,17 @@ protected:
      *
      * Any widget having 16777215x16777215 is ignored (represents not having a max-size, QWIDGETSIZE_MAX)
      */
-    [[nodiscard]]  QSize biggestDockWidgetMaxSize() const;
+    [[nodiscard]] QSize biggestDockWidgetMaxSize() const;
 
     virtual void removeWidget_impl(DockWidgetBase *) = 0;
     virtual int indexOfDockWidget_impl(const DockWidgetBase *) = 0;
-    [[nodiscard]]  virtual int currentIndex_impl() const = 0;
+    [[nodiscard]] virtual int currentIndex_impl() const = 0;
     virtual void setCurrentTabIndex_impl(int index) = 0;
     virtual void setCurrentDockWidget_impl(DockWidgetBase *) = 0;
     virtual void insertDockWidget_impl(DockWidgetBase *, int index) = 0;
-    [[nodiscard]]  virtual DockWidgetBase *dockWidgetAt_impl(int index) const = 0;
-    [[nodiscard]]  virtual DockWidgetBase *currentDockWidget_impl() const = 0;
-    [[nodiscard]]  virtual int nonContentsHeight() const = 0;
+    [[nodiscard]] virtual DockWidgetBase *dockWidgetAt_impl(int index) const = 0;
+    [[nodiscard]] virtual DockWidgetBase *currentDockWidget_impl() const = 0;
+    [[nodiscard]] virtual int nonContentsHeight() const = 0;
 
 private:
     bool m_inCtor = true; // Needs to be initialized early, as pointed out by UBSAN

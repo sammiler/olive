@@ -112,7 +112,7 @@ public:
     Q_INVOKABLE bool hasFloatingWindows() const;
 
     ///@brief Returns the window with the specified id
-    static QWindow *windowForHandle(WId id) ;
+    static QWindow *windowForHandle(WId id);
 
     ///@brief returns the FloatingWindow with handle @p windowHandle
     FloatingWindow *floatingWindowForHandle(QWindow *windowHandle) const;
@@ -150,8 +150,8 @@ public:
      * @brief clear Overload that only clears the specified dockWidgets and main windows.
      */
     static void clear(const DockWidgetBase::List &dockWidgets,
-               const MainWindowBase::List &mainWindows,
-               const QStringList &affinities) ;
+                      const MainWindowBase::List &mainWindows,
+                      const QStringList &affinities);
 
     /**
      * @brief Ensures that all floating DockWidgets have a FloatingWindow as a window.
@@ -191,13 +191,13 @@ public:
     MainWindowBase::List mainWindowsWithAffinity(const QStringList &affinities) const;
 
     /// @brief Returns the LayoutWidget where the specified item is in
-    static LayoutWidget *layoutForItem(const Layouting::Item *) ;
+    static LayoutWidget *layoutForItem(const Layouting::Item *);
 
     /// @brief Returns whether the item is in a main window.
     /// Nesting is honoured. (MDIArea inside DropArea inside MainWindow, for example)
-    static bool itemIsInMainWindow(const Layouting::Item *) ;
+    static bool itemIsInMainWindow(const Layouting::Item *);
 
-    static bool affinitiesMatch(const QStringList &affinities1, const QStringList &affinities2) ;
+    static bool affinitiesMatch(const QStringList &affinities1, const QStringList &affinities2);
 
     /// @brief Returns a list of all known main window unique names
     QStringList mainWindowsNames() const;

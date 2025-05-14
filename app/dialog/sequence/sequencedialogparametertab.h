@@ -26,7 +26,9 @@ class SequenceDialogParameterTab : public QWidget {
 
   [[nodiscard]] rational GetSelectedVideoPixelAspect() const { return pixelaspect_combo_->GetPixelAspectRatio(); }
 
-  [[nodiscard]] VideoParams::Interlacing GetSelectedVideoInterlacingMode() const { return interlacing_combo_->GetInterlaceMode(); }
+  [[nodiscard]] VideoParams::Interlacing GetSelectedVideoInterlacingMode() const {
+    return interlacing_combo_->GetInterlaceMode();
+  }
 
   [[nodiscard]] int GetSelectedAudioSampleRate() const { return audio_sample_rate_field_->GetSampleRate(); }
 

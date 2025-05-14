@@ -61,7 +61,7 @@ using PresetPtr = std::shared_ptr<Preset>;
 template <typename T>
 class PresetManager {
  public:
-  PresetManager(QWidget* parent, QString  preset_name) : preset_name_(std::move(preset_name)), parent_(parent) {
+  PresetManager(QWidget* parent, QString preset_name) : preset_name_(std::move(preset_name)), parent_(parent) {
     // Load custom preset data from file
     QFile preset_file(GetCustomPresetFilename());
     if (preset_file.open(QFile::ReadOnly)) {

@@ -41,7 +41,9 @@ class PixelFormatComboBox : public QComboBox {
     }
   }
 
-  [[nodiscard]] PixelFormat GetPixelFormat() const { return PixelFormat(static_cast<PixelFormat::Format>(this->currentData().toInt())); }
+  [[nodiscard]] PixelFormat GetPixelFormat() const {
+    return PixelFormat(static_cast<PixelFormat::Format>(this->currentData().toInt()));
+  }
 
   void SetPixelFormat(PixelFormat::Format fmt) {
     for (int i = 0; i < this->count(); i++) {

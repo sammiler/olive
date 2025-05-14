@@ -313,7 +313,7 @@ void TrackPlaceBlockCommand::redo() {
       // First redo, create tracks now
       add_track_commands_.resize(track_index_ - timeline_->GetTracks().size() + 1);
 
-      for (auto & add_track_command : add_track_commands_) {
+      for (auto& add_track_command : add_track_commands_) {
         add_track_command = new TimelineAddTrackCommand(timeline_);
       }
     }

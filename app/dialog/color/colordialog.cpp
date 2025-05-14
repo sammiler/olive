@@ -125,8 +125,8 @@ void ColorDialog::SetColor(const ManagedColor& start) {
 
   } else {
     // Convert reference color to the input space
-    ColorProcessorPtr linear_to_input =
-        ColorProcessor::Create(color_manager_, color_manager_->GetReferenceColorSpace(), ColorTransform(start.color_input()));
+    ColorProcessorPtr linear_to_input = ColorProcessor::Create(color_manager_, color_manager_->GetReferenceColorSpace(),
+                                                               ColorTransform(start.color_input()));
 
     managed_start = linear_to_input->ConvertColor(start);
   }
@@ -156,7 +156,8 @@ QString ColorDialog::GetColorSpaceInput() const { return chooser_->input(); }
 ColorTransform ColorDialog::GetColorSpaceOutput() const { return chooser_->output(); }
 
 void ColorDialog::ColorSpaceChanged(const QString& input, const ColorTransform& output) {
-  input_to_ref_processor_ = ColorProcessor::Create(color_manager_, input, ColorTransform(color_manager_->GetReferenceColorSpace()));
+  input_to_ref_processor_ =
+      ColorProcessor::Create(color_manager_, input, ColorTransform(color_manager_->GetReferenceColorSpace()));
 
   ColorProcessorPtr ref_to_display =
       ColorProcessor::Create(color_manager_, color_manager_->GetReferenceColorSpace(), output);

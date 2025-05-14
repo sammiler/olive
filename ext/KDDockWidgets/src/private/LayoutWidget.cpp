@@ -203,7 +203,7 @@ DockWidgetBase::List LayoutWidget::dockWidgets() const
     return dockWidgets;
 }
 
-Frame::List LayoutWidget::framesFrom(QWidgetOrQuick *frameOrMultiSplitter) 
+Frame::List LayoutWidget::framesFrom(QWidgetOrQuick *frameOrMultiSplitter)
 {
     if (auto frame = qobject_cast<Frame *>(frameOrMultiSplitter))
         return { frame };

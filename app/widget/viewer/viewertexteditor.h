@@ -42,14 +42,14 @@ class ViewerTextEditorToolBar : public QWidget {
   [[nodiscard]] QString GetFontStyleName() const { return style_combo_->currentText(); }
 
  public slots:
-  void SetFontFamily(const QString& s) {
+  void SetFontFamily(const QString &s) {
     font_combo_->blockSignals(true);
     font_combo_->setCurrentFont(s);
     UpdateFontStyleList(s);
     font_combo_->blockSignals(false);
   }
 
-  void SetStyle(const QString& style) {
+  void SetStyle(const QString &style) {
     style_combo_->blockSignals(true);
     style_combo_->setCurrentText(style);
     style_combo_->blockSignals(false);

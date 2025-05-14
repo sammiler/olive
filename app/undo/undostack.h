@@ -57,7 +57,8 @@ class UndoStack : public QAbstractItemModel {
   [[nodiscard]] QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const override;
   [[nodiscard]] QModelIndex parent(const QModelIndex &index) const override;
   [[nodiscard]] int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-  [[nodiscard]] QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
+  [[nodiscard]] QVariant headerData(int section, Qt::Orientation orientation,
+                                    int role = Qt::DisplayRole) const override;
   [[nodiscard]] bool hasChildren(const QModelIndex &parent = QModelIndex()) const override;
 
  signals:

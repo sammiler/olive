@@ -144,7 +144,8 @@ void TimelineAddTrackCommand::redo() {
 
     if (create_pos_command) {
       position_command_->add_child(new NodeSetPositionCommand(
-          track_, sequence, Node::Position(sequence->GetNodePositionInContext(sequence) + QPointF(-1, -position_factor))));
+          track_, sequence,
+          Node::Position(sequence->GetNodePositionInContext(sequence) + QPointF(-1, -position_factor))));
       position_command_->add_child(
           new NodeSetPositionCommand(merge_, sequence, Node::Position(sequence->GetNodePositionInContext(sequence))));
       position_command_->add_child(new NodeSetPositionAndDependenciesRecursivelyCommand(
@@ -159,7 +160,8 @@ void TimelineAddTrackCommand::redo() {
     if (create_pos_command) {
       // Just position directly next to the context node
       position_command_->add_child(new NodeSetPositionCommand(
-          track_, sequence, Node::Position(sequence->GetNodePositionInContext(sequence) + QPointF(-1, position_factor))));
+          track_, sequence,
+          Node::Position(sequence->GetNodePositionInContext(sequence) + QPointF(-1, position_factor))));
     }
   }
 

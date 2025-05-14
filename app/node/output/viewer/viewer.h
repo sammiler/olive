@@ -56,10 +56,10 @@ class ViewerOutput : public Node {
 
   void set_default_parameters();
 
-  void set_parameters_from_footage(const QVector<ViewerOutput *>& footage);
+  void set_parameters_from_footage(const QVector<ViewerOutput *> &footage);
 
   void InvalidateCache(const TimeRange &range, const QString &from, int element,
-                               InvalidateCacheOptions options) override;
+                       InvalidateCacheOptions options) override;
 
   [[nodiscard]] VideoParams GetVideoParams(int index = 0) const {
     // This check isn't strictly necessary (GetStandardValue will return a null VideoParams anyway),

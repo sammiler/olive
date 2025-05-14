@@ -99,7 +99,7 @@ public:
         return qobject_cast<DropAreaWithCentralFrame *>(m_layoutWidget);
     }
 
-    [[nodiscard]] static CursorPositions allowedResizeSides(SideBarLocation loc) ;
+    [[nodiscard]] static CursorPositions allowedResizeSides(SideBarLocation loc);
 
     QRect rectForOverlay(Frame *, SideBarLocation) const;
     SideBarLocation preferredSideBar(DockWidgetBase *) const;
@@ -245,7 +245,7 @@ void MainWindowBase::layoutParentContainerEqually(DockWidgetBase *dockWidget) co
     dropArea()->layoutParentContainerEqually(dockWidget);
 }
 
-CursorPositions MainWindowBase::Private::allowedResizeSides(SideBarLocation loc) 
+CursorPositions MainWindowBase::Private::allowedResizeSides(SideBarLocation loc)
 {
     // When a sidebar is on top, you can only resize its bottom.
     // and so forth...

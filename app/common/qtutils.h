@@ -40,7 +40,7 @@ class QtUtils {
    * latter was only introduced in 5.11+. This function wraps the latter for 5.11+ and the former for
    * earlier.
    */
-  static int QFontMetricsWidth(const QFontMetrics& fm, const QString &s);
+  static int QFontMetricsWidth(const QFontMetrics &fm, const QString &s);
 
   static QFrame *CreateHorizontalLine();
 

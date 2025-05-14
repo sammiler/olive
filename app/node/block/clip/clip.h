@@ -65,12 +65,13 @@ class ClipBlock : public Block {
   void DiscardCache();
 
   void InvalidateCache(const TimeRange &range, const QString &from, int element,
-                               InvalidateCacheOptions options) override;
+                       InvalidateCacheOptions options) override;
 
   [[nodiscard]] TimeRange InputTimeAdjustment(const QString &input, int element, const TimeRange &input_time,
-                                        bool clamp) const override;
+                                              bool clamp) const override;
 
-  [[nodiscard]] TimeRange OutputTimeAdjustment(const QString &input, int element, const TimeRange &input_time) const override;
+  [[nodiscard]] TimeRange OutputTimeAdjustment(const QString &input, int element,
+                                               const TimeRange &input_time) const override;
 
   void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
 

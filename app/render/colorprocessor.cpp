@@ -111,12 +111,12 @@ ColorProcessorPtr ColorProcessor::Create(ColorManager *config, const QString &in
   return std::make_shared<ColorProcessor>(config, input, transform, direction);
 }
 
-ColorProcessorPtr ColorProcessor::Create(const OCIO::ConstProcessorRcPtr& processor) {
+ColorProcessorPtr ColorProcessor::Create(const OCIO::ConstProcessorRcPtr &processor) {
   return std::make_shared<ColorProcessor>(processor);
 }
 
 OCIO::ConstProcessorRcPtr ColorProcessor::GetProcessor() { return processor_; }
 
-void ColorProcessor::ConvertFrame(const FramePtr& f) { ConvertFrame(f.get()); }
+void ColorProcessor::ConvertFrame(const FramePtr &f) { ConvertFrame(f.get()); }
 
 }  // namespace olive

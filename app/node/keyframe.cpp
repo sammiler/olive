@@ -28,8 +28,8 @@ namespace olive {
 
 const NodeKeyframe::Type NodeKeyframe::kDefaultType = kLinear;
 
-NodeKeyframe::NodeKeyframe(const rational &time, QVariant value, Type type, int track, int element,
-                           QString input, QObject *parent)
+NodeKeyframe::NodeKeyframe(const rational &time, QVariant value, Type type, int track, int element, QString input,
+                           QObject *parent)
     : time_(time),
       value_(std::move(value)),
       type_(type),

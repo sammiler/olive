@@ -70,8 +70,8 @@ void RecordTool::MouseMove(TimelineViewMouseEvent *event) {
 
 void RecordTool::MouseRelease(TimelineViewMouseEvent *event) {
   if (ghost_) {
-    emit parent()
-        -> RequestCaptureStart(TimeRange(ghost_->GetAdjustedIn(), ghost_->GetAdjustedOut()), ghost_->GetTrack());
+    emit parent() -> RequestCaptureStart(TimeRange(ghost_->GetAdjustedIn(), ghost_->GetAdjustedOut()),
+                                         ghost_->GetTrack());
     parent()->ClearGhosts();
     snap_points_.clear();
     ghost_ = nullptr;

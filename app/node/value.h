@@ -201,7 +201,7 @@ class NodeValue {
   NodeValue() : type_(kNone), from_(nullptr), array_(false) {}
 
   template <typename T>
-  NodeValue(Type type, const T& data, const Node* from = nullptr, bool array = false, QString  tag = QString())
+  NodeValue(Type type, const T& data, const Node* from = nullptr, bool array = false, QString tag = QString())
       : type_(type), from_(from), tag_(std::move(tag)), array_(array) {
     set_value(data);
   }
@@ -212,7 +212,7 @@ class NodeValue {
   [[nodiscard]] Type type() const { return type_; }
 
   template <typename T>
-  [[nodiscard]]  T value() const {
+  [[nodiscard]] T value() const {
     return data_.value<T>();
   }
 

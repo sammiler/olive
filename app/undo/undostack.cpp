@@ -68,7 +68,7 @@ void UndoStack::push(UndoCommand *command, const QString &name) {
   // Clear any redoable commands
   this->beginRemoveRows(QModelIndex(), commands_.size(), commands_.size() + undone_commands_.size());
   if (CanRedo()) {
-    for (const auto & undone_command : undone_commands_) {
+    for (const auto &undone_command : undone_commands_) {
       delete undone_command.command;
     }
     undone_commands_.clear();
@@ -136,11 +136,11 @@ void UndoStack::redo() {
 void UndoStack::clear() {
   this->beginResetModel();
 
-  for (const auto & command : commands_) {
+  for (const auto &command : commands_) {
     delete command.command;
   }
   commands_.clear();
-  for (const auto & undone_command : undone_commands_) {
+  for (const auto &undone_command : undone_commands_) {
     delete undone_command.command;
   }
   undone_commands_.clear();

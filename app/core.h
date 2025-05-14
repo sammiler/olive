@@ -94,7 +94,7 @@ class Core : public QObject {
    *
    * Currently empty
    */
-  explicit Core(CoreParams  params);
+  explicit Core(CoreParams params);
 
   /**
    * @brief Core object accessible from anywhere in the code
@@ -179,12 +179,12 @@ class Core : public QObject {
    * The active Project file, or nullptr if the heuristic couldn't find one.
    */
   [[nodiscard]] Project* GetActiveProject() const;
-  [[nodiscard]] static Folder* GetSelectedFolderInActiveProject() ;
+  [[nodiscard]] static Folder* GetSelectedFolderInActiveProject();
 
   /**
    * @brief Gets current timecode display mode
    */
-  [[nodiscard]] static Timecode::Display GetTimecodeDisplay() ;
+  [[nodiscard]] static Timecode::Display GetTimecodeDisplay();
 
   /**
    * @brief Sets current timecode display mode

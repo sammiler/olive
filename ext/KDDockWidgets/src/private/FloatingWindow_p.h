@@ -47,25 +47,25 @@ public:
     ~FloatingWindow() override;
 
     bool deserialize(const LayoutSaver::FloatingWindow &);
-    [[nodiscard]]  LayoutSaver::FloatingWindow serialize() const;
+    [[nodiscard]] LayoutSaver::FloatingWindow serialize() const;
 
     // Draggable:
     std::unique_ptr<WindowBeingDragged> makeWindow() override;
-    [[nodiscard]]  DockWidgetBase *singleDockWidget() const override;
-    [[nodiscard]]  bool isWindow() const override;
+    [[nodiscard]] DockWidgetBase *singleDockWidget() const override;
+    [[nodiscard]] bool isWindow() const override;
 
-    [[nodiscard]]  QVector<DockWidgetBase *> dockWidgets() const;
-    [[nodiscard]]  Frame::List frames() const;
-    [[nodiscard]]  DropArea *dropArea() const
+    [[nodiscard]] QVector<DockWidgetBase *> dockWidgets() const;
+    [[nodiscard]] Frame::List frames() const;
+    [[nodiscard]] DropArea *dropArea() const
     {
         return m_dropArea;
     }
 
-    [[nodiscard]]  int userType() const;
+    [[nodiscard]] int userType() const;
 
     /// @brief Returns whether this window is a tool window
     /// Tool windows don't usually appear in the task bar
-    [[nodiscard]]  bool isUtilityWindow() const;
+    [[nodiscard]] bool isUtilityWindow() const;
 
     static void ensureRectIsOnScreen(QRect &geometry);
 
@@ -80,7 +80,7 @@ public:
      *
      * This TitleBar is hidden if we're using a native title bar.
      */
-    [[nodiscard]]  TitleBar *titleBar() const
+    [[nodiscard]] TitleBar *titleBar() const
     {
         return m_titleBar;
     }
@@ -95,8 +95,8 @@ public:
      */
     void setSuggestedGeometry(QRect suggestedRect, SuggestedGeometryHints = SuggestedGeometryHint_None);
 
-    [[nodiscard]]  bool anyNonClosable() const;
-    [[nodiscard]]  bool anyNonDockable() const;
+    [[nodiscard]] bool anyNonClosable() const;
+    [[nodiscard]] bool anyNonDockable() const;
 
     /**
      * @brief checks if this FloatingWindow only has one frame.
@@ -105,7 +105,7 @@ public:
      * as they can be tabbed into the single frame.
      * @return true if this FloatingWindow has a single frame.
      */
-    [[nodiscard]]  bool hasSingleFrame() const;
+    [[nodiscard]] bool hasSingleFrame() const;
 
     /**
      * @brief checks if this FloatingWindow only has one dockwidget.
@@ -113,15 +113,15 @@ public:
      * but that frame must only have 1 dock widget.
      * @return true if this FloatingWindow only has one dockwidget.
      */
-    [[nodiscard]]  bool hasSingleDockWidget() const;
+    [[nodiscard]] bool hasSingleDockWidget() const;
 
     /// @brief If this floating window has only one Frame, it's returned, otherwise nullptr
-    [[nodiscard]]  Frame *singleFrame() const;
+    [[nodiscard]] Frame *singleFrame() const;
 
     /**
      * @brief Returns whether a deleteLater has already been issued
      */
-    [[nodiscard]]  bool beingDeleted() const;
+    [[nodiscard]] bool beingDeleted() const;
 
     /**
      * @brief Equivalent to deleteLater() but sets beingDeleted() to true
@@ -131,45 +131,45 @@ public:
     /**
      * @brief Returns the MultiSplitter
      */
-    [[nodiscard]]  MultiSplitter *multiSplitter() const;
+    [[nodiscard]] MultiSplitter *multiSplitter() const;
 
     /**
      * @brief Returns the LayoutWidget
      */
-    [[nodiscard]]  LayoutWidget *layoutWidget() const;
+    [[nodiscard]] LayoutWidget *layoutWidget() const;
 
     /**
      * @brief Returns whether @p globalPoint is inside the title bar (or, when there's no title-bar, the draggable empty
      * area of a tab bar)
      */
-    [[nodiscard]]  bool isInDragArea(QPoint globalPoint) const;
+    [[nodiscard]] bool isInDragArea(QPoint globalPoint) const;
 
-    [[nodiscard]]  bool isMDI() const override;
+    [[nodiscard]] bool isMDI() const override;
 
     ///@brief updates the title and the icon
     void updateTitleAndIcon();
     void updateTitleBarVisibility();
 
-    [[nodiscard]]  QStringList affinities() const;
+    [[nodiscard]] QStringList affinities() const;
 
     /**
      * Returns the drag rect in global coordinates. This is usually the title bar rect.
      * However, when using Config::Flag_HideTitleBarWhenTabsVisible it will be the tab bar background.
      * Returns global coordinates.
      */
-    [[nodiscard]]  QRect dragRect() const;
+    [[nodiscard]] QRect dragRect() const;
 
     ///@brief Returns whether all dock widgets have the specified option set
-    [[nodiscard]]  bool allDockWidgetsHave(DockWidgetBase::Option) const;
+    [[nodiscard]] bool allDockWidgetsHave(DockWidgetBase::Option) const;
 
     ///@brief Returns whether at least one dock widget has the specified option set
-    [[nodiscard]]  bool anyDockWidgetsHas(DockWidgetBase::Option) const;
+    [[nodiscard]] bool anyDockWidgetsHas(DockWidgetBase::Option) const;
 
     ///@brief Returns whether all dock widgets have the specified  layout saver option set
-    [[nodiscard]]  bool allDockWidgetsHave(DockWidgetBase::LayoutSaverOption) const;
+    [[nodiscard]] bool allDockWidgetsHave(DockWidgetBase::LayoutSaverOption) const;
 
     ///@brief Returns whether at least one dock widget has the specified layout saver option set
-    [[nodiscard]]  bool anyDockWidgetsHas(DockWidgetBase::LayoutSaverOption) const;
+    [[nodiscard]] bool anyDockWidgetsHas(DockWidgetBase::LayoutSaverOption) const;
 
     /// @brief Adds the dock widget to the specified location
     void addDockWidget(DockWidgetBase *, KDDockWidgets::Location location,
@@ -178,22 +178,22 @@ public:
     /// @brief Returns the MainWindow which is the transient parent of this FloatingWindow
     /// Can be nullptr if you create dock widgets before the main window. Can also be some
     /// arbitrary value if you have more than one main window.
-    [[nodiscard]]  MainWindowBase *mainWindow() const;
+    [[nodiscard]] MainWindowBase *mainWindow() const;
 
     ///@brief Returns the contents margins
-    [[nodiscard]]  static QMargins contentMargins() ;
+    [[nodiscard]] static QMargins contentMargins();
 
     ///@brief Allows the user to override QWindow::isMaximized()
     /// Needed to workaround window managers that don't support maximizing/minimizing Qt::Tool windows.
     /// By default this just calls QWindow::isMaximized()
     /// @sa QTBUG-95478
-    [[nodiscard]]  virtual bool isMaximizedOverride() const;
+    [[nodiscard]] virtual bool isMaximizedOverride() const;
 
     ///@brief Allows the user to override QWindow::isMinimized()
     /// Needed to workaround window managers that don't support maximizing/minimizing Qt::Tool windows.
     /// By default this just calls QWindow::isMinimized()
     /// @sa QTBUG-95478
-    [[nodiscard]]  virtual bool isMinimizedOverride() const;
+    [[nodiscard]] virtual bool isMinimizedOverride() const;
 
     ///@brief By default equivalent to QWindow::showMaximized()
     /// But allows the user to override it and workaround exotic window manager bugs
@@ -215,12 +215,12 @@ public:
     /// Also useful for QtQuick to eventually preserve normal geometry upon save/restore of a maximized window. As
     /// QWindow has no notion of normal geometry, so we need to implement it here.
     /// @sa QTBUG-95478
-    [[nodiscard]]  virtual QRect normalGeometry() const;
+    [[nodiscard]] virtual QRect normalGeometry() const;
 
     // The state reported by QWidget is not always the same as what the
     // window manager thinks, due to the async nature. This method
     // returns the last state reported by the window manager itself.
-    [[nodiscard]]  Qt::WindowState lastWindowManagerState() const;
+    [[nodiscard]] Qt::WindowState lastWindowManagerState() const;
 
     ///@brief Allows the user app to specify which window flags to use, instead of KDDWs default ones
     /// Bugs caused by this won't be supported, as the amount of combinations that could go wrong can
@@ -228,10 +228,10 @@ public:
     static Qt::WindowFlags s_windowFlagsOverride;
 
     /// @brief Returns whether this floating window supports showing a minimize button
-    [[nodiscard]]  bool supportsMinimizeButton() const;
+    [[nodiscard]] bool supportsMinimizeButton() const;
 
     /// @brief Returns whether this floating window supports showing a maximize button
-    [[nodiscard]]  bool supportsMaximizeButton() const;
+    [[nodiscard]] bool supportsMaximizeButton() const;
 
 Q_SIGNALS:
     void activatedChanged();
@@ -255,7 +255,7 @@ protected:
 
 private:
     Q_DISABLE_COPY(FloatingWindow)
-    [[nodiscard]]  QSize maxSizeHint() const;
+    [[nodiscard]] QSize maxSizeHint() const;
     void updateSizeConstraints();
     void onFrameCountChanged(int count);
     void onVisibleFrameCountChanged(int count);
@@ -265,7 +265,7 @@ private:
     bool m_updatingTitleBarVisibility = false;
     QMetaObject::Connection m_layoutDestroyedConnection;
     QAbstractNativeEventFilter *m_nchittestFilter = nullptr;
-    [[nodiscard]]  Qt::WindowState windowStateOverride() const;
+    [[nodiscard]] Qt::WindowState windowStateOverride() const;
 #ifdef Q_OS_WIN
     int m_lastHitTest = 0;
 #endif

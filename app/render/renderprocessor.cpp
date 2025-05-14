@@ -105,7 +105,8 @@ FramePtr RenderProcessor::GenerateFrame(TexturePtr texture, const rational &time
 
     if (tex_params.effective_width() != frame_params.effective_width() ||
         tex_params.effective_height() != frame_params.effective_height() ||
-        static_cast<PixelFormat::Format>(tex_params.format()) != static_cast<PixelFormat::Format>(frame_params.format())) {
+        static_cast<PixelFormat::Format>(tex_params.format()) !=
+            static_cast<PixelFormat::Format>(frame_params.format())) {
       TexturePtr blit_tex = render_ctx_->CreateTexture(frame_params);
 
       auto matrix = ticket_->property("matrix").value<QMatrix4x4>();
@@ -322,11 +323,11 @@ void RenderProcessor::ProcessVideoFootage(TexturePtr destination, const FootageJ
   // Check the still frame cache. On large frames such as high resolution still images, uploading
   // and color managing them for every frame is a waste of time, so we implement a small cache here
   // to optimize such a situation
-  const VideoParams& stream_data = stream->video_params();
+  const VideoParams &stream_data = stream->video_params();
 
   auto *color_manager = QtUtils::ValueToPtr<ColorManager>(ticket_->property("colormanager"));
 
-  const QString& using_colorspace = stream_data.colorspace();
+  const QString &using_colorspace = stream_data.colorspace();
 
   if (using_colorspace.isEmpty()) {
     // FIXME:
@@ -335,7 +336,7 @@ void RenderProcessor::ProcessVideoFootage(TexturePtr destination, const FootageJ
 
   Decoder::CodecStream default_codec_stream(stream->filename(), stream_data.stream_index(), GetCurrentBlock());
 
-  const QString& decoder_id = stream->decoder();
+  const QString &decoder_id = stream->decoder();
 
   DecoderPtr decoder = nullptr;
 
@@ -367,7 +368,7 @@ void RenderProcessor::ProcessVideoFootage(TexturePtr destination, const FootageJ
     p.maximum_format = destination->format();
 
     if (!IsCancelled()) {
-      const VideoParams& tex_params = stream->video_params();
+      const VideoParams &tex_params = stream->video_params();
 
       if (tex_params.is_valid()) {
         TexturePtr unmanaged_texture;
@@ -383,8 +384,8 @@ void RenderProcessor::ProcessVideoFootage(TexturePtr destination, const FootageJ
         if (!IsCancelled() && unmanaged_texture) {
           // We convert to our rendering pixel format, since that will always be float-based which
           // is necessary for correct color conversion
-          ColorProcessorPtr processor =
-              ColorProcessor::Create(color_manager, using_colorspace, ColorTransform(color_manager->GetReferenceColorSpace()));
+          ColorProcessorPtr processor = ColorProcessor::Create(color_manager, using_colorspace,
+                                                               ColorTransform(color_manager->GetReferenceColorSpace()));
 
           ColorTransformJob job;
 
@@ -536,7 +537,8 @@ void RenderProcessor::ConvertToReferenceSpace(TexturePtr destination, TexturePtr
   }
 
   auto *color_manager = QtUtils::ValueToPtr<ColorManager>(ticket_->property("colormanager"));
-  ColorProcessorPtr cp = ColorProcessor::Create(color_manager, input_cs, ColorTransform(color_manager->GetReferenceColorSpace()));
+  ColorProcessorPtr cp =
+      ColorProcessor::Create(color_manager, input_cs, ColorTransform(color_manager->GetReferenceColorSpace()));
 
   ColorTransformJob ctj;
 

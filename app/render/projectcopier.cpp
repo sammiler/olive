@@ -61,7 +61,7 @@ void ProjectCopier::SetProject(Project *project) {
 
     // Add all connections
     foreach (Node *node, original_->nodes()) {
-      for (const auto & it : node->input_connections()) {
+      for (const auto &it : node->input_connections()) {
         DoEdgeAdd(it.second, it.first);
       }
     }

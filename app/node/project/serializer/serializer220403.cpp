@@ -727,8 +727,7 @@ void ProjectSerializer220403::LoadImmediate(QXmlStreamReader *reader, Node *node
   }
 }
 
-void ProjectSerializer220403::LoadKeyframe(QXmlStreamReader *reader, NodeKeyframe *key,
-                                           NodeValue::Type data_type) {
+void ProjectSerializer220403::LoadKeyframe(QXmlStreamReader *reader, NodeKeyframe *key, NodeValue::Type data_type) {
   QString key_input;
   QPointF key_in_handle;
   QPointF key_out_handle;

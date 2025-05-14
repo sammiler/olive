@@ -89,7 +89,7 @@ void TextGeneratorV3::Value(const NodeValueRow &value, const NodeGlobals &global
     if (!args.empty()) {
       QStringList list;
       list.reserve(args.size());
-      for (const auto & arg : args) {
+      for (const auto &arg : args) {
         list.append(arg.second.toString());
       }
 
@@ -252,7 +252,8 @@ void TextGeneratorV3::GizmoDeactivated() {
 
 void TextGeneratorV3::SetVerticalAlignmentUndoable(Qt::Alignment a) {
   Core::instance()->undo_stack()->push(
-      new NodeParamSetStandardValueCommand(NodeKeyframeTrackReference(NodeInput(this, kVerticalAlignmentInput)), GetOurAlignmentFromQts(a)),
+      new NodeParamSetStandardValueCommand(NodeKeyframeTrackReference(NodeInput(this, kVerticalAlignmentInput)),
+                                           GetOurAlignmentFromQts(a)),
       tr("Set Text Vertical Alignment"));
 }
 

@@ -174,10 +174,9 @@ QIcon icon::Create(const QString& theme, const QString& name) {
   QIcon icon;
 
   for (int i : ICON_SIZES) {
-    icon.addFile(QStringLiteral("%1/png/%2.%3.png").arg(theme, name, QString::number(i)),
-                 QSize(i, i), QIcon::Normal);
-    icon.addFile(QStringLiteral("%1/png/%2.%3.disabled.png").arg(theme, name, QString::number(i)),
-                 QSize(i, i), QIcon::Disabled);
+    icon.addFile(QStringLiteral("%1/png/%2.%3.png").arg(theme, name, QString::number(i)), QSize(i, i), QIcon::Normal);
+    icon.addFile(QStringLiteral("%1/png/%2.%3.disabled.png").arg(theme, name, QString::number(i)), QSize(i, i),
+                 QIcon::Disabled);
   }
 
   return icon;

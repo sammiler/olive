@@ -183,7 +183,8 @@ void EncodingParams::Save(QXmlStreamWriter *writer) const {
     writer->writeTextElement(QStringLiteral("codec"), QString::number(video_codec_));
     writer->writeTextElement(QStringLiteral("width"), QString::number(video_params_.width()));
     writer->writeTextElement(QStringLiteral("height"), QString::number(video_params_.height()));
-    writer->writeTextElement(QStringLiteral("format"), QString::number(static_cast<PixelFormat::Format>(video_params_.format())));
+    writer->writeTextElement(QStringLiteral("format"),
+                             QString::number(static_cast<PixelFormat::Format>(video_params_.format())));
     writer->writeTextElement(QStringLiteral("pixelaspect"),
                              QString::fromStdString(video_params_.pixel_aspect_ratio().toString()));
     writer->writeTextElement(QStringLiteral("timebase"), QString::fromStdString(video_params_.time_base().toString()));
@@ -300,9 +301,7 @@ Encoder *Encoder::CreateFromParams(const EncodingParams &params) { return Create
 
 QStringList Encoder::GetPixelFormatsForCodec(ExportCodec::Codec c) const { return {}; }
 
-std::vector<SampleFormat> Encoder::GetSampleFormatsForCodec(ExportCodec::Codec c) const {
-  return {};
-}
+std::vector<SampleFormat> Encoder::GetSampleFormatsForCodec(ExportCodec::Codec c) const { return {}; }
 
 QMatrix4x4 EncodingParams::GenerateMatrix(EncodingParams::VideoScalingMethod method, int source_width,
                                           int source_height, int dest_width, int dest_height) {

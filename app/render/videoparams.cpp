@@ -156,7 +156,8 @@ int VideoParams::generate_auto_divider(qint64 width, qint64 height) {
 
 bool VideoParams::operator==(const VideoParams &rhs) const {
   return width() == rhs.width() && height() == rhs.height() && depth() == rhs.depth() &&
-         interlacing() == rhs.interlacing() && time_base() == rhs.time_base() && static_cast<PixelFormat::Format>(format()) ==  static_cast<PixelFormat::Format>(rhs.format()) &&
+         interlacing() == rhs.interlacing() && time_base() == rhs.time_base() &&
+         static_cast<PixelFormat::Format>(format()) == static_cast<PixelFormat::Format>(rhs.format()) &&
          pixel_aspect_ratio() == rhs.pixel_aspect_ratio() && divider() == rhs.divider() &&
          channel_count() == rhs.channel_count();
 }
@@ -205,7 +206,8 @@ QString VideoParams::GetFormatName(PixelFormat format) {
       break;
   }
 
-  return QCoreApplication::translate("VideoParams", "Unknown (0x%1)").arg(static_cast<PixelFormat::Format>(format), 0, 16);
+  return QCoreApplication::translate("VideoParams", "Unknown (0x%1)")
+      .arg(static_cast<PixelFormat::Format>(format), 0, 16);
 }
 
 int VideoParams::GetDividerForTargetResolution(int src_width, int src_height, int dst_width, int dst_height) {
@@ -257,7 +259,8 @@ void VideoParams::calculate_square_pixel_width() {
 }
 
 bool VideoParams::is_valid() const {
-  return (width() > 0 && height() > 0 && !pixel_aspect_ratio_.isNull() && static_cast<PixelFormat::Format>(format_) > PixelFormat::INVALID &&
+  return (width() > 0 && height() > 0 && !pixel_aspect_ratio_.isNull() &&
+          static_cast<PixelFormat::Format>(format_) > PixelFormat::INVALID &&
           static_cast<PixelFormat::Format>(format_) < PixelFormat::COUNT && channel_count_ > 0);
 }
 

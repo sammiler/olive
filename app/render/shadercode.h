@@ -29,7 +29,7 @@ namespace olive {
 
 class ShaderCode {
  public:
-  explicit ShaderCode(QString  frag_code = QString(), QString  vert_code = QString())
+  explicit ShaderCode(QString frag_code = QString(), QString vert_code = QString())
       : frag_code_(std::move(frag_code)), vert_code_(std::move(vert_code)) {}
 
   [[nodiscard]] const QString& frag_code() const { return frag_code_; }

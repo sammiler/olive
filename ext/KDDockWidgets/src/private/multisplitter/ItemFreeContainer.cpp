@@ -23,8 +23,7 @@ ItemFreeContainer::ItemFreeContainer(Widget *hostWidget)
 {
 }
 
-ItemFreeContainer::~ItemFreeContainer()
-= default;
+ItemFreeContainer::~ItemFreeContainer() = default;
 
 void ItemFreeContainer::addDockWidget(Item *item, QPoint localPt)
 {

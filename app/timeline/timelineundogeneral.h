@@ -278,7 +278,9 @@ class TimelineAddDefaultTransitionCommand : public UndoCommand {
 
   ~TimelineAddDefaultTransitionCommand() override { qDeleteAll(commands_); }
 
-  [[nodiscard]] Project* GetRelevantProject() const override { return clips_.empty() ? nullptr : clips_.first()->project(); }
+  [[nodiscard]] Project* GetRelevantProject() const override {
+    return clips_.empty() ? nullptr : clips_.first()->project();
+  }
 
  protected:
   void prepare() override;

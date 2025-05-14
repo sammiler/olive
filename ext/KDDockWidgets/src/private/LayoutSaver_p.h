@@ -85,9 +85,9 @@ struct LayoutSaver::Placeholder
     [[nodiscard]] QVariantMap toVariantMap() const;
     void fromVariantMap(const QVariantMap &map);
 
-    bool isFloatingWindow{};
-    int indexOfFloatingWindow{};
-    int itemIndex{};
+    bool isFloatingWindow {};
+    int indexOfFloatingWindow {};
+    int itemIndex {};
     QString mainWindowUniqueName;
 };
 
@@ -119,8 +119,8 @@ struct LayoutSaver::ScalingInfo
 struct LayoutSaver::Position
 {
     QRect lastFloatingGeometry;
-    int tabIndex{};
-    bool wasFloating{};
+    int tabIndex {};
+    bool wasFloating {};
     LayoutSaver::Placeholder::List placeholders;
     QHash<SideBarLocation, QRect> lastOverlayedGeometries;
 
@@ -166,8 +166,7 @@ struct DOCKS_EXPORT LayoutSaver::DockWidget
     LayoutSaver::Position lastPosition;
 
 private:
-    DockWidget()
-    = default;
+    DockWidget() = default;
 };
 
 
@@ -207,8 +206,8 @@ struct LayoutSaver::Frame
     bool isNull = true;
     QString objectName;
     QRect geometry;
-    QFlags<FrameOption>::Int options{};
-    int currentTabIndex{};
+    QFlags<FrameOption>::Int options {};
+    int currentTabIndex {};
     QString id; // for coorelation purposes
 
     /// Might be empty if not in a main window. Used so we don't create a frame when restoring
@@ -254,7 +253,7 @@ struct LayoutSaver::FloatingWindow
     int parentIndex = -1;
     QRect geometry;
     QRect normalGeometry;
-    int screenIndex{};
+    int screenIndex {};
     int flags = -1;
     QSize screenSize; // for relative-size restoring
     bool isVisible = true;
@@ -284,9 +283,9 @@ public:
     QStringList affinities;
     QRect geometry;
     QRect normalGeometry;
-    int screenIndex{};
+    int screenIndex {};
     QSize screenSize; // for relative-size restoring
-    bool isVisible{};
+    bool isVisible {};
     Qt::WindowState windowState = Qt::WindowNoState;
 
     ScalingInfo scalingInfo;
@@ -301,10 +300,10 @@ struct LayoutSaver::ScreenInfo
     [[nodiscard]] QVariantMap toVariantMap() const;
     void fromVariantMap(const QVariantMap &map);
 
-    int index{};
+    int index {};
     QRect geometry;
     QString name;
-    double devicePixelRatio{};
+    double devicePixelRatio {};
 };
 
 struct LayoutSaver::Layout
@@ -384,7 +383,7 @@ public:
     void deleteEmptyFrames() const;
     static void clearRestoredProperty();
 
-    [[nodiscard]] static std::unique_ptr<QSettings> settings() ;
+    [[nodiscard]] static std::unique_ptr<QSettings> settings();
     DockRegistry *const m_dockRegistry;
     InternalRestoreOptions m_restoreOptions = {};
     QStringList m_affinityNames;

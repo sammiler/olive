@@ -669,7 +669,8 @@ bool TimelineWidget::Paste() {
   }
 
   // Give last chance to NodeParamView
-  return NodeParamView::Paste(this, [this](auto && PH1) { return GenerateExistingPasteMap(std::forward<decltype(PH1)>(PH1)); });
+  return NodeParamView::Paste(
+      this, [this](auto &&PH1) { return GenerateExistingPasteMap(std::forward<decltype(PH1)>(PH1)); });
 }
 
 void TimelineWidget::PasteInsert() { PasteInternal(true); }
@@ -1438,7 +1439,7 @@ void TimelineWidget::MulticamEnabledTriggered(bool e) {
           QVector<NodeInput> inputs = c->FindWaysNodeArrivesHere(s);
           for (const NodeInput &i : inputs) {
             if (auto *mcn = dynamic_cast<MultiCamNode *>(i.node())) {
-              for (const auto & it : mcn->output_connections()) {
+              for (const auto &it : mcn->output_connections()) {
                 command->add_child(new NodeEdgeRemoveCommand(it.first, it.second));
                 command->add_child(new NodeEdgeAddCommand(s, it.second));
               }
@@ -1803,7 +1804,7 @@ bool TimelineWidget::PasteInternal(bool insert) {
     }
   }
 
-  for (const auto& oc : res.GetLoadData().promised_connections) {
+  for (const auto &oc : res.GetLoadData().promised_connections) {
     command->add_child(new NodeEdgeAddCommand(oc.first, oc.second));
   }
 

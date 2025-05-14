@@ -52,8 +52,8 @@ class MatrixGenerator : public Node {
   static const QString kAnchorInput;
 
  protected:
-  [[nodiscard]] static QMatrix4x4 GenerateMatrix(const NodeValueRow &value, bool ignore_anchor, bool ignore_position, bool ignore_scale,
-                            const QMatrix4x4 &mat) ;
+  [[nodiscard]] static QMatrix4x4 GenerateMatrix(const NodeValueRow &value, bool ignore_anchor, bool ignore_position,
+                                                 bool ignore_scale, const QMatrix4x4 &mat);
   static QMatrix4x4 GenerateMatrix(const QVector2D &pos, const float &rot, const QVector2D &scale, bool uniform_scale,
                                    const QVector2D &anchor, QMatrix4x4 mat);
 

@@ -143,7 +143,7 @@ void MainWindow::LoadLayout(const MainWindowLayoutInfo &info) {
     OpenNodeInViewer(viewer);
   }
 
-  for (const auto & it : info.panel_data()) {
+  for (const auto &it : info.panel_data()) {
     // Find panel with this ID
     if (PanelWidget *panel = PanelManager::instance()->GetPanelWithName(it.first)) {
       panel->LoadData(it.second);

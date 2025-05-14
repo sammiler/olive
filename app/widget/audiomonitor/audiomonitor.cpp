@@ -50,7 +50,7 @@ void AudioMonitor::SetParams(const AudioParams &params) {
   if (params_ != params) {
     params_ = params;
 
-    for (auto & value : values_) {
+    for (auto &value : values_) {
       value.resize(params_.channel_count());
       value.fill(0);
     }
@@ -445,13 +445,13 @@ void AudioMonitor::BytesToSampleSummary(const QByteArray &b, QVector<double> &v)
 QVector<double> AudioMonitor::GetAverages() const {
   QVector<double> v(params_.channel_count(), 0);
 
-  for (const auto & value : values_) {
+  for (const auto &value : values_) {
     for (int j = 0; j < v.size(); j++) {
       v[j] += value.at(j);
     }
   }
 
-  for (double & i : v) {
+  for (double &i : v) {
     i /= static_cast<double>(values_.size());
   }
 

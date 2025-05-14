@@ -72,7 +72,7 @@ void NodeRemovePositionFromAllContextsCommand::redo() {
 }
 
 void NodeRemovePositionFromAllContextsCommand::undo() {
-  for (const auto & context : std::ranges::reverse_view(contexts_)) {
+  for (const auto &context : std::ranges::reverse_view(contexts_)) {
     context.first->SetNodePositionInContext(node_, context.second);
   }
 
@@ -100,7 +100,7 @@ void NodeSetPositionAndDependenciesRecursivelyCommand::move_recursively(Node *no
   pos += Node::Position(diff);
   commands_.append(new NodeSetPositionCommand(node_, context_, pos));
 
-  for (const auto & it : node->input_connections()) {
+  for (const auto &it : node->input_connections()) {
     Node *output = it.second;
     if (context_->ContextContainsNode(output)) {
       move_recursively(output, diff);
@@ -135,7 +135,8 @@ void NodeEdgeAddCommand::undo() {
 
 Project *NodeEdgeAddCommand::GetRelevantProject() const { return output_->project(); }
 
-NodeEdgeRemoveCommand::NodeEdgeRemoveCommand(Node *output, NodeInput input) : output_(output), input_(std::move(input)) {}
+NodeEdgeRemoveCommand::NodeEdgeRemoveCommand(Node *output, NodeInput input)
+    : output_(output), input_(std::move(input)) {}
 
 void NodeEdgeRemoveCommand::redo() { Node::DisconnectEdge(output_, input_); }
 
@@ -165,7 +166,7 @@ void NodeRemoveAndDisconnectCommand::prepare() {
   }
 
   // Disconnect everything
-  for (const auto & it : node_->input_connections()) {
+  for (const auto &it : node_->input_connections()) {
     command_->add_child(new NodeEdgeRemoveCommand(it.second, it.first));
   }
 
@@ -219,13 +220,13 @@ void NodeViewDeleteCommand::AddNode(Node *node, Node *context) {
   Node::ContextPair p = {node, context};
   nodes_.append(p);
 
-  for (const auto & it : node->input_connections()) {
+  for (const auto &it : node->input_connections()) {
     if (context->ContextContainsNode(it.second)) {
       AddEdge(it.second, it.first);
     }
   }
 
-  for (const auto & it : node->output_connections()) {
+  for (const auto &it : node->output_connections()) {
     if (context->ContextContainsNode(it.second.node())) {
       AddEdge(it.first, it.second);
     }
@@ -292,7 +293,7 @@ void NodeViewDeleteCommand::redo() {
 }
 
 void NodeViewDeleteCommand::undo() {
-  for (const auto & removed_node : std::ranges::reverse_view(removed_nodes_)) {
+  for (const auto &removed_node : std::ranges::reverse_view(removed_nodes_)) {
     if (removed_node.removed_from_graph) {
       removed_node.node->setParent(removed_node.removed_from_graph);
     }
@@ -301,7 +302,7 @@ void NodeViewDeleteCommand::undo() {
   }
   removed_nodes_.clear();
 
-  for (const auto & edge : std::ranges::reverse_view(edges_)) {
+  for (const auto &edge : std::ranges::reverse_view(edges_)) {
     Node::ConnectEdge(edge.first, edge.second);
   }
 }
@@ -368,12 +369,13 @@ void NodeParamSetKeyframeTimeCommand::redo() { key_->set_time(new_time_); }
 
 void NodeParamSetKeyframeTimeCommand::undo() { key_->set_time(old_time_); }
 
-NodeParamSetStandardValueCommand::NodeParamSetStandardValueCommand(NodeKeyframeTrackReference input,
-                                                                   QVariant value)
-    : ref_(std::move(input)), old_value_(ref_.input().node()->GetStandardValue(ref_.input())), new_value_(std::move(value)) {}
+NodeParamSetStandardValueCommand::NodeParamSetStandardValueCommand(NodeKeyframeTrackReference input, QVariant value)
+    : ref_(std::move(input)),
+      old_value_(ref_.input().node()->GetStandardValue(ref_.input())),
+      new_value_(std::move(value)) {}
 
-NodeParamSetStandardValueCommand::NodeParamSetStandardValueCommand(NodeKeyframeTrackReference input,
-                                                                   QVariant new_value, QVariant old_value)
+NodeParamSetStandardValueCommand::NodeParamSetStandardValueCommand(NodeKeyframeTrackReference input, QVariant new_value,
+                                                                   QVariant old_value)
     : ref_(std::move(input)), old_value_(std::move(old_value)), new_value_(std::move(new_value)) {}
 
 Project *NodeParamSetStandardValueCommand::GetRelevantProject() const { return ref_.input().node()->project(); }
