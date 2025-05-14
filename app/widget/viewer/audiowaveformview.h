@@ -32,7 +32,7 @@ namespace olive {
 class AudioWaveformView : public SeekableWidget {
   Q_OBJECT
  public:
-  AudioWaveformView(QWidget *parent = nullptr);
+  explicit AudioWaveformView(QWidget *parent = nullptr);
 
   void SetViewer(ViewerOutput *playback);
 

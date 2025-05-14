@@ -33,7 +33,7 @@ namespace olive {
 class H264CRFSection : public QWidget {
   Q_OBJECT
  public:
-  H264CRFSection(int default_crf, QWidget* parent = nullptr);
+  explicit H264CRFSection(int default_crf, QWidget* parent = nullptr);
 
   int GetValue() const;
   void SetValue(int c);
@@ -51,7 +51,7 @@ class H264CRFSection : public QWidget {
 class H264BitRateSection : public QWidget {
   Q_OBJECT
  public:
-  H264BitRateSection(QWidget* parent = nullptr);
+  explicit H264BitRateSection(QWidget* parent = nullptr);
 
   /**
    * @brief Get user-selected target bit rate (returns in BITS)
@@ -74,7 +74,7 @@ class H264BitRateSection : public QWidget {
 class H264FileSizeSection : public QWidget {
   Q_OBJECT
  public:
-  H264FileSizeSection(QWidget* parent = nullptr);
+  explicit H264FileSizeSection(QWidget* parent = nullptr);
 
   /**
    * @brief Returns file size in BITS
@@ -91,7 +91,7 @@ class H264Section : public CodecSection {
  public:
   enum CompressionMethod { kConstantRateFactor, kTargetBitRate, kTargetFileSize };
 
-  H264Section(QWidget* parent = nullptr);
+  explicit H264Section(QWidget* parent = nullptr);
   H264Section(int default_crf, QWidget* parent);
 
   virtual void AddOpts(EncodingParams* params) override;
@@ -113,7 +113,7 @@ class H264Section : public CodecSection {
 class H265Section : public H264Section {
   Q_OBJECT
  public:
-  H265Section(QWidget* parent = nullptr);
+  explicit H265Section(QWidget* parent = nullptr);
 };
 
 }  // namespace olive

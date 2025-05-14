@@ -439,11 +439,11 @@ public:
     explicit ItemBoxContainer(Widget *hostWidget, ItemContainer *parent);
     explicit ItemBoxContainer(Widget *hostWidget);
     ~ItemBoxContainer();
-    void insertItem(Item *item, int index, KDDockWidgets::InitialOption option = KDDockWidgets::DefaultSizeMode::Fair);
+    void insertItem(Item *item, int index, KDDockWidgets::InitialOption option = KDDockWidgets::InitialOption(KDDockWidgets::DefaultSizeMode::Fair));
     void insertItem(Item *item, KDDockWidgets::Location, KDDockWidgets::InitialOption = {});
 
     static void insertItemRelativeTo(Item *item, Item *relativeTo, KDDockWidgets::Location,
-                                     KDDockWidgets::InitialOption = KDDockWidgets::DefaultSizeMode::Fair);
+                                     KDDockWidgets::InitialOption = KDDockWidgets::InitialOption(KDDockWidgets::DefaultSizeMode::Fair));
 
     void requestSeparatorMove(Separator *separator, int delta);
     int minPosForSeparator(Separator *, bool honourMax = true) const;

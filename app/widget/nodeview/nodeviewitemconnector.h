@@ -29,7 +29,7 @@ namespace olive {
 
 class NodeViewItemConnector : public QGraphicsPolygonItem {
  public:
-  NodeViewItemConnector(bool is_output, QGraphicsItem *parent = nullptr);
+  explicit NodeViewItemConnector(bool is_output, QGraphicsItem *parent = nullptr);
 
   void SetFlowDirection(NodeViewCommon::FlowDirection dir);
 

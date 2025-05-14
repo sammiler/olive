@@ -66,7 +66,7 @@ QVector<QString> ConformManager::GetConformedFilename(const QString &cache_path,
     QString index_fn =
         QStringLiteral("%1-%2.%3.%4.%5.%6.pcm")
             .arg(FileFunctions::GetUniqueFileIdentifier(stream.filename()), QString::number(stream.stream()),
-                 QString::number(params.sample_rate()), QString::number(params.format()),
+                 QString::number(params.sample_rate()), QString::number(static_cast<SampleFormat::Format>(params.format())),
                  QString::number(params.channel_layout()), QString::number(i));
 
     filenames[i] = QDir(cache_path).filePath(index_fn);

@@ -35,7 +35,7 @@ namespace olive {
 class TrackViewItem : public QWidget {
   Q_OBJECT
  public:
-  TrackViewItem(Track* track, QWidget* parent = nullptr);
+  explicit TrackViewItem(Track* track, QWidget* parent = nullptr);
 
  signals:
   void AboutToDeleteTrack(Track* track);

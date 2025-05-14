@@ -30,7 +30,7 @@ namespace olive {
 class ColorSwatchWidget : public QWidget {
   Q_OBJECT
  public:
-  ColorSwatchWidget(QWidget* parent = nullptr);
+  explicit ColorSwatchWidget(QWidget* parent = nullptr);
 
   const Color& GetSelectedColor() const;
 

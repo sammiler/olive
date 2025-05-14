@@ -120,7 +120,7 @@ class InputFlags {
     return i;
   }
 
-  inline operator bool() const { return f_; }
+  inline explicit operator bool() const { return f_; }
 
   inline const uint64_t &value() const { return f_; }
 
@@ -247,7 +247,7 @@ class NodeKeyframeTrackReference {
  public:
   NodeKeyframeTrackReference() { track_ = -1; }
 
-  NodeKeyframeTrackReference(const NodeInput &input, int track = 0) {
+  explicit NodeKeyframeTrackReference(const NodeInput &input, int track = 0) {
     input_ = input;
     track_ = track;
   }

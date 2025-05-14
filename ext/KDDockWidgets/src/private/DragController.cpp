@@ -41,7 +41,7 @@ namespace KDDockWidgets {
 class FallbackMouseGrabber : public QObject /// clazy:exclude=missing-qobject-macro
 {
 public:
-    FallbackMouseGrabber(QObject *parent)
+    explicit FallbackMouseGrabber(QObject *parent)
         : QObject(parent)
     {
     }

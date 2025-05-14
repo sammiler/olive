@@ -43,7 +43,7 @@ class ColorTransformJob : public AcceleratedJob {
     force_opaque_ = false;
   }
 
-  ColorTransformJob(const NodeValueRow &row) : ColorTransformJob() { Insert(row); }
+  explicit ColorTransformJob(const NodeValueRow &row) : ColorTransformJob() { Insert(row); }
 
   QString id() const {
     if (id_.isEmpty()) {

@@ -32,7 +32,7 @@ namespace olive {
 class SeekableWidget : public TimeBasedView {
   Q_OBJECT
  public:
-  SeekableWidget(QWidget *parent = nullptr);
+  explicit SeekableWidget(QWidget *parent = nullptr);
 
   int GetScroll() const { return horizontalScrollBar()->value(); }
 

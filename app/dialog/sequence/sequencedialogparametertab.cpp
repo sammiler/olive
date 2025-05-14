@@ -89,7 +89,7 @@ SequenceDialogParameterTab::SequenceDialogParameterTab(Sequence* sequence, QWidg
   pixelaspect_combo_->SetPixelAspectRatio(vp.pixel_aspect_ratio());
   interlacing_combo_->SetInterlaceMode(vp.interlacing());
   preview_resolution_field_->SetDivider(vp.divider());
-  preview_format_field_->SetPixelFormat(vp.format());
+  preview_format_field_->SetPixelFormat(static_cast<PixelFormat::Format>(vp.format()));
   preview_autocache_field_->setChecked(sequence->IsVideoAutoCacheEnabled());
   audio_sample_rate_field_->SetSampleRate(ap.sample_rate());
   audio_channels_field_->SetChannelLayout(ap.channel_layout());
@@ -115,7 +115,7 @@ void SequenceDialogParameterTab::PresetChanged(const SequencePreset& preset) {
   audio_sample_rate_field_->SetSampleRate(preset.sample_rate());
   audio_channels_field_->SetChannelLayout(preset.channel_layout());
   preview_resolution_field_->SetDivider(preset.preview_divider());
-  preview_format_field_->SetPixelFormat(preset.preview_format());
+  preview_format_field_->SetPixelFormat(static_cast<PixelFormat::Format>(preset.preview_format()));
   preview_autocache_field_->setChecked(preset.preview_autocache());
 }
 
@@ -128,7 +128,7 @@ void SequenceDialogParameterTab::SavePresetClicked() {
 }
 
 void SequenceDialogParameterTab::UpdatePreviewResolutionLabel() {
-  VideoParams test_param(GetSelectedVideoWidth(), GetSelectedVideoHeight(), PixelFormat::INVALID,
+  VideoParams test_param(GetSelectedVideoWidth(), GetSelectedVideoHeight(), PixelFormat(PixelFormat::INVALID),
                          VideoParams::kInternalChannelCount, rational(1), VideoParams::kInterlaceNone,
                          preview_resolution_field_->currentData().toInt());
 

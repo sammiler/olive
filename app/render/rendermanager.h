@@ -98,7 +98,7 @@ class RenderManager : public QObject {
       color_manager = colorman;
       use_cache = false;
       return_type = kFrame;
-      force_format = PixelFormat::INVALID;
+      force_format = PixelFormat(PixelFormat::INVALID);
       force_color_output = nullptr;
       force_size = QSize(0, 0);
       force_channel_count = 0;
@@ -188,7 +188,7 @@ class RenderManager : public QObject {
  signals:
 
  private:
-  RenderManager(QObject *parent = nullptr);
+  explicit RenderManager(QObject *parent = nullptr);
 
   virtual ~RenderManager() override;
 

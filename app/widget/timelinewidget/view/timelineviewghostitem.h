@@ -123,7 +123,7 @@ class TimelineViewGhostItem {
   void SetMode(const Timeline::MovementMode& mode) { mode_ = mode; }
 
   bool HasBeenAdjusted() const {
-    return GetInAdjustment() != 0 || GetOutAdjustment() != 0 || GetMediaInAdjustment() != 0 ||
+    return GetInAdjustment() != rational(0) || GetOutAdjustment() != rational(0) || GetMediaInAdjustment() != rational(0) ||
            GetTrackAdjustment() != 0;
   }
 

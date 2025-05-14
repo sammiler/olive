@@ -12,7 +12,7 @@ namespace olive {
 class ExportAdvancedVideoDialog : public QDialog {
   Q_OBJECT
  public:
-  ExportAdvancedVideoDialog(const QList<QString>& pix_fmts, QWidget* parent = nullptr);
+  explicit ExportAdvancedVideoDialog(const QList<QString>& pix_fmts, QWidget* parent = nullptr);
 
   int threads() const { return static_cast<int>(thread_slider_->GetValue()); }
 

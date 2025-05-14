@@ -30,7 +30,7 @@ namespace olive {
 class HistoryWidget : public QTreeView {
   Q_OBJECT
  public:
-  HistoryWidget(QWidget *parent = nullptr);
+  explicit HistoryWidget(QWidget *parent = nullptr);
 
  private:
   UndoStack *stack_;

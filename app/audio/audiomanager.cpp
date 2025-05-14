@@ -109,7 +109,7 @@ bool AudioManager::PushToOutput(const AudioParams &params, const QByteArray &sam
 void AudioManager::ClearBufferedOutput() { output_buffer_->clear(); }
 
 PaSampleFormat AudioManager::GetPortAudioSampleFormat(SampleFormat fmt) {
-  switch (fmt) {
+  switch (static_cast<SampleFormat::Format>(fmt)) {
     case SampleFormat::U8:
     case SampleFormat::U8P:
       return paUInt8;

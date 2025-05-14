@@ -28,7 +28,7 @@ namespace olive {
 class RenderCancelDialog : public ProgressDialog {
   Q_OBJECT
  public:
-  RenderCancelDialog(QWidget* parent = nullptr);
+  explicit RenderCancelDialog(QWidget* parent = nullptr);
 
   void RunIfWorkersAreBusy();
 

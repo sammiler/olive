@@ -50,7 +50,7 @@ rational rational::fromDouble(const double &flt, bool *ok) {
     }
   }
 
-  return r;
+  return rational(r);
 }
 
 rational rational::fromString(const std::string &str, bool *ok) {

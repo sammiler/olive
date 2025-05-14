@@ -55,7 +55,7 @@ namespace olive {
 class MainWindow : public KDDockWidgets::MainWindow {
   Q_OBJECT
  public:
-  MainWindow(QWidget *parent = nullptr);
+  explicit MainWindow(QWidget *parent = nullptr);
 
   virtual ~MainWindow() override;
 

@@ -130,7 +130,7 @@ private:
     friend class StateDropped;
     friend class StateDraggingWayland;
 
-    DragController(QObject * = nullptr);
+    explicit DragController(QObject * = nullptr);
     WidgetType *qtTopLevelUnderCursor() const;
     Draggable *draggableForQObject(QObject *o) const;
     QPoint m_pressPos;

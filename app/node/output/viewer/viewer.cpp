@@ -32,7 +32,7 @@ const QString ViewerOutput::kSubtitleParamsInput = QStringLiteral("subtitle_para
 const QString ViewerOutput::kTextureInput = QStringLiteral("tex_in");
 const QString ViewerOutput::kSamplesInput = QStringLiteral("samples_in");
 
-const SampleFormat ViewerOutput::kDefaultSampleFormat = SampleFormat::F32P;
+const SampleFormat ViewerOutput::kDefaultSampleFormat = SampleFormat(SampleFormat::F32P);
 
 #define super Node
 
@@ -183,7 +183,7 @@ void ViewerOutput::set_default_parameters() {
   int height = OLIVE_CONFIG("DefaultSequenceHeight").toInt();
 
   SetVideoParams(VideoParams(width, height, OLIVE_CONFIG("DefaultSequenceFrameRate").value<rational>(),
-                             static_cast<PixelFormat::Format>(OLIVE_CONFIG("OfflinePixelFormat").toInt()),
+                             PixelFormat(static_cast<PixelFormat::Format>(OLIVE_CONFIG("OfflinePixelFormat").toInt())),
                              VideoParams::kInternalChannelCount,
                              OLIVE_CONFIG("DefaultSequencePixelAspect").value<rational>(),
                              OLIVE_CONFIG("DefaultSequenceInterlacing").value<VideoParams::Interlacing>(),
@@ -200,11 +200,11 @@ void ViewerOutput::InvalidateCache(const TimeRange &range, const QString &from, 
     if (from == kTextureInput) {
       // connected->thumbnail_cache()->Request(range.Intersected(max_range), PlaybackCache::kPreviewsOnly);
       if (autocache_input_video_) {
-        TimeRange max_range = InputTimeAdjustment(from, element, TimeRange(0, GetVideoLength()), false);
+        TimeRange max_range = InputTimeAdjustment(from, element, TimeRange(rational(0), GetVideoLength()), false);
         connected->video_frame_cache()->Request(this, range.Intersected(max_range));
       }
     } else if (from == kSamplesInput) {
-      TimeRange max_range = InputTimeAdjustment(from, element, TimeRange(0, GetAudioLength()), false);
+      TimeRange max_range = InputTimeAdjustment(from, element, TimeRange(rational(0), GetAudioLength()), false);
       if (waveform_requests_enabled_) {
         connected->waveform_cache()->Request(this, range.Intersected(max_range));
       }
@@ -317,7 +317,7 @@ rational ViewerOutput::VerifyLengthInternal(Track::Type type) const {
   switch (type) {
     case Track::kVideo:
       if (IsInputConnected(kTextureInput)) {
-        NodeValueTable t = traverser.GenerateTable(GetConnectedOutput(kTextureInput), TimeRange(0, 0));
+        NodeValueTable t = traverser.GenerateTable(GetConnectedOutput(kTextureInput), TimeRange(rational(0), rational(0)));
         rational r = t.Get(NodeValue::kRational, QStringLiteral("length")).toRational();
         if (!r.isNaN()) {
           return r;
@@ -326,7 +326,7 @@ rational ViewerOutput::VerifyLengthInternal(Track::Type type) const {
       break;
     case Track::kAudio:
       if (IsInputConnected(kSamplesInput)) {
-        NodeValueTable t = traverser.GenerateTable(GetConnectedOutput(kSamplesInput), TimeRange(0, 0));
+        NodeValueTable t = traverser.GenerateTable(GetConnectedOutput(kSamplesInput), TimeRange(rational(0), rational(0)));
         rational r = t.Get(NodeValue::kRational, QStringLiteral("length")).toRational();
         if (!r.isNaN()) {
           return r;
@@ -339,7 +339,7 @@ rational ViewerOutput::VerifyLengthInternal(Track::Type type) const {
       break;
   }
 
-  return 0;
+  return rational(0);
 }
 
 Node *ViewerOutput::GetConnectedTextureOutput() { return GetConnectedOutput(kTextureInput); }
@@ -353,7 +353,7 @@ Node::ValueHint ViewerOutput::GetConnectedSampleValueHint() { return GetValueHin
 void ViewerOutput::SetWaveformEnabled(bool e) {
   if ((waveform_requests_enabled_ = e)) {
     if (Node *connected = this->GetConnectedSampleOutput()) {
-      TimeRange max_range = InputTimeAdjustment(kSamplesInput, -1, TimeRange(0, GetAudioLength()), false);
+      TimeRange max_range = InputTimeAdjustment(kSamplesInput, -1, TimeRange(rational(0), GetAudioLength()), false);
       TimeRangeList invalid = connected->waveform_cache()->GetInvalidatedRanges(max_range);
       for (const TimeRange &r : invalid) {
         connected->waveform_cache()->Request(this, r);
@@ -479,7 +479,7 @@ void ViewerOutput::set_parameters_from_footage(const QVector<ViewerOutput *> foo
       }
 
       SetVideoParams(VideoParams(s.width(), s.height(), using_timebase,
-                                 static_cast<PixelFormat::Format>(OLIVE_CONFIG("OfflinePixelFormat").toInt()),
+                                 PixelFormat(static_cast<PixelFormat::Format>(OLIVE_CONFIG("OfflinePixelFormat").toInt())),
                                  VideoParams::kInternalChannelCount, s.pixel_aspect_ratio(), s.interlacing(),
                                  VideoParams::generate_auto_divider(s.width(), s.height())));
 

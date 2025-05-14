@@ -30,7 +30,7 @@ namespace olive {
 class ViewerPanelBase : public TimeBasedPanel {
   Q_OBJECT
  public:
-  ViewerPanelBase(const QString &object_name);
+  explicit ViewerPanelBase(const QString &object_name);
 
   ViewerWidget *GetViewerWidget() const { return dynamic_cast<ViewerWidget *>(GetTimeBasedWidget()); }
 

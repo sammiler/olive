@@ -43,7 +43,7 @@ class Texture {
   /**
    * @brief Construct a dummy texture with no renderer backend
    */
-  Texture(const VideoParams& param) : renderer_(nullptr), params_(param), job_(nullptr) {}
+  explicit Texture(const VideoParams& param) : renderer_(nullptr), params_(param), job_(nullptr) {}
 
   template <typename T>
   Texture(const VideoParams& p, const T& j) : Texture(p) {

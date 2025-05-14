@@ -83,7 +83,7 @@ class TimeScaledObject {
 class TimelineScaledWidget : public QWidget, public TimeScaledObject {
   Q_OBJECT
  public:
-  TimelineScaledWidget(QWidget* parent = nullptr);
+  explicit TimelineScaledWidget(QWidget* parent = nullptr);
 };
 
 }  // namespace olive

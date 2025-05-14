@@ -30,7 +30,7 @@ namespace olive {
 class NodeParamViewConnectedLabel : public QWidget {
   Q_OBJECT
  public:
-  NodeParamViewConnectedLabel(const NodeInput &input, QWidget *parent = nullptr);
+  explicit NodeParamViewConnectedLabel(const NodeInput &input, QWidget *parent = nullptr);
 
   void SetViewerNode(ViewerOutput *viewer);
 

@@ -616,7 +616,7 @@ void OpenGLRenderer::Blit(QVariant s, ShaderJob job, Texture *destination, Video
 }
 
 GLint OpenGLRenderer::GetInternalFormat(PixelFormat format, int channel_layout) {
-  switch (format) {
+  switch (static_cast<PixelFormat::Format>(format)) {
     case PixelFormat::U8:
       switch (channel_layout) {
         case 1:
@@ -674,7 +674,7 @@ GLint OpenGLRenderer::GetInternalFormat(PixelFormat format, int channel_layout) 
 }
 
 GLenum OpenGLRenderer::GetPixelType(PixelFormat format) {
-  switch (format) {
+  switch (static_cast<PixelFormat::Format>(format)) {
     case PixelFormat::U8:
       return GL_UNSIGNED_BYTE;
     case PixelFormat::U16:

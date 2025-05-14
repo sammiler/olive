@@ -251,7 +251,7 @@ void TrackListRippleToolCommand::ripple(bool redo) {
       if (redo) {
         if (!gap) {
           gap = new GapBlock();
-          gap->set_length_and_media_out(qAbs(ripple_movement_));
+          gap->set_length_and_media_out(rational::qAbs(ripple_movement_));
           working_data.created_gap = gap;
         }
 
@@ -311,7 +311,7 @@ void TrackListRippleToolCommand::ripple(bool redo) {
         // Undo the trim in inversion we do above, this will still be inverted accurately for
         // undoing where appropriate
         rational inverted = -operation_movement;
-        if (inverted > 0) {
+        if (inverted > rational(0)) {
           pre_shift = b->in() + inverted;
           post_shift = b->in();
         } else {
@@ -426,14 +426,14 @@ void TimelineRippleDeleteGapsAtRegionsCommand::prepare() {
                 gap = dynamic_cast<GapBlock*>(block->next());
 
                 if (!gap) {
-                  ripple_length = 0;
+                  ripple_length = rational(0);
                 }
               }
             } else {
               gap = dynamic_cast<GapBlock*>(block->previous());
 
               if (!gap) {
-                ripple_length = 0;
+                ripple_length = rational(0);
               }
             }
           }
@@ -452,12 +452,12 @@ void TimelineRippleDeleteGapsAtRegionsCommand::prepare() {
         ripple_length = qMin(ripple_length, gap_lengths.value(gap));
       }
 
-      if (ripple_length == 0) {
+      if (ripple_length == rational(0)) {
         break;
       }
     }
 
-    if (ripple_length > 0) {
+    if (ripple_length > rational(0)) {
       foreach (GapBlock* gap, gaps) {
         if (gap_lengths.value(gap) == ripple_length) {
           commands_.append(new TrackRippleRemoveBlockCommand(gap->track(), gap));

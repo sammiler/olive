@@ -47,7 +47,7 @@ PreviewAutoCacher::PreviewAutoCacher(QObject *parent)
   connect(copier_, &ProjectCopier::RemovedNode, this, &PreviewAutoCacher::DisconnectFromNodeCache);
 
   // Set defaults
-  SetPlayhead(0);
+  SetPlayhead(rational(0));
 
   // Wait a certain amount of time before requeuing when we receive an invalidate signal
   delayed_requeue_timer_.setInterval(OLIVE_CONFIG("AutoCacheDelay").toInt());
@@ -538,7 +538,7 @@ RenderTicketWatcher *PreviewAutoCacher::RenderFrame(Node *node, ViewerOutput *co
       rvp.video_params.set_divider(
           VideoParams::GetDividerForTargetResolution(rvp.video_params.width(), rvp.video_params.height(), 160, 120));
       rvp.force_color_output = display_color_processor_;
-      rvp.force_format = PixelFormat::U8;
+      rvp.force_format = PixelFormat(PixelFormat::U8);
     } else {
       frame_cache->SetTimebase(context->GetVideoParams().frame_rate_as_time_base());
     }

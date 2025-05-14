@@ -31,8 +31,8 @@ namespace olive {
 class ResizableTimelineScrollBar : public ResizableScrollBar, public TimeScaledObject {
   Q_OBJECT
  public:
-  ResizableTimelineScrollBar(QWidget* parent = nullptr);
-  ResizableTimelineScrollBar(Qt::Orientation orientation, QWidget* parent = nullptr);
+  explicit ResizableTimelineScrollBar(QWidget* parent = nullptr);
+  explicit ResizableTimelineScrollBar(Qt::Orientation orientation, QWidget* parent = nullptr);
 
   void ConnectMarkers(TimelineMarkerList* markers);
   void ConnectWorkArea(TimelineWorkArea* workarea);

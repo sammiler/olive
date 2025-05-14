@@ -97,7 +97,7 @@ rational Footage::VerifyLengthInternal(Track::Type type) const {
     }
   }
 
-  return 0;
+  return rational(0);
 }
 
 QString Footage::GetColorspaceToUse(const VideoParams &params) const {
@@ -273,13 +273,13 @@ Node *Footage::GetConnectedSampleOutput() {
   }
 }
 
-bool TimeIsOutOfBounds(const rational &time, const rational &length) { return time < 0 || time >= length; }
+bool TimeIsOutOfBounds(const rational &time, const rational &length) { return time < rational(0) || time >= length; }
 
 rational Footage::AdjustTimeByLoopMode(rational time, LoopMode loop_mode, const rational &length,
                                        VideoParams::Type type, const rational &timebase) {
   if (type == VideoParams::kVideoTypeStill) {
     // No looping for still images
-    return 0;
+    return rational(0);
   }
 
   if (TimeIsOutOfBounds(time, length)) {

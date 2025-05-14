@@ -16,7 +16,7 @@ namespace olive {
 class SequenceDialogParameterTab : public QWidget {
   Q_OBJECT
  public:
-  SequenceDialogParameterTab(Sequence* sequence, QWidget* parent = nullptr);
+  explicit SequenceDialogParameterTab(Sequence* sequence, QWidget* parent = nullptr);
 
   int GetSelectedVideoWidth() const { return width_slider_->GetValue(); }
 

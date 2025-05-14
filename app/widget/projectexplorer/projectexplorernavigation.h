@@ -52,7 +52,7 @@ namespace olive {
 class ProjectExplorerNavigation : public QWidget {
   Q_OBJECT
  public:
-  ProjectExplorerNavigation(QWidget* parent);
+  explicit ProjectExplorerNavigation(QWidget* parent);
 
   /**
    * @brief Sets the text string

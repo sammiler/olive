@@ -245,7 +245,7 @@ NodeTraverser::NodeTraverser() : cancel_(nullptr), transform_(nullptr), loop_mod
 
 class GTTTime {
  public:
-  GTTTime(const Node *n) {
+  explicit GTTTime(const Node *n) {
     t = QDateTime::currentMSecsSinceEpoch();
     node = n;
   }

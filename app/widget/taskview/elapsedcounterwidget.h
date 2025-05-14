@@ -32,7 +32,7 @@ namespace olive {
 class ElapsedCounterWidget : public QWidget {
   Q_OBJECT
  public:
-  ElapsedCounterWidget(QWidget* parent = nullptr);
+  explicit ElapsedCounterWidget(QWidget* parent = nullptr);
 
   void SetProgress(double d);
 

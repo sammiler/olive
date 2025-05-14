@@ -32,7 +32,7 @@ namespace olive {
 class ProjectExplorerListView : public ProjectExplorerListViewBase {
   Q_OBJECT
  public:
-  ProjectExplorerListView(QWidget* parent);
+  explicit ProjectExplorerListView(QWidget* parent);
 
  private:
   ProjectExplorerListViewItemDelegate delegate_;

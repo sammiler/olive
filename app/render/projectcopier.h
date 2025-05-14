@@ -28,7 +28,7 @@ namespace olive {
 class ProjectCopier : public QObject {
   Q_OBJECT
  public:
-  ProjectCopier(QObject *parent = nullptr);
+  explicit ProjectCopier(QObject *parent = nullptr);
 
   void SetProject(Project *project);
 

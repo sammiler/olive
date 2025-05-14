@@ -30,7 +30,7 @@ namespace olive {
 class NodeTreeView : public QTreeWidget {
   Q_OBJECT
  public:
-  NodeTreeView(QWidget* parent = nullptr);
+  explicit NodeTreeView(QWidget* parent = nullptr);
 
   bool IsNodeEnabled(Node* n) const;
 

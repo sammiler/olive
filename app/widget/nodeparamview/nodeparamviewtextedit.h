@@ -32,7 +32,7 @@ namespace olive {
 class NodeParamViewTextEdit : public QWidget {
   Q_OBJECT
  public:
-  NodeParamViewTextEdit(QWidget *parent = nullptr);
+  explicit NodeParamViewTextEdit(QWidget *parent = nullptr);
 
   QString text() const { return line_edit_->toPlainText(); }
 

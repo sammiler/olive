@@ -151,8 +151,8 @@ void NodeParamViewContext::AddEffectMenuItemTriggered(QAction *a) {
         graphs_added_to.append(ctx->parent());
       }
 
-      command->add_child(new NodeSetPositionCommand(n, ctx, ctx->GetNodePositionInContext(ctx)));
-      command->add_child(new NodeSetPositionCommand(ctx, ctx, ctx->GetNodePositionInContext(ctx) + QPointF(1, 0)));
+      command->add_child(new NodeSetPositionCommand(n, ctx, Node::Position(ctx->GetNodePositionInContext(ctx))));
+      command->add_child(new NodeSetPositionCommand(ctx, ctx, Node::Position(ctx->GetNodePositionInContext(ctx) + QPointF(1, 0))));
 
       if (ctx_input.IsConnected()) {
         Node *prev_output = ctx_input.GetConnectedOutput();

@@ -109,7 +109,7 @@ bool ExportTask::Run() {
     export_range_ = params_.custom_range();
   } else {
     // Render entire sequence
-    export_range_ = TimeRange(0, viewer()->GetLength());
+    export_range_ = TimeRange(rational(0), viewer()->GetLength());
   }
 
   frame_time_ = 0;
@@ -143,7 +143,7 @@ bool ExportTask::Run() {
   TimeRange subtitle_range;
 
   if (params_.video_enabled()) {
-    if (export_range_.in() > 0) {
+    if (export_range_.in() > rational(0)) {
       export_range_.set_in(
           Timecode::snap_time_to_timebase(export_range_.in(), video_params().frame_rate_as_time_base()));
     }

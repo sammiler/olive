@@ -182,7 +182,7 @@ void EncodingParams::Save(QXmlStreamWriter *writer) const {
     writer->writeTextElement(QStringLiteral("codec"), QString::number(video_codec_));
     writer->writeTextElement(QStringLiteral("width"), QString::number(video_params_.width()));
     writer->writeTextElement(QStringLiteral("height"), QString::number(video_params_.height()));
-    writer->writeTextElement(QStringLiteral("format"), QString::number(video_params_.format()));
+    writer->writeTextElement(QStringLiteral("format"), QString::number(static_cast<PixelFormat::Format>(video_params_.format())));
     writer->writeTextElement(QStringLiteral("pixelaspect"),
                              QString::fromStdString(video_params_.pixel_aspect_ratio().toString()));
     writer->writeTextElement(QStringLiteral("timebase"), QString::fromStdString(video_params_.time_base().toString()));
@@ -356,7 +356,7 @@ bool EncodingParams::LoadV1(QXmlStreamReader *reader) {
         } else if (reader->name() == QStringLiteral("height")) {
           video_params_.set_height(reader->readElementText().toInt());
         } else if (reader->name() == QStringLiteral("format")) {
-          video_params_.set_format(static_cast<PixelFormat::Format>(reader->readElementText().toInt()));
+          video_params_.set_format(PixelFormat(static_cast<PixelFormat::Format>(reader->readElementText().toInt())));
         } else if (reader->name() == QStringLiteral("pixelaspect")) {
           video_params_.set_pixel_aspect_ratio(rational::fromString(reader->readElementText().toUtf8().constData()));
         } else if (reader->name() == QStringLiteral("timebase")) {
@@ -380,7 +380,7 @@ bool EncodingParams::LoadV1(QXmlStreamReader *reader) {
         } else if (reader->name() == QStringLiteral("color")) {
           while (XMLReadNextStartElement(reader)) {
             if (reader->name() == QStringLiteral("output")) {
-              color_transform_ = reader->readElementText();
+              color_transform_ = ColorTransform(reader->readElementText());
             } else {
               reader->skipCurrentElement();
             }
@@ -412,7 +412,7 @@ bool EncodingParams::LoadV1(QXmlStreamReader *reader) {
 
       // HACK: Resolve bug where I forgot to serialize pixel aspect ratio
       if (video_params_.pixel_aspect_ratio().isNull()) {
-        video_params_.set_pixel_aspect_ratio(1);
+        video_params_.set_pixel_aspect_ratio(rational(1));
       }
     } else if (reader->name() == QStringLiteral("audio")) {
       XMLAttributeLoop(reader, attr) {

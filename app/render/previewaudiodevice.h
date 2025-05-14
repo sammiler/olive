@@ -28,7 +28,7 @@ namespace olive {
 class PreviewAudioDevice : public QIODevice {
   Q_OBJECT
  public:
-  PreviewAudioDevice(QObject *parent = nullptr);
+  explicit PreviewAudioDevice(QObject *parent = nullptr);
 
   virtual ~PreviewAudioDevice() override;
 

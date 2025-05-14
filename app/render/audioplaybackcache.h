@@ -52,7 +52,7 @@ namespace olive {
 class AudioPlaybackCache : public PlaybackCache {
   Q_OBJECT
  public:
-  AudioPlaybackCache(QObject *parent = nullptr);
+  explicit AudioPlaybackCache(QObject *parent = nullptr);
 
   virtual ~AudioPlaybackCache() override;
 

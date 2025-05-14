@@ -36,7 +36,7 @@ class ShaderJob : public AcceleratedJob {
     iterative_input_ = nullptr;
   }
 
-  ShaderJob(const NodeValueRow& row) : ShaderJob() { Insert(row); }
+  explicit ShaderJob(const NodeValueRow& row) : ShaderJob() { Insert(row); }
 
   const QString& GetShaderID() const { return shader_id_; }
 

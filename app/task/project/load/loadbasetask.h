@@ -29,7 +29,7 @@ namespace olive {
 class ProjectLoadBaseTask : public Task {
   Q_OBJECT
  public:
-  ProjectLoadBaseTask(const QString& filename);
+  explicit ProjectLoadBaseTask(const QString& filename);
 
   Project* GetLoadedProject() const { return project_; }
 

@@ -28,7 +28,7 @@ namespace olive {
 class ColorLabelMenu : public Menu {
   Q_OBJECT
  public:
-  ColorLabelMenu(QWidget* parent = nullptr);
+  explicit ColorLabelMenu(QWidget* parent = nullptr);
 
   virtual void changeEvent(QEvent* event) override;
 

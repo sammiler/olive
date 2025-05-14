@@ -78,7 +78,7 @@ class ProjectSerializer {
 
   class Result {
    public:
-    Result(const ResultCode &code) : code_(code) {}
+    explicit Result(const ResultCode &code) : code_(code) {}
 
     bool operator==(const ResultCode &code) { return code_ == code; }
     bool operator!=(const ResultCode &code) { return code_ != code; }
@@ -103,7 +103,7 @@ class ProjectSerializer {
 
   class SaveData {
    public:
-    SaveData(LoadType type, Project *project = nullptr, const QString &filename = QString()) {
+    explicit SaveData(LoadType type, Project *project = nullptr, const QString &filename = QString()) {
       type_ = type;
       project_ = project;
       filename_ = filename;

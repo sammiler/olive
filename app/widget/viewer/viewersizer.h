@@ -41,7 +41,7 @@ using namespace core;
 class ViewerSizer : public QWidget {
   Q_OBJECT
  public:
-  ViewerSizer(QWidget* parent = nullptr);
+  explicit ViewerSizer(QWidget* parent = nullptr);
 
   /**
    * @brief Set the widget to be adjusted by this widget

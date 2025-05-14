@@ -29,7 +29,7 @@ namespace olive {
 class ProjectLoadTask : public ProjectLoadBaseTask {
   Q_OBJECT
  public:
-  ProjectLoadTask(const QString& filename);
+  explicit ProjectLoadTask(const QString& filename);
 
  protected:
   virtual bool Run() override;

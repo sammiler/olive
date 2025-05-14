@@ -29,7 +29,7 @@ namespace olive {
 class TimeBasedPanel : public PanelWidget {
   Q_OBJECT
  public:
-  TimeBasedPanel(const QString& object_name);
+  explicit TimeBasedPanel(const QString& object_name);
 
   virtual ~TimeBasedPanel() override;
 

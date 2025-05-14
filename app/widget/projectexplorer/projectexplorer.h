@@ -47,7 +47,7 @@ namespace olive {
 class ProjectExplorer : public QWidget {
   Q_OBJECT
  public:
-  ProjectExplorer(QWidget* parent);
+  explicit ProjectExplorer(QWidget* parent);
 
   const ProjectToolbar::ViewType& view_type() const;
 

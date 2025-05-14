@@ -148,7 +148,7 @@ void TrackList::ArrayAppend() { parent()->InputArrayAppend(track_input()); }
 void TrackList::ArrayRemoveLast() { parent()->InputArrayRemoveLast(track_input()); }
 
 void TrackList::UpdateTotalLength() {
-  total_length_ = 0;
+  total_length_ = rational(0);
 
   foreach (Track *track, track_cache_) {
     if (track) {

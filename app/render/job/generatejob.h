@@ -29,7 +29,7 @@ namespace olive {
 class GenerateJob : public AcceleratedJob {
  public:
   GenerateJob() = default;
-  GenerateJob(const NodeValueRow &row) : GenerateJob() { Insert(row); }
+  explicit GenerateJob(const NodeValueRow &row) : GenerateJob() { Insert(row); }
 };
 
 }  // namespace olive

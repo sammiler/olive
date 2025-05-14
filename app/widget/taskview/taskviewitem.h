@@ -44,7 +44,7 @@ namespace olive {
 class TaskViewItem : public QFrame {
   Q_OBJECT
  public:
-  TaskViewItem(Task* task, QWidget* parent = nullptr);
+  explicit TaskViewItem(Task* task, QWidget* parent = nullptr);
 
   void Failed();
 

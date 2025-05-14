@@ -66,7 +66,7 @@ class SequenceDialog : public QDialog {
    * @param parent
    * QWidget parent
    */
-  SequenceDialog(Sequence* s, Type t = kExisting, QWidget* parent = nullptr);
+  explicit SequenceDialog(Sequence* s, Type t = kExisting, QWidget* parent = nullptr);
 
   /**
    * @brief Set whether the parameter changes should be made into an undo command or not

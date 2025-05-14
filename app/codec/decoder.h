@@ -124,7 +124,7 @@ class Decoder : public QObject {
     Renderer* renderer = nullptr;
     rational time;
     int divider = 1;
-    PixelFormat maximum_format = PixelFormat::INVALID;
+    PixelFormat maximum_format = PixelFormat(PixelFormat::INVALID);
     CancelAtom* cancelled = nullptr;
     VideoParams::ColorRange force_range = VideoParams::kColorRangeDefault;
     VideoParams::Interlacing src_interlacing = VideoParams::kInterlaceNone;
@@ -246,7 +246,7 @@ class Decoder : public QObject {
    */
   const CodecStream& stream() const { return stream_; }
 
-  virtual rational GetAudioStartOffset() const { return 0; }
+  virtual rational GetAudioStartOffset() const { return rational(0); }
 
  signals:
   /**

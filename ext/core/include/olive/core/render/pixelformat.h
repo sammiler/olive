@@ -27,9 +27,9 @@ class PixelFormat {
  public:
   enum Format { INVALID = -1, U8, U16, F16, F32, COUNT };
 
-  PixelFormat(Format f = INVALID) { f_ = f; }
+  explicit PixelFormat(Format f = INVALID) { f_ = f; }
 
-  operator Format() const { return f_; }
+  explicit operator Format() const { return f_; }
 
   static int byte_count(Format f) {
     switch (f) {

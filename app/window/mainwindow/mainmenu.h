@@ -39,7 +39,7 @@ class MainWindow;
 class MainMenu : public QMenuBar {
   Q_OBJECT
  public:
-  MainMenu(MainWindow* parent);
+  explicit MainMenu(MainWindow* parent);
 
  protected:
   /**

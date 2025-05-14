@@ -89,14 +89,14 @@ ProjectSerializer::Result ProjectSerializer::Load(Project *project, const QStrin
       return inner_result;
     }
   } else {
-    return kFileError;
+    return Result(kFileError);
   }
 }
 
 ProjectSerializer::Result ProjectSerializer::Load(Project *project, QXmlStreamReader *reader, LoadType load_type) {
   // Determine project version
   uint version = 0;
-  Result res = kUnknownVersion;
+  Result res = Result(kUnknownVersion);
 
   while (XMLReadNextStartElement(reader)) {
     if (reader->name() == QStringLiteral("olive") ||
@@ -135,7 +135,7 @@ ProjectSerializer::Result ProjectSerializer::Load(Project *project, QXmlStreamRe
 ProjectSerializer::Result ProjectSerializer::Paste(LoadType load_type, Project *project) {
   QString clipboard = Core::PasteStringFromClipboard();
   if (clipboard.isEmpty()) {
-    return kNoData;
+    return Result(kNoData);
   }
 
   QXmlStreamReader reader(clipboard);
@@ -174,7 +174,7 @@ ProjectSerializer::Result ProjectSerializer::Save(const SaveData &data, bool com
 
     // Save was successful, we can now rewrite the original file
     if (FileFunctions::RenameFileAllowOverwrite(temp_save, data.GetFilename())) {
-      return kSuccess;
+      return Result(kSuccess);
     } else {
       Result r(kOverwriteError);
       r.SetDetails(temp_save);
@@ -213,10 +213,10 @@ ProjectSerializer::Result ProjectSerializer::Save(QXmlStreamWriter *writer, cons
   writer->writeEndDocument();
 
   if (writer->hasError()) {
-    return kXmlError;
+    return Result(kXmlError);
   }
 
-  return kSuccess;
+  return Result(kSuccess);
 }
 
 ProjectSerializer::Result ProjectSerializer::Copy(const SaveData &data) {
@@ -243,7 +243,7 @@ ProjectSerializer::Result ProjectSerializer::LoadWithSerializerVersion(uint vers
                                                                        QXmlStreamReader *reader, LoadType load_type) {
   // Failed to find version in file
   if (version == 0) {
-    return kUnknownVersion;
+    return Result(kUnknownVersion);
   }
 
   // We should now have the version, if we have a serializer for it, use it to load the project
@@ -256,7 +256,7 @@ ProjectSerializer::Result ProjectSerializer::LoadWithSerializerVersion(uint vers
     } else if (version < s->Version()) {
       // Assuming the instance list is in order, if the project version is less than any version
       // we find, we must not support it anymore
-      return kProjectTooOld;
+      return Result(kProjectTooOld);
     }
   }
 
@@ -272,7 +272,7 @@ ProjectSerializer::Result ProjectSerializer::LoadWithSerializerVersion(uint vers
     return r;
   } else {
     // Reached the end of the list with no serializer, assume too new
-    return kProjectTooNew;
+    return Result(kProjectTooNew);
   }
 }
 

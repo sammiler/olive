@@ -27,7 +27,7 @@ namespace olive {
 
 class RazorTool : public BeamTool {
  public:
-  RazorTool(TimelineWidget *parent);
+  explicit RazorTool(TimelineWidget *parent);
 
   virtual void MousePress(TimelineViewMouseEvent *event) override;
   virtual void MouseMove(TimelineViewMouseEvent *event) override;

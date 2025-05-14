@@ -144,7 +144,7 @@ void TimeBasedWidget::ConnectMarkers(TimelineMarkerList *markers) {
 }
 
 void TimeBasedWidget::UpdateMaximumScroll() {
-  rational length = (viewer_node_) ? viewer_node_->GetLength() : 0;
+  rational length = (viewer_node_) ? viewer_node_->GetLength() : rational(0);
 
   if (auto_max_scrollbar_) {
     scrollbar_->setMaximum(std::max(0, int(std::ceil(TimeToScene(length)) - width())));
@@ -370,10 +370,10 @@ void TimeBasedWidget::GoToPrevCut() {
     return;
   }
 
-  rational closest_cut = 0;
+  rational closest_cut = rational(0);
 
   for (Track *track : sequence->GetTracks()) {
-    rational this_track_closest_cut = 0;
+    rational this_track_closest_cut = rational(0);
 
     for (Block *block : track->Blocks()) {
       if (block->out() < GetConnectedNode()->GetPlayhead()) {
@@ -423,7 +423,7 @@ void TimeBasedWidget::GoToNextCut() {
 
 void TimeBasedWidget::GoToStart() {
   if (viewer_node_) {
-    viewer_node_->SetPlayhead(0);
+    viewer_node_->SetPlayhead(rational(0));
   }
 }
 
@@ -801,11 +801,11 @@ bool TimeBasedWidget::SnapPoint(const std::vector<rational> &start_times, ration
   }
 
   int closest_snap = 0;
-  rational closest_diff = qAbs(potential_snaps.at(0).movement - *movement);
+  rational closest_diff = rational::qAbs(potential_snaps.at(0).movement - *movement);
 
   // Determine which snap point was the closest
   for (size_t i = 1; i < potential_snaps.size(); i++) {
-    rational this_diff = qAbs(potential_snaps.at(i).movement - *movement);
+    rational this_diff = rational::qAbs(potential_snaps.at(i).movement - *movement);
 
     if (this_diff < closest_diff) {
       closest_snap = i;

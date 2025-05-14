@@ -39,7 +39,7 @@ namespace olive {
 class TaskView : public QScrollArea {
   Q_OBJECT
  public:
-  TaskView(QWidget* parent);
+  explicit TaskView(QWidget* parent);
 
  signals:
   void TaskCancelled(Task* t);

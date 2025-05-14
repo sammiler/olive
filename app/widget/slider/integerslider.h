@@ -28,7 +28,7 @@ namespace olive {
 class IntegerSlider : public NumericSliderBase {
   Q_OBJECT
  public:
-  IntegerSlider(QWidget* parent = nullptr);
+  explicit IntegerSlider(QWidget* parent = nullptr);
 
   int64_t GetValue();
 

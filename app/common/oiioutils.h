@@ -32,7 +32,7 @@ namespace olive {
 class OIIOUtils {
  public:
   static OIIO::TypeDesc::BASETYPE GetOIIOBaseTypeFromFormat(PixelFormat format) {
-    switch (format) {
+    switch (static_cast<PixelFormat::Format>(format)) {
       case PixelFormat::U8:
         return OIIO::TypeDesc::UINT8;
       case PixelFormat::U16:

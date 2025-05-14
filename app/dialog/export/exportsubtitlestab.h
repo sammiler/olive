@@ -34,7 +34,7 @@ namespace olive {
 class ExportSubtitlesTab : public QWidget {
   Q_OBJECT
  public:
-  ExportSubtitlesTab(QWidget *parent = nullptr);
+  explicit ExportSubtitlesTab(QWidget *parent = nullptr);
 
   bool GetSidecarEnabled() const { return sidecar_checkbox_->isChecked(); }
   void SetSidecarEnabled(bool e) { sidecar_checkbox_->setEnabled(e); }

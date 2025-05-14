@@ -66,7 +66,7 @@ class SubtitleParams : public std::vector<Subtitle> {
 
   rational duration() const {
     if (this->empty()) {
-      return 0;
+      return rational(0);
     } else {
       return back().time().out();
     }

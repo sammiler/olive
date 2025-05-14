@@ -23,7 +23,7 @@
 namespace olive {
 
 OCIO::BitDepth OCIOUtils::GetOCIOBitDepthFromPixelFormat(PixelFormat format) {
-  switch (format) {
+  switch (static_cast<PixelFormat::Format>(format)) {
     case PixelFormat::U8:
       return OCIO::BIT_DEPTH_UINT8;
     case PixelFormat::U16:

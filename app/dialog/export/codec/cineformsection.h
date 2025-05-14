@@ -30,7 +30,7 @@ namespace olive {
 class CineformSection : public CodecSection {
   Q_OBJECT
  public:
-  CineformSection(QWidget *parent = nullptr);
+  explicit CineformSection(QWidget *parent = nullptr);
 
   virtual void AddOpts(EncodingParams *params) override;
 

@@ -31,7 +31,7 @@ namespace olive {
 class CustomCacheTask : public Task {
   Q_OBJECT
  public:
-  CustomCacheTask(const QString &sequence_name);
+  explicit CustomCacheTask(const QString &sequence_name);
 
   void Finish();
 

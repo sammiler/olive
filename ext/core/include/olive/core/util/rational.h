@@ -35,7 +35,7 @@ namespace olive::core {
 
 class rational {
  public:
-  rational(const int &numerator = 0) {
+  explicit rational(const int &numerator = 0) {
     r_.num = numerator;
     r_.den = 1;
   }
@@ -50,12 +50,17 @@ class rational {
 
   rational(const rational &rhs) = default;
 
-  rational(const AVRational &r) {
+  explicit rational(const AVRational &r) {
     r_ = r;
 
     fix_signs();
   }
-
+  static rational qAbs(const rational &r) {
+    if (r >= rational(0)) {  // 或者 rational(0,1) 或 rational::zero() 等
+      return r;
+    }
+    return -r;  // 需要 rational 支持一元负号
+  }
   static rational fromDouble(const double &flt, bool *ok = nullptr);
   static rational fromString(const std::string &str, bool *ok = nullptr);
 

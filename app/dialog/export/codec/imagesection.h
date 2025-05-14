@@ -31,7 +31,7 @@ namespace olive {
 class ImageSection : public CodecSection {
   Q_OBJECT
  public:
-  ImageSection(QWidget* parent = nullptr);
+  explicit ImageSection(QWidget* parent = nullptr);
 
   bool IsImageSequenceChecked() const { return image_sequence_checkbox_->isChecked(); }
 

@@ -30,7 +30,7 @@ namespace olive {
 
 class StreamProperties : public QWidget {
  public:
-  StreamProperties(QWidget* parent = nullptr);
+  explicit StreamProperties(QWidget* parent = nullptr);
 
   virtual void Accept(MultiUndoCommand*) {}
 

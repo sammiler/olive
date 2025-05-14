@@ -64,8 +64,8 @@ FramePtr RenderProcessor::GenerateFrame(TexturePtr texture, const rational &time
     frame_params.set_height(frame_size.height());
   }
 
-  PixelFormat frame_format = static_cast<PixelFormat::Format>(ticket_->property("format").toInt());
-  if (frame_format != PixelFormat::INVALID) {
+  PixelFormat frame_format = PixelFormat(static_cast<PixelFormat::Format>(ticket_->property("format").toInt()));
+  if (static_cast<PixelFormat::Format>(frame_format) != PixelFormat::INVALID) {
     frame_params.set_format(frame_format);
   }
 
@@ -104,7 +104,7 @@ FramePtr RenderProcessor::GenerateFrame(TexturePtr texture, const rational &time
 
     if (tex_params.effective_width() != frame_params.effective_width() ||
         tex_params.effective_height() != frame_params.effective_height() ||
-        tex_params.format() != frame_params.format()) {
+        static_cast<PixelFormat::Format>(tex_params.format()) != static_cast<PixelFormat::Format>(frame_params.format())) {
       TexturePtr blit_tex = render_ctx_->CreateTexture(frame_params);
 
       QMatrix4x4 matrix = ticket_->property("matrix").value<QMatrix4x4>();
@@ -148,7 +148,7 @@ void RenderProcessor::Run() {
 
       rational frame_length = GetCacheVideoParams().frame_rate_as_time_base();
       if (GetCacheVideoParams().interlacing() != VideoParams::kInterlaceNone) {
-        frame_length /= 2;
+        frame_length /= rational(2);
       }
 
       TexturePtr texture = GenerateTexture(time, frame_length);
@@ -383,7 +383,7 @@ void RenderProcessor::ProcessVideoFootage(TexturePtr destination, const FootageJ
           // We convert to our rendering pixel format, since that will always be float-based which
           // is necessary for correct color conversion
           ColorProcessorPtr processor =
-              ColorProcessor::Create(color_manager, using_colorspace, color_manager->GetReferenceColorSpace());
+              ColorProcessor::Create(color_manager, using_colorspace, ColorTransform(color_manager->GetReferenceColorSpace()));
 
           ColorTransformJob job;
 
@@ -437,7 +437,7 @@ void RenderProcessor::ProcessShader(TexturePtr destination, const Node *node, co
 
   if (shader.isNull()) {
     // Since we have shader code, compile it now
-    shader = render_ctx_->CreateNativeShader(node->GetShaderCode(job->GetShaderID()));
+    shader = render_ctx_->CreateNativeShader(node->GetShaderCode(Node::ShaderRequest(job->GetShaderID())));
 
     if (shader.isNull()) {
       // Couldn't find or build the shader required
@@ -535,7 +535,7 @@ void RenderProcessor::ConvertToReferenceSpace(TexturePtr destination, TexturePtr
   }
 
   ColorManager *color_manager = QtUtils::ValueToPtr<ColorManager>(ticket_->property("colormanager"));
-  ColorProcessorPtr cp = ColorProcessor::Create(color_manager, input_cs, color_manager->GetReferenceColorSpace());
+  ColorProcessorPtr cp = ColorProcessor::Create(color_manager, input_cs, ColorTransform(color_manager->GetReferenceColorSpace()));
 
   ColorTransformJob ctj;
 

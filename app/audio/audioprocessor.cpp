@@ -107,7 +107,7 @@ bool AudioProcessor::Open(const AudioParams &from, const AudioParams &to, double
 
   // Create conversion filter
   if (from.sample_rate() != to.sample_rate() || from.channel_layout() != to.channel_layout() ||
-      from.format() != to.format() ||
+      static_cast<SampleFormat::Format>(from.format()) != static_cast<SampleFormat::Format>(to.format()) ||
       (to.format().is_planar() && create_tempo)) {  // Tempo processor automatically converts to packed,
                                                     // so if the desired output is planar, it'll need
                                                     // to be converted

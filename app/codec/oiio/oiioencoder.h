@@ -28,7 +28,7 @@ namespace olive {
 class OIIOEncoder : public Encoder {
   Q_OBJECT
  public:
-  OIIOEncoder(const EncodingParams &params);
+  explicit OIIOEncoder(const EncodingParams &params);
 
  public slots:
   virtual bool Open() override;

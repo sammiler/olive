@@ -35,7 +35,7 @@ namespace olive {
 class NodeViewScene : public QGraphicsScene {
   Q_OBJECT
  public:
-  NodeViewScene(QObject *parent = nullptr);
+  explicit NodeViewScene(QObject *parent = nullptr);
 
   void SelectAll();
   void DeselectAll();

@@ -169,7 +169,7 @@ void Color::toData(char *out, const PixelFormat &format, unsigned int nb_channel
   for (unsigned int i = 0; i < count; i++) {
     DataType f = data_[i];
 
-    switch (format) {
+    switch (static_cast<PixelFormat::Format>(format)) {
       case PixelFormat::INVALID:
       case PixelFormat::COUNT:
         break;
@@ -197,7 +197,7 @@ Color Color::fromData(const char *in, const PixelFormat &format, unsigned int nb
   for (unsigned int i = 0; i < count; i++) {
     DataType &f = c.data_[i];
 
-    switch (format) {
+    switch (static_cast<PixelFormat::Format>(format)) {
       case PixelFormat::INVALID:
       case PixelFormat::COUNT:
         break;

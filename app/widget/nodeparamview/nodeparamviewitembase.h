@@ -31,7 +31,7 @@ namespace olive {
 class NodeParamViewItemBase : public QDockWidget {
   Q_OBJECT
  public:
-  NodeParamViewItemBase(QWidget *parent = nullptr);
+  explicit NodeParamViewItemBase(QWidget *parent = nullptr);
 
   void SetHighlighted(bool e) {
     highlighted_ = e;

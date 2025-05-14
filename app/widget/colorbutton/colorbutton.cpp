@@ -32,7 +32,7 @@ ColorButton::ColorButton(ColorManager *color_manager, bool show_dialog_on_click,
     connect(this, &ColorButton::clicked, this, &ColorButton::ShowColorDialog);
   }
 
-  SetColor(Color(1.0f, 1.0f, 1.0f));
+  SetColor(ManagedColor(Color(1.0f, 1.0f, 1.0f)));
 }
 
 const ManagedColor &ColorButton::GetColor() const { return color_; }

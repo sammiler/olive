@@ -30,7 +30,7 @@ namespace olive {
 class NodeComboBox : public QComboBox {
   Q_OBJECT
  public:
-  NodeComboBox(QWidget* parent = nullptr);
+  explicit NodeComboBox(QWidget* parent = nullptr);
 
   virtual void showPopup() override;
 

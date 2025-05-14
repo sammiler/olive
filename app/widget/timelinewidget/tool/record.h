@@ -27,7 +27,7 @@ namespace olive {
 
 class RecordTool : public BeamTool {
  public:
-  RecordTool(TimelineWidget* parent);
+  explicit RecordTool(TimelineWidget* parent);
 
   virtual void MousePress(TimelineViewMouseEvent* event) override;
   virtual void MouseMove(TimelineViewMouseEvent* event) override;

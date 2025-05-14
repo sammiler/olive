@@ -33,7 +33,7 @@ namespace olive {
 class ColorManager : public QObject {
   Q_OBJECT
  public:
-  ColorManager(Project* project);
+  explicit ColorManager(Project* project);
 
   void Init();
 

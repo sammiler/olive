@@ -27,7 +27,7 @@ namespace olive {
 
 class AddTool : public BeamTool {
  public:
-  AddTool(TimelineWidget *parent);
+  explicit AddTool(TimelineWidget *parent);
 
   virtual void MousePress(TimelineViewMouseEvent *event) override;
   virtual void MouseMove(TimelineViewMouseEvent *event) override;

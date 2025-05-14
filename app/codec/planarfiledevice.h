@@ -32,7 +32,7 @@ using namespace core;
 class PlanarFileDevice : public QObject {
   Q_OBJECT
  public:
-  PlanarFileDevice(QObject *parent = nullptr);
+  explicit PlanarFileDevice(QObject *parent = nullptr);
 
   virtual ~PlanarFileDevice() override;
 

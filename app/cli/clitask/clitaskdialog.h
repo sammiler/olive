@@ -29,7 +29,7 @@ namespace olive {
 class CLITaskDialog : public CLIProgressDialog {
   Q_OBJECT
  public:
-  CLITaskDialog(Task* task, QObject* parent = nullptr);
+  explicit CLITaskDialog(Task* task, QObject* parent = nullptr);
 
   bool Run();
 

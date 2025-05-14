@@ -36,7 +36,7 @@ namespace olive {
 class ProjectExplorerTreeView : public QTreeView {
   Q_OBJECT
  public:
-  ProjectExplorerTreeView(QWidget* parent);
+  explicit ProjectExplorerTreeView(QWidget* parent);
 
  protected:
   /**

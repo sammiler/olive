@@ -14,7 +14,7 @@ namespace olive {
 class NodeViewContext : public QObject, public QGraphicsRectItem {
   Q_OBJECT
  public:
-  NodeViewContext(Node *context, QGraphicsItem *item = nullptr);
+  explicit NodeViewContext(Node *context, QGraphicsItem *item = nullptr);
 
   virtual ~NodeViewContext() override;
 

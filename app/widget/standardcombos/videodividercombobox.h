@@ -30,7 +30,7 @@ namespace olive {
 class VideoDividerComboBox : public QComboBox {
   Q_OBJECT
  public:
-  VideoDividerComboBox(QWidget* parent = nullptr) : QComboBox(parent) {
+  explicit VideoDividerComboBox(QWidget* parent = nullptr) : QComboBox(parent) {
     foreach (int d, VideoParams::kSupportedDividers) {
       this->addItem(VideoParams::GetNameForDivider(d), d);
     }

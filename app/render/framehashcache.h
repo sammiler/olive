@@ -30,7 +30,7 @@ namespace olive {
 class FrameHashCache : public PlaybackCache {
   Q_OBJECT
  public:
-  FrameHashCache(QObject *parent = nullptr);
+  explicit FrameHashCache(QObject *parent = nullptr);
 
   const rational &GetTimebase() const { return timebase_; }
 
@@ -83,7 +83,7 @@ class FrameHashCache : public PlaybackCache {
 class ThumbnailCache : public FrameHashCache {
   Q_OBJECT
  public:
-  ThumbnailCache(QObject *parent = nullptr) : FrameHashCache(parent) { SetTimebase(rational(1, 10)); }
+  explicit ThumbnailCache(QObject *parent = nullptr) : FrameHashCache(parent) { SetTimebase(rational(1, 10)); }
 };
 
 }  // namespace olive

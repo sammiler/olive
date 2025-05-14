@@ -68,7 +68,7 @@ class ProjectViewModel : public QAbstractItemModel {
    * @param parent
    * Parent object for memory handling
    */
-  ProjectViewModel(QObject *parent);
+  explicit ProjectViewModel(QObject *parent);
 
   /**
    * @brief Get currently active project

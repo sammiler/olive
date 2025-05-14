@@ -918,7 +918,7 @@ int Item::visibleCount_recursive() const
 
 struct ItemBoxContainer::Private
 {
-    Private(ItemBoxContainer *qq)
+    explicit Private(ItemBoxContainer *qq)
         : q(qq)
     {
     }
@@ -1292,10 +1292,10 @@ ItemBoxContainer *ItemBoxContainer::convertChildToContainer(Item *leaf)
     container->setParentContainer(nullptr);
     container->setParentContainer(this);
 
-    insertItem(container, index, DefaultSizeMode::NoDefaultSizeMode);
+    insertItem(container, index, InitialOption(DefaultSizeMode::NoDefaultSizeMode));
     m_children.removeOne(leaf);
     container->setGeometry(leaf->geometry());
-    container->insertItem(leaf, Location_OnTop, DefaultSizeMode::NoDefaultSizeMode);
+    container->insertItem(leaf, Location_OnTop, InitialOption(DefaultSizeMode::NoDefaultSizeMode));
     Q_EMIT itemsChanged();
     d->updateSeparators_recursive();
 
@@ -1374,7 +1374,7 @@ void ItemBoxContainer::insertItem(Item *item, Location loc,
         container->setChildren(m_children, d->m_orientation);
         m_children.clear();
         setOrientation(oppositeOrientation(d->m_orientation));
-        insertItem(container, 0, DefaultSizeMode::NoDefaultSizeMode);
+        insertItem(container, 0, InitialOption(DefaultSizeMode::NoDefaultSizeMode));
 
         // Now we have the correct orientation, we can insert
         insertItem(item, loc, initialOption);
@@ -1496,9 +1496,9 @@ QRect ItemBoxContainer::suggestedDropRect(const Item *item, const Item *relative
 
     if (relativeTo) {
         auto r = const_cast<Item *>(relativeTo);
-        ItemBoxContainer::insertItemRelativeTo(itemCopy, r, loc, DefaultSizeMode::FairButFloor);
+        ItemBoxContainer::insertItemRelativeTo(itemCopy, r, loc, InitialOption(DefaultSizeMode::FairButFloor));
     } else {
-        rootCopy.insertItem(itemCopy, loc, DefaultSizeMode::FairButFloor);
+        rootCopy.insertItem(itemCopy, loc, InitialOption(DefaultSizeMode::FairButFloor));
     }
 
     if (rootCopy.size() != root()->size()) {
@@ -3530,7 +3530,7 @@ int ItemBoxContainer::Private::defaultLengthFor(Item *item, InitialOption option
             break;
         }
         case DefaultSizeMode::FairButFloor: {
-            int length = defaultLengthFor(item, DefaultSizeMode::Fair);
+            int length = defaultLengthFor(item, InitialOption(DefaultSizeMode::Fair));
             result = qMin(length, item->length(m_orientation));
             break;
         }
@@ -3546,7 +3546,7 @@ int ItemBoxContainer::Private::defaultLengthFor(Item *item, InitialOption option
 
 struct ItemContainer::Private
 {
-    Private(ItemContainer *qq)
+    explicit Private(ItemContainer *qq)
         : q(qq)
     {
         ( void )Config::self(); // Ensure Config ctor runs, as it registers qml types

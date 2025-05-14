@@ -44,7 +44,7 @@ namespace olive {
 class NodeView : public HandMovableView {
   Q_OBJECT
  public:
-  NodeView(QWidget *parent = nullptr);
+  explicit NodeView(QWidget *parent = nullptr);
 
   virtual ~NodeView() override;
 

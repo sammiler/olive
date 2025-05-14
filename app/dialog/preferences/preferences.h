@@ -43,7 +43,7 @@ class PreferencesDialog : public ConfigDialogBase {
   Q_OBJECT
 
  public:
-  PreferencesDialog(MainWindow *main_window);
+  explicit PreferencesDialog(MainWindow *main_window);
 
  protected:
   virtual void AcceptEvent() override;

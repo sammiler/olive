@@ -27,7 +27,7 @@ namespace olive {
 
 class BeamTool : public TimelineTool {
  public:
-  BeamTool(TimelineWidget *parent);
+  explicit BeamTool(TimelineWidget *parent);
 
   virtual void HoverMove(TimelineViewMouseEvent *event) override;
 

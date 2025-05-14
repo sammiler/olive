@@ -30,7 +30,7 @@ namespace olive {
 class InterlacedComboBox : public QComboBox {
   Q_OBJECT
  public:
-  InterlacedComboBox(QWidget* parent = nullptr) : QComboBox(parent) {
+  explicit InterlacedComboBox(QWidget* parent = nullptr) : QComboBox(parent) {
     // These must match the Interlacing enum in VideoParams
     this->addItem(tr("None (Progressive)"));
     this->addItem(tr("Top-Field First"));

@@ -142,7 +142,7 @@ rational Sequence::VerifyLengthInternal(Track::Type type) const {
     }
   }
 
-  return 0;
+  return rational(0);
 }
 
 void Sequence::InputConnectedEvent(const QString& input, int element, Node* output) {

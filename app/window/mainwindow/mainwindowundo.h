@@ -27,7 +27,7 @@ namespace olive {
 
 class OpenSequenceCommand : public UndoCommand {
  public:
-  OpenSequenceCommand(Sequence* sequence) : sequence_(sequence) {}
+  explicit OpenSequenceCommand(Sequence* sequence) : sequence_(sequence) {}
 
   virtual Project* GetRelevantProject() const override { return nullptr; }
 
@@ -42,7 +42,7 @@ class OpenSequenceCommand : public UndoCommand {
 
 class CloseSequenceCommand : public UndoCommand {
  public:
-  CloseSequenceCommand(Sequence* sequence) : sequence_(sequence) {}
+  explicit CloseSequenceCommand(Sequence* sequence) : sequence_(sequence) {}
 
   virtual Project* GetRelevantProject() const override { return nullptr; }
 

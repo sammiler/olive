@@ -185,7 +185,7 @@ endif ()
 list(APPEND OLIVE_LIBRARIES
         KDAB::kddockwidgets
 )
-
+list(APPEND OLIVE_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/ext/KDDockWidgets/src)
 # Link FFmpeg
 find_package(FFMPEG 3.0 REQUIRED
         COMPONENTS

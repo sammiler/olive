@@ -30,7 +30,7 @@ namespace olive {
 class SliderLabel : public QLabel {
   Q_OBJECT
  public:
-  SliderLabel(QWidget *parent);
+  explicit SliderLabel(QWidget *parent);
 
   void SetColor(const QColor &c);
 

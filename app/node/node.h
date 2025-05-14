@@ -193,7 +193,7 @@ class Node : public QObject {
    public:
     enum Mode { kAllElements, kSpecified, kNoElements };
 
-    ActiveElements(Mode m = kAllElements) { mode_ = m; }
+    explicit ActiveElements(Mode m = kAllElements) { mode_ = m; }
 
     Mode mode() const { return mode_; }
     std::list<int> elements() const { return elements_; }
@@ -209,7 +209,7 @@ class Node : public QObject {
   };
 
   virtual ActiveElements GetActiveElementsAtTime(const QString& input, const TimeRange& r) const {
-    return ActiveElements::kAllElements;
+    return ActiveElements(ActiveElements::kAllElements);
   }
 
   bool HasInputWithID(const QString& id) const { return input_ids_.contains(id); }
@@ -228,7 +228,7 @@ class Node : public QObject {
   virtual TimeRange GetAudioCacheRange() const { return TimeRange(); }
 
   struct Position {
-    Position(const QPointF& p = QPointF(0, 0), bool e = false) {
+    explicit Position(const QPointF& p = QPointF(0, 0), bool e = false) {
       position = p;
       expanded = e;
     }
@@ -585,7 +585,7 @@ class Node : public QObject {
   QVector<Node*> GetImmediateDependencies() const;
 
   struct ShaderRequest {
-    ShaderRequest(const QString& shader_id) { id = shader_id; }
+    explicit ShaderRequest(const QString& shader_id) { id = shader_id; }
 
     ShaderRequest(const QString& shader_id, const QString& shader_stub) {
       id = shader_id;
@@ -887,7 +887,7 @@ class Node : public QObject {
                        DraggableGizmo::DragValueBehavior behavior = DraggableGizmo::kDeltaFromStart) {
     QVector<NodeKeyframeTrackReference> refs(inputs.size());
     for (int i = 0; i < refs.size(); i++) {
-      refs[i] = NodeInput(this, inputs[i]);
+      refs[i] = NodeKeyframeTrackReference(NodeInput(this, inputs[i]));
     }
     return AddDraggableGizmo<T>(refs, behavior);
   }

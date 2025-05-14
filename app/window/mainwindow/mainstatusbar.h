@@ -34,7 +34,7 @@ namespace olive {
 class MainStatusBar : public QStatusBar {
   Q_OBJECT
  public:
-  MainStatusBar(QWidget* parent = nullptr);
+  explicit MainStatusBar(QWidget* parent = nullptr);
 
   void ConnectTaskManager(TaskManager* manager);
 

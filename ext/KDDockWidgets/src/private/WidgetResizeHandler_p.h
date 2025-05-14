@@ -51,17 +51,17 @@ public:
     {
         NativeFeatures() = default;
 
-        NativeFeatures(QRect r)
+        explicit NativeFeatures(QRect r)
             : htCaptionRect(r)
         {
         }
 
-        NativeFeatures(Feature f)
+        explicit NativeFeatures(Feature f)
             : features(f)
         {
         }
 
-        NativeFeatures(Features f)
+        explicit NativeFeatures(Features f)
             : features(f)
         {
         }

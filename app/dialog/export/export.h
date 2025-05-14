@@ -43,7 +43,7 @@ class ExportDialog : public QDialog {
   Q_OBJECT
  public:
   ExportDialog(ViewerOutput* viewer_node, bool stills_only_mode, QWidget* parent = nullptr);
-  ExportDialog(ViewerOutput* viewer_node, QWidget* parent = nullptr) : ExportDialog(viewer_node, false, parent) {}
+  explicit ExportDialog(ViewerOutput* viewer_node, QWidget* parent = nullptr) : ExportDialog(viewer_node, false, parent) {}
 
   rational GetSelectedTimebase() const;
   void SetSelectedTimebase(const rational& r);

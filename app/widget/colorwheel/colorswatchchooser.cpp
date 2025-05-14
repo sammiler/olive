@@ -63,9 +63,9 @@ ColorSwatchChooser::ColorSwatchChooser(ColorManager *manager, QWidget *parent) :
 
 void ColorSwatchChooser::SetDefaultColor(int index) {
   if (index < kDefaultColorCount) {
-    buttons_[index]->SetColor(kDefaultColors[index]);
+    buttons_[index]->SetColor(ManagedColor(kDefaultColors[index]));
   } else {
-    buttons_[index]->SetColor(Color(1.0, 1.0, 1.0));
+    buttons_[index]->SetColor(ManagedColor(Color(1.0, 1.0, 1.0)));
   }
 }
 

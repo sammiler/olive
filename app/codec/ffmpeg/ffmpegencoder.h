@@ -36,7 +36,7 @@ namespace olive {
 class FFmpegEncoder : public Encoder {
   Q_OBJECT
  public:
-  FFmpegEncoder(const EncodingParams &params);
+  explicit FFmpegEncoder(const EncodingParams &params);
 
   virtual QStringList GetPixelFormatsForCodec(ExportCodec::Codec c) const override;
 

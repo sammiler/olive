@@ -31,7 +31,7 @@ namespace olive {
 class FootageRelinkDialog : public QDialog {
   Q_OBJECT
  public:
-  FootageRelinkDialog(const QVector<Footage*>& footage, QWidget* parent = nullptr);
+  explicit FootageRelinkDialog(const QVector<Footage*>& footage, QWidget* parent = nullptr);
 
  private:
   void UpdateFootageItem(int index);

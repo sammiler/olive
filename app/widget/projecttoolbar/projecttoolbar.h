@@ -40,7 +40,7 @@ namespace olive {
 class ProjectToolbar : public QWidget {
   Q_OBJECT
  public:
-  ProjectToolbar(QWidget* parent);
+  explicit ProjectToolbar(QWidget* parent);
 
   enum ViewType { TreeView, ListView, IconView };
 

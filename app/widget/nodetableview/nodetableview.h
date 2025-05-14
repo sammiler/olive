@@ -30,7 +30,7 @@ namespace olive {
 class NodeTableView : public QTreeWidget {
   Q_OBJECT
  public:
-  NodeTableView(QWidget* parent = nullptr);
+  explicit NodeTableView(QWidget* parent = nullptr);
 
   void SelectNodes(const QVector<Node*>& nodes);
 

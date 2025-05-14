@@ -39,7 +39,7 @@ Node::ActiveElements MultiCamNode::GetActiveElementsAtTime(const QString &input,
       a.add(src);
       return a;
     } else {
-      return ActiveElements::kNoElements;
+      return ActiveElements(ActiveElements::kNoElements);
     }
   } else {
     return super::GetActiveElementsAtTime(input, r);

@@ -96,7 +96,7 @@ class NodeRemovePositionFromContextCommand : public UndoCommand {
 
 class NodeRemovePositionFromAllContextsCommand : public UndoCommand {
  public:
-  NodeRemovePositionFromAllContextsCommand(Node* node) : node_(node) {}
+  explicit NodeRemovePositionFromAllContextsCommand(Node* node) : node_(node) {}
 
   virtual Project* GetRelevantProject() const override { return node_->project(); }
 
@@ -285,7 +285,7 @@ class NodeAddCommand : public UndoCommand {
 
 class NodeRemoveAndDisconnectCommand : public UndoCommand {
  public:
-  NodeRemoveAndDisconnectCommand(Node* node) : node_(node), graph_(nullptr), command_(nullptr) {}
+  explicit NodeRemoveAndDisconnectCommand(Node* node) : node_(node), graph_(nullptr), command_(nullptr) {}
 
   virtual ~NodeRemoveAndDisconnectCommand() override { delete command_; }
 
@@ -319,7 +319,7 @@ class NodeRemoveAndDisconnectCommand : public UndoCommand {
 
 class NodeRemoveWithExclusiveDependenciesAndDisconnect : public UndoCommand {
  public:
-  NodeRemoveWithExclusiveDependenciesAndDisconnect(Node* node) : node_(node), command_(nullptr) {}
+  explicit NodeRemoveWithExclusiveDependenciesAndDisconnect(Node* node) : node_(node), command_(nullptr) {}
 
   virtual ~NodeRemoveWithExclusiveDependenciesAndDisconnect() override { delete command_; }
 
@@ -387,7 +387,7 @@ class NodeLinkCommand : public UndoCommand {
 
 class NodeUnlinkAllCommand : public UndoCommand {
  public:
-  NodeUnlinkAllCommand(Node* node) : node_(node) {}
+  explicit NodeUnlinkAllCommand(Node* node) : node_(node) {}
 
   virtual Project* GetRelevantProject() const override { return node_->project(); }
 
@@ -542,7 +542,7 @@ class NodeParamInsertKeyframeCommand : public UndoCommand {
 
 class NodeParamRemoveKeyframeCommand : public UndoCommand {
  public:
-  NodeParamRemoveKeyframeCommand(NodeKeyframe* keyframe);
+  explicit NodeParamRemoveKeyframeCommand(NodeKeyframe* keyframe);
 
   virtual Project* GetRelevantProject() const override;
 
@@ -676,7 +676,7 @@ class NodeSetValueHintCommand : public UndoCommand {
 
 class NodeImmediateRemoveAllKeyframesCommand : public UndoCommand {
  public:
-  NodeImmediateRemoveAllKeyframesCommand(NodeInputImmediate* immediate) : immediate_(immediate) {}
+  explicit NodeImmediateRemoveAllKeyframesCommand(NodeInputImmediate* immediate) : immediate_(immediate) {}
 
   virtual Project* GetRelevantProject() const override { return nullptr; }
 

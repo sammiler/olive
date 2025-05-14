@@ -145,9 +145,9 @@ FramePtr FrameHashCache::LoadCacheFrame(const QString &fn) {
 
       PixelFormat image_format;
       if (pix_type == Imf::HALF) {
-        image_format = PixelFormat::F16;
+        image_format = PixelFormat(PixelFormat::F16);
       } else {
-        image_format = PixelFormat::F32;
+        image_format = PixelFormat(PixelFormat::F32);
       }
 
       int channel_count = has_alpha ? VideoParams::kRGBAChannelCount : VideoParams::kRGBChannelCount;
@@ -182,7 +182,7 @@ FramePtr FrameHashCache::LoadCacheFrame(const QString &fn) {
       if (img.load(fn, "jpg")) {
         // FIXME: Hardcoded
         const int div = 1;
-        const PixelFormat image_format = PixelFormat::U8;
+        const PixelFormat image_format = PixelFormat(PixelFormat::U8);
         const int channel_count = 4;
         const rational par(1, 1);
 
@@ -307,7 +307,7 @@ bool FrameHashCache::SaveCacheFrame(const QString &filename, const FramePtr fram
     // Floating point types are stored in EXR
     Imf::PixelType pix_type;
 
-    if (frame->format() == PixelFormat::F16) {
+    if (static_cast<PixelFormat::Format>(frame->format()) ==  PixelFormat::F16) {
       pix_type = Imf::HALF;
     } else {
       pix_type = Imf::FLOAT;
@@ -355,7 +355,7 @@ bool FrameHashCache::SaveCacheFrame(const QString &filename, const FramePtr fram
   } else {
     QImage::Format fmt = QImage::Format_Invalid;
 
-    switch (frame->format()) {
+    switch (static_cast<PixelFormat::Format>(frame->format())) {
       case PixelFormat::U8:
         if (frame->channel_count() == VideoParams::kRGBAChannelCount) {
           fmt = QImage::Format_RGBA8888_Premultiplied;

@@ -33,7 +33,7 @@ namespace olive {
 class AV1CRFSection : public QWidget {
   Q_OBJECT
  public:
-  AV1CRFSection(int default_crf, QWidget* parent = nullptr);
+  explicit AV1CRFSection(int default_crf, QWidget* parent = nullptr);
 
   int GetValue() const;
 
@@ -53,7 +53,7 @@ class AV1Section : public CodecSection {
     kConstantRateFactor,
   };
 
-  AV1Section(QWidget* parent = nullptr);
+  explicit AV1Section(QWidget* parent = nullptr);
   AV1Section(int default_crf, QWidget* parent);
 
   virtual void AddOpts(EncodingParams* params) override;

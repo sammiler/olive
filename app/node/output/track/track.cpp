@@ -89,8 +89,8 @@ QString Track::Description() const {
 
 Node::ActiveElements Track::GetActiveElementsAtTime(const QString &input, const TimeRange &r) const {
   if (input == kBlockInput) {
-    if (IsMuted() || blocks_.empty() || r.in() >= track_length() || r.out() <= 0) {
-      return ActiveElements::kNoElements;
+    if (IsMuted() || blocks_.empty() || r.in() >= track_length() || r.out() <= rational(0)) {
+      return ActiveElements(ActiveElements::kNoElements);
     } else {
       int start = GetBlockIndexAtTime(r.in());
       int end = GetBlockIndexAtTime(r.out());
@@ -115,7 +115,7 @@ Node::ActiveElements Track::GetActiveElementsAtTime(const QString &input, const 
       }
 
       if (a.elements().empty()) {
-        return ActiveElements::kNoElements;
+        return ActiveElements(ActiveElements::kNoElements);
       } else {
         return a;
       }
@@ -421,7 +421,7 @@ void Track::RippleRemoveBlock(Block *block) {
   Block::set_previous_next(previous, next);
   block->set_previous(nullptr);
   block->set_next(nullptr);
-  block->set_in(0);
+  block->set_in(rational(0));
   block->set_out(block->length());
 
   // Update in/outs
@@ -465,7 +465,7 @@ void Track::ReplaceBlock(Block *old, Block *replace) {
   }
 
   if (old->length() == replace->length()) {
-    replace->set_in(replace->previous() ? replace->previous()->out() : 0);
+    replace->set_in(replace->previous() ? replace->previous()->out() : rational(0));
     replace->set_out(replace->in() + replace->length());
 
     Node::InvalidateCache(TimeRange(replace->in(), replace->out()), kBlockInput);
@@ -483,7 +483,7 @@ void Track::ReplaceBlock(Block *old, Block *replace) {
 
 rational Track::track_length() const {
   if (blocks_.isEmpty()) {
-    return 0;
+    return rational(0);
   } else {
     return blocks_.last()->out();
   }
@@ -505,7 +505,7 @@ void Track::InputConnectedEvent(const QString &input, int element, Node *node) {
 
 void Track::UpdateInOutFrom(int index) {
   // Find block just before this one to find the last out point
-  rational last_out = (index == 0) ? 0 : blocks_.at(index - 1)->out();
+  rational last_out = (index == 0) ? rational(0) : blocks_.at(index - 1)->out();
 
   // Iterate through all blocks updating their in/outs
   for (int i = index; i < blocks_.size(); i++) {
@@ -531,7 +531,7 @@ int Track::GetArrayIndexFromCacheIndex(int index) const { return block_array_ind
 int Track::GetCacheIndexFromArrayIndex(int index) const { return block_array_indexes_.indexOf(index); }
 
 int Track::GetBlockIndexAtTime(const rational &time) const {
-  if (time < 0 || time >= track_length()) {
+  if (time < rational(0) || time >= track_length()) {
     return -1;
   }
 
@@ -681,7 +681,7 @@ void Track::RefreshBlockCacheFromArrayMap() {
     b->set_track(nullptr);
     b->set_previous(nullptr);
     b->set_next(nullptr);
-    b->set_in(0);
+    b->set_in(rational(0));
     b->set_out(b->length());
     disconnect(b, &Block::LengthChanged, this, &Track::BlockLengthChanged);
   }

@@ -46,7 +46,7 @@ struct Separator::Private
 {
     // Only set when anchor is moved through mouse. Side1 if going towards left or top, Side2 otherwise.
 
-    Private(Widget *host)
+    explicit Private(Widget *host)
         : m_hostWidget(host)
     {
     }

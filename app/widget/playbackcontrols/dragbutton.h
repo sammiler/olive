@@ -30,7 +30,7 @@ namespace olive {
 class DragButton : public QPushButton {
   Q_OBJECT
  public:
-  DragButton(QWidget* parent = nullptr);
+  explicit DragButton(QWidget* parent = nullptr);
 
  signals:
   void DragStarted();

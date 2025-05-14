@@ -114,7 +114,7 @@ void ImportTool::DragMove(TimelineViewMouseEvent* event) {
       rational time_movement = event->GetFrame() - drag_start_.GetFrame();
 
       // Keep ghost offset no lower than 0
-      if (ghost_offset_ + time_movement < 0) {
+      if (ghost_offset_ + time_movement < rational(0)) {
         time_movement = -ghost_offset_;
       }
 
@@ -248,7 +248,7 @@ void ImportTool::FootageToGhosts(rational ghost_start, const DraggedFootageData&
     }
 
     // Snap footage duration to timebase
-    rational snap_mvmt = SnapMovementToTimebase(footage_duration, 0, dest_tb);
+    rational snap_mvmt = SnapMovementToTimebase(footage_duration, rational(0), dest_tb);
     if (!snap_mvmt.isNull()) {
       footage_duration += snap_mvmt;
     }
@@ -270,7 +270,7 @@ void ImportTool::FootageToGhosts(rational ghost_start, const DraggedFootageData&
         SubtitleParams sp = footage->GetSubtitleParams(ref.index());
 
         for (const Subtitle& sub : sp) {
-          auto ghost = CreateGhost(sub.time() + ghost_start, 0, dest_track);
+          auto ghost = CreateGhost(sub.time() + ghost_start, rational(0), dest_track);
 
           ghost->SetData(TimelineViewGhostItem::kAttachedFootage, QVariant::fromValue(sub));
         }
@@ -379,10 +379,10 @@ void ImportTool::DropGhosts(bool insert, MultiUndoCommand* parent_command) {
 
           command->add_child(new NodeAddCommand(dst_graph, new_sequence));
           command->add_child(new FolderAddChild(Core::instance()->GetSelectedFolderInActiveProject(), new_sequence));
-          command->add_child(new NodeSetPositionCommand(new_sequence, new_sequence, QPointF(0, 0)));
+          command->add_child(new NodeSetPositionCommand(new_sequence, new_sequence, Node::Position(QPointF(0, 0))));
           new_sequence->add_default_nodes(command);
 
-          FootageToGhosts(0, dragged_footage_, new_sequence->GetVideoParams().time_base(), 0);
+          FootageToGhosts(rational(0), dragged_footage_, new_sequence->GetVideoParams().time_base(), 0);
 
           if (MultiUndoCommand* c = parent()->TakeSubtitleSectionCommand()) {
             command->add_child(c);
@@ -426,12 +426,12 @@ void ImportTool::DropGhosts(bool insert, MultiUndoCommand* parent_command) {
         command->add_child(new NodeAddCommand(dst_graph, clip));
 
         // Position clip in its own context
-        command->add_child(new NodeSetPositionCommand(clip, clip, QPointF(0, 0)));
+        command->add_child(new NodeSetPositionCommand(clip, clip, Node::Position(QPointF(0, 0))));
 
         int dep_pos = kDefaultDistanceFromOutput;
 
         // Position footage in its context
-        command->add_child(new NodeSetPositionCommand(footage_stream.footage, clip, QPointF(dep_pos, 0)));
+        command->add_child(new NodeSetPositionCommand(footage_stream.footage, clip, Node::Position(QPointF(dep_pos, 0))));
 
         dep_pos++;
 
@@ -447,7 +447,7 @@ void ImportTool::DropGhosts(bool insert, MultiUndoCommand* parent_command) {
             command->add_child(new NodeEdgeAddCommand(footage_stream.footage,
                                                       NodeInput(transform, TransformDistortNode::kTextureInput)));
             command->add_child(new NodeEdgeAddCommand(transform, NodeInput(clip, ClipBlock::kBufferIn)));
-            command->add_child(new NodeSetPositionCommand(transform, clip, QPointF(dep_pos, 0)));
+            command->add_child(new NodeSetPositionCommand(transform, clip, Node::Position(QPointF(dep_pos, 0))));
             break;
           }
           case Track::kAudio: {
@@ -461,7 +461,7 @@ void ImportTool::DropGhosts(bool insert, MultiUndoCommand* parent_command) {
             command->add_child(
                 new NodeEdgeAddCommand(footage_stream.footage, NodeInput(volume_node, VolumeNode::kSamplesInput)));
             command->add_child(new NodeEdgeAddCommand(volume_node, NodeInput(clip, ClipBlock::kBufferIn)));
-            command->add_child(new NodeSetPositionCommand(volume_node, clip, QPointF(dep_pos, 0)));
+            command->add_child(new NodeSetPositionCommand(volume_node, clip, Node::Position(QPointF(dep_pos, 0))));
             break;
           }
           default:
@@ -490,7 +490,7 @@ void ImportTool::DropGhosts(bool insert, MultiUndoCommand* parent_command) {
         block = sub;
 
         command->add_child(new NodeAddCommand(dst_graph, sub));
-        command->add_child(new NodeSetPositionCommand(sub, sub, QPointF(0, 0)));
+        command->add_child(new NodeSetPositionCommand(sub, sub, Node::Position(QPointF(0, 0))));
       }
 
       block->set_length_and_media_out(ghost->GetLength());

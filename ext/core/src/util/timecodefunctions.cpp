@@ -258,7 +258,7 @@ rational Timecode::timecode_to_time(std::string timecode, const rational &timeba
 
 err_fatal:
   if (ok) *ok = false;
-  return 0;
+  return rational(0);
 }
 
 std::string Timecode::time_to_string(int64_t ms) {

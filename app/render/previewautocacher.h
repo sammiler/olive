@@ -43,7 +43,7 @@ namespace olive {
 class PreviewAutoCacher : public QObject {
   Q_OBJECT
  public:
-  PreviewAutoCacher(QObject *parent = nullptr);
+  explicit PreviewAutoCacher(QObject *parent = nullptr);
 
   virtual ~PreviewAutoCacher() override;
 

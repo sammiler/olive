@@ -42,7 +42,7 @@ namespace olive {
 class TimelineView : public TimeBasedView {
   Q_OBJECT
  public:
-  TimelineView(Qt::Alignment vertical_alignment = Qt::AlignTop, QWidget *parent = nullptr);
+  explicit TimelineView(Qt::Alignment vertical_alignment = Qt::AlignTop, QWidget *parent = nullptr);
 
   int GetTrackY(int track_index) const;
   int GetTrackHeight(int track_index) const;
@@ -111,7 +111,7 @@ class TimelineView : public TimeBasedView {
                  const rational &out, const rational &media_in);
   void DrawBlock(QPainter *painter, bool foreground, Block *block, qreal top, qreal height) {
     ClipBlock *cb = dynamic_cast<ClipBlock *>(block);
-    return DrawBlock(painter, foreground, block, top, height, block->in(), block->out(), cb ? cb->media_in() : 0);
+    return DrawBlock(painter, foreground, block, top, height, block->in(), block->out(), cb ? cb->media_in() : rational(0));
   }
 
   void DrawZebraStripes(QPainter *painter, const QRectF &r);

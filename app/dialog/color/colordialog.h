@@ -55,7 +55,7 @@ class ColorDialog : public QDialog {
    *
    * QWidget parent.
    */
-  ColorDialog(ColorManager* color_manager, const ManagedColor& start = Color(1.0f, 1.0f, 1.0f),
+  explicit ColorDialog(ColorManager* color_manager, const ManagedColor& start = ManagedColor(Color(1.0f, 1.0f, 1.0f)),
               QWidget* parent = nullptr);
 
   /**

@@ -29,7 +29,7 @@ namespace olive {
 class FootageViewerWidget : public ViewerWidget {
   Q_OBJECT
  public:
-  FootageViewerWidget(QWidget *parent = nullptr);
+  explicit FootageViewerWidget(QWidget *parent = nullptr);
 
   void OverrideWorkArea(const TimeRange &r);
   void ResetWorkArea();

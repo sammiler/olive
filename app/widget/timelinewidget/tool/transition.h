@@ -27,7 +27,7 @@ namespace olive {
 
 class TransitionTool : public AddTool {
  public:
-  TransitionTool(TimelineWidget *parent);
+  explicit TransitionTool(TimelineWidget *parent);
 
   virtual void HoverMove(TimelineViewMouseEvent *event) override;
 

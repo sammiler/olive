@@ -29,10 +29,10 @@ namespace olive {
 class ColorSwatchChooser : public QWidget {
   Q_OBJECT
  public:
-  ColorSwatchChooser(ColorManager *manager, QWidget *parent = nullptr);
+  explicit ColorSwatchChooser(ColorManager *manager, QWidget *parent = nullptr);
 
  public slots:
-  void SetCurrentColor(const ManagedColor &c) { current_ = c; }
+  void SetCurrentColor(const Color &c) { current_ = ManagedColor(c); }
 
  signals:
   void ColorClicked(const ManagedColor &c);

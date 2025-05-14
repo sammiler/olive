@@ -35,7 +35,7 @@ namespace olive {
 class ViewerTextEditorToolBar : public QWidget {
   Q_OBJECT
  public:
-  ViewerTextEditorToolBar(QWidget *parent = nullptr);
+  explicit ViewerTextEditorToolBar(QWidget *parent = nullptr);
 
   QString GetFontFamily() const { return font_combo_->currentText(); }
 
@@ -136,7 +136,7 @@ class ViewerTextEditorToolBar : public QWidget {
 class ViewerTextEditor : public QTextEdit {
   Q_OBJECT
  public:
-  ViewerTextEditor(double scale, QWidget *parent = nullptr);
+  explicit ViewerTextEditor(double scale, QWidget *parent = nullptr);
 
   void ConnectToolBar(ViewerTextEditorToolBar *toolbar);
 

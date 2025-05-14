@@ -34,7 +34,7 @@ namespace olive {
 class AudioMonitor : public QOpenGLWidget {
   Q_OBJECT
  public:
-  AudioMonitor(QWidget *parent = nullptr);
+  explicit AudioMonitor(QWidget *parent = nullptr);
 
   virtual ~AudioMonitor() override;
 

@@ -29,7 +29,7 @@ namespace olive {
 
 class ViewerWindow : public QWidget {
  public:
-  ViewerWindow(QWidget* parent = nullptr);
+  explicit ViewerWindow(QWidget* parent = nullptr);
 
   ViewerDisplayWidget* display_widget() const;
 

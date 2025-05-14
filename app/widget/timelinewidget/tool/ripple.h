@@ -27,7 +27,7 @@ namespace olive {
 
 class RippleTool : public PointerTool {
  public:
-  RippleTool(TimelineWidget* parent);
+  explicit RippleTool(TimelineWidget* parent);
 
  protected:
   virtual void FinishDrag(TimelineViewMouseEvent* event) override;

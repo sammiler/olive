@@ -43,12 +43,12 @@ class VideoParams {
   };
 
   VideoParams();
-  VideoParams(int width, int height, PixelFormat format, int nb_channels, const rational& pixel_aspect_ratio = 1,
+  VideoParams(int width, int height, PixelFormat format, int nb_channels, const rational& pixel_aspect_ratio = rational(1),
               Interlacing interlacing = kInterlaceNone, int divider = 1);
   VideoParams(int width, int height, int depth, PixelFormat format, int nb_channels,
-              const rational& pixel_aspect_ratio = 1, Interlacing interlacing = kInterlaceNone, int divider = 1);
+              const rational& pixel_aspect_ratio = rational(1), Interlacing interlacing = kInterlaceNone, int divider = 1);
   VideoParams(int width, int height, const rational& time_base, PixelFormat format, int nb_channels,
-              const rational& pixel_aspect_ratio = 1, Interlacing interlacing = kInterlaceNone, int divider = 1);
+              const rational& pixel_aspect_ratio = rational(1), Interlacing interlacing = kInterlaceNone, int divider = 1);
 
   int width() const { return width_; }
 

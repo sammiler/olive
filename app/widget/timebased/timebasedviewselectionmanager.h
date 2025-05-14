@@ -36,7 +36,7 @@ namespace olive {
 template <typename T>
 class TimeBasedViewSelectionManager {
  public:
-  TimeBasedViewSelectionManager(TimeBasedView *view)
+  explicit TimeBasedViewSelectionManager(TimeBasedView *view)
       : view_(view), rubberband_(nullptr), snap_mask_(TimeBasedWidget::kSnapAll) {}
 
   void SetSnapMask(TimeBasedWidget::SnapMask e) { snap_mask_ = e; }
@@ -243,15 +243,15 @@ class TimeBasedViewSelectionManager {
           Unsnap();
         }
 
-        if (proposed_time < 0) {
+        if (proposed_time < rational(0)) {
           // Prevent any object from going below zero
-          proposed_time = 0;
+          proposed_time = rational(0);
           Unsnap();
 
           // Setting our proposed time to zero may (re)introduce a conflict that we just avoided
           // with the sibling check above, so we request it to happen again. To avoid a negative
           // adj bringing us back below zero, we force adj to positive so it'll only nudge higher
-          adj = qAbs(adj);
+          adj = rational::qAbs(adj);
 
           loop = true;
         }

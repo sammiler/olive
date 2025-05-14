@@ -38,7 +38,7 @@ class ColorProcessor {
 
   ColorProcessor(ColorManager* config, const QString& input, const ColorTransform& dest_space,
                  Direction direction = kNormal);
-  ColorProcessor(OCIO::ConstProcessorRcPtr processor);
+  explicit ColorProcessor(OCIO::ConstProcessorRcPtr processor);
 
   DISABLE_COPY_MOVE(ColorProcessor)
 

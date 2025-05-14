@@ -38,8 +38,8 @@ namespace olive {
 class NodeParamView : public TimeBasedWidget {
   Q_OBJECT
  public:
-  NodeParamView(bool create_keyframe_view, QWidget *parent = nullptr);
-  NodeParamView(QWidget *parent = nullptr) : NodeParamView(true, parent) {}
+  explicit NodeParamView(bool create_keyframe_view, QWidget *parent = nullptr);
+  explicit NodeParamView(QWidget *parent = nullptr) : NodeParamView(true, parent) {}
 
   virtual ~NodeParamView() override;
 

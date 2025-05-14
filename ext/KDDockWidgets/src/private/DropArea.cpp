@@ -347,14 +347,14 @@ bool DropArea::drop(QWidgetOrQuick *droppedWindow, KDDockWidgets::Location locat
 
         auto frame = Config::self().frameworkWidgetFactory()->createFrame();
         frame->addWidget(dock);
-        addWidget(frame, location, relativeTo, DefaultSizeMode::FairButFloor);
+        addWidget(frame, location, relativeTo, InitialOption(DefaultSizeMode::FairButFloor));
     } else if (auto floatingWindow = qobject_cast<FloatingWindow *>(droppedWindow)) {
         if (!validateAffinity(floatingWindow))
             return false;
 
         const bool hadSingleFloatingFrame = hasSingleFloatingFrame();
         addMultiSplitter(floatingWindow->dropArea(), location, relativeTo,
-                         DefaultSizeMode::FairButFloor);
+                         InitialOption(DefaultSizeMode::FairButFloor));
         if (hadSingleFloatingFrame != hasSingleFloatingFrame())
             updateFloatingActions();
 

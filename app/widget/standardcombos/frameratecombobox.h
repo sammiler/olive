@@ -34,7 +34,7 @@ namespace olive {
 class FrameRateComboBox : public QWidget {
   Q_OBJECT
  public:
-  FrameRateComboBox(QWidget* parent = nullptr) : QWidget(parent) {
+  explicit FrameRateComboBox(QWidget* parent = nullptr) : QWidget(parent) {
     inner_ = new QComboBox();
 
     QHBoxLayout* layout = new QHBoxLayout(this);

@@ -30,7 +30,7 @@ namespace olive {
 class ColorWheelWidget : public ColorSwatchWidget {
   Q_OBJECT
  public:
-  ColorWheelWidget(QWidget* parent = nullptr);
+  explicit ColorWheelWidget(QWidget* parent = nullptr);
 
  signals:
   void DiameterChanged(int radius);

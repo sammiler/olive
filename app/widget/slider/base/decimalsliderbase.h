@@ -27,7 +27,7 @@ namespace olive {
 
 class DecimalSliderBase : public NumericSliderBase {
  public:
-  DecimalSliderBase(QWidget* parent = nullptr);
+  explicit DecimalSliderBase(QWidget* parent = nullptr);
 
   int GetDecimalPlaces() const { return decimal_places_; }
   void SetDecimalPlaces(int i);

@@ -41,18 +41,18 @@ class ViewerOutput;
 class PlaybackCache : public QObject {
   Q_OBJECT
  public:
-  PlaybackCache(QObject *parent = nullptr);
+  explicit PlaybackCache(QObject *parent = nullptr);
 
   const QUuid &GetUuid() const { return uuid_; }
   void SetUuid(const QUuid &u);
 
   TimeRangeList GetInvalidatedRanges(TimeRange intersecting) const;
   TimeRangeList GetInvalidatedRanges(const rational &length) const {
-    return GetInvalidatedRanges(TimeRange(0, length));
+    return GetInvalidatedRanges(TimeRange(rational(0), length));
   }
 
   bool HasInvalidatedRanges(const TimeRange &intersecting) const;
-  bool HasInvalidatedRanges(const rational &length) const { return HasInvalidatedRanges(TimeRange(0, length)); }
+  bool HasInvalidatedRanges(const rational &length) const { return HasInvalidatedRanges(TimeRange(rational(0), length)); }
 
   QString GetCacheDirectory() const;
 
@@ -82,7 +82,7 @@ class PlaybackCache : public QObject {
 
   class Passthrough : public TimeRange {
    public:
-    Passthrough(const TimeRange &r) : TimeRange(r) {}
+    explicit Passthrough(const TimeRange &r) : TimeRange(r) {}
 
     QUuid cache;
   };

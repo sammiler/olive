@@ -30,7 +30,7 @@ namespace olive {
 class ColorCodingComboBox : public QComboBox {
   Q_OBJECT
  public:
-  ColorCodingComboBox(QWidget* parent = nullptr);
+  explicit ColorCodingComboBox(QWidget* parent = nullptr);
 
   virtual void showPopup() override;
 

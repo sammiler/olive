@@ -32,8 +32,8 @@ namespace olive {
 class NodeParamViewKeyframeControl : public QWidget, public TimeTargetObject {
   Q_OBJECT
  public:
-  NodeParamViewKeyframeControl(bool right_align, QWidget* parent = nullptr);
-  NodeParamViewKeyframeControl(QWidget* parent = nullptr) : NodeParamViewKeyframeControl(true, parent) {}
+  explicit NodeParamViewKeyframeControl(bool right_align, QWidget* parent = nullptr);
+  explicit NodeParamViewKeyframeControl(QWidget* parent = nullptr) : NodeParamViewKeyframeControl(true, parent) {}
 
   const NodeInput& GetConnectedInput() const { return input_; }
 

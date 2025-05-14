@@ -31,7 +31,7 @@ ManagedColor::ManagedColor(const char *data, const PixelFormat &format, int chan
 
 ManagedColor::ManagedColor(const Color &c) : Color(c) {}
 
-const QString &ManagedColor::color_input() const { return color_input_; }
+QString ManagedColor::color_input() const { return color_input_; }
 
 void ManagedColor::set_color_input(const QString &color_input) { color_input_ = color_input; }
 

@@ -32,7 +32,7 @@ class TimelineWidget;
 
 class TimelineTool {
  public:
-  TimelineTool(TimelineWidget *parent);
+  explicit TimelineTool(TimelineWidget *parent);
   virtual ~TimelineTool();
 
   virtual void MousePress(TimelineViewMouseEvent *) {}

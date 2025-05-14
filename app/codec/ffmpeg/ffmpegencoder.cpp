@@ -49,7 +49,7 @@ FFmpegEncoder::FFmpegEncoder(const EncodingParams& params)
 QStringList FFmpegEncoder::GetPixelFormatsForCodec(ExportCodec::Codec c) const {
   QStringList pix_fmts;
 
-  const AVCodec* codec_info = GetEncoder(c, SampleFormat::INVALID);
+  const AVCodec* codec_info = GetEncoder(c, SampleFormat(SampleFormat::INVALID));
 
   if (codec_info) {
     for (int i = 0; codec_info->pix_fmts[i] != -1; i++) {
@@ -73,16 +73,16 @@ std::vector<SampleFormat> FFmpegEncoder::GetSampleFormatsForCodec(ExportCodec::C
     // FFmpeg lists these as separate codecs so we need custom functionality here
     // We list signed 16 first because ExportDialog will always use the first element by default
     // (because first element is the "default" in tFFmpeg)
-    f = {SampleFormat::S16, SampleFormat::U8,  SampleFormat::S32,
-         SampleFormat::S64, SampleFormat::F32, SampleFormat::F64};
+    f = {SampleFormat(SampleFormat::S16), SampleFormat(SampleFormat::U8),  SampleFormat(SampleFormat::S32),
+         SampleFormat(SampleFormat::S64), SampleFormat(SampleFormat::F32), SampleFormat(SampleFormat::F64)};
   } else {
-    const AVCodec* codec_info = GetEncoder(c, SampleFormat::INVALID);
+    const AVCodec* codec_info = GetEncoder(c, SampleFormat(SampleFormat::INVALID));
 
     if (codec_info && codec_info->sample_fmts) {
       for (int i = 0; codec_info->sample_fmts[i] != -1; i++) {
         SampleFormat this_format =
             FFmpegUtils::GetNativeSampleFormat(static_cast<AVSampleFormat>(codec_info->sample_fmts[i]));
-        if (this_format != SampleFormat::INVALID) {
+        if (static_cast<SampleFormat::Format>(this_format) != SampleFormat::INVALID) {
           f.push_back(this_format);
         }
       }
@@ -231,7 +231,7 @@ bool FFmpegEncoder::Open() {
 
 bool FFmpegEncoder::WriteFrame(FramePtr frame, rational time) {
   // We may need to convert this frame to a frame that swscale will understand
-  if (frame->format() != video_conversion_fmt_) {
+  if (static_cast<PixelFormat::Format>(frame->format()) != static_cast<PixelFormat::Format>(video_conversion_fmt_)) {
     frame = frame->convert(video_conversion_fmt_);
   }
 
@@ -399,7 +399,7 @@ bool FFmpegEncoder::WriteSubtitle(const SubtitleBlock* sub_block) {
   pkt->stream_index = subtitle_stream_->index;
   pkt->data = (uint8_t*)utf8_sub.data();
   pkt->size = utf8_sub.size();
-  pkt->pts = Timecode::time_to_timestamp(sub_block->in(), subtitle_codec_ctx_->time_base, Timecode::kFloor);
+  pkt->pts = Timecode::time_to_timestamp(sub_block->in(), rational(subtitle_codec_ctx_->time_base), Timecode::kFloor);
   pkt->duration =
       av_rescale_q(qRound64(sub_block->length().toDouble() * 1000), {1, 1000}, subtitle_codec_ctx_->time_base);
   pkt->dts = pkt->pts;
@@ -891,7 +891,7 @@ const AVCodec* FFmpegEncoder::GetEncoder(ExportCodec::Codec c, SampleFormat afor
     case ExportCodec::kCodecAAC:
       return avcodec_find_encoder(AV_CODEC_ID_AAC);
     case ExportCodec::kCodecPCM:
-      switch (aformat) {
+      switch (static_cast<SampleFormat::Format>(aformat)) {
         case SampleFormat::INVALID:
         case SampleFormat::COUNT:
         case SampleFormat::U8P:

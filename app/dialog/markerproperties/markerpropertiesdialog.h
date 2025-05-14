@@ -33,7 +33,7 @@ namespace olive {
 class LineEditWithFocusSignal : public QLineEdit {
   Q_OBJECT
  public:
-  LineEditWithFocusSignal(QWidget *parent = nullptr) : QLineEdit(parent) {}
+  explicit LineEditWithFocusSignal(QWidget *parent = nullptr) : QLineEdit(parent) {}
 
  protected:
   virtual void focusInEvent(QFocusEvent *e) override {

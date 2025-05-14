@@ -425,7 +425,7 @@ void NodeParamViewWidgetBridge::UpdateWidgetValues() {
       break;
     }
     case NodeValue::kColor: {
-      ManagedColor mc = GetInnerInput().GetValueAtTime(node_time).value<Color>();
+      ManagedColor mc = ManagedColor(GetInnerInput().GetValueAtTime(node_time).value<Color>());
 
       mc.set_color_input(GetInnerInput().GetProperty("col_input").toString());
 
@@ -478,7 +478,7 @@ rational NodeParamViewWidgetBridge::GetCurrentTimeAsNodeTime() const {
     return GetAdjustedTime(GetTimeTarget(), GetInnerInput().node(), GetTimeTarget()->GetPlayhead(),
                            Node::kTransformTowardsInput);
   } else {
-    return 0;
+    return rational(0);
   }
 }
 

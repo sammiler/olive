@@ -27,7 +27,7 @@ namespace olive {
 
 class ImportTool : public TimelineTool {
  public:
-  ImportTool(TimelineWidget *parent);
+  explicit ImportTool(TimelineWidget *parent);
 
   virtual void DragEnter(TimelineViewMouseEvent *event) override;
   virtual void DragMove(TimelineViewMouseEvent *event) override;

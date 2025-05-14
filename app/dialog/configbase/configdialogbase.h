@@ -32,7 +32,7 @@ namespace olive {
 class ConfigDialogBase : public QDialog {
   Q_OBJECT
  public:
-  ConfigDialogBase(QWidget* parent = nullptr);
+  explicit ConfigDialogBase(QWidget* parent = nullptr);
 
  private slots:
   /**

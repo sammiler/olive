@@ -103,12 +103,12 @@ struct InitialOption
 
     InitialOption() = default;
 
-    InitialOption(InitialVisibilityOption v)
+    explicit InitialOption(InitialVisibilityOption v)
         : visibility(v)
     {
     }
 
-    InitialOption(QSize size)
+    explicit InitialOption(QSize size)
         : preferredSize(size)
     {
     }
@@ -120,7 +120,7 @@ struct InitialOption
     }
 
     QT_DEPRECATED_X("AddingOption is deprecated and will be removed in v1.5. Use InitialVisibilityOption instead.")
-    InitialOption(AddingOption opt)
+    explicit InitialOption(AddingOption opt)
         : visibility(opt == AddingOption_StartHidden ? InitialVisibilityOption::StartHidden
                                                      : InitialVisibilityOption::StartVisible)
     {
@@ -172,7 +172,7 @@ private:
     friend class KDDockWidgets::MultiSplitter;
     friend class KDDockWidgets::DropArea;
 
-    InitialOption(DefaultSizeMode mode)
+    explicit  InitialOption(DefaultSizeMode mode)
         : sizeMode(mode)
     {
     }

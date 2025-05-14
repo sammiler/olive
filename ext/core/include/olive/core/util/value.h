@@ -50,26 +50,26 @@ class Value {
 
   Value() { type_ = NONE; }
 
-  Value(int64_t v) {
+  explicit Value(int64_t v) {
     data_.resize(sizeof(int64_t));
     memcpy(data_.data(), &v, sizeof(int64_t));
     type_ = INT;
   }
 
-  Value(double v) {
+  explicit Value(double v) {
     data_.resize(sizeof(double));
     memcpy(data_.data(), &v, sizeof(int64_t));
     type_ = FLOAT;
   }
 
-  Value(const char *s) {
+  explicit Value(const char *s) {
     size_t sz = strlen(s);
     data_.resize(sz);
     memcpy(data_.data(), s, sz);
     type_ = STRING;
   }
 
-  Value(const std::string &s) {
+  explicit Value(const std::string &s) {
     data_.resize(s.size());
     memcpy(data_.data(), s.data(), data_.size());
     type_ = STRING;

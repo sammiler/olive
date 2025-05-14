@@ -29,7 +29,7 @@ namespace olive {
 
 class FootageDescription {
  public:
-  FootageDescription(const QString& decoder = QString()) : decoder_(decoder), total_stream_count_(0) {}
+  explicit FootageDescription(const QString& decoder = QString()) : decoder_(decoder), total_stream_count_(0) {}
 
   bool IsValid() const {
     return !decoder_.isEmpty() &&

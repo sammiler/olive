@@ -28,7 +28,7 @@ namespace olive {
 class NumericSliderBase : public SliderBase {
   Q_OBJECT
  public:
-  NumericSliderBase(QWidget* parent = nullptr);
+  explicit NumericSliderBase(QWidget* parent = nullptr);
 
   void SetLadderElementCount(int b) { ladder_element_count_ = b; }
 

@@ -33,7 +33,7 @@ namespace olive {
 class TextDialog : public QDialog {
   Q_OBJECT
  public:
-  TextDialog(const QString& start, QWidget* parent = nullptr);
+  explicit TextDialog(const QString& start, QWidget* parent = nullptr);
 
   QString text() const { return text_edit_->toPlainText(); }
 

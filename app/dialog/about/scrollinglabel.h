@@ -29,8 +29,8 @@ namespace olive {
 class ScrollingLabel : public QWidget {
   Q_OBJECT
  public:
-  ScrollingLabel(QWidget* parent = nullptr);
-  ScrollingLabel(const QStringList& text, QWidget* parent = nullptr);
+  explicit ScrollingLabel(QWidget* parent = nullptr);
+  explicit ScrollingLabel(const QStringList& text, QWidget* parent = nullptr);
 
   void SetText(const QStringList& text);
 

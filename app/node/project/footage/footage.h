@@ -46,7 +46,7 @@ class Footage : public ViewerOutput {
   /**
    * @brief Footage Constructor
    */
-  Footage(const QString &filename = QString());
+  explicit Footage(const QString &filename = QString());
 
   NODE_DEFAULT_FUNCTIONS(Footage)
 

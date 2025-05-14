@@ -27,7 +27,7 @@ AVPixelFormat FFmpegUtils::GetCompatiblePixelFormat(const AVPixelFormat &pix_fmt
 
   possible_pix_fmts[0] = AV_PIX_FMT_RGBA;
 
-  if (maximum == PixelFormat::U8) {
+  if (static_cast<PixelFormat::Format>(maximum) == PixelFormat::U8) {
     possible_pix_fmts[1] = AV_PIX_FMT_NONE;
   } else {
     possible_pix_fmts[1] = AV_PIX_FMT_RGBA64;
@@ -40,39 +40,39 @@ AVPixelFormat FFmpegUtils::GetCompatiblePixelFormat(const AVPixelFormat &pix_fmt
 SampleFormat FFmpegUtils::GetNativeSampleFormat(const AVSampleFormat &smp_fmt) {
   switch (smp_fmt) {
     case AV_SAMPLE_FMT_U8:
-      return SampleFormat::U8;
+      return SampleFormat(SampleFormat::U8);
     case AV_SAMPLE_FMT_S16:
-      return SampleFormat::S16;
+      return SampleFormat(SampleFormat::S16);
     case AV_SAMPLE_FMT_S32:
-      return SampleFormat::S32;
+      return SampleFormat(SampleFormat::S32);
     case AV_SAMPLE_FMT_S64:
-      return SampleFormat::S64;
+      return SampleFormat(SampleFormat::S64);
     case AV_SAMPLE_FMT_FLT:
-      return SampleFormat::F32;
+      return SampleFormat(SampleFormat::F32);
     case AV_SAMPLE_FMT_DBL:
-      return SampleFormat::F64;
+      return SampleFormat(SampleFormat::F64);
     case AV_SAMPLE_FMT_U8P:
-      return SampleFormat::U8P;
+      return SampleFormat(SampleFormat::U8P);
     case AV_SAMPLE_FMT_S16P:
-      return SampleFormat::S16P;
+      return SampleFormat(SampleFormat::S16P);
     case AV_SAMPLE_FMT_S32P:
-      return SampleFormat::S32P;
+      return SampleFormat(SampleFormat::S32P);
     case AV_SAMPLE_FMT_S64P:
-      return SampleFormat::S64P;
+      return SampleFormat(SampleFormat::S64P);
     case AV_SAMPLE_FMT_FLTP:
-      return SampleFormat::F32P;
+      return SampleFormat(SampleFormat::F32P);
     case AV_SAMPLE_FMT_DBLP:
-      return SampleFormat::F64P;
+      return SampleFormat(SampleFormat::F64P);
     case AV_SAMPLE_FMT_NONE:
     case AV_SAMPLE_FMT_NB:
       break;
   }
 
-  return SampleFormat::INVALID;
+  return SampleFormat(SampleFormat::INVALID);
 }
 
 AVSampleFormat FFmpegUtils::GetFFmpegSampleFormat(const SampleFormat &smp_fmt) {
-  switch (smp_fmt) {
+  switch (static_cast<SampleFormat::Format>(smp_fmt)) {
     case SampleFormat::U8:
       return AV_SAMPLE_FMT_U8;
     case SampleFormat::S16:
@@ -147,7 +147,7 @@ AVPixelFormat FFmpegUtils::ConvertJPEGSpaceToRegularSpace(AVPixelFormat f) {
 
 AVPixelFormat FFmpegUtils::GetFFmpegPixelFormat(const PixelFormat &pix_fmt, int channel_layout) {
   if (channel_layout == VideoParams::kRGBChannelCount) {
-    switch (pix_fmt) {
+    switch (static_cast<PixelFormat::Format>(pix_fmt)) {
       case PixelFormat::U8:
         return AV_PIX_FMT_RGB24;
       case PixelFormat::U16:
@@ -159,7 +159,7 @@ AVPixelFormat FFmpegUtils::GetFFmpegPixelFormat(const PixelFormat &pix_fmt, int 
         break;
     }
   } else if (channel_layout == VideoParams::kRGBAChannelCount) {
-    switch (pix_fmt) {
+    switch (static_cast<PixelFormat::Format>(pix_fmt)) {
       case PixelFormat::U8:
         return AV_PIX_FMT_RGBA;
       case PixelFormat::U16:
@@ -176,19 +176,19 @@ AVPixelFormat FFmpegUtils::GetFFmpegPixelFormat(const PixelFormat &pix_fmt, int 
 }
 
 PixelFormat FFmpegUtils::GetCompatiblePixelFormat(const PixelFormat &pix_fmt) {
-  switch (pix_fmt) {
+  switch (static_cast<PixelFormat::Format>(pix_fmt)) {
     case PixelFormat::U8:
-      return PixelFormat::U8;
+      return PixelFormat(PixelFormat::U8);
     case PixelFormat::U16:
     case PixelFormat::F16:
     case PixelFormat::F32:
-      return PixelFormat::U16;
+      return PixelFormat(PixelFormat::U16);
     case PixelFormat::INVALID:
     case PixelFormat::COUNT:
       break;
   }
 
-  return PixelFormat::INVALID;
+  return PixelFormat(PixelFormat::INVALID);
 }
 
 }  // namespace olive

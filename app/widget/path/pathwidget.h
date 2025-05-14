@@ -31,7 +31,7 @@ namespace olive {
 class PathWidget : public QWidget {
   Q_OBJECT
  public:
-  PathWidget(const QString& path, QWidget* parent = nullptr);
+  explicit PathWidget(const QString& path, QWidget* parent = nullptr);
 
   QString text() const { return path_edit_->text(); }
 

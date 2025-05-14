@@ -51,7 +51,7 @@ void AudioWaveformView::SetViewer(ViewerOutput *playback) {
     disconnect(playback_, &ViewerOutput::ConnectedWaveformChanged, viewport(),
                static_cast<void (QWidget::*)()>(&QWidget::update));
 
-    SetTimebase(0);
+    SetTimebase(rational(0));
   }
 
   playback_ = playback;

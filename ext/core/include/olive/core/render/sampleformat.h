@@ -53,9 +53,9 @@ class SampleFormat {
     PACKED_END = COUNT,
   };
 
-  SampleFormat(Format f = INVALID) { f_ = f; }
+  explicit SampleFormat(Format f = INVALID) { f_ = f; }
 
-  operator Format() const { return f_; }
+  explicit operator Format() const { return f_; }
 
   static int byte_count(Format f) {
     switch (f) {
@@ -123,42 +123,42 @@ class SampleFormat {
 
   static SampleFormat from_string(const std::string &s) {
     if (s == "u8") {
-      return U8;
+      return SampleFormat(U8);
     } else if (s == "s16") {
-      return S16;
+      return SampleFormat(S16);
     } else if (s == "s32") {
-      return S32;
+      return SampleFormat(S32);
     } else if (s == "s64") {
-      return S64;
+      return SampleFormat(S64);
     } else if (s == "f32") {
-      return F32;
+      return SampleFormat(F32);
     } else if (s == "f64") {
-      return F64;
+      return SampleFormat(F64);
     } else if (s == "u8p") {
-      return U8P;
+      return SampleFormat(U8P);
     } else if (s == "s16p") {
-      return S16P;
+      return SampleFormat(S16P);
     } else if (s == "s32p") {
-      return S32P;
+      return SampleFormat(S32P);
     } else if (s == "s64p") {
-      return S64P;
+      return SampleFormat(S64P);
     } else if (s == "f32p") {
-      return F32P;
+      return SampleFormat(F32P);
     } else if (s == "f64p") {
-      return F64P;
+      return SampleFormat(F64P);
     } else {
       // Deprecated: sample formats used to be serialized as an integer. Handle that here, but we'll
       //             probably remove that eventually.
       try {
         int i = std::stoi(s);
         if (i > INVALID && i < COUNT) {
-          return static_cast<Format>(i);
+          return SampleFormat(static_cast<Format>(i));
         }
       } catch (const std::invalid_argument &e) {
       }
 
       // Failed to deserialize from string
-      return INVALID;
+      return SampleFormat(INVALID);
     }
   }
 
@@ -171,7 +171,7 @@ class SampleFormat {
   bool is_planar() const { return is_planar(f_); }
 
   static SampleFormat to_packed_equivalent(SampleFormat fmt) {
-    switch (fmt) {
+    switch (static_cast<Format>(fmt)) {
       // For packed input, just return input
       case U8:
       case S16:
@@ -183,43 +183,43 @@ class SampleFormat {
 
       // Convert to packed
       case U8P:
-        return U8;
+        return SampleFormat(U8);
       case S16P:
-        return S16;
+        return SampleFormat(S16);
       case S32P:
-        return S32;
+        return SampleFormat(S32);
       case S64P:
-        return S64;
+        return SampleFormat(S64);
       case F32P:
-        return F32;
+        return SampleFormat(F32);
       case F64P:
-        return F64;
+        return SampleFormat(F64);
 
       case INVALID:
       case COUNT:
         break;
     }
 
-    return INVALID;
+    return SampleFormat(INVALID);
   }
 
-  SampleFormat to_packed_equivalent() const { return to_packed_equivalent(f_); }
+  SampleFormat to_packed_equivalent() const { return to_packed_equivalent(SampleFormat(f_)); }
 
   static SampleFormat to_planar_equivalent(SampleFormat fmt) {
-    switch (fmt) {
+    switch (static_cast<Format>(fmt)) {
       // Convert to planar
       case U8:
-        return U8P;
+        return SampleFormat(U8P);
       case S16:
-        return S16P;
+        return SampleFormat(S16P);
       case S32:
-        return S32P;
+        return SampleFormat(S32P);
       case S64:
-        return S64P;
+        return SampleFormat(S64P);
       case F32:
-        return F32P;
+        return SampleFormat(F32P);
       case F64:
-        return F64P;
+        return SampleFormat(F64P);
 
       // For planar input, just return input
       case U8P:
@@ -235,10 +235,10 @@ class SampleFormat {
         break;
     }
 
-    return INVALID;
+    return SampleFormat(INVALID);
   }
 
-  SampleFormat to_planar_equivalent() const { return to_planar_equivalent(f_); }
+  SampleFormat to_planar_equivalent() const { return to_planar_equivalent(SampleFormat(f_)); }
 
  private:
   Format f_;

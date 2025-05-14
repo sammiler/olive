@@ -57,7 +57,7 @@ class AudioVisualWaveform {
    *
    * Starting at `start`, writes samples over anything in the buffer, expanding it if necessary.
    */
-  void OverwriteSamples(const SampleBuffer &samples, int sample_rate, const rational &start = 0);
+  void OverwriteSamples(const SampleBuffer &samples, int sample_rate, const rational &start = rational(0));
 
   /**
    * @brief Replaces sums at a certain range in this visual waveform
@@ -78,8 +78,8 @@ class AudioVisualWaveform {
    *
    * Maximum length of `sums` to overwrite with.
    */
-  void OverwriteSums(const AudioVisualWaveform &sums, const rational &dest, const rational &offset = 0,
-                     const rational &length = 0);
+  void OverwriteSums(const AudioVisualWaveform &sums, const rational &dest, const rational &offset = rational(0),
+                     const rational &length = rational(0));
 
   void OverwriteSilence(const rational &start, const rational &length);
 

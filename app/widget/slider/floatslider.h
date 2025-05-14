@@ -28,7 +28,7 @@ namespace olive {
 class FloatSlider : public DecimalSliderBase {
   Q_OBJECT
  public:
-  FloatSlider(QWidget* parent = nullptr);
+  explicit FloatSlider(QWidget* parent = nullptr);
 
   enum DisplayType { kNormal, kDecibel, kPercentage };
 

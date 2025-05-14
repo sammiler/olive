@@ -32,7 +32,7 @@ namespace olive {
 class ShapeNodeBase : public GeneratorWithMerge {
   Q_OBJECT
  public:
-  ShapeNodeBase(bool create_color_input = true);
+  explicit ShapeNodeBase(bool create_color_input = true);
 
   virtual void Retranslate() override;
 

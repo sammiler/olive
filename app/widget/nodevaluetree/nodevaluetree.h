@@ -11,7 +11,7 @@ namespace olive {
 class NodeValueTree : public QTreeWidget {
   Q_OBJECT
  public:
-  NodeValueTree(QWidget *parent = nullptr);
+  explicit NodeValueTree(QWidget *parent = nullptr);
 
   void SetNode(const NodeInput &input, const rational &time);
 

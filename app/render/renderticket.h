@@ -128,7 +128,7 @@ using RenderTicketPtr = std::shared_ptr<RenderTicket>;
 class RenderTicketWatcher : public QObject {
   Q_OBJECT
  public:
-  RenderTicketWatcher(QObject* parent = nullptr);
+  explicit RenderTicketWatcher(QObject* parent = nullptr);
 
   RenderTicketPtr GetTicket() const { return ticket_; }
 

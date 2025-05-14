@@ -215,7 +215,7 @@ void ViewerWidget::ConnectNodeEvent(ViewerOutput *n) {
 
   SetViewerResolution(vp.width(), vp.height());
   SetViewerPixelAspect(vp.pixel_aspect_ratio());
-  last_length_ = 0;
+  last_length_ = rational(0);
   LengthChangedSlot(n->GetLength());
 
   UpdateAudioProcessor();
@@ -371,7 +371,7 @@ void ViewerWidget::SetFullScreen(QScreen *screen) {
 
 void ViewerWidget::CacheEntireSequence() {
   RenderManager::instance()->GetCacher()->ForceCacheRange(GetConnectedNode(),
-                                                          TimeRange(0, GetConnectedNode()->GetVideoLength()));
+                                                          TimeRange(rational(0), GetConnectedNode()->GetVideoLength()));
 }
 
 void ViewerWidget::CacheSequenceInOut() {
@@ -413,7 +413,7 @@ FramePtr ViewerWidget::DecodeCachedImage(const QString &cache_path, const QUuid 
   FramePtr frame = FrameHashCache::LoadCacheFrame(cache_path, cache_id, time);
 
   if (frame) {
-    frame->set_timestamp(time);
+    frame->set_timestamp(rational(time));
   } else {
     qWarning() << "Tried to load cached frame from file but it was null";
   }
@@ -676,7 +676,7 @@ void ViewerWidget::UpdateWaveformViewFromMode() {
 }
 
 void ViewerWidget::QueueNextAudioBuffer() {
-  rational queue_end = audio_playback_queue_time_ + (kAudioPlaybackInterval * playback_speed_);
+  rational queue_end = audio_playback_queue_time_ + (kAudioPlaybackInterval * rational(playback_speed_));
 
   // Clamp queue end by zero and the audio length
   queue_end = std::clamp(queue_end, rational(0), GetConnectedNode()->GetAudioLength());
@@ -890,7 +890,7 @@ void ViewerWidget::PlayInternal(int speed, bool in_to_out_only) {
     rational last_frame = GetConnectedNode()->GetLength() - timebase();
     if (!in_to_out_only && GetConnectedNode()->GetPlayhead() >= last_frame) {
       if (speed > 0) {
-        GetConnectedNode()->SetPlayhead(0);
+        GetConnectedNode()->SetPlayhead(rational(0));
       } else {
         GetConnectedNode()->SetPlayhead(last_frame);
       }
@@ -1041,7 +1041,7 @@ QString ViewerWidget::GetCachedFilenameFromTime(const rational &time) {
 }
 
 bool ViewerWidget::FrameExistsAtTime(const rational &time) {
-  return GetConnectedNode() && time >= 0 && time < GetConnectedNode()->GetVideoLength();
+  return GetConnectedNode() && time >= rational(0) && time < GetConnectedNode()->GetVideoLength();
 }
 
 bool ViewerWidget::ViewerMightBeAStill() {
@@ -1546,7 +1546,7 @@ void ViewerWidget::ShuttleRight() {
   PlayInternal(current_speed, false);
 }
 
-void ViewerWidget::SetColorTransform(const ColorTransform &transform) { SetColorTransform(transform, display_widget_); }
+void ViewerWidget::SetColorTransform(const QString &transform) { SetColorTransform(ColorTransform(transform), display_widget_); }
 
 void ViewerWidget::SetSignalCursorColorEnabled(bool e) {
   foreach (ViewerDisplayWidget *dw, playback_devices_) {
@@ -1559,8 +1559,8 @@ void ViewerWidget::TimebaseChangedEvent(const rational &timebase) {
 
   controls_->SetTimebase(timebase);
 
-  controls_->SetTime(GetConnectedNode() ? GetConnectedNode()->GetPlayhead() : 0);
-  LengthChangedSlot(GetConnectedNode() ? GetConnectedNode()->GetLength() : 0);
+  controls_->SetTime(GetConnectedNode() ? GetConnectedNode()->GetPlayhead() : rational(0));
+  LengthChangedSlot(GetConnectedNode() ? GetConnectedNode()->GetLength() : rational(0));
 }
 
 void ViewerWidget::PlaybackTimerUpdate() {
@@ -1582,7 +1582,7 @@ void ViewerWidget::PlaybackTimerUpdate() {
 
   } else {
     // Otherwise set the bounds to the range of the sequence
-    min_time = 0;
+    min_time = rational(0);
     max_time = GetConnectedNode()->GetLength();
   }
 

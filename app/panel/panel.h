@@ -42,7 +42,7 @@ class PanelWidget : public KDDockWidgets::DockWidget {
    * The PanelWidget's parent, enforced to help with memory handling. Most of the time this will be an instance of
    * MainWindow.
    */
-  PanelWidget(const QString& object_name);
+  explicit PanelWidget(const QString& object_name);
 
   virtual ~PanelWidget() override;
 

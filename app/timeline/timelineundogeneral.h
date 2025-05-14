@@ -82,7 +82,7 @@ class BlockSetMediaInCommand : public UndoCommand {
 
 class TimelineAddTrackCommand : public UndoCommand {
  public:
-  TimelineAddTrackCommand(TrackList* timeline)
+  explicit TimelineAddTrackCommand(TrackList* timeline)
       : TimelineAddTrackCommand(timeline, OLIVE_CONFIG("AutoMergeTracks").toBool()) {}
 
   TimelineAddTrackCommand(TrackList* timeline, bool automerge_tracks);
@@ -127,7 +127,7 @@ class TimelineAddTrackCommand : public UndoCommand {
 
 class TimelineRemoveTrackCommand : public UndoCommand {
  public:
-  TimelineRemoveTrackCommand(Track* track) : track_(track), remove_command_(nullptr) {}
+  explicit TimelineRemoveTrackCommand(Track* track) : track_(track), remove_command_(nullptr) {}
 
   virtual ~TimelineRemoveTrackCommand() { delete remove_command_; }
 

@@ -29,7 +29,7 @@ namespace olive {
 
 class ScopeBase : public ManagedDisplayWidget {
  public:
-  ScopeBase(QWidget* parent = nullptr);
+  explicit ScopeBase(QWidget* parent = nullptr);
 
   MANAGEDDISPLAYWIDGET_DEFAULT_DESTRUCTOR(ScopeBase)
 

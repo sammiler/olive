@@ -66,7 +66,7 @@ rational TimelineTool::ValidateTimeMovement(rational movement) {
     }
 
     // Prevents any ghosts from going below 0:00:00 time
-    if (ghost->GetIn() + movement < 0) {
+    if (ghost->GetIn() + movement < rational(0)) {
       movement = -ghost->GetIn();
     } else if (first_ghost) {
       // Ensure ghost is snapped to a grid

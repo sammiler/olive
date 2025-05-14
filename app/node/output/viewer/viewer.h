@@ -43,7 +43,7 @@ class Footage;
 class ViewerOutput : public Node {
   Q_OBJECT
  public:
-  ViewerOutput(bool create_buffer_inputs = true, bool create_default_streams = true);
+  explicit ViewerOutput(bool create_buffer_inputs = true, bool create_default_streams = true);
 
   NODE_DEFAULT_FUNCTIONS(ViewerOutput)
 
@@ -138,9 +138,9 @@ class ViewerOutput : public Node {
   TimelineWorkArea *GetWorkArea() const { return workarea_; }
   TimelineMarkerList *GetMarkers() const { return markers_; }
 
-  virtual TimeRange GetVideoCacheRange() const override { return TimeRange(0, GetVideoLength()); }
+  virtual TimeRange GetVideoCacheRange() const override { return TimeRange(rational(0), GetVideoLength()); }
 
-  virtual TimeRange GetAudioCacheRange() const override { return TimeRange(0, GetAudioLength()); }
+  virtual TimeRange GetAudioCacheRange() const override { return TimeRange(rational(0), GetAudioLength()); }
 
   QVector<Track::Reference> GetEnabledStreamsAsReferences() const;
 

@@ -79,7 +79,7 @@ TimelineWidget::TimelineWidget(QWidget *parent)
   timecode_label_->SetAlignment(Qt::AlignCenter);
   timecode_label_->SetDisplayType(RationalSlider::kTime);
   timecode_label_->setVisible(false);
-  timecode_label_->SetMinimum(0);
+  timecode_label_->SetMinimum(rational(0));
   ruler_and_time_layout->addWidget(timecode_label_);
 
   ruler_and_time_layout->addWidget(ruler());
@@ -213,7 +213,7 @@ void TimelineWidget::Clear() {
   SignalDeselectedAllBlocks();
 
   // Set null timebase
-  SetTimebase(0);
+  SetTimebase(rational(0));
 }
 
 void TimelineWidget::TimebaseChangedEvent(const rational &timebase) {
@@ -325,7 +325,7 @@ void TimelineWidget::DisconnectNodeEvent(ViewerOutput *n) {
 
   ruler()->SetPlaybackCache(nullptr);
 
-  SetTimebase(0);
+  SetTimebase(rational(0));
 
   Clear();
 
@@ -1108,7 +1108,7 @@ void TimelineWidget::RemoveTrack(Track *track) {
   disconnect(track, &Track::BlockAdded, this, &TimelineWidget::AddBlock);
   disconnect(track, &Track::BlockRemoved, this, &TimelineWidget::RemoveBlock);
 
-  RemoveSelection(TimeRange(0, RATIONAL_MAX), track->ToReference());
+  RemoveSelection(TimeRange(rational(0), RATIONAL_MAX), track->ToReference());
 
   foreach (Block *b, track->Blocks()) {
     RemoveBlock(b);
@@ -1263,7 +1263,7 @@ void TimelineWidget::SetUseAudioTimeUnits(bool use) {
 
 void TimelineWidget::ToolChanged() {
   HideSnaps();
-  SetViewBeamCursor(TimelineCoordinate(0, Track::kNone, -1));
+  SetViewBeamCursor(TimelineCoordinate(rational(0), Track::kNone, -1));
   SetViewTransitionOverlay(nullptr, nullptr);
 
   AddableObjectChanged();
@@ -1430,8 +1430,8 @@ void TimelineWidget::MulticamEnabledTriggered(bool e) {
 
           // Move sequence node one unit back, and place multicam in sequence's spot
           QPointF sequence_pos = c->GetNodePositionInContext(s);
-          command->add_child(new NodeSetPositionCommand(s, c, sequence_pos - QPointF(1, 0)));
-          command->add_child(new NodeSetPositionCommand(n, c, sequence_pos));
+          command->add_child(new NodeSetPositionCommand(s, c, Node::Position(sequence_pos - QPointF(1, 0))));
+          command->add_child(new NodeSetPositionCommand(n, c, Node::Position(sequence_pos)));
 
         } else {
           // Removing multicams
@@ -1485,7 +1485,7 @@ void TimelineWidget::NudgeInternal(rational amount) {
   if (!selected_blocks_.isEmpty()) {
     // Validate
     foreach (Block *b, selected_blocks_) {
-      if (b->in() + amount < 0) {
+      if (b->in() + amount < rational(0)) {
         amount = -b->in();
       }
     }
@@ -1535,14 +1535,14 @@ void TimelineWidget::MoveToPlayheadInternal(bool out) {
       rational new_in = b->in() + shift_amt;
       bool can_shift = true;
 
-      if (new_in < 0) {
+      if (new_in < rational(0)) {
         // Handle clips threatening to go below 0
         rational new_out = new_in + b->length();
-        if (new_out <= 0) {
+        if (new_out <= rational(0)) {
           can_shift = false;
         } else {
           command->add_child(new BlockResizeWithMediaInCommand(b, new_out));
-          new_in = 0;
+          new_in = rational(0);
         }
       }
 

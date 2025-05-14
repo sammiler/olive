@@ -551,12 +551,12 @@ bool NodeParamView::CopySelected(bool cut) {
 
 bool NodeParamView::Paste() {
   if (keyframe_view_) {
-    if (keyframe_view_->Paste(std::bind(&NodeParamView::GetNodeWithID, this, std::placeholders::_1))) {
+    if (keyframe_view_->Paste([this](const QString &id) { return GetNodeWithID(id); })) {
       return true;
     }
   }
 
-  return Paste(this, std::bind(&NodeParamView::GenerateExistingPasteMap, this, std::placeholders::_1));
+  return Paste(this, [this](const ProjectSerializer::Result &r) { return GenerateExistingPasteMap(r); });
 }
 
 bool NodeParamView::Paste(

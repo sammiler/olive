@@ -33,7 +33,7 @@ using namespace core;
 class ChannelLayoutComboBox : public QComboBox {
   Q_OBJECT
  public:
-  ChannelLayoutComboBox(QWidget* parent = nullptr) : QComboBox(parent) {
+  explicit ChannelLayoutComboBox(QWidget* parent = nullptr) : QComboBox(parent) {
     foreach (const uint64_t& ch_layout, AudioParams::kSupportedChannelLayouts) {
       this->addItem(HumanStrings::ChannelLayoutToString(ch_layout), QVariant::fromValue(ch_layout));
     }

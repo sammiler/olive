@@ -32,7 +32,7 @@ class ColorTransform {
  public:
   ColorTransform() { is_display_ = false; }
 
-  ColorTransform(const QString& output) {
+  explicit ColorTransform(const QString& output) {
     is_display_ = false;
     output_ = output;
   }

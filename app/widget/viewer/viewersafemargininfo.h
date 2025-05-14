@@ -31,7 +31,7 @@ class ViewerSafeMarginInfo {
  public:
   ViewerSafeMarginInfo() : enabled_(false) {}
 
-  ViewerSafeMarginInfo(bool enabled, double ratio = 0) : enabled_(enabled), ratio_(ratio) {}
+  explicit ViewerSafeMarginInfo(bool enabled, double ratio = 0) : enabled_(enabled), ratio_(ratio) {}
 
   bool is_enabled() const { return enabled_; }
 

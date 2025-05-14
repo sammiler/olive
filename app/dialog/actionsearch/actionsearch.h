@@ -51,7 +51,7 @@ class ActionSearch : public QDialog {
    *
    * QWidget parent. Usually MainWindow.
    */
-  ActionSearch(QWidget* parent);
+  explicit ActionSearch(QWidget* parent);
 
   /**
    * @brief Set the menu bar to use in this action search
@@ -135,7 +135,7 @@ class ActionSearchList : public QListWidget {
    *
    * Usually ActionSearch.
    */
-  ActionSearchList(QWidget* parent);
+  explicit ActionSearchList(QWidget* parent);
 
  protected:
   /**
@@ -164,7 +164,7 @@ class ActionSearchEntry : public QLineEdit {
    *
    * Usually ActionSearch.
    */
-  ActionSearchEntry(QWidget* parent);
+  explicit ActionSearchEntry(QWidget* parent);
 
  protected:
   /**

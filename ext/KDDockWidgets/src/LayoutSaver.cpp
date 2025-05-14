@@ -202,7 +202,7 @@ bool LayoutSaver::restoreLayout(const QByteArray &data)
 
     struct FrameCleanup
     {
-        FrameCleanup(LayoutSaver *saver)
+        explicit FrameCleanup(LayoutSaver *saver)
             : m_saver(saver)
         {
         }

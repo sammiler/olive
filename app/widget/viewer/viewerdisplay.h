@@ -64,7 +64,7 @@ class ViewerDisplayWidget : public ManagedDisplayWidget, public TimeTargetObject
    *
    * QWidget parent.
    */
-  ViewerDisplayWidget(QWidget *parent = nullptr);
+  explicit ViewerDisplayWidget(QWidget *parent = nullptr);
 
   virtual ~ViewerDisplayWidget() override;
 

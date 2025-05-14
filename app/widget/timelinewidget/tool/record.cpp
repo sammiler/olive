@@ -55,14 +55,14 @@ void RecordTool::MouseMove(TimelineViewMouseEvent *event) {
 
   // Make adjustment
   if (!movement) {
-    ghost_->SetInAdjustment(0);
-    ghost_->SetOutAdjustment(0);
-  } else if (movement > 0) {
-    ghost_->SetInAdjustment(0);
+    ghost_->SetInAdjustment(rational(0));
+    ghost_->SetOutAdjustment(rational(0));
+  } else if (movement > rational(0)) {
+    ghost_->SetInAdjustment(rational(0));
     ghost_->SetOutAdjustment(movement);
-  } else if (movement < 0) {
+  } else if (movement < rational(0)) {
     ghost_->SetInAdjustment(movement);
-    ghost_->SetOutAdjustment(0);
+    ghost_->SetOutAdjustment(rational(0));
   }
 
   Q_UNUSED(snapped)

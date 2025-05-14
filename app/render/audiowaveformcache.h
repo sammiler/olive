@@ -29,7 +29,7 @@ namespace olive {
 class AudioWaveformCache : public PlaybackCache {
   Q_OBJECT
  public:
-  AudioWaveformCache(QObject *parent = nullptr);
+  explicit AudioWaveformCache(QObject *parent = nullptr);
 
   void WriteWaveform(const TimeRange &range, const TimeRangeList &valid_ranges, const AudioVisualWaveform *waveform);
 
@@ -59,7 +59,7 @@ class AudioWaveformCache : public PlaybackCache {
 
   class WaveformPassthrough : public TimeRange {
    public:
-    WaveformPassthrough(const TimeRange &r) : TimeRange(r) {}
+    explicit WaveformPassthrough(const TimeRange &r) : TimeRange(r) {}
 
     WaveformPtr waveform;
   };

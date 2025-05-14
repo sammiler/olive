@@ -94,7 +94,7 @@ class Core : public QObject {
    *
    * Currently empty
    */
-  Core(const CoreParams& params);
+  explicit Core(const CoreParams& params);
 
   /**
    * @brief Core object accessible from anywhere in the code

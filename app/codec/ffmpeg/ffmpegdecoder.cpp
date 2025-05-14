@@ -76,7 +76,7 @@ TexturePtr FFmpegDecoder::ProcessFrameIntoTexture(AVFramePtr f, const RetrieveVi
 
   // Set up video params
   VideoParams vp(original->width, original->height, native_fmt, native_channels,
-                 av_guess_sample_aspect_ratio(instance_.fmt_ctx(), instance_.avstream(), nullptr),
+                 rational(av_guess_sample_aspect_ratio(instance_.fmt_ctx(), instance_.avstream(), nullptr)),
                  VideoParams::kInterlaceNone, p.divider);
 
   // Create texture
@@ -191,17 +191,17 @@ TexturePtr FFmpegDecoder::ProcessFrameIntoTexture(AVFramePtr f, const RetrieveVi
       }
     }
 
-    rational frame_rate_tb = av_guess_frame_rate(instance_.fmt_ctx(), instance_.avstream(), original.get());
+    rational frame_rate_tb = rational(av_guess_frame_rate(instance_.fmt_ctx(), instance_.avstream(), original.get()));
 
     // Double frame rate for interlaced fields
-    frame_rate_tb *= 2;
+    frame_rate_tb *= rational(2);
 
     // Flip frame rate so it can be used as a timebase
     frame_rate_tb.flip();
 
     int64_t req =
         Timecode::time_to_timestamp(p.time + rational(instance_.fmt_ctx()->start_time, AV_TIME_BASE), frame_rate_tb);
-    int64_t frm = Timecode::rescale_timestamp(original->pts, instance_.avstream()->time_base, frame_rate_tb);
+    int64_t frm = Timecode::rescale_timestamp(original->pts, rational(instance_.avstream()->time_base), frame_rate_tb);
 
     bool first = (req == frm);
     bool top_first = (p.src_interlacing == VideoParams::kInterlacedTopFirst);
@@ -267,10 +267,10 @@ rational FFmpegDecoder::GetAudioStartOffset() const {
   auto f = instance_.fmt_ctx();
   if (f) {
     rational fmt_start = rational(instance_.fmt_ctx()->start_time, AV_TIME_BASE);
-    rational str_start = rational(instance_.avstream()->time_base) * instance_.avstream()->start_time;
+    rational str_start = rational(instance_.avstream()->time_base) * rational(instance_.avstream()->start_time);
     return str_start - fmt_start;
   } else {
-    return 0;
+    return rational(0);
   }
 }
 
@@ -343,9 +343,9 @@ FootageDescription FFmpegDecoder::Probe(const QString &filename, CancelAtom *can
                   }
                 }
 
-                pixel_aspect_ratio = av_guess_sample_aspect_ratio(instance.fmt_ctx(), instance.avstream(), frame);
+                pixel_aspect_ratio = rational(av_guess_sample_aspect_ratio(instance.fmt_ctx(), instance.avstream(), frame));
 
-                frame_rate = av_guess_frame_rate(instance.fmt_ctx(), instance.avstream(), frame);
+                frame_rate = rational(av_guess_frame_rate(instance.fmt_ctx(), instance.avstream(), frame));
 
                 compatible_pix_fmt =
                     FFmpegUtils::GetCompatiblePixelFormat(static_cast<AVPixelFormat>(avstream->codecpar->format));
@@ -370,7 +370,7 @@ FootageDescription FFmpegDecoder::Probe(const QString &filename, CancelAtom *can
                   } else {
                     // Fallback to footage duration
                     avstream->duration = Timecode::rescale_timestamp_ceil(footage_duration, rational(1, AV_TIME_BASE),
-                                                                          avstream->time_base);
+                                                                          rational(avstream->time_base));
                   }
                 }
               } else if (ret == AVERROR_EOF) {
@@ -396,7 +396,7 @@ FootageDescription FFmpegDecoder::Probe(const QString &filename, CancelAtom *can
           stream.set_pixel_aspect_ratio(pixel_aspect_ratio);
           stream.set_frame_rate(frame_rate);
           stream.set_start_time(avstream->start_time);
-          stream.set_time_base(avstream->time_base);
+          stream.set_time_base(rational(avstream->time_base));
           stream.set_duration(avstream->duration);
           stream.set_color_range(avstream->codecpar->color_range == AVCOL_RANGE_JPEG ? VideoParams::kColorRangeFull
                                                                                      : VideoParams::kColorRangeLimited);
@@ -442,7 +442,7 @@ FootageDescription FFmpegDecoder::Probe(const QString &filename, CancelAtom *can
               instance.Close();
             } else {
               avstream->duration =
-                  Timecode::rescale_timestamp_ceil(footage_duration, rational(1, AV_TIME_BASE), avstream->time_base);
+                  Timecode::rescale_timestamp_ceil(footage_duration, rational(1, AV_TIME_BASE), rational(avstream->time_base));
             }
           }
 
@@ -452,7 +452,7 @@ FootageDescription FFmpegDecoder::Probe(const QString &filename, CancelAtom *can
           stream.set_sample_rate(avstream->codecpar->sample_rate);
           stream.set_format(
               FFmpegUtils::GetNativeSampleFormat(static_cast<AVSampleFormat>(avstream->codecpar->format)));
-          stream.set_time_base(avstream->time_base);
+          stream.set_time_base(rational(avstream->time_base));
           stream.set_duration(avstream->duration);
           desc.AddAudioStream(stream);
 
@@ -469,8 +469,8 @@ FootageDescription FFmpegDecoder::Probe(const QString &filename, CancelAtom *can
               instance.Open(filename_c, avstream->index);
 
               while (instance.GetPacket(pkt) >= 0) {
-                TimeRange time(Timecode::timestamp_to_time(pkt->pts, avstream->time_base),
-                               Timecode::timestamp_to_time(pkt->pts + pkt->duration, avstream->time_base));
+                TimeRange time(Timecode::timestamp_to_time(pkt->pts, rational(avstream->time_base)),
+                               Timecode::timestamp_to_time(pkt->pts + pkt->duration, rational(avstream->time_base)));
 
                 QString text = QString::fromUtf8((const char *)pkt->data, pkt->size);
 
@@ -625,12 +625,12 @@ PixelFormat FFmpegDecoder::GetNativePixelFormat(AVPixelFormat pix_fmt) {
   switch (pix_fmt) {
     case AV_PIX_FMT_RGB24:
     case AV_PIX_FMT_RGBA:
-      return PixelFormat::U8;
+      return PixelFormat(PixelFormat::U8);
     case AV_PIX_FMT_RGB48:
     case AV_PIX_FMT_RGBA64:
-      return PixelFormat::U16;
+      return PixelFormat(PixelFormat::U16);
     default:
-      return PixelFormat::INVALID;
+      return PixelFormat(PixelFormat::INVALID);
   }
 }
 
@@ -765,7 +765,7 @@ AVFramePtr FFmpegDecoder::PreProcessFrame(AVFramePtr f, const RetrieveVideoParam
 }
 
 AVFramePtr FFmpegDecoder::RetrieveFrame(const rational &time, CancelAtom *cancelled) {
-  int64_t target_ts = Timecode::time_to_timestamp(time, instance_.avstream()->time_base);
+  int64_t target_ts = Timecode::time_to_timestamp(time, rational(instance_.avstream()->time_base));
 
   if (instance_.fmt_ctx()->start_time != AV_NOPTS_VALUE) {
     target_ts += av_rescale_q(instance_.fmt_ctx()->start_time, {1, AV_TIME_BASE}, instance_.avstream()->time_base);

@@ -39,7 +39,7 @@ void SlipTool::ProcessDrag(const TimelineCoordinate& mouse_pos) {
 
   // Validate slip (enforce all ghosts moving in legal ways)
   foreach (TimelineViewGhostItem* ghost, parent()->GetGhostItems()) {
-    if (ghost->GetMediaIn() + time_movement < 0) {
+    if (ghost->GetMediaIn() + time_movement < rational(0)) {
       time_movement = -ghost->GetMediaIn();
     }
   }

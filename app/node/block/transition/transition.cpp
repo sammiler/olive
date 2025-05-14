@@ -61,21 +61,21 @@ void TransitionBlock::Retranslate() {
 
 rational TransitionBlock::in_offset() const {
   if (is_dual_transition()) {
-    return length() / 2 + offset_center();
+    return length() / rational(2) + offset_center();
   } else if (connected_in_block()) {
     return length();
   } else {
-    return 0;
+    return rational(0);
   }
 }
 
 rational TransitionBlock::out_offset() const {
   if (is_dual_transition()) {
-    return length() / 2 - offset_center();
+    return length() / rational(2) - offset_center();
   } else if (connected_out_block()) {
     return length();
   } else {
-    return 0;
+    return rational(0);
   }
 }
 
@@ -85,7 +85,7 @@ void TransitionBlock::set_offset_center(const rational &r) { SetStandardValue(kC
 
 void TransitionBlock::set_offsets_and_length(const rational &in_offset, const rational &out_offset) {
   rational len = in_offset + out_offset;
-  rational center = len / 2 - in_offset;
+  rational center = len / rational(2) - in_offset;
 
   set_length_and_media_out(len);
   set_offset_center(center);
@@ -100,7 +100,7 @@ double TransitionBlock::GetTotalProgress(const double &time) const {
 }
 
 double TransitionBlock::GetOutProgress(const double &time) const {
-  if (out_offset() == 0) {
+  if (out_offset() == rational(0)) {
     return 0;
   }
 
@@ -108,7 +108,7 @@ double TransitionBlock::GetOutProgress(const double &time) const {
 }
 
 double TransitionBlock::GetInProgress(const double &time) const {
-  if (in_offset() == 0) {
+  if (in_offset() == rational(0)) {
     return 0;
   }
 

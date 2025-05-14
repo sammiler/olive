@@ -27,7 +27,7 @@ namespace olive {
 
 class SlideTool : public PointerTool {
  public:
-  SlideTool(TimelineWidget* parent);
+  explicit SlideTool(TimelineWidget* parent);
 
  protected:
   virtual void InitiateDrag(Block* clicked_item, Timeline::MovementMode trim_mode,

@@ -30,7 +30,7 @@ namespace olive {
 class NodeParamViewContext : public NodeParamViewItemBase {
   Q_OBJECT
  public:
-  NodeParamViewContext(QWidget *parent = nullptr);
+  explicit NodeParamViewContext(QWidget *parent = nullptr);
 
   NodeParamViewDockArea *GetDockArea() const { return dock_area_; }
 

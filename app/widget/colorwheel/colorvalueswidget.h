@@ -35,7 +35,7 @@ namespace olive {
 class ColorValuesTab : public QWidget {
   Q_OBJECT
  public:
-  ColorValuesTab(bool with_legacy_option = false, QWidget* parent = nullptr);
+  explicit ColorValuesTab(bool with_legacy_option = false, QWidget* parent = nullptr);
 
   Color GetColor() const;
 
@@ -85,7 +85,7 @@ class ColorValuesTab : public QWidget {
 class ColorValuesWidget : public QWidget {
   Q_OBJECT
  public:
-  ColorValuesWidget(ColorManager* manager, QWidget* parent = nullptr);
+  explicit ColorValuesWidget(ColorManager* manager, QWidget* parent = nullptr);
 
   Color GetColor() const;
 

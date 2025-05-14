@@ -34,7 +34,7 @@ namespace olive {
 class ProjectPanel : public PanelWidget, public FootageManagementPanel {
   Q_OBJECT
  public:
-  ProjectPanel(const QString &unique_name);
+  explicit ProjectPanel(const QString &unique_name);
 
   Project *project() const;
   void set_project(Project *p);

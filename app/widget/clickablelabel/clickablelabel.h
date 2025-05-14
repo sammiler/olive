@@ -30,8 +30,8 @@ namespace olive {
 class ClickableLabel : public QLabel {
   Q_OBJECT
  public:
-  ClickableLabel(const QString& text, QWidget* parent = nullptr);
-  ClickableLabel(QWidget* parent = nullptr);
+  explicit ClickableLabel(const QString& text, QWidget* parent = nullptr);
+  explicit ClickableLabel(QWidget* parent = nullptr);
 
  protected:
   virtual void mouseReleaseEvent(QMouseEvent* event) override;

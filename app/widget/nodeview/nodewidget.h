@@ -31,7 +31,7 @@ namespace olive {
 class NodeWidget : public QWidget {
   Q_OBJECT
  public:
-  NodeWidget(QWidget *parent = nullptr);
+  explicit NodeWidget(QWidget *parent = nullptr);
 
   NodeView *view() const { return node_view_; }
 

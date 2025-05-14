@@ -56,7 +56,7 @@ public:
      */
     void addWidget(QWidgetOrQuick *widget, KDDockWidgets::Location location,
                    Frame *relativeTo = nullptr,
-                   InitialOption option = DefaultSizeMode::Fair);
+                   InitialOption option = InitialOption( DefaultSizeMode::Fair));
 
     /**
      * Adds an entire MultiSplitter into this layout. The donor MultiSplitter will be deleted
@@ -66,7 +66,7 @@ public:
      */
     void addMultiSplitter(MultiSplitter *splitter, KDDockWidgets::Location location,
                           Frame *relativeTo = nullptr,
-                          InitialOption option = DefaultSizeMode::Fair);
+                          InitialOption option = InitialOption(DefaultSizeMode::Fair));
 
     /**
      * Called by the indicators, so they draw the drop rubber band at the correct place.

@@ -31,7 +31,7 @@ namespace olive {
 
 class TimelineAndTrackView : public QWidget {
  public:
-  TimelineAndTrackView(Qt::Alignment vertical_alignment = Qt::AlignTop, QWidget* parent = nullptr);
+  explicit TimelineAndTrackView(Qt::Alignment vertical_alignment = Qt::AlignTop, QWidget* parent = nullptr);
 
   QSplitter* splitter() const;
 

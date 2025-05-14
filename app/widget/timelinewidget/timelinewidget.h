@@ -47,7 +47,7 @@ namespace olive {
 class TimelineWidget : public TimeBasedWidget {
   Q_OBJECT
  public:
-  TimelineWidget(QWidget* parent = nullptr);
+  explicit TimelineWidget(QWidget* parent = nullptr);
 
   virtual ~TimelineWidget() override;
 

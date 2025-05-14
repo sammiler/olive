@@ -500,7 +500,7 @@ void TimelineView::DrawBlock(QPainter *painter, bool foreground, Block *block, q
               if (!clip->connected_viewer()->GetLength().isNull()) {
                 painter->setPen(shadow_color);
 
-                if (clip->media_in() < 0) {
+                if (clip->media_in() < rational(0)) {
                   qreal zebra_right = TimeToScene(clip->in() - clip->media_in());
 
                   switch (clip->loop_mode()) {

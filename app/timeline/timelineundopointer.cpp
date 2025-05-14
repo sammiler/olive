@@ -163,7 +163,7 @@ void BlockTrimCommand::prepare() {
   if (needs_adjacent_) {
     // If we're trimming shorter, we need an adjacent, so check if we have a viable one.
     we_created_adjacent_ =
-        (trim_diff_ > 0 && (!adjacent_ || (!dynamic_cast<GapBlock*>(adjacent_) && !trim_is_a_roll_edit_)));
+        (trim_diff_ > rational(0) && (!adjacent_ || (!dynamic_cast<GapBlock*>(adjacent_) && !trim_is_a_roll_edit_)));
 
     if (we_created_adjacent_) {
       // We shortened but don't have a viable adjacent to lengthen, so we create one

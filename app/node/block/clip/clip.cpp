@@ -149,7 +149,7 @@ rational ClipBlock::SequenceToMediaTime(const rational &sequence_time, uint64_t 
     double speed_value = speed();
     if (qIsNull(speed_value)) {
       // Effectively holds the frame at the in point
-      media_time = 0;
+      media_time = rational(0);
     } else if (!qFuzzyCompare(speed_value, 1.0)) {
       // Multiply time
       media_time = rational::fromDouble(media_time.toDouble() * speed_value);
@@ -509,7 +509,7 @@ void ClipBlock::AddCachePassthroughFrom(ClipBlock *other) {
 
 void ClipBlock::ConnectedToPreviewEvent() { RequestInvalidatedFromConnected(); }
 
-TimeRange ClipBlock::media_range() const { return InputTimeAdjustment(kBufferIn, -1, TimeRange(0, length()), false); }
+TimeRange ClipBlock::media_range() const { return InputTimeAdjustment(kBufferIn, -1, TimeRange(rational(0), length()), false); }
 
 MultiCamNode *ClipBlock::FindMulticam() {
   auto v = FindInputNodesConnectedToInput<MultiCamNode>(NodeInput(this, kBufferIn), 1);

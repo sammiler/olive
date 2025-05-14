@@ -7,7 +7,7 @@ namespace olive::core {
 
 class Log {
  public:
-  Log(const char *type) { std::cerr << "[" << type << "]"; }
+  explicit Log(const char *type) { std::cerr << "[" << type << "]"; }
 
   ~Log() { std::cerr << std::endl; }
 

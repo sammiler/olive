@@ -33,7 +33,7 @@ namespace olive {
 class TrackView : public QScrollArea {
   Q_OBJECT
  public:
-  TrackView(Qt::Alignment vertical_alignment = Qt::AlignTop, QWidget* parent = nullptr);
+  explicit TrackView(Qt::Alignment vertical_alignment = Qt::AlignTop, QWidget* parent = nullptr);
 
   void ConnectTrackList(TrackList* list);
   void DisconnectTrackList();

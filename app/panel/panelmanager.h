@@ -45,7 +45,7 @@ namespace olive {
 class PanelManager : public QObject {
   Q_OBJECT
  public:
-  PanelManager(QObject* parent = nullptr);
+  explicit PanelManager(QObject* parent = nullptr);
 
   /**
    * @brief Destroy all panels

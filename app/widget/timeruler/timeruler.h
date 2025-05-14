@@ -32,7 +32,7 @@ namespace olive {
 class TimeRuler : public SeekableWidget {
   Q_OBJECT
  public:
-  TimeRuler(bool text_visible = true, bool cache_status_visible = false, QWidget* parent = nullptr);
+  explicit TimeRuler(bool text_visible = true, bool cache_status_visible = false, QWidget* parent = nullptr);
 
   void SetCenteredText(bool c);
 

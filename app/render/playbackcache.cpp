@@ -103,7 +103,7 @@ void PlaybackCache::LoadState() {
           s >> out_den;
           s >> id;
 
-          Passthrough p = TimeRange(rational(in_num, in_den), rational(out_num, out_den));
+          Passthrough p = Passthrough(TimeRange(rational(in_num, in_den), rational(out_num, out_den)));
           p.cache = id;
           passthroughs_.push_back(p);
         }
@@ -191,7 +191,7 @@ void PlaybackCache::Draw(QPainter *p, const rational &start, double scale, const
 
 void PlaybackCache::SetPassthrough(PlaybackCache *cache) {
   for (const TimeRange &r : cache->GetValidatedRanges()) {
-    Passthrough p = r;
+    Passthrough p = Passthrough(r);
     p.cache = cache->GetUuid();
     passthroughs_.push_back(p);
   }
@@ -203,7 +203,7 @@ void PlaybackCache::SetPassthrough(PlaybackCache *cache) {
   }
 }
 
-void PlaybackCache::InvalidateAll() { Invalidate(TimeRange(0, RATIONAL_MAX)); }
+void PlaybackCache::InvalidateAll() { Invalidate(TimeRange(rational(0), RATIONAL_MAX)); }
 
 void PlaybackCache::Request(ViewerOutput *context, const TimeRange &r) {
   request_context_ = context;

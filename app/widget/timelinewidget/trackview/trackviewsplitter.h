@@ -48,7 +48,7 @@ class TrackViewSplitterHandle : public QSplitterHandle {
 class TrackViewSplitter : public QSplitter {
   Q_OBJECT
  public:
-  TrackViewSplitter(Qt::Alignment vertical_alignment, QWidget *parent = nullptr);
+  explicit TrackViewSplitter(Qt::Alignment vertical_alignment, QWidget *parent = nullptr);
 
   void HandleReceiver(TrackViewSplitterHandle *h, int diff);
 

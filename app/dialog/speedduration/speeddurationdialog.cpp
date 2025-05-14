@@ -123,8 +123,8 @@ SpeedDurationDialog::SpeedDurationDialog(const QVector<ClipBlock *> &clips, cons
       start_speed_ = qSNaN();
     }
 
-    if (start_duration_ != -1 && c->length() != start_duration_) {
-      start_duration_ = -1;
+    if (start_duration_ != rational(-1) && c->length() != start_duration_) {
+      start_duration_ = rational(-1);
     }
 
     // Yes, in theory a bool should only ever be 0 or 1 anyway, but MSVC complained and it is
@@ -149,7 +149,7 @@ SpeedDurationDialog::SpeedDurationDialog(const QVector<ClipBlock *> &clips, cons
     speed_slider_->SetValue(start_speed_);
   }
 
-  if (start_duration_ == -1) {
+  if (start_duration_ == rational(-1)) {
     dur_slider_->SetTristate();
   } else {
     dur_slider_->SetValue(start_duration_);
@@ -278,7 +278,7 @@ void SpeedDurationDialog::SpeedChanged(double s) {
     return;
   }
 
-  if (start_duration_ == -1) {
+  if (start_duration_ == rational(-1)) {
     dur_slider_->SetTristate();
   } else {
     dur_slider_->SetValue(GetLengthAdjustment(start_duration_, start_speed_, s, timebase_));

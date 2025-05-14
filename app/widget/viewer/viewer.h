@@ -52,7 +52,7 @@ class ViewerWidget : public TimeBasedWidget {
  public:
   enum WaveformMode { kWFAutomatic, kWFViewerOnly, kWFWaveformOnly, kWFViewerAndWaveform };
 
-  ViewerWidget(QWidget* parent = nullptr) : ViewerWidget(new ViewerDisplayWidget(), parent) {}
+  explicit ViewerWidget(QWidget* parent = nullptr) : ViewerWidget(new ViewerDisplayWidget(), parent) {}
 
   virtual ~ViewerWidget() override;
 
@@ -126,7 +126,7 @@ class ViewerWidget : public TimeBasedWidget {
 
   void ShuttleRight();
 
-  void SetColorTransform(const ColorTransform& transform);
+  void SetColorTransform(const QString& transform);
 
   /**
    * @brief Wrapper for ViewerGLWidget::SetSignalCursorColorEnabled()
@@ -167,7 +167,7 @@ class ViewerWidget : public TimeBasedWidget {
   void ColorManagerChanged(ColorManager* color_manager);
 
  protected:
-  ViewerWidget(ViewerDisplayWidget* display, QWidget* parent = nullptr);
+  explicit ViewerWidget(ViewerDisplayWidget* display, QWidget* parent = nullptr);
 
   virtual void TimebaseChangedEvent(const rational&) override;
   virtual void TimeChangedEvent(const rational& time) override;

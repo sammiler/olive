@@ -33,7 +33,7 @@ namespace olive {
 class SaveOTIOTask : public Task {
   Q_OBJECT
  public:
-  SaveOTIOTask(Project* project);
+  explicit SaveOTIOTask(Project* project);
 
  protected:
   virtual bool Run() override;

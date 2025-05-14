@@ -32,7 +32,7 @@ namespace olive {
 class PixelSamplerWidget : public QGroupBox {
   Q_OBJECT
  public:
-  PixelSamplerWidget(QWidget* parent = nullptr);
+  explicit PixelSamplerWidget(QWidget* parent = nullptr);
 
  public slots:
   void SetValues(const Color& color);
@@ -50,7 +50,7 @@ class PixelSamplerWidget : public QGroupBox {
 class ManagedPixelSamplerWidget : public QWidget {
   Q_OBJECT
  public:
-  ManagedPixelSamplerWidget(QWidget* parent = nullptr);
+  explicit ManagedPixelSamplerWidget(QWidget* parent = nullptr);
 
  public slots:
   void SetValues(const Color& reference, const Color& display);

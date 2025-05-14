@@ -27,7 +27,7 @@ namespace olive {
 
 class RollingTool : public PointerTool {
  public:
-  RollingTool(TimelineWidget* parent);
+  explicit RollingTool(TimelineWidget* parent);
 
  protected:
   virtual void InitiateDrag(Block* clicked_item, Timeline::MovementMode trim_mode,

@@ -32,7 +32,7 @@ namespace olive {
 class TimelinePanel : public TimeBasedPanel {
   Q_OBJECT
  public:
-  TimelinePanel(const QString &name);
+  explicit TimelinePanel(const QString &name);
 
   inline TimelineWidget *timeline_widget() const { return dynamic_cast<TimelineWidget *>(GetTimeBasedWidget()); }
 

@@ -105,7 +105,7 @@ void TransitionTool::MouseRelease(TimelineViewMouseEvent *event) {
       // Place transition in place
       command->add_child(new NodeAddCommand(parent()->GetConnectedNode()->parent(), transition));
 
-      command->add_child(new NodeSetPositionCommand(transition, transition, QPointF(0, 0)));
+      command->add_child(new NodeSetPositionCommand(transition, transition, Node::Position(QPointF(0, 0))));
 
       command->add_child(new TrackPlaceBlockCommand(sequence()->track_list(track.type()), track.index(), transition,
                                                     ghost_->GetAdjustedIn()));
@@ -126,8 +126,8 @@ void TransitionTool::MouseRelease(TimelineViewMouseEvent *event) {
 
         command->add_child(new NodeEdgeAddCommand(in_block, NodeInput(transition, TransitionBlock::kInBlockInput)));
 
-        command->add_child(new NodeSetPositionCommand(out_block, transition, QPointF(-1, -0.5)));
-        command->add_child(new NodeSetPositionCommand(in_block, transition, QPointF(-1, 0.5)));
+        command->add_child(new NodeSetPositionCommand(out_block, transition, Node::Position(QPointF(-1, -0.5))));
+        command->add_child(new NodeSetPositionCommand(in_block, transition, Node::Position(QPointF(-1, 0.5))));
       } else {
         Block *block_to_transition = QtUtils::ValueToPtr<Block>(ghost_->GetData(TimelineViewGhostItem::kAttachedBlock));
         QString transition_input_to_connect;
@@ -142,7 +142,7 @@ void TransitionTool::MouseRelease(TimelineViewMouseEvent *event) {
         command->add_child(
             new NodeEdgeAddCommand(block_to_transition, NodeInput(transition, transition_input_to_connect)));
 
-        command->add_child(new NodeSetPositionCommand(block_to_transition, transition, QPointF(-1, 0)));
+        command->add_child(new NodeSetPositionCommand(block_to_transition, transition, Node::Position(QPointF(-1, 0))));
       }
 
       Core::instance()->undo_stack()->push(command, qApp->translate("TransitionTool", "Created Transition"));
@@ -174,9 +174,9 @@ bool TransitionTool::GetBlocksAtCoord(const TimelineCoordinate &coord, ClipBlock
   // Determine which side of the clip the transition belongs to
   rational transition_start_point;
   Timeline::MovementMode trim_mode;
-  rational tenth_point = block_at_time->length() / 10;
+  rational tenth_point = block_at_time->length() / rational(10);
   Block *other_block = nullptr;
-  if (cursor_frame < (block_at_time->in() + block_at_time->length() / 2)) {
+  if (cursor_frame < (block_at_time->in() + block_at_time->length() / rational(2))) {
     if (dynamic_cast<ClipBlock *>(block_at_time)->in_transition()) {
       // This clip already has a transition here
       return false;
@@ -184,7 +184,7 @@ bool TransitionTool::GetBlocksAtCoord(const TimelineCoordinate &coord, ClipBlock
 
     ClipBlock *adjacent = dynamic_cast<ClipBlock *>(block_at_time->previous());
     if (adjacent) {
-      tenth_point = std::min(tenth_point, adjacent->length() / 10);
+      tenth_point = std::min(tenth_point, adjacent->length() / rational(10));
     }
 
     transition_start_point = block_at_time->in();
@@ -201,7 +201,7 @@ bool TransitionTool::GetBlocksAtCoord(const TimelineCoordinate &coord, ClipBlock
 
     ClipBlock *adjacent = dynamic_cast<ClipBlock *>(block_at_time->next());
     if (adjacent) {
-      tenth_point = std::min(tenth_point, adjacent->length() / 10);
+      tenth_point = std::min(tenth_point, adjacent->length() / rational(10));
     }
 
     transition_start_point = block_at_time->out();

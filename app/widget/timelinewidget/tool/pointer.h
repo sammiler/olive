@@ -27,7 +27,7 @@ namespace olive {
 
 class PointerTool : public TimelineTool {
  public:
-  PointerTool(TimelineWidget* parent);
+  explicit PointerTool(TimelineWidget* parent);
 
   virtual void MousePress(TimelineViewMouseEvent* event) override;
   virtual void MouseMove(TimelineViewMouseEvent* event) override;

@@ -29,7 +29,7 @@ using namespace KDDockWidgets;
 class MDIArea::Private
 {
 public:
-    Private(QWidgetOrQuick *parent)
+    explicit Private(QWidgetOrQuick *parent)
         : layoutWidget(new MDILayoutWidget(parent))
     {
     }

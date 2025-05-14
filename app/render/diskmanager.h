@@ -34,7 +34,7 @@ namespace olive {
 class DiskCacheFolder : public QObject {
   Q_OBJECT
  public:
-  DiskCacheFolder(const QString& path, QObject* parent = nullptr);
+  explicit DiskCacheFolder(const QString& path, QObject* parent = nullptr);
 
   virtual ~DiskCacheFolder() override;
 

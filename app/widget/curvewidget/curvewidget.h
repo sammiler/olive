@@ -37,7 +37,7 @@ namespace olive {
 class CurveWidget : public TimeBasedWidget, public TimeTargetObject {
   Q_OBJECT
  public:
-  CurveWidget(QWidget *parent = nullptr);
+  explicit CurveWidget(QWidget *parent = nullptr);
 
   const double &GetVerticalScale();
   void SetVerticalScale(const double &vscale);

@@ -35,8 +35,8 @@ class ExportFormatComboBox : public QComboBox {
  public:
   enum Mode { kShowAllFormats, kShowAudioOnly, kShowVideoOnly, kShowSubtitlesOnly };
 
-  ExportFormatComboBox(Mode mode, QWidget *parent = nullptr);
-  ExportFormatComboBox(QWidget *parent = nullptr) : ExportFormatComboBox(kShowAllFormats, parent) {}
+  explicit ExportFormatComboBox(Mode mode, QWidget *parent = nullptr);
+  explicit ExportFormatComboBox(QWidget *parent = nullptr) : ExportFormatComboBox(kShowAllFormats, parent) {}
 
   ExportFormat::Format GetFormat() const { return current_; }
 

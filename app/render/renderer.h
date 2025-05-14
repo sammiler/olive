@@ -39,7 +39,7 @@ class ShaderJob;
 class Renderer : public QObject {
   Q_OBJECT
  public:
-  Renderer(QObject *parent = nullptr);
+  explicit Renderer(QObject *parent = nullptr);
 
   virtual bool Init() = 0;
 

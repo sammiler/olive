@@ -142,12 +142,13 @@ void TimelineAddTrackCommand::redo() {
 
     if (create_pos_command) {
       position_command_->add_child(new NodeSetPositionCommand(
-          track_, sequence, sequence->GetNodePositionInContext(sequence) + QPointF(-1, -position_factor)));
+          track_, sequence, Node::Position(sequence->GetNodePositionInContext(sequence) + QPointF(-1, -position_factor))));
       position_command_->add_child(
-          new NodeSetPositionCommand(merge_, sequence, sequence->GetNodePositionInContext(sequence)));
+          new NodeSetPositionCommand(merge_, sequence, Node::Position(sequence->GetNodePositionInContext(sequence))));
       position_command_->add_child(new NodeSetPositionAndDependenciesRecursivelyCommand(
           merge_, sequence,
-          sequence->GetNodePositionInContext(sequence) + QPointF(-1, position_factor * timeline_->GetTrackCount())));
+          Node::Position(sequence->GetNodePositionInContext(sequence) +
+                         QPointF(-1, position_factor * timeline_->GetTrackCount()))));
     }
   } else if (direct_.IsValid() && !direct_.IsConnected()) {
     // If no merge, we have a direct connection, and nothing else is connected, connect this
@@ -156,7 +157,7 @@ void TimelineAddTrackCommand::redo() {
     if (create_pos_command) {
       // Just position directly next to the context node
       position_command_->add_child(new NodeSetPositionCommand(
-          track_, sequence, sequence->GetNodePositionInContext(sequence) + QPointF(-1, position_factor)));
+          track_, sequence, Node::Position(sequence->GetNodePositionInContext(sequence) + QPointF(-1, position_factor))));
     }
   }
 
@@ -560,26 +561,26 @@ void TimelineAddDefaultTransitionCommand::AddTransition(ClipBlock* c, CreateTran
       case kIn:
         ValidateTransitionLength(c, transition_length);
 
-        if (transition_length > 0) {
+        if (transition_length > rational(0)) {
           AdjustClipLength(c, transition_length, false);
         }
         break;
       case kOut:
         ValidateTransitionLength(c, transition_length);
 
-        if (transition_length > 0) {
+        if (transition_length > rational(0)) {
           AdjustClipLength(c, transition_length, true);
         }
         break;
       case kOutDual: {
-        rational half_length = transition_length / 2;
+        rational half_length = transition_length / rational(2);
 
         ValidateTransitionLength(dynamic_cast<ClipBlock*>(c->next()), half_length);
         ValidateTransitionLength(c, half_length);
 
-        transition_length = half_length * 2;
+        transition_length = half_length * rational(2);
 
-        if (transition_length > 0) {
+        if (transition_length > rational(0)) {
           AdjustClipLength(dynamic_cast<ClipBlock*>(c->next()), half_length, false);
           AdjustClipLength(c, half_length, true);
         }
@@ -587,7 +588,7 @@ void TimelineAddDefaultTransitionCommand::AddTransition(ClipBlock* c, CreateTran
       }
     }
 
-    if (transition_length > 0) {
+    if (transition_length > rational(0)) {
       if (TransitionBlock* transition = dynamic_cast<TransitionBlock*>(p)) {
         transition->set_length_and_media_out(transition_length);
 
@@ -628,7 +629,7 @@ void TimelineAddDefaultTransitionCommand::AdjustClipLength(ClipBlock* c, const r
 
 void TimelineAddDefaultTransitionCommand::ValidateTransitionLength(ClipBlock* c, rational& transition_length) {
   rational cur_len = lengths_.value(c, c->length());
-  rational half_cur_len = cur_len / 2;
+  rational half_cur_len = cur_len / rational(2);
   if (transition_length >= half_cur_len) {
     transition_length = half_cur_len - timebase_;
   }

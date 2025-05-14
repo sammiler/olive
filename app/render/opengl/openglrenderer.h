@@ -36,7 +36,7 @@ namespace olive {
 class OpenGLRenderer : public Renderer {
   Q_OBJECT
  public:
-  OpenGLRenderer(QObject *parent = nullptr);
+  explicit OpenGLRenderer(QObject *parent = nullptr);
 
   virtual ~OpenGLRenderer() override;
 
@@ -109,7 +109,7 @@ class OpenGLRenderer : public Renderer {
     int channel_count{};
 
     bool operator==(const TextureCacheKey &rhs) const {
-      return width == rhs.width && height == rhs.height && depth == rhs.depth && format == rhs.format &&
+      return width == rhs.width && height == rhs.height && depth == rhs.depth && static_cast<PixelFormat::Format>(format) == static_cast<PixelFormat::Format>(rhs.format) &&
              channel_count == rhs.channel_count;
     }
   };

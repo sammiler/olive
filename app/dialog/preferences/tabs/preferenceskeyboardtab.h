@@ -34,7 +34,7 @@ class MainWindow;
 class PreferencesKeyboardTab : public ConfigDialogBaseTab {
   Q_OBJECT
  public:
-  PreferencesKeyboardTab(MainWindow* main_window);
+  explicit PreferencesKeyboardTab(MainWindow* main_window);
 
   virtual void Accept(MultiUndoCommand* command) override;
 

@@ -41,7 +41,7 @@ class NodeViewEdge : public QGraphicsPathItem {
   NodeViewEdge(Node* output, const NodeInput& input, NodeViewItem* from_item, NodeViewItem* to_item,
                QGraphicsItem* parent = nullptr);
 
-  NodeViewEdge(QGraphicsItem* parent = nullptr);
+  explicit NodeViewEdge(QGraphicsItem* parent = nullptr);
 
   virtual ~NodeViewEdge() override;
 

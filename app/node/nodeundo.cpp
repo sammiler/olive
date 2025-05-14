@@ -20,6 +20,8 @@
 
 #include "nodeundo.h"
 
+#include <KDDockWidgets/src/private/Position_p.h>
+
 namespace olive {
 
 void NodeSetPositionCommand::redo() {
@@ -92,7 +94,7 @@ void NodeSetPositionAndDependenciesRecursivelyCommand::undo() {
 
 void NodeSetPositionAndDependenciesRecursivelyCommand::move_recursively(Node *node, const QPointF &diff) {
   Node::Position pos = context_->GetNodePositionDataInContext(node);
-  pos += diff;
+  pos += Node::Position(diff);
   commands_.append(new NodeSetPositionCommand(node_, context_, pos));
 
   for (auto it = node->input_connections().cbegin(); it != node->input_connections().cend(); it++) {

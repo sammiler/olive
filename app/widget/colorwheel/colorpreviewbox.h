@@ -30,7 +30,7 @@ namespace olive {
 class ColorPreviewBox : public QWidget {
   Q_OBJECT
  public:
-  ColorPreviewBox(QWidget* parent = nullptr);
+  explicit ColorPreviewBox(QWidget* parent = nullptr);
 
   void SetColorProcessor(ColorProcessorPtr to_ref, ColorProcessorPtr to_display);
 

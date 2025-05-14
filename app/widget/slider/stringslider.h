@@ -28,7 +28,7 @@ namespace olive {
 class StringSlider : public SliderBase {
   Q_OBJECT
  public:
-  StringSlider(QWidget* parent = nullptr);
+  explicit StringSlider(QWidget* parent = nullptr);
 
   void SetDragMultiplier(const double& d) = delete;
 

@@ -129,7 +129,7 @@ Node *AddTool::CreateAddableClip(MultiUndoCommand *command, Sequence *sequence, 
   Project *graph = sequence->parent();
 
   command->add_child(new NodeAddCommand(graph, clip));
-  command->add_child(new NodeSetPositionCommand(clip, clip, QPointF(0, 0)));
+  command->add_child(new NodeSetPositionCommand(clip, clip, Node::Position(QPointF(0, 0))));
   command->add_child(new TrackPlaceBlockCommand(sequence->track_list(track.type()), track.index(), clip, in));
 
   Node *node_to_add = nullptr;
@@ -164,7 +164,7 @@ Node *AddTool::CreateAddableClip(MultiUndoCommand *command, Sequence *sequence, 
     QPointF extra_node_offset(kDefaultDistanceFromOutput, 0);
     command->add_child(new NodeAddCommand(graph, node_to_add));
     command->add_child(new NodeEdgeAddCommand(node_to_add, NodeInput(clip, ClipBlock::kBufferIn)));
-    command->add_child(new NodeSetPositionCommand(node_to_add, clip, extra_node_offset));
+    command->add_child(new NodeSetPositionCommand(node_to_add, clip,Node::Position(extra_node_offset)));
 
     if (!rect.isNull()) {
       if (ShapeNodeBase *shape = dynamic_cast<ShapeNodeBase *>(node_to_add)) {
@@ -204,14 +204,14 @@ void AddTool::MouseMoveInternal(const rational &cursor_frame, bool outwards) {
 
   // Make adjustment
   if (!movement) {
-    ghost_->SetInAdjustment(0);
-    ghost_->SetOutAdjustment(0);
-  } else if (movement > 0) {
-    ghost_->SetInAdjustment(outwards ? -movement : 0);
+    ghost_->SetInAdjustment(rational(0));
+    ghost_->SetOutAdjustment(rational(0));
+  } else if (movement > rational(0)) {
+    ghost_->SetInAdjustment(outwards ? -movement : rational(0));
     ghost_->SetOutAdjustment(movement);
-  } else if (movement < 0) {
+  } else if (movement < rational(0)) {
     ghost_->SetInAdjustment(movement);
-    ghost_->SetOutAdjustment(outwards ? -movement : 0);
+    ghost_->SetOutAdjustment(outwards ? -movement : rational(0));
   }
 }
 

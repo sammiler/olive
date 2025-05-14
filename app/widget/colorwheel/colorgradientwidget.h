@@ -28,7 +28,7 @@ namespace olive {
 class ColorGradientWidget : public ColorSwatchWidget {
   Q_OBJECT
  public:
-  ColorGradientWidget(Qt::Orientation orientation, QWidget* parent = nullptr);
+  explicit ColorGradientWidget(Qt::Orientation orientation, QWidget* parent = nullptr);
 
  protected:
   virtual Color GetColorFromScreenPos(const QPoint& p) const override;

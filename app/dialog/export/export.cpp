@@ -231,7 +231,7 @@ ExportDialog::ExportDialog(ViewerOutput *viewer_node, bool stills_only_mode, QWi
   connect(video_tab_->maintain_aspect_checkbox(), &QCheckBox::toggled, this, &ExportDialog::ResolutionChanged);
 
   connect(video_tab_, &ExportVideoTab::ColorSpaceChanged, preview_viewer_,
-          static_cast<void (ViewerWidget::*)(const ColorTransform &)>(&ViewerWidget::SetColorTransform));
+          static_cast<void (ViewerWidget::*)(const QString &)>(&ViewerWidget::SetColorTransform));
   connect(video_tab_, &ExportVideoTab::ImageSequenceCheckBoxChanged, this, &ExportDialog::ImageSequenceCheckBoxChanged);
 
   // We don't check if the codec supports subtitles because we can always export to a sidecar file
@@ -636,7 +636,7 @@ EncodingParams ExportDialog::GenerateParams() const {
       video_tab_->GetCodecSection()->AddOpts(&params);
     }
 
-    params.set_color_transform(video_tab_->CurrentOCIOColorSpace());
+    params.set_color_transform(ColorTransform(video_tab_->CurrentOCIOColorSpace()));
 
     params.set_video_pix_fmt(video_tab_->pix_fmt());
 
@@ -678,7 +678,7 @@ void ExportDialog::SetParams(const EncodingParams &e) {
     video_tab_->width_slider()->SetValue(e.video_params().width());
     video_tab_->height_slider()->SetValue(e.video_params().height());
     SetSelectedTimebase(e.video_params().time_base());
-    video_tab_->pixel_format_field()->SetPixelFormat(e.video_params().format());
+    video_tab_->pixel_format_field()->SetPixelFormat(static_cast<PixelFormat::Format>(e.video_params().format()));
     video_tab_->pixel_aspect_combobox()->SetPixelAspectRatio(e.video_params().pixel_aspect_ratio());
     video_tab_->interlaced_combobox()->SetInterlaceMode(e.video_params().interlacing());
 

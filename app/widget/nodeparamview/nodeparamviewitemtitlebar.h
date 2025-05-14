@@ -32,7 +32,7 @@ namespace olive {
 class NodeParamViewItemTitleBar : public QWidget {
   Q_OBJECT
  public:
-  NodeParamViewItemTitleBar(QWidget *parent = nullptr);
+  explicit NodeParamViewItemTitleBar(QWidget *parent = nullptr);
 
   bool IsExpanded() const { return collapse_btn_->isChecked(); }
 

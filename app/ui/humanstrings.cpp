@@ -26,7 +26,7 @@ QString HumanStrings::ChannelLayoutToString(const uint64_t &layout) {
 }
 
 QString HumanStrings::FormatToString(const SampleFormat &f) {
-  switch (f) {
+  switch (static_cast<SampleFormat::Format>(f)) {
     case SampleFormat::U8:
       return QCoreApplication::translate("AudioParams", "Unsigned 8-bit (Packed)");
     case SampleFormat::S16:
@@ -57,7 +57,7 @@ QString HumanStrings::FormatToString(const SampleFormat &f) {
       break;
   }
 
-  return QCoreApplication::translate("AudioParams", "Unknown (0x%1)").arg(f, 1, 16);
+  return QCoreApplication::translate("AudioParams", "Unknown (0x%1)").arg(static_cast<SampleFormat::Format>(f), 1, 16);
 }
 
 }  // namespace olive

@@ -33,7 +33,7 @@ using namespace core;
 class SampleRateComboBox : public QComboBox {
   Q_OBJECT
  public:
-  SampleRateComboBox(QWidget* parent = nullptr) : QComboBox(parent) {
+  explicit SampleRateComboBox(QWidget* parent = nullptr) : QComboBox(parent) {
     foreach (int sr, AudioParams::kSupportedSampleRates) {
       this->addItem(HumanStrings::SampleRateToString(sr), sr);
     }

@@ -56,16 +56,16 @@ PixelFormat OIIOUtils::GetFormatFromOIIOBasetype(OIIO::TypeDesc::BASETYPE type) 
       break;
 
     case OIIO::TypeDesc::UINT8:
-      return PixelFormat::U8;
+      return PixelFormat(PixelFormat::U8);
     case OIIO::TypeDesc::UINT16:
-      return PixelFormat::U16;
+      return PixelFormat(PixelFormat::U16);
     case OIIO::TypeDesc::HALF:
-      return PixelFormat::F16;
+      return PixelFormat(PixelFormat::F16);
     case OIIO::TypeDesc::FLOAT:
-      return PixelFormat::F32;
+      return PixelFormat(PixelFormat::F32);
   }
 
-  return PixelFormat::INVALID;
+  return PixelFormat(PixelFormat::INVALID);
 }
 
 }  // namespace olive

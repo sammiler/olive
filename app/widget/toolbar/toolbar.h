@@ -52,7 +52,7 @@ class Toolbar : public QWidget {
    *
    * QWidget parent.
    */
-  Toolbar(QWidget* parent);
+  explicit Toolbar(QWidget* parent);
 
  public slots:
   /**

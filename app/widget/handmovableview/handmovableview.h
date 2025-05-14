@@ -31,7 +31,7 @@ namespace olive {
 class HandMovableView : public QGraphicsView {
   Q_OBJECT
  public:
-  HandMovableView(QWidget* parent = nullptr);
+  explicit HandMovableView(QWidget* parent = nullptr);
 
   static bool WheelEventIsAZoomEvent(QWheelEvent* event);
 

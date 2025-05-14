@@ -26,7 +26,7 @@ using namespace KDDockWidgets;
 class DockWidget::Private
 {
 public:
-    Private(DockWidget *q)
+    explicit Private(DockWidget *q)
         : layout(new QVBoxLayout(q))
     {
         layout->setSpacing(0);

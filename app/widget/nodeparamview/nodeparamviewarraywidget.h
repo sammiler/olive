@@ -34,7 +34,7 @@ class NodeParamViewArrayButton : public QPushButton {
  public:
   enum Type { kAdd, kRemove };
 
-  NodeParamViewArrayButton(Type type, QWidget* parent = nullptr);
+  explicit NodeParamViewArrayButton(Type type, QWidget* parent = nullptr);
 
  protected:
   virtual void changeEvent(QEvent* event) override;

@@ -59,7 +59,7 @@ TextGeneratorV3::TextGeneratorV3() : ShapeNodeBase(false), dont_emit_valign_(fal
   SetInputProperty(kArgsInput, QStringLiteral("arraystart"), 1);
 
   text_gizmo_ = new TextGizmo(this);
-  text_gizmo_->SetInput(NodeInput(this, kTextInput));
+  text_gizmo_->SetInput(NodeKeyframeTrackReference(NodeInput(this, kTextInput)));
   connect(text_gizmo_, &TextGizmo::Activated, this, &TextGeneratorV3::GizmoActivated);
   connect(text_gizmo_, &TextGizmo::Deactivated, this, &TextGeneratorV3::GizmoDeactivated);
 }
@@ -101,7 +101,7 @@ void TextGeneratorV3::Value(const NodeValueRow &value, const NodeGlobals &global
     TexturePtr base = value[kTextInput].toTexture();
 
     VideoParams text_params = base ? base->params() : globals.vparams();
-    text_params.set_format(PixelFormat::U8);
+    text_params.set_format(PixelFormat(PixelFormat::U8));
     text_params.set_colorspace(project()->color_manager()->GetDefaultInputColorSpace());
 
     GenerateJob job(value);
@@ -252,7 +252,7 @@ void TextGeneratorV3::GizmoDeactivated() {
 
 void TextGeneratorV3::SetVerticalAlignmentUndoable(Qt::Alignment a) {
   Core::instance()->undo_stack()->push(
-      new NodeParamSetStandardValueCommand(NodeInput(this, kVerticalAlignmentInput), GetOurAlignmentFromQts(a)),
+      new NodeParamSetStandardValueCommand(NodeKeyframeTrackReference(NodeInput(this, kVerticalAlignmentInput)), GetOurAlignmentFromQts(a)),
       tr("Set Text Vertical Alignment"));
 }
 

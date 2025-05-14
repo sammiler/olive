@@ -34,7 +34,7 @@ namespace olive {
 class ProjectExplorerListViewBase : public QListView {
   Q_OBJECT
  public:
-  ProjectExplorerListViewBase(QWidget* parent);
+  explicit ProjectExplorerListViewBase(QWidget* parent);
 
  protected:
   /**

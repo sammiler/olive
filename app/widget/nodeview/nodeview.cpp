@@ -361,7 +361,7 @@ void NodeView::keyPressEvent(QKeyEvent *event) {
       for (Node *n : qAsConst(selected_nodes_)) {
         for (Node *context : qAsConst(contexts_)) {
           if (context->ContextContainsNode(n)) {
-            Node::Position old_pos = context->GetNodePositionInContext(n);
+            Node::Position old_pos = Node::Position(context->GetNodePositionInContext(n));
 
             // Determine one pixel in scene units
             double movement_amt = 1.0 / scale_;
@@ -387,7 +387,7 @@ void NodeView::keyPressEvent(QKeyEvent *event) {
             node_movement = NodeViewItem::ScreenToNodePoint(node_movement, scene_.GetFlowDirection());
 
             // Move command
-            pos_command->add_child(new NodeSetPositionCommand(n, context, old_pos + node_movement));
+            pos_command->add_child(new NodeSetPositionCommand(n, context, old_pos + Node::Position(node_movement)));
           }
         }
       }
@@ -553,7 +553,7 @@ void NodeView::mouseReleaseEvent(QMouseEvent *event) {
     NodeViewItem *i = it.key();
     QPointF current_pos = i->GetNodePosition();
     if (it.value() != current_pos) {
-      command->add_child(new NodeSetPositionCommand(i->GetNode(), i->GetContext(), current_pos));
+      command->add_child(new NodeSetPositionCommand(i->GetNode(), i->GetContext(), Node::Position(current_pos)));
     }
   }
 
@@ -1041,7 +1041,7 @@ QVector<Node *> NodeView::ProcessDroppingAttachedNodes(MultiUndoCommand *command
         select_nodes.append(ai.node);
         add_command->add_child(new NodeSetPositionCommand(
             ai.node, select_context,
-            scene_.context_map().value(select_context)->MapScenePosToNodePosInContext(ai.item->pos())));
+            Node::Position(scene_.context_map().value(select_context)->MapScenePosToNodePosInContext(ai.item->pos()))));
       }
     }
 
@@ -1350,7 +1350,7 @@ void NodeView::GroupNodes() {
 
   // Add group to graph
   command->add_child(new NodeAddCommand(context->parent(), group));
-  command->add_child(new NodeSetPositionCommand(group, context, avg_pos));
+  command->add_child(new NodeSetPositionCommand(group, context, Node::Position(avg_pos)));
 
   // Do command
   Core::instance()->LabelNodes({group}, command);
@@ -1585,9 +1585,9 @@ void NodeView::EndEdgeDrag(bool cancel) {
           if (!scene_.context_map().value(create_edge_input_item_->GetContext())->GetItemFromMap(creating_output)) {
             command->add_child(
                 new NodeSetPositionCommand(creating_output, create_edge_input_item_->GetContext(),
-                                           scene_.context_map()
-                                               .value(create_edge_input_item_->GetContext())
-                                               ->MapScenePosToNodePosInContext(create_edge_output_item_->scenePos())));
+                                           Node::Position(scene_.context_map()
+                                   .value(create_edge_input_item_->GetContext())
+                                   ->MapScenePosToNodePosInContext(create_edge_output_item_->scenePos()))));
           }
         }
       }

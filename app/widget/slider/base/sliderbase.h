@@ -32,7 +32,7 @@ namespace olive {
 class SliderBase : public QStackedWidget {
   Q_OBJECT
  public:
-  SliderBase(QWidget* parent = nullptr);
+  explicit SliderBase(QWidget* parent = nullptr);
 
   void SetAlignment(Qt::Alignment alignment);
 

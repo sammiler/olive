@@ -28,10 +28,10 @@
 namespace olive {
 
 const rational AudioVisualWaveform::kMinimumSampleRate = rational(1, 8);
-const rational AudioVisualWaveform::kMaximumSampleRate = 1024;
+const rational AudioVisualWaveform::kMaximumSampleRate = rational(1024);
 
 AudioVisualWaveform::AudioVisualWaveform() : channels_(0) {
-  for (rational i = kMinimumSampleRate; i <= kMaximumSampleRate; i *= 2) {
+  for (rational i = kMinimumSampleRate; i <= kMaximumSampleRate; i *= rational(2)) {
     mipmapped_data_.insert({i, Sample()});
   }
 }
@@ -86,7 +86,7 @@ void AudioVisualWaveform::OverwriteSamplesFromMipmap(const AudioVisualWaveform::
 }
 
 void AudioVisualWaveform::ValidateVirtualStart(const rational &new_start) {
-  if (length_ == 0) {
+  if (length_ == rational(0)) {
     virtual_start_ = new_start;
   } else if (virtual_start_ > new_start) {
     TrimIn(new_start - virtual_start_);
@@ -195,13 +195,13 @@ void AudioVisualWaveform::OverwriteSilence(const rational &start, const rational
 }
 
 void AudioVisualWaveform::TrimIn(rational length) {
-  if (length == 0) {
+  if (length == rational(0)) {
     return;
   }
 
   virtual_start_ += length;
 
-  bool negative = (length < 0);
+  bool negative = (length < rational(0));
   if (negative) {
     length = -length;
   }

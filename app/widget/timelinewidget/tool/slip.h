@@ -27,7 +27,7 @@ namespace olive {
 
 class SlipTool : public PointerTool {
  public:
-  SlipTool(TimelineWidget *parent);
+  explicit SlipTool(TimelineWidget *parent);
 
  protected:
   virtual void ProcessDrag(const TimelineCoordinate &mouse_pos) override;

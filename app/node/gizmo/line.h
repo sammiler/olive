@@ -30,7 +30,7 @@ namespace olive {
 class LineGizmo : public NodeGizmo {
   Q_OBJECT
  public:
-  LineGizmo(QObject *parent = nullptr);
+  explicit LineGizmo(QObject *parent = nullptr);
 
   const QLineF &GetLine() const { return line_; }
   void SetLine(const QLineF &line) { line_ = line; }

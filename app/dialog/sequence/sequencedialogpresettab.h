@@ -33,7 +33,7 @@ namespace olive {
 class SequenceDialogPresetTab : public QWidget, public PresetManager<SequencePreset> {
   Q_OBJECT
  public:
-  SequenceDialogPresetTab(QWidget* parent = nullptr);
+  explicit SequenceDialogPresetTab(QWidget* parent = nullptr);
 
  public slots:
   void SaveParametersAsPreset(SequencePreset preset);

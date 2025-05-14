@@ -42,7 +42,7 @@ class FFmpegUtils {
    * loss
    */
   static AVPixelFormat GetCompatiblePixelFormat(const AVPixelFormat& pix_fmt,
-                                                PixelFormat maximum = PixelFormat::INVALID);
+                                                PixelFormat maximum = PixelFormat(PixelFormat::INVALID));
 
   /**
    * @brief Returns a native pixel format that can be used to convert from a native frame to an AVFrame with minimal

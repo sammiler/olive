@@ -156,7 +156,7 @@ int VideoParams::generate_auto_divider(qint64 width, qint64 height) {
 
 bool VideoParams::operator==(const VideoParams &rhs) const {
   return width() == rhs.width() && height() == rhs.height() && depth() == rhs.depth() &&
-         interlacing() == rhs.interlacing() && time_base() == rhs.time_base() && format() == rhs.format() &&
+         interlacing() == rhs.interlacing() && time_base() == rhs.time_base() && static_cast<PixelFormat::Format>(format()) ==  static_cast<PixelFormat::Format>(rhs.format()) &&
          pixel_aspect_ratio() == rhs.pixel_aspect_ratio() && divider() == rhs.divider() &&
          channel_count() == rhs.channel_count();
 }
@@ -164,7 +164,7 @@ bool VideoParams::operator==(const VideoParams &rhs) const {
 bool VideoParams::operator!=(const VideoParams &rhs) const { return !(*this == rhs); }
 
 int VideoParams::GetBytesPerChannel(PixelFormat format) {
-  switch (format) {
+  switch (static_cast<PixelFormat::Format>(format)) {
     case PixelFormat::INVALID:
     case PixelFormat::COUNT:
       break;
@@ -191,7 +191,7 @@ QString VideoParams::GetNameForDivider(int div) {
 }
 
 QString VideoParams::GetFormatName(PixelFormat format) {
-  switch (format) {
+  switch (static_cast<PixelFormat::Format>(format)) {
     case PixelFormat::U8:
       return QCoreApplication::translate("VideoParams", "8-bit");
     case PixelFormat::U16:
@@ -205,7 +205,7 @@ QString VideoParams::GetFormatName(PixelFormat format) {
       break;
   }
 
-  return QCoreApplication::translate("VideoParams", "Unknown (0x%1)").arg(format, 0, 16);
+  return QCoreApplication::translate("VideoParams", "Unknown (0x%1)").arg(static_cast<PixelFormat::Format>(format), 0, 16);
 }
 
 int VideoParams::GetDividerForTargetResolution(int src_width, int src_height, int dst_width, int dst_height) {
@@ -231,7 +231,7 @@ void VideoParams::calculate_effective_size() {
 
 void VideoParams::validate_pixel_aspect_ratio() {
   if (pixel_aspect_ratio_.isNull()) {
-    pixel_aspect_ratio_ = 1;
+    pixel_aspect_ratio_ = rational(1);
   }
   calculate_square_pixel_width();
 }
@@ -257,8 +257,8 @@ void VideoParams::calculate_square_pixel_width() {
 }
 
 bool VideoParams::is_valid() const {
-  return (width() > 0 && height() > 0 && !pixel_aspect_ratio_.isNull() && format_ > PixelFormat::INVALID &&
-          format_ < PixelFormat::COUNT && channel_count_ > 0);
+  return (width() > 0 && height() > 0 && !pixel_aspect_ratio_.isNull() && static_cast<PixelFormat::Format>(format_) > PixelFormat::INVALID &&
+          static_cast<PixelFormat::Format>(format_) < PixelFormat::COUNT && channel_count_ > 0);
 }
 
 QString VideoParams::FrameRateToString(const rational &frame_rate) {
@@ -306,7 +306,7 @@ void VideoParams::Load(QXmlStreamReader *reader) {
     } else if (reader->name() == QStringLiteral("timebase")) {
       set_time_base(rational::fromString(reader->readElementText().toUtf8().constData()));
     } else if (reader->name() == QStringLiteral("format")) {
-      set_format(static_cast<PixelFormat::Format>(reader->readElementText().toInt()));
+      set_format(PixelFormat(static_cast<PixelFormat::Format>(reader->readElementText().toInt())));
     } else if (reader->name() == QStringLiteral("channelcount")) {
       set_channel_count(reader->readElementText().toInt());
     } else if (reader->name() == QStringLiteral("pixelaspectratio")) {
@@ -348,7 +348,7 @@ void VideoParams::Save(QXmlStreamWriter *writer) const {
   writer->writeTextElement(QStringLiteral("height"), QString::number(height_));
   writer->writeTextElement(QStringLiteral("depth"), QString::number(depth_));
   writer->writeTextElement(QStringLiteral("timebase"), QString::fromStdString(time_base_.toString()));
-  writer->writeTextElement(QStringLiteral("format"), QString::number(format_));
+  writer->writeTextElement(QStringLiteral("format"), QString::number(static_cast<PixelFormat::Format>(format_)));
   writer->writeTextElement(QStringLiteral("channelcount"), QString::number(channel_count_));
   writer->writeTextElement(QStringLiteral("pixelaspectratio"), QString::fromStdString(pixel_aspect_ratio_.toString()));
   writer->writeTextElement(QStringLiteral("interlacing"), QString::number(interlacing_));

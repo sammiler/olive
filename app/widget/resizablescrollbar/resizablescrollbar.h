@@ -30,8 +30,8 @@ namespace olive {
 class ResizableScrollBar : public QScrollBar {
   Q_OBJECT
  public:
-  ResizableScrollBar(QWidget* parent = nullptr);
-  ResizableScrollBar(Qt::Orientation orientation, QWidget* parent = nullptr);
+  explicit ResizableScrollBar(QWidget* parent = nullptr);
+  explicit ResizableScrollBar(Qt::Orientation orientation, QWidget* parent = nullptr);
 
  signals:
   void ResizeBegan(int old_bar_width, bool top_handle);

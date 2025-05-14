@@ -134,9 +134,9 @@ class ClipBlock : public Block {
 
   ViewerOutput *connected_viewer() const { return connected_viewer_; }
 
-  virtual TimeRange GetVideoCacheRange() const override { return TimeRange(0, length()); }
+  virtual TimeRange GetVideoCacheRange() const override { return TimeRange(rational(0), length()); }
 
-  virtual TimeRange GetAudioCacheRange() const override { return TimeRange(0, length()); }
+  virtual TimeRange GetAudioCacheRange() const override { return TimeRange(rational(0), length()); }
 
   virtual void ConnectedToPreviewEvent() override;
 

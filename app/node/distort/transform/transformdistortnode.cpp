@@ -42,7 +42,7 @@ TransformDistortNode::TransformDistortNode() {
 
   // Initiate gizmos
   rotation_gizmo_ = AddDraggableGizmo<ScreenGizmo>();
-  rotation_gizmo_->AddInput(NodeInput(this, kRotationInput));
+  rotation_gizmo_->AddInput(NodeKeyframeTrackReference(NodeInput(this, kRotationInput)));
   rotation_gizmo_->SetDragValueBehavior(ScreenGizmo::kAbsolute);
 
   poly_gizmo_ = AddDraggableGizmo<PolygonGizmo>();

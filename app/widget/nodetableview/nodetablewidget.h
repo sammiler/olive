@@ -28,7 +28,7 @@ namespace olive {
 
 class NodeTableWidget : public TimeBasedWidget {
  public:
-  NodeTableWidget(QWidget* parent = nullptr);
+  explicit NodeTableWidget(QWidget* parent = nullptr);
 
   void SelectNodes(const QVector<Node*>& nodes) { view_->SelectNodes(nodes); }
 

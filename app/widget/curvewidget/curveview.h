@@ -30,7 +30,7 @@ namespace olive {
 class CurveView : public KeyframeView {
   Q_OBJECT
  public:
-  CurveView(QWidget *parent = nullptr);
+  explicit CurveView(QWidget *parent = nullptr);
 
   void ConnectInput(const NodeKeyframeTrackReference &ref);
 

@@ -35,7 +35,7 @@ class TimeBasedWidget;
 class TimeBasedView : public HandMovableView, public TimeScaledObject {
   Q_OBJECT
  public:
-  TimeBasedView(QWidget *parent = nullptr);
+  explicit TimeBasedView(QWidget *parent = nullptr);
 
   void EnableSnap(const std::vector<rational> &points);
   void DisableSnap();

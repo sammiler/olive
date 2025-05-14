@@ -9,7 +9,7 @@ namespace olive {
 class NodeViewToolBar : public QWidget {
   Q_OBJECT
  public:
-  NodeViewToolBar(QWidget *parent = nullptr);
+  explicit NodeViewToolBar(QWidget *parent = nullptr);
 
  public slots:
   void SetMiniMapEnabled(bool e) { minimap_btn_->setChecked(e); }

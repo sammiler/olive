@@ -30,7 +30,7 @@ namespace olive {
 class NodeViewMiniMap : public QGraphicsView {
   Q_OBJECT
  public:
-  NodeViewMiniMap(NodeViewScene *scene, QWidget *parent = nullptr);
+  explicit NodeViewMiniMap(NodeViewScene *scene, QWidget *parent = nullptr);
 
  public slots:
   void SetViewportRect(const QPolygonF &rect);

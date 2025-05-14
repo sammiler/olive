@@ -46,7 +46,7 @@ namespace olive {
  */
 class Menu : public QMenu {
  public:
-  Menu(QMenuBar* bar);
+  explicit Menu(QMenuBar* bar);
 
   template <typename Func>
   /**
@@ -62,7 +62,7 @@ class Menu : public QMenu {
     ConnectAboutToShow(receiver, member);
   }
 
-  Menu(Menu* menu);
+  explicit Menu(Menu* menu);
 
   template <typename Func>
   /**
@@ -81,12 +81,12 @@ class Menu : public QMenu {
   /**
    * @brief Construct a popup menu
    */
-  Menu(QWidget* parent = nullptr);
+  explicit Menu(QWidget* parent = nullptr);
 
   /**
    * @brief Construct a popup menu
    */
-  Menu(const QString& s, QWidget* parent = nullptr);
+  explicit Menu(const QString& s, QWidget* parent = nullptr);
 
   template <typename Func>
   /**

@@ -168,7 +168,7 @@ class EncodingParams {
 class Encoder : public QObject {
   Q_OBJECT
  public:
-  Encoder(const EncodingParams& params);
+  explicit Encoder(const EncodingParams& params);
 
   enum Type { kEncoderTypeNone = -1, kEncoderTypeFFmpeg, kEncoderTypeOIIO };
 
@@ -192,7 +192,7 @@ class Encoder : public QObject {
 
   const EncodingParams& params() const;
 
-  virtual PixelFormat GetDesiredPixelFormat() const { return PixelFormat::INVALID; }
+  virtual PixelFormat GetDesiredPixelFormat() const { return PixelFormat(PixelFormat::INVALID); }
 
   const QString& GetError() const { return error_; }
 

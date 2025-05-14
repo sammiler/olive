@@ -33,7 +33,7 @@ using namespace core;
 class TimelineWorkArea : public QObject {
   Q_OBJECT
  public:
-  TimelineWorkArea(QObject* parent = nullptr);
+  explicit TimelineWorkArea(QObject* parent = nullptr);
 
   bool enabled() const;
   void set_enabled(bool e);

@@ -11,7 +11,7 @@ class FileWatcher : public QObject {
   Q_OBJECT
 
  public:
-  FileWatcher(const QString &path) {
+  explicit FileWatcher(const QString &path) {
     m_watcher = new QFileSystemWatcher(this);
     m_dialog = new CrashHandlerDialog(this, path);
     m_watcher->addPath(path);

@@ -32,7 +32,7 @@ namespace olive {
 class PixelAspectRatioComboBox : public QComboBox {
   Q_OBJECT
  public:
-  PixelAspectRatioComboBox(QWidget* parent = nullptr) : QComboBox(parent), dont_prompt_custom_par_(false) {
+  explicit PixelAspectRatioComboBox(QWidget* parent = nullptr) : QComboBox(parent), dont_prompt_custom_par_(false) {
     QStringList par_names = VideoParams::GetStandardPixelAspectRatioNames();
     for (int i = 0; i < VideoParams::kStandardPixelAspects.size(); i++) {
       const rational& ratio = VideoParams::kStandardPixelAspects.at(i);

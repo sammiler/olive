@@ -34,7 +34,7 @@ namespace olive {
 class ExportAudioTab : public QWidget {
   Q_OBJECT
  public:
-  ExportAudioTab(QWidget* parent = nullptr);
+  explicit ExportAudioTab(QWidget* parent = nullptr);
 
   ExportCodec::Codec GetCodec() const {
     return static_cast<ExportCodec::Codec>(codec_combobox_->currentData().toInt());

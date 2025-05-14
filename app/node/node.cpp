@@ -227,7 +227,7 @@ QString Node::GetInputName(const QString &id) const {
   }
 }
 
-bool Node::IsInputHidden(const QString &input) const { return (GetInputFlags(input) & kInputFlagHidden); }
+bool Node::IsInputHidden(const QString &input) const { return (GetInputFlags(input).value() & kInputFlagHidden); }
 
 bool Node::IsInputConnectable(const QString &input) const { return !(GetInputFlags(input) & kInputFlagNotConnectable); }
 
@@ -700,7 +700,7 @@ void Node::SetSplitStandardValueOnTrack(const QString &id, int track, const QVar
   }
 }
 
-bool Node::InputIsArray(const QString &id) const { return GetInputFlags(id) & kInputFlagArray; }
+bool Node::InputIsArray(const QString &id) const { return GetInputFlags(id).value() & kInputFlagArray; }
 
 void Node::InputArrayInsert(const QString &id, int index) {
   // Add new input
@@ -846,12 +846,12 @@ void Node::InvalidateCache(const TimeRange &range, const QString &from, int elem
   if (AreCachesEnabled()) {
     if (range.in() != range.out()) {
       TimeRange vr = range.Intersected(GetVideoCacheRange());
-      if (vr.length() != 0) {
+      if (vr.length() != rational(0)) {
         video_frame_cache()->Invalidate(vr);
         thumbnail_cache()->Invalidate(vr);
       }
       TimeRange ar = range.Intersected(GetAudioCacheRange());
-      if (ar.length() != 0) {
+      if (ar.length() != rational(0)) {
         audio_playback_cache()->Invalidate(ar);
         waveform_cache()->Invalidate(ar);
       }

@@ -32,7 +32,7 @@ namespace olive {
 class CacheJob : public AcceleratedJob {
  public:
   CacheJob() = default;
-  CacheJob(const QString &filename, const NodeValue &fallback = NodeValue()) { filename_ = filename; }
+  explicit CacheJob(const QString &filename, const NodeValue &fallback = NodeValue()) { filename_ = filename; }
 
   const QString &GetFilename() const { return filename_; }
   void SetFilename(const QString &s) { filename_ = s; }

@@ -35,7 +35,7 @@ namespace olive {
 class KeyframeView : public TimeBasedView, public TimeTargetObject {
   Q_OBJECT
  public:
-  KeyframeView(QWidget *parent = nullptr);
+  explicit KeyframeView(QWidget *parent = nullptr);
 
   void DeleteSelected();
 

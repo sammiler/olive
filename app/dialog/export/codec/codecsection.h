@@ -30,7 +30,7 @@ namespace olive {
 class CodecSection : public QWidget {
   Q_OBJECT
  public:
-  CodecSection(QWidget* parent = nullptr);
+  explicit CodecSection(QWidget* parent = nullptr);
 
   virtual void AddOpts(EncodingParams* params) { Q_UNUSED(params) }
 

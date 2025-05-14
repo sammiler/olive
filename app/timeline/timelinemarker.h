@@ -36,7 +36,7 @@ namespace olive {
 class TimelineMarker : public QObject {
   Q_OBJECT
  public:
-  TimelineMarker(QObject* parent = nullptr);
+  explicit TimelineMarker(QObject* parent = nullptr);
   TimelineMarker(int color, const TimeRange& time, const QString& name = QString(), QObject* parent = nullptr);
 
   const TimeRange& time() const { return time_; }
@@ -75,7 +75,7 @@ class TimelineMarker : public QObject {
 class TimelineMarkerList : public QObject {
   Q_OBJECT
  public:
-  TimelineMarkerList(QObject* parent = nullptr) : QObject(parent) {}
+  explicit TimelineMarkerList(QObject* parent = nullptr) : QObject(parent) {}
 
   inline bool empty() const { return markers_.empty(); }
   inline std::vector<TimelineMarker*>::iterator begin() { return markers_.begin(); }
@@ -106,10 +106,10 @@ class TimelineMarkerList : public QObject {
     for (auto it = markers_.cbegin(); it != markers_.cend(); it++) {
       TimelineMarker* m = *it;
 
-      rational this_diff = qAbs(m->time().in() - t);
+      rational this_diff = rational::qAbs(m->time().in() - t);
 
       if (closest) {
-        rational stored_diff = qAbs(closest->time().in() - t);
+        rational stored_diff = rational::qAbs(closest->time().in() - t);
 
         if (this_diff > stored_diff) {
           // Since the list is organized by time, if the diff increases, assume we are only going
@@ -166,7 +166,7 @@ class MarkerAddCommand : public UndoCommand {
 
 class MarkerRemoveCommand : public UndoCommand {
  public:
-  MarkerRemoveCommand(TimelineMarker* marker);
+  explicit MarkerRemoveCommand(TimelineMarker* marker);
 
   virtual Project* GetRelevantProject() const override;
 

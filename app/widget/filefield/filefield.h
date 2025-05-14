@@ -29,7 +29,7 @@ namespace olive {
 class FileField : public QWidget {
   Q_OBJECT
  public:
-  FileField(QWidget* parent = nullptr);
+  explicit FileField(QWidget* parent = nullptr);
 
   QString GetFilename() const { return line_edit_->text(); }
 

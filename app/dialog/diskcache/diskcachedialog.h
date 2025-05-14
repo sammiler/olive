@@ -33,7 +33,7 @@ namespace olive {
 class DiskCacheDialog : public QDialog {
   Q_OBJECT
  public:
-  DiskCacheDialog(DiskCacheFolder* folder, QWidget* parent = nullptr);
+  explicit DiskCacheDialog(DiskCacheFolder* folder, QWidget* parent = nullptr);
 
   static void ClearDiskCache(const QString& path, QWidget* parent, QPushButton* clear_btn = nullptr);
 

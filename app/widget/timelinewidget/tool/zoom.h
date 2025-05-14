@@ -27,7 +27,7 @@ namespace olive {
 
 class ZoomTool : public TimelineTool {
  public:
-  ZoomTool(TimelineWidget *parent);
+  explicit ZoomTool(TimelineWidget *parent);
 
   virtual void MousePress(TimelineViewMouseEvent *event) override;
   virtual void MouseMove(TimelineViewMouseEvent *event) override;

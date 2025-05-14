@@ -44,7 +44,7 @@ class RationalSlider : public DecimalSliderBase {
    */
   enum DisplayType { kTime, kFloat, kRational };
 
-  RationalSlider(QWidget* parent = nullptr);
+  explicit RationalSlider(QWidget* parent = nullptr);
 
   /**
    * @brief Returns the sliders value as a rational

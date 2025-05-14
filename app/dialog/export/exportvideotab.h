@@ -41,7 +41,7 @@ namespace olive {
 class ExportVideoTab : public QWidget {
   Q_OBJECT
  public:
-  ExportVideoTab(ColorManager* color_manager, QWidget* parent = nullptr);
+  explicit ExportVideoTab(ColorManager* color_manager, QWidget* parent = nullptr);
 
   int SetFormat(ExportFormat::Format format);
 

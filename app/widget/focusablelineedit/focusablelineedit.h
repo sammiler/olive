@@ -30,7 +30,7 @@ namespace olive {
 class FocusableLineEdit : public QLineEdit {
   Q_OBJECT
  public:
-  FocusableLineEdit(QWidget *parent = nullptr);
+  explicit FocusableLineEdit(QWidget *parent = nullptr);
 
  signals:
   void Confirmed();

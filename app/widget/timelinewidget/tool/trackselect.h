@@ -27,7 +27,7 @@ namespace olive {
 
 class TrackSelectTool : public PointerTool {
  public:
-  TrackSelectTool(TimelineWidget *parent);
+  explicit TrackSelectTool(TimelineWidget *parent);
 
   virtual void MousePress(TimelineViewMouseEvent *event) override;
 

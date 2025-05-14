@@ -91,7 +91,7 @@ class ManagedDisplayWidgetOpenGL
 class ManagedDisplayWidget : public QWidget {
   Q_OBJECT
  public:
-  ManagedDisplayWidget(QWidget* parent = nullptr);
+  explicit ManagedDisplayWidget(QWidget* parent = nullptr);
 
   virtual ~ManagedDisplayWidget() override;
 

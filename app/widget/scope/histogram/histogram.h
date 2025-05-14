@@ -28,7 +28,7 @@ namespace olive {
 class HistogramScope : public ScopeBase {
   Q_OBJECT
  public:
-  HistogramScope(QWidget* parent = nullptr);
+  explicit HistogramScope(QWidget* parent = nullptr);
 
   MANAGEDDISPLAYWIDGET_DEFAULT_DESTRUCTOR(HistogramScope)
 

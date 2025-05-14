@@ -52,7 +52,7 @@ PlaybackControls::PlaybackControls(QWidget* parent) : QWidget(parent), time_base
 
   cur_tc_lbl_ = new RationalSlider();
   cur_tc_lbl_->SetDisplayType(RationalSlider::kTime);
-  cur_tc_lbl_->SetMinimum(0);
+  cur_tc_lbl_->SetMinimum(rational(0));
   connect(cur_tc_lbl_, &RationalSlider::ValueChanged, this, &PlaybackControls::TimeChanged);
   lower_left_layout->addWidget(cur_tc_lbl_);
   lower_left_layout->addStretch();
@@ -148,7 +148,7 @@ PlaybackControls::PlaybackControls(QWidget* parent) : QWidget(parent), time_base
 
   UpdateIcons();
 
-  SetTimebase(0);
+  SetTimebase(rational(0));
 
   SetAudioVideoDragButtonsVisible(false);
 

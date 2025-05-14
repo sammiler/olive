@@ -87,7 +87,7 @@ void AudioWaveformCache::SetPassthrough(PlaybackCache *cache) {
   AudioWaveformCache *c = dynamic_cast<AudioWaveformCache *>(cache);
 
   for (const TimeRange &r : c->GetValidatedRanges()) {
-    WaveformPassthrough t = r;
+    WaveformPassthrough t = WaveformPassthrough(r);
     t.waveform = c->waveforms_;
     passthroughs_.push_back(t);
   }

@@ -28,7 +28,7 @@ namespace olive {
 class WaveformScope : public ScopeBase {
   Q_OBJECT
  public:
-  WaveformScope(QWidget* parent = nullptr);
+  explicit WaveformScope(QWidget* parent = nullptr);
 
   MANAGEDDISPLAYWIDGET_DEFAULT_DESTRUCTOR(WaveformScope)
 

@@ -68,7 +68,7 @@ bool PreCacheTask::Run() {
     intersection = footage_->GetWorkArea()->range();
   } else {
     // Otherwise use full length
-    intersection = TimeRange(0, footage_->GetVideoLength());
+    intersection = TimeRange(rational(0), footage_->GetVideoLength());
   }
 
   TimeRangeList video_range = viewer()->video_frame_cache()->GetInvalidatedRanges(intersection);

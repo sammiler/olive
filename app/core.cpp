@@ -784,7 +784,7 @@ ViewerOutput* Core::GetSequenceToExport() {
   }
 
   if (time_panel && time_panel->GetConnectedViewer()) {
-    if (time_panel->GetConnectedViewer()->GetLength() == 0) {
+    if (time_panel->GetConnectedViewer()->GetLength() == rational(0)) {
       QMessageBox::critical(main_window_, tr("Error"), tr("This Sequence is empty. There is nothing to export."),
                             QMessageBox::Ok);
     } else {

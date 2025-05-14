@@ -30,7 +30,7 @@ namespace olive {
 class ProjectImportErrorDialog : public QDialog {
   Q_OBJECT
  public:
-  ProjectImportErrorDialog(const QStringList& filenames, QWidget* parent = nullptr);
+  explicit ProjectImportErrorDialog(const QStringList& filenames, QWidget* parent = nullptr);
 };
 
 }  // namespace olive
