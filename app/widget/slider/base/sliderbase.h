@@ -39,7 +39,7 @@ class SliderBase : public QStackedWidget {
   [[nodiscard]] bool IsTristate() const;
   void SetTristate();
 
-  void SetFormat(const QString& s, const bool plural = false);
+  void SetFormat(const QString& s, bool plural = false);
   void ClearFormat();
 
   [[nodiscard]] bool IsFormatPlural() const;

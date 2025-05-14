@@ -99,12 +99,12 @@ public:
         return qobject_cast<DropAreaWithCentralFrame *>(m_layoutWidget);
     }
 
-    [[nodiscard]] CursorPositions allowedResizeSides(SideBarLocation loc) const;
+    [[nodiscard]] static CursorPositions allowedResizeSides(SideBarLocation loc) ;
 
     QRect rectForOverlay(Frame *, SideBarLocation) const;
     SideBarLocation preferredSideBar(DockWidgetBase *) const;
-    void updateOverlayGeometry(QSize suggestedSize);
-    void clearSideBars();
+    void updateOverlayGeometry(QSize suggestedSize) const;
+    void clearSideBars() const;
 
     QString name;
     QStringList affinities;
@@ -166,7 +166,7 @@ void MainWindowBase::addDockWidgetAsTab(DockWidgetBase *widget)
 }
 
 void MainWindowBase::addDockWidget(DockWidgetBase *dw, Location location,
-                                   DockWidgetBase *relativeTo, InitialOption option)
+                                   DockWidgetBase *relativeTo, InitialOption option) const
 {
     Q_ASSERT(dw);
     if (dw->options() & DockWidgetBase::Option_NotDockable) {
@@ -235,17 +235,17 @@ QStringList MainWindowBase::affinities() const
     return d->affinities;
 }
 
-void MainWindowBase::layoutEqually()
+void MainWindowBase::layoutEqually() const
 {
     dropArea()->layoutEqually();
 }
 
-void MainWindowBase::layoutParentContainerEqually(DockWidgetBase *dockWidget)
+void MainWindowBase::layoutParentContainerEqually(DockWidgetBase *dockWidget) const
 {
     dropArea()->layoutParentContainerEqually(dockWidget);
 }
 
-CursorPositions MainWindowBase::Private::allowedResizeSides(SideBarLocation loc) const
+CursorPositions MainWindowBase::Private::allowedResizeSides(SideBarLocation loc) 
 {
     // When a sidebar is on top, you can only resize its bottom.
     // and so forth...
@@ -432,7 +432,7 @@ SideBarLocation MainWindowBase::Private::preferredSideBar(DockWidgetBase *dw) co
                              : SideBarLocation::West;
 }
 
-void MainWindowBase::Private::updateOverlayGeometry(QSize suggestedSize)
+void MainWindowBase::Private::updateOverlayGeometry(QSize suggestedSize) const
 {
     if (!m_overlayedDockWidget)
         return;
@@ -484,7 +484,7 @@ void MainWindowBase::Private::updateOverlayGeometry(QSize suggestedSize)
     m_overlayedDockWidget->d->frame()->QWidgetAdapter::setGeometry(newGeometry);
 }
 
-void MainWindowBase::Private::clearSideBars()
+void MainWindowBase::Private::clearSideBars() const
 {
     for (auto loc : { SideBarLocation::North, SideBarLocation::South,
                       SideBarLocation::East, SideBarLocation::West }) {

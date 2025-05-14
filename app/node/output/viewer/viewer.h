@@ -160,11 +160,11 @@ class ViewerOutput : public Node {
 
   void SetWaveformEnabled(bool e);
 
-  [[nodiscard]] bool IsVideoAutoCacheEnabled() const {
+  [[nodiscard]] static bool IsVideoAutoCacheEnabled() {
     qDebug() << "sequence ac is a stub";
     return false;
   }
-  void SetVideoAutoCacheEnabled(bool e) { qDebug() << "sequence ac is a stub"; }
+  static void SetVideoAutoCacheEnabled(bool e) { qDebug() << "sequence ac is a stub"; }
 
   void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
 

@@ -156,7 +156,7 @@ class ViewerTextEditor : public QTextEdit {
 
   void MergeCharFormat(const QTextCharFormat &fmt);
 
-  void ApplyStyle(QTextCharFormat *format, const QString &family, const QString &style);
+  static void ApplyStyle(QTextCharFormat *format, const QString &family, const QString &style);
 
   QVector<ViewerTextEditorToolBar *> toolbars_;
 

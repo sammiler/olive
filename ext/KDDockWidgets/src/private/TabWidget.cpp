@@ -111,7 +111,7 @@ void TabBar::onMousePress(QPoint localPos)
     }
 }
 
-void TabBar::onMouseDoubleClick(QPoint localPos)
+void TabBar::onMouseDoubleClick(QPoint localPos) const
 {
     if (DockWidgetBase *dw = dockWidgetAt(localPos))
         dw->setFloating(true);

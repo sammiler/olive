@@ -37,7 +37,7 @@ TimelinePanel::TimelinePanel(const QString &name) : TimeBasedPanel(name) {
   connect(tw, &TimelineWidget::RevealViewerInFootageViewer, this, &TimelinePanel::RevealViewerInFootageViewer);
 }
 
-void TimelinePanel::SplitAtPlayhead() { timeline_widget()->SplitAtPlayhead(); }
+void TimelinePanel::SplitAtPlayhead() const { timeline_widget()->SplitAtPlayhead(); }
 
 void TimelinePanel::LoadData(const Info &info) {
   timeline_widget()->RestoreSplitterState(QByteArray::fromBase64(info.at("splitter").toUtf8()));
@@ -93,11 +93,11 @@ void TimelinePanel::MoveOutToPlayhead() { timeline_widget()->MoveOutToPlayhead()
 
 void TimelinePanel::RenameSelected() { timeline_widget()->RenameSelectedBlocks(); }
 
-void TimelinePanel::InsertFootageAtPlayhead(const QVector<ViewerOutput *> &footage) {
+void TimelinePanel::InsertFootageAtPlayhead(const QVector<ViewerOutput *> &footage) const {
   timeline_widget()->InsertFootageAtPlayhead(footage);
 }
 
-void TimelinePanel::OverwriteFootageAtPlayhead(const QVector<ViewerOutput *> &footage) {
+void TimelinePanel::OverwriteFootageAtPlayhead(const QVector<ViewerOutput *> &footage) const {
   timeline_widget()->OverwriteFootageAtPlayhead(footage);
 }
 

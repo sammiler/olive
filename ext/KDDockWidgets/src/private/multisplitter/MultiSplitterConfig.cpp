@@ -49,7 +49,7 @@ Config &Config::self()
 
 
 
-int Config::separatorThickness() const
+int Config::separatorThickness() 
 {
     // TODO: Make Item call Config::separatorThickness instead ?
     return Item::separatorThickness;

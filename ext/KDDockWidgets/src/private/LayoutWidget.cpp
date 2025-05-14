@@ -155,7 +155,7 @@ void LayoutWidget::setLayoutSize(QSize size)
     }
 }
 
-const Layouting::Item::List LayoutWidget::items() const
+Layouting::Item::List LayoutWidget::items() const
 {
     return m_rootItem->items_recursive();
 }
@@ -203,7 +203,7 @@ DockWidgetBase::List LayoutWidget::dockWidgets() const
     return dockWidgets;
 }
 
-Frame::List LayoutWidget::framesFrom(QWidgetOrQuick *frameOrMultiSplitter) const
+Frame::List LayoutWidget::framesFrom(QWidgetOrQuick *frameOrMultiSplitter) 
 {
     if (auto frame = qobject_cast<Frame *>(frameOrMultiSplitter))
         return { frame };

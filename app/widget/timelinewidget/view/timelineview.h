@@ -124,8 +124,8 @@ class TimelineView : public TimeBasedView {
 
   [[nodiscard]] qreal GetTimelineRightBound() const;
 
-  void DrawThumbnail(QPainter *painter, const FrameHashCache *thumbs, const rational &time, int x,
-                     const QRect &preview_rect, QRect *thumb_rect) const;
+  static void DrawThumbnail(QPainter *painter, const FrameHashCache *thumbs, const rational &time, int x,
+                     const QRect &preview_rect, QRect *thumb_rect) ;
 
   QHash<Track::Reference, TimeRangeList> *selections_;
 

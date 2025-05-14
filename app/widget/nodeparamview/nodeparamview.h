@@ -99,15 +99,15 @@ class NodeParamView : public TimeBasedWidget {
  private:
   void QueueKeyframePositionUpdate();
 
-  void AddContext(Node *context);
+  void AddContext(Node *ctx);
 
-  void RemoveContext(Node *context);
+  void RemoveContext(Node *ctx);
 
   void AddNode(Node *n, Node *ctx, NodeParamViewContext *context);
 
-  void SortItemsInContext(NodeParamViewContext *context);
+  static void SortItemsInContext(NodeParamViewContext *context);
 
-  NodeParamViewContext *GetContextItemFromContext(Node *context);
+  NodeParamViewContext *GetContextItemFromContext(Node *ctx);
 
   [[nodiscard]] bool IsGroupMode() const { return contexts_.size() == 1 && dynamic_cast<NodeGroup *>(contexts_.first()); }
 

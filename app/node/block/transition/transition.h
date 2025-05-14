@@ -89,7 +89,7 @@ class TransitionBlock : public Block {
  private:
   enum CurveType { kLinear, kExponential, kLogarithmic };
 
-  [[nodiscard]] double GetInternalTransitionTime(const double &time) const;
+  [[nodiscard]] static double GetInternalTransitionTime(const double &time) ;
 
   void InsertTransitionTimes(AcceleratedJob *job, const double &time) const;
 

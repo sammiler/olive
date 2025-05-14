@@ -145,9 +145,9 @@ Sequence *TrackList::parent() const { return dynamic_cast<Sequence *>(QObject::p
 
 int TrackList::ArraySize() const { return parent()->InputArraySize(track_input()); }
 
-void TrackList::ArrayAppend() { parent()->InputArrayAppend(track_input()); }
+void TrackList::ArrayAppend() const { parent()->InputArrayAppend(track_input()); }
 
-void TrackList::ArrayRemoveLast() { parent()->InputArrayRemoveLast(track_input()); }
+void TrackList::ArrayRemoveLast() const { parent()->InputArrayRemoveLast(track_input()); }
 
 void TrackList::UpdateTotalLength() {
   total_length_ = rational(0);

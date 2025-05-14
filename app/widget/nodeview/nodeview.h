@@ -160,7 +160,7 @@ class NodeView : public HandMovableView {
   NodeViewItem *GetAssumedItemForSelectedNode(Node *node);
   bool GetAssumedPositionForSelectedNode(Node *node, Node::Position *pos);
 
-  Menu *CreateAddMenu(Menu *parent);
+  Menu *CreateAddMenu(Menu *parent) const;
 
   void PositionNewEdge(const QPoint &pos);
 
@@ -170,9 +170,9 @@ class NodeView : public HandMovableView {
 
   bool IsItemAttachedToCursor(NodeViewItem *item) const;
 
-  void ExpandItem(NodeViewItem *item);
+  static void ExpandItem(NodeViewItem *item);
 
-  void CollapseItem(NodeViewItem *item);
+  static void CollapseItem(NodeViewItem *item);
 
   void EndEdgeDrag(bool cancel = false);
 
@@ -182,7 +182,7 @@ class NodeView : public HandMovableView {
 
   NodeViewMiniMap *minimap_;
 
-  NodeViewContext *GetContextItemFromNodeItem(NodeViewItem *item);
+  static NodeViewContext *GetContextItemFromNodeItem(NodeViewItem *item);
 
   struct AttachedItem {
     NodeViewItem *item{};

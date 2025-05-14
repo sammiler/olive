@@ -61,7 +61,7 @@ class CropDistortNode : public Node {
   static const QString kFeatherInput;
 
  protected slots:
-  void GizmoDragMove(double delta_x, double delta_y, const Qt::KeyboardModifiers &modifiers) override;
+  void GizmoDragMove(double x_diff, double y_diff, const Qt::KeyboardModifiers &modifiers) override;
 
  private:
   void CreateCropSideInput(const QString &id);

@@ -130,7 +130,7 @@ public:
     /**
      * @brief The list of items in this layout.
      */
-    [[nodiscard]]  const QVector<Layouting::Item *> items() const;
+    [[nodiscard]]  QVector<Layouting::Item *> items() const;
 
     /**
      * @brief Returns true if this layout contains the specified item.
@@ -179,7 +179,7 @@ public:
     /**
      * @brief Removes an item from this MultiSplitter.
      */
-    void removeItem(Layouting::Item *item);
+    static void removeItem(Layouting::Item *item);
 
     /**
      * @brief Updates the min size of this layout.
@@ -218,7 +218,7 @@ protected:
      * If frameOrMultiSplitter is a Frame, it returns a list of 1 element, with that frame
      * If frameOrMultiSplitter is a MultiSplitter then it returns a list of all frames it contains
      */
-    QList<Frame *> framesFrom(QWidgetOrQuick *frameOrMultiSplitter) const;
+    static QList<Frame *> framesFrom(QWidgetOrQuick *frameOrMultiSplitter) ;
 
 Q_SIGNALS:
     void visibleWidgetCountChanged(int count);

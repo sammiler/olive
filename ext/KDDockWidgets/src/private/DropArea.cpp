@@ -92,7 +92,7 @@ Frame *DropArea::frameContainingPos(QPoint globalPos) const
     return nullptr;
 }
 
-void DropArea::updateFloatingActions()
+void DropArea::updateFloatingActions() const
 {
     const Frame::List frames = this->frames();
     for (Frame *frame : frames)

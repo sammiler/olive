@@ -56,7 +56,7 @@ class NodeViewMiniMap : public QGraphicsView {
   void SetDefaultSize();
 
  private:
-  bool MouseInsideResizeTriangle(QMouseEvent *event);
+  bool MouseInsideResizeTriangle(QMouseEvent *event) const;
 
   void EmitMoveSignal(QMouseEvent *event);
 

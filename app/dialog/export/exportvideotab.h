@@ -54,7 +54,7 @@ class ExportVideoTab : public QWidget {
     return static_cast<ExportCodec::Codec>(codec_combobox()->currentData().toInt());
   }
 
-  void SetSelectedCodec(ExportCodec::Codec c) { QtUtils::SetComboBoxData(codec_combobox(), c); }
+  void SetSelectedCodec(ExportCodec::Codec c) const { QtUtils::SetComboBoxData(codec_combobox(), c); }
 
   [[nodiscard]] QComboBox* codec_combobox() const { return codec_combobox_; }
 

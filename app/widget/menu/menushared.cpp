@@ -38,19 +38,18 @@ MenuShared::MenuShared() {
   new_folder_item_ = Menu::CreateItem(this, "newfolder", Core::instance(), &Core::CreateNewFolder);
 
   // "Edit" menu shared items
-  edit_cut_item_ = Menu::CreateItem(this, "cut", this, &MenuShared::CutTriggered, tr("Ctrl+X"));
-  edit_copy_item_ = Menu::CreateItem(this, "copy", this, &MenuShared::CopyTriggered, tr("Ctrl+C"));
-  edit_paste_item_ = Menu::CreateItem(this, "paste", this, &MenuShared::PasteTriggered, tr("Ctrl+V"));
+  edit_cut_item_ = Menu::CreateItem(this, "cut", &MenuShared::CutTriggered, tr("Ctrl+X"));
+  edit_copy_item_ = Menu::CreateItem(this, "copy", &MenuShared::CopyTriggered, tr("Ctrl+C"));
+  edit_paste_item_ = Menu::CreateItem(this, "paste", &MenuShared::PasteTriggered, tr("Ctrl+V"));
   edit_paste_insert_item_ =
-      Menu::CreateItem(this, "pasteinsert", this, &MenuShared::PasteInsertTriggered, tr("Ctrl+Shift+V"));
-  edit_duplicate_item_ = Menu::CreateItem(this, "duplicate", this, &MenuShared::DuplicateTriggered, tr("Ctrl+D"));
-  edit_rename_item_ = Menu::CreateItem(this, "rename", this, &MenuShared::RenameSelectedTriggered, tr("F2"));
-  edit_delete_item_ = Menu::CreateItem(this, "delete", this, &MenuShared::DeleteSelectedTriggered, tr("Del"));
+      Menu::CreateItem(this, "pasteinsert", &MenuShared::PasteInsertTriggered, tr("Ctrl+Shift+V"));
+  edit_duplicate_item_ = Menu::CreateItem(this, "duplicate", &MenuShared::DuplicateTriggered, tr("Ctrl+D"));
+  edit_rename_item_ = Menu::CreateItem(this, "rename", &MenuShared::RenameSelectedTriggered, tr("F2"));
+  edit_delete_item_ = Menu::CreateItem(this, "delete", &MenuShared::DeleteSelectedTriggered, tr("Del"));
   edit_ripple_delete_item_ =
-      Menu::CreateItem(this, "rippledelete", this, &MenuShared::RippleDeleteTriggered, tr("Shift+Del"));
-  edit_split_item_ = Menu::CreateItem(this, "split", this, &MenuShared::SplitAtPlayheadTriggered, tr("Ctrl+K"));
-  edit_speedduration_item_ =
-      Menu::CreateItem(this, "speeddur", this, &MenuShared::SpeedDurationTriggered, tr("Ctrl+R"));
+      Menu::CreateItem(this, "rippledelete", &MenuShared::RippleDeleteTriggered, tr("Shift+Del"));
+  edit_split_item_ = Menu::CreateItem(this, "split", &MenuShared::SplitAtPlayheadTriggered, tr("Ctrl+K"));
+  edit_speedduration_item_ = Menu::CreateItem(this, "speeddur", &MenuShared::SpeedDurationTriggered, tr("Ctrl+R"));
 
   // List of addable items
   for (int i = 0; i < Tool::kAddableCount; i++) {
@@ -62,19 +61,19 @@ MenuShared::MenuShared() {
   }
 
   // "In/Out" menu shared items
-  inout_set_in_item_ = Menu::CreateItem(this, "setinpoint", this, &MenuShared::SetInTriggered, tr("I"));
-  inout_set_out_item_ = Menu::CreateItem(this, "setoutpoint", this, &MenuShared::SetOutTriggered, tr("O"));
-  inout_reset_in_item_ = Menu::CreateItem(this, "resetin", this, &MenuShared::ResetInTriggered);
-  inout_reset_out_item_ = Menu::CreateItem(this, "resetout", this, &MenuShared::ResetOutTriggered);
-  inout_clear_inout_item_ = Menu::CreateItem(this, "clearinout", this, &MenuShared::ClearInOutTriggered, tr("G"));
+  inout_set_in_item_ = Menu::CreateItem(this, "setinpoint", &MenuShared::SetInTriggered, tr("I"));
+  inout_set_out_item_ = Menu::CreateItem(this, "setoutpoint", &MenuShared::SetOutTriggered, tr("O"));
+  inout_reset_in_item_ = Menu::CreateItem(this, "resetin", &MenuShared::ResetInTriggered);
+  inout_reset_out_item_ = Menu::CreateItem(this, "resetout", &MenuShared::ResetOutTriggered);
+  inout_clear_inout_item_ = Menu::CreateItem(this, "clearinout", &MenuShared::ClearInOutTriggered, tr("G"));
 
   // "Clip Edit" menu shared items
   clip_add_default_transition_item_ =
-      Menu::CreateItem(this, "deftransition", this, &MenuShared::DefaultTransitionTriggered, tr("Ctrl+Shift+D"));
-  clip_link_unlink_item_ = Menu::CreateItem(this, "linkunlink", this, &MenuShared::ToggleLinksTriggered, tr("Ctrl+L"));
+      Menu::CreateItem(this, "deftransition", &MenuShared::DefaultTransitionTriggered, tr("Ctrl+Shift+D"));
+  clip_link_unlink_item_ = Menu::CreateItem(this, "linkunlink", &MenuShared::ToggleLinksTriggered, tr("Ctrl+L"));
   clip_enable_disable_item_ =
-      Menu::CreateItem(this, "enabledisable", this, &MenuShared::EnableDisableTriggered, tr("Shift+E"));
-  clip_nest_item_ = Menu::CreateItem(this, "nest", this, &MenuShared::NestTriggered);
+      Menu::CreateItem(this, "enabledisable", &MenuShared::EnableDisableTriggered, tr("Shift+E"));
+  clip_nest_item_ = Menu::CreateItem(this, "nest", &MenuShared::NestTriggered);
 
   // TimeRuler menu shared items
   frame_view_mode_group_ = new QActionGroup(this);

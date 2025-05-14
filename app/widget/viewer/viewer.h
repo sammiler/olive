@@ -207,7 +207,7 @@ class ViewerWidget : public TimeBasedWidget {
 
   void UpdateMinimumScale();
 
-  void SetColorTransform(const ColorTransform& transform, ViewerDisplayWidget* sender);
+  static void SetColorTransform(const ColorTransform& transform, ViewerDisplayWidget* sender);
 
   QString GetCachedFilenameFromTime(const rational& time);
 
@@ -356,7 +356,7 @@ class ViewerWidget : public TimeBasedWidget {
 
   void UpdateWaveformModeFromMenu(QAction* a);
 
-  void DragEntered(QDragEnterEvent* event);
+  static void DragEntered(QDragEnterEvent* event);
 
   void Dropped(QDropEvent* event);
 

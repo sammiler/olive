@@ -74,7 +74,7 @@ class ViewerSizer : public QWidget {
    * The number is an integer percentage (100 = 100%). Set to 0 to auto-fit.
    */
   void SetZoom(double percent);
-  void SetZoomAnchored(double percent, double cursor_x, double cursor_y);
+  void SetZoomAnchored(double next_scale, double cursor_x, double cursor_y);
 
   void HandDragMove(int x, int y);
 
@@ -97,7 +97,7 @@ class ViewerSizer : public QWidget {
    */
   void UpdateSize();
 
-  int GetZoomedValue(int value);
+  int GetZoomedValue(int value) const;
 
   [[nodiscard]] double GetRealCurrentZoom() const;
 

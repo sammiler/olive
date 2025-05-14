@@ -74,13 +74,13 @@ class ProjectPanel : public PanelWidget, public FootageManagementPanel {
   ProjectExplorer *explorer_;
 
  private slots:
-  void ItemDoubleClickSlot(Node *item);
+  static void ItemDoubleClickSlot(Node *item);
 
   void ShowNewMenu();
 
   void UpdateSubtitle();
 
-  void SaveConnectedProject();
+  static void SaveConnectedProject();
 };
 
 }  // namespace olive

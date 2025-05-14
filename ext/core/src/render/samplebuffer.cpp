@@ -194,7 +194,7 @@ void SampleBuffer::set(int channel, const float *data, size_t sample_offset, siz
     return;
   }
 
-  memcpy(&data_[channel].data()[sample_offset], data, sizeof(float) * sample_length);
+  memcpy(&data_[channel][sample_offset], data, sizeof(float) * sample_length);
 }
 
 void SampleBuffer::clamp_channel(int channel) {

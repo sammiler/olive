@@ -46,10 +46,10 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-    if (app.arguments().size() != 2) {
+    if (QApplication::arguments().size() != 2) {
         qDebug() << "Usage: kddockwidgets_linter <layout json file>";
         return 1;
     }
 
-    return lint(app.arguments().at(1)) ? 0 : 2;
+    return lint(QApplication::arguments().at(1)) ? 0 : 2;
 }

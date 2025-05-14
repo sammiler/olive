@@ -196,11 +196,11 @@ public:
      *
      * Default is 5px.
      */
-    [[nodiscard]]  int separatorThickness() const;
+    [[nodiscard]]  static int separatorThickness() ;
 
     ///@brief setter for @ref separatorThickness
     /// Note: Only use this function at startup before creating any DockWidget or MainWindow.
-    void setSeparatorThickness(int value);
+    static void setSeparatorThickness(int value);
 
     ///@brief sets the dragged window opacity
     /// 1.0 is fully opaque while 0.0 is fully transparent
@@ -285,14 +285,14 @@ public:
     ///@brief Sets the minimum size a dock widget can have.
     /// Widgets can still provide their own min-size and it will be respected, however it can never be
     /// smaller than this one.
-    void setAbsoluteWidgetMinSize(QSize size);
-    [[nodiscard]]  QSize absoluteWidgetMinSize() const;
+    static void setAbsoluteWidgetMinSize(QSize size);
+    [[nodiscard]]  static QSize absoluteWidgetMinSize() ;
 
     ///@brief Sets the maximum size a dock widget can have.
     /// Widgets can still provide their own max-size and it will be respected, however it can never be
     /// bigger than this one.
-    void setAbsoluteWidgetMaxSize(QSize size);
-    [[nodiscard]]  QSize absoluteWidgetMaxSize() const;
+    static void setAbsoluteWidgetMaxSize(QSize size);
+    [[nodiscard]]  static QSize absoluteWidgetMaxSize() ;
 
     ///@brief Disables our internal widget's paint events
     /// By default, KDDockWidget's internal widgets reimplement paintEvent(). Disabling them

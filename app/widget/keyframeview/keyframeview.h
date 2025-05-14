@@ -133,7 +133,7 @@ class KeyframeView : public TimeBasedView, public TimeTargetObject {
   void Redraw();
 
  private:
-  rational CalculateNewTimeFromScreen(const rational &old_time, double cursor_diff);
+  static rational CalculateNewTimeFromScreen(const rational &old_time, double cursor_diff);
 
   QVector<KeyframeViewInputConnection *> tracks_;
 

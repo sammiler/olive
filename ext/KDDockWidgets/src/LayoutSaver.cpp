@@ -117,7 +117,7 @@ LayoutSaver::~LayoutSaver()
     delete d;
 }
 
-bool LayoutSaver::saveToFile(const QString &jsonFilename)
+bool LayoutSaver::saveToFile(const QString &jsonFilename) const
 {
     const QByteArray data = serializeLayout();
 
@@ -323,7 +323,7 @@ LayoutSaver::Private *LayoutSaver::dptr() const
     return d;
 }
 
-DockWidgetBase::List LayoutSaver::restoredDockWidgets() const
+DockWidgetBase::List LayoutSaver::restoredDockWidgets() 
 {
     const DockWidgetBase::List &allDockWidgets = DockRegistry::self()->dockwidgets();
     DockWidgetBase::List result;
@@ -413,7 +413,7 @@ void LayoutSaver::Private::floatUnknownWidgets(const LayoutSaver::Layout &layout
     }
 }
 
-void LayoutSaver::Private::deleteEmptyFrames()
+void LayoutSaver::Private::deleteEmptyFrames() const
 {
     // After a restore it can happen that some DockWidgets didn't exist, so weren't restored.
     // Delete their frame now.
@@ -432,7 +432,7 @@ void LayoutSaver::Private::deleteEmptyFrames()
     }
 }
 
-std::unique_ptr<QSettings> LayoutSaver::Private::settings() const
+std::unique_ptr<QSettings> LayoutSaver::Private::settings() 
 {
     auto settings = std::make_unique<QSettings>(qApp->organizationName(),
                                                              qApp->applicationName());

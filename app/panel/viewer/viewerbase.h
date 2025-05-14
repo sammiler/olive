@@ -44,35 +44,35 @@ class ViewerPanelBase : public TimeBasedPanel {
 
   void ShuttleRight() override;
 
-  void ConnectTimeBasedPanel(TimeBasedPanel *panel);
+  void ConnectTimeBasedPanel(TimeBasedPanel *panel) const;
 
-  void DisconnectTimeBasedPanel(TimeBasedPanel *panel);
+  void DisconnectTimeBasedPanel(TimeBasedPanel *panel) const;
 
   /**
    * @brief Wrapper for ViewerWidget::SetFullScreen()
    */
-  void SetFullScreen(QScreen *screen = nullptr);
+  void SetFullScreen(QScreen *screen = nullptr) const;
 
-  ColorManager *GetColorManager() { return GetViewerWidget()->color_manager(); }
+  ColorManager *GetColorManager() const { return GetViewerWidget()->color_manager(); }
 
-  void UpdateTextureFromNode() { GetViewerWidget()->UpdateTextureFromNode(); }
+  void UpdateTextureFromNode() const { GetViewerWidget()->UpdateTextureFromNode(); }
 
-  void AddPlaybackDevice(ViewerDisplayWidget *vw) { GetViewerWidget()->AddPlaybackDevice(vw); }
+  void AddPlaybackDevice(ViewerDisplayWidget *vw) const { GetViewerWidget()->AddPlaybackDevice(vw); }
 
-  void SetTimelineSelectedBlocks(const QVector<Block *> &b) { GetViewerWidget()->SetTimelineSelectedBlocks(b); }
+  void SetTimelineSelectedBlocks(const QVector<Block *> &b) const { GetViewerWidget()->SetTimelineSelectedBlocks(b); }
 
-  void SetNodeViewSelections(const QVector<Node *> &n) { GetViewerWidget()->SetNodeViewSelections(n); }
+  void SetNodeViewSelections(const QVector<Node *> &n) const { GetViewerWidget()->SetNodeViewSelections(n); }
 
-  void ConnectMulticamWidget(MulticamWidget *p) { GetViewerWidget()->ConnectMulticamWidget(p); }
+  void ConnectMulticamWidget(MulticamWidget *p) const { GetViewerWidget()->ConnectMulticamWidget(p); }
 
  public slots:
-  void SetGizmos(Node *node);
+  void SetGizmos(Node *node) const;
 
-  void CacheEntireSequence();
+  void CacheEntireSequence() const;
 
-  void CacheSequenceInOut();
+  void CacheSequenceInOut() const;
 
-  void RequestStartEditingText() { GetViewerWidget()->RequestStartEditingText(); }
+  void RequestStartEditingText() const { GetViewerWidget()->RequestStartEditingText(); }
 
  signals:
   /**

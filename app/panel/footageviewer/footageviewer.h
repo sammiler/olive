@@ -37,7 +37,7 @@ class FootageViewerPanel : public ViewerPanelBase, public FootageManagementPanel
  public:
   FootageViewerPanel();
 
-  void OverrideWorkArea(const TimeRange &r);
+  void OverrideWorkArea(const TimeRange &r) const;
 
   [[nodiscard]] FootageViewerWidget *GetFootageViewerWidget() const {
     return dynamic_cast<FootageViewerWidget *>(GetTimeBasedWidget());

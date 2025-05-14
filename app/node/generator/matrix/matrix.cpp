@@ -80,7 +80,7 @@ void MatrixGenerator::Value(const NodeValueRow &value, const NodeGlobals &global
 }
 
 QMatrix4x4 MatrixGenerator::GenerateMatrix(const NodeValueRow &value, bool ignore_anchor, bool ignore_position,
-                                           bool ignore_scale, const QMatrix4x4 &mat) const {
+                                           bool ignore_scale, const QMatrix4x4 &mat) {
   QVector2D anchor;
   QVector2D position;
   QVector2D scale;

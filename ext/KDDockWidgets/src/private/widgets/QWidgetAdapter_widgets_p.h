@@ -37,7 +37,7 @@ inline QWidget *parentWidget(QWidget *widget)
     return widget ? widget->parentWidget() : nullptr;
 }
 
-bool isMinimized(QWindow *widget);
+bool isMinimized(QWindow *window);
 
 inline bool isMinimized(const QWidget *widget)
 {

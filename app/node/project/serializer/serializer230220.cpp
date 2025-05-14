@@ -448,7 +448,7 @@ void ProjectSerializer230220::Save(QXmlStreamWriter *writer, const SaveData &dat
   }
 }
 
-void ProjectSerializer230220::PostConnect(const QVector<Node *> &nodes, SerializedData *project_data) const {
+void ProjectSerializer230220::PostConnect(const QVector<Node *> &nodes, SerializedData *project_data) {
   foreach (const SerializedData::SerializedConnection &con, project_data->desired_connections) {
     if (Node *out = project_data->node_ptrs.value(con.output_node)) {
       Node::ConnectEdge(out, con.input);

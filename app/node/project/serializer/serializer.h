@@ -122,7 +122,7 @@ class ProjectSerializer {
 
     [[nodiscard]] const QVector<Node *> &GetOnlySerializeNodes() const { return only_serialize_nodes_; }
     void SetOnlySerializeNodes(const QVector<Node *> &only) { only_serialize_nodes_ = only; }
-    void SetOnlySerializeNodesAndResolveGroups(QVector<Node *> only);
+    void SetOnlySerializeNodesAndResolveGroups(QVector<Node *> nodes);
 
     [[nodiscard]] const std::vector<TimelineMarker *> &GetOnlySerializeMarkers() const { return only_serialize_markers_; }
     void SetOnlySerializeMarkers(const std::vector<TimelineMarker *> &only) { only_serialize_markers_ = only; }
@@ -156,11 +156,11 @@ class ProjectSerializer {
   static void Destroy();
 
   static Result Load(Project *project, const QString &filename, LoadType load_type);
-  static Result Load(Project *project, QXmlStreamReader *read_device, LoadType load_type);
+  static Result Load(Project *project, QXmlStreamReader *reader, LoadType load_type);
   static Result Paste(LoadType load_type, Project *project = nullptr);
 
   static Result Save(const SaveData &data, bool compress);
-  static Result Save(QXmlStreamWriter *write_device, const SaveData &data);
+  static Result Save(QXmlStreamWriter *writer, const SaveData &data);
   static Result Copy(const SaveData &data);
 
   static bool CheckCompressedID(QFile *file);
@@ -172,7 +172,7 @@ class ProjectSerializer {
 
   [[nodiscard]] virtual uint Version() const = 0;
 
-  [[nodiscard]] bool IsCancelled() const;
+  [[nodiscard]] static bool IsCancelled() ;
 
  private:
   static Result LoadWithSerializerVersion(uint version, Project *project, QXmlStreamReader *reader, LoadType load_type);

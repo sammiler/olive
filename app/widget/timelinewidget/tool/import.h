@@ -44,7 +44,7 @@ class ImportTool : public TimelineTool {
   enum DropWithoutSequenceBehavior { kDWSAsk, kDWSAuto, kDWSManual, kDWSDisable };
 
  private:
-  void FootageToGhosts(rational ghost_start, const DraggedFootageData &footage, const rational &dest_tb,
+  void FootageToGhosts(rational ghost_start, const DraggedFootageData &sorted, const rational &dest_tb,
                        const int &track_start);
 
   void PrepGhosts(const rational &frame, const int &track_index);

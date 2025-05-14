@@ -83,17 +83,17 @@ public:
     Position::Ptr &lastPosition();
 
     void forceClose();
-    QPoint defaultCenterPosForFloating();
+    QPoint defaultCenterPosForFloating() const;
 
     bool eventFilter(QObject *watched, QEvent *event) override;
 
-    void updateTitle();
+    void updateTitle() const;
     void toggle(bool enabled);
     void updateToggleAction();
     void updateFloatAction();
     void onDockWidgetShown();
     void onDockWidgetHidden();
-    void show();
+    void show() const;
     void close();
     bool restoreToPreviousPosition();
     void maybeRestoreToPreviousPosition();

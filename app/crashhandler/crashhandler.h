@@ -65,7 +65,7 @@ class CrashHandlerDialog : public QDialog {
  private slots:
   void ReplyFinished(QNetworkReply* reply);
 
-  void HandleSslErrors(QNetworkReply* reply, const QList<QSslError>& errors);
+  void HandleSslErrors(QNetworkReply* reply, const QList<QSslError>& se);
 
   void AttemptToFindReport();
 

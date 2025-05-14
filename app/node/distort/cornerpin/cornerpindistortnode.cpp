@@ -115,7 +115,7 @@ ShaderCode CornerPinDistortNode::GetShaderCode(const ShaderRequest &request) con
                     FileFunctions::ReadFileAsString(QStringLiteral(":/shaders/cornerpin.vert")));
 }
 
-QPointF CornerPinDistortNode::ValueToPixel(int value, const NodeValueRow &row, const QVector2D &resolution) const {
+QPointF CornerPinDistortNode::ValueToPixel(int value, const NodeValueRow &row, const QVector2D &resolution) {
   Q_ASSERT(value >= 0 && value <= 3);
 
   QVector2D v;

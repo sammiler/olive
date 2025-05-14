@@ -46,16 +46,16 @@ private:
     void dumpSelectedWidgetToPng();
     void updateSelectedWidget();
     void toggleVisible();
-    void dumpWindows();
-    QString nameForObj(QObject *o) const;
+    static void dumpWindows();
+    static QString nameForObj(QObject *o) ;
     void add(QObject *obj, QStandardItem *parent);
     void remove(QObject *obj);
     void onSelectionChanged();
-    void printProperties(QObject *) const;
+    static void printProperties(QObject *) ;
     [[nodiscard]] QObject *selectedObject() const;
     [[nodiscard]] QWidget *selectedWidget() const;
     void updateItemAppearence(QStandardItem *);
-    QObject *objectForItem(QStandardItem *) const;
+    static QObject *objectForItem(QStandardItem *) ;
     QWidget *widgetForItem(QStandardItem *) const;
 
 #ifdef Q_OS_WIN

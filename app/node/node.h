@@ -250,12 +250,12 @@ class Node : public QObject {
       return *this;
     }
 
-    friend inline const Position operator+(Position a, const Position& b) {
+    friend inline Position operator+(Position a, const Position& b) {
       a += b;
       return a;
     }
 
-    friend inline const Position operator-(Position a, const Position& b) {
+    friend inline Position operator-(Position a, const Position& b) {
       a -= b;
       return a;
     }
@@ -374,13 +374,13 @@ class Node : public QObject {
     return NodeValue::combine_track_values_into_normal_value(type, GetSplitValueAtTime(input, time, element));
   }
 
-  QVariant GetValueAtTime(const NodeInput& input, const rational& time) {
+  QVariant GetValueAtTime(const NodeInput& input, const rational& time) const {
     return GetValueAtTime(input.input(), time, input.element());
   }
 
   [[nodiscard]] SplitValue GetSplitValueAtTime(const QString& input, const rational& time, int element = -1) const;
 
-  SplitValue GetSplitValueAtTime(const NodeInput& input, const rational& time) {
+  SplitValue GetSplitValueAtTime(const NodeInput& input, const rational& time) const {
     return GetSplitValueAtTime(input.input(), time, input.element());
   }
 

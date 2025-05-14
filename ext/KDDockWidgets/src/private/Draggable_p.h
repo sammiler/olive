@@ -37,7 +37,7 @@ class DOCKS_EXPORT Draggable
 public:
     typedef QVector<Draggable *> List;
 
-    explicit Draggable(QWidgetOrQuick *thisObject, bool enabled = true);
+    explicit Draggable(QWidgetOrQuick *thisWidget, bool enabled = true);
     virtual ~Draggable();
     [[nodiscard]]  QWidgetOrQuick *asWidget() const;
 

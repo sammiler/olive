@@ -65,7 +65,7 @@ class Core : public QObject {
 
     void set_run_mode(RunMode m) { mode_ = m; }
 
-    [[nodiscard]] const QString startup_project() const { return startup_project_; }
+    [[nodiscard]] QString startup_project() const { return startup_project_; }
 
     void set_startup_project(const QString& p) { startup_project_ = p; }
 
@@ -179,12 +179,12 @@ class Core : public QObject {
    * The active Project file, or nullptr if the heuristic couldn't find one.
    */
   [[nodiscard]] Project* GetActiveProject() const;
-  [[nodiscard]] Folder* GetSelectedFolderInActiveProject() const;
+  [[nodiscard]] static Folder* GetSelectedFolderInActiveProject() ;
 
   /**
    * @brief Gets current timecode display mode
    */
-  [[nodiscard]] Timecode::Display GetTimecodeDisplay() const;
+  [[nodiscard]] static Timecode::Display GetTimecodeDisplay() ;
 
   /**
    * @brief Sets current timecode display mode
@@ -319,7 +319,7 @@ class Core : public QObject {
    * @brief Show OTIO import dialog
    */
 #ifdef USE_OTIO
-  bool DialogImportOTIOShow(const QList<Sequence*>& sequences);
+  bool DialogImportOTIOShow(const QList<Sequence*>& sequences) const;
 #endif
 
   /**
@@ -427,7 +427,7 @@ class Core : public QObject {
    * Qt's signal/slot system requires types to be declared. In the interest of doing this only at startup, we contain
    * them all in a function here.
    */
-  void DeclareTypesForQt();
+  static void DeclareTypesForQt();
 
   /**
    * @brief Start GUI portion of Olive

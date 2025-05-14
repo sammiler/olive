@@ -118,13 +118,13 @@ public:
     void updateTitleAndIcon();
     void onDockWidgetTitleChanged();
     void updateTitleBarVisibility();
-    void updateFloatingActions();
+    void updateFloatingActions() const;
     [[nodiscard]]  bool containsMouse(QPoint globalPos) const;
     [[nodiscard]]  TitleBar *titleBar() const;
     [[nodiscard]]  TitleBar *actualTitleBar() const;
     [[nodiscard]]  QString title() const;
     [[nodiscard]]  QIcon icon() const;
-    [[nodiscard]]  const QVector<DockWidgetBase *> dockWidgets() const;
+    [[nodiscard]]  QVector<DockWidgetBase *> dockWidgets() const;
 
     [[nodiscard]]  bool isTheOnlyFrame() const;
 
@@ -187,7 +187,7 @@ public:
     }
 
     /// @brief returns whether the dockwidget @p w is inside this frame
-    bool containsDockWidget(DockWidgetBase *w) const;
+    bool containsDockWidget(DockWidgetBase *dockWidget) const;
 
     ///@brief returns the FloatingWindow this frame is in, if any
     [[nodiscard]]  FloatingWindow *floatingWindow() const;

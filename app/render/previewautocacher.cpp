@@ -252,7 +252,7 @@ void PreviewAutoCacher::VideoRendered() {
   delete watcher;
 }
 
-void PreviewAutoCacher::ConnectToNodeCache(Node *node) {
+void PreviewAutoCacher::ConnectToNodeCache(Node *node) const {
   if (ignore_cache_requests_) {
     return;
   }
@@ -275,7 +275,7 @@ void PreviewAutoCacher::ConnectToNodeCache(Node *node) {
   node->waveform_cache()->ResignalRequests();
 }
 
-void PreviewAutoCacher::DisconnectFromNodeCache(Node *node) {
+void PreviewAutoCacher::DisconnectFromNodeCache(Node *node) const {
   disconnect(node->video_frame_cache(), &PlaybackCache::Requested, this, &PreviewAutoCacher::VideoInvalidatedFromCache);
 
   disconnect(node->thumbnail_cache(), &PlaybackCache::Requested, this, &PreviewAutoCacher::VideoInvalidatedFromCache);
@@ -396,7 +396,7 @@ void PreviewAutoCacher::CancelAudioTasks(bool and_wait_for_them_to_finish) {
   CancelTasks(running_audio_tasks_, and_wait_for_them_to_finish);
 }
 
-bool PreviewAutoCacher::IsRenderingCustomRange() const {
+bool PreviewAutoCacher::IsRenderingCustomRange() {
   /*const VideoCacheData &d = video_cache_data_.value(viewer_node_);
   return d.iterator.IsCustomRange() && d.iterator.HasNext();*/
   return false;

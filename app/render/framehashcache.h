@@ -49,7 +49,7 @@ class FrameHashCache : public PlaybackCache {
   static bool SaveCacheFrame(const QString &cache_path, const QUuid &uuid, const rational &time, const rational &tb,
                              FramePtr frame);
   static FramePtr LoadCacheFrame(const QString &cache_path, const QUuid &uuid, const int64_t &time);
-  [[nodiscard]] FramePtr LoadCacheFrame(const int64_t &time) const;
+  [[nodiscard]] FramePtr LoadCacheFrame(const int64_t &hash) const;
   static FramePtr LoadCacheFrame(const QString &fn);
 
   void SetPassthrough(PlaybackCache *cache) override;

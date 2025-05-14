@@ -102,7 +102,7 @@ void NodeParamViewKeyframeControl::TimeTargetConnectEvent(ViewerOutput* v) {
   UpdateState();
 }
 
-QPushButton* NodeParamViewKeyframeControl::CreateNewToolButton(const QIcon& icon) const {
+QPushButton* NodeParamViewKeyframeControl::CreateNewToolButton(const QIcon& icon) {
   auto* btn = new QPushButton();
   btn->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
   btn->setIcon(icon);

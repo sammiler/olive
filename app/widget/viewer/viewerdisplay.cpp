@@ -569,7 +569,7 @@ rational ViewerDisplayWidget::GetGizmoTime() {
   return GetAdjustedTime(GetTimeTarget(), gizmos_, time_, Node::kTransformTowardsInput);
 }
 
-bool ViewerDisplayWidget::IsHandDrag(QMouseEvent *event) const {
+bool ViewerDisplayWidget::IsHandDrag(QMouseEvent *event) {
   return event->button() == Qt::MiddleButton || Core::instance()->tool() == Tool::kHand;
 }
 

@@ -44,7 +44,7 @@ class SequenceDialogPresetTab : public QWidget, public PresetManager<SequencePre
   void PresetAccepted();
 
  private:
-  QTreeWidgetItem* CreateFolder(const QString& name);
+  static QTreeWidgetItem* CreateFolder(const QString& name);
 
   QTreeWidgetItem* CreateHDPresetFolder(const QString& name, int width, int height, int divider);
 
@@ -58,7 +58,7 @@ class SequenceDialogPresetTab : public QWidget, public PresetManager<SequencePre
 
   void AddCustomItem(QTreeWidgetItem* folder, PresetPtr preset, int index, const QString& description = QString());
 
-  void AddItemInternal(QTreeWidgetItem* folder, const PresetPtr& preset, bool is_custom, int index,
+  static void AddItemInternal(QTreeWidgetItem* folder, const PresetPtr& preset, bool is_custom, int index,
                        const QString& description = QString());
 
   QTreeWidget* preset_tree_;

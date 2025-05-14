@@ -72,7 +72,7 @@ class NodeParamViewItemBody : public QWidget {
 
   void UpdateUIForEdgeConnection(const NodeInput &input);
 
-  void PlaceWidgetsFromBridge(QGridLayout *layout, NodeParamViewWidgetBridge *bridge, int row);
+  static void PlaceWidgetsFromBridge(QGridLayout *layout, NodeParamViewWidgetBridge *bridge, int row);
 
   void InputArraySizeChangedInternal(Node *node, const QString &input, int size);
 

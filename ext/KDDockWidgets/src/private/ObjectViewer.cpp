@@ -141,7 +141,7 @@ void ObjectViewer::dumpWindows()
     }
 }
 
-QString ObjectViewer::nameForObj(QObject *o) const
+QString ObjectViewer::nameForObj(QObject *o) 
 {
     QString name = QString::fromLatin1(o->metaObject()->className());
     if (!o->objectName().isEmpty())
@@ -216,7 +216,7 @@ void ObjectViewer::onSelectionChanged()
     }
 }
 
-void ObjectViewer::printProperties(QObject *obj) const
+void ObjectViewer::printProperties(QObject *obj) 
 {
     qDebug() << "Printing properties for" << obj;
 
@@ -264,7 +264,7 @@ void ObjectViewer::updateItemAppearence(QStandardItem *item)
     }
 }
 
-QObject *ObjectViewer::objectForItem(QStandardItem *item) const
+QObject *ObjectViewer::objectForItem(QStandardItem *item) 
 {
     return item->data(ObjRole).value<QObject *>();
 }

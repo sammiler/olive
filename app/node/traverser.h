@@ -48,7 +48,7 @@ class NodeTraverser {
   NodeValue GenerateRowValue(const Node *node, const QString &input, NodeValueTable *table, const TimeRange &time);
   NodeValue GenerateRowValueElement(const Node *node, const QString &input, int element, NodeValueTable *table,
                                     const TimeRange &time);
-  int GenerateRowValueElementIndex(const Node::ValueHint &hint, NodeValue::Type preferred_type,
+  static int GenerateRowValueElementIndex(const Node::ValueHint &hint, NodeValue::Type preferred_type,
                                    const NodeValueTable *table);
   int GenerateRowValueElementIndex(const Node *node, const QString &input, int element, const NodeValueTable *table);
 
@@ -119,7 +119,7 @@ class NodeTraverser {
   [[nodiscard]] virtual bool UseCache() const { return false; }
 
  private:
-  TexturePtr CreateDummyTexture(const VideoParams &p);
+  static TexturePtr CreateDummyTexture(const VideoParams &p);
 
   VideoParams video_params_;
 

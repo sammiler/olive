@@ -31,7 +31,7 @@
 namespace olive {
 
 ShaderCode MathNodeBase::GetShaderCodeInternal(const QString &shader_id, const QString &param_a_in,
-                                               const QString &param_b_in) const {
+                                               const QString &param_b_in) {
   QStringList code_id = shader_id.split('.');
 
   auto op = static_cast<Operation>(code_id.at(0).toInt());
@@ -419,7 +419,7 @@ void MathNodeBase::ValueInternal(Operation operation, Pairing pairing, const QSt
 void MathNodeBase::ProcessSamplesInternal(const NodeValueRow &values, MathNodeBase::Operation operation,
                                           const QString &param_a_in, const QString &param_b_in,
                                           const olive::SampleBuffer &input, olive::SampleBuffer &output,
-                                          int index) const {
+                                          int index) {
   // This function is only used for sample+number pairing
   NodeValue number_val = values[param_a_in];
 

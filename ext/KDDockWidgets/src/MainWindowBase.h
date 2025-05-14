@@ -85,10 +85,10 @@ public:
      * as hidden, recording only a placeholder in the tab. So it's restored to tabbed when eventually
      * shown.
      */
-    Q_INVOKABLE void addDockWidget(KDDockWidgets::DockWidgetBase *dockWidget,
+    Q_INVOKABLE void addDockWidget(KDDockWidgets::DockWidgetBase *dw,
                                    KDDockWidgets::Location location,
                                    KDDockWidgets::DockWidgetBase *relativeTo = nullptr,
-                                   KDDockWidgets::InitialOption initialOption = {});
+                                   KDDockWidgets::InitialOption initialOption = {}) const;
 
     /**
      * @brief Sets a persistent central widget. It can't be detached.
@@ -161,12 +161,12 @@ public:
     /// nodes closer to the root will have more space.
     ///
     /// min/max constraints will still be honoured.
-    Q_INVOKABLE void layoutEqually();
+    Q_INVOKABLE void layoutEqually() const;
 
     /// @brief like layoutEqually() but starts with the container that has @p dockWidget.
     /// While layoutEqually() starts from the root of the layout tree this function starts on a
     /// sub-tree.
-    Q_INVOKABLE void layoutParentContainerEqually(KDDockWidgets::DockWidgetBase *dockWidget);
+    Q_INVOKABLE void layoutParentContainerEqually(KDDockWidgets::DockWidgetBase *dockWidget) const;
 
     ///@brief Moves the dock widget into one of the MainWindow's sidebar.
     /// Means the dock widget is removed from the layout, and the sidebar shows a button that if pressed

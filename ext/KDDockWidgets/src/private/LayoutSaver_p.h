@@ -376,15 +376,15 @@ public:
     explicit Private(RestoreOptions options);
 
     [[nodiscard]] bool matchesAffinity(const QStringList &affinities) const;
-    void floatWidgetsWhichSkipRestore(const QStringList &mainWindowNames);
-    void floatUnknownWidgets(const LayoutSaver::Layout &layout);
+    static void floatWidgetsWhichSkipRestore(const QStringList &mainWindowNames);
+    static void floatUnknownWidgets(const LayoutSaver::Layout &layout);
 
     template<typename T>
     void deserializeWindowGeometry(const T &saved, QWidgetOrQuick *topLevel);
-    void deleteEmptyFrames();
-    void clearRestoredProperty();
+    void deleteEmptyFrames() const;
+    static void clearRestoredProperty();
 
-    [[nodiscard]] std::unique_ptr<QSettings> settings() const;
+    [[nodiscard]] static std::unique_ptr<QSettings> settings() ;
     DockRegistry *const m_dockRegistry;
     InternalRestoreOptions m_restoreOptions = {};
     QStringList m_affinityNames;

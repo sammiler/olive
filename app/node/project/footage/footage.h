@@ -170,7 +170,7 @@ class Footage : public ViewerOutput {
 
   void Reprobe();
 
-  VideoParams MergeVideoStream(const VideoParams &base, const VideoParams &over);
+  static VideoParams MergeVideoStream(const VideoParams &base, const VideoParams &over);
 
   /**
    * @brief Internal timestamp object

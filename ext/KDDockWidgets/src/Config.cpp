@@ -147,7 +147,7 @@ FrameworkWidgetFactory *Config::frameworkWidgetFactory() const
     return d->m_frameworkWidgetFactory;
 }
 
-int Config::separatorThickness() const
+int Config::separatorThickness() 
 {
     return Layouting::Config::self().separatorThickness();
 }
@@ -202,7 +202,7 @@ void Config::setAbsoluteWidgetMinSize(QSize size)
     Layouting::Item::hardcodedMinimumSize = size;
 }
 
-QSize Config::absoluteWidgetMinSize() const
+QSize Config::absoluteWidgetMinSize() 
 {
     return Layouting::Item::hardcodedMinimumSize;
 }
@@ -217,7 +217,7 @@ void Config::setAbsoluteWidgetMaxSize(QSize size)
     Layouting::Item::hardcodedMaximumSize = size;
 }
 
-QSize Config::absoluteWidgetMaxSize() const
+QSize Config::absoluteWidgetMaxSize() 
 {
     return Layouting::Item::hardcodedMaximumSize;
 }

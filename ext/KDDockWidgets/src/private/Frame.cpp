@@ -368,7 +368,7 @@ void Frame::updateTitleBarVisibility()
     }
 }
 
-void Frame::updateFloatingActions()
+void Frame::updateFloatingActions() const
 {
     const QVector<DockWidgetBase *> widgets = dockWidgets();
     for (DockWidgetBase *dw : widgets)
@@ -410,7 +410,7 @@ QIcon Frame::icon() const
     return m_titleBar->icon();
 }
 
-const DockWidgetBase::List Frame::dockWidgets() const
+DockWidgetBase::List Frame::dockWidgets() const
 {
     if (m_inCtor || m_inDtor)
         return {};

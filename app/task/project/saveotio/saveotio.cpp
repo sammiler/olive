@@ -140,7 +140,7 @@ OTIO::Track* SaveOTIOTask::SerializeTrack(Track* track, double sequence_rate, ra
       QVector<Footage*> media_nodes = block->FindInputNodes<Footage>();
       if (!media_nodes.isEmpty()) {
         OTIO::TimeRange available_range;
-        if (otio_track->kind().compare("Video") == 0) {
+        if (otio_track->kind() == "Video") {
           // OTIO ExternalReference uses the source clips frame rate (or sample rate) as opposed to
           // the sequences rate
           double source_frame_rate =
@@ -148,7 +148,7 @@ OTIO::Track* SaveOTIOTask::SerializeTrack(Track* track, double sequence_rate, ra
           available_range =
               OTIO::TimeRange(OTIO::RationalTime(0, source_frame_rate),
                               OTIO::RationalTime(media_nodes.first()->GetVideoParams().duration(), source_frame_rate));
-        } else if (otio_track->kind().compare("Audio") == 0) {
+        } else if (otio_track->kind() == "Audio") {
           available_range = OTIO::TimeRange(OTIO::RationalTime(0, media_nodes.first()->GetAudioParams().sample_rate()),
                                             OTIO::RationalTime(media_nodes.first()->GetAudioParams().duration(),
                                                                media_nodes.first()->GetAudioParams().sample_rate()));

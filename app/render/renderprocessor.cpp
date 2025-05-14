@@ -293,8 +293,8 @@ NodeValueDatabase RenderProcessor::GenerateDatabase(const Node *node, const Time
       QVector<TexturePtr> multicam_tex(sz);
       for (int i = 0; i < sz; i++) {
         NodeValueTable t =
-            GenerateTable(multicam->GetConnectedRenderOutput(multicam->kSourcesInput, i), range, multicam);
-        NodeValue val = GenerateRowValueElement(multicam, multicam->kSourcesInput, i, &t, range);
+            GenerateTable(multicam->GetConnectedRenderOutput(olive::MultiCamNode::kSourcesInput, i), range, multicam);
+        NodeValue val = GenerateRowValueElement(multicam, olive::MultiCamNode::kSourcesInput, i, &t, range);
         ResolveJobs(val);
 
         multicam_tex[i] = val.toTexture();

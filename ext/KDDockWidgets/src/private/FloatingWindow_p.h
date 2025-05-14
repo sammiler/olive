@@ -54,8 +54,8 @@ public:
     [[nodiscard]]  DockWidgetBase *singleDockWidget() const override;
     [[nodiscard]]  bool isWindow() const override;
 
-    [[nodiscard]]  const QVector<DockWidgetBase *> dockWidgets() const;
-    [[nodiscard]]  const Frame::List frames() const;
+    [[nodiscard]]  QVector<DockWidgetBase *> dockWidgets() const;
+    [[nodiscard]]  Frame::List frames() const;
     [[nodiscard]]  DropArea *dropArea() const
     {
         return m_dropArea;
@@ -181,7 +181,7 @@ public:
     [[nodiscard]]  MainWindowBase *mainWindow() const;
 
     ///@brief Returns the contents margins
-    [[nodiscard]]  QMargins contentMargins() const;
+    [[nodiscard]]  static QMargins contentMargins() ;
 
     ///@brief Allows the user to override QWindow::isMaximized()
     /// Needed to workaround window managers that don't support maximizing/minimizing Qt::Tool windows.

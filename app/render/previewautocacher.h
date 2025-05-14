@@ -86,7 +86,7 @@ class PreviewAutoCacher : public QObject {
   void CancelVideoTasks(bool and_wait_for_them_to_finish = false);
   void CancelAudioTasks(bool and_wait_for_them_to_finish = false);
 
-  [[nodiscard]] bool IsRenderingCustomRange() const;
+  [[nodiscard]] static bool IsRenderingCustomRange() ;
 
   void SetRendersPaused(bool e);
   void SetThumbnailsPaused(bool e);
@@ -111,8 +111,8 @@ class PreviewAutoCacher : public QObject {
 
   RenderTicketPtr RenderAudio(Node *node, ViewerOutput *context, const TimeRange &range, PlaybackCache *cache);
 
-  void ConnectToNodeCache(Node *node);
-  void DisconnectFromNodeCache(Node *node);
+  void ConnectToNodeCache(Node *node) const;
+  void DisconnectFromNodeCache(Node *node) const;
 
   void CancelQueuedSingleFrameRender();
 

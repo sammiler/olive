@@ -81,38 +81,38 @@ public:
     bool isSane() const;
 
     ///@brief returns all DockWidget instances
-    const DockWidgetBase::List dockwidgets() const;
+    DockWidgetBase::List dockwidgets() const;
 
     ///@brief overload returning only the ones with the specified names
-    const DockWidgetBase::List dockWidgets(const QStringList &names);
+    DockWidgetBase::List dockWidgets(const QStringList &names);
 
     ///@brief returns all closed DockWidget instances
-    const DockWidgetBase::List closedDockwidgets() const;
+    DockWidgetBase::List closedDockwidgets() const;
 
     ///@brief returns all MainWindow instances
-    const MainWindowBase::List mainwindows() const;
+    MainWindowBase::List mainwindows() const;
 
     ///@brief overload returning only the ones with the specified names
-    const MainWindowBase::List mainWindows(const QStringList &names);
+    MainWindowBase::List mainWindows(const QStringList &names);
 
     ///@brief returns the list of LayoutWidget instances
-    const QVector<LayoutWidget *> layouts() const;
+    QVector<LayoutWidget *> layouts() const;
 
     ///@brief returns a list of all Frame instances
-    const QList<Frame *> frames() const;
+    QList<Frame *> frames() const;
 
     ///@brief returns all FloatingWindow instances. Not necessarily all floating dock widgets,
     /// As there might be DockWidgets which weren't morphed yet.
-    const QVector<FloatingWindow *> floatingWindows(bool includeBeingDeleted = false) const;
+    QVector<FloatingWindow *> floatingWindows(bool includeBeingDeleted = false) const;
 
     ///@brief overload that returns list of QWindow. This is more friendly for supporting both QtWidgets and QtQuick
-    const QVector<QWindow *> floatingQWindows() const;
+    QVector<QWindow *> floatingQWindows() const;
 
     ///@brief returns whether if there's at least one floating window
     Q_INVOKABLE bool hasFloatingWindows() const;
 
     ///@brief Returns the window with the specified id
-    QWindow *windowForHandle(WId id) const;
+    static QWindow *windowForHandle(WId id) ;
 
     ///@brief returns the FloatingWindow with handle @p windowHandle
     FloatingWindow *floatingWindowForHandle(QWindow *windowHandle) const;
@@ -151,7 +151,7 @@ public:
      */
     void clear(const DockWidgetBase::List &dockWidgets,
                const MainWindowBase::List &mainWindows,
-               const QStringList &affinities);
+               const QStringList &affinities) const;
 
     /**
      * @brief Ensures that all floating DockWidgets have a FloatingWindow as a window.
@@ -176,7 +176,7 @@ public:
      * This is called by the unit-tests or the fuzzer. If during this the framework spits a
      * qWarning() then the app will qFatal()
      */
-    void checkSanityAll(bool dumpDebug = false);
+    void checkSanityAll(bool dumpLayout = false);
 
     /**
      * @brief Returns whether we're processing a QEvent::Quit
@@ -191,13 +191,13 @@ public:
     MainWindowBase::List mainWindowsWithAffinity(const QStringList &affinities) const;
 
     /// @brief Returns the LayoutWidget where the specified item is in
-    LayoutWidget *layoutForItem(const Layouting::Item *) const;
+    static LayoutWidget *layoutForItem(const Layouting::Item *) ;
 
     /// @brief Returns whether the item is in a main window.
     /// Nesting is honoured. (MDIArea inside DropArea inside MainWindow, for example)
     bool itemIsInMainWindow(const Layouting::Item *) const;
 
-    bool affinitiesMatch(const QStringList &affinities1, const QStringList &affinities2) const;
+    static bool affinitiesMatch(const QStringList &affinities1, const QStringList &affinities2) ;
 
     /// @brief Returns a list of all known main window unique names
     QStringList mainWindowsNames() const;
@@ -210,7 +210,7 @@ public:
     /// geometries.
     /// @param target The window which we want to know if it's probably obscured
     /// @param exclude This window should not be counted as an obscurer. (It's being dragged).
-    bool isProbablyObscured(QWindow *target, FloatingWindow *exclude) const;
+    bool isProbablyObscured(QWindow *window, FloatingWindow *exclude) const;
 
     /// @overload
     bool isProbablyObscured(QWindow *target, WindowBeingDragged *exclude) const;
@@ -242,7 +242,7 @@ protected:
 private:
     friend class FocusScope;
     explicit DockRegistry(QObject *parent = nullptr);
-    bool onDockWidgetPressed(DockWidgetBase *dw, QMouseEvent *);
+    static bool onDockWidgetPressed(DockWidgetBase *dw, QMouseEvent *);
     void onFocusObjectChanged(QObject *obj);
     void maybeDelete();
     void setFocusedDockWidget(DockWidgetBase *);

@@ -54,7 +54,7 @@ Sequence::Sequence() {
   }
 }
 
-void Sequence::add_default_nodes(MultiUndoCommand* command) {
+void Sequence::add_default_nodes(MultiUndoCommand* command) const {
   // Create tracks and connect them to the viewer
   UndoCommand* video_track_command = new TimelineAddTrackCommand(track_list(Track::kVideo));
   UndoCommand* audio_track_command = new TimelineAddTrackCommand(track_list(Track::kAudio));

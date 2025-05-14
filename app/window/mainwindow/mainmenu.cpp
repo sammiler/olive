@@ -76,10 +76,10 @@ MainMenu::MainMenu(MainWindow* parent) : QMenuBar(parent) {
   connect(edit_menu_, &Menu::aboutToHide, this, &MainMenu::EditMenuAboutToHide);
 
   edit_undo_item_ = Core::instance()->undo_stack()->GetUndoAction();
-  Menu::ConformItem(edit_undo_item_, "undo", tr("Ctrl+Z"));
+  Menu::ConformItem(edit_undo_item_, "undo", QKeySequence(tr("Ctrl+Z")));
   edit_menu_->addAction(edit_undo_item_);
   edit_redo_item_ = Core::instance()->undo_stack()->GetRedoAction();
-  Menu::ConformItem(edit_redo_item_, "redo", tr("Ctrl+Shift+Z"));
+  Menu::ConformItem(edit_redo_item_, "redo", QKeySequence(tr("Ctrl+Shift+Z")));
   edit_menu_->addAction(edit_redo_item_);
 
   edit_menu_->addSeparator();
@@ -88,52 +88,52 @@ MainMenu::MainMenu(MainWindow* parent) : QMenuBar(parent) {
     // Create "alternate delete" action so we can pick up backspace as well as delete while still
     // keeping them configurable
     edit_delete2_item_ = new QAction();
-    Menu::ConformItem(edit_delete2_item_, "delete2", MenuShared::instance(), &MenuShared::DeleteSelectedTriggered,
+    Menu::ConformItem(edit_delete2_item_, "delete2", &MenuShared::DeleteSelectedTriggered,
                       tr("Backspace"));
     auto actions = edit_menu_->actions();
     edit_menu_->insertAction(actions.at(actions.indexOf(MenuShared::instance()->edit_delete_item()) + 1),
                              edit_delete2_item_);
   }
   edit_menu_->addSeparator();
-  edit_select_all_item_ = edit_menu_->AddItem("selectall", this, &MainMenu::SelectAllTriggered, tr("Ctrl+A"));
+  edit_select_all_item_ = edit_menu_->AddItem("selectall",  &MainMenu::SelectAllTriggered, tr("Ctrl+A"));
   edit_deselect_all_item_ =
-      edit_menu_->AddItem("deselectall", this, &MainMenu::DeselectAllTriggered, tr("Ctrl+Shift+A"));
+      edit_menu_->AddItem("deselectall", &MainMenu::DeselectAllTriggered, tr("Ctrl+Shift+A"));
   edit_menu_->addSeparator();
   MenuShared::instance()->AddItemsForClipEditMenu(edit_menu_);
   edit_menu_->addSeparator();
-  edit_insert_item_ = edit_menu_->AddItem("insert", this, &MainMenu::InsertTriggered, tr(","));
-  edit_overwrite_item_ = edit_menu_->AddItem("overwrite", this, &MainMenu::OverwriteTriggered, tr("."));
+  edit_insert_item_ = edit_menu_->AddItem("insert",&MainMenu::InsertTriggered, tr(","));
+  edit_overwrite_item_ = edit_menu_->AddItem("overwrite",  &MainMenu::OverwriteTriggered, tr("."));
   edit_menu_->addSeparator();
-  edit_ripple_to_in_item_ = edit_menu_->AddItem("rippletoin", this, &MainMenu::RippleToInTriggered, tr("Q"));
-  edit_ripple_to_out_item_ = edit_menu_->AddItem("rippletoout", this, &MainMenu::RippleToOutTriggered, tr("W"));
-  edit_edit_to_in_item_ = edit_menu_->AddItem("edittoin", this, &MainMenu::EditToInTriggered, tr("Ctrl+Alt+Q"));
-  edit_edit_to_out_item_ = edit_menu_->AddItem("edittoout", this, &MainMenu::EditToOutTriggered, tr("Ctrl+Alt+W"));
+  edit_ripple_to_in_item_ = edit_menu_->AddItem("rippletoin", &MainMenu::RippleToInTriggered, tr("Q"));
+  edit_ripple_to_out_item_ = edit_menu_->AddItem("rippletoout", &MainMenu::RippleToOutTriggered, tr("W"));
+  edit_edit_to_in_item_ = edit_menu_->AddItem("edittoin", &MainMenu::EditToInTriggered, tr("Ctrl+Alt+Q"));
+  edit_edit_to_out_item_ = edit_menu_->AddItem("edittoout",  &MainMenu::EditToOutTriggered, tr("Ctrl+Alt+W"));
   edit_menu_->addSeparator();
-  edit_nudge_left_item_ = edit_menu_->AddItem("nudgeleft", this, &MainMenu::NudgeLeftTriggered, tr("Alt+Left"));
-  edit_nudge_right_item_ = edit_menu_->AddItem("nudgeright", this, &MainMenu::NudgeRightTriggered, tr("Alt+Right"));
+  edit_nudge_left_item_ = edit_menu_->AddItem("nudgeleft",  &MainMenu::NudgeLeftTriggered, tr("Alt+Left"));
+  edit_nudge_right_item_ = edit_menu_->AddItem("nudgeright",  &MainMenu::NudgeRightTriggered, tr("Alt+Right"));
   edit_move_in_to_playhead_item_ =
-      edit_menu_->AddItem("moveintoplayhead", this, &MainMenu::MoveInToPlayheadTriggered, tr("["));
+      edit_menu_->AddItem("moveintoplayhead", &MainMenu::MoveInToPlayheadTriggered, tr("["));
   edit_move_out_to_playhead_item_ =
-      edit_menu_->AddItem("moveouttoplayhead", this, &MainMenu::MoveOutToPlayheadTriggered, tr("]"));
+      edit_menu_->AddItem("moveouttoplayhead",&MainMenu::MoveOutToPlayheadTriggered, tr("]"));
   edit_menu_->addSeparator();
   MenuShared::instance()->AddItemsForInOutMenu(edit_menu_);
-  edit_delete_inout_item_ = edit_menu_->AddItem("deleteinout", this, &MainMenu::DeleteInOutTriggered, tr(";"));
+  edit_delete_inout_item_ = edit_menu_->AddItem("deleteinout", &MainMenu::DeleteInOutTriggered, tr(";"));
   edit_ripple_delete_inout_item_ =
-      edit_menu_->AddItem("rippledeleteinout", this, &MainMenu::RippleDeleteInOutTriggered, tr("'"));
+      edit_menu_->AddItem("rippledeleteinout",  &MainMenu::RippleDeleteInOutTriggered, tr("'"));
   edit_menu_->addSeparator();
-  edit_set_marker_item_ = edit_menu_->AddItem("marker", this, &MainMenu::SetMarkerTriggered, tr("M"));
+  edit_set_marker_item_ = edit_menu_->AddItem("marker", &MainMenu::SetMarkerTriggered, tr("M"));
 
   //
   // VIEW MENU
   //
   view_menu_ = new Menu(this, this, &MainMenu::ViewMenuAboutToShow);
-  view_zoom_in_item_ = view_menu_->AddItem("zoomin", this, &MainMenu::ZoomInTriggered, tr("="));
-  view_zoom_out_item_ = view_menu_->AddItem("zoomout", this, &MainMenu::ZoomOutTriggered, tr("-"));
+  view_zoom_in_item_ = view_menu_->AddItem("zoomin",  &MainMenu::ZoomInTriggered, tr("="));
+  view_zoom_out_item_ = view_menu_->AddItem("zoomout", &MainMenu::ZoomOutTriggered, tr("-"));
   view_increase_track_height_item_ =
-      view_menu_->AddItem("vzoomin", this, &MainMenu::IncreaseTrackHeightTriggered, tr("Ctrl+="));
+      view_menu_->AddItem("vzoomin", &MainMenu::IncreaseTrackHeightTriggered, tr("Ctrl+="));
   view_decrease_track_height_item_ =
-      view_menu_->AddItem("vzoomout", this, &MainMenu::DecreaseTrackHeightTriggered, tr("Ctrl+-"));
-  view_show_all_item_ = view_menu_->AddItem("showall", this, &MainMenu::ToggleShowAllTriggered, tr("\\"));
+      view_menu_->AddItem("vzoomout", &MainMenu::DecreaseTrackHeightTriggered, tr("Ctrl+-"));
+  view_show_all_item_ = view_menu_->AddItem("showall", &MainMenu::ToggleShowAllTriggered, tr("\\"));
   view_show_all_item_->setCheckable(true);
 
   view_menu_->addSeparator();
@@ -141,39 +141,39 @@ MainMenu::MainMenu(MainWindow* parent) : QMenuBar(parent) {
   view_full_screen_item_ = view_menu_->AddItem("fullscreen", parent, &MainWindow::SetFullscreen, tr("F11"));
   view_full_screen_item_->setCheckable(true);
 
-  view_full_screen_viewer_item_ = view_menu_->AddItem("fullscreenviewer", this, &MainMenu::FullScreenViewerTriggered);
+  view_full_screen_viewer_item_ = view_menu_->AddItem(QString("fullscreenviewer"), &MainMenu::FullScreenViewerTriggered);
 
   //
   // PLAYBACK MENU
   //
   playback_menu_ = new Menu(this, this, &MainMenu::PlaybackMenuAboutToShow);
-  playback_gotostart_item_ = playback_menu_->AddItem("gotostart", this, &MainMenu::GoToStartTriggered, tr("Home"));
-  playback_prevframe_item_ = playback_menu_->AddItem("prevframe", this, &MainMenu::PrevFrameTriggered, tr("Left"));
-  playback_playpause_item_ = playback_menu_->AddItem("playpause", this, &MainMenu::PlayPauseTriggered, tr("Space"));
+  playback_gotostart_item_ = playback_menu_->AddItem("gotostart", &MainMenu::GoToStartTriggered, tr("Home"));
+  playback_prevframe_item_ = playback_menu_->AddItem("prevframe",  &MainMenu::PrevFrameTriggered, tr("Left"));
+  playback_playpause_item_ = playback_menu_->AddItem("playpause",  &MainMenu::PlayPauseTriggered, tr("Space"));
   playback_playinout_item_ =
-      playback_menu_->AddItem("playintoout", this, &MainMenu::PlayInToOutTriggered, tr("Shift+Space"));
-  playback_nextframe_item_ = playback_menu_->AddItem("nextframe", this, &MainMenu::NextFrameTriggered, tr("Right"));
-  playback_gotoend_item_ = playback_menu_->AddItem("gotoend", this, &MainMenu::GoToEndTriggered, tr("End"));
+      playback_menu_->AddItem("playintoout", &MainMenu::PlayInToOutTriggered, tr("Shift+Space"));
+  playback_nextframe_item_ = playback_menu_->AddItem("nextframe", &MainMenu::NextFrameTriggered, tr("Right"));
+  playback_gotoend_item_ = playback_menu_->AddItem("gotoend",  &MainMenu::GoToEndTriggered, tr("End"));
 
   playback_menu_->addSeparator();
 
-  playback_prevcut_item_ = playback_menu_->AddItem("prevcut", this, &MainMenu::GoToPrevCutTriggered, tr("Up"));
-  playback_nextcut_item_ = playback_menu_->AddItem("nextcut", this, &MainMenu::GoToNextCutTriggered, tr("Down"));
+  playback_prevcut_item_ = playback_menu_->AddItem("prevcut",  &MainMenu::GoToPrevCutTriggered, tr("Up"));
+  playback_nextcut_item_ = playback_menu_->AddItem("nextcut",  &MainMenu::GoToNextCutTriggered, tr("Down"));
 
   playback_menu_->addSeparator();
 
-  playback_gotoin_item_ = playback_menu_->AddItem("gotoin", this, &MainMenu::GoToInTriggered, tr("Shift+I"));
-  playback_gotoout_item_ = playback_menu_->AddItem("gotoout", this, &MainMenu::GoToOutTriggered, tr("Shift+O"));
+  playback_gotoin_item_ = playback_menu_->AddItem("gotoin",  &MainMenu::GoToInTriggered, tr("Shift+I"));
+  playback_gotoout_item_ = playback_menu_->AddItem("gotoout", &MainMenu::GoToOutTriggered, tr("Shift+O"));
 
   playback_menu_->addSeparator();
 
-  playback_shuttleleft_item_ = playback_menu_->AddItem("decspeed", this, &MainMenu::ShuttleLeftTriggered, tr("J"));
-  playback_shuttlestop_item_ = playback_menu_->AddItem("pause", this, &MainMenu::ShuttleStopTriggered, tr("K"));
-  playback_shuttleright_item_ = playback_menu_->AddItem("incspeed", this, &MainMenu::ShuttleRightTriggered, tr("L"));
+  playback_shuttleleft_item_ = playback_menu_->AddItem("decspeed", &MainMenu::ShuttleLeftTriggered, tr("J"));
+  playback_shuttlestop_item_ = playback_menu_->AddItem("pause", &MainMenu::ShuttleStopTriggered, tr("K"));
+  playback_shuttleright_item_ = playback_menu_->AddItem("incspeed",&MainMenu::ShuttleRightTriggered, tr("L"));
 
   playback_menu_->addSeparator();
 
-  playback_loop_item_ = playback_menu_->AddItem("loop", this, &MainMenu::LoopTriggered);
+  playback_loop_item_ = playback_menu_->AddItem("loop", &MainMenu::LoopTriggered);
   playback_loop_item_->setCheckable(true);
 
   //
@@ -181,14 +181,14 @@ MainMenu::MainMenu(MainWindow* parent) : QMenuBar(parent) {
   //
 
   sequence_menu_ = new Menu(this, this, &MainMenu::SequenceMenuAboutToShow);
-  sequence_cache_item_ = sequence_menu_->AddItem("seqcache", this, &MainMenu::SequenceCacheTriggered);
+  sequence_cache_item_ = sequence_menu_->AddItem("seqcache", &MainMenu::SequenceCacheTriggered);
   sequence_cache_in_to_out_item_ =
-      sequence_menu_->AddItem("seqcacheinout", this, &MainMenu::SequenceCacheInOutTriggered);
+      sequence_menu_->AddItem("seqcacheinout",  &MainMenu::SequenceCacheInOutTriggered);
 
   sequence_menu_->addSeparator();
 
   sequence_disk_cache_clear_item_ =
-      sequence_menu_->AddItem("seqcacheclear", this, &MainMenu::SequenceCacheClearTriggered);
+      sequence_menu_->AddItem("seqcacheclear",  &MainMenu::SequenceCacheClearTriggered);
 
   // TEMP: Hide sequence cache items for now. Want to see if clip caching will supersede it.
   sequence_cache_item_->setVisible(false);
@@ -305,7 +305,7 @@ MainMenu::MainMenu(MainWindow* parent) : QMenuBar(parent) {
   help_menu_ = new Menu(this);
   help_action_search_item_ = help_menu_->AddItem("actionsearch", this, &MainMenu::ActionSearchTriggered, tr("/"));
   help_menu_->addSeparator();
-  help_feedback_item_ = help_menu_->AddItem("feedback", this, &MainMenu::HelpFeedbackTriggered);
+  help_feedback_item_ = help_menu_->AddItem("feedback",  &MainMenu::HelpFeedbackTriggered);
   help_menu_->addSeparator();
   help_about_item_ = help_menu_->AddItem("about", Core::instance(), &Core::DialogAboutShow);
 

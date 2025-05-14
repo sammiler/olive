@@ -505,7 +505,7 @@ void TimeBasedWidget::SetPoint(Timeline::MovementMode m, const rational &time) {
   Core::instance()->undo_stack()->push(command, tr("Set In/Out Point"));
 }
 
-void TimeBasedWidget::ResetPoint(Timeline::MovementMode m) {
+void TimeBasedWidget::ResetPoint(Timeline::MovementMode m) const {
   if (!GetConnectedNode()) {
     return;
   }
@@ -570,7 +570,7 @@ void TimeBasedWidget::ResetIn() { ResetPoint(Timeline::kTrimIn); }
 
 void TimeBasedWidget::ResetOut() { ResetPoint(Timeline::kTrimOut); }
 
-void TimeBasedWidget::ClearInOutPoints() {
+void TimeBasedWidget::ClearInOutPoints() const {
   if (!GetConnectedNode()) {
     return;
   }

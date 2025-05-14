@@ -74,7 +74,7 @@ class QtUtils {
     return nullptr;
   }
 
-  static QColor toQColor(const core::Color &c);
+  static QColor toQColor(const core::Color &i);
 
   /**
    * @brief Convert a pointer to a value that can be sent between NodeParams

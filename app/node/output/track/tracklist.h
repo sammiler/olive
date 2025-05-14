@@ -54,8 +54,8 @@ class TrackList : public QObject {
 
   [[nodiscard]] int ArraySize() const;
 
-  void ArrayAppend();
-  void ArrayRemoveLast();
+  void ArrayAppend() const;
+  void ArrayRemoveLast() const;
 
   [[nodiscard]] int GetArrayIndexFromCacheIndex(int index) const { return track_array_indexes_.at(index); }
 

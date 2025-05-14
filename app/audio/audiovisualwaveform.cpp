@@ -56,7 +56,7 @@ void AudioVisualWaveform::OverwriteSamplesFromBuffer(const SampleBuffer &samples
 
     Sample summary = SumSamples(samples, src_start, src_end - src_start);
 
-    memcpy(&data.data()[i + start_index], summary.data(), summary.size() * sizeof(SamplePerChannel));
+    memcpy(&data[i + start_index], summary.data(), summary.size() * sizeof(SamplePerChannel));
   }
 }
 
@@ -76,9 +76,9 @@ void AudioVisualWaveform::OverwriteSamplesFromMipmap(const AudioVisualWaveform::
   size_t chunk_size = input_sample_rate / output_rate;
 
   for (size_t i = 0; i < samples_length; i += channels_) {
-    Sample summary = ReSumSamples(&input.data()[input_start + (i * chunk_size)], chunk_size * channels_, channels_);
+    Sample summary = ReSumSamples(&input[input_start + (i * chunk_size)], chunk_size * channels_, channels_);
 
-    memcpy(&output_data.data()[i + start_index], summary.data(), summary.size() * sizeof(SamplePerChannel));
+    memcpy(&output_data[i + start_index], summary.data(), summary.size() * sizeof(SamplePerChannel));
   }
 
   input_start = start_index;
@@ -283,7 +283,7 @@ AudioVisualWaveform::Sample AudioVisualWaveform::GetSummaryFromTime(const ration
   // Based on the above `min`, if sample length <= 0, that means start_sample >= the size of the
   // array and nothing can be returned.
   if (sample_length > 0) {
-    return ReSumSamples(&mipmap_data.data()[start_sample], sample_length, channels_);
+    return ReSumSamples(&mipmap_data[start_sample], sample_length, channels_);
   }
 
   // Return null samples

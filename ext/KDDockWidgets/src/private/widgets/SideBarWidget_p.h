@@ -50,7 +50,7 @@ public:
     explicit SideBarWidget(SideBarLocation, KDDockWidgets::MainWindowBase *parent);
 
 protected:
-    void addDockWidget_Impl(DockWidgetBase *dock) override;
+    void addDockWidget_Impl(DockWidgetBase *dw) override;
     void removeDockWidget_Impl(DockWidgetBase *dock) override;
 
     // virtual so users can provide their own buttons

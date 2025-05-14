@@ -70,7 +70,7 @@ public:
         updateMargins();
     }
 
-    void updateMargins()
+    void updateMargins() const
     {
         const qreal factor = logicalDpiFactor(q);
         m_layout->setContentsMargins(m_centerWidgetMargins * factor);

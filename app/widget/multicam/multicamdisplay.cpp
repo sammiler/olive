@@ -43,7 +43,7 @@ void MulticamDisplay::OnPaint() {
     int cell_height = height() / multi;
 
     int col, row;
-    node_->IndexToRowCols(node_->GetCurrentSource(), rows, cols, &row, &col);
+    olive::MultiCamNode::IndexToRowCols(node_->GetCurrentSource(), rows, cols, &row, &col);
 
     QRect r(cell_width * col, cell_height * row, cell_width, cell_height);
     p.drawRect(GenerateWorldTransform().mapRect(r));

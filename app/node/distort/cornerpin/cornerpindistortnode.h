@@ -56,7 +56,7 @@ class CornerPinDistortNode : public Node {
    * @brief Convenience function - converts the 2D slider values from being
    * an offset to the actual pixel value.
    */
-  [[nodiscard]] QPointF ValueToPixel(int value, const NodeValueRow &row, const QVector2D &resolution) const;
+  [[nodiscard]] static QPointF ValueToPixel(int value, const NodeValueRow &row, const QVector2D &resolution) ;
 
   static const QString kTextureInput;
   static const QString kPerspectiveInput;

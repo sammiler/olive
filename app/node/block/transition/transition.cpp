@@ -115,7 +115,7 @@ double TransitionBlock::GetInProgress(const double &time) const {
   return std::clamp((GetInternalTransitionTime(time) - out_offset().toDouble()) / in_offset().toDouble(), 0.0, 1.0);
 }
 
-double TransitionBlock::GetInternalTransitionTime(const double &time) const { return time; }
+double TransitionBlock::GetInternalTransitionTime(const double &time) { return time; }
 
 void TransitionBlock::InsertTransitionTimes(AcceleratedJob *job, const double &time) const {
   // Provides total transition progress from 0.0 (start) - 1.0 (end)

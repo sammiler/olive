@@ -144,7 +144,7 @@ bool DockRegistry::isProcessingAppQuitEvent() const
     return m_isProcessingAppQuitEvent;
 }
 
-bool DockRegistry::affinitiesMatch(const QStringList &affinities1, const QStringList &affinities2) const
+bool DockRegistry::affinitiesMatch(const QStringList &affinities1, const QStringList &affinities2) 
 {
     if (affinities1.isEmpty() && affinities2.isEmpty())
         return true;
@@ -271,7 +271,7 @@ MainWindowBase::List DockRegistry::mainWindowsWithAffinity(const QStringList &af
     return result;
 }
 
-LayoutWidget *DockRegistry::layoutForItem(const Layouting::Item *item) const
+LayoutWidget *DockRegistry::layoutForItem(const Layouting::Item *item) 
 {
     if (!item->hostWidget())
         return nullptr;
@@ -482,12 +482,12 @@ bool DockRegistry::isSane() const
     return true;
 }
 
-const DockWidgetBase::List DockRegistry::dockwidgets() const
+DockWidgetBase::List DockRegistry::dockwidgets() const
 {
     return m_dockWidgets;
 }
 
-const DockWidgetBase::List DockRegistry::dockWidgets(const QStringList &names)
+DockWidgetBase::List DockRegistry::dockWidgets(const QStringList &names)
 {
     DockWidgetBase::List result;
     result.reserve(names.size());
@@ -500,7 +500,7 @@ const DockWidgetBase::List DockRegistry::dockWidgets(const QStringList &names)
     return result;
 }
 
-const MainWindowBase::List DockRegistry::mainWindows(const QStringList &names)
+MainWindowBase::List DockRegistry::mainWindows(const QStringList &names)
 {
     MainWindowBase::List result;
     result.reserve(names.size());
@@ -513,7 +513,7 @@ const MainWindowBase::List DockRegistry::mainWindows(const QStringList &names)
     return result;
 }
 
-const DockWidgetBase::List DockRegistry::closedDockwidgets() const
+DockWidgetBase::List DockRegistry::closedDockwidgets() const
 {
     DockWidgetBase::List result;
     result.reserve(m_dockWidgets.size());
@@ -526,22 +526,22 @@ const DockWidgetBase::List DockRegistry::closedDockwidgets() const
     return result;
 }
 
-const MainWindowBase::List DockRegistry::mainwindows() const
+MainWindowBase::List DockRegistry::mainwindows() const
 {
     return m_mainWindows;
 }
 
-const QVector<LayoutWidget *> DockRegistry::layouts() const
+QVector<LayoutWidget *> DockRegistry::layouts() const
 {
     return m_layouts;
 }
 
-const Frame::List DockRegistry::frames() const
+Frame::List DockRegistry::frames() const
 {
     return m_frames;
 }
 
-const QVector<FloatingWindow *> DockRegistry::floatingWindows(bool includeBeingDeleted) const
+QVector<FloatingWindow *> DockRegistry::floatingWindows(bool includeBeingDeleted) const
 {
     // Returns all the FloatingWindow which aren't being deleted
     QVector<FloatingWindow *> result;
@@ -554,7 +554,7 @@ const QVector<FloatingWindow *> DockRegistry::floatingWindows(bool includeBeingD
     return result;
 }
 
-const QVector<QWindow *> DockRegistry::floatingQWindows() const
+QVector<QWindow *> DockRegistry::floatingQWindows() const
 {
     QVector<QWindow *> windows;
     windows.reserve(m_floatingWindows.size());
@@ -579,7 +579,7 @@ bool DockRegistry::hasFloatingWindows() const
     });
 }
 
-QWindow *DockRegistry::windowForHandle(WId id) const
+QWindow *DockRegistry::windowForHandle(WId id) 
 {
     const QWindowList windows = qApp->topLevelWindows();
     for (QWindow *w : windows) {
@@ -672,7 +672,7 @@ void DockRegistry::clear(const QStringList &affinities)
 
 void DockRegistry::clear(const DockWidgetBase::List &dockWidgets,
                          const MainWindowBase::List &mainWindows,
-                         const QStringList &affinities)
+                         const QStringList &affinities) const
 {
     for (auto dw : qAsConst(dockWidgets)) {
         if (affinities.isEmpty() || affinitiesMatch(affinities, dw->affinities())) {

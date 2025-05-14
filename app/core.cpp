@@ -338,7 +338,7 @@ void Core::DialogExportShow() {
 }
 
 #ifdef USE_OTIO
-bool Core::DialogImportOTIOShow(const QList<Sequence*>& sequences) {
+bool Core::DialogImportOTIOShow(const QList<Sequence*>& sequences) const {
   Project* active_project = GetActiveProject();
   OTIOPropertiesDialog opd(sequences, active_project);
   return opd.exec() == QDialog::Accepted;
@@ -965,7 +965,7 @@ void Core::ProjectSaveSucceeded(Task* task) {
 
 Project* Core::GetActiveProject() const { return open_project_; }
 
-Folder* Core::GetSelectedFolderInActiveProject() const {
+Folder* Core::GetSelectedFolderInActiveProject() {
   auto* active_project_panel = PanelManager::instance()->MostRecentlyFocused<ProjectPanel>();
 
   if (active_project_panel) {
@@ -975,7 +975,7 @@ Folder* Core::GetSelectedFolderInActiveProject() const {
   }
 }
 
-Timecode::Display Core::GetTimecodeDisplay() const {
+Timecode::Display Core::GetTimecodeDisplay() {
   return static_cast<Timecode::Display>(OLIVE_CONFIG("TimecodeDisplay").toInt());
 }
 

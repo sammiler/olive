@@ -90,7 +90,7 @@ private:
     bool drop(WindowBeingDragged *draggedWindow, Frame *acceptingFrame, DropLocation);
     bool drop(QWidgetOrQuick *droppedwindow, KDDockWidgets::Location location, Frame *relativeTo);
     [[nodiscard]]  Frame *frameContainingPos(QPoint globalPos) const;
-    void updateFloatingActions();
+    void updateFloatingActions() const;
 
     bool m_inDestructor = false;
     const bool m_isMDIWrapper;

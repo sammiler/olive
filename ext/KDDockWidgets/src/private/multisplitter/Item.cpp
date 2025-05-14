@@ -930,14 +930,14 @@ struct ItemBoxContainer::Private
 
     int defaultLengthFor(Item *item, InitialOption option) const;
     bool isOverflowing() const;
-    void relayoutIfNeeded();
+    void relayoutIfNeeded() const;
     const Item *itemFromPath(const QVector<int> &path) const;
     void resizeChildren(QSize oldSize, QSize newSize, SizingInfo::List &sizes, ChildrenResizeStrategy);
-    void honourMaxSizes(SizingInfo::List &sizes);
+    void honourMaxSizes(SizingInfo::List &sizes) const;
     void scheduleCheckSanity() const;
     Separator *neighbourSeparator(const Item *item, Side, Qt::Orientation) const;
     Separator *neighbourSeparator_recursive(const Item *item, Side, Qt::Orientation) const;
-    void updateWidgets_recursive();
+    void updateWidgets_recursive() const;
     /// Returns the positions that each separator should have (x position if Qt::Horizontal, y otherwise)
     QVector<int> requiredSeparatorPositions() const;
     void updateSeparators();
@@ -1938,7 +1938,7 @@ void ItemBoxContainer::Private::resizeChildren(QSize oldSize, QSize newSize, Siz
     honourMaxSizes(childSizes);
 }
 
-void ItemBoxContainer::Private::honourMaxSizes(SizingInfo::List &sizes)
+void ItemBoxContainer::Private::honourMaxSizes(SizingInfo::List &sizes) const
 {
     // Reduces the size of all children that are bigger than max-size.
     // Assuming there's widgets that are willing to grow to occupy that space.
@@ -2522,7 +2522,7 @@ int ItemBoxContainer::availableLength() const
 }
 
 LengthOnSide ItemBoxContainer::lengthOnSide(const SizingInfo::List &sizes, int fromIndex,
-                                            Side side, Qt::Orientation o) const
+                                            Side side, Qt::Orientation o) 
 {
     if (fromIndex < 0)
         return {};
@@ -3369,7 +3369,7 @@ bool ItemBoxContainer::Private::isOverflowing() const
     return contentsLength > q->length();
 }
 
-void ItemBoxContainer::Private::relayoutIfNeeded()
+void ItemBoxContainer::Private::relayoutIfNeeded() const
 {
     // Checks all the child containers if they have the correct min-size, recursively.
     // When loading a layout from disk the min-sizes for the host QWidgets might have changed, so we
@@ -3465,7 +3465,7 @@ Separator *ItemBoxContainer::Private::neighbourSeparator_recursive(const Item *i
     return q->parentBoxContainer()->d->neighbourSeparator_recursive(q, side, orientation);
 }
 
-void ItemBoxContainer::Private::updateWidgets_recursive()
+void ItemBoxContainer::Private::updateWidgets_recursive() const
 {
     for (Item *item : qAsConst(q->m_children)) {
         if (auto c = item->asBoxContainer()) {
@@ -3584,7 +3584,7 @@ ItemContainer::~ItemContainer()
     delete d;
 }
 
-const Item::List ItemContainer::childItems() const
+Item::List ItemContainer::childItems() const
 {
     return m_children;
 }

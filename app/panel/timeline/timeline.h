@@ -36,7 +36,7 @@ class TimelinePanel : public TimeBasedPanel {
 
   [[nodiscard]] inline TimelineWidget *timeline_widget() const { return dynamic_cast<TimelineWidget *>(GetTimeBasedWidget()); }
 
-  void SplitAtPlayhead();
+  void SplitAtPlayhead() const;
 
   void LoadData(const Info &info) override;
   [[nodiscard]] Info SaveData() const override;
@@ -83,15 +83,15 @@ class TimelinePanel : public TimeBasedPanel {
 
   void RenameSelected() override;
 
-  void AddDefaultTransitionsToSelected() { timeline_widget()->AddDefaultTransitionsToSelected(); }
+  void AddDefaultTransitionsToSelected() const { timeline_widget()->AddDefaultTransitionsToSelected(); }
 
-  void ShowSpeedDurationDialogForSelectedClips() { timeline_widget()->ShowSpeedDurationDialogForSelectedClips(); }
+  void ShowSpeedDurationDialogForSelectedClips() const { timeline_widget()->ShowSpeedDurationDialogForSelectedClips(); }
 
-  void NestSelectedClips() { timeline_widget()->NestSelectedClips(); }
+  void NestSelectedClips() const { timeline_widget()->NestSelectedClips(); }
 
-  void InsertFootageAtPlayhead(const QVector<ViewerOutput *> &footage);
+  void InsertFootageAtPlayhead(const QVector<ViewerOutput *> &footage) const;
 
-  void OverwriteFootageAtPlayhead(const QVector<ViewerOutput *> &footage);
+  void OverwriteFootageAtPlayhead(const QVector<ViewerOutput *> &footage) const;
 
   [[nodiscard]] const QVector<Block *> &GetSelectedBlocks() const { return timeline_widget()->GetSelectedBlocks(); }
 

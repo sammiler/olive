@@ -391,7 +391,7 @@ QPointF TransformDistortNode::CreateScalePoint(double x, double y, const QPointF
 
 QMatrix4x4 TransformDistortNode::GenerateAutoScaledMatrix(const QMatrix4x4 &generated_matrix, const NodeValueRow &value,
                                                           const NodeGlobals &globals,
-                                                          const VideoParams &texture_params) const {
+                                                          const VideoParams &texture_params) {
   const QVector2D &sequence_res = globals.nonsquare_resolution();
   QVector2D texture_res(texture_params.square_pixel_width(), texture_params.height());
   AutoScaleType autoscale = static_cast<AutoScaleType>(value[kAutoscaleInput].toInt());

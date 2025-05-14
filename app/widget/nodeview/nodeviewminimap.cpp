@@ -129,7 +129,7 @@ void NodeViewMiniMap::SetDefaultSize() {
   }
 }
 
-bool NodeViewMiniMap::MouseInsideResizeTriangle(QMouseEvent *event) {
+bool NodeViewMiniMap::MouseInsideResizeTriangle(QMouseEvent *event) const {
   return event->pos().x() <= resize_triangle_sz_ && event->pos().y() <= resize_triangle_sz_;
 }
 

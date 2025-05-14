@@ -220,7 +220,7 @@ void ClassicIndicators::updateWindowPosition()
     m_indicatorWindow->setGeometry(rect);
 }
 
-bool ClassicIndicators::rubberBandIsTopLevel() const
+bool ClassicIndicators::rubberBandIsTopLevel() 
 {
     return Config::self().internalFlags() & Config::InternalFlag_TopLevelIndicatorRubberBand;
 }

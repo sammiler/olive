@@ -68,7 +68,7 @@ public:
      * @param jsonFilename the filename where the layout will be saved to
      * @return true on success
      */
-    bool saveToFile(const QString &jsonFilename);
+    bool saveToFile(const QString &jsonFilename) const;
 
     /**
      * @brief restores the layout from a JSON file
@@ -102,7 +102,7 @@ public:
      *
      * Useful since some dock widgets can be new, and hence not be included in the last saved layout.
      */
-    [[nodiscard]]  QVector<DockWidgetBase *> restoredDockWidgets() const;
+    [[nodiscard]]  static QVector<DockWidgetBase *> restoredDockWidgets() ;
 
     /**
      * @brief Sets the list of affinity names for which restore and save will be applied on.

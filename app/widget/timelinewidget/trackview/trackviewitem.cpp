@@ -78,7 +78,7 @@ TrackViewItem::TrackViewItem(Track *track, QWidget *parent) : QWidget(parent), t
   connect(this, &QWidget::customContextMenuRequested, this, &TrackViewItem::ShowContextMenu);
 }
 
-QPushButton *TrackViewItem::CreateMSLButton(const QColor &checked_color) const {
+QPushButton *TrackViewItem::CreateMSLButton(const QColor &checked_color) {
   auto *button = new QPushButton();
   button->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
   button->setCheckable(true);

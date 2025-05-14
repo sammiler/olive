@@ -443,7 +443,7 @@ void ProjectSerializer220403::LoadNode(Node *node, XMLNodeData &xml_node_data, Q
   node->LoadFinishedEvent();
 }
 
-void ProjectSerializer220403::LoadColorManager(QXmlStreamReader *reader, Project *project) const {
+void ProjectSerializer220403::LoadColorManager(QXmlStreamReader *reader, Project *project) {
   while (XMLReadNextStartElement(reader)) {
     if (reader->name() == QStringLiteral("input")) {
       QString id;
@@ -521,7 +521,7 @@ void ProjectSerializer220403::LoadColorManager(QXmlStreamReader *reader, Project
   }
 }
 
-void ProjectSerializer220403::LoadProjectSettings(QXmlStreamReader *reader, Project *project) const {
+void ProjectSerializer220403::LoadProjectSettings(QXmlStreamReader *reader, Project *project) {
   while (XMLReadNextStartElement(reader)) {
     if (reader->name() == QStringLiteral("input")) {
       QString id;
@@ -761,7 +761,7 @@ void ProjectSerializer220403::LoadKeyframe(QXmlStreamReader *reader, NodeKeyfram
   key->set_bezier_control_out(key_out_handle);
 }
 
-bool ProjectSerializer220403::LoadPosition(QXmlStreamReader *reader, quintptr *node_ptr, Node::Position *pos) const {
+bool ProjectSerializer220403::LoadPosition(QXmlStreamReader *reader, quintptr *node_ptr, Node::Position *pos) {
   bool got_node_ptr = false;
   bool got_pos_x = false;
   bool got_pos_y = false;
@@ -791,7 +791,7 @@ bool ProjectSerializer220403::LoadPosition(QXmlStreamReader *reader, quintptr *n
   return got_node_ptr && got_pos_x && got_pos_y;
 }
 
-void ProjectSerializer220403::PostConnect(const XMLNodeData &xml_node_data) const {
+void ProjectSerializer220403::PostConnect(const XMLNodeData &xml_node_data) {
   foreach (const XMLNodeData::SerializedConnection &con, xml_node_data.desired_connections) {
     if (Node *out = xml_node_data.node_ptrs.value(con.output_node)) {
       Node::ConnectEdge(out, con.input);
@@ -941,7 +941,7 @@ void ProjectSerializer220403::LoadTimelinePoints(QXmlStreamReader *reader, Viewe
   }
 }
 
-void ProjectSerializer220403::LoadMarker(QXmlStreamReader *reader, TimelineMarker *marker) const {
+void ProjectSerializer220403::LoadMarker(QXmlStreamReader *reader, TimelineMarker *marker) {
   rational in, out;
 
   XMLAttributeLoop(reader, attr) {
@@ -962,7 +962,7 @@ void ProjectSerializer220403::LoadMarker(QXmlStreamReader *reader, TimelineMarke
   reader->skipCurrentElement();
 }
 
-void ProjectSerializer220403::LoadWorkArea(QXmlStreamReader *reader, TimelineWorkArea *workarea) const {
+void ProjectSerializer220403::LoadWorkArea(QXmlStreamReader *reader, TimelineWorkArea *workarea) {
   rational range_in = workarea->in();
   rational range_out = workarea->out();
 
@@ -996,7 +996,7 @@ void ProjectSerializer220403::LoadMarkerList(QXmlStreamReader *reader, TimelineM
   }
 }
 
-void ProjectSerializer220403::LoadValueHint(Node::ValueHint *hint, QXmlStreamReader *reader) const {
+void ProjectSerializer220403::LoadValueHint(Node::ValueHint *hint, QXmlStreamReader *reader) {
   QVector<NodeValue::Type> types;
 
   while (XMLReadNextStartElement(reader)) {

@@ -86,7 +86,7 @@ public:
     void layoutEqually();
 
     /// @brief overload that just resizes widgets within a sub-tree
-    void layoutEqually(Layouting::ItemBoxContainer *);
+    static void layoutEqually(Layouting::ItemBoxContainer *);
 
     /// @brief Returns the number of items layed-out horizontally or vertically
     /// But honours nesting

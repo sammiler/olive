@@ -78,7 +78,7 @@ class TimelineWidget : public TimeBasedWidget {
 
   void OverwriteFootageAtPlayhead(const QVector<ViewerOutput*>& footage);
 
-  void ToggleLinksOnSelected();
+  void ToggleLinksOnSelected() const;
 
   void AddDefaultTransitionsToSelected();
 
@@ -90,7 +90,7 @@ class TimelineWidget : public TimeBasedWidget {
 
   void DeleteInToOut(bool ripple);
 
-  void ToggleSelectedEnabled();
+  void ToggleSelectedEnabled() const;
 
   void SetColorLabel(int index);
 
@@ -153,7 +153,7 @@ class TimelineWidget : public TimeBasedWidget {
 
   [[nodiscard]] const QVector<TimelineViewGhostItem*>& GetGhostItems() const { return ghost_items_; }
 
-  void InsertGapsAt(const rational& time, const rational& length, MultiUndoCommand* command);
+  void InsertGapsAt(const rational& earliest_point, const rational& length, MultiUndoCommand* command) const;
 
   void StartRubberBandSelect(const QPoint& global_cursor_start);
   void MoveRubberBandSelect(bool enable_selecting, bool select_links);
@@ -196,7 +196,7 @@ class TimelineWidget : public TimeBasedWidget {
    * this is preferable and should only be set to FALSE if the list is guaranteed not to contain
    * already selected blocks (and therefore filtering can be skipped to save time).
    */
-  void SignalSelectedBlocks(QVector<Block*> selected_blocks, bool filter = true);
+  void SignalSelectedBlocks(QVector<Block*> input, bool filter = true);
 
   /**
    * @brief Track blocks that have been newly deselected
@@ -271,7 +271,7 @@ class TimelineWidget : public TimeBasedWidget {
   void SendCatchUpScrollEvent() override;
 
  private:
-  QVector<Timeline::EditToInfo> GetEditToInfo(const rational& playhead_time, Timeline::MovementMode mode);
+  QVector<Timeline::EditToInfo> GetEditToInfo(const rational& playhead_time, Timeline::MovementMode mode) const;
 
   void RippleTo(Timeline::MovementMode mode);
 
@@ -281,7 +281,7 @@ class TimelineWidget : public TimeBasedWidget {
 
   bool PasteInternal(bool insert);
 
-  TimelineAndTrackView* AddTimelineAndTrackView(Qt::Alignment alignment);
+  TimelineAndTrackView* AddTimelineAndTrackView(Qt::Alignment alignment) const;
 
   QHash<Node*, Node*> GenerateExistingPasteMap(const ProjectSerializer::Result& r);
 

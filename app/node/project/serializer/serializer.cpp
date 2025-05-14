@@ -238,7 +238,7 @@ bool ProjectSerializer::CheckCompressedID(QFile *file) {
   return !memcmp(b.data(), "OVEC", 4);
 }
 
-bool ProjectSerializer::IsCancelled() const { return false; }
+bool ProjectSerializer::IsCancelled() { return false; }
 
 ProjectSerializer::Result ProjectSerializer::LoadWithSerializerVersion(uint version, Project *project,
                                                                        QXmlStreamReader *reader, LoadType load_type) {

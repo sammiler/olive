@@ -58,7 +58,7 @@ class MenuShared : public QObject {
   QAction* edit_delete_item() { return edit_delete_item_; }
 
  public slots:
-  void DeleteSelectedTriggered();
+  static void DeleteSelectedTriggered();
 
  private:
   // "New" menu shared items
@@ -108,39 +108,39 @@ class MenuShared : public QObject {
   static MenuShared* instance_;
 
  private slots:
-  void SplitAtPlayheadTriggered();
+  static void SplitAtPlayheadTriggered();
 
-  void RippleDeleteTriggered();
+  static void RippleDeleteTriggered();
 
-  void SetInTriggered();
+  static void SetInTriggered();
 
-  void SetOutTriggered();
+  static void SetOutTriggered();
 
-  void ResetInTriggered();
+  static void ResetInTriggered();
 
-  void ResetOutTriggered();
+  static void ResetOutTriggered();
 
-  void ClearInOutTriggered();
+  static void ClearInOutTriggered();
 
-  void ToggleLinksTriggered();
+  static void ToggleLinksTriggered();
 
-  void CutTriggered();
+  static void CutTriggered();
 
-  void CopyTriggered();
+  static void CopyTriggered();
 
-  void PasteTriggered();
+  static void PasteTriggered();
 
-  void PasteInsertTriggered();
+  static void PasteInsertTriggered();
 
-  void DuplicateTriggered();
+  static void DuplicateTriggered();
 
-  void RenameSelectedTriggered();
+  static void RenameSelectedTriggered();
 
-  void EnableDisableTriggered();
+  static void EnableDisableTriggered();
 
-  void NestTriggered();
+  static void NestTriggered();
 
-  void DefaultTransitionTriggered();
+  static void DefaultTransitionTriggered();
 
   /**
    * @brief A slot for the timecode display menu items
@@ -150,9 +150,9 @@ class MenuShared : public QObject {
    */
   void TimecodeDisplayTriggered();
 
-  void ColorLabelTriggered(int color_index);
+  static void ColorLabelTriggered(int color_index);
 
-  void SpeedDurationTriggered();
+  static void SpeedDurationTriggered();
 
   void AddableItemTriggered();
 };

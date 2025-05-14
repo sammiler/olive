@@ -13,7 +13,7 @@ class MainWindowLayoutInfo {
 
   void toXml(QXmlStreamWriter* writer) const;
 
-  static MainWindowLayoutInfo fromXml(QXmlStreamReader* reader, const QHash<quintptr, Node*>& node_map);
+  static MainWindowLayoutInfo fromXml(QXmlStreamReader* reader, const QHash<quintptr, Node*>& node_ptrs);
 
   void add_folder(Folder* f);
 

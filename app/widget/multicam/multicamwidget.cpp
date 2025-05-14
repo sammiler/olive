@@ -134,13 +134,13 @@ void MulticamWidget::Switch(int source, bool split_clip) {
   }
 
   command->add_child(
-      new NodeParamSetStandardValueCommand(NodeKeyframeTrackReference(NodeInput(cam, cam->kCurrentInput)), source));
+      new NodeParamSetStandardValueCommand(NodeKeyframeTrackReference(NodeInput(cam, olive::MultiCamNode::kCurrentInput)), source));
 
   for (Block *link : clip->block_links()) {
     if (auto *clink = dynamic_cast<ClipBlock *>(link)) {
       if (MultiCamNode *mlink = clink->FindMulticam()) {
         command->add_child(new NodeParamSetStandardValueCommand(
-            NodeKeyframeTrackReference(NodeInput(mlink, mlink->kCurrentInput)), source));
+            NodeKeyframeTrackReference(NodeInput(mlink, olive::MultiCamNode::kCurrentInput)), source));
       }
     }
   }
@@ -173,7 +173,7 @@ void MulticamWidget::DisplayClicked(const QPoint &p) {
   int c = click.x() / (width / multi);
   int r = click.y() / (height / multi);
 
-  int source = node_->RowsColsToIndex(r, c, rows, cols);
+  int source = olive::MultiCamNode::RowsColsToIndex(r, c, rows, cols);
 
   Switch(source, true);
 }

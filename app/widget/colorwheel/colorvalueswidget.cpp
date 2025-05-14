@@ -305,7 +305,7 @@ void ColorValuesTab::SetValueInternal(FloatSlider *slider, double v) {
   UpdateHex();
 }
 
-FloatSlider *ColorValuesTab::CreateColorSlider() {
+FloatSlider *ColorValuesTab::CreateColorSlider() const {
   auto *fs = new FloatSlider();
   fs->SetLadderElementCount(1);
   connect(fs, &FloatSlider::ValueChanged, this, &ColorValuesTab::SliderChanged);

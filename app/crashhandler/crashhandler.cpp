@@ -265,7 +265,7 @@ void CrashHandlerDialog::SendErrorReport() {
 
   QStringList folders_in_symbol_path = symbol_dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
 
-  if (folders_in_symbol_path.size() > 0) {
+  if (!folders_in_symbol_path.empty()) {
     symbol_dir = QDir(symbol_dir.filePath(folders_in_symbol_path.first()));
   } else {
     QMessageBox b(this);
@@ -355,5 +355,5 @@ int main(int argc, char* argv[]) {
   QApplication a(argc, argv);
   olive::FileWatcher watcher(report);
 
-  return a.exec();
+  return QApplication::exec();
 }

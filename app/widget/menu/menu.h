@@ -90,6 +90,99 @@ class Menu : public QMenu {
 
   template <typename Func>
   /**
+   * @brief Create a menu item Static Method
+   *
+   * @param parent
+   *
+   * The QAction's parent
+   *
+   * @param id
+   * @param member
+   *
+   * The action's unique ID
+   *
+
+   *
+   *
+   * @param key
+   *
+   * Default keyboard sequence
+   *
+   * @return
+   *
+   * The QAction that was created and added to this Menu
+   */
+  static QAction* CreateItem(QObject* parent, const QString& id, Func member,
+                             const QKeySequence& key = QKeySequence()) {
+    auto* a = new QAction(parent);
+
+    ConformItem(a, id, member, key);
+
+    return a;
+  }
+
+  template <typename Func>
+  /**
+   * @brief Conform a QAction to Olive's ID/keydefault system
+   *
+   * If a QAction was created elsewhere (e.g. through QUndoStack::createUndoAction()), this function will give it
+   * properties conforming it to Olive's menu item system
+   *
+   * @param a
+   *
+   * The QAction's to conform
+   *
+   * @param id
+   *
+   * The action's unique ID
+   *
+   *
+   * @param member
+   *
+   * The QObject slot to connect this action's triggered signal to
+   *
+   * @param key
+   *
+   * Default keyboard sequence
+   */
+  static void ConformItem(QAction* a, const QString& id, Func member, const QKeySequence& key = QKeySequence()) {
+    ConformItem(a, id, key);
+
+    connect(a, &QAction::triggered, member);
+  }
+
+  template <typename Func>
+/**
+ * @brief Create a menu item and add it to this menu Static Method
+ *
+ * @param id
+ *
+ * The action's unique ID
+ *
+ *
+ * @param member
+ *
+ * The QObject slot to connect this action's triggered signal to
+ *
+ * @param key
+ *
+ * Default keyboard sequence
+ *
+ * @return
+ *
+ * The QAction that was created and added to this Menu
+ */
+QAction* AddItem(const QString& id, Func member,
+                 const QKeySequence& key = QKeySequence()) {
+    QAction* a = CreateItem(this, id,  member, key);
+
+    addAction(a);
+
+    return a;
+  }
+
+  template <typename Func>
+  /**
    * @brief Create a menu item and add it to this menu
    *
    * @param id

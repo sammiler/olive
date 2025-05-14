@@ -70,7 +70,7 @@ class ColorDialog : public QDialog {
   [[nodiscard]] ColorTransform GetColorSpaceOutput() const;
 
  public slots:
-  void SetColor(const ManagedColor& c);
+  void SetColor(const ManagedColor& start);
 
  private:
   ColorManager* color_manager_;

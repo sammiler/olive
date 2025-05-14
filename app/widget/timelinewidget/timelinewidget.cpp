@@ -561,7 +561,7 @@ void TimelineWidget::OverwriteFootageAtPlayhead(const QVector<ViewerOutput *> &f
   Core::instance()->undo_stack()->push(command, tr("Overwrote Footage At Playhead"));
 }
 
-void TimelineWidget::ToggleLinksOnSelected() {
+void TimelineWidget::ToggleLinksOnSelected() const {
   QVector<Node *> blocks;
   bool link = true;
 
@@ -711,7 +711,7 @@ void TimelineWidget::DeleteInToOut(bool ripple) {
   Core::instance()->undo_stack()->push(command, tr("Deleted In To Out"));
 }
 
-void TimelineWidget::ToggleSelectedEnabled() {
+void TimelineWidget::ToggleSelectedEnabled() const {
   QVector<Block *> items = GetSelectedBlocks();
 
   if (items.isEmpty()) {
@@ -926,7 +926,7 @@ void TimelineWidget::ClearTentativeSubtitleTrack() {
 }
 
 void TimelineWidget::InsertGapsAt(const rational &earliest_point, const rational &insert_length,
-                                  MultiUndoCommand *command) {
+                                  MultiUndoCommand *command) const {
   for (int i = 0; i < Track::kCount; i++) {
     command->add_child(
         new TrackListInsertGaps(sequence()->track_list(static_cast<Track::Type>(i)), earliest_point, insert_length));
@@ -1381,7 +1381,7 @@ void TimelineWidget::CacheClipsInOut() {
   const TimeRange &r = this->sequence()->GetWorkArea()->range();
   for (Block *b : qAsConst(selected_blocks_)) {
     if (auto *clip = dynamic_cast<ClipBlock *>(b)) {
-      if (Node *connected = clip->GetConnectedOutput(clip->kBufferIn)) {
+      if (Node *connected = clip->GetConnectedOutput(olive::ClipBlock::kBufferIn)) {
         TimeRange adjusted = tto.GetAdjustedTime(this->sequence(), connected, r, Node::kTransformTowardsInput);
         clip->RequestInvalidatedFromConnected(true, adjusted);
       }
@@ -1425,7 +1425,7 @@ void TimelineWidget::MulticamEnabledTriggered(bool e) {
             command->add_child(new NodeEdgeAddCommand(n, i));
           }
 
-          command->add_child(new NodeEdgeAddCommand(s, NodeInput(n, n->kSequenceInput)));
+          command->add_child(new NodeEdgeAddCommand(s, NodeInput(n, olive::MultiCamNode::kSequenceInput)));
 
           // Move sequence node one unit back, and place multicam in sequence's spot
           QPointF sequence_pos = c->GetNodePositionInContext(s);
@@ -1643,7 +1643,7 @@ void TimelineWidget::SignalDeselectedAllBlocks() {
 }
 
 QVector<Timeline::EditToInfo> TimelineWidget::GetEditToInfo(const rational &playhead_time,
-                                                            Timeline::MovementMode mode) {
+                                                            Timeline::MovementMode mode) const {
   // Get list of unlocked tracks
   QVector<Track *> tracks = sequence()->GetUnlockedTracks();
 
@@ -1838,7 +1838,7 @@ bool TimelineWidget::PasteInternal(bool insert) {
   return true;
 }
 
-TimelineAndTrackView *TimelineWidget::AddTimelineAndTrackView(Qt::Alignment alignment) {
+TimelineAndTrackView *TimelineWidget::AddTimelineAndTrackView(Qt::Alignment alignment) const {
   auto *v = new TimelineAndTrackView(alignment);
   connect(v->track_view(), &TrackView::AboutToDeleteTrack, this, &TimelineWidget::TrackAboutToBeDeleted);
   return v;

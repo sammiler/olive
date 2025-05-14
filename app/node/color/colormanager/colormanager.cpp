@@ -76,7 +76,7 @@ void ColorManager::SetUpDefaultConfig() {
   default_config_ = CreateConfigFromFile(QDir(dir).filePath(QStringLiteral("config.ocio")));
 }
 
-void ColorManager::SetConfigFilename(const QString &filename) { project()->SetColorConfigFilename(filename); }
+void ColorManager::SetConfigFilename(const QString &filename) const { project()->SetColorConfigFilename(filename); }
 
 QStringList ColorManager::ListAvailableDisplays() {
   QStringList displays;
@@ -122,11 +122,11 @@ QStringList ColorManager::ListAvailableColorspaces() const { return ListAvailabl
 
 QString ColorManager::GetDefaultInputColorSpace() const { return project()->GetDefaultInputColorSpace(); }
 
-void ColorManager::SetDefaultInputColorSpace(const QString &s) { project()->SetDefaultInputColorSpace(s); }
+void ColorManager::SetDefaultInputColorSpace(const QString &s) const { project()->SetDefaultInputColorSpace(s); }
 
 QString ColorManager::GetReferenceColorSpace() const { return project()->GetColorReferenceSpace(); }
 
-QString ColorManager::GetCompliantColorSpace(const QString &s) {
+QString ColorManager::GetCompliantColorSpace(const QString &s) const {
   if (ListAvailableColorspaces().contains(s)) {
     return s;
   } else {

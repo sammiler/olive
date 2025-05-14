@@ -159,7 +159,7 @@ void ActionSearch::search_update(const QString &s, const QString &p, QMenu *pare
 void ActionSearch::perform_action() {
   // Loop over all the items in the list and if we find one that's selected, we trigger it.
   QList<QListWidgetItem *> selected_items = list_widget->selectedItems();
-  if (list_widget->count() > 0 && selected_items.size() > 0) {
+  if (list_widget->count() > 0 && !selected_items.empty()) {
     QListWidgetItem *item = selected_items.at(0);
 
     // Get QAction pointer from item's data

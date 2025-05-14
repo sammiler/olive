@@ -221,7 +221,7 @@ void ViewerSizer::UpdateSize() {
   ScrollBarMoved();
 }
 
-int ViewerSizer::GetZoomedValue(int value) { return qRound(value * zoom_); }
+int ViewerSizer::GetZoomedValue(int value) const { return qRound(value * zoom_); }
 
 double ViewerSizer::GetRealCurrentZoom() const {
   if (zoom_ < 0) {

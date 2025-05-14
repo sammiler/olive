@@ -36,13 +36,13 @@ class ColorProcessor {
  public:
   enum Direction { kNormal, kInverse };
 
-  ColorProcessor(ColorManager* config, const QString& input, const ColorTransform& dest_space,
+  ColorProcessor(ColorManager* config, const QString& input, const ColorTransform& transform,
                  Direction direction = kNormal);
   explicit ColorProcessor(OCIO::ConstProcessorRcPtr processor);
 
   DISABLE_COPY_MOVE(ColorProcessor)
 
-  static ColorProcessorPtr Create(ColorManager* config, const QString& input, const ColorTransform& dest_space,
+  static ColorProcessorPtr Create(ColorManager* config, const QString& input, const ColorTransform& transform,
                                   Direction direction = kNormal);
   static ColorProcessorPtr Create(const OCIO::ConstProcessorRcPtr& processor);
 

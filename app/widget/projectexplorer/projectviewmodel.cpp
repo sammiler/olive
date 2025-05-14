@@ -398,7 +398,7 @@ bool ProjectViewModel::dropMimeData(const QMimeData *data, Qt::DropAction action
   return false;
 }
 
-int ProjectViewModel::IndexOfChild(Node *item) const {
+int ProjectViewModel::IndexOfChild(Node *item) {
   // Find parent's index within its own parent
   Folder *parent = item->folder();
 
@@ -417,7 +417,7 @@ Node *ProjectViewModel::GetItemObjectFromIndex(const QModelIndex &index) const {
   return project_ ? project_->root() : nullptr;
 }
 
-bool ProjectViewModel::ItemIsParentOfChild(Folder *parent, Node *child) const {
+bool ProjectViewModel::ItemIsParentOfChild(Folder *parent, Node *child) {
   // Loop through parent hierarchy checking if `parent` is one of its parents
   do {
     child = child->folder();

@@ -58,7 +58,7 @@ class OpenGLRenderer : public Renderer {
   void UploadToTexture(const QVariant &handle, const VideoParams &params, const void *data,
                                int linesize) override;
 
-  void DownloadFromTexture(const QVariant &handle, const VideoParams &params, void *data,
+  void DownloadFromTexture(const QVariant &id, const VideoParams &params, void *data,
                                    int linesize) override;
 
   void Flush() override;

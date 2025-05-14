@@ -659,7 +659,7 @@ qreal TimelineView::GetTimelineLeftBound() const { return horizontalScrollBar()-
 qreal TimelineView::GetTimelineRightBound() const { return GetTimelineLeftBound() + viewport()->width(); }
 
 void TimelineView::DrawThumbnail(QPainter *painter, const FrameHashCache *thumbs, const rational &time, int x,
-                                 const QRect &preview_rect, QRect *thumb_rect) const {
+                                 const QRect &preview_rect, QRect *thumb_rect) {
   QString thumbnail = thumbs->GetValidCacheFilename(time);
 
   if (!thumbnail.isEmpty()) {

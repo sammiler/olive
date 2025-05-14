@@ -47,7 +47,7 @@ class ColorManager : public QObject {
 
   static void SetUpDefaultConfig();
 
-  void SetConfigFilename(const QString& filename);
+  void SetConfigFilename(const QString& filename) const;
 
   QStringList ListAvailableDisplays();
 
@@ -63,11 +63,11 @@ class ColorManager : public QObject {
 
   [[nodiscard]] QString GetDefaultInputColorSpace() const;
 
-  void SetDefaultInputColorSpace(const QString& s);
+  void SetDefaultInputColorSpace(const QString& s) const;
 
   [[nodiscard]] QString GetReferenceColorSpace() const;
 
-  QString GetCompliantColorSpace(const QString& s);
+  QString GetCompliantColorSpace(const QString& s) const;
 
   ColorTransform GetCompliantColorSpace(const ColorTransform& transform, bool force_display = false);
 

@@ -30,7 +30,7 @@ namespace olive {
 class LoadOTIOTask : public ProjectLoadBaseTask {
   Q_OBJECT
  public:
-  explicit LoadOTIOTask(const QString& filename);
+  explicit LoadOTIOTask(const QString& s);
 
  protected:
   bool Run() override;

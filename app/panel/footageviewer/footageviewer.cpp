@@ -36,7 +36,7 @@ FootageViewerPanel::FootageViewerPanel() : super(QStringLiteral("FootageViewerPa
   SetShowAndRaiseOnConnect();
 }
 
-void FootageViewerPanel::OverrideWorkArea(const TimeRange &r) { GetFootageViewerWidget()->OverrideWorkArea(r); }
+void FootageViewerPanel::OverrideWorkArea(const TimeRange &r) const { GetFootageViewerWidget()->OverrideWorkArea(r); }
 
 QVector<ViewerOutput *> FootageViewerPanel::GetSelectedFootage() const {
   QVector<ViewerOutput *> list;

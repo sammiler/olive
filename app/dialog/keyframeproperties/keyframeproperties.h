@@ -40,7 +40,7 @@ class KeyframePropertiesDialog : public QDialog {
   void accept() override;
 
  private:
-  void SetUpBezierSlider(FloatSlider* slider, bool all_same, double value);
+  static void SetUpBezierSlider(FloatSlider* slider, bool all_same, double value);
 
   const std::vector<NodeKeyframe*>& keys_;
 

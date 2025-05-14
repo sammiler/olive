@@ -40,7 +40,7 @@ void ViewerPanelBase::ShuttleStop() { GetViewerWidget()->ShuttleStop(); }
 
 void ViewerPanelBase::ShuttleRight() { GetViewerWidget()->ShuttleRight(); }
 
-void ViewerPanelBase::ConnectTimeBasedPanel(TimeBasedPanel *panel) {
+void ViewerPanelBase::ConnectTimeBasedPanel(TimeBasedPanel *panel) const {
   connect(panel, &TimeBasedPanel::PlayPauseRequested, this, &ViewerPanelBase::PlayPause);
   connect(panel, &TimeBasedPanel::PlayInToOutRequested, this, &ViewerPanelBase::PlayInToOut);
   connect(panel, &TimeBasedPanel::ShuttleLeftRequested, this, &ViewerPanelBase::ShuttleLeft);
@@ -48,7 +48,7 @@ void ViewerPanelBase::ConnectTimeBasedPanel(TimeBasedPanel *panel) {
   connect(panel, &TimeBasedPanel::ShuttleRightRequested, this, &ViewerPanelBase::ShuttleRight);
 }
 
-void ViewerPanelBase::DisconnectTimeBasedPanel(TimeBasedPanel *panel) {
+void ViewerPanelBase::DisconnectTimeBasedPanel(TimeBasedPanel *panel) const {
   disconnect(panel, &TimeBasedPanel::PlayPauseRequested, this, &ViewerPanelBase::PlayPause);
   disconnect(panel, &TimeBasedPanel::PlayInToOutRequested, this, &ViewerPanelBase::PlayInToOut);
   disconnect(panel, &TimeBasedPanel::ShuttleLeftRequested, this, &ViewerPanelBase::ShuttleLeft);
@@ -56,13 +56,13 @@ void ViewerPanelBase::DisconnectTimeBasedPanel(TimeBasedPanel *panel) {
   disconnect(panel, &TimeBasedPanel::ShuttleRightRequested, this, &ViewerPanelBase::ShuttleRight);
 }
 
-void ViewerPanelBase::SetFullScreen(QScreen *screen) { GetViewerWidget()->SetFullScreen(screen); }
+void ViewerPanelBase::SetFullScreen(QScreen *screen) const { GetViewerWidget()->SetFullScreen(screen); }
 
-void ViewerPanelBase::SetGizmos(Node *node) { GetViewerWidget()->SetGizmos(node); }
+void ViewerPanelBase::SetGizmos(Node *node) const { GetViewerWidget()->SetGizmos(node); }
 
-void ViewerPanelBase::CacheEntireSequence() { GetViewerWidget()->CacheEntireSequence(); }
+void ViewerPanelBase::CacheEntireSequence() const { GetViewerWidget()->CacheEntireSequence(); }
 
-void ViewerPanelBase::CacheSequenceInOut() { GetViewerWidget()->CacheSequenceInOut(); }
+void ViewerPanelBase::CacheSequenceInOut() const { GetViewerWidget()->CacheSequenceInOut(); }
 
 void ViewerPanelBase::SetViewerWidget(ViewerWidget *vw) {
   connect(vw, &ViewerWidget::TextureChanged, this, &ViewerPanelBase::TextureChanged);

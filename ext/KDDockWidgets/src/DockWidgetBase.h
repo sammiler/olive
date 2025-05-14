@@ -335,7 +335,7 @@ public:
 
     /// @deprecated @overload
     /// @param name the affinity name
-    void setAffinityName(const QString &name);
+    void setAffinityName(const QString &affinity);
 
     /**
      * @brief Returns the affinity name. Empty by default.
@@ -454,7 +454,7 @@ public:
     void setMDISize(QSize size);
     /// @brief like setMDIPosition(), but for the Z
     /// only implemented for QtQuick
-    void setMDIZ(int z);
+    static void setMDIZ(int z);
 
     ///@brief Returns whether this dock widget is the main window persistent central widget
     /// This only applies when using MainWindowOption_HasCentralWidget

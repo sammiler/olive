@@ -36,7 +36,7 @@ class SequenceDialogParameterTab : public QWidget {
 
   [[nodiscard]] PixelFormat GetSelectedPreviewFormat() const { return preview_format_field_->GetPixelFormat(); }
 
-  [[nodiscard]] bool GetSelectedPreviewAutoCache() const {
+  [[nodiscard]] static bool GetSelectedPreviewAutoCache() {
     // return preview_autocache_field_->isChecked();
     //  TEMP: Disable sequence auto-cache, wanna see if clip cache supersedes it.
     return false;

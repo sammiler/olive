@@ -323,12 +323,12 @@ DockWidgetBase *FloatingWindow::singleDockWidget() const
     return nullptr;
 }
 
-const DockWidgetBase::List FloatingWindow::dockWidgets() const
+DockWidgetBase::List FloatingWindow::dockWidgets() const
 {
     return m_dropArea->dockWidgets();
 }
 
-const Frame::List FloatingWindow::frames() const
+Frame::List FloatingWindow::frames() const
 {
     Q_ASSERT(m_dropArea);
     return m_dropArea->frames();
@@ -691,7 +691,7 @@ MainWindowBase *FloatingWindow::mainWindow() const
     return qobject_cast<MainWindowBase *>(parent());
 }
 
-QMargins FloatingWindow::contentMargins() const
+QMargins FloatingWindow::contentMargins() 
 {
     return { 4, 4, 4, 4 };
 }

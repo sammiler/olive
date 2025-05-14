@@ -76,7 +76,7 @@ class CurveView : public KeyframeView {
   void ZoomToFitInternal(bool selected_only);
 
   qreal GetItemYFromKeyframeValue(NodeKeyframe *key);
-  qreal GetUnscaledItemYFromKeyframeValue(NodeKeyframe *key);
+  static qreal GetUnscaledItemYFromKeyframeValue(NodeKeyframe *key);
 
   QPointF ScalePoint(const QPointF &point);
 
@@ -88,7 +88,7 @@ class CurveView : public KeyframeView {
 
   QPointF GetKeyframePosition(NodeKeyframe *key);
 
-  static QPointF GenerateBezierControlPosition(const NodeKeyframe::BezierType mode, const QPointF &start_point,
+  static QPointF GenerateBezierControlPosition(NodeKeyframe::BezierType mode, const QPointF &start_point,
                                                const QPointF &scaled_cursor_diff);
 
   QPointF GetScaledCursorPos(const QPointF &cursor_pos);

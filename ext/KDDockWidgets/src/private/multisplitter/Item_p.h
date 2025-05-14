@@ -375,7 +375,7 @@ private:
     friend class ItemContainer;
     friend class ItemBoxContainer;
     friend class ItemFreeContainer;
-    bool eventFilter(QObject *o, QEvent *event) override;
+    bool eventFilter(QObject *widget, QEvent *event) override;
     int m_refCount = 0;
     void updateObjectName();
     void onWidgetDestroyed();
@@ -402,7 +402,7 @@ public:
     [[nodiscard]] int numChildren() const;
     [[nodiscard]] bool hasChildren() const;
     [[nodiscard]] bool hasVisibleChildren(bool excludeBeingInserted = false) const;
-    [[nodiscard]] const List childItems() const;
+    [[nodiscard]] List childItems() const;
     [[nodiscard]] bool isEmpty() const;
     bool contains(const Item *item) const;
     Item *itemForObject(const QObject *) const;
@@ -521,7 +521,7 @@ private:
 
     Item *visibleNeighbourFor(const Item *item, Side side) const;
     [[nodiscard]] int availableLength() const;
-    [[nodiscard]] LengthOnSide lengthOnSide(const SizingInfo::List &sizes, int fromIndex, Side, Qt::Orientation) const;
+    [[nodiscard]] static LengthOnSide lengthOnSide(const SizingInfo::List &sizes, int fromIndex, Side, Qt::Orientation) ;
     int neighboursLengthFor(const Item *item, Side, Qt::Orientation) const;
     int neighboursLengthFor_recursive(const Item *item, Side, Qt::Orientation) const;
     int neighboursMinLengthFor(const Item *item, Side, Qt::Orientation) const;

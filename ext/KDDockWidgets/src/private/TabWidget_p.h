@@ -43,7 +43,7 @@ public:
      * @brief Constructs a new TabBar
      * @param parent The parent TabWidget
      */
-    explicit TabBar(QWidgetOrQuick *thisWidget, TabWidget *parent = nullptr);
+    explicit TabBar(QWidgetOrQuick *thisWidget, TabWidget *tabWidget = nullptr);
 
     /**
      * @brief returns the dock widgets at tab number @p index
@@ -60,7 +60,7 @@ public:
     [[nodiscard]]  bool isWindow() const override;
 
     void onMousePress(QPoint localPos);
-    void onMouseDoubleClick(QPoint localPos);
+    void onMouseDoubleClick(QPoint localPos) const;
 
     ///@brief returns whether there's only 1 tab
     [[nodiscard]]  bool hasSingleDockWidget() const;
@@ -194,7 +194,7 @@ public:
 protected:
     void onTabInserted();
     void onTabRemoved();
-    void onCurrentTabChanged(int index);
+    static void onCurrentTabChanged(int index);
     bool onMouseDoubleClick(QPoint localPos);
 
 private:

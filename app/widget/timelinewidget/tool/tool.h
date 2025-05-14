@@ -69,7 +69,7 @@ class TimelineTool {
    *
    * This function's validation ensures that no Ghost's track ends up in a negative (non-existent) track.
    */
-  int ValidateTrackMovement(int movement, const QVector<TimelineViewGhostItem *> &ghosts);
+  static int ValidateTrackMovement(int movement, const QVector<TimelineViewGhostItem *> &ghosts);
 
   void GetGhostData(rational *earliest_point, rational *latest_point);
 

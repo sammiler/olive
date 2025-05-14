@@ -119,7 +119,7 @@ class DiskManager : public QObject {
 
   static QString GetDefaultDiskCachePath();
 
-  void ShowDiskCacheSettingsDialog(DiskCacheFolder* folder, QWidget* parent);
+  static void ShowDiskCacheSettingsDialog(DiskCacheFolder* folder, QWidget* parent);
   void ShowDiskCacheSettingsDialog(const QString& path, QWidget* parent);
 
  public slots:

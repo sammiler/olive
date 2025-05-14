@@ -1192,7 +1192,7 @@ bool NodeView::GetAssumedPositionForSelectedNode(Node *node, Node::Position *pos
   }
 }
 
-Menu *NodeView::CreateAddMenu(Menu *parent) {
+Menu *NodeView::CreateAddMenu(Menu *parent) const {
   Menu *add_menu = NodeFactory::CreateMenu(parent);
   add_menu->setTitle(tr("Add"));
   connect(add_menu, &Menu::triggered, this, &NodeView::CreateNodeSlot);

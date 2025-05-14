@@ -62,7 +62,7 @@ void RationalSlider::SetDisplayType(const RationalSlider::DisplayType &type) {
 
 void RationalSlider::SetLockDisplayType(bool e) { lock_display_type_ = e; }
 
-bool RationalSlider::GetLockDisplayType() { return lock_display_type_; }
+bool RationalSlider::GetLockDisplayType() const { return lock_display_type_; }
 
 void RationalSlider::DisableDisplayType(RationalSlider::DisplayType type) { disabled_.append(type); }
 

@@ -628,7 +628,7 @@ DockWidgetBase::Private *DockWidgetBase::dptr() const
     return d;
 }
 
-QPoint DockWidgetBase::Private::defaultCenterPosForFloating()
+QPoint DockWidgetBase::Private::defaultCenterPosForFloating() const
 {
     MainWindowBase::List mainWindows = DockRegistry::self()->mainwindows();
     // We don't care about multiple mainwindows yet. Or, let's just say that the first one is more main than the others
@@ -649,7 +649,7 @@ bool DockWidgetBase::Private::eventFilter(QObject *watched, QEvent *event)
     return QObject::eventFilter(watched, event);
 }
 
-void DockWidgetBase::Private::updateTitle()
+void DockWidgetBase::Private::updateTitle() const
 {
     if (q->isFloating())
         q->window()->setWindowTitle(title);
@@ -809,7 +809,7 @@ void DockWidgetBase::Private::saveTabIndex()
     m_lastPosition->saveTabIndex(currentTabIndex(), q->isFloating());
 }
 
-void DockWidgetBase::Private::show()
+void DockWidgetBase::Private::show() const
 {
     // Only show for now
     q->show();
@@ -977,7 +977,7 @@ DockWidgetBase::Private::Private(const QString &dockName, DockWidgetBase::Option
     , toggleAction(new QAction(q))
     , floatAction(new QAction(q))
 {
-    q->connect(toggleAction, &QAction::toggled, q, [this](bool enabled) {
+    KDDockWidgets::DockWidgetBase::connect(toggleAction, &QAction::toggled, q, [this](bool enabled) {
         if (!m_updatingToggleAction) { // guard against recursiveness
             toggleAction->blockSignals(true); // and don't emit spurious toggle. Like when a dock
                                               // widget is inserted into a tab widget it might get
@@ -989,7 +989,7 @@ DockWidgetBase::Private::Private(const QString &dockName, DockWidgetBase::Option
         }
     });
 
-    q->connect(floatAction, &QAction::toggled, q, [this](bool checked) {
+    KDDockWidgets::DockWidgetBase::connect(floatAction, &QAction::toggled, q, [this](bool checked) {
         if (!m_updatingFloatAction) { // guard against recursiveness
             q->setFloating(checked);
         }

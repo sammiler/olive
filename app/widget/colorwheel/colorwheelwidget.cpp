@@ -121,7 +121,7 @@ ColorWheelWidget::Triangle ColorWheelWidget::GetTriangleFromCoords(const QPoint 
   return GetTriangleFromCoords(center, p.y(), p.x());
 }
 
-ColorWheelWidget::Triangle ColorWheelWidget::GetTriangleFromCoords(const QPoint &center, qreal y, qreal x) const {
+ColorWheelWidget::Triangle ColorWheelWidget::GetTriangleFromCoords(const QPoint &center, qreal y, qreal x) {
   qreal opposite = y - center.y();
   qreal adjacent = x - center.x();
   qreal hypotenuse = qSqrt(qPow(adjacent, 2) + qPow(opposite, 2));

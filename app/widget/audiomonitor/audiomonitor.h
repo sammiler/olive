@@ -63,7 +63,7 @@ class AudioMonitor : public QOpenGLWidget {
 
   void Stop();
 
-  void PushSampleBuffer(const SampleBuffer &samples);
+  void PushSampleBuffer(const SampleBuffer &d);
 
   void StartWaveform(const AudioWaveformCache *waveform, const rational &start, int playback_speed);
 
@@ -77,7 +77,7 @@ class AudioMonitor : public QOpenGLWidget {
 
   void UpdateValuesFromWaveform(QVector<double> &v, qint64 delta_time);
 
-  void AudioVisualWaveformSampleToInternalValues(const AudioVisualWaveform::Sample &in, QVector<double> &out);
+  static void AudioVisualWaveformSampleToInternalValues(const AudioVisualWaveform::Sample &in, QVector<double> &out);
 
   void PushValue(const QVector<double> &v);
 

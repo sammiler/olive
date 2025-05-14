@@ -51,7 +51,7 @@ class TimeRange {
   bool operator!=(const TimeRange& r) const;
 
   [[nodiscard]] bool OverlapsWith(const TimeRange& a, bool in_inclusive = true, bool out_inclusive = true) const;
-  [[nodiscard]] bool Contains(const TimeRange& a, bool in_inclusive = true, bool out_inclusive = true) const;
+  [[nodiscard]] bool Contains(const TimeRange& compare, bool in_inclusive = true, bool out_inclusive = true) const;
   [[nodiscard]] bool Contains(const rational& r) const;
 
   [[nodiscard]] TimeRange Combined(const TimeRange& a) const;

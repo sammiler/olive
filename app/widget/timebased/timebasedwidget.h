@@ -103,7 +103,7 @@ class TimeBasedWidget : public TimelineScaledWidget {
 
   void ResetOut();
 
-  void ClearInOutPoints();
+  void ClearInOutPoints() const;
 
   void SetMarker();
 
@@ -193,7 +193,7 @@ class TimeBasedWidget : public TimelineScaledWidget {
    *
    * Set to kTrimIn or kTrimOut for setting the in point or out point respectively.
    */
-  void ResetPoint(Timeline::MovementMode m);
+  void ResetPoint(Timeline::MovementMode m) const;
 
   void PageScrollInternal(int screen_position, bool whole_page_scroll);
 
@@ -237,7 +237,7 @@ class TimeBasedWidget : public TimelineScaledWidget {
 
   void ScrollBarResizeBegan(int current_bar_width, bool top_handle);
 
-  void ScrollBarResizeMoved(int new_bar_width);
+  void ScrollBarResizeMoved(int movement);
 
   /**
    * @brief Slot to handle page scrolling of the playhead

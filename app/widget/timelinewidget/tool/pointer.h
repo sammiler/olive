@@ -88,7 +88,7 @@ class PointerTool : public TimelineTool {
 
   void AddGhostInternal(TimelineViewGhostItem* ghost, Timeline::MovementMode mode);
 
-  bool IsClipTrimmable(Block* clip, const QVector<Block*>& items, const Timeline::MovementMode& mode);
+  static bool IsClipTrimmable(Block* clip, const QVector<Block*>& items, const Timeline::MovementMode& mode);
 
   void ProcessGhostsForSliding();
 

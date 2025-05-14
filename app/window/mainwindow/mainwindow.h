@@ -133,7 +133,7 @@ class MainWindow : public KDDockWidgets::MainWindow {
 
   void UpdateNodePanelContextFromTimelinePanel(TimelinePanel *panel);
 
-  void SelectFootageForProjectPanel(const QVector<Footage *> &e, ProjectPanel *p);
+  static void SelectFootageForProjectPanel(const QVector<Footage *> &e, ProjectPanel *p);
 
   QByteArray premaximized_state_;
 
@@ -190,7 +190,7 @@ class MainWindow : public KDDockWidgets::MainWindow {
 
   void ShowWelcomeDialog();
 
-  void RevealViewerInProject(ViewerOutput *r);
+  static void RevealViewerInProject(ViewerOutput *r);
   void RevealViewerInFootageViewer(ViewerOutput *r, const TimeRange &range);
 };
 

@@ -208,7 +208,7 @@ public:
     ~CustomFrameHelper() override;
 
 public Q_SLOTS:
-    void applyCustomFrame(QWindow *);
+    static void applyCustomFrame(QWindow *);
 
 protected:
     bool nativeEventFilter(const QByteArray &eventType, void *message,

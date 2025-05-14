@@ -92,7 +92,7 @@ void FrameManager::GarbageCollection() {
   for (auto & it : pool_) {
     std::list<Buffer>& list = it.second;
 
-    while (list.size() > 0 && list.front().time < min_life) {
+    while (!list.empty() && list.front().time < min_life) {
       delete[] list.front().data;
       list.pop_front();
     }

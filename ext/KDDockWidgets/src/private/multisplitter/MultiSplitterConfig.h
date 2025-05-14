@@ -42,11 +42,11 @@ public:
      *
      * Default is 5px.
      */
-    [[nodiscard]] int separatorThickness() const;
+    [[nodiscard]] static int separatorThickness() ;
 
     ///@brief setter for @ref separatorThickness
     /// Note: Only use this function at startup before creating any Item
-    void setSeparatorThickness(int value);
+    static void setSeparatorThickness(int value);
 
     ///@brief sets the function used internally to create the separators
     void setSeparatorFactoryFunc(SeparatorFactoryFunc);

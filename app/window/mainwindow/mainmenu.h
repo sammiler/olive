@@ -113,79 +113,79 @@ class MainMenu : public QMenuBar {
    *
    * Finds the currently focused panel and sends it a "zoom in" signal
    */
-  void ZoomInTriggered();
+  static void ZoomInTriggered();
 
   /**
    * @brief Slot for zooming out
    *
    * Finds the currently focused panel and sends it a "zoom out" signal
    */
-  void ZoomOutTriggered();
+  static void ZoomOutTriggered();
 
-  void IncreaseTrackHeightTriggered();
-  void DecreaseTrackHeightTriggered();
+  static void IncreaseTrackHeightTriggered();
+  static void DecreaseTrackHeightTriggered();
 
-  void GoToStartTriggered();
-  void PrevFrameTriggered();
+  static void GoToStartTriggered();
+  static void PrevFrameTriggered();
 
   /**
    * @brief Slot for play/pause
    *
    * Finds the currently focused panel and sends it a "play/pause" signal
    */
-  void PlayPauseTriggered();
+  static void PlayPauseTriggered();
 
-  void PlayInToOutTriggered();
+  static void PlayInToOutTriggered();
 
-  void LoopTriggered(bool enabled);
+  static void LoopTriggered(bool enabled);
 
-  void NextFrameTriggered();
-  void GoToEndTriggered();
+  static void NextFrameTriggered();
+  static void GoToEndTriggered();
 
-  void SelectAllTriggered();
-  void DeselectAllTriggered();
+  static void SelectAllTriggered();
+  static void DeselectAllTriggered();
 
-  void InsertTriggered();
-  void OverwriteTriggered();
+  static void InsertTriggered();
+  static void OverwriteTriggered();
 
-  void RippleToInTriggered();
-  void RippleToOutTriggered();
-  void EditToInTriggered();
-  void EditToOutTriggered();
+  static void RippleToInTriggered();
+  static void RippleToOutTriggered();
+  static void EditToInTriggered();
+  static void EditToOutTriggered();
 
-  void NudgeLeftTriggered();
-  void NudgeRightTriggered();
-  void MoveInToPlayheadTriggered();
-  void MoveOutToPlayheadTriggered();
+  static void NudgeLeftTriggered();
+  static void NudgeRightTriggered();
+  static void MoveInToPlayheadTriggered();
+  static void MoveOutToPlayheadTriggered();
 
   void ActionSearchTriggered();
 
-  void ShuttleLeftTriggered();
-  void ShuttleStopTriggered();
-  void ShuttleRightTriggered();
+  static void ShuttleLeftTriggered();
+  static void ShuttleStopTriggered();
+  static void ShuttleRightTriggered();
 
-  void GoToPrevCutTriggered();
-  void GoToNextCutTriggered();
+  static void GoToPrevCutTriggered();
+  static void GoToNextCutTriggered();
 
-  void SetMarkerTriggered();
+  static void SetMarkerTriggered();
 
-  void FullScreenViewerTriggered();
+  static void FullScreenViewerTriggered();
 
-  void ToggleShowAllTriggered();
+  static void ToggleShowAllTriggered();
 
-  void DeleteInOutTriggered();
-  void RippleDeleteInOutTriggered();
+  static void DeleteInOutTriggered();
+  static void RippleDeleteInOutTriggered();
 
-  void GoToInTriggered();
-  void GoToOutTriggered();
+  static void GoToInTriggered();
+  static void GoToOutTriggered();
 
   void OpenRecentItemTriggered();
 
-  void SequenceCacheTriggered();
-  void SequenceCacheInOutTriggered();
-  void SequenceCacheClearTriggered();
+  static void SequenceCacheTriggered();
+  static void SequenceCacheInOutTriggered();
+  static void SequenceCacheClearTriggered();
 
-  void HelpFeedbackTriggered();
+  static void HelpFeedbackTriggered();
 
  private:
   /**
