@@ -20,9 +20,10 @@
 
 #include "render/samplebuffer.h"
 
-#include <string.h>
 #include <algorithm>
 #include <cmath>
+#include <string.h>
+#include <utility>
 
 #include "util/cpuoptimize.h"
 #include "util/log.h"
@@ -31,13 +32,13 @@ namespace olive::core {
 
 SampleBuffer::SampleBuffer() : sample_count_per_channel_(0) {}
 
-SampleBuffer::SampleBuffer(const AudioParams &audio_params, const rational &length) : audio_params_(audio_params) {
+SampleBuffer::SampleBuffer(AudioParams audio_params, const rational &length) : audio_params_(std::move(audio_params)) {
   sample_count_per_channel_ = audio_params_.time_to_samples(length);
   allocate();
 }
 
-SampleBuffer::SampleBuffer(const AudioParams &audio_params, size_t samples_per_channel)
-    : audio_params_(audio_params), sample_count_per_channel_(samples_per_channel) {
+SampleBuffer::SampleBuffer(AudioParams audio_params, size_t samples_per_channel)
+    : audio_params_(std::move(audio_params)), sample_count_per_channel_(samples_per_channel) {
   allocate();
 }
 

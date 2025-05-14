@@ -28,7 +28,7 @@ QString NodeInput::name() const {
   if (IsValid()) {
     return node_->GetInputName(input_);
   } else {
-    return QString();
+    return {};
   }
 }
 
@@ -76,7 +76,7 @@ QString NodeInput::GetInputName() const {
   if (IsValid()) {
     return node_->GetInputName(input_);
   } else {
-    return QString();
+    return {};
   }
 }
 
@@ -100,7 +100,7 @@ QVariant NodeInput::GetDefaultValue() const {
   if (IsValid()) {
     return node_->GetDefaultValue(input_);
   } else {
-    return QVariant();
+    return {};
   }
 }
 
@@ -108,7 +108,7 @@ QStringList NodeInput::GetComboBoxStrings() const {
   if (IsValid()) {
     return node_->GetComboBoxStrings(input_);
   } else {
-    return QStringList();
+    return {};
   }
 }
 
@@ -116,7 +116,7 @@ QVariant NodeInput::GetProperty(const QString &key) const {
   if (IsValid()) {
     return node_->GetInputProperty(input_, key);
   } else {
-    return QVariant();
+    return {};
   }
 }
 
@@ -124,7 +124,7 @@ QHash<QString, QVariant> NodeInput::GetProperties() const {
   if (IsValid()) {
     return node_->GetInputProperties(input_);
   } else {
-    return QHash<QString, QVariant>();
+    return {};
   }
 }
 
@@ -132,7 +132,7 @@ QVariant NodeInput::GetValueAtTime(const rational &time) const {
   if (IsValid()) {
     return node_->GetValueAtTime(*this, time);
   } else {
-    return QVariant();
+    return {};
   }
 }
 
@@ -148,7 +148,7 @@ QVariant NodeInput::GetSplitDefaultValueForTrack(int track) const {
   if (IsValid()) {
     return node_->GetSplitDefaultValueOnTrack(input_, track);
   } else {
-    return QVariant();
+    return {};
   }
 }
 

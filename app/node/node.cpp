@@ -79,7 +79,7 @@ QString Node::ShortName() const { return Name(); }
 
 QString Node::Description() const {
   // Return an empty string by default
-  return QString();
+  return {};
 }
 
 void Node::Retranslate() { SetInputName(kEnabledInput, tr("Enabled")); }
@@ -90,7 +90,7 @@ QVariant Node::data(const DataType &d) const {
     return icon::New;
   }
 
-  return QVariant();
+  return {};
 }
 
 bool Node::SetNodePositionInContext(Node *node, const QPointF &pos) {
@@ -223,7 +223,7 @@ QString Node::GetInputName(const QString &id) const {
     return i->human_name;
   } else {
     ReportInvalidInput("get name of", id, -1);
-    return QString();
+    return {};
   }
 }
 
@@ -330,7 +330,7 @@ QHash<QString, QVariant> Node::GetInputProperties(const QString &id) const {
     return i->properties;
   } else {
     ReportInvalidInput("get property table of", id, -1);
-    return QHash<QString, QVariant>();
+    return {};
   }
 }
 
@@ -341,7 +341,7 @@ QVariant Node::GetInputProperty(const QString &id, const QString &name) const {
     return i->properties.value(name);
   } else {
     ReportInvalidInput("get property of", id, -1);
-    return QVariant();
+    return {};
   }
 }
 
@@ -491,7 +491,7 @@ SplitValue Node::GetSplitDefaultValue(const QString &input) const {
     return i->default_value;
   } else {
     ReportInvalidInput("retrieve default value of", input, -1);
-    return SplitValue();
+    return {};
   }
 }
 
@@ -500,7 +500,7 @@ QVariant Node::GetSplitDefaultValueOnTrack(const QString &input, int track) cons
   if (track < val.size()) {
     return val.at(track);
   } else {
-    return QVariant();
+    return {};
   }
 }
 
@@ -543,7 +543,7 @@ QVector<NodeKeyframe *> Node::GetKeyframesAtTime(const QString &input, const rat
     return imm->get_keyframe_at_time(time);
   } else {
     ReportInvalidInput("get keyframes at time from", input, element);
-    return QVector<NodeKeyframe *>();
+    return {};
   }
 }
 
@@ -646,7 +646,7 @@ SplitValue Node::GetSplitStandardValue(const QString &id, int element) const {
     return imm->get_split_standard_value();
   } else {
     ReportInvalidInput("get standard value of", id, element);
-    return SplitValue();
+    return {};
   }
 }
 
@@ -657,7 +657,7 @@ QVariant Node::GetSplitStandardValueOnTrack(const QString &input, int track, int
     return imm->get_split_standard_value_on_track(track);
   } else {
     ReportInvalidInput("get standard value of", input, element);
-    return QVariant();
+    return {};
   }
 }
 

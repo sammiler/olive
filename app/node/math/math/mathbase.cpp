@@ -174,7 +174,7 @@ QString MathNodeBase::GetOperationName(Operation o) {
       return tr("Power");
   }
 
-  return QString();
+  return {};
 }
 
 void MathNodeBase::PerformAllOnFloatBuffer(Operation operation, float *a, float b, int start, int end) {

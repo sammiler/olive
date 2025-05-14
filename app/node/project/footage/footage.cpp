@@ -170,7 +170,7 @@ Track::Reference Footage::GetReferenceFromRealIndex(int real_index) const {
     }
   }
 
-  return Track::Reference();
+  return {};
 }
 
 const QString &Footage::decoder() const { return decoder_; }

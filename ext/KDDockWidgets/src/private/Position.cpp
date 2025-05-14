@@ -23,6 +23,7 @@
 #include "multisplitter/Item_p.h"
 
 #include <algorithm>
+#include <utility>
 
 using namespace KDDockWidgets;
 
@@ -200,10 +201,10 @@ LayoutSaver::Position Position::serialize() const
     return l;
 }
 
-ItemRef::ItemRef(const QMetaObject::Connection &conn, Layouting::Item *it)
+ItemRef::ItemRef(QMetaObject::Connection conn, Layouting::Item *it)
     : item(it)
     , guard(it)
-    , connection(conn)
+    , connection(std::move(conn))
 {
     item->ref();
 }

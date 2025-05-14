@@ -62,9 +62,9 @@ class VideoParams {
    */
   [[nodiscard]] int square_pixel_width() const { return par_width_; }
 
-  [[nodiscard]] QVector2D resolution() const { return QVector2D(width_, height_); }
+  [[nodiscard]] QVector2D resolution() const { return {static_cast<float>(width_), static_cast<float>(height_)}; }
 
-  [[nodiscard]] QVector2D square_resolution() const { return QVector2D(par_width_, height_); }
+  [[nodiscard]] QVector2D square_resolution() const { return {static_cast<float>(par_width_), static_cast<float>(height_)}; }
 
   [[nodiscard]] int height() const { return height_; }
 
@@ -181,7 +181,7 @@ class VideoParams {
   void set_x(float x) { x_ = x; }
   [[nodiscard]] float y() const { return y_; }
   void set_y(float y) { y_ = y; }
-  [[nodiscard]] QVector2D offset() const { return QVector2D(x_, y_); }
+  [[nodiscard]] QVector2D offset() const { return {x_, y_}; }
 
   [[nodiscard]] int stream_index() const { return stream_index_; }
 

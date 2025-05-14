@@ -22,13 +22,14 @@
 
 #include <QEvent>
 #include <QHBoxLayout>
+#include <utility>
 
 #include "node/node.h"
 
 namespace olive {
 
-NodeParamViewArrayWidget::NodeParamViewArrayWidget(Node *node, const QString &input, QWidget *parent)
-    : QWidget(parent), node_(node), input_(input) {
+NodeParamViewArrayWidget::NodeParamViewArrayWidget(Node *node, QString input, QWidget *parent)
+    : QWidget(parent), node_(node), input_(std::move(input)) {
   auto *layout = new QHBoxLayout(this);
 
   count_lbl_ = new QLabel();

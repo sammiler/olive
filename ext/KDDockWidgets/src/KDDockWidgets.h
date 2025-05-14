@@ -321,7 +321,7 @@ inline QString locationStr(Location loc)
         return QStringLiteral("bottom");
     }
 
-    return QString();
+    return {};
 }
 }
 

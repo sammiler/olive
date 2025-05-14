@@ -53,7 +53,7 @@ inline QRect geometry(const QWidget *w)
 inline QRect parentGeometry(const QWidget *w)
 {
     if (!w || !w->parentWidget())
-        return QRect();
+        return {};
 
     return w->parentWidget()->geometry();
 }

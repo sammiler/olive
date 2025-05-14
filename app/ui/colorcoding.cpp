@@ -67,7 +67,7 @@ QString ColorCoding::GetColorName(int c) {
       return tr("Gray");
   }
 
-  return QString();
+  return {};
 }
 
 Color ColorCoding::GetColor(int c) { return colors_.at(c); }

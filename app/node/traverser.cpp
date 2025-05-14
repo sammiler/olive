@@ -40,7 +40,7 @@ NodeValueDatabase NodeTraverser::GenerateDatabase(const Node *node, const TimeRa
   auto ignore = node->IgnoreInputsForRendering();
   foreach (const QString &input, node->inputs()) {
     if (IsCancelled()) {
-      return NodeValueDatabase();
+      return {};
     }
 
     if (ignore.contains(input)) {
@@ -115,7 +115,7 @@ NodeValue NodeTraverser::GenerateRowValueElement(const Node *node, const QString
 
   if (value_index == -1) {
     // If value is still -1, assume the table is empty and return nothing
-    return NodeValue();
+    return {};
   }
 
   NodeValue value = table->TakeAt(value_index);
@@ -326,7 +326,7 @@ NodeValueTable NodeTraverser::GenerateTable(const Node *n, const TimeRange &rang
 TexturePtr NodeTraverser::ProcessVideoCacheJob(const CacheJob *val) { return nullptr; }
 
 QVector2D NodeTraverser::GenerateResolution() const {
-  return QVector2D(video_params_.square_pixel_width(), video_params_.height());
+  return {static_cast<float>(video_params_.square_pixel_width()), static_cast<float>(video_params_.height())};
 }
 
 void NodeTraverser::ResolveJobs(NodeValue &val) {

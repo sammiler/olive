@@ -24,10 +24,11 @@
 #include <QLabel>
 #include <QMessageBox>
 #include <QVBoxLayout>
+#include <utility>
 
 namespace olive {
 
-ExportSavePresetDialog::ExportSavePresetDialog(const EncodingParams &p, QWidget *parent) : QDialog(parent), params_(p) {
+ExportSavePresetDialog::ExportSavePresetDialog(EncodingParams p, QWidget *parent) : QDialog(parent), params_(std::move(p)) {
   auto layout = new QVBoxLayout(this);
 
   name_edit_ = new QLineEdit();

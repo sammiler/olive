@@ -157,7 +157,7 @@ ProjectSerializer210528::LoadData ProjectSerializer210528::Load(Project *project
     }
   }
 
-  return LoadData();
+  return {};
 }
 
 void ProjectSerializer210528::LoadNode(Node *node, XMLNodeData &xml_node_data, QXmlStreamReader *reader) const {

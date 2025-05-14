@@ -53,7 +53,7 @@ void ProjectViewModel::set_project(Project *p) {
 QModelIndex ProjectViewModel::index(int row, int column, const QModelIndex &parent) const {
   // I'm actually not 100% sure what this does, but it seems logical and was in the earlier code
   if (!hasIndex(row, column, parent)) {
-    return QModelIndex();
+    return {};
   }
 
   // Get the parent object, we assume it's a folder since only folders can have children
@@ -72,7 +72,7 @@ QModelIndex ProjectViewModel::parent(const QModelIndex &child) const {
 
   // If the parent is the root, return an empty index
   if (par == project_->root()) {
-    return QModelIndex();
+    return {};
   }
 
   // Otherwise return a true index to its parent
@@ -169,7 +169,7 @@ QVariant ProjectViewModel::data(const QModelIndex &index, int role) const {
       return internal_item->data(Node::TOOLTIP);
   }
 
-  return QVariant();
+  return {};
 }
 
 QVariant ProjectViewModel::headerData(int section, Qt::Orientation orientation, int role) const {
@@ -218,7 +218,7 @@ bool ProjectViewModel::setData(const QModelIndex &index, const QVariant &value, 
 
       nrc->AddNode(item, value.toString());
 
-      Core::instance()->undo_stack()->push(nrc, tr("Renamed Item \"%1\" to \"%2\"").arg(item->GetLabel(), new_name));
+      Core::instance()->undo_stack()->push(nrc, tr(R"(Renamed Item "%1" to "%2")").arg(item->GetLabel(), new_name));
 
       return true;
     }

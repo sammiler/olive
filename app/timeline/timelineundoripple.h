@@ -21,6 +21,8 @@
 #ifndef TIMELINEUNDORIPPLE_H
 #define TIMELINEUNDORIPPLE_H
 
+#include <utility>
+
 #include "node/block/gap/gap.h"
 #include "node/output/track/track.h"
 #include "node/output/track/tracklist.h"
@@ -170,7 +172,7 @@ class TimelineRippleDeleteGapsAtRegionsCommand : public UndoCommand {
  public:
   using RangeList = QVector<QPair<Track*, TimeRange> >;
 
-  TimelineRippleDeleteGapsAtRegionsCommand(Sequence* vo, const RangeList& regions) : timeline_(vo), regions_(regions) {}
+  TimelineRippleDeleteGapsAtRegionsCommand(Sequence* vo, RangeList  regions) : timeline_(vo), regions_(std::move(regions)) {}
 
   ~TimelineRippleDeleteGapsAtRegionsCommand() override { qDeleteAll(commands_); }
 

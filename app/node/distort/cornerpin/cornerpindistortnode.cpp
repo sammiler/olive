@@ -123,18 +123,18 @@ QPointF CornerPinDistortNode::ValueToPixel(int value, const NodeValueRow &row, c
   switch (value) {
     case 0:  // Top left
       v = row[kTopLeftInput].toVec2();
-      return QPointF(v.x(), v.y());
+      return {v.x(), v.y()};
     case 1:  // Top right
       v = row[kTopRightInput].toVec2();
-      return QPointF(resolution.x() + v.x(), v.y());
+      return {resolution.x() + v.x(), v.y()};
     case 2:  // Bottom right
       v = row[kBottomRightInput].toVec2();
-      return QPointF(resolution.x() + v.x(), resolution.y() + v.y());
+      return {resolution.x() + v.x(), resolution.y() + v.y()};
     case 3:  // Bottom left
       v = row[kBottomLeftInput].toVec2();
-      return QPointF(v.x(), v.y() + resolution.y());
+      return {v.x(), v.y() + resolution.y()};
     default:  // We should never get here
-      return QPointF();
+      return {};
   }
 }
 

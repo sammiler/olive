@@ -37,7 +37,7 @@ class TimelineMarker : public QObject {
   Q_OBJECT
  public:
   explicit TimelineMarker(QObject* parent = nullptr);
-  TimelineMarker(int color, const TimeRange& time, const QString& name = QString(), QObject* parent = nullptr);
+  TimelineMarker(int color, const TimeRange& time, QString  name = QString(), QObject* parent = nullptr);
 
   [[nodiscard]] const TimeRange& time() const { return time_; }
   void set_time(const TimeRange& time);

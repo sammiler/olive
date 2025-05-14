@@ -21,6 +21,7 @@
 #include "encoder.h"
 
 #include <QFile>
+#include <utility>
 
 #include "common/xmlutils.h"
 #include "ffmpeg/ffmpegencoder.h"
@@ -32,7 +33,7 @@ const QRegularExpression Encoder::kImageSequenceContainsDigits = QRegularExpress
 const QRegularExpression Encoder::kImageSequenceRemoveDigits =
     QRegularExpression(QStringLiteral("[\\-\\.\\ \\_]?\\[[#]+\\]"));
 
-Encoder::Encoder(const EncodingParams &params) : params_(params) {}
+Encoder::Encoder(EncodingParams params) : params_(std::move(params)) {}
 
 const EncodingParams &Encoder::params() const { return params_; }
 
@@ -297,10 +298,10 @@ Encoder *Encoder::CreateFromFormat(ExportFormat::Format f, const EncodingParams 
 
 Encoder *Encoder::CreateFromParams(const EncodingParams &params) { return CreateFromFormat(params.format(), params); }
 
-QStringList Encoder::GetPixelFormatsForCodec(ExportCodec::Codec c) const { return QStringList(); }
+QStringList Encoder::GetPixelFormatsForCodec(ExportCodec::Codec c) const { return {}; }
 
 std::vector<SampleFormat> Encoder::GetSampleFormatsForCodec(ExportCodec::Codec c) const {
-  return std::vector<SampleFormat>();
+  return {};
 }
 
 QMatrix4x4 EncodingParams::GenerateMatrix(EncodingParams::VideoScalingMethod method, int source_width,

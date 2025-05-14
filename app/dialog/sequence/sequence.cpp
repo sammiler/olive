@@ -28,6 +28,7 @@
 #include <QPushButton>
 #include <QSplitter>
 #include <QVBoxLayout>
+#include <utility>
 
 #include "common/channellayout.h"
 #include "common/qtutils.h"
@@ -166,13 +167,13 @@ void SequenceDialog::SetAsDefaultClicked() {
   }
 }
 
-SequenceDialog::SequenceParamCommand::SequenceParamCommand(Sequence* s, const VideoParams& video_params,
-                                                           const AudioParams& audio_params, const QString& name,
+SequenceDialog::SequenceParamCommand::SequenceParamCommand(Sequence* s, VideoParams  video_params,
+                                                           AudioParams  audio_params, QString  name,
                                                            bool autocache)
     : sequence_(s),
-      new_video_params_(video_params),
-      new_audio_params_(audio_params),
-      new_name_(name),
+      new_video_params_(std::move(video_params)),
+      new_audio_params_(std::move(audio_params)),
+      new_name_(std::move(name)),
       new_autocache_(autocache),
       old_video_params_(s->GetVideoParams()),
       old_audio_params_(s->GetAudioParams()),

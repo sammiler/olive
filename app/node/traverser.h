@@ -89,14 +89,14 @@ class NodeTraverser {
 
   virtual SampleBuffer CreateSampleBuffer(const AudioParams &params, int sample_count) {
     // Return dummy by default
-    return SampleBuffer();
+    return {};
   }
 
   SampleBuffer CreateSampleBuffer(const AudioParams &params, const rational &length) {
     if (params.is_valid()) {
       return CreateSampleBuffer(params, params.time_to_samples(length));
     } else {
-      return SampleBuffer();
+      return {};
     }
   }
 

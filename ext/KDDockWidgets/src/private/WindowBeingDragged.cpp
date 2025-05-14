@@ -134,7 +134,7 @@ QSize WindowBeingDragged::size() const
     if (m_floatingWindow)
         return m_floatingWindow->size();
 
-    return QSize();
+    return {};
 }
 
 QSize WindowBeingDragged::minSize() const
@@ -271,7 +271,7 @@ QSize WindowBeingDraggedWayland::size() const
         return m_dockWidget->size();
 
     qWarning() << Q_FUNC_INFO << "Unknown size, shouldn't happen";
-    return QSize();
+    return {};
 }
 
 QSize WindowBeingDraggedWayland::minSize() const

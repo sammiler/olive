@@ -38,11 +38,11 @@ class Bezier {
   [[nodiscard]] const double &cp2_x() const { return cp2_x_; }
   [[nodiscard]] const double &cp2_y() const { return cp2_y_; }
 
-  [[nodiscard]] Imath::V2d to_vec() const { return Imath::V2d(x_, y_); }
+  [[nodiscard]] Imath::V2d to_vec() const { return {x_, y_}; }
 
-  [[nodiscard]] Imath::V2d control_point_1_to_vec() const { return Imath::V2d(cp1_x_, cp1_y_); }
+  [[nodiscard]] Imath::V2d control_point_1_to_vec() const { return {cp1_x_, cp1_y_}; }
 
-  [[nodiscard]] Imath::V2d control_point_2_to_vec() const { return Imath::V2d(cp2_x_, cp2_y_); }
+  [[nodiscard]] Imath::V2d control_point_2_to_vec() const { return {cp2_x_, cp2_y_}; }
 
   void set_x(const double &x) { x_ = x; }
   void set_y(const double &y) { y_ = y; }

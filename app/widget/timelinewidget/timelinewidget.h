@@ -24,6 +24,7 @@
 #include <QRubberBand>
 #include <QScrollBar>
 #include <QWidget>
+#include <utility>
 
 #include "core.h"
 #include "node/block/transition/transition.h"
@@ -223,9 +224,9 @@ class TimelineWidget : public TimeBasedWidget {
 
   class SetSelectionsCommand : public UndoCommand {
    public:
-    SetSelectionsCommand(TimelineWidget* timeline, const TimelineWidgetSelections& now,
-                         const TimelineWidgetSelections& old, bool process_block_changes = true)
-        : timeline_(timeline), old_(old), now_(now), process_block_changes_(process_block_changes) {}
+    SetSelectionsCommand(TimelineWidget* timeline, TimelineWidgetSelections  now,
+                         TimelineWidgetSelections  old, bool process_block_changes = true)
+        : timeline_(timeline), old_(std::move(old)), now_(std::move(now)), process_block_changes_(process_block_changes) {}
 
     [[nodiscard]] Project* GetRelevantProject() const override { return nullptr; }
 

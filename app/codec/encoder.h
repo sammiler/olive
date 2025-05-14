@@ -168,7 +168,7 @@ class EncodingParams {
 class Encoder : public QObject {
   Q_OBJECT
  public:
-  explicit Encoder(const EncodingParams& params);
+  explicit Encoder(EncodingParams  params);
 
   enum Type { kEncoderTypeNone = -1, kEncoderTypeFFmpeg, kEncoderTypeOIIO };
 

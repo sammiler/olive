@@ -719,7 +719,7 @@ int TimelineView::GetTrackHeight(int track_index) const {
 }
 
 QPoint TimelineView::GetScrollCoordinates() const {
-  return QPoint(horizontalScrollBar()->value(), verticalScrollBar()->value());
+  return {horizontalScrollBar()->value(), verticalScrollBar()->value()};
 }
 
 void TimelineView::SetScrollCoordinates(const QPoint &pt) {

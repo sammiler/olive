@@ -177,7 +177,7 @@ Qt::Alignment TextGeneratorV3::GetQtAlignmentFromOurs(VerticalAlignment v) {
     case kVAlignBottom:
       return Qt::AlignBottom;
   }
-  return Qt::Alignment();
+  return {};
 }
 
 TextGeneratorV3::VerticalAlignment TextGeneratorV3::GetOurAlignmentFromQts(Qt::Alignment v) {

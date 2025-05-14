@@ -59,7 +59,7 @@ bool ProjectSaveTask::Run() {
       SetError(tr("Failed to open file \"%1\" for writing.").arg(result.GetDetails()));
       break;
     case ProjectSerializer::kOverwriteError:
-      SetError(tr("Failed to overwrite \"%1\". Project has been saved as \"%2\" instead.")
+      SetError(tr(R"(Failed to overwrite "%1". Project has been saved as "%2" instead.)")
                    .arg(using_filename, result.GetDetails()));
       success = true;
       break;

@@ -21,6 +21,7 @@
 #include "nodeparamviewconnectedlabel.h"
 
 #include <QHBoxLayout>
+#include <utility>
 
 #include "common/qtutils.h"
 #include "core.h"
@@ -31,8 +32,8 @@
 
 namespace olive {
 
-NodeParamViewConnectedLabel::NodeParamViewConnectedLabel(const NodeInput &input, QWidget *parent)
-    : QWidget(parent), input_(input), connected_node_(nullptr), viewer_(nullptr) {
+NodeParamViewConnectedLabel::NodeParamViewConnectedLabel(NodeInput input, QWidget *parent)
+    : QWidget(parent), input_(std::move(input)), connected_node_(nullptr), viewer_(nullptr) {
   auto *layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
 

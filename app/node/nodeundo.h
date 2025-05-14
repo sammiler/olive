@@ -21,6 +21,8 @@
 #ifndef NODEUNDO_H
 #define NODEUNDO_H
 
+#include <utility>
+
 #include "node/node.h"
 #include "node/project.h"
 #include "undo/undocommand.h"
@@ -113,7 +115,7 @@ class NodeRemovePositionFromAllContextsCommand : public UndoCommand {
 
 class NodeArrayInsertCommand : public UndoCommand {
  public:
-  NodeArrayInsertCommand(Node* node, const QString& input, int index) : node_(node), input_(input), index_(index) {}
+  NodeArrayInsertCommand(Node* node, QString  input, int index) : node_(node), input_(std::move(input)), index_(index) {}
 
   [[nodiscard]] Project* GetRelevantProject() const override;
 
@@ -130,7 +132,7 @@ class NodeArrayInsertCommand : public UndoCommand {
 
 class NodeArrayResizeCommand : public UndoCommand {
  public:
-  NodeArrayResizeCommand(Node* node, const QString& input, int size) : node_(node), input_(input), size_(size) {}
+  NodeArrayResizeCommand(Node* node, QString  input, int size) : node_(node), input_(std::move(input)), size_(size) {}
 
   [[nodiscard]] Project* GetRelevantProject() const override;
 
@@ -176,7 +178,7 @@ class NodeArrayResizeCommand : public UndoCommand {
 
 class NodeArrayRemoveCommand : public UndoCommand {
  public:
-  NodeArrayRemoveCommand(Node* node, const QString& input, int index) : node_(node), input_(input), index_(index) {}
+  NodeArrayRemoveCommand(Node* node, QString  input, int index) : node_(node), input_(std::move(input)), index_(index) {}
 
   [[nodiscard]] Project* GetRelevantProject() const override;
 
@@ -227,7 +229,7 @@ class NodeArrayRemoveCommand : public UndoCommand {
  */
 class NodeEdgeRemoveCommand : public UndoCommand {
  public:
-  NodeEdgeRemoveCommand(Node* output, const NodeInput& input);
+  NodeEdgeRemoveCommand(Node* output, NodeInput  input);
 
   [[nodiscard]] Project* GetRelevantProject() const override;
 
@@ -247,7 +249,7 @@ class NodeEdgeRemoveCommand : public UndoCommand {
  */
 class NodeEdgeAddCommand : public UndoCommand {
  public:
-  NodeEdgeAddCommand(Node* output, const NodeInput& input);
+  NodeEdgeAddCommand(Node* output, NodeInput  input);
 
   ~NodeEdgeAddCommand() override;
 
@@ -508,7 +510,7 @@ class NodeViewDeleteCommand : public UndoCommand {
 
 class NodeParamSetKeyframingCommand : public UndoCommand {
  public:
-  NodeParamSetKeyframingCommand(const NodeInput& input, bool setting);
+  NodeParamSetKeyframingCommand(NodeInput  input, bool setting);
 
   [[nodiscard]] Project* GetRelevantProject() const override;
 
@@ -578,8 +580,8 @@ class NodeParamSetKeyframeTimeCommand : public UndoCommand {
 
 class NodeParamSetKeyframeValueCommand : public UndoCommand {
  public:
-  NodeParamSetKeyframeValueCommand(NodeKeyframe* key, const QVariant& value);
-  NodeParamSetKeyframeValueCommand(NodeKeyframe* key, const QVariant& new_value, const QVariant& old_value);
+  NodeParamSetKeyframeValueCommand(NodeKeyframe* key, QVariant  value);
+  NodeParamSetKeyframeValueCommand(NodeKeyframe* key, QVariant  new_value, QVariant  old_value);
 
   [[nodiscard]] Project* GetRelevantProject() const override;
 
@@ -596,9 +598,9 @@ class NodeParamSetKeyframeValueCommand : public UndoCommand {
 
 class NodeParamSetStandardValueCommand : public UndoCommand {
  public:
-  NodeParamSetStandardValueCommand(const NodeKeyframeTrackReference& input, const QVariant& value);
-  NodeParamSetStandardValueCommand(const NodeKeyframeTrackReference& input, const QVariant& new_value,
-                                   const QVariant& old_value);
+  NodeParamSetStandardValueCommand(NodeKeyframeTrackReference  input, QVariant  value);
+  NodeParamSetStandardValueCommand(NodeKeyframeTrackReference  input, QVariant  new_value,
+                                   QVariant  old_value);
 
   [[nodiscard]] Project* GetRelevantProject() const override;
 
@@ -615,9 +617,9 @@ class NodeParamSetStandardValueCommand : public UndoCommand {
 
 class NodeParamSetSplitStandardValueCommand : public UndoCommand {
  public:
-  NodeParamSetSplitStandardValueCommand(const NodeInput& input, const SplitValue& new_value,
-                                        const SplitValue& old_value)
-      : ref_(input), old_value_(old_value), new_value_(new_value) {}
+  NodeParamSetSplitStandardValueCommand(NodeInput  input, SplitValue  new_value,
+                                        SplitValue  old_value)
+      : ref_(std::move(input)), old_value_(std::move(old_value)), new_value_(std::move(new_value)) {}
 
   NodeParamSetSplitStandardValueCommand(const NodeInput& input, const SplitValue& value)
       : NodeParamSetSplitStandardValueCommand(input, value, input.node()->GetSplitStandardValue(input.input())) {}
@@ -638,7 +640,7 @@ class NodeParamSetSplitStandardValueCommand : public UndoCommand {
 
 class NodeParamArrayAppendCommand : public UndoCommand {
  public:
-  NodeParamArrayAppendCommand(Node* node, const QString& input);
+  NodeParamArrayAppendCommand(Node* node, QString  input);
 
   [[nodiscard]] Project* GetRelevantProject() const override;
 
@@ -655,7 +657,7 @@ class NodeParamArrayAppendCommand : public UndoCommand {
 
 class NodeSetValueHintCommand : public UndoCommand {
  public:
-  NodeSetValueHintCommand(const NodeInput& input, const Node::ValueHint& hint) : input_(input), new_hint_(hint) {}
+  NodeSetValueHintCommand(NodeInput  input, Node::ValueHint  hint) : input_(std::move(input)), new_hint_(std::move(hint)) {}
 
   NodeSetValueHintCommand(Node* node, const QString& input, int element, const Node::ValueHint& hint)
       : NodeSetValueHintCommand(NodeInput(node, input, element), hint) {}

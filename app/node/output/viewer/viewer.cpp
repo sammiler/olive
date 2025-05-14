@@ -147,7 +147,7 @@ VideoParams ViewerOutput::GetFirstEnabledVideoStream() const {
     }
   }
 
-  return VideoParams();
+  return {};
 }
 
 AudioParams ViewerOutput::GetFirstEnabledAudioStream() const {
@@ -161,7 +161,7 @@ AudioParams ViewerOutput::GetFirstEnabledAudioStream() const {
     }
   }
 
-  return AudioParams();
+  return {};
 }
 
 SubtitleParams ViewerOutput::GetFirstEnabledSubtitleStream() const {
@@ -175,7 +175,7 @@ SubtitleParams ViewerOutput::GetFirstEnabledSubtitleStream() const {
     }
   }
 
-  return SubtitleParams();
+  return {};
 }
 
 void ViewerOutput::set_default_parameters() {

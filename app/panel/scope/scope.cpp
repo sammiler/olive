@@ -76,7 +76,7 @@ QString ScopePanel::TypeToName(ScopePanel::Type t) {
       break;
   }
 
-  return QString();
+  return {};
 }
 
 void ScopePanel::SetViewerPanel(ViewerPanelBase* vp) {

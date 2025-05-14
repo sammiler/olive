@@ -25,6 +25,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
+#include <utility>
 
 #include "common/qtutils.h"
 #include "config/config.h"
@@ -38,10 +39,10 @@
 
 namespace olive {
 
-NodeViewItem::NodeViewItem(Node *node, const QString &input, int element, Node *context, QGraphicsItem *parent)
+NodeViewItem::NodeViewItem(Node *node, QString input, int element, Node *context, QGraphicsItem *parent)
     : QGraphicsRectItem(parent),
       node_(node),
-      input_(input),
+      input_(std::move(input)),
       element_(element),
       context_(context),
       expanded_(false),

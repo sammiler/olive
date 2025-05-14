@@ -73,7 +73,7 @@ int Frame::generate_linesize_bytes(int width, PixelFormat format, int channel_co
 
 Color Frame::get_pixel(int x, int y) const {
   if (!contains_pixel(x, y)) {
-    return Color();
+    return {};
   }
 
   int byte_offset = y * linesize_bytes() + x * video_params().GetBytesPerPixel();

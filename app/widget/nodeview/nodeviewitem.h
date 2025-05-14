@@ -45,7 +45,7 @@ class NodeViewEdge;
 class NodeViewItem : public QObject, public QGraphicsRectItem {
   Q_OBJECT
  public:
-  NodeViewItem(Node *node, const QString &input, int element, Node *context, QGraphicsItem *parent = nullptr);
+  NodeViewItem(Node *node, QString input, int element, Node *context, QGraphicsItem *parent = nullptr);
   NodeViewItem(Node *node, Node *context, QGraphicsItem *parent = nullptr)
       : NodeViewItem(node, QString(), -1, context, parent) {}
 

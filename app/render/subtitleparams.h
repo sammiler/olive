@@ -21,11 +21,12 @@
 #ifndef SUBTITLEPARAMS_H
 #define SUBTITLEPARAMS_H
 
-#include <olive/core/core.h>
 #include <QRect>
 #include <QString>
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
+#include <olive/core/core.h>
+#include <utility>
 
 using namespace olive::core;
 
@@ -35,7 +36,7 @@ class Subtitle {
  public:
   Subtitle() = default;
 
-  Subtitle(const TimeRange &time, const QString &text) : range_(time), text_(text) {}
+  Subtitle(const TimeRange &time, QString text) : range_(time), text_(std::move(text)) {}
 
   [[nodiscard]] const TimeRange &time() const { return range_; }
   void set_time(const TimeRange &t) { range_ = t; }

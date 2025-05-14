@@ -20,13 +20,15 @@
 
 #include "inputimmediate.h"
 
+#include <utility>
+
 #include "common/lerp.h"
 #include "common/tohex.h"
 
 namespace olive {
 
-NodeInputImmediate::NodeInputImmediate(NodeValue::Type type, const SplitValue& default_val)
-    : default_value_(default_val), keyframing_(false) {
+NodeInputImmediate::NodeInputImmediate(NodeValue::Type type, SplitValue  default_val)
+    : default_value_(std::move(default_val)), keyframing_(false) {
   set_data_type(type);
 }
 

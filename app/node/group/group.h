@@ -21,6 +21,8 @@
 #ifndef NODEGROUP_H
 #define NODEGROUP_H
 
+#include <utility>
+
 #include "node/node.h"
 
 namespace olive {
@@ -68,7 +70,7 @@ class NodeGroup : public Node {
         return it->first;
       }
     }
-    return QString();
+    return {};
   }
 
   [[nodiscard]] NodeInput GetInputFromID(const QString &id) const {
@@ -77,7 +79,7 @@ class NodeGroup : public Node {
         return it->second;
       }
     }
-    return NodeInput();
+    return {};
   }
 
  signals:
@@ -95,8 +97,8 @@ class NodeGroup : public Node {
 
 class NodeGroupAddInputPassthrough : public UndoCommand {
  public:
-  NodeGroupAddInputPassthrough(NodeGroup *group, const NodeInput &input, const QString &force_id = QString())
-      : group_(group), input_(input), actually_added_(false) {}
+  NodeGroupAddInputPassthrough(NodeGroup *group, NodeInput input, const QString &force_id = QString())
+      : group_(group), input_(std::move(input)), actually_added_(false) {}
 
   [[nodiscard]] Project *GetRelevantProject() const override { return group_->project(); }
 

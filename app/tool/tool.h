@@ -151,7 +151,7 @@ class Tool {
         break;
     }
 
-    return QString();
+    return {};
   }
 };
 

@@ -33,7 +33,7 @@ double GetFloatRatioFromUser(QWidget* parent, const QString& title, bool* ok_in)
     bool ok;
 
     s = QInputDialog::getText(
-        parent, title, QCoreApplication::translate("RatioDialog", "Enter custom ratio (e.g. \"4:3\", \"16/9\", etc.):"),
+        parent, title, QCoreApplication::translate("RatioDialog", R"(Enter custom ratio (e.g. "4:3", "16/9", etc.):)"),
         QLineEdit::Normal, s, &ok);
 
     if (!ok) {

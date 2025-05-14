@@ -52,7 +52,7 @@ class NodeKeyframe : public QObject {
   /**
    * @brief NodeKeyframe Constructor
    */
-  NodeKeyframe(const rational& time, const QVariant& value, Type type, int track, int element, const QString& input,
+  NodeKeyframe(const rational& time, QVariant  value, Type type, int track, int element, QString  input,
                QObject* parent = nullptr);
   NodeKeyframe();
 

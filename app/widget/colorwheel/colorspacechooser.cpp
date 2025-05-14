@@ -127,7 +127,7 @@ QString ColorSpaceChooser::input() const {
   if (input_combobox_) {
     return input_combobox_->currentText();
   } else {
-    return QString();
+    return {};
   }
 }
 

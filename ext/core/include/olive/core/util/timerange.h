@@ -186,7 +186,7 @@ class TimeRangeList {
 class TimeRangeListFrameIterator {
  public:
   TimeRangeListFrameIterator();
-  TimeRangeListFrameIterator(const TimeRangeList& list, const rational& timebase);
+  TimeRangeListFrameIterator(TimeRangeList  list, const rational& timebase);
 
   [[nodiscard]] rational Snap(const rational& r) const;
 

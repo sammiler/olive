@@ -28,7 +28,7 @@ ProjectExplorerListViewItemDelegate::ProjectExplorerListViewItemDelegate(QObject
     : QStyledItemDelegate(parent) {}
 
 QSize ProjectExplorerListViewItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &) const {
-  return QSize(option.decorationSize.height(), option.decorationSize.height());
+  return {option.decorationSize.height(), option.decorationSize.height()};
 }
 
 void ProjectExplorerListViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,

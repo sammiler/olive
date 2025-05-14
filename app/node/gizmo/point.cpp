@@ -79,7 +79,7 @@ QRectF PointGizmo::GetDrawingRect(const QTransform &transform, double radius) co
     height *= 0.5;
   }
 
-  return QRectF(point_.x() - width, point_.y() - height, 2 * width, 2 * height);
+  return {point_.x() - width, point_.y() - height, 2 * width, 2 * height};
 }
 
 }  // namespace olive

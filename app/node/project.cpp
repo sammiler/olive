@@ -307,7 +307,7 @@ QString Project::get_cache_alongside_project_path() const {
     // Non-translated string so the path doesn't change if the language does
     return QFileInfo(filename_).dir().filePath(QStringLiteral("cache"));
   }
-  return QString();
+  return {};
 }
 
 QString Project::cache_path() const {

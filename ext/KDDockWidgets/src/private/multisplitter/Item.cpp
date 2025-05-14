@@ -539,7 +539,7 @@ QRect Item::geometry() const
 
 QRect Item::rect() const
 {
-    return QRect(0, 0, width(), height());
+    return {0, 0, width(), height()};
 }
 
 bool Item::isContainer() const
@@ -1802,7 +1802,7 @@ QSize ItemBoxContainer::Private::minSize(const Item::List &items) const
             minW += separatorWaste;
     }
 
-    return QSize(minW, minH);
+    return {minW, minH};
 }
 
 QSize ItemBoxContainer::minSize() const

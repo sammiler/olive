@@ -63,7 +63,7 @@ class PanelWidget : public KDDockWidgets::DockWidget {
   using Info = std::map<QString, QString>;
 
   virtual void LoadData(const Info& info) {}
-  [[nodiscard]] virtual Info SaveData() const { return Info(); }
+  [[nodiscard]] virtual Info SaveData() const { return {}; }
 
   /**
    * @brief Called whenever this panel is focused and user uses "Zoom In" (either in menus or as a keyboard shortcut)

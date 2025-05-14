@@ -21,6 +21,8 @@
 #ifndef FOOTAGEDESCRIPTION_H
 #define FOOTAGEDESCRIPTION_H
 
+#include <utility>
+
 #include "node/output/track/track.h"
 #include "render/subtitleparams.h"
 #include "render/videoparams.h"
@@ -29,7 +31,7 @@ namespace olive {
 
 class FootageDescription {
  public:
-  explicit FootageDescription(const QString& decoder = QString()) : decoder_(decoder), total_stream_count_(0) {}
+  explicit FootageDescription(QString  decoder = QString()) : decoder_(std::move(decoder)), total_stream_count_(0) {}
 
   [[nodiscard]] bool IsValid() const {
     return !decoder_.isEmpty() &&

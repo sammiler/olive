@@ -57,7 +57,7 @@ QVariant IntegerSlider::StringToValue(const QString &s, bool *ok) const {
     return qRound(decimal_val);
   }
 
-  return QVariant();
+  return {};
 }
 
 void IntegerSlider::ValueSignalEvent(const QVariant &value) { emit ValueChanged(value.toInt()); }

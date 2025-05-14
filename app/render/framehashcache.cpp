@@ -66,7 +66,7 @@ QString FrameHashCache::GetValidCacheFilename(const rational &time) const {
     }
   }
 
-  return QString();
+  return {};
 }
 
 bool FrameHashCache::SaveCacheFrame(const int64_t &time, FramePtr frame) const {

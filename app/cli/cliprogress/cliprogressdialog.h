@@ -30,7 +30,7 @@ namespace olive {
 
 class CLIProgressDialog : public QObject {
  public:
-  explicit CLIProgressDialog(const QString& title, QObject* parent = nullptr);
+  explicit CLIProgressDialog(QString  title, QObject* parent = nullptr);
 
  public slots:
   void SetProgress(double p);

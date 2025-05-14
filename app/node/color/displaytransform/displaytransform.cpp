@@ -73,7 +73,7 @@ QString DisplayTransformNode::GetDisplay() const {
       return manager()->ListAvailableDisplays().at(index);
     }
   }
-  return QString();
+  return {};
 }
 
 QString DisplayTransformNode::GetView() const {
@@ -87,7 +87,7 @@ QString DisplayTransformNode::GetView() const {
       }
     }
   }
-  return QString();
+  return {};
 }
 
 ColorProcessor::Direction DisplayTransformNode::GetDirection() const {

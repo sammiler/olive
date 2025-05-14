@@ -21,6 +21,8 @@
 #ifndef FOOTAGEJOB_H
 #define FOOTAGEJOB_H
 
+#include <utility>
+
 #include "node/project/footage/footage.h"
 
 namespace olive {
@@ -29,9 +31,9 @@ class FootageJob : public AcceleratedJob {
  public:
   FootageJob() : type_(Track::kNone) {}
 
-  FootageJob(const TimeRange& time, const QString& decoder, const QString& filename, Track::Type type,
+  FootageJob(const TimeRange& time, QString  decoder, QString  filename, Track::Type type,
              const rational& length, LoopMode loop_mode)
-      : time_(time), decoder_(decoder), filename_(filename), type_(type), length_(length), loop_mode_(loop_mode) {}
+      : time_(time), decoder_(std::move(decoder)), filename_(std::move(filename)), type_(type), length_(length), loop_mode_(loop_mode) {}
 
   [[nodiscard]] const QString& decoder() const { return decoder_; }
 

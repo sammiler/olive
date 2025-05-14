@@ -32,7 +32,7 @@ namespace olive {
 class ExportSavePresetDialog : public QDialog {
   Q_OBJECT
  public:
-  explicit ExportSavePresetDialog(const EncodingParams &p, QWidget *parent = nullptr);
+  explicit ExportSavePresetDialog(EncodingParams p, QWidget *parent = nullptr);
 
   [[nodiscard]] QString GetSelectedPresetName() const { return name_edit_->text(); }
 

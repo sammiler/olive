@@ -22,6 +22,7 @@
 #define NODEGLOBALS_H
 
 #include <QVector2D>
+#include <utility>
 
 #include "render/loopmode.h"
 #include "render/videoparams.h"
@@ -32,8 +33,8 @@ class NodeGlobals {
  public:
   NodeGlobals() = default;
 
-  NodeGlobals(const VideoParams &vparam, const AudioParams &aparam, const TimeRange &time, LoopMode loop_mode)
-      : video_params_(vparam), audio_params_(aparam), time_(time), loop_mode_(loop_mode) {}
+  NodeGlobals(VideoParams vparam, AudioParams aparam, const TimeRange &time, LoopMode loop_mode)
+      : video_params_(std::move(vparam)), audio_params_(std::move(aparam)), time_(time), loop_mode_(loop_mode) {}
 
   NodeGlobals(const VideoParams &vparam, const AudioParams &aparam, const rational &time, LoopMode loop_mode)
       : NodeGlobals(vparam, aparam, TimeRange(time, time + vparam.frame_rate_as_time_base()), loop_mode) {}

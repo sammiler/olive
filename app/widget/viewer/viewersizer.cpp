@@ -58,8 +58,8 @@ void ViewerSizer::SetWidget(QWidget *widget) {
 
 QSize ViewerSizer::GetContainerSize() const {
   double s = GetRealCurrentZoom();
-  return QSize(std::min(this->width(), int(width_ * s)) - vert_scrollbar_->width(),
-               std::min(int(height_ * s), this->height()) - horiz_scrollbar_->height());
+  return {std::min(this->width(), int(width_ * s)) - vert_scrollbar_->width(),
+               std::min(int(height_ * s), this->height()) - horiz_scrollbar_->height()};
 }
 
 void ViewerSizer::SetChildSize(int width, int height) {

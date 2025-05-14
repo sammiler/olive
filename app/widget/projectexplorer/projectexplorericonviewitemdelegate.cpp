@@ -32,7 +32,7 @@ ProjectExplorerIconViewItemDelegate::ProjectExplorerIconViewItemDelegate(QObject
 QSize ProjectExplorerIconViewItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &) const {
   Q_UNUSED(option)
 
-  return QSize(256, 256);
+  return {256, 256};
 }
 
 void ProjectExplorerIconViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,

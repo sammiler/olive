@@ -38,7 +38,7 @@ class NodeViewItem;
  */
 class NodeViewEdge : public QGraphicsPathItem {
  public:
-  NodeViewEdge(Node* output, const NodeInput& input, NodeViewItem* from_item, NodeViewItem* to_item,
+  NodeViewEdge(Node* output, NodeInput  input, NodeViewItem* from_item, NodeViewItem* to_item,
                QGraphicsItem* parent = nullptr);
 
   explicit NodeViewEdge(QGraphicsItem* parent = nullptr);

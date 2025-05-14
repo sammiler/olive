@@ -224,7 +224,7 @@ QPointF NodeViewContext::MapScenePosToNodePosInContext(const QPointF &pos) const
     QPointF pos_inside_parent = it.value()->mapToParent(it.value()->mapFromScene(pos));
     return NodeViewItem::ScreenToNodePoint(pos_inside_parent, flow_dir_);
   }
-  return QPointF(0, 0);
+  return {0, 0};
 }
 
 void NodeViewContext::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {

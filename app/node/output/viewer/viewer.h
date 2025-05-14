@@ -67,7 +67,7 @@ class ViewerOutput : public Node {
     if (index < InputArraySize(kVideoParamsInput)) {
       return GetStandardValue(kVideoParamsInput, index).value<VideoParams>();
     } else {
-      return VideoParams();
+      return {};
     }
   }
 
@@ -77,7 +77,7 @@ class ViewerOutput : public Node {
     if (index < InputArraySize(kAudioParamsInput)) {
       return GetStandardValue(kAudioParamsInput, index).value<AudioParams>();
     } else {
-      return AudioParams();
+      return {};
     }
   }
 
@@ -87,7 +87,7 @@ class ViewerOutput : public Node {
     if (index < InputArraySize(kSubtitleParamsInput)) {
       return GetStandardValue(kSubtitleParamsInput, index).value<SubtitleParams>();
     } else {
-      return SubtitleParams();
+      return {};
     }
   }
 

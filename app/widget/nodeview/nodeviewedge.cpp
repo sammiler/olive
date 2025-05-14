@@ -24,6 +24,7 @@
 #include <QDebug>
 #include <QGraphicsSceneMouseEvent>
 #include <QStyleOptionGraphicsItem>
+#include <utility>
 
 #include "common/lerp.h"
 #include "nodeview.h"
@@ -34,9 +35,9 @@ namespace olive {
 
 #define super QGraphicsPathItem
 
-NodeViewEdge::NodeViewEdge(Node *output, const NodeInput &input, NodeViewItem *from_item, NodeViewItem *to_item,
+NodeViewEdge::NodeViewEdge(Node *output, NodeInput input, NodeViewItem *from_item, NodeViewItem *to_item,
                            QGraphicsItem *parent)
-    : super(parent), output_(output), input_(input), from_item_(from_item), to_item_(to_item) {
+    : super(parent), output_(output), input_(std::move(input)), from_item_(from_item), to_item_(to_item) {
   Init();
   SetConnected(true);
 

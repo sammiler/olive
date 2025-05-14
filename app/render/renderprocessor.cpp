@@ -24,6 +24,7 @@
 #include <QVector2D>
 #include <QVector3D>
 #include <QVector4D>
+#include <utility>
 
 #include "audio/audioprocessor.h"
 #include "node/block/clip/clip.h"
@@ -37,7 +38,7 @@ namespace olive {
 
 RenderProcessor::RenderProcessor(RenderTicketPtr ticket, Renderer *render_ctx, DecoderCache *decoder_cache,
                                  ShaderCache *shader_cache)
-    : ticket_(ticket), render_ctx_(render_ctx), decoder_cache_(decoder_cache), shader_cache_(shader_cache) {}
+    : ticket_(std::move(ticket)), render_ctx_(render_ctx), decoder_cache_(decoder_cache), shader_cache_(shader_cache) {}
 
 TexturePtr RenderProcessor::GenerateTexture(const rational &time, const rational &frame_length) {
   TimeRange range = TimeRange(time, time + frame_length);

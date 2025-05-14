@@ -20,6 +20,8 @@
 
 #include "tracklist.h"
 
+#include <utility>
+
 #include "node/factory.h"
 #include "node/math/math/math.h"
 #include "node/math/merge/merge.h"
@@ -28,8 +30,8 @@
 
 namespace olive {
 
-TrackList::TrackList(Sequence *parent, const Track::Type &type, const QString &track_input)
-    : QObject(parent), track_input_(track_input), total_length_(0), type_(type) {}
+TrackList::TrackList(Sequence *parent, const Track::Type &type, QString track_input)
+    : QObject(parent), track_input_(std::move(track_input)), total_length_(0), type_(type) {}
 
 Track *TrackList::GetTrackAt(int index) const {
   if (index >= 0 && index < track_cache_.size()) {

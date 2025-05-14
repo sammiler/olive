@@ -27,6 +27,7 @@
 #include <QPointF>
 #include <QXmlStreamWriter>
 #include <map>
+#include <utility>
 
 #include "codec/frame.h"
 #include "common/xmlutils.h"
@@ -187,7 +188,7 @@ class Node : public QObject {
 
   [[nodiscard]] const QVector<QString>& inputs() const { return input_ids_; }
 
-  [[nodiscard]] virtual QVector<QString> IgnoreInputsForRendering() const { return QVector<QString>(); }
+  [[nodiscard]] virtual QVector<QString> IgnoreInputsForRendering() const { return {}; }
 
   class ActiveElements {
    public:
@@ -224,8 +225,8 @@ class Node : public QObject {
 
   [[nodiscard]] AudioWaveformCache* waveform_cache() const { return waveform_cache_; }
 
-  [[nodiscard]] virtual TimeRange GetVideoCacheRange() const { return TimeRange(); }
-  [[nodiscard]] virtual TimeRange GetAudioCacheRange() const { return TimeRange(); }
+  [[nodiscard]] virtual TimeRange GetVideoCacheRange() const { return {}; }
+  [[nodiscard]] virtual TimeRange GetAudioCacheRange() const { return {}; }
 
   struct Position {
     explicit Position(const QPointF& p = QPointF(0, 0), bool e = false) {
@@ -508,15 +509,15 @@ class Node : public QObject {
   class ValueHint {
    public:
     explicit ValueHint(const QVector<NodeValue::Type>& types = QVector<NodeValue::Type>(), int index = -1,
-                       const QString& tag = QString())
-        : type_(types), index_(index), tag_(tag) {}
+                       QString  tag = QString())
+        : type_(types), index_(index), tag_(std::move(tag)) {}
 
-    explicit ValueHint(const QVector<NodeValue::Type>& types, const QString& tag)
-        : type_(types), index_(-1), tag_(tag) {}
+    explicit ValueHint(const QVector<NodeValue::Type>& types, QString  tag)
+        : type_(types), index_(-1), tag_(std::move(tag)) {}
 
     explicit ValueHint(int index) : index_(index) {}
 
-    explicit ValueHint(const QString& tag) : index_(-1), tag_(tag) {}
+    explicit ValueHint(QString  tag) : index_(-1), tag_(std::move(tag)) {}
 
     [[nodiscard]] const QVector<NodeValue::Type>& types() const { return type_; }
     [[nodiscard]] const int& index() const { return index_; }
@@ -744,7 +745,7 @@ class Node : public QObject {
   [[nodiscard]] const QVector<NodeGizmo*>& GetGizmos() const { return gizmos_; }
 
   [[nodiscard]] virtual QTransform GizmoTransformation(const NodeValueRow& row, const NodeGlobals& globals) const {
-    return QTransform();
+    return {};
   }
 
   virtual void UpdateGizmoPositions(const NodeValueRow& row, const NodeGlobals& globals) {}

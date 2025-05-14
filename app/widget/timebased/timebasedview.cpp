@@ -147,9 +147,9 @@ void TimeBasedView::SetViewerNode(ViewerOutput *v) {
   }
 }
 
-QPointF TimeBasedView::ScalePoint(const QPointF &p) const { return QPointF(p.x() * GetScale(), p.y() * GetYScale()); }
+QPointF TimeBasedView::ScalePoint(const QPointF &p) const { return {p.x() * GetScale(), p.y() * GetYScale()}; }
 
-QPointF TimeBasedView::UnscalePoint(const QPointF &p) const { return QPointF(p.x() / GetScale(), p.y() / GetYScale()); }
+QPointF TimeBasedView::UnscalePoint(const QPointF &p) const { return {p.x() / GetScale(), p.y() / GetYScale()}; }
 
 void TimeBasedView::drawForeground(QPainter *painter, const QRectF &rect) {
   QGraphicsView::drawForeground(painter, rect);

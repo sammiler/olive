@@ -476,7 +476,7 @@ QPointF CurveView::GenerateBezierControlPosition(const NodeKeyframe::BezierType 
 }
 
 QPointF CurveView::GetScaledCursorPos(const QPointF &cursor_pos) {
-  return QPointF(cursor_pos.x() / GetScale(), cursor_pos.y() / GetYScale());
+  return {cursor_pos.x() / GetScale(), cursor_pos.y() / GetYScale()};
 }
 
 void CurveView::ZoomToFitInternal(bool selected_only) {
@@ -560,7 +560,7 @@ qreal CurveView::GetUnscaledItemYFromKeyframeValue(NodeKeyframe *key) {
 
 QPointF CurveView::ScalePoint(const QPointF &point) {
   // Flips Y coordinate because curves are drawn bottom to top
-  return QPointF(point.x() * GetScale(), -point.y() * GetYScale());
+  return {point.x() * GetScale(), -point.y() * GetYScale()};
 }
 
 FloatSlider::DisplayType CurveView::GetFloatDisplayTypeFromKeyframe(NodeKeyframe *key) {
@@ -591,7 +591,7 @@ double CurveView::GetOffsetFromKeyframe(NodeKeyframe *key) {
 }
 
 QPointF CurveView::GetKeyframePosition(NodeKeyframe *key) {
-  return QPointF(GetKeyframeSceneX(key), GetItemYFromKeyframeValue(key));
+  return {GetKeyframeSceneX(key), GetItemYFromKeyframeValue(key)};
 }
 
 void CurveView::ZoomToFit() { ZoomToFitInternal(false); }

@@ -25,6 +25,7 @@
 #include <QInputDialog>
 #include <QLabel>
 #include <QMessageBox>
+#include <utility>
 
 #include "common/ocioutils.h"
 #include "core.h"
@@ -186,7 +187,7 @@ VideoStreamProperties::VideoStreamChangeCommand::VideoStreamChangeCommand(Footag
     : footage_(footage),
       video_index_(video_index),
       new_premultiplied_(premultiplied),
-      new_colorspace_(colorspace),
+      new_colorspace_(std::move(colorspace)),
       new_interlacing_(interlacing),
       new_pixel_ar_(pixel_ar),
       new_range_(range) {}

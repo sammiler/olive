@@ -40,8 +40,8 @@ namespace olive::core {
 class SampleBuffer {
  public:
   SampleBuffer();
-  SampleBuffer(const AudioParams& audio_params, const rational& length);
-  SampleBuffer(const AudioParams& audio_params, size_t samples_per_channel);
+  SampleBuffer(AudioParams  audio_params, const rational& length);
+  SampleBuffer(AudioParams  audio_params, size_t samples_per_channel);
 
   [[nodiscard]] const AudioParams& audio_params() const;
   void set_audio_params(const AudioParams& params);

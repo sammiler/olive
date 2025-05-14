@@ -154,7 +154,7 @@ QVariant RenderTicketWatcher::Get() {
   if (ticket_) {
     return ticket_->Get();
   } else {
-    return QVariant();
+    return {};
   }
 }
 

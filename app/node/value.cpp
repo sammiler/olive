@@ -64,7 +64,7 @@ QString NodeValue::ValueToString(Type data_type, const QVariant &value, bool val
     return QString::fromStdString(value.value<rational>().toString());
   } else if (data_type == kTexture || data_type == kSamples || data_type == kNone) {
     // These data types need no XML representation
-    return QString();
+    return {};
   } else if (data_type == kInt) {
     return QString::number(value.value<int64_t>());
   } else if (data_type == kBinary) {
@@ -78,7 +78,7 @@ QString NodeValue::ValueToString(Type data_type, const QVariant &value, bool val
       qWarning() << "Failed to convert type" << ToHex(data_type) << "to string";
     }
 
-    return QString();
+    return {};
   }
 }
 
@@ -134,7 +134,7 @@ QVector<QVariant> NodeValue::split_normal_value_into_track_values(Type type, con
 
 QVariant NodeValue::combine_track_values_into_normal_value(Type type, const QVector<QVariant> &split) {
   if (split.isEmpty()) {
-    return QVariant();
+    return {};
   }
 
   switch (type) {
@@ -327,7 +327,7 @@ QString NodeValue::GetDataTypeName(Type type) {
       break;
   }
 
-  return QString();
+  return {};
 }
 
 NodeValue::Type NodeValue::GetDataTypeFromName(const QString &n) {
@@ -349,7 +349,7 @@ NodeValue NodeValueTable::Get(const QVector<NodeValue::Type> &type, const QStrin
     return values_.at(value_index);
   }
 
-  return NodeValue();
+  return {};
 }
 
 NodeValue NodeValueTable::Take(const QVector<NodeValue::Type> &type, const QString &tag) {
@@ -359,7 +359,7 @@ NodeValue NodeValueTable::Take(const QVector<NodeValue::Type> &type, const QStri
     return values_.takeAt(value_index);
   }
 
-  return NodeValue();
+  return {};
 }
 
 bool NodeValueTable::Has(NodeValue::Type type) const {

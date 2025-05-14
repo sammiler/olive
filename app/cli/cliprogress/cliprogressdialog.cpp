@@ -21,11 +21,12 @@
 #include "cliprogressdialog.h"
 
 #include <iostream>
+#include <utility>
 
 namespace olive {
 
-CLIProgressDialog::CLIProgressDialog(const QString& title, QObject* parent)
-    : QObject(parent), title_(title), progress_(-1), drawn_(false) {
+CLIProgressDialog::CLIProgressDialog(QString  title, QObject* parent)
+    : QObject(parent), title_(std::move(title)), progress_(-1), drawn_(false) {
   SetProgress(0);
 }
 

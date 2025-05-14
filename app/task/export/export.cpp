@@ -185,7 +185,7 @@ bool ExportTask::Run() {
   } else if (params_.filename() != real_filename) {
     // If we were writing to a temp file, overwrite now
     if (!FileFunctions::RenameFileAllowOverwrite(params_.filename(), real_filename)) {
-      SetError(tr("Failed to overwrite \"%1\". Export has been saved as \"%2\" instead.")
+      SetError(tr(R"(Failed to overwrite "%1". Export has been saved as "%2" instead.)")
                    .arg(real_filename, params_.filename()));
       success = false;
     }

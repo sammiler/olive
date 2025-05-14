@@ -22,6 +22,8 @@
 
 #include <KDDockWidgets/src/private/Position_p.h>
 
+#include <utility>
+
 namespace olive {
 
 void NodeSetPositionCommand::redo() {
@@ -105,8 +107,8 @@ void NodeSetPositionAndDependenciesRecursivelyCommand::move_recursively(Node *no
   }
 }
 
-NodeEdgeAddCommand::NodeEdgeAddCommand(Node *output, const NodeInput &input)
-    : output_(output), input_(input), remove_command_(nullptr) {}
+NodeEdgeAddCommand::NodeEdgeAddCommand(Node *output, NodeInput input)
+    : output_(output), input_(std::move(input)), remove_command_(nullptr) {}
 
 NodeEdgeAddCommand::~NodeEdgeAddCommand() { delete remove_command_; }
 
@@ -132,7 +134,7 @@ void NodeEdgeAddCommand::undo() {
 
 Project *NodeEdgeAddCommand::GetRelevantProject() const { return output_->project(); }
 
-NodeEdgeRemoveCommand::NodeEdgeRemoveCommand(Node *output, const NodeInput &input) : output_(output), input_(input) {}
+NodeEdgeRemoveCommand::NodeEdgeRemoveCommand(Node *output, NodeInput input) : output_(output), input_(std::move(input)) {}
 
 void NodeEdgeRemoveCommand::redo() { Node::DisconnectEdge(output_, input_); }
 
@@ -303,8 +305,8 @@ void NodeViewDeleteCommand::undo() {
   }
 }
 
-NodeParamSetKeyframingCommand::NodeParamSetKeyframingCommand(const NodeInput &input, bool setting)
-    : input_(input), new_setting_(setting) {}
+NodeParamSetKeyframingCommand::NodeParamSetKeyframingCommand(NodeInput input, bool setting)
+    : input_(std::move(input)), new_setting_(setting) {}
 
 Project *NodeParamSetKeyframingCommand::GetRelevantProject() const { return input_.node()->project(); }
 
@@ -315,12 +317,12 @@ void NodeParamSetKeyframingCommand::redo() {
 
 void NodeParamSetKeyframingCommand::undo() { input_.node()->SetInputIsKeyframing(input_, old_setting_); }
 
-NodeParamSetKeyframeValueCommand::NodeParamSetKeyframeValueCommand(NodeKeyframe *key, const QVariant &value)
-    : key_(key), old_value_(key_->value()), new_value_(value) {}
+NodeParamSetKeyframeValueCommand::NodeParamSetKeyframeValueCommand(NodeKeyframe *key, QVariant value)
+    : key_(key), old_value_(key_->value()), new_value_(std::move(value)) {}
 
-NodeParamSetKeyframeValueCommand::NodeParamSetKeyframeValueCommand(NodeKeyframe *key, const QVariant &new_value,
-                                                                   const QVariant &old_value)
-    : key_(key), old_value_(old_value), new_value_(new_value) {}
+NodeParamSetKeyframeValueCommand::NodeParamSetKeyframeValueCommand(NodeKeyframe *key, QVariant new_value,
+                                                                   QVariant old_value)
+    : key_(key), old_value_(std::move(old_value)), new_value_(std::move(new_value)) {}
 
 Project *NodeParamSetKeyframeValueCommand::GetRelevantProject() const { return key_->parent()->project(); }
 
@@ -365,13 +367,13 @@ void NodeParamSetKeyframeTimeCommand::redo() { key_->set_time(new_time_); }
 
 void NodeParamSetKeyframeTimeCommand::undo() { key_->set_time(old_time_); }
 
-NodeParamSetStandardValueCommand::NodeParamSetStandardValueCommand(const NodeKeyframeTrackReference &input,
-                                                                   const QVariant &value)
-    : ref_(input), old_value_(ref_.input().node()->GetStandardValue(ref_.input())), new_value_(value) {}
+NodeParamSetStandardValueCommand::NodeParamSetStandardValueCommand(NodeKeyframeTrackReference input,
+                                                                   QVariant value)
+    : ref_(std::move(input)), old_value_(ref_.input().node()->GetStandardValue(ref_.input())), new_value_(std::move(value)) {}
 
-NodeParamSetStandardValueCommand::NodeParamSetStandardValueCommand(const NodeKeyframeTrackReference &input,
-                                                                   const QVariant &new_value, const QVariant &old_value)
-    : ref_(input), old_value_(old_value), new_value_(new_value) {}
+NodeParamSetStandardValueCommand::NodeParamSetStandardValueCommand(NodeKeyframeTrackReference input,
+                                                                   QVariant new_value, QVariant old_value)
+    : ref_(std::move(input)), old_value_(std::move(old_value)), new_value_(std::move(new_value)) {}
 
 Project *NodeParamSetStandardValueCommand::GetRelevantProject() const { return ref_.input().node()->project(); }
 
@@ -379,8 +381,8 @@ void NodeParamSetStandardValueCommand::redo() { ref_.input().node()->SetSplitSta
 
 void NodeParamSetStandardValueCommand::undo() { ref_.input().node()->SetSplitStandardValueOnTrack(ref_, old_value_); }
 
-NodeParamArrayAppendCommand::NodeParamArrayAppendCommand(Node *node, const QString &input)
-    : node_(node), input_(input) {}
+NodeParamArrayAppendCommand::NodeParamArrayAppendCommand(Node *node, QString input)
+    : node_(node), input_(std::move(input)) {}
 
 Project *NodeParamArrayAppendCommand::GetRelevantProject() const { return node_->project(); }
 

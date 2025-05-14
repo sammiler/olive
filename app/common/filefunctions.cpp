@@ -35,7 +35,7 @@ QString FileFunctions::GetUniqueFileIdentifier(const QString &filename) {
   QFileInfo info(filename);
 
   if (!info.exists()) {
-    return QString();
+    return {};
   }
 
   QCryptographicHash hash(QCryptographicHash::Sha1);

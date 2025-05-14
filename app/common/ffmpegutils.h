@@ -85,7 +85,7 @@ class FFmpegUtils {
 
 using AVFramePtr = std::shared_ptr<AVFrame>;
 inline AVFramePtr CreateAVFramePtr(AVFrame* f) {
-  return std::shared_ptr<AVFrame>(f, [](AVFrame* g) { av_frame_free(&g); });
+  return {f, [](AVFrame* g) { av_frame_free(&g); }};
 }
 inline AVFramePtr CreateAVFramePtr() { return CreateAVFramePtr(av_frame_alloc()); }
 

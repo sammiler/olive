@@ -21,6 +21,7 @@
 #include "timelinemarker.h"
 
 #include <QApplication>
+#include <utility>
 
 #include "common/qtutils.h"
 #include "common/xmlutils.h"
@@ -32,8 +33,8 @@ namespace olive {
 
 TimelineMarker::TimelineMarker(QObject *parent) : color_(OLIVE_CONFIG("MarkerColor").toInt()) { setParent(parent); }
 
-TimelineMarker::TimelineMarker(int color, const TimeRange &time, const QString &name, QObject *parent)
-    : time_(time), name_(name), color_(color) {
+TimelineMarker::TimelineMarker(int color, const TimeRange &time, QString name, QObject *parent)
+    : time_(time), name_(std::move(name)), color_(color) {
   setParent(parent);
 }
 
@@ -117,7 +118,7 @@ QRect TimelineMarker::Draw(QPainter *p, const QPoint &pt, int max_right, double 
       p->drawText(text_rect, name_, op);
     }
 
-    return QRect(left, top, marker_width, marker_height);
+    return {left, top, marker_width, marker_height};
   }
 }
 
@@ -288,7 +289,7 @@ void MarkerChangeColorCommand::redo() {
 void MarkerChangeColorCommand::undo() { marker_->set_color(old_color_); }
 
 MarkerChangeNameCommand::MarkerChangeNameCommand(TimelineMarker *marker, QString new_name)
-    : marker_(marker), new_name_(new_name) {}
+    : marker_(marker), new_name_(std::move(new_name)) {}
 
 Project *MarkerChangeNameCommand::GetRelevantProject() const { return Project::GetProjectFromObject(marker_); }
 

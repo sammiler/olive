@@ -1037,7 +1037,7 @@ QString ViewerWidget::GetCachedFilenameFromTime(const rational &time) {
     return GetConnectedNode()->video_frame_cache()->GetValidCacheFilename(time);
   }
 
-  return QString();
+  return {};
 }
 
 bool ViewerWidget::FrameExistsAtTime(const rational &time) {

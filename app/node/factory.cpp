@@ -171,7 +171,7 @@ QString NodeFactory::GetIDFromMenuAction(QAction* action) {
   int index = action->data().toInt();
 
   if (index == -1) {
-    return QString();
+    return {};
   }
 
   return library_.at(action->data().toInt())->id();
@@ -186,7 +186,7 @@ QString NodeFactory::GetNameFromID(const QString& id) {
     }
   }
 
-  return QString();
+  return {};
 }
 
 Node* NodeFactory::CreateFromID(const QString& id) {

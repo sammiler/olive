@@ -100,7 +100,7 @@ QString ExportFormat::GetExtension(ExportFormat::Format f) {
       break;
   }
 
-  return QString();
+  return {};
 }
 
 QList<ExportCodec::Codec> ExportFormat::GetVideoCodecs(ExportFormat::Format f) {

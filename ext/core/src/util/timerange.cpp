@@ -236,8 +236,8 @@ TimeRangeList TimeRangeList::Intersects(const TimeRange &range) const {
 
 TimeRangeListFrameIterator::TimeRangeListFrameIterator() : TimeRangeListFrameIterator(TimeRangeList(), rational::NaN) {}
 
-TimeRangeListFrameIterator::TimeRangeListFrameIterator(const TimeRangeList &list, const rational &timebase)
-    : list_(list), timebase_(timebase), range_index_(-1), size_(-1), frame_index_(0), custom_range_(false) {
+TimeRangeListFrameIterator::TimeRangeListFrameIterator(TimeRangeList list, const rational &timebase)
+    : list_(std::move(list)), timebase_(timebase), range_index_(-1), size_(-1), frame_index_(0), custom_range_(false) {
   if (!list_.isEmpty() && timebase_.isNull()) {
     std::cerr << "TimeRangeListFrameIterator created with null timebase but non-empty list, this will likely lead to "
                  "infinite loops"

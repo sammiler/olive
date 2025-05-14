@@ -25,6 +25,7 @@
 #include <QString>
 #include <QVariant>
 #include <QVector>
+#include <utility>
 
 #include "common/qtutils.h"
 #include "node/splitvalue.h"
@@ -200,8 +201,8 @@ class NodeValue {
   NodeValue() : type_(kNone), from_(nullptr), array_(false) {}
 
   template <typename T>
-  NodeValue(Type type, const T& data, const Node* from = nullptr, bool array = false, const QString& tag = QString())
-      : type_(type), from_(from), tag_(tag), array_(array) {
+  NodeValue(Type type, const T& data, const Node* from = nullptr, bool array = false, QString  tag = QString())
+      : type_(type), from_(from), tag_(std::move(tag)), array_(array) {
     set_value(data);
   }
 

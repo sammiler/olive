@@ -125,7 +125,7 @@ class Track : public Node {
     [[nodiscard]] QString ToString() const {
       QString type_string = TypeToString(type_);
       if (type_string.isEmpty()) {
-        return QString();
+        return {};
       } else {
         return QStringLiteral("%1:%2").arg(type_string, QString::number(index_));
       }
@@ -145,7 +145,7 @@ class Track : public Node {
           break;
       }
 
-      return QString();
+      return {};
     }
 
     /// For human-facing strings
@@ -162,7 +162,7 @@ class Track : public Node {
           break;
       }
 
-      return QString();
+      return {};
     }
 
     static Type TypeFromString(const QString& s) {

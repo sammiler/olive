@@ -200,14 +200,14 @@ QVariant UndoStack::data(const QModelIndex &index, int role) const {
     }
   }
 
-  return QVariant();
+  return {};
 }
 
 QModelIndex UndoStack::index(int row, int column, const QModelIndex &parent) const {
   return createIndex(row, column, nullptr);
 }
 
-QModelIndex UndoStack::parent(const QModelIndex &index) const { return QModelIndex(); }
+QModelIndex UndoStack::parent(const QModelIndex &index) const { return {}; }
 
 int UndoStack::rowCount(const QModelIndex &parent) const {
   if (parent.isValid()) {
@@ -227,7 +227,7 @@ QVariant UndoStack::headerData(int section, Qt::Orientation orientation, int rol
     }
   }
 
-  return QVariant();
+  return {};
 }
 
 bool UndoStack::hasChildren(const QModelIndex &parent) const { return !parent.isValid(); }

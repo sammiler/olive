@@ -20,6 +20,7 @@
 
 #include "core.h"
 
+#include "window/mainwindow/mainwindowundo.h"
 #include <QApplication>
 #include <QClipboard>
 #include <QDebug>
@@ -29,7 +30,7 @@
 #include <QInputDialog>
 #include <QMessageBox>
 #include <QStyleFactory>
-#include "window/mainwindow/mainwindowundo.h"
+#include <utility>
 #ifdef Q_OS_WINDOWS
 #include <QtPlatformHeaders/QWindowsWindowFunctions>
 #endif
@@ -82,13 +83,13 @@ namespace olive {
 
 Core* Core::instance_ = nullptr;
 
-Core::Core(const CoreParams& params)
+Core::Core(CoreParams  params)
     : main_window_(nullptr),
       open_project_(nullptr),
       tool_(Tool::kPointer),
       addable_object_(Tool::kAddableEmpty),
       snapping_(true),
-      core_params_(params),
+      core_params_(std::move(params)),
       magic_(false),
       pixel_sampling_users_(0),
       shown_cache_full_warning_(false) {

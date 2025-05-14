@@ -30,7 +30,7 @@ namespace olive {
 class ConformTask : public Task {
   Q_OBJECT
  public:
-  ConformTask(const QString &decoder_id, const Decoder::CodecStream &stream, const AudioParams &params,
+  ConformTask(QString decoder_id, const Decoder::CodecStream &stream, AudioParams params,
               const QVector<QString> &output_filenames);
 
  protected:

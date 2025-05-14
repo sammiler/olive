@@ -553,7 +553,7 @@ QPointF ViewerDisplayWidget::GetTexturePosition(const QSize &size) {
 }
 
 QPointF ViewerDisplayWidget::GetTexturePosition(const double &x, const double &y) {
-  return QPointF(x / gizmo_params_.width(), y / gizmo_params_.height());
+  return {x / gizmo_params_.width(), y / gizmo_params_.height()};
 }
 
 void ViewerDisplayWidget::DrawTextWithCrudeShadow(QPainter *painter, const QRect &rect, const QString &text,

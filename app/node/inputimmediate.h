@@ -32,7 +32,7 @@ class NodeInput;
 
 class NodeInputImmediate {
  public:
-  NodeInputImmediate(NodeValue::Type type, const SplitValue& default_val);
+  NodeInputImmediate(NodeValue::Type type, SplitValue  default_val);
 
   /**
    * @brief Internal insert function, automatically does an insertion sort based on the keyframe's time

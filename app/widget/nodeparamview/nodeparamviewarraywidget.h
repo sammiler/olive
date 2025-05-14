@@ -48,7 +48,7 @@ class NodeParamViewArrayButton : public QPushButton {
 class NodeParamViewArrayWidget : public QWidget {
   Q_OBJECT
  public:
-  NodeParamViewArrayWidget(Node* node, const QString& input, QWidget* parent = nullptr);
+  NodeParamViewArrayWidget(Node* node, QString  input, QWidget* parent = nullptr);
 
  signals:
   void DoubleClicked();

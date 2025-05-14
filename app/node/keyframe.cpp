@@ -20,20 +20,22 @@
 
 #include "keyframe.h"
 
+#include <utility>
+
 #include "node.h"
 
 namespace olive {
 
 const NodeKeyframe::Type NodeKeyframe::kDefaultType = kLinear;
 
-NodeKeyframe::NodeKeyframe(const rational &time, const QVariant &value, Type type, int track, int element,
-                           const QString &input, QObject *parent)
+NodeKeyframe::NodeKeyframe(const rational &time, QVariant value, Type type, int track, int element,
+                           QString input, QObject *parent)
     : time_(time),
-      value_(value),
+      value_(std::move(value)),
       type_(type),
       bezier_control_in_(QPointF(0.0, 0.0)),
       bezier_control_out_(QPointF(0.0, 0.0)),
-      input_(input),
+      input_(std::move(input)),
       track_(track),
       element_(element),
       previous_(nullptr),
@@ -126,7 +128,7 @@ QPointF NodeKeyframe::valid_bezier_control_in() const {
     adjusted_x = qMax(adjusted_x, previous_->time().toDouble());
   }
 
-  return QPointF(adjusted_x - t, bezier_control_in_.y());
+  return {adjusted_x - t, bezier_control_in_.y()};
 }
 
 QPointF NodeKeyframe::valid_bezier_control_out() const {
@@ -138,7 +140,7 @@ QPointF NodeKeyframe::valid_bezier_control_out() const {
     adjusted_x = qMin(adjusted_x, next_->time().toDouble());
   }
 
-  return QPointF(adjusted_x - t, bezier_control_out_.y());
+  return {adjusted_x - t, bezier_control_out_.y()};
 }
 
 const QPointF &NodeKeyframe::bezier_control(NodeKeyframe::BezierType type) const {
