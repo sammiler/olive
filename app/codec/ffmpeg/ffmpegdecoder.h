@@ -137,7 +137,7 @@ class FFmpegDecoder : public Decoder {
 
   AVFramePtr PreProcessFrame(AVFramePtr f, const RetrieveVideoParams& p);
 
-  TexturePtr ProcessFrameIntoTexture(AVFramePtr f, const RetrieveVideoParams& p, const AVFramePtr original);
+  TexturePtr ProcessFrameIntoTexture(const AVFramePtr& f, const RetrieveVideoParams& p, const AVFramePtr& original);
 
   AVFramePtr RetrieveFrame(const rational& time, CancelAtom* cancelled);
 

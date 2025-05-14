@@ -144,7 +144,7 @@ class PresetManager {
 
   enum SaveStatus { kAppended, kReplaced, kNotSaved };
 
-  SaveStatus SavePreset(PresetPtr preset) {
+  SaveStatus SavePreset(const PresetPtr& preset) {
     QString preset_name;
     int existing_preset;
 

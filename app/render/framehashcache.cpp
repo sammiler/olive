@@ -29,6 +29,7 @@
 #include <OpenEXR/ImfOutputFile.h>
 #include <QDir>
 #include <QFileInfo>
+#include <utility>
 
 #include "codec/frame.h"
 #include "common/filefunctions.h"
@@ -70,7 +71,7 @@ QString FrameHashCache::GetValidCacheFilename(const rational &time) const {
 }
 
 bool FrameHashCache::SaveCacheFrame(const int64_t &time, FramePtr frame) const {
-  return SaveCacheFrame(GetCacheDirectory(), GetUuid(), time, frame);
+  return SaveCacheFrame(GetCacheDirectory(), GetUuid(), time, std::move(frame));
 }
 
 bool FrameHashCache::SaveCacheFrame(const QString &cache_path, const QUuid &uuid, const int64_t &time, FramePtr frame) {
@@ -81,7 +82,7 @@ bool FrameHashCache::SaveCacheFrame(const QString &cache_path, const QUuid &uuid
 
   QString fn = CachePathName(cache_path, uuid, time);
 
-  bool ret = SaveCacheFrame(fn, frame);
+  bool ret = SaveCacheFrame(fn, std::move(frame));
 
   // Register frame with the disk manager
   if (ret) {
@@ -100,7 +101,7 @@ bool FrameHashCache::SaveCacheFrame(const QString &cache_path, const QUuid &uuid
 
   QString fn = CachePathName(cache_path, uuid, time, tb);
 
-  bool ret = SaveCacheFrame(fn, frame);
+  bool ret = SaveCacheFrame(fn, std::move(frame));
 
   // Register frame with the disk manager
   if (ret) {
@@ -296,7 +297,7 @@ QString FrameHashCache::CachePathName(const QString &cache_path, const QUuid &ca
   return CachePathName(cache_path, cache_id, Timecode::time_to_timestamp(time, tb, Timecode::kRound));
 }
 
-bool FrameHashCache::SaveCacheFrame(const QString &filename, const FramePtr frame) {
+bool FrameHashCache::SaveCacheFrame(const QString &filename, const FramePtr& frame) {
   // Ensure directory is created
   QDir cache_dir = QFileInfo(filename).dir();
   if (!FileFunctions::DirectoryIsValid(cache_dir)) {

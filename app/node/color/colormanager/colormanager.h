@@ -53,7 +53,7 @@ class ColorManager : public QObject {
 
   QString GetDefaultDisplay();
 
-  QStringList ListAvailableViews(QString display);
+  QStringList ListAvailableViews(const QString& display);
 
   QString GetDefaultView(const QString& display);
 
@@ -71,7 +71,7 @@ class ColorManager : public QObject {
 
   ColorTransform GetCompliantColorSpace(const ColorTransform& transform, bool force_display = false);
 
-  static QStringList ListAvailableColorspaces(OCIO::ConstConfigRcPtr config);
+  static QStringList ListAvailableColorspaces(const OCIO::ConstConfigRcPtr& config);
 
   void GetDefaultLumaCoefs(double* rgb) const;
 

@@ -89,7 +89,7 @@ void Renderer::DestroyTexture(Texture *texture) {
   }
 }
 
-TexturePtr Renderer::InterlaceTexture(TexturePtr top, TexturePtr bottom, const VideoParams &params) {
+TexturePtr Renderer::InterlaceTexture(const TexturePtr& top, const TexturePtr& bottom, const VideoParams &params) {
   color_cache_mutex_.lock();
   if (interlace_texture_.isNull()) {
     interlace_texture_ =

@@ -132,7 +132,7 @@ class RenderTicketWatcher : public QObject {
 
   [[nodiscard]] RenderTicketPtr GetTicket() const { return ticket_; }
 
-  void SetTicket(RenderTicketPtr ticket);
+  void SetTicket(const RenderTicketPtr& ticket);
 
   bool IsRunning();
 

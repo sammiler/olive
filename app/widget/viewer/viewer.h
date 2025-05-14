@@ -215,7 +215,7 @@ class ViewerWidget : public TimeBasedWidget {
 
   bool ViewerMightBeAStill();
 
-  void SetDisplayImage(RenderTicketPtr ticket);
+  void SetDisplayImage(const RenderTicketPtr& ticket);
 
   RenderTicketWatcher* RequestNextFrameForQueue(bool increment = true);
 
@@ -227,7 +227,7 @@ class ViewerWidget : public TimeBasedWidget {
 
   static FramePtr DecodeCachedImage(const QString& cache_path, const QUuid& cache_id, const int64_t& time);
 
-  static void DecodeCachedImage(RenderTicketPtr ticket, const QString& cache_path, const QUuid& cache_id,
+  static void DecodeCachedImage(const RenderTicketPtr& ticket, const QString& cache_path, const QUuid& cache_id,
                                 const int64_t& time);
 
   [[nodiscard]] bool ShouldForceWaveform() const;

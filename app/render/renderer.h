@@ -24,6 +24,7 @@
 #include <QMutex>
 #include <QObject>
 #include <QVariant>
+#include <utility>
 
 #include "common/define.h"
 #include "node/node.h"
@@ -49,11 +50,11 @@ class Renderer : public QObject {
 
   void BlitToTexture(QVariant shader, olive::ShaderJob job, olive::Texture *destination,
                      bool clear_destination = true) {
-    Blit(shader, job, destination, destination->params(), clear_destination);
+    Blit(std::move(shader), std::move(job), destination, destination->params(), clear_destination);
   }
 
   void Blit(QVariant shader, olive::ShaderJob job, olive::VideoParams params, bool clear_destination = true) {
-    Blit(shader, job, nullptr, params, clear_destination);
+    Blit(std::move(shader), std::move(job), nullptr, std::move(params), clear_destination);
   }
 
   void BlitColorManaged(const ColorTransformJob &color_job, Texture *destination, const VideoParams &params);
@@ -64,7 +65,7 @@ class Renderer : public QObject {
     BlitColorManaged(job, nullptr, params);
   }
 
-  TexturePtr InterlaceTexture(TexturePtr top, TexturePtr bottom, const VideoParams &params);
+  TexturePtr InterlaceTexture(const TexturePtr& top, const TexturePtr& bottom, const VideoParams &params);
 
   QVariant GetDefaultShader();
 

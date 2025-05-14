@@ -308,7 +308,7 @@ NodeValueDatabase RenderProcessor::GenerateDatabase(const Node *node, const Time
 
 void RenderProcessor::Process(RenderTicketPtr ticket, Renderer *render_ctx, DecoderCache *decoder_cache,
                               ShaderCache *shader_cache) {
-  RenderProcessor p(ticket, render_ctx, decoder_cache, shader_cache);
+  RenderProcessor p(std::move(ticket), render_ctx, decoder_cache, shader_cache);
   p.Run();
 }
 
@@ -322,11 +322,11 @@ void RenderProcessor::ProcessVideoFootage(TexturePtr destination, const FootageJ
   // Check the still frame cache. On large frames such as high resolution still images, uploading
   // and color managing them for every frame is a waste of time, so we implement a small cache here
   // to optimize such a situation
-  VideoParams stream_data = stream->video_params();
+  const VideoParams& stream_data = stream->video_params();
 
   auto *color_manager = QtUtils::ValueToPtr<ColorManager>(ticket_->property("colormanager"));
 
-  QString using_colorspace = stream_data.colorspace();
+  const QString& using_colorspace = stream_data.colorspace();
 
   if (using_colorspace.isEmpty()) {
     // FIXME:
@@ -335,7 +335,7 @@ void RenderProcessor::ProcessVideoFootage(TexturePtr destination, const FootageJ
 
   Decoder::CodecStream default_codec_stream(stream->filename(), stream_data.stream_index(), GetCurrentBlock());
 
-  QString decoder_id = stream->decoder();
+  const QString& decoder_id = stream->decoder();
 
   DecoderPtr decoder = nullptr;
 
@@ -367,7 +367,7 @@ void RenderProcessor::ProcessVideoFootage(TexturePtr destination, const FootageJ
     p.maximum_format = destination->format();
 
     if (!IsCancelled()) {
-      VideoParams tex_params = stream->video_params();
+      const VideoParams& tex_params = stream->video_params();
 
       if (tex_params.is_valid()) {
         TexturePtr unmanaged_texture;

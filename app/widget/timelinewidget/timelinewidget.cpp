@@ -1803,7 +1803,7 @@ bool TimelineWidget::PasteInternal(bool insert) {
     }
   }
 
-  for (auto oc : res.GetLoadData().promised_connections) {
+  for (const auto& oc : res.GetLoadData().promised_connections) {
     command->add_child(new NodeEdgeAddCommand(oc.first, oc.second));
   }
 

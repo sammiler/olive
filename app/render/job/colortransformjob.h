@@ -23,6 +23,7 @@
 
 #include <QMatrix4x4>
 #include <QString>
+#include <utility>
 
 #include "acceleratedjob.h"
 #include "render/alphaassoc.h"
@@ -57,13 +58,13 @@ class ColorTransformJob : public AcceleratedJob {
 
   [[nodiscard]] const NodeValue &GetInputTexture() const { return input_texture_; }
   void SetInputTexture(const NodeValue &tex) { input_texture_ = tex; }
-  void SetInputTexture(TexturePtr tex) {
+  void SetInputTexture(const TexturePtr& tex) {
     Q_ASSERT(!tex->IsDummy());
     input_texture_ = NodeValue(NodeValue::kTexture, tex);
   }
 
   [[nodiscard]] ColorProcessorPtr GetColorProcessor() const { return processor_; }
-  void SetColorProcessor(ColorProcessorPtr p) { processor_ = p; }
+  void SetColorProcessor(ColorProcessorPtr p) { processor_ = std::move(p); }
 
   [[nodiscard]] const AlphaAssociated &GetInputAlphaAssociation() const { return input_alpha_association_; }
   void SetInputAlphaAssociation(const AlphaAssociated &e) { input_alpha_association_ = e; }

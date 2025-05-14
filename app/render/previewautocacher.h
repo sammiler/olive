@@ -22,6 +22,7 @@
 #define AUTOCACHER_H
 
 #include <QtConcurrent/QtConcurrent>
+#include <utility>
 
 #include "config/config.h"
 #include "node/color/colormanager/colormanager.h"
@@ -50,7 +51,7 @@ class PreviewAutoCacher : public QObject {
   RenderTicketPtr GetSingleFrame(ViewerOutput *viewer, const rational &t, bool dry = false);
   RenderTicketPtr GetSingleFrame(Node *n, ViewerOutput *viewer, const rational &t, bool dry = false);
 
-  RenderTicketPtr GetRangeOfAudio(ViewerOutput *viewer, TimeRange range);
+  RenderTicketPtr GetRangeOfAudio(ViewerOutput *viewer, const TimeRange& range);
 
   void ClearSingleFrameRenders();
   void ClearSingleFrameRendersThatArentRunning();
@@ -95,7 +96,7 @@ class PreviewAutoCacher : public QObject {
   void SetIgnoreCacheRequests(bool e) { ignore_cache_requests_ = e; }
 
  public slots:
-  void SetDisplayColorProcessor(ColorProcessorPtr processor) { display_color_processor_ = processor; }
+  void SetDisplayColorProcessor(ColorProcessorPtr processor) { display_color_processor_ = std::move(processor); }
 
  signals:
   void StopCacheProxyTasks();

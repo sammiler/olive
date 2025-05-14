@@ -48,7 +48,7 @@ ShaderCode GeneratorWithMerge::GetShaderCode(const ShaderRequest &request) const
   return ShaderCode();
 }
 
-void GeneratorWithMerge::PushMergableJob(const NodeValueRow &value, TexturePtr job, NodeValueTable *table) const {
+void GeneratorWithMerge::PushMergableJob(const NodeValueRow &value, const TexturePtr& job, NodeValueTable *table) const {
   if (TexturePtr base = value[kBaseInput].toTexture()) {
     // Push as merge node
     ShaderJob merge;

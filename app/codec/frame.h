@@ -49,7 +49,7 @@ class Frame {
   [[nodiscard]] const VideoParams& video_params() const;
   void set_video_params(const VideoParams& params);
 
-  static FramePtr Interlace(FramePtr top, FramePtr bottom);
+  static FramePtr Interlace(const FramePtr& top, const FramePtr& bottom);
 
   static int generate_linesize_bytes(int width, PixelFormat format, int channel_count);
 

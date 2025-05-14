@@ -67,8 +67,8 @@ bool FFmpegDecoder::OpenInternal() {
   return false;
 }
 
-TexturePtr FFmpegDecoder::ProcessFrameIntoTexture(AVFramePtr f, const RetrieveVideoParams &p,
-                                                  const AVFramePtr original) {
+TexturePtr FFmpegDecoder::ProcessFrameIntoTexture(const AVFramePtr& f, const RetrieveVideoParams &p,
+                                                  const AVFramePtr& original) {
   // Determine native format
   AVPixelFormat ideal_fmt = FFmpegUtils::GetCompatiblePixelFormat(static_cast<AVPixelFormat>(f->format));
   PixelFormat native_fmt = GetNativePixelFormat(ideal_fmt);

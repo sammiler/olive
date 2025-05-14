@@ -421,7 +421,7 @@ FramePtr ViewerWidget::DecodeCachedImage(const QString &cache_path, const QUuid 
   return frame;
 }
 
-void ViewerWidget::DecodeCachedImage(RenderTicketPtr ticket, const QString &cache_path, const QUuid &cache_id,
+void ViewerWidget::DecodeCachedImage(const RenderTicketPtr& ticket, const QString &cache_path, const QUuid &cache_id,
                                      const int64_t &time) {
   ticket->Start();
 
@@ -1049,7 +1049,7 @@ bool ViewerWidget::ViewerMightBeAStill() {
          GetConnectedNode()->GetVideoLength().isNull();
 }
 
-void ViewerWidget::SetDisplayImage(RenderTicketPtr ticket) {
+void ViewerWidget::SetDisplayImage(const RenderTicketPtr& ticket) {
   foreach (ViewerDisplayWidget *dw, playback_devices_) {
     QVariant push;
     if (ticket) {
@@ -1094,7 +1094,7 @@ RenderTicketPtr ViewerWidget::GetFrame(const rational &t) {
     // Frame has been cached, grab the frame
     RenderTicketPtr ticket = std::make_shared<RenderTicket>();
     ticket->setProperty("time", QVariant::fromValue(t));
-    QtConcurrent::run(static_cast<void (*)(RenderTicketPtr, const QString &, const QUuid &, const int64_t &)>(
+    QtConcurrent::run(static_cast<void (*)(const RenderTicketPtr &, const QString &, const QUuid &, const int64_t &)>(
                           ViewerWidget::DecodeCachedImage),
                       ticket, GetConnectedNode()->video_frame_cache()->GetCacheDirectory(),
                       GetConnectedNode()->video_frame_cache()->GetUuid(),

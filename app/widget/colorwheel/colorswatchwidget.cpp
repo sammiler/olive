@@ -21,6 +21,7 @@
 #include "colorswatchwidget.h"
 
 #include <QMouseEvent>
+#include <utility>
 
 #include "ui/colorcoding.h"
 
@@ -32,8 +33,8 @@ ColorSwatchWidget::ColorSwatchWidget(QWidget *parent)
 const Color &ColorSwatchWidget::GetSelectedColor() const { return selected_color_; }
 
 void ColorSwatchWidget::SetColorProcessor(ColorProcessorPtr to_linear, ColorProcessorPtr to_display) {
-  to_linear_processor_ = to_linear;
-  to_display_processor_ = to_display;
+  to_linear_processor_ = std::move(to_linear);
+  to_display_processor_ = std::move(to_display);
 
   // Force full update
   SelectedColorChangedEvent(GetSelectedColor(), true);

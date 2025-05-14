@@ -21,6 +21,8 @@
 #ifndef OCIOBASENODE_H
 #define OCIOBASENODE_H
 
+#include <utility>
+
 #include "node/node.h"
 #include "render/job/colortransformjob.h"
 
@@ -45,7 +47,7 @@ class OCIOBaseNode : public Node {
   [[nodiscard]] ColorManager *manager() const { return manager_; }
 
   [[nodiscard]] ColorProcessorPtr processor() const { return processor_; }
-  void set_processor(ColorProcessorPtr p) { processor_ = p; }
+  void set_processor(ColorProcessorPtr p) { processor_ = std::move(p); }
 
  private:
   ColorManager *manager_;

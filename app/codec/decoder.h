@@ -273,7 +273,7 @@ class Decoder : public QObject {
   int cached_divider_{};
 };
 
-uint qHash(Decoder::CodecStream stream, uint seed = 0);
+uint qHash(const Decoder::CodecStream& stream, uint seed = 0);
 
 }  // namespace olive
 

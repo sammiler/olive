@@ -47,8 +47,7 @@ Config &Config::self()
     return config;
 }
 
-Config::~Config()
-= default;
+
 
 int Config::separatorThickness() const
 {

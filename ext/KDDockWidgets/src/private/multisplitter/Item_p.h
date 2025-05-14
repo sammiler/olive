@@ -534,8 +534,8 @@ private:
     void onChildVisibleChanged(Item *child, bool visible) override;
     void updateSizeConstraints();
     [[nodiscard]] SizingInfo::List sizes(bool ignoreBeingInserted = false) const;
-    [[nodiscard]] QVector<int> calculateSqueezes(SizingInfo::List::ConstIterator begin,
-                                   SizingInfo::List::ConstIterator end, int needed,
+    [[nodiscard]] QVector<int> calculateSqueezes(const SizingInfo::List::ConstIterator& begin,
+                                   const SizingInfo::List::ConstIterator& end, int needed,
                                    NeighbourSqueezeStrategy, bool reversed = false) const;
     QRect suggestedDropRectFallback(const Item *item, const Item *relativeTo, KDDockWidgets::Location) const;
     void positionItems();

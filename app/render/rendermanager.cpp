@@ -146,7 +146,7 @@ RenderTicketPtr RenderManager::RenderAudio(const RenderAudioParams &params) {
   return ticket;
 }
 
-bool RenderManager::RemoveTicket(RenderTicketPtr ticket) {
+bool RenderManager::RemoveTicket(const RenderTicketPtr& ticket) {
   for (RenderThread *rt : render_threads_) {
     if (rt->RemoveTicket(ticket)) {
       return true;
@@ -195,14 +195,14 @@ RenderThread::RenderThread(Renderer *renderer, DecoderCache *decoder_cache, Shad
   }
 }
 
-void RenderThread::AddTicket(RenderTicketPtr ticket) {
+void RenderThread::AddTicket(const RenderTicketPtr& ticket) {
   QMutexLocker locker(&mutex_);
   ticket->moveToThread(this);
   queue_.push_back(ticket);
   wait_.wakeOne();
 }
 
-bool RenderThread::RemoveTicket(RenderTicketPtr ticket) {
+bool RenderThread::RemoveTicket(const RenderTicketPtr& ticket) {
   QMutexLocker locker(&mutex_);
 
   auto it = std::find(queue_.begin(), queue_.end(), ticket);

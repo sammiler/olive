@@ -418,7 +418,7 @@ class NodeUnlinkAllCommand : public UndoCommand {
 
 class NodeLinkManyCommand : public MultiUndoCommand {
  public:
-  NodeLinkManyCommand(const QVector<Node*> nodes, bool link) : nodes_(nodes) {
+  NodeLinkManyCommand(const QVector<Node*>& nodes, bool link) : nodes_(nodes) {
     foreach (Node* a, nodes_) {
       foreach (Node* b, nodes_) {
         if (a != b) {

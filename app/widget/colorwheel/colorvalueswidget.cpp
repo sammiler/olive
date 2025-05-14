@@ -23,6 +23,7 @@
 #include <QGridLayout>
 #include <QMouseEvent>
 #include <QTabWidget>
+#include <utility>
 
 #include "config/config.h"
 #include "core.h"
@@ -91,10 +92,10 @@ Color ColorValuesWidget::GetColor() const { return reference_tab_->GetColor(); }
 
 void ColorValuesWidget::SetColorProcessor(ColorProcessorPtr input_to_ref, ColorProcessorPtr ref_to_display,
                                           ColorProcessorPtr display_to_ref, ColorProcessorPtr ref_to_input) {
-  input_to_ref_ = input_to_ref;
-  ref_to_display_ = ref_to_display;
-  display_to_ref_ = display_to_ref;
-  ref_to_input_ = ref_to_input;
+  input_to_ref_ = std::move(input_to_ref);
+  ref_to_display_ = std::move(ref_to_display);
+  display_to_ref_ = std::move(display_to_ref);
+  ref_to_input_ = std::move(ref_to_input);
 
   UpdateValuesFromInput();
 

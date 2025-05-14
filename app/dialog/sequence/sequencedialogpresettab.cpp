@@ -28,6 +28,7 @@
 #include <QTreeWidgetItem>
 #include <QVBoxLayout>
 #include <QXmlStreamWriter>
+#include <utility>
 
 #include "common/filefunctions.h"
 #include "config/config.h"
@@ -77,7 +78,7 @@ SequenceDialogPresetTab::SequenceDialogPresetTab(QWidget* parent)
   }
 }
 
-void SequenceDialogPresetTab::SaveParametersAsPreset(SequencePreset preset) {
+void SequenceDialogPresetTab::SaveParametersAsPreset(const SequencePreset& preset) {
   PresetPtr preset_ptr = std::make_shared<SequencePreset>(preset);
 
   // If replaced, no need to make another item. If not saved, shared ptr will delete itself
@@ -159,7 +160,7 @@ QTreeWidgetItem* SequenceDialogPresetTab::GetSelectedCustomPreset() {
   return nullptr;
 }
 
-void SequenceDialogPresetTab::AddStandardItem(QTreeWidgetItem* folder, PresetPtr preset, const QString& description) {
+void SequenceDialogPresetTab::AddStandardItem(QTreeWidgetItem* folder, const PresetPtr& preset, const QString& description) {
   int index = default_preset_data_.size();
   default_preset_data_.append(preset);
   AddItemInternal(folder, preset, false, index, description);
@@ -167,10 +168,10 @@ void SequenceDialogPresetTab::AddStandardItem(QTreeWidgetItem* folder, PresetPtr
 
 void SequenceDialogPresetTab::AddCustomItem(QTreeWidgetItem* folder, PresetPtr preset, int index,
                                             const QString& description) {
-  AddItemInternal(folder, preset, true, index, description);
+  AddItemInternal(folder, std::move(preset), true, index, description);
 }
 
-void SequenceDialogPresetTab::AddItemInternal(QTreeWidgetItem* folder, PresetPtr preset, bool is_custom, int index,
+void SequenceDialogPresetTab::AddItemInternal(QTreeWidgetItem* folder, const PresetPtr& preset, bool is_custom, int index,
                                               const QString& description) {
   auto* item = new QTreeWidgetItem();
 

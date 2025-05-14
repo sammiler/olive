@@ -21,6 +21,7 @@
 #include "colorpreviewbox.h"
 
 #include <QPainter>
+#include <utility>
 
 #include "common/qtutils.h"
 
@@ -30,8 +31,8 @@ ColorPreviewBox::ColorPreviewBox(QWidget *parent)
     : QWidget(parent), to_ref_processor_(nullptr), to_display_processor_(nullptr) {}
 
 void ColorPreviewBox::SetColorProcessor(ColorProcessorPtr to_ref, ColorProcessorPtr to_display) {
-  to_ref_processor_ = to_ref;
-  to_display_processor_ = to_display;
+  to_ref_processor_ = std::move(to_ref);
+  to_display_processor_ = std::move(to_display);
 
   update();
 }

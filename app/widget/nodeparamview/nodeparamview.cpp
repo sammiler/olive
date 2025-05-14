@@ -559,7 +559,7 @@ bool NodeParamView::Paste() {
 
 bool NodeParamView::Paste(
     QWidget *parent,
-    std::function<QHash<Node *, Node *>(const ProjectSerializer::Result &)> get_existing_map_function) {
+    const std::function<QHash<Node *, Node *>(const ProjectSerializer::Result &)>& get_existing_map_function) {
   ProjectSerializer::Result res = ProjectSerializer::Paste(ProjectSerializer::kOnlyNodes);
   if (res.GetLoadData().nodes.isEmpty()) {
     return false;

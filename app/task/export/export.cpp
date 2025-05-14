@@ -252,7 +252,7 @@ bool ExportTask::WriteAudioLoop(const TimeRange &time, const SampleBuffer &sampl
   audio_time_ = time.out();
 
   for (auto it = audio_map_.begin(); it != audio_map_.end(); it++) {
-    TimeRange t = it.key();
+    const TimeRange& t = it.key();
     SampleBuffer s = it.value();
 
     if (t.in() == audio_time_) {

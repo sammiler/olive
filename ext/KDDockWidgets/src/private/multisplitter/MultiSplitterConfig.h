@@ -35,7 +35,7 @@ public:
     static Config &self();
 
     ///@brief destructor, called at shutdown
-    ~Config();
+    ~Config() = default;
 
     /**
      * @brief Returns the thickness of the separator.

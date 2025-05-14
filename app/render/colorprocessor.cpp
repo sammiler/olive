@@ -20,6 +20,8 @@
 
 #include "colorprocessor.h"
 
+#include <utility>
+
 #include "common/define.h"
 #include "common/ocioutils.h"
 #include "node/color/colormanager/colormanager.h"
@@ -77,7 +79,7 @@ ColorProcessor::ColorProcessor(ColorManager *config, const QString &input, const
 }
 
 ColorProcessor::ColorProcessor(OCIO::ConstProcessorRcPtr processor) {
-  processor_ = processor;
+  processor_ = std::move(processor);
   cpu_processor_ = processor_->getDefaultCPUProcessor();
 }
 
@@ -109,12 +111,12 @@ ColorProcessorPtr ColorProcessor::Create(ColorManager *config, const QString &in
   return std::make_shared<ColorProcessor>(config, input, transform, direction);
 }
 
-ColorProcessorPtr ColorProcessor::Create(OCIO::ConstProcessorRcPtr processor) {
+ColorProcessorPtr ColorProcessor::Create(const OCIO::ConstProcessorRcPtr& processor) {
   return std::make_shared<ColorProcessor>(processor);
 }
 
 OCIO::ConstProcessorRcPtr ColorProcessor::GetProcessor() { return processor_; }
 
-void ColorProcessor::ConvertFrame(FramePtr f) { ConvertFrame(f.get()); }
+void ColorProcessor::ConvertFrame(const FramePtr& f) { ConvertFrame(f.get()); }
 
 }  // namespace olive

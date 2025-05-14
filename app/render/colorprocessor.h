@@ -44,11 +44,11 @@ class ColorProcessor {
 
   static ColorProcessorPtr Create(ColorManager* config, const QString& input, const ColorTransform& dest_space,
                                   Direction direction = kNormal);
-  static ColorProcessorPtr Create(OCIO::ConstProcessorRcPtr processor);
+  static ColorProcessorPtr Create(const OCIO::ConstProcessorRcPtr& processor);
 
   OCIO::ConstProcessorRcPtr GetProcessor();
 
-  void ConvertFrame(FramePtr f);
+  void ConvertFrame(const FramePtr& f);
   void ConvertFrame(Frame* f);
 
   Color ConvertColor(const Color& in);

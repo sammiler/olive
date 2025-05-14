@@ -92,7 +92,7 @@ QStringList ColorManager::ListAvailableDisplays() {
 
 QString ColorManager::GetDefaultDisplay() { return config_->getDefaultDisplay(); }
 
-QStringList ColorManager::ListAvailableViews(QString display) {
+QStringList ColorManager::ListAvailableViews(const QString& display) {
   QStringList views;
 
   int number_of_views = config_->getNumViews(display.toUtf8());
@@ -169,7 +169,7 @@ ColorTransform ColorManager::GetCompliantColorSpace(const ColorTransform &transf
   }
 }
 
-QStringList ColorManager::ListAvailableColorspaces(OCIO::ConstConfigRcPtr config) {
+QStringList ColorManager::ListAvailableColorspaces(const OCIO::ConstConfigRcPtr& config) {
   QStringList spaces;
 
   if (config) {

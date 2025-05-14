@@ -314,7 +314,7 @@ bool Decoder::RetrieveAudioFromConform(SampleBuffer &sample_buffer, const QVecto
 
 void Decoder::UpdateLastAccessed() { last_accessed_ = QDateTime::currentMSecsSinceEpoch(); }
 
-uint qHash(Decoder::CodecStream stream, uint seed) {
+uint qHash(const Decoder::CodecStream& stream, uint seed) {
   return qHash(stream.filename(), seed) ^ ::qHash(stream.stream(), seed) ^ qHash(stream.block(), seed);
 }
 

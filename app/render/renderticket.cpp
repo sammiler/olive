@@ -20,6 +20,8 @@
 
 #include "renderticket.h"
 
+#include <utility>
+
 namespace olive {
 
 RenderTicket::RenderTicket() : is_running_(false), has_result_(false), finish_count_(0) {}
@@ -40,7 +42,7 @@ void RenderTicket::Start() {
 
 void RenderTicket::Finish() { FinishInternal(false, QVariant()); }
 
-void RenderTicket::Finish(QVariant result) { FinishInternal(true, result); }
+void RenderTicket::Finish(QVariant result) { FinishInternal(true, std::move(result)); }
 
 QVariant RenderTicket::Get() {
   WaitForFinished();
@@ -98,7 +100,7 @@ void RenderTicket::FinishInternal(bool has_result, QVariant result) {
   } else {
     is_running_ = false;
     has_result_ = has_result;
-    result_ = result;
+    result_ = std::move(result);
     finish_count_++;
 
     wait_.wakeAll();
@@ -111,7 +113,7 @@ void RenderTicket::FinishInternal(bool has_result, QVariant result) {
 
 RenderTicketWatcher::RenderTicketWatcher(QObject *parent) : QObject(parent), ticket_(nullptr) {}
 
-void RenderTicketWatcher::SetTicket(RenderTicketPtr ticket) {
+void RenderTicketWatcher::SetTicket(const RenderTicketPtr& ticket) {
   if (ticket_) {
     qCritical() << "Tried to set a ticket on a RenderTicketWatcher twice";
     return;

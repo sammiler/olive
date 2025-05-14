@@ -73,7 +73,7 @@ class KeyframeView : public TimeBasedView, public TimeTargetObject {
 
   bool CopySelected(bool cut);
 
-  bool Paste(std::function<Node *(const QString &)> find_node_function);
+  bool Paste(const std::function<Node *(const QString &)>& find_node_function);
 
   void CatchUpScrollEvent() override;
 

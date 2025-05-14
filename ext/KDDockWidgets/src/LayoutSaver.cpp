@@ -683,7 +683,7 @@ bool LayoutSaver::Frame::hasSingleDockWidget() const
 
 bool LayoutSaver::Frame::skipsRestore() const
 {
-    return std::all_of(dockWidgets.cbegin(), dockWidgets.cend(), [](LayoutSaver::DockWidget::Ptr dw) {
+    return std::all_of(dockWidgets.cbegin(), dockWidgets.cend(), [](const LayoutSaver::DockWidget::Ptr& dw) {
         return dw->skipsRestore();
     });
 }

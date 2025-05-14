@@ -43,7 +43,7 @@ class FrameHashCache : public PlaybackCache {
 
   [[nodiscard]] QString GetValidCacheFilename(const rational &time) const;
 
-  static bool SaveCacheFrame(const QString &filename, FramePtr frame);
+  static bool SaveCacheFrame(const QString &filename, const FramePtr& frame);
   [[nodiscard]] bool SaveCacheFrame(const int64_t &time, FramePtr frame) const;
   static bool SaveCacheFrame(const QString &cache_path, const QUuid &uuid, const int64_t &time, FramePtr frame);
   static bool SaveCacheFrame(const QString &cache_path, const QUuid &uuid, const rational &time, const rational &tb,

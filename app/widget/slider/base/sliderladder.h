@@ -32,7 +32,7 @@ namespace olive {
 class SliderLadderElement : public QWidget {
   Q_OBJECT
  public:
-  SliderLadderElement(const double& multiplier, QString width_hint, QWidget* parent = nullptr);
+  SliderLadderElement(const double& multiplier, const QString& width_hint, QWidget* parent = nullptr);
 
   void SetHighlighted(bool e);
 
@@ -58,7 +58,7 @@ class SliderLadderElement : public QWidget {
 class SliderLadder : public QFrame {
   Q_OBJECT
  public:
-  SliderLadder(double drag_multiplier, int nb_outer_values, QString width_hint, QWidget* parent = nullptr);
+  SliderLadder(double drag_multiplier, int nb_outer_values, const QString& width_hint, QWidget* parent = nullptr);
 
   ~SliderLadder() override;
 

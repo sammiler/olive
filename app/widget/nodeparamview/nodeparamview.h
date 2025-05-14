@@ -64,7 +64,7 @@ class NodeParamView : public TimeBasedWidget {
 
   bool Paste() override;
   static bool Paste(QWidget *parent,
-                    std::function<QHash<Node *, Node *>(const ProjectSerializer::Result &)> get_existing_map_function);
+                    const std::function<QHash<Node *, Node *>(const ProjectSerializer::Result &)>& get_existing_map_function);
 
  public slots:
   void SetContexts(const QVector<Node *> &contexts);

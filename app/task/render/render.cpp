@@ -20,6 +20,8 @@
 
 #include "render.h"
 
+#include <utility>
+
 #include "node/project/sequence/sequence.h"
 #include "render/rendermanager.h"
 
@@ -32,7 +34,7 @@ RenderTask::~RenderTask() = default;
 bool RenderTask::Render(ColorManager *manager, const TimeRangeList &video_range, const TimeRangeList &audio_range,
                         const TimeRange &subtitle_range, RenderMode::Mode mode, FrameHashCache *cache,
                         const QSize &force_size, const QMatrix4x4 &force_matrix, PixelFormat force_format,
-                        int force_channel_count, ColorProcessorPtr force_color_output) {
+                        int force_channel_count, const ColorProcessorPtr& force_color_output) {
   QMetaObject::invokeMethod(RenderManager::instance(), "SetAggressiveGarbageCollection", Q_ARG(bool, true));
 
   // Run watchers in another thread so they can accept signals even while this thread is blocked
@@ -268,7 +270,7 @@ void RenderTask::StartTicket(QThread *watcher_thread, ColorManager *manager, con
   rvp.force_size = force_size;
   rvp.force_matrix = force_matrix;
   rvp.force_format = force_format;
-  rvp.force_color_output = force_color_output;
+  rvp.force_color_output = std::move(force_color_output);
   rvp.force_channel_count = force_channel_count;
 
   if (cache) {

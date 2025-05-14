@@ -52,7 +52,7 @@ class ScopePanel : public PanelWidget {
   [[nodiscard]] ViewerPanelBase* GetConnectedViewerPanel() const { return viewer_; }
 
  public slots:
-  void SetReferenceBuffer(TexturePtr frame);
+  void SetReferenceBuffer(const TexturePtr& frame);
 
   void SetColorManager(ColorManager* manager);
 

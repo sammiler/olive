@@ -140,7 +140,7 @@ bool LoadOTIOTask::Run() {
     FolderAddChild(project_->root(), sequence_footage).redo_now();
 
     // Iterate through tracks
-    for (auto c : timeline->tracks()->children()) {
+    for (const auto& c : timeline->tracks()->children()) {
       auto otio_track = dynamic_cast<OTIO::Track*>(c.value);
 
       // Create a new track
@@ -175,7 +175,7 @@ bool LoadOTIOTask::Run() {
       Block* previous_block = nullptr;
       bool prev_block_transition = false;
 
-      for (auto otio_block_retainer : clip_map) {
+      for (const auto& otio_block_retainer : clip_map) {
         auto otio_block = otio_block_retainer.value;
 
         Block* block = nullptr;

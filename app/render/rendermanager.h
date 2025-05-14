@@ -41,9 +41,9 @@ class RenderThread : public QThread {
  public:
   RenderThread(Renderer *renderer, DecoderCache *decoder_cache, ShaderCache *shader_cache, QObject *parent = nullptr);
 
-  void AddTicket(RenderTicketPtr ticket);
+  void AddTicket(const RenderTicketPtr& ticket);
 
-  bool RemoveTicket(RenderTicketPtr ticket);
+  bool RemoveTicket(const RenderTicketPtr& ticket);
 
   void quit();
 
@@ -172,7 +172,7 @@ class RenderManager : public QObject {
    */
   RenderTicketPtr RenderAudio(const RenderAudioParams &params);
 
-  bool RemoveTicket(RenderTicketPtr ticket);
+  bool RemoveTicket(const RenderTicketPtr& ticket);
 
   enum TicketType { kTypeVideo, kTypeAudio };
 

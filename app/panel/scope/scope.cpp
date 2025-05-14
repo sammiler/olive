@@ -105,7 +105,7 @@ void ScopePanel::SetViewerPanel(ViewerPanelBase* vp) {
   }
 }
 
-void ScopePanel::SetReferenceBuffer(TexturePtr frame) {
+void ScopePanel::SetReferenceBuffer(const TexturePtr& frame) {
   histogram_->SetBuffer(frame);
   waveform_view_->SetBuffer(frame);
 }

@@ -20,6 +20,8 @@
 
 #include "scopebase.h"
 
+#include <utility>
+
 #include "config/config.h"
 
 namespace olive {
@@ -31,7 +33,7 @@ ScopeBase::ScopeBase(QWidget* parent) : super(parent), texture_(nullptr), manage
 }
 
 void ScopeBase::SetBuffer(TexturePtr frame) {
-  texture_ = frame;
+  texture_ = std::move(frame);
   managed_tex_up_to_date_ = false;
   update();
 }
@@ -43,7 +45,7 @@ void ScopeBase::DrawScope(TexturePtr managed_tex, QVariant pipeline) {
 
   job.Insert(QStringLiteral("ove_maintex"), NodeValue(NodeValue::kTexture, QVariant::fromValue(managed_tex)));
 
-  renderer()->Blit(pipeline, job, GetViewportParams());
+  renderer()->Blit(std::move(pipeline), job, GetViewportParams());
 }
 
 void ScopeBase::OnInit() {

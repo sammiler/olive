@@ -36,7 +36,7 @@ class SequenceDialogPresetTab : public QWidget, public PresetManager<SequencePre
   explicit SequenceDialogPresetTab(QWidget* parent = nullptr);
 
  public slots:
-  void SaveParametersAsPreset(SequencePreset preset);
+  void SaveParametersAsPreset(const SequencePreset& preset);
 
  signals:
   void PresetChanged(const SequencePreset& preset);
@@ -54,11 +54,11 @@ class SequenceDialogPresetTab : public QWidget, public PresetManager<SequencePre
   QTreeWidgetItem* GetSelectedItem();
   QTreeWidgetItem* GetSelectedCustomPreset();
 
-  void AddStandardItem(QTreeWidgetItem* folder, PresetPtr preset, const QString& description = QString());
+  void AddStandardItem(QTreeWidgetItem* folder, const PresetPtr& preset, const QString& description = QString());
 
   void AddCustomItem(QTreeWidgetItem* folder, PresetPtr preset, int index, const QString& description = QString());
 
-  void AddItemInternal(QTreeWidgetItem* folder, PresetPtr preset, bool is_custom, int index,
+  void AddItemInternal(QTreeWidgetItem* folder, const PresetPtr& preset, bool is_custom, int index,
                        const QString& description = QString());
 
   QTreeWidget* preset_tree_;
