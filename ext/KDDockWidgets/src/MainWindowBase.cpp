@@ -557,7 +557,7 @@ void MainWindowBase::overlayOnSideBar(DockWidgetBase *dw)
         dw->d->lastPosition()->setLastOverlayedGeometry(sb->location(), frame->QWidgetAdapter::geometry());
     });
 
-    frame->setAllowedResizeSides(d->allowedResizeSides(sb->location()));
+    frame->setAllowedResizeSides(KDDockWidgets::MainWindowBase::Private::allowedResizeSides(sb->location()));
     frame->QWidgetAdapter::show();
 
     Q_EMIT dw->isOverlayedChanged(true);

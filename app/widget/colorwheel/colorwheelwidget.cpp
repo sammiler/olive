@@ -117,7 +117,7 @@ int ColorWheelWidget::GetDiameter() const { return qMin(width(), height()); }
 
 qreal ColorWheelWidget::GetRadius() const { return GetDiameter() * 0.5; }
 
-ColorWheelWidget::Triangle ColorWheelWidget::GetTriangleFromCoords(const QPoint &center, const QPoint &p) const {
+ColorWheelWidget::Triangle ColorWheelWidget::GetTriangleFromCoords(const QPoint &center, const QPoint &p) {
   return GetTriangleFromCoords(center, p.y(), p.x());
 }
 

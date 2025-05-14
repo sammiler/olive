@@ -64,7 +64,7 @@ class RenderProcessor : public NodeTraverser {
   TexturePtr CreateTexture(const VideoParams &p) override;
 
   SampleBuffer CreateSampleBuffer(const AudioParams &params, int sample_count) override {
-    return SampleBuffer(params, sample_count);
+    return {params, static_cast<size_t>(sample_count)};
   }
 
   void ConvertToReferenceSpace(TexturePtr destination, TexturePtr source, const QString &input_cs) override;

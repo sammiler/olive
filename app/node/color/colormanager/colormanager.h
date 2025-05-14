@@ -67,7 +67,7 @@ class ColorManager : public QObject {
 
   [[nodiscard]] QString GetReferenceColorSpace() const;
 
-  QString GetCompliantColorSpace(const QString& s) const;
+  [[nodiscard]] QString GetCompliantColorSpace(const QString& s) const;
 
   ColorTransform GetCompliantColorSpace(const ColorTransform& transform, bool force_display = false);
 

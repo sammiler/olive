@@ -78,7 +78,7 @@ class ProjectSerializer220403 : public ProjectSerializer {
   void LoadImmediate(QXmlStreamReader *reader, Node *node, const QString &input, int element,
                      XMLNodeData &xml_node_data) const;
 
-  void LoadKeyframe(QXmlStreamReader *reader, NodeKeyframe *key, NodeValue::Type data_type) const;
+  static void LoadKeyframe(QXmlStreamReader *reader, NodeKeyframe *key, NodeValue::Type data_type) ;
 
   static bool LoadPosition(QXmlStreamReader *reader, quintptr *node_ptr, Node::Position *pos) ;
 
@@ -92,7 +92,7 @@ class ProjectSerializer220403 : public ProjectSerializer {
 
   static void LoadWorkArea(QXmlStreamReader *reader, TimelineWorkArea *workarea) ;
 
-  void LoadMarkerList(QXmlStreamReader *reader, TimelineMarkerList *markers) const;
+  static void LoadMarkerList(QXmlStreamReader *reader, TimelineMarkerList *markers) ;
 
   static void LoadValueHint(Node::ValueHint *hint, QXmlStreamReader *reader) ;
 };

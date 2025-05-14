@@ -97,7 +97,7 @@ class ViewerSizer : public QWidget {
    */
   void UpdateSize();
 
-  int GetZoomedValue(int value) const;
+  [[nodiscard]] int GetZoomedValue(int value) const;
 
   [[nodiscard]] double GetRealCurrentZoom() const;
 

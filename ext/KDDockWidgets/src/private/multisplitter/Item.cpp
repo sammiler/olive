@@ -932,7 +932,7 @@ struct ItemBoxContainer::Private
     bool isOverflowing() const;
     void relayoutIfNeeded() const;
     const Item *itemFromPath(const QVector<int> &path) const;
-    void resizeChildren(QSize oldSize, QSize newSize, SizingInfo::List &sizes, ChildrenResizeStrategy);
+    void resizeChildren(QSize oldSize, QSize newSize, SizingInfo::List &sizes, ChildrenResizeStrategy) const;
     void honourMaxSizes(SizingInfo::List &sizes) const;
     void scheduleCheckSanity() const;
     Separator *neighbourSeparator(const Item *item, Side, Qt::Orientation) const;
@@ -1850,7 +1850,7 @@ QSize ItemBoxContainer::maxSizeHint() const
 }
 
 void ItemBoxContainer::Private::resizeChildren(QSize oldSize, QSize newSize, SizingInfo::List &childSizes,
-                                               ChildrenResizeStrategy strategy)
+                                               ChildrenResizeStrategy strategy) const
 {
     // This container is being resized to @p newSize, so we must resize our children too, based
     // on @p strategy.

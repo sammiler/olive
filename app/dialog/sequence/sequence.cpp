@@ -135,7 +135,7 @@ void SequenceDialog::accept() {
   if (make_undoable_) {
     // Make undoable command to change the parameters
     auto* param_command = new SequenceParamCommand(
-        sequence_, video_params, audio_params, name_field_->text(), parameter_tab_->GetSelectedPreviewAutoCache());
+        sequence_, video_params, audio_params, name_field_->text(), olive::SequenceDialogParameterTab::GetSelectedPreviewAutoCache());
 
     Core::instance()->undo_stack()->push(param_command,
                                          tr("Set Sequence Parameters For \"%1\"").arg(sequence_->GetLabel()));
@@ -145,7 +145,7 @@ void SequenceDialog::accept() {
     sequence_->SetVideoParams(video_params);
     sequence_->SetAudioParams(audio_params);
     sequence_->SetLabel(name_field_->text());
-    sequence_->SetVideoAutoCacheEnabled(parameter_tab_->GetSelectedPreviewAutoCache());
+    olive::Sequence::SetVideoAutoCacheEnabled(olive::SequenceDialogParameterTab::GetSelectedPreviewAutoCache());
   }
 
   QDialog::accept();
@@ -178,7 +178,7 @@ SequenceDialog::SequenceParamCommand::SequenceParamCommand(Sequence* s, VideoPar
       old_video_params_(s->GetVideoParams()),
       old_audio_params_(s->GetAudioParams()),
       old_name_(s->GetLabel()),
-      old_autocache_(s->IsVideoAutoCacheEnabled()) {}
+      old_autocache_(olive::Sequence::IsVideoAutoCacheEnabled()) {}
 
 Project* SequenceDialog::SequenceParamCommand::GetRelevantProject() const { return sequence_->project(); }
 
@@ -190,7 +190,7 @@ void SequenceDialog::SequenceParamCommand::redo() {
     sequence_->SetAudioParams(new_audio_params_);
   }
   sequence_->SetLabel(new_name_);
-  sequence_->SetVideoAutoCacheEnabled(new_autocache_);
+  olive::Sequence::SetVideoAutoCacheEnabled(new_autocache_);
 }
 
 void SequenceDialog::SequenceParamCommand::undo() {
@@ -201,7 +201,7 @@ void SequenceDialog::SequenceParamCommand::undo() {
     sequence_->SetAudioParams(old_audio_params_);
   }
   sequence_->SetLabel(old_name_);
-  sequence_->SetVideoAutoCacheEnabled(old_autocache_);
+  olive::Sequence::SetVideoAutoCacheEnabled(old_autocache_);
 }
 
 }  // namespace olive

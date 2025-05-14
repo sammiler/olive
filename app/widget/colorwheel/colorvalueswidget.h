@@ -59,7 +59,7 @@ class ColorValuesTab : public QWidget {
 
   [[nodiscard]] bool AreSlidersLegacyValues() const;
 
-  FloatSlider* CreateColorSlider() const;
+  [[nodiscard]] FloatSlider* CreateColorSlider() const;
 
   FloatSlider* red_slider_;
   FloatSlider* green_slider_;

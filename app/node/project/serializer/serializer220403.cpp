@@ -728,7 +728,7 @@ void ProjectSerializer220403::LoadImmediate(QXmlStreamReader *reader, Node *node
 }
 
 void ProjectSerializer220403::LoadKeyframe(QXmlStreamReader *reader, NodeKeyframe *key,
-                                           NodeValue::Type data_type) const {
+                                           NodeValue::Type data_type) {
   QString key_input;
   QPointF key_in_handle;
   QPointF key_out_handle;
@@ -985,7 +985,7 @@ void ProjectSerializer220403::LoadWorkArea(QXmlStreamReader *reader, TimelineWor
   reader->skipCurrentElement();
 }
 
-void ProjectSerializer220403::LoadMarkerList(QXmlStreamReader *reader, TimelineMarkerList *markers) const {
+void ProjectSerializer220403::LoadMarkerList(QXmlStreamReader *reader, TimelineMarkerList *markers) {
   while (XMLReadNextStartElement(reader)) {
     if (reader->name() == QStringLiteral("marker")) {
       auto *marker = new TimelineMarker(markers);

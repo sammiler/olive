@@ -56,7 +56,7 @@ private:
     [[nodiscard]] QWidget *selectedWidget() const;
     void updateItemAppearence(QStandardItem *);
     static QObject *objectForItem(QStandardItem *) ;
-    QWidget *widgetForItem(QStandardItem *) const;
+    static QWidget *widgetForItem(QStandardItem *) ;
 
 #ifdef Q_OS_WIN
     void sendHitTest();

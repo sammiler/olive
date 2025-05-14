@@ -43,7 +43,7 @@ class SaveOTIOTask : public Task {
 
   static OTIO::Track* SerializeTrack(Track* track, double sequence_rate, rational max_track_length);
 
-  bool SerializeTrackList(TrackList* list, OTIO::Timeline* otio_timeline, double sequence_rate);
+  static bool SerializeTrackList(TrackList* list, OTIO::Timeline* otio_timeline, double sequence_rate);
 
   Project* project_;
 };

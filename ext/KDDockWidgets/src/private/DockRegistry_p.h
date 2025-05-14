@@ -149,9 +149,9 @@ public:
     /**
      * @brief clear Overload that only clears the specified dockWidgets and main windows.
      */
-    void clear(const DockWidgetBase::List &dockWidgets,
+    static void clear(const DockWidgetBase::List &dockWidgets,
                const MainWindowBase::List &mainWindows,
-               const QStringList &affinities) const;
+               const QStringList &affinities) ;
 
     /**
      * @brief Ensures that all floating DockWidgets have a FloatingWindow as a window.
@@ -195,7 +195,7 @@ public:
 
     /// @brief Returns whether the item is in a main window.
     /// Nesting is honoured. (MDIArea inside DropArea inside MainWindow, for example)
-    bool itemIsInMainWindow(const Layouting::Item *) const;
+    static bool itemIsInMainWindow(const Layouting::Item *) ;
 
     static bool affinitiesMatch(const QStringList &affinities1, const QStringList &affinities2) ;
 

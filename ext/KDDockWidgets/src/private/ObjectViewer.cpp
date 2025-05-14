@@ -269,7 +269,7 @@ QObject *ObjectViewer::objectForItem(QStandardItem *item)
     return item->data(ObjRole).value<QObject *>();
 }
 
-QWidget *ObjectViewer::widgetForItem(QStandardItem *item) const
+QWidget *ObjectViewer::widgetForItem(QStandardItem *item) 
 {
     return qobject_cast<QWidget *>(objectForItem(item));
 }

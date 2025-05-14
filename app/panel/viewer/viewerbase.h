@@ -53,7 +53,7 @@ class ViewerPanelBase : public TimeBasedPanel {
    */
   void SetFullScreen(QScreen *screen = nullptr) const;
 
-  ColorManager *GetColorManager() const { return GetViewerWidget()->color_manager(); }
+  [[nodiscard]] ColorManager *GetColorManager() const { return GetViewerWidget()->color_manager(); }
 
   void UpdateTextureFromNode() const { GetViewerWidget()->UpdateTextureFromNode(); }
 

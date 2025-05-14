@@ -166,9 +166,9 @@ void SequenceDialogPresetTab::AddStandardItem(QTreeWidgetItem* folder, const Pre
   AddItemInternal(folder, preset, false, index, description);
 }
 
-void SequenceDialogPresetTab::AddCustomItem(QTreeWidgetItem* folder, PresetPtr preset, int index,
+void SequenceDialogPresetTab::AddCustomItem(QTreeWidgetItem* folder, const PresetPtr& preset, int index,
                                             const QString& description) {
-  AddItemInternal(folder, std::move(preset), true, index, description);
+  AddItemInternal(folder, preset, true, index, description);
 }
 
 void SequenceDialogPresetTab::AddItemInternal(QTreeWidgetItem* folder, const PresetPtr& preset, bool is_custom, int index,

@@ -282,7 +282,7 @@ LayoutWidget *DockRegistry::layoutForItem(const Layouting::Item *item)
     return nullptr;
 }
 
-bool DockRegistry::itemIsInMainWindow(const Layouting::Item *item) const
+bool DockRegistry::itemIsInMainWindow(const Layouting::Item *item) 
 {
     if (LayoutWidget *layout = layoutForItem(item)) {
         return layout->isInMainWindow(/*honourNesting=*/true);
@@ -672,7 +672,7 @@ void DockRegistry::clear(const QStringList &affinities)
 
 void DockRegistry::clear(const DockWidgetBase::List &dockWidgets,
                          const MainWindowBase::List &mainWindows,
-                         const QStringList &affinities) const
+                         const QStringList &affinities) 
 {
     for (auto dw : qAsConst(dockWidgets)) {
         if (affinities.isEmpty() || affinitiesMatch(affinities, dw->affinities())) {

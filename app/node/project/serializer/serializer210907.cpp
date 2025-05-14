@@ -427,7 +427,7 @@ void ProjectSerializer210907::LoadInput(Node *node, QXmlStreamReader *reader, XM
 }
 
 void ProjectSerializer210907::LoadImmediate(QXmlStreamReader *reader, Node *node, const QString &input, int element,
-                                            XMLNodeData &xml_node_data) const {
+                                            XMLNodeData &xml_node_data) {
   Q_UNUSED(xml_node_data)
 
   NodeValue::Type data_type = node->GetInputDataType(input);
@@ -663,7 +663,7 @@ void ProjectSerializer210907::LoadNodeCustom(QXmlStreamReader *reader, Node *nod
   }
 }
 
-void ProjectSerializer210907::LoadTimelinePoints(QXmlStreamReader *reader, ViewerOutput *points) const {
+void ProjectSerializer210907::LoadTimelinePoints(QXmlStreamReader *reader, ViewerOutput *points) {
   while (XMLReadNextStartElement(reader)) {
     if (reader->name() == QStringLiteral("markers")) {
       LoadMarkerList(reader, points->GetMarkers());

@@ -58,7 +58,7 @@ class FootageDescription {
     subtitle_streams_.append(sub_params);
   }
 
-  Track::Type GetTypeOfStream(int index) const {
+  [[nodiscard]] Track::Type GetTypeOfStream(int index) const {
     if (StreamIsVideo(index)) {
       return Track::kVideo;
     } else if (StreamIsAudio(index)) {

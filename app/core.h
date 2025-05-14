@@ -319,7 +319,7 @@ class Core : public QObject {
    * @brief Show OTIO import dialog
    */
 #ifdef USE_OTIO
-  bool DialogImportOTIOShow(const QList<Sequence*>& sequences) const;
+  [[nodiscard]] bool DialogImportOTIOShow(const QList<Sequence*>& sequences) const;
 #endif
 
   /**

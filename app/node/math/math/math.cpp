@@ -20,8 +20,9 @@
 
 #include "math.h"
 
-#include <QString>
 #include <cmath>
+
+#include <QString>
 
 namespace olive {
 

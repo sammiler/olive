@@ -34,7 +34,7 @@ public:
     Private(const QString &dockName, DockWidgetBase::Options options_,
             LayoutSaverOptions layoutSaverOptions_, DockWidgetBase *qq);
 
-    void init()
+    void init() const
     {
         updateTitle();
     }
@@ -83,12 +83,12 @@ public:
     Position::Ptr &lastPosition();
 
     void forceClose();
-    QPoint defaultCenterPosForFloating() const;
+    [[nodiscard]] QPoint defaultCenterPosForFloating() const;
 
     bool eventFilter(QObject *watched, QEvent *event) override;
 
     void updateTitle() const;
-    void toggle(bool enabled);
+    void toggle(bool enabled) const;
     void updateToggleAction();
     void updateFloatAction();
     void onDockWidgetShown();

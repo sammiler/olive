@@ -68,7 +68,7 @@ public:
      * @param jsonFilename the filename where the layout will be saved to
      * @return true on success
      */
-    bool saveToFile(const QString &jsonFilename) const;
+    [[nodiscard]] bool saveToFile(const QString &jsonFilename) const;
 
     /**
      * @brief restores the layout from a JSON file

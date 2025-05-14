@@ -74,7 +74,7 @@ bool FrameHashCache::SaveCacheFrame(const int64_t &time, FramePtr frame) const {
   return SaveCacheFrame(GetCacheDirectory(), GetUuid(), time, std::move(frame));
 }
 
-bool FrameHashCache::SaveCacheFrame(const QString &cache_path, const QUuid &uuid, const int64_t &time, FramePtr frame) {
+bool FrameHashCache::SaveCacheFrame(const QString &cache_path, const QUuid &uuid, const int64_t &time, const FramePtr& frame) {
   if (cache_path.isEmpty()) {
     qWarning() << "Failed to save cache frame with empty path";
     return false;
@@ -82,7 +82,7 @@ bool FrameHashCache::SaveCacheFrame(const QString &cache_path, const QUuid &uuid
 
   QString fn = CachePathName(cache_path, uuid, time);
 
-  bool ret = SaveCacheFrame(fn, std::move(frame));
+  bool ret = SaveCacheFrame(fn, frame);
 
   // Register frame with the disk manager
   if (ret) {
@@ -93,7 +93,7 @@ bool FrameHashCache::SaveCacheFrame(const QString &cache_path, const QUuid &uuid
 }
 
 bool FrameHashCache::SaveCacheFrame(const QString &cache_path, const QUuid &uuid, const rational &time,
-                                    const rational &tb, FramePtr frame) {
+                                    const rational &tb, const FramePtr& frame) {
   if (cache_path.isEmpty()) {
     qWarning() << "Failed to save cache frame with empty path";
     return false;
@@ -101,7 +101,7 @@ bool FrameHashCache::SaveCacheFrame(const QString &cache_path, const QUuid &uuid
 
   QString fn = CachePathName(cache_path, uuid, time, tb);
 
-  bool ret = SaveCacheFrame(fn, std::move(frame));
+  bool ret = SaveCacheFrame(fn, frame);
 
   // Register frame with the disk manager
   if (ret) {

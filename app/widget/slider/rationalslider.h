@@ -79,7 +79,7 @@ class RationalSlider : public DecimalSliderBase {
   /**
    * @brief Get whether the user can change the display type or not
    */
-  bool GetLockDisplayType() const;
+  [[nodiscard]] bool GetLockDisplayType() const;
 
   /**
    * @brief Hide display type in menu

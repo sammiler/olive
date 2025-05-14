@@ -197,7 +197,7 @@ QByteArray LayoutSaver::serializeLayout() const
 
 bool LayoutSaver::restoreLayout(const QByteArray &data)
 {
-    d->clearRestoredProperty();
+    KDDockWidgets::LayoutSaver::Private::clearRestoredProperty();
     if (data.isEmpty())
         return true;
 
@@ -229,8 +229,8 @@ bool LayoutSaver::restoreLayout(const QByteArray &data)
 
     layout.scaleSizes(d->m_restoreOptions);
 
-    d->floatWidgetsWhichSkipRestore(layout.mainWindowNames());
-    d->floatUnknownWidgets(layout);
+    KDDockWidgets::LayoutSaver::Private::floatWidgetsWhichSkipRestore(layout.mainWindowNames());
+    KDDockWidgets::LayoutSaver::Private::floatUnknownWidgets(layout);
 
     Private::RAIIIsRestoring isRestoring;
 

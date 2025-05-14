@@ -271,7 +271,7 @@ class TimelineWidget : public TimeBasedWidget {
   void SendCatchUpScrollEvent() override;
 
  private:
-  QVector<Timeline::EditToInfo> GetEditToInfo(const rational& playhead_time, Timeline::MovementMode mode) const;
+  [[nodiscard]] QVector<Timeline::EditToInfo> GetEditToInfo(const rational& playhead_time, Timeline::MovementMode mode) const;
 
   void RippleTo(Timeline::MovementMode mode);
 
@@ -281,7 +281,7 @@ class TimelineWidget : public TimeBasedWidget {
 
   bool PasteInternal(bool insert);
 
-  TimelineAndTrackView* AddTimelineAndTrackView(Qt::Alignment alignment) const;
+  [[nodiscard]] TimelineAndTrackView* AddTimelineAndTrackView(Qt::Alignment alignment) const;
 
   QHash<Node*, Node*> GenerateExistingPasteMap(const ProjectSerializer::Result& r);
 

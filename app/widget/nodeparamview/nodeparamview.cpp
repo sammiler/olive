@@ -279,8 +279,8 @@ void NodeParamView::UpdateContexts() {
 void NodeParamView::ItemAboutToBeRemoved(NodeParamViewItem *item) {
   if (keyframe_view_) {
     for (auto & it : item->GetKeyframeConnections()) {
-      for (auto jt = it.begin(); jt != it.end(); jt++) {
-        for (auto & kt : *jt) {
+      for (auto & jt : it) {
+        for (auto & kt : jt) {
           keyframe_view_->RemoveKeyframesOfTrack(kt);
         }
       }

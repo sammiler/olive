@@ -657,7 +657,7 @@ void DockWidgetBase::Private::updateTitle() const
     toggleAction->setText(title);
 }
 
-void DockWidgetBase::Private::toggle(bool enabled)
+void DockWidgetBase::Private::toggle(bool enabled) const
 {
     if (SideBar *sb = sideBar()) {
         // The widget is in the sidebar, let's toggle its overlayed state
