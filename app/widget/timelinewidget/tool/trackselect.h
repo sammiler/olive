@@ -29,7 +29,7 @@ class TrackSelectTool : public PointerTool {
  public:
   explicit TrackSelectTool(TimelineWidget *parent);
 
-  virtual void MousePress(TimelineViewMouseEvent *event) override;
+  void MousePress(TimelineViewMouseEvent *event) override;
 
  private:
   void SelectBlocksOnTrack(Track *track, TimelineViewMouseEvent *event, QVector<Block *> *blocks, bool forward);

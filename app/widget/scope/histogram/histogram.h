@@ -33,15 +33,15 @@ class HistogramScope : public ScopeBase {
   MANAGEDDISPLAYWIDGET_DEFAULT_DESTRUCTOR(HistogramScope)
 
  protected slots:
-  virtual void OnInit() override;
+  void OnInit() override;
 
-  virtual void OnDestroy() override;
+  void OnDestroy() override;
 
  protected:
-  virtual ShaderCode GenerateShaderCode() override;
+  ShaderCode GenerateShaderCode() override;
   QVariant CreateSecondaryShader();
 
-  virtual void DrawScope(TexturePtr managed_tex, QVariant pipeline) override;
+  void DrawScope(TexturePtr managed_tex, QVariant pipeline) override;
 
  private:
   QVariant pipeline_secondary_;

@@ -33,7 +33,7 @@ class PathWidget : public QWidget {
  public:
   explicit PathWidget(const QString& path, QWidget* parent = nullptr);
 
-  QString text() const { return path_edit_->text(); }
+  [[nodiscard]] QString text() const { return path_edit_->text(); }
 
  private slots:
   void BrowseClicked();

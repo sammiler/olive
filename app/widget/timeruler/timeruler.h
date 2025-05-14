@@ -39,17 +39,17 @@ class TimeRuler : public SeekableWidget {
   void SetPlaybackCache(PlaybackCache* cache);
 
  protected:
-  virtual void drawForeground(QPainter* painter, const QRectF& rect) override;
+  void drawForeground(QPainter* painter, const QRectF& rect) override;
 
-  virtual void TimebaseChangedEvent(const rational& tb) override;
+  void TimebaseChangedEvent(const rational& tb) override;
 
  protected slots:
-  virtual bool ShowContextMenu(const QPoint& p) override;
+  bool ShowContextMenu(const QPoint& p) override;
 
  private:
   void UpdateHeight();
 
-  int CacheStatusHeight() const;
+  [[nodiscard]] int CacheStatusHeight() const;
 
   int minimum_gap_between_lines_;
 

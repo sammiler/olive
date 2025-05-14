@@ -29,7 +29,7 @@ public:
     ~SegmentedIndicators() override;
     DropLocation hover_impl(QPoint globalPos) override;
 
-    DropLocation dropLocationForPos(QPoint pos) const;
+    [[nodiscard]] DropLocation dropLocationForPos(QPoint pos) const;
 
 
     static int s_segmentGirth;
@@ -43,10 +43,10 @@ public:
 
 protected:
     void paintEvent(QPaintEvent *) override;
-    QPoint posForIndicator(DropLocation) const override;
+    [[nodiscard]] QPoint posForIndicator(DropLocation) const override;
 
 private:
-    QHash<DropLocation, QPolygon> segmentsForRect(QRect, bool inner, bool useOffset = false) const;
+    [[nodiscard]] QHash<DropLocation, QPolygon> segmentsForRect(QRect, bool inner, bool useOffset = false) const;
     void updateSegments();
     void drawSegments(QPainter *p);
     void drawSegment(QPainter *p, const QPolygon &segment);

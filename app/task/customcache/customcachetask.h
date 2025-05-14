@@ -39,9 +39,9 @@ class CustomCacheTask : public Task {
   void Cancelled();
 
  protected:
-  virtual bool Run() override;
+  bool Run() override;
 
-  virtual void CancelEvent() override;
+  void CancelEvent() override;
 
  private:
   QMutex mutex_;

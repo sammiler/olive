@@ -28,7 +28,7 @@
 namespace olive {
 
 NodeParamViewTextEdit::NodeParamViewTextEdit(QWidget* parent) : QWidget(parent) {
-  QHBoxLayout* layout = new QHBoxLayout(this);
+  auto* layout = new QHBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
 
   line_edit_ = new QPlainTextEdit();

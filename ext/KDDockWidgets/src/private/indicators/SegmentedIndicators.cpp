@@ -41,8 +41,7 @@ SegmentedIndicators::SegmentedIndicators(DropArea *dropArea)
 }
 
 SegmentedIndicators::~SegmentedIndicators()
-{
-}
+= default;
 
 DropLocation SegmentedIndicators::hover_impl(QPoint pt)
 {

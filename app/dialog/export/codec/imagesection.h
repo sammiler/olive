@@ -33,13 +33,13 @@ class ImageSection : public CodecSection {
  public:
   explicit ImageSection(QWidget* parent = nullptr);
 
-  bool IsImageSequenceChecked() const { return image_sequence_checkbox_->isChecked(); }
+  [[nodiscard]] bool IsImageSequenceChecked() const { return image_sequence_checkbox_->isChecked(); }
 
   void SetImageSequenceChecked(bool e) { image_sequence_checkbox_->setChecked(e); }
 
   void SetTimebase(const rational& r) { frame_slider_->SetTimebase(r); }
 
-  rational GetTime() const { return frame_slider_->GetValue(); }
+  [[nodiscard]] rational GetTime() const { return frame_slider_->GetValue(); }
 
   void SetTime(const rational& t) { frame_slider_->SetValue(t); }
 

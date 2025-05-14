@@ -31,7 +31,7 @@ class TimeBasedPanel : public PanelWidget {
  public:
   explicit TimeBasedPanel(const QString& object_name);
 
-  virtual ~TimeBasedPanel() override;
+  ~TimeBasedPanel() override;
 
   void ConnectViewerNode(ViewerOutput* node);
 
@@ -40,63 +40,63 @@ class TimeBasedPanel : public PanelWidget {
   // Get the timebase of this panels widget
   const rational& timebase();
 
-  ViewerOutput* GetConnectedViewer() const { return widget_->GetConnectedNode(); }
+  [[nodiscard]] ViewerOutput* GetConnectedViewer() const { return widget_->GetConnectedNode(); }
 
-  TimeRuler* ruler() const { return widget_->ruler(); }
+  [[nodiscard]] TimeRuler* ruler() const { return widget_->ruler(); }
 
-  virtual void ZoomIn() override;
+  void ZoomIn() override;
 
-  virtual void ZoomOut() override;
+  void ZoomOut() override;
 
-  virtual void GoToStart() override;
+  void GoToStart() override;
 
-  virtual void PrevFrame() override;
+  void PrevFrame() override;
 
-  virtual void NextFrame() override;
+  void NextFrame() override;
 
-  virtual void GoToEnd() override;
+  void GoToEnd() override;
 
-  virtual void GoToPrevCut() override;
+  void GoToPrevCut() override;
 
-  virtual void GoToNextCut() override;
+  void GoToNextCut() override;
 
-  virtual void PlayPause() override;
+  void PlayPause() override;
 
-  virtual void PlayInToOut() override;
+  void PlayInToOut() override;
 
-  virtual void ShuttleLeft() override;
+  void ShuttleLeft() override;
 
-  virtual void ShuttleStop() override;
+  void ShuttleStop() override;
 
-  virtual void ShuttleRight() override;
+  void ShuttleRight() override;
 
-  virtual void SetIn() override;
+  void SetIn() override;
 
-  virtual void SetOut() override;
+  void SetOut() override;
 
-  virtual void ResetIn() override;
+  void ResetIn() override;
 
-  virtual void ResetOut() override;
+  void ResetOut() override;
 
-  virtual void ClearInOut() override;
+  void ClearInOut() override;
 
-  virtual void SetMarker() override;
+  void SetMarker() override;
 
-  virtual void ToggleShowAll() override;
+  void ToggleShowAll() override;
 
-  virtual void GoToIn() override;
+  void GoToIn() override;
 
-  virtual void GoToOut() override;
+  void GoToOut() override;
 
-  virtual void DeleteSelected() override;
+  void DeleteSelected() override;
 
-  virtual void CutSelected() override;
+  void CutSelected() override;
 
-  virtual void CopySelected() override;
+  void CopySelected() override;
 
-  virtual void Paste() override;
+  void Paste() override;
 
-  TimeBasedWidget* GetTimeBasedWidget() const { return widget_; }
+  [[nodiscard]] TimeBasedWidget* GetTimeBasedWidget() const { return widget_; }
 
  public slots:
   void SetTimebase(const rational& timebase);
@@ -115,7 +115,7 @@ class TimeBasedPanel : public PanelWidget {
  protected:
   void SetTimeBasedWidget(TimeBasedWidget* widget);
 
-  virtual void Retranslate() override;
+  void Retranslate() override;
 
   void SetShowAndRaiseOnConnect() { show_and_raise_on_connect_ = true; }
 

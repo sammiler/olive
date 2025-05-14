@@ -57,9 +57,9 @@ class AudioManager : public QObject {
 
   void StopOutput();
 
-  PaDeviceIndex GetOutputDevice() const { return output_device_; }
+  [[nodiscard]] PaDeviceIndex GetOutputDevice() const { return output_device_; }
 
-  PaDeviceIndex GetInputDevice() const { return input_device_; }
+  [[nodiscard]] PaDeviceIndex GetInputDevice() const { return input_device_; }
 
   void SetOutputDevice(PaDeviceIndex device);
 
@@ -84,7 +84,7 @@ class AudioManager : public QObject {
  private:
   AudioManager();
 
-  virtual ~AudioManager() override;
+  ~AudioManager() override;
 
   static PaSampleFormat GetPortAudioSampleFormat(SampleFormat fmt);
 

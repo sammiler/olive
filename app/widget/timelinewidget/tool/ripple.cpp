@@ -76,7 +76,7 @@ void RippleTool::InitiateDrag(Block* clicked_item, Timeline::MovementMode trim_m
 
       // Exception for out-transitions, do not create a gap between them
       if (block_after_ripple) {
-        if (ClipBlock* prev_clip = dynamic_cast<ClipBlock*>(block_after_ripple->previous())) {
+        if (auto* prev_clip = dynamic_cast<ClipBlock*>(block_after_ripple->previous())) {
           if (prev_clip->out_transition() == block_after_ripple) {
             block_after_ripple = block_after_ripple->next();
           }
@@ -124,7 +124,7 @@ void RippleTool::FinishDrag(TimelineViewMouseEvent* event) {
       Track* track = parent()->GetTrackFromReference(ghost->GetTrack());
 
       TrackListRippleToolCommand::RippleInfo info{};
-      Block* b = QtUtils::ValueToPtr<Block>(ghost->GetData(TimelineViewGhostItem::kAttachedBlock));
+      auto* b = QtUtils::ValueToPtr<Block>(ghost->GetData(TimelineViewGhostItem::kAttachedBlock));
 
       if (b) {
         info.block = b;
@@ -137,7 +137,7 @@ void RippleTool::FinishDrag(TimelineViewMouseEvent* event) {
       info_list[track->type()].insert(track, info);
     }
 
-    MultiUndoCommand* command = new MultiUndoCommand();
+    auto* command = new MultiUndoCommand();
 
     rational movement;
 

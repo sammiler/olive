@@ -50,7 +50,7 @@ class TaskManager : public QObject {
    *
    * Ensures all Tasks are deleted
    */
-  virtual ~TaskManager();
+  ~TaskManager() override;
 
   static void CreateInstance();
 
@@ -58,9 +58,9 @@ class TaskManager : public QObject {
 
   static TaskManager* instance();
 
-  int GetTaskCount() const;
+  [[nodiscard]] int GetTaskCount() const;
 
-  Task* GetFirstTask() const;
+  [[nodiscard]] Task* GetFirstTask() const;
 
   void CancelTaskAndWait(Task* t);
 

@@ -96,7 +96,7 @@ bool LoadOTIOTask::Run() {
   // Assumes each timeline has a unique name.
   int unnamed_sequence_count = 0;
   foreach (auto timeline, timelines) {
-    Sequence* sequence = new Sequence();
+    auto* sequence = new Sequence();
     if (!timeline->name().empty()) {
       sequence->SetLabel(QString::fromStdString(timeline->name()));
     } else {
@@ -134,7 +134,7 @@ bool LoadOTIOTask::Run() {
     FolderAddChild(project_->root(), sequence).redo_now();
 
     // Create a folder for this sequence's footage
-    Folder* sequence_footage = new Folder();
+    auto* sequence_footage = new Folder();
     sequence_footage->SetLabel(QString::fromStdString(timeline->name()));
     sequence_footage->setParent(project_);
     FolderAddChild(project_->root(), sequence_footage).redo_now();
@@ -218,14 +218,14 @@ bool LoadOTIOTask::Run() {
 
         // If the previous block was a transition, connect the current block to it
         if (prev_block_transition) {
-          TransitionBlock* previous_transition_block = dynamic_cast<TransitionBlock*>(previous_block);
+          auto* previous_transition_block = dynamic_cast<TransitionBlock*>(previous_block);
           Node::ConnectEdge(block, NodeInput(previous_transition_block, TransitionBlock::kInBlockInput));
           prev_block_transition = false;
         }
 
         if (otio_block->schema_name() == "Transition") {
-          TransitionBlock* transition_block = dynamic_cast<TransitionBlock*>(block);
-          OTIO::Transition* otio_block_transition = dynamic_cast<OTIO::Transition*>(otio_block);
+          auto* transition_block = dynamic_cast<TransitionBlock*>(block);
+          auto* otio_block_transition = dynamic_cast<OTIO::Transition*>(otio_block);
 
           // Set how far the transition eats into the previous clip
           transition_block->set_offsets_and_length(rational::fromRationalTime(otio_block_transition->in_offset()),
@@ -290,14 +290,14 @@ bool LoadOTIOTask::Run() {
             block->SetNodePositionInContext(probed_item, QPointF(-2, 0));
 
             if (track->type() == Track::kVideo) {
-              TransformDistortNode* transform = new TransformDistortNode();
+              auto* transform = new TransformDistortNode();
               transform->setParent(sequence->parent());
 
               Node::ConnectEdge(probed_item, NodeInput(transform, TransformDistortNode::kTextureInput));
               Node::ConnectEdge(transform, NodeInput(block, ClipBlock::kBufferIn));
               block->SetNodePositionInContext(transform, QPointF(-1, 0));
             } else {
-              VolumeNode* volume_node = new VolumeNode();
+              auto* volume_node = new VolumeNode();
               volume_node->setParent(sequence->parent());
 
               Node::ConnectEdge(probed_item, NodeInput(volume_node, VolumeNode::kSamplesInput));

@@ -205,7 +205,7 @@ void OpenGLRenderer::AttachTextureAsDestination(const QVariant &texture) {
 void OpenGLRenderer::DetachTextureAsDestination() { functions_->glBindFramebuffer(GL_FRAMEBUFFER, 0); }
 
 void OpenGLRenderer::DestroyNativeTexture(QVariant texture) {
-  GLuint t = texture.value<GLuint>();
+  auto t = texture.value<GLuint>();
 
   if (t > 0) {
     functions_->glDeleteTextures(1, &t);
@@ -246,14 +246,14 @@ QVariant OpenGLRenderer::CreateNativeShader(ShaderCode code) {
 void OpenGLRenderer::DestroyNativeShader(QVariant shader) {
   GL_PREAMBLE;
 
-  GLuint program = shader.value<GLuint>();
+  auto program = shader.value<GLuint>();
   functions_->glDeleteProgram(program);
 }
 
 void OpenGLRenderer::UploadToTexture(const QVariant &handle, const VideoParams &p, const void *data, int linesize) {
   GL_PREAMBLE;
 
-  GLuint t = handle.value<GLuint>();
+  auto t = handle.value<GLuint>();
 
   bool is_3d = p.is_3d();
 
@@ -352,7 +352,7 @@ void OpenGLRenderer::Blit(QVariant s, ShaderJob job, Texture *destination, Video
   QMap<QString, GLuint> texture_index_map;
   QVector<TextureToBind> textures_to_bind;
 
-  GLuint shader = s.value<GLuint>();
+  auto shader = s.value<GLuint>();
 
   functions_->glUseProgram(shader);
 

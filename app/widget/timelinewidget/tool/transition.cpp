@@ -100,7 +100,7 @@ void TransitionTool::MouseRelease(TimelineViewMouseEvent *event) {
       rational len = ghost_->GetAdjustedLength();
       transition->set_length_and_media_out(len);
 
-      MultiUndoCommand *command = new MultiUndoCommand();
+      auto *command = new MultiUndoCommand();
 
       // Place transition in place
       command->add_child(new NodeAddCommand(parent()->GetConnectedNode()->parent(), transition));
@@ -112,10 +112,10 @@ void TransitionTool::MouseRelease(TimelineViewMouseEvent *event) {
 
       if (dual_transition_) {
         // Block mouse is hovering over
-        Block *active_block = QtUtils::ValueToPtr<Block>(ghost_->GetData(TimelineViewGhostItem::kAttachedBlock));
+        auto *active_block = QtUtils::ValueToPtr<Block>(ghost_->GetData(TimelineViewGhostItem::kAttachedBlock));
 
         // Block mouse is next to
-        Block *friend_block = QtUtils::ValueToPtr<Block>(ghost_->GetData(TimelineViewGhostItem::kReferenceBlock));
+        auto *friend_block = QtUtils::ValueToPtr<Block>(ghost_->GetData(TimelineViewGhostItem::kReferenceBlock));
 
         // Use ghost mode to determine which block is which
         Block *out_block = (ghost_->GetMode() == Timeline::kTrimIn) ? friend_block : active_block;
@@ -129,7 +129,7 @@ void TransitionTool::MouseRelease(TimelineViewMouseEvent *event) {
         command->add_child(new NodeSetPositionCommand(out_block, transition, Node::Position(QPointF(-1, -0.5))));
         command->add_child(new NodeSetPositionCommand(in_block, transition, Node::Position(QPointF(-1, 0.5))));
       } else {
-        Block *block_to_transition = QtUtils::ValueToPtr<Block>(ghost_->GetData(TimelineViewGhostItem::kAttachedBlock));
+        auto *block_to_transition = QtUtils::ValueToPtr<Block>(ghost_->GetData(TimelineViewGhostItem::kAttachedBlock));
         QString transition_input_to_connect;
 
         if (ghost_->GetMode() == Timeline::kTrimIn) {
@@ -182,7 +182,7 @@ bool TransitionTool::GetBlocksAtCoord(const TimelineCoordinate &coord, ClipBlock
       return false;
     }
 
-    ClipBlock *adjacent = dynamic_cast<ClipBlock *>(block_at_time->previous());
+    auto *adjacent = dynamic_cast<ClipBlock *>(block_at_time->previous());
     if (adjacent) {
       tenth_point = std::min(tenth_point, adjacent->length() / rational(10));
     }
@@ -199,7 +199,7 @@ bool TransitionTool::GetBlocksAtCoord(const TimelineCoordinate &coord, ClipBlock
       return false;
     }
 
-    ClipBlock *adjacent = dynamic_cast<ClipBlock *>(block_at_time->next());
+    auto *adjacent = dynamic_cast<ClipBlock *>(block_at_time->next());
     if (adjacent) {
       tenth_point = std::min(tenth_point, adjacent->length() / rational(10));
     }

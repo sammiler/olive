@@ -21,7 +21,7 @@ namespace olive {
 #define super QGraphicsRectItem
 
 NodeViewContext::NodeViewContext(Node *context, QGraphicsItem *item) : super(item), context_(context) {
-  Block *block = dynamic_cast<Block *>(context_);
+  auto *block = dynamic_cast<Block *>(context_);
   if (block && block->track() && block->track()->sequence()) {
     rational timebase = block->track()->sequence()->GetVideoParams().frame_rate_as_time_base();
     lbl_ = QCoreApplication::translate("NodeViewContext", "%1 [%2] :: %3 - %4")
@@ -56,12 +56,12 @@ void NodeViewContext::AddChild(Node *node) {
     return;
   }
 
-  NodeViewItem *item = new NodeViewItem(node, context_, this);
+  auto *item = new NodeViewItem(node, context_, this);
   item->SetFlowDirection(flow_dir_);
 
   AddNodeInternal(node, item);
 
-  if (NodeGroup *group = dynamic_cast<NodeGroup *>(node)) {
+  if (auto *group = dynamic_cast<NodeGroup *>(node)) {
     for (auto it = group->GetContextPositions().cbegin(); it != group->GetContextPositions().cend(); it++) {
       // Use this item as the representative for all of these nodes too
       AddNodeInternal(it.key(), item);
@@ -80,7 +80,7 @@ void NodeViewContext::RemoveChild(Node *node) {
   disconnect(node, &Node::InputConnected, this, &NodeViewContext::ChildInputConnected);
   disconnect(node, &Node::InputDisconnected, this, &NodeViewContext::ChildInputDisconnected);
 
-  if (NodeGroup *group = dynamic_cast<NodeGroup *>(node)) {
+  if (auto *group = dynamic_cast<NodeGroup *>(node)) {
     disconnect(group, &NodeGroup::NodeAddedToContext, this, &NodeViewContext::GroupAddedNode);
     disconnect(group, &NodeGroup::NodeRemovedFromContext, this, &NodeViewContext::GroupRemovedNode);
   }
@@ -308,7 +308,7 @@ void NodeViewContext::AddEdgeInternal(Node *output, const NodeInput &input, Node
     return;
   }
 
-  NodeViewEdge *edge_ui = new NodeViewEdge(output, input, from, to, this);
+  auto *edge_ui = new NodeViewEdge(output, input, from, to, this);
 
   edge_ui->Adjust();
   edge_ui->SetCurved(curved_edges_);
@@ -317,13 +317,13 @@ void NodeViewContext::AddEdgeInternal(Node *output, const NodeInput &input, Node
 }
 
 void NodeViewContext::GroupAddedNode(Node *node) {
-  NodeGroup *group = dynamic_cast<NodeGroup *>(sender());
+  auto *group = dynamic_cast<NodeGroup *>(sender());
 
   AddNodeInternal(node, item_map_.value(group));
 }
 
 void NodeViewContext::GroupRemovedNode(Node *node) {
-  NodeGroup *group = dynamic_cast<NodeGroup *>(sender());
+  auto *group = dynamic_cast<NodeGroup *>(sender());
 
   if (item_map_.value(node) == item_map_.value(group)) {
     item_map_.remove(node);

@@ -35,7 +35,7 @@ class NodeTableWidget : public TimeBasedWidget {
   void DeselectNodes(const QVector<Node*>& nodes) { view_->DeselectNodes(nodes); }
 
  protected:
-  virtual void TimeChangedEvent(const rational& time) override { view_->SetTime(time); }
+  void TimeChangedEvent(const rational& time) override { view_->SetTime(time); }
 
  private:
   NodeTableView* view_;

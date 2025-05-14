@@ -14,15 +14,15 @@ class ExportAdvancedVideoDialog : public QDialog {
  public:
   explicit ExportAdvancedVideoDialog(const QList<QString>& pix_fmts, QWidget* parent = nullptr);
 
-  int threads() const { return static_cast<int>(thread_slider_->GetValue()); }
+  [[nodiscard]] int threads() const { return static_cast<int>(thread_slider_->GetValue()); }
 
   void set_threads(int t) { thread_slider_->SetValue(t); }
 
-  QString pix_fmt() const { return pixel_format_combobox_->currentText(); }
+  [[nodiscard]] QString pix_fmt() const { return pixel_format_combobox_->currentText(); }
 
   void set_pix_fmt(const QString& s) { pixel_format_combobox_->setCurrentText(s); }
 
-  VideoParams::ColorRange yuv_range() const {
+  [[nodiscard]] VideoParams::ColorRange yuv_range() const {
     return static_cast<VideoParams::ColorRange>(yuv_color_range_combobox_->currentIndex());
   }
 

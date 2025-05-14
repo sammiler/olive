@@ -36,29 +36,29 @@ class ProjectPanel : public PanelWidget, public FootageManagementPanel {
  public:
   explicit ProjectPanel(const QString &unique_name);
 
-  Project *project() const;
+  [[nodiscard]] Project *project() const;
   void set_project(Project *p);
 
-  Folder *get_root() const;
+  [[nodiscard]] Folder *get_root() const;
 
   void set_root(Folder *item);
 
-  QVector<Node *> SelectedItems() const;
+  [[nodiscard]] QVector<Node *> SelectedItems() const;
 
-  Folder *GetSelectedFolder() const;
+  [[nodiscard]] Folder *GetSelectedFolder() const;
 
-  virtual QVector<ViewerOutput *> GetSelectedFootage() const override;
+  [[nodiscard]] QVector<ViewerOutput *> GetSelectedFootage() const override;
 
-  ProjectViewModel *model() const;
+  [[nodiscard]] ProjectViewModel *model() const;
 
   bool SelectItem(Node *n, bool deselect_all_first = true) { return explorer_->SelectItem(n, deselect_all_first); }
 
-  virtual void SelectAll() override;
-  virtual void DeselectAll() override;
+  void SelectAll() override;
+  void DeselectAll() override;
 
-  virtual void DeleteSelected() override;
+  void DeleteSelected() override;
 
-  virtual void RenameSelected() override;
+  void RenameSelected() override;
 
  public slots:
   void Edit(Node *item);
@@ -69,7 +69,7 @@ class ProjectPanel : public PanelWidget, public FootageManagementPanel {
   void SelectionChanged(const QVector<Node *> &selected);
 
  private:
-  virtual void Retranslate() override;
+  void Retranslate() override;
 
   ProjectExplorer *explorer_;
 

@@ -37,13 +37,13 @@ class ColorValuesTab : public QWidget {
  public:
   explicit ColorValuesTab(bool with_legacy_option = false, QWidget* parent = nullptr);
 
-  Color GetColor() const;
+  [[nodiscard]] Color GetColor() const;
 
   void SetColor(const Color& c);
 
-  double GetRed() const;
-  double GetGreen() const;
-  double GetBlue() const;
+  [[nodiscard]] double GetRed() const;
+  [[nodiscard]] double GetGreen() const;
+  [[nodiscard]] double GetBlue() const;
   void SetRed(double r);
   void SetGreen(double g);
   void SetBlue(double b);
@@ -57,7 +57,7 @@ class ColorValuesTab : public QWidget {
   double GetValueInternal(FloatSlider* slider) const;
   void SetValueInternal(FloatSlider* slider, double v);
 
-  bool AreSlidersLegacyValues() const;
+  [[nodiscard]] bool AreSlidersLegacyValues() const;
 
   FloatSlider* CreateColorSlider();
 
@@ -87,12 +87,12 @@ class ColorValuesWidget : public QWidget {
  public:
   explicit ColorValuesWidget(ColorManager* manager, QWidget* parent = nullptr);
 
-  Color GetColor() const;
+  [[nodiscard]] Color GetColor() const;
 
   void SetColorProcessor(ColorProcessorPtr input_to_ref, ColorProcessorPtr ref_to_display,
                          ColorProcessorPtr display_to_ref, ColorProcessorPtr ref_to_input);
 
-  virtual bool eventFilter(QObject* watcher, QEvent* event) override;
+  bool eventFilter(QObject* watcher, QEvent* event) override;
 
   void IgnorePickFrom(QWidget* w) { ignore_pick_from_.append(w); }
 

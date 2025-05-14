@@ -31,13 +31,13 @@ class OIIOEncoder : public Encoder {
   explicit OIIOEncoder(const EncodingParams &params);
 
  public slots:
-  virtual bool Open() override;
+  bool Open() override;
 
-  virtual bool WriteFrame(olive::FramePtr frame, olive::core::rational time) override;
-  virtual bool WriteAudio(const SampleBuffer &audio) override;
-  virtual bool WriteSubtitle(const SubtitleBlock *sub_block) override;
+  bool WriteFrame(olive::FramePtr frame, olive::core::rational time) override;
+  bool WriteAudio(const SampleBuffer &audio) override;
+  bool WriteSubtitle(const SubtitleBlock *sub_block) override;
 
-  virtual void Close() override;
+  void Close() override;
 };
 
 }  // namespace olive

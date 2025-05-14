@@ -31,7 +31,7 @@
 namespace olive {
 
 DiskCacheDialog::DiskCacheDialog(DiskCacheFolder *folder, QWidget *parent) : QDialog(parent), folder_(folder) {
-  QGridLayout *layout = new QGridLayout(this);
+  auto *layout = new QGridLayout(this);
 
   int row = 0;
 
@@ -63,7 +63,7 @@ DiskCacheDialog::DiskCacheDialog(DiskCacheFolder *folder, QWidget *parent) : QDi
 
   row++;
 
-  QDialogButtonBox *buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+  auto *buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
   connect(buttons, &QDialogButtonBox::accepted, this, &DiskCacheDialog::accept);
   connect(buttons, &QDialogButtonBox::rejected, this, &DiskCacheDialog::reject);
   layout->addWidget(buttons, row, 0, 1, 2);

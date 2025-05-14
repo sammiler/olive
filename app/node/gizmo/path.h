@@ -32,10 +32,10 @@ class PathGizmo : public DraggableGizmo {
  public:
   explicit PathGizmo(QObject *parent = nullptr);
 
-  const QPainterPath &GetPath() const { return path_; }
+  [[nodiscard]] const QPainterPath &GetPath() const { return path_; }
   void SetPath(const QPainterPath &path) { path_ = path; }
 
-  virtual void Draw(QPainter *p) const override;
+  void Draw(QPainter *p) const override;
 
  private:
   QPainterPath path_;

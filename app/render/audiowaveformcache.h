@@ -33,7 +33,7 @@ class AudioWaveformCache : public PlaybackCache {
 
   void WriteWaveform(const TimeRange &range, const TimeRangeList &valid_ranges, const AudioVisualWaveform *waveform);
 
-  const AudioParams &GetParameters() const { return params_; }
+  [[nodiscard]] const AudioParams &GetParameters() const { return params_; }
   void SetParameters(const AudioParams &p) {
     params_ = p;
     waveforms_->set_channel_count(p.channel_count());
@@ -41,14 +41,14 @@ class AudioWaveformCache : public PlaybackCache {
 
   void Draw(QPainter *painter, const QRect &rect, const double &scale, const rational &start_time) const;
 
-  AudioVisualWaveform::Sample GetSummaryFromTime(const rational &start, const rational &length) const;
+  [[nodiscard]] AudioVisualWaveform::Sample GetSummaryFromTime(const rational &start, const rational &length) const;
 
-  rational length() const;
+  [[nodiscard]] rational length() const;
 
-  virtual void SetPassthrough(PlaybackCache *cache) override;
+  void SetPassthrough(PlaybackCache *cache) override;
 
  protected:
-  virtual void InvalidateEvent(const TimeRange &range) override;
+  void InvalidateEvent(const TimeRange &range) override;
 
  private:
   using WaveformPtr = std::shared_ptr<AudioVisualWaveform>;

@@ -30,9 +30,9 @@ class AcceleratedJob {
  public:
   AcceleratedJob() = default;
 
-  virtual ~AcceleratedJob() {}
+  virtual ~AcceleratedJob() = default;
 
-  NodeValue Get(const QString &input) const { return value_map_.value(input); }
+  [[nodiscard]] NodeValue Get(const QString &input) const { return value_map_.value(input); }
 
   void Insert(const QString &input, const NodeValueRow &row) { value_map_.insert(input, row.value(input)); }
 
@@ -48,7 +48,7 @@ class AcceleratedJob {
 #endif
   }
 
-  const NodeValueRow &GetValues() const { return value_map_; }
+  [[nodiscard]] const NodeValueRow &GetValues() const { return value_map_; }
   NodeValueRow &GetValues() { return value_map_; }
 
  private:

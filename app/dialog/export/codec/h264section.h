@@ -35,7 +35,7 @@ class H264CRFSection : public QWidget {
  public:
   explicit H264CRFSection(int default_crf, QWidget* parent = nullptr);
 
-  int GetValue() const;
+  [[nodiscard]] int GetValue() const;
   void SetValue(int c);
 
   static const int kDefaultH264CRF = 18;
@@ -56,13 +56,13 @@ class H264BitRateSection : public QWidget {
   /**
    * @brief Get user-selected target bit rate (returns in BITS)
    */
-  int64_t GetTargetBitRate() const;
+  [[nodiscard]] int64_t GetTargetBitRate() const;
   void SetTargetBitRate(int64_t b);
 
   /**
    * @brief Get user-selected maximum bit rate (returns in BITS)
    */
-  int64_t GetMaximumBitRate() const;
+  [[nodiscard]] int64_t GetMaximumBitRate() const;
   void SetMaximumBitRate(int64_t b);
 
  private:
@@ -79,7 +79,7 @@ class H264FileSizeSection : public QWidget {
   /**
    * @brief Returns file size in BITS
    */
-  int64_t GetFileSize() const;
+  [[nodiscard]] int64_t GetFileSize() const;
   void SetFileSize(int64_t f);
 
  private:
@@ -94,9 +94,9 @@ class H264Section : public CodecSection {
   explicit H264Section(QWidget* parent = nullptr);
   H264Section(int default_crf, QWidget* parent);
 
-  virtual void AddOpts(EncodingParams* params) override;
+  void AddOpts(EncodingParams* params) override;
 
-  virtual void SetOpts(const EncodingParams* p) override;
+  void SetOpts(const EncodingParams* p) override;
 
  private:
   QStackedWidget* compression_method_stack_;

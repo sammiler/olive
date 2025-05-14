@@ -44,7 +44,7 @@ struct ItemRef
     explicit ItemRef(const QMetaObject::Connection &, Layouting::Item *);
     ~ItemRef();
 
-    bool isInMainWindow() const;
+    [[nodiscard]] bool isInMainWindow() const;
 
     Layouting::Item *const item;
     const QPointer<Layouting::Item> guard;
@@ -74,13 +74,13 @@ public:
     ~Position();
 
     void deserialize(const LayoutSaver::Position &);
-    LayoutSaver::Position serialize() const;
+    [[nodiscard]] LayoutSaver::Position serialize() const;
 
     /**
      * @brief Returns whether the Position is valid. If invalid then the DockWidget was never
      * in a MainWindow.
      */
-    bool isValid() const
+    [[nodiscard]] bool isValid() const
     {
         return layoutItem() != nullptr;
     }
@@ -89,7 +89,7 @@ public:
      * @brief returns if the dock widget was in a tab
      * @return if the position is tabbed, false otherwise
      */
-    bool isTabbed() const
+    [[nodiscard]] bool isTabbed() const
     {
         return m_tabIndex != -1;
     }
@@ -103,13 +103,13 @@ public:
     ///@brief Adds the last layout item where the dock widget was (or is)
     void addPlaceholderItem(Layouting::Item *placeholder);
 
-    Layouting::Item *layoutItem() const;
+    [[nodiscard]] Layouting::Item *layoutItem() const;
 
     bool containsPlaceholder(Layouting::Item *) const;
     void removePlaceholders();
 
     /// @brief Returns the last places where the dock widget was or is
-    const std::vector<std::unique_ptr<ItemRef>> &placeholders() const
+    [[nodiscard]] const std::vector<std::unique_ptr<ItemRef>> &placeholders() const
     {
         return m_placeholders;
     }
@@ -134,27 +134,27 @@ public:
         m_lastFloatingGeometry = geo;
     }
 
-    bool wasFloating() const
+    [[nodiscard]] bool wasFloating() const
     {
         return m_wasFloating;
     }
 
-    QRect lastFloatingGeometry() const
+    [[nodiscard]] QRect lastFloatingGeometry() const
     {
         return m_lastFloatingGeometry;
     }
 
-    Layouting::Item *lastItem() const
+    [[nodiscard]] Layouting::Item *lastItem() const
     {
         return layoutItem();
     }
 
-    int lastTabIndex() const
+    [[nodiscard]] int lastTabIndex() const
     {
         return m_tabIndex;
     }
 
-    QRect lastOverlayedGeometry(SideBarLocation loc) const
+    [[nodiscard]] QRect lastOverlayedGeometry(SideBarLocation loc) const
     {
         return m_lastOverlayedGeometries.value(loc);
     }

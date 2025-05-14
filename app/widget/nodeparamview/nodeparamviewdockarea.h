@@ -32,7 +32,7 @@ class NodeParamViewDockArea : public QMainWindow {
  public:
   explicit NodeParamViewDockArea(QWidget *parent = nullptr);
 
-  virtual QMenu *createPopupMenu() override;
+  QMenu *createPopupMenu() override;
 
   void AddItem(QDockWidget *item);
 };

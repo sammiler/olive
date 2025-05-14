@@ -29,12 +29,12 @@ class OpenSequenceCommand : public UndoCommand {
  public:
   explicit OpenSequenceCommand(Sequence* sequence) : sequence_(sequence) {}
 
-  virtual Project* GetRelevantProject() const override { return nullptr; }
+  [[nodiscard]] Project* GetRelevantProject() const override { return nullptr; }
 
  protected:
-  virtual void redo() override;
+  void redo() override;
 
-  virtual void undo() override;
+  void undo() override;
 
  private:
   Sequence* sequence_;
@@ -44,12 +44,12 @@ class CloseSequenceCommand : public UndoCommand {
  public:
   explicit CloseSequenceCommand(Sequence* sequence) : sequence_(sequence) {}
 
-  virtual Project* GetRelevantProject() const override { return nullptr; }
+  [[nodiscard]] Project* GetRelevantProject() const override { return nullptr; }
 
  protected:
-  virtual void redo() override;
+  void redo() override;
 
-  virtual void undo() override;
+  void undo() override;
 
  private:
   Sequence* sequence_;

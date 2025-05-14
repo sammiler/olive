@@ -32,9 +32,9 @@
 namespace olive {
 
 PreferencesKeyboardTab::PreferencesKeyboardTab(MainWindow* main_window) : main_window_(main_window) {
-  QVBoxLayout* shortcut_layout = new QVBoxLayout(this);
+  auto* shortcut_layout = new QVBoxLayout(this);
 
-  QLineEdit* key_search_line = new QLineEdit();
+  auto* key_search_line = new QLineEdit();
   key_search_line->setPlaceholderText(tr("Search for action or shortcut"));
   connect(key_search_line, SIGNAL(textChanged(const QString&)), this, SLOT(refine_shortcut_list(const QString&)));
 
@@ -46,23 +46,23 @@ PreferencesKeyboardTab::PreferencesKeyboardTab(MainWindow* main_window) : main_w
   tree_header->setText(1, tr("Shortcut"));
   shortcut_layout->addWidget(keyboard_tree_);
 
-  QHBoxLayout* reset_shortcut_layout = new QHBoxLayout();
+  auto* reset_shortcut_layout = new QHBoxLayout();
 
-  QPushButton* import_shortcut_button = new QPushButton(tr("Import"));
+  auto* import_shortcut_button = new QPushButton(tr("Import"));
   reset_shortcut_layout->addWidget(import_shortcut_button);
   connect(import_shortcut_button, SIGNAL(clicked(bool)), this, SLOT(load_shortcut_file()));
 
-  QPushButton* export_shortcut_button = new QPushButton(tr("Export"));
+  auto* export_shortcut_button = new QPushButton(tr("Export"));
   reset_shortcut_layout->addWidget(export_shortcut_button);
   connect(export_shortcut_button, SIGNAL(clicked(bool)), this, SLOT(save_shortcut_file()));
 
   reset_shortcut_layout->addStretch();
 
-  QPushButton* reset_selected_shortcut_button = new QPushButton(tr("Reset Selected"));
+  auto* reset_selected_shortcut_button = new QPushButton(tr("Reset Selected"));
   reset_shortcut_layout->addWidget(reset_selected_shortcut_button);
   connect(reset_selected_shortcut_button, SIGNAL(clicked(bool)), this, SLOT(reset_default_shortcut()));
 
-  QPushButton* reset_all_shortcut_button = new QPushButton(tr("Reset All"));
+  auto* reset_all_shortcut_button = new QPushButton(tr("Reset All"));
   reset_shortcut_layout->addWidget(reset_all_shortcut_button);
   connect(reset_all_shortcut_button, SIGNAL(clicked(bool)), this, SLOT(reset_all_shortcuts()));
 
@@ -88,7 +88,7 @@ void PreferencesKeyboardTab::setup_kbd_shortcuts(QMenuBar* menubar) {
   for (int i = 0; i < menus.size(); i++) {
     QMenu* menu = menus.at(i)->menu();
 
-    QTreeWidgetItem* item = new QTreeWidgetItem(keyboard_tree_);
+    auto* item = new QTreeWidgetItem(keyboard_tree_);
     item->setText(0, menu->title().replace("&", ""));
 
     keyboard_tree_->addTopLevelItem(item);
@@ -98,7 +98,7 @@ void PreferencesKeyboardTab::setup_kbd_shortcuts(QMenuBar* menubar) {
 
   for (int i = 0; i < key_shortcut_items_.size(); i++) {
     if (!key_shortcut_actions_.at(i)->property("id").isNull()) {
-      KeySequenceEditor* editor = new KeySequenceEditor(keyboard_tree_, key_shortcut_actions_.at(i));
+      auto* editor = new KeySequenceEditor(keyboard_tree_, key_shortcut_actions_.at(i));
       keyboard_tree_->setItemWidget(key_shortcut_items_.at(i), 1, editor);
       key_shortcut_fields_.append(editor);
     }
@@ -111,7 +111,7 @@ void PreferencesKeyboardTab::setup_kbd_shortcut_worker(QMenu* menu, QTreeWidgetI
     QAction* a = actions.at(i);
 
     if (!a->isSeparator() && a->property("keyignore").isNull()) {
-      QTreeWidgetItem* item = new QTreeWidgetItem(parent);
+      auto* item = new QTreeWidgetItem(parent);
       item->setText(0, a->text().replace("&", ""));
 
       parent->addChild(item);

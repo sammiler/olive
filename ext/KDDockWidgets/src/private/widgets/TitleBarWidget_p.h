@@ -42,7 +42,7 @@ public:
     ~TitleBarWidget() override;
 
     ///@brief getter for the close button
-    QWidget *closeButton() const;
+    [[nodiscard]] QWidget *closeButton() const;
 
 protected:
     void paintEvent(QPaintEvent *) override;
@@ -50,7 +50,7 @@ protected:
     void updateMaximizeButton() override;
     void updateMinimizeButton() override;
     void updateAutoHideButton() override;
-    QSize sizeHint() const override;
+    [[nodiscard]] QSize sizeHint() const override;
 
 #ifdef DOCKS_DEVELOPER_MODE
     // The following are needed for the unit-tests
@@ -62,9 +62,9 @@ protected:
 
 protected:
     void init();
-    int buttonAreaWidth() const;
+    [[nodiscard]] int buttonAreaWidth() const;
     void updateMargins();
-    QRect iconRect() const;
+    [[nodiscard]] QRect iconRect() const;
 
     QHBoxLayout *const m_layout;
     QAbstractButton *m_closeButton = nullptr;
@@ -89,7 +89,7 @@ public:
     }
 
     ~Button() override;
-    QSize sizeHint() const override;
+    [[nodiscard]] QSize sizeHint() const override;
 
     void paintEvent(QPaintEvent *) override;
 };

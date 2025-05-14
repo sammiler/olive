@@ -32,7 +32,7 @@ TaskViewItem::TaskViewItem(Task* task, QWidget* parent) : QFrame(parent), task_(
   setFrameShape(QFrame::StyledPanel);
 
   // Create layout
-  QVBoxLayout* layout = new QVBoxLayout(this);
+  auto* layout = new QVBoxLayout(this);
 
   // Create header label
   task_name_lbl_ = new QLabel(this);
@@ -40,7 +40,7 @@ TaskViewItem::TaskViewItem(Task* task, QWidget* parent) : QFrame(parent), task_(
   layout->addWidget(task_name_lbl_);
 
   // Create center layout (combines progress bar and a cancel button)
-  QHBoxLayout* middle_layout = new QHBoxLayout();
+  auto* middle_layout = new QHBoxLayout();
   layout->addLayout(middle_layout);
 
   // Create progress bar

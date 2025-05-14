@@ -50,28 +50,28 @@ class CurveWidget : public TimeBasedWidget, public TimeTargetObject {
 
   Node *GetSelectedNodeWithID(const QString &id);
 
-  virtual bool CopySelected(bool cut) override;
+  bool CopySelected(bool cut) override;
 
-  virtual bool Paste() override;
+  bool Paste() override;
 
  public slots:
   void SetNodes(const QVector<Node *> &nodes);
 
  protected:
-  virtual void TimebaseChangedEvent(const rational &) override;
-  virtual void ScaleChangedEvent(const double &) override;
+  void TimebaseChangedEvent(const rational &) override;
+  void ScaleChangedEvent(const double &) override;
 
-  virtual void TimeTargetChangedEvent(ViewerOutput *target) override;
+  void TimeTargetChangedEvent(ViewerOutput *target) override;
 
-  virtual void ConnectedNodeChangeEvent(ViewerOutput *n) override;
+  void ConnectedNodeChangeEvent(ViewerOutput *n) override;
 
-  virtual const QVector<KeyframeViewInputConnection *> *GetSnapKeyframes() const override {
+  [[nodiscard]] const QVector<KeyframeViewInputConnection *> *GetSnapKeyframes() const override {
     return &view_->GetKeyframeTracks();
   }
 
-  virtual const TimeTargetObject *GetKeyframeTimeTarget() const override { return view_; }
+  [[nodiscard]] const TimeTargetObject *GetKeyframeTimeTarget() const override { return view_; }
 
-  virtual const std::vector<NodeKeyframe *> *GetSnapIgnoreKeyframes() const override {
+  [[nodiscard]] const std::vector<NodeKeyframe *> *GetSnapIgnoreKeyframes() const override {
     return &view_->GetSelectedKeyframes();
   }
 

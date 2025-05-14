@@ -32,7 +32,7 @@ class FloatSlider : public DecimalSliderBase {
 
   enum DisplayType { kNormal, kDecibel, kPercentage };
 
-  double GetValue() const;
+  [[nodiscard]] double GetValue() const;
 
   void SetValue(const double& d);
 
@@ -51,13 +51,13 @@ class FloatSlider : public DecimalSliderBase {
   static QString ValueToString(double val, DisplayType display, int decimal_places, bool autotrim_decimal_places);
 
  protected:
-  virtual QString ValueToString(const QVariant& v) const override;
+  [[nodiscard]] QString ValueToString(const QVariant& v) const override;
 
-  virtual QVariant StringToValue(const QString& s, bool* ok) const override;
+  QVariant StringToValue(const QString& s, bool* ok) const override;
 
-  virtual QVariant AdjustDragDistanceInternal(const QVariant& start, const double& drag) const override;
+  [[nodiscard]] QVariant AdjustDragDistanceInternal(const QVariant& start, const double& drag) const override;
 
-  virtual void ValueSignalEvent(const QVariant& value) override;
+  void ValueSignalEvent(const QVariant& value) override;
 
  signals:
   void ValueChanged(double);

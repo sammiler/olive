@@ -25,7 +25,7 @@
 namespace olive {
 
 PixelSamplerWidget::PixelSamplerWidget(QWidget *parent) : QGroupBox(parent) {
-  QHBoxLayout *layout = new QHBoxLayout(this);
+  auto *layout = new QHBoxLayout(this);
 
   box_ = new ColorPreviewBox();
   QFontMetrics fm = fontMetrics();
@@ -62,7 +62,7 @@ void PixelSamplerWidget::UpdateLabelInternal() {
 }
 
 ManagedPixelSamplerWidget::ManagedPixelSamplerWidget(QWidget *parent) : QWidget(parent) {
-  QVBoxLayout *layout = new QVBoxLayout(this);
+  auto *layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
 
   display_view_ = new PixelSamplerWidget();

@@ -32,7 +32,7 @@ class ColorSwatchWidget : public QWidget {
  public:
   explicit ColorSwatchWidget(QWidget* parent = nullptr);
 
-  const Color& GetSelectedColor() const;
+  [[nodiscard]] const Color& GetSelectedColor() const;
 
   void SetColorProcessor(ColorProcessorPtr to_linear, ColorProcessorPtr to_display);
 
@@ -43,17 +43,17 @@ class ColorSwatchWidget : public QWidget {
   void SelectedColorChanged(const Color& c);
 
  protected:
-  virtual void mousePressEvent(QMouseEvent* e) override;
+  void mousePressEvent(QMouseEvent* e) override;
 
-  virtual void mouseMoveEvent(QMouseEvent* e) override;
+  void mouseMoveEvent(QMouseEvent* e) override;
 
-  virtual Color GetColorFromScreenPos(const QPoint& p) const = 0;
+  [[nodiscard]] virtual Color GetColorFromScreenPos(const QPoint& p) const = 0;
 
   virtual void SelectedColorChangedEvent(const Color& c, bool external);
 
-  Qt::GlobalColor GetUISelectorColor() const;
+  [[nodiscard]] Qt::GlobalColor GetUISelectorColor() const;
 
-  Color GetManagedColor(const Color& input) const;
+  [[nodiscard]] Color GetManagedColor(const Color& input) const;
 
  private:
   void SetSelectedColorInternal(const Color& c, bool external);

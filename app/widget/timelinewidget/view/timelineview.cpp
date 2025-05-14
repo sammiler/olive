@@ -228,7 +228,7 @@ void TimelineView::drawForeground(QPainter *painter, const QRectF &rect) {
       if (ghost->GetTrack().type() == connected_track_list_->type() && !ghost->IsInvisible()) {
         int track_index = ghost->GetAdjustedTrack().index();
 
-        Block *attached = QtUtils::ValueToPtr<Block>(ghost->GetData(TimelineViewGhostItem::kAttachedBlock));
+        auto *attached = QtUtils::ValueToPtr<Block>(ghost->GetData(TimelineViewGhostItem::kAttachedBlock));
 
         if (attached && OLIVE_CONFIG("ShowClipWhileDragging").toBool()) {
           int adj_track = ghost->GetAdjustedTrack().index();
@@ -432,7 +432,7 @@ void TimelineView::DrawBlock(QPainter *painter, bool foreground, Block *block, q
         painter->drawRect(r);
 
         if (r.width() > MINIMUM_DETAIL_WIDTH) {
-          if (ClipBlock *clip = dynamic_cast<ClipBlock *>(block)) {
+          if (auto *clip = dynamic_cast<ClipBlock *>(block)) {
             QRect preview_rect = r.toRect();
 
             // Draw clip thumbnails
@@ -576,7 +576,7 @@ void TimelineView::DrawBlock(QPainter *painter, bool foreground, Block *block, q
           }
 
           // For transitions, show lines representing a transition
-          if (TransitionBlock *transition = dynamic_cast<TransitionBlock *>(block)) {
+          if (auto *transition = dynamic_cast<TransitionBlock *>(block)) {
             QVector<QLineF> lines;
 
             if (transition->connected_in_block()) {

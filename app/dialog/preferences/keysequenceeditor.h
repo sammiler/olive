@@ -96,9 +96,9 @@ class KeySequenceEditor : public QKeySequenceEdit {
   QString export_shortcut();
 
  protected:
-  virtual void keyPressEvent(QKeyEvent *e) override;
+  void keyPressEvent(QKeyEvent *e) override;
 
-  virtual void keyReleaseEvent(QKeyEvent *e) override;
+  void keyReleaseEvent(QKeyEvent *e) override;
 
  private:
   /**

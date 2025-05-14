@@ -39,7 +39,7 @@ class ChannelLayoutComboBox : public QComboBox {
     }
   }
 
-  uint64_t GetChannelLayout() const { return this->currentData().toULongLong(); }
+  [[nodiscard]] uint64_t GetChannelLayout() const { return this->currentData().toULongLong(); }
 
   void SetChannelLayout(uint64_t ch) {
     for (int i = 0; i < this->count(); i++) {

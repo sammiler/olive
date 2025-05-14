@@ -30,9 +30,9 @@ class ProjectSerializer190219 : public ProjectSerializer {
   ProjectSerializer190219() = default;
 
  protected:
-  virtual LoadData Load(Project *project, QXmlStreamReader *reader, LoadType load_type, void *reserved) const override;
+  LoadData Load(Project *project, QXmlStreamReader *reader, LoadType load_type, void *reserved) const override;
 
-  virtual uint Version() const override { return 190219; }
+  [[nodiscard]] uint Version() const override { return 190219; }
 };
 
 }  // namespace olive

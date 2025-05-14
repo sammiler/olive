@@ -32,15 +32,15 @@ class DropShadowFilter : public Node {
 
   NODE_DEFAULT_FUNCTIONS(DropShadowFilter)
 
-  virtual QString Name() const override { return tr("Drop Shadow"); }
-  virtual QString id() const override { return QStringLiteral("org.olivevideoeditor.Olive.dropshadow"); }
-  virtual QVector<CategoryID> Category() const override { return {kCategoryFilter}; }
-  virtual QString Description() const override { return tr("Adds a drop shadow to an image."); }
+  [[nodiscard]] QString Name() const override { return tr("Drop Shadow"); }
+  [[nodiscard]] QString id() const override { return QStringLiteral("org.olivevideoeditor.Olive.dropshadow"); }
+  [[nodiscard]] QVector<CategoryID> Category() const override { return {kCategoryFilter}; }
+  [[nodiscard]] QString Description() const override { return tr("Adds a drop shadow to an image."); }
 
-  virtual void Retranslate() override;
+  void Retranslate() override;
 
-  virtual ShaderCode GetShaderCode(const ShaderRequest &request) const override;
-  virtual void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
+  [[nodiscard]] ShaderCode GetShaderCode(const ShaderRequest &request) const override;
+  void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
 
   static const QString kTextureInput;
   static const QString kColorInput;

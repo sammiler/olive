@@ -86,9 +86,9 @@ class Toolbar : public QWidget {
    *
    * @param e
    */
-  virtual void changeEvent(QEvent* e) override;
+  void changeEvent(QEvent* e) override;
 
-  virtual void resizeEvent(QResizeEvent* e) override;
+  void resizeEvent(QResizeEvent* e) override;
 
  signals:
   /**

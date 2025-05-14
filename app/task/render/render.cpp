@@ -27,7 +27,7 @@ namespace olive {
 
 RenderTask::RenderTask() : running_tickets_(0), native_progress_signalling_(true) {}
 
-RenderTask::~RenderTask() {}
+RenderTask::~RenderTask() = default;
 
 bool RenderTask::Render(ColorManager *manager, const TimeRangeList &video_range, const TimeRangeList &audio_range,
                         const TimeRange &subtitle_range, RenderMode::Mode mode, FrameHashCache *cache,
@@ -52,7 +52,7 @@ bool RenderTask::Render(ColorManager *manager, const TimeRangeList &video_range,
     RenderManager::RenderAudioParams rap(viewer_->GetConnectedSampleOutput(), range, audio_params_,
                                          RenderMode::kOnline);
 
-    RenderTicketWatcher *watcher = new RenderTicketWatcher();
+    auto *watcher = new RenderTicketWatcher();
     watcher->setProperty("range", QVariant::fromValue(range));
     PrepareWatcher(watcher, &watcher_thread);
     IncrementRunningTickets();
@@ -80,7 +80,7 @@ bool RenderTask::Render(ColorManager *manager, const TimeRangeList &video_range,
 
   // Subtitle loop, loops over all blocks in sequence on all tracks
   if (!subtitle_range.length().isNull()) {
-    if (Sequence *sequence = dynamic_cast<Sequence *>(viewer_)) {
+    if (auto *sequence = dynamic_cast<Sequence *>(viewer_)) {
       TrackList *list = sequence->track_list(Track::kSubtitle);
       QVector<int> block_indexes(list->GetTrackCount(), 0);
 
@@ -115,7 +115,7 @@ bool RenderTask::Render(ColorManager *manager, const TimeRangeList &video_range,
           Track *this_track = list->GetTrackAt(tracks_to_push.at(i));
           Block *this_block = this_track->Blocks().at(block_indexes.at(tracks_to_push.at(i)));
 
-          if (const SubtitleBlock *sub = dynamic_cast<const SubtitleBlock *>(this_block)) {
+          if (const auto *sub = dynamic_cast<const SubtitleBlock *>(this_block)) {
             if (sub->is_enabled()) {
               if (!EncodeSubtitle(sub)) {
                 result = false;
@@ -140,10 +140,10 @@ bool RenderTask::Render(ColorManager *manager, const TimeRangeList &video_range,
       finished_watcher_mutex_.unlock();
 
       // Analyze watcher here
-      RenderManager::TicketType ticket_type = watcher->GetTicket()->property("type").value<RenderManager::TicketType>();
+      auto ticket_type = watcher->GetTicket()->property("type").value<RenderManager::TicketType>();
 
       if (ticket_type == RenderManager::kTypeAudio) {
-        TimeRange range = watcher->property("range").value<TimeRange>();
+        auto range = watcher->property("range").value<TimeRange>();
 
         if (!AudioDownloaded(range, watcher->Get().value<SampleBuffer>())) {
           result = false;
@@ -275,7 +275,7 @@ void RenderTask::StartTicket(QThread *watcher_thread, ColorManager *manager, con
     rvp.AddCache(cache);
   }
 
-  RenderTicketWatcher *watcher = new RenderTicketWatcher();
+  auto *watcher = new RenderTicketWatcher();
   watcher->setProperty("time", QVariant::fromValue(time));
   PrepareWatcher(watcher, watcher_thread);
   IncrementRunningTickets();

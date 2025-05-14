@@ -71,7 +71,7 @@ class Decoder : public QObject {
   /**
    * @brief Unique decoder ID
    */
-  virtual QString id() const = 0;
+  [[nodiscard]] virtual QString id() const = 0;
 
   virtual bool SupportsVideo() { return false; }
   virtual bool SupportsAudio() { return false; }
@@ -85,19 +85,19 @@ class Decoder : public QObject {
     CodecStream(const QString& filename, int stream, Block* block)
         : filename_(filename), stream_(stream), block_(block) {}
 
-    bool IsValid() const { return !filename_.isEmpty() && stream_ >= 0; }
+    [[nodiscard]] bool IsValid() const { return !filename_.isEmpty() && stream_ >= 0; }
 
-    bool Exists() const { return QFileInfo::exists(filename_); }
+    [[nodiscard]] bool Exists() const { return QFileInfo::exists(filename_); }
 
     void Reset() { *this = CodecStream(); }
 
     bool operator==(const CodecStream& rhs) const { return filename_ == rhs.filename_ && stream_ == rhs.stream_; }
 
-    const QString& filename() const { return filename_; }
+    [[nodiscard]] const QString& filename() const { return filename_; }
 
-    int stream() const { return stream_; }
+    [[nodiscard]] int stream() const { return stream_; }
 
-    Block* block() const { return block_; }
+    [[nodiscard]] Block* block() const { return block_; }
 
    private:
     QString filename_;
@@ -244,9 +244,9 @@ class Decoder : public QObject {
    *
    * This function is NOT thread safe and should therefore only be called by thread safe functions.
    */
-  const CodecStream& stream() const { return stream_; }
+  [[nodiscard]] const CodecStream& stream() const { return stream_; }
 
-  virtual rational GetAudioStartOffset() const { return rational(0); }
+  [[nodiscard]] virtual rational GetAudioStartOffset() const { return rational(0); }
 
  signals:
   /**

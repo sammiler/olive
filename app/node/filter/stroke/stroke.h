@@ -32,15 +32,15 @@ class StrokeFilterNode : public Node {
 
   NODE_DEFAULT_FUNCTIONS(StrokeFilterNode)
 
-  virtual QString Name() const override;
-  virtual QString id() const override;
-  virtual QVector<CategoryID> Category() const override;
-  virtual QString Description() const override;
+  [[nodiscard]] QString Name() const override;
+  [[nodiscard]] QString id() const override;
+  [[nodiscard]] QVector<CategoryID> Category() const override;
+  [[nodiscard]] QString Description() const override;
 
-  virtual void Retranslate() override;
+  void Retranslate() override;
 
-  virtual void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
-  virtual ShaderCode GetShaderCode(const ShaderRequest &request) const override;
+  void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
+  [[nodiscard]] ShaderCode GetShaderCode(const ShaderRequest &request) const override;
 
   static const QString kTextureInput;
   static const QString kColorInput;

@@ -36,43 +36,43 @@ class Block : public Node {
  public:
   Block();
 
-  virtual QVector<CategoryID> Category() const override;
+  [[nodiscard]] QVector<CategoryID> Category() const override;
 
-  const rational& in() const { return in_point_; }
+  [[nodiscard]] const rational& in() const { return in_point_; }
 
-  const rational& out() const { return out_point_; }
+  [[nodiscard]] const rational& out() const { return out_point_; }
 
   void set_in(const rational& in) { in_point_ = in; }
 
   void set_out(const rational& out) { out_point_ = out; }
 
-  rational length() const;
+  [[nodiscard]] rational length() const;
   virtual void set_length_and_media_out(const rational& length);
   virtual void set_length_and_media_in(const rational& length);
 
-  TimeRange range() const { return TimeRange(in(), out()); }
+  [[nodiscard]] TimeRange range() const { return TimeRange(in(), out()); }
 
-  Block* previous() const { return previous_; }
+  [[nodiscard]] Block* previous() const { return previous_; }
 
-  Block* next() const { return next_; }
+  [[nodiscard]] Block* next() const { return next_; }
 
   void set_previous(Block* previous) { previous_ = previous; }
 
   void set_next(Block* next) { next_ = next; }
 
-  Track* track() const { return track_; }
+  [[nodiscard]] Track* track() const { return track_; }
 
   void set_track(Track* track) {
     track_ = track;
     emit TrackChanged(track_);
   }
 
-  bool is_enabled() const;
+  [[nodiscard]] bool is_enabled() const;
   void set_enabled(bool e);
 
-  virtual void Retranslate() override;
+  void Retranslate() override;
 
-  virtual void InvalidateCache(const TimeRange& range, const QString& from, int element = -1,
+  void InvalidateCache(const TimeRange& range, const QString& from, int element = -1,
                                InvalidateCacheOptions options = InvalidateCacheOptions()) override;
 
   static const QString kLengthInput;
@@ -91,7 +91,7 @@ class Block : public Node {
   void TrackChanged(Track* track);
 
  protected:
-  virtual void InputValueChangedEvent(const QString& input, int element) override;
+  void InputValueChangedEvent(const QString& input, int element) override;
 
   Block* previous_;
   Block* next_;

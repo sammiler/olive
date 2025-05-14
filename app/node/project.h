@@ -50,7 +50,7 @@ class Project : public QObject {
 
   Project();
 
-  virtual ~Project() override;
+  ~Project() override;
 
   /**
    * @brief Destructively destroys all nodes in the graph
@@ -60,7 +60,7 @@ class Project : public QObject {
   /**
    * @brief Retrieve a complete list of the nodes belonging to this graph
    */
-  const QVector<Node *> &nodes() const { return node_children_; }
+  [[nodiscard]] const QVector<Node *> &nodes() const { return node_children_; }
 
   void Initialize();
 
@@ -69,27 +69,27 @@ class Project : public QObject {
 
   int GetNumberOfContextsNodeIsIn(Node *node, bool except_itself = false) const;
 
-  QString name() const;
+  [[nodiscard]] QString name() const;
 
-  const QString &filename() const;
-  QString pretty_filename() const;
+  [[nodiscard]] const QString &filename() const;
+  [[nodiscard]] QString pretty_filename() const;
   void set_filename(const QString &s);
 
-  Folder *root() const { return root_; }
-  ColorManager *color_manager() const { return color_manager_; }
+  [[nodiscard]] Folder *root() const { return root_; }
+  [[nodiscard]] ColorManager *color_manager() const { return color_manager_; }
 
-  bool is_modified() const { return is_modified_; }
+  [[nodiscard]] bool is_modified() const { return is_modified_; }
   void set_modified(bool e);
 
-  bool has_autorecovery_been_saved() const;
+  [[nodiscard]] bool has_autorecovery_been_saved() const;
   void set_autorecovery_saved(bool e);
 
-  bool is_new() const;
+  [[nodiscard]] bool is_new() const;
 
-  QString get_cache_alongside_project_path() const;
-  QString cache_path() const;
+  [[nodiscard]] QString get_cache_alongside_project_path() const;
+  [[nodiscard]] QString cache_path() const;
 
-  const QUuid &GetUuid() const { return uuid_; }
+  [[nodiscard]] const QUuid &GetUuid() const { return uuid_; }
 
   void SetUuid(const QUuid &uuid) { uuid_ = uuid; }
 
@@ -100,7 +100,7 @@ class Project : public QObject {
    *
    * May help for resolving relative paths.
    */
-  const QString &GetSavedURL() const { return saved_url_; }
+  [[nodiscard]] const QString &GetSavedURL() const { return saved_url_; }
 
   void SetSavedURL(const QString &url) { saved_url_ = url; }
 
@@ -123,24 +123,24 @@ class Project : public QObject {
   static const QString kDefaultInputColorSpaceKey;
   static const QString kRootKey;
 
-  QString GetSetting(const QString &key) const { return settings_.value(key); }
+  [[nodiscard]] QString GetSetting(const QString &key) const { return settings_.value(key); }
   void SetSetting(const QString &key, const QString &value);
 
-  CacheSetting GetCacheLocationSetting() const {
+  [[nodiscard]] CacheSetting GetCacheLocationSetting() const {
     return static_cast<CacheSetting>(GetSetting(kCacheLocationSettingKey).toInt());
   }
   void SetCacheLocationSetting(CacheSetting s) { SetSetting(kCacheLocationSettingKey, QString::number(s)); }
 
-  QString GetCustomCachePath() const { return GetSetting(kCachePathKey); }
+  [[nodiscard]] QString GetCustomCachePath() const { return GetSetting(kCachePathKey); }
   void SetCustomCachePath(const QString &path) { SetSetting(kCachePathKey, path); }
 
-  QString GetColorConfigFilename() const { return GetSetting(kColorConfigFilename); }
+  [[nodiscard]] QString GetColorConfigFilename() const { return GetSetting(kColorConfigFilename); }
   void SetColorConfigFilename(const QString &s) { SetSetting(kColorConfigFilename, s); }
 
-  QString GetDefaultInputColorSpace() const { return GetSetting(kDefaultInputColorSpaceKey); }
+  [[nodiscard]] QString GetDefaultInputColorSpace() const { return GetSetting(kDefaultInputColorSpaceKey); }
   void SetDefaultInputColorSpace(const QString &s) { SetSetting(kDefaultInputColorSpaceKey, s); }
 
-  QString GetColorReferenceSpace() const { return GetSetting(kColorReferenceSpace); }
+  [[nodiscard]] QString GetColorReferenceSpace() const { return GetSetting(kColorReferenceSpace); }
   void SetColorReferenceSpace(const QString &s) { SetSetting(kColorReferenceSpace, s); }
 
  signals:
@@ -175,7 +175,7 @@ class Project : public QObject {
   void SettingChanged(const QString &key, const QString &value);
 
  protected:
-  virtual void childEvent(QChildEvent *event) override;
+  void childEvent(QChildEvent *event) override;
 
  private:
   QUuid uuid_;

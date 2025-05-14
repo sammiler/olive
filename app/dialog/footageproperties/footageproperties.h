@@ -61,11 +61,11 @@ class FootagePropertiesDialog : public QDialog {
    public:
     StreamEnableChangeCommand(Footage* footage, Track::Type type, int index_in_type, bool enabled);
 
-    virtual Project* GetRelevantProject() const override;
+    [[nodiscard]] Project* GetRelevantProject() const override;
 
    protected:
-    virtual void redo() override;
-    virtual void undo() override;
+    void redo() override;
+    void undo() override;
 
    private:
     Footage* footage_;
@@ -105,7 +105,7 @@ class FootagePropertiesDialog : public QDialog {
   /**
    * @brief Overridden accept function for saving the properties back to the Media class
    */
-  void accept();
+  void accept() override;
 };
 
 }  // namespace olive

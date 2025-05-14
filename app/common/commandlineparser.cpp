@@ -36,7 +36,7 @@ CommandLineParser::~CommandLineParser() {
 const CommandLineParser::Option* CommandLineParser::AddOption(const QStringList& strings, const QString& description,
                                                               bool takes_arg, const QString& arg_placeholder,
                                                               bool hidden) {
-  Option* o = new Option();
+  auto* o = new Option();
 
   options_.append({strings, description, o, takes_arg, arg_placeholder, hidden});
 
@@ -46,7 +46,7 @@ const CommandLineParser::Option* CommandLineParser::AddOption(const QStringList&
 const CommandLineParser::PositionalArgument* CommandLineParser::AddPositionalArgument(const QString& name,
                                                                                       const QString& description,
                                                                                       bool required) {
-  PositionalArgument* a = new PositionalArgument();
+  auto* a = new PositionalArgument();
 
   positional_args_.append({name, description, a, required});
 

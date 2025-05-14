@@ -31,7 +31,7 @@ namespace olive {
 
 class RenderProcessor : public NodeTraverser {
  public:
-  virtual NodeValueDatabase GenerateDatabase(const Node *node, const TimeRange &range) override;
+  NodeValueDatabase GenerateDatabase(const Node *node, const TimeRange &range) override;
 
   static void Process(RenderTicketPtr ticket, Renderer *render_ctx, DecoderCache *decoder_cache,
                       ShaderCache *shader_cache);
@@ -44,32 +44,32 @@ class RenderProcessor : public NodeTraverser {
   };
 
  protected:
-  virtual void ProcessVideoFootage(TexturePtr destination, const FootageJob *stream,
+  void ProcessVideoFootage(TexturePtr destination, const FootageJob *stream,
                                    const rational &input_time) override;
 
-  virtual void ProcessAudioFootage(SampleBuffer &destination, const FootageJob *stream,
+  void ProcessAudioFootage(SampleBuffer &destination, const FootageJob *stream,
                                    const TimeRange &input_time) override;
 
-  virtual void ProcessShader(TexturePtr destination, const Node *node, const ShaderJob *job) override;
+  void ProcessShader(TexturePtr destination, const Node *node, const ShaderJob *job) override;
 
-  virtual void ProcessSamples(SampleBuffer &destination, const Node *node, const TimeRange &range,
+  void ProcessSamples(SampleBuffer &destination, const Node *node, const TimeRange &range,
                               const SampleJob &job) override;
 
-  virtual void ProcessColorTransform(TexturePtr destination, const Node *node, const ColorTransformJob *job) override;
+  void ProcessColorTransform(TexturePtr destination, const Node *node, const ColorTransformJob *job) override;
 
-  virtual void ProcessFrameGeneration(TexturePtr destination, const Node *node, const GenerateJob *job) override;
+  void ProcessFrameGeneration(TexturePtr destination, const Node *node, const GenerateJob *job) override;
 
-  virtual TexturePtr ProcessVideoCacheJob(const CacheJob *val) override;
+  TexturePtr ProcessVideoCacheJob(const CacheJob *val) override;
 
-  virtual TexturePtr CreateTexture(const VideoParams &p) override;
+  TexturePtr CreateTexture(const VideoParams &p) override;
 
-  virtual SampleBuffer CreateSampleBuffer(const AudioParams &params, int sample_count) override {
+  SampleBuffer CreateSampleBuffer(const AudioParams &params, int sample_count) override {
     return SampleBuffer(params, sample_count);
   }
 
-  virtual void ConvertToReferenceSpace(TexturePtr destination, TexturePtr source, const QString &input_cs) override;
+  void ConvertToReferenceSpace(TexturePtr destination, TexturePtr source, const QString &input_cs) override;
 
-  virtual bool UseCache() const override;
+  [[nodiscard]] bool UseCache() const override;
 
  private:
   RenderProcessor(RenderTicketPtr ticket, Renderer *render_ctx, DecoderCache *decoder_cache, ShaderCache *shader_cache);

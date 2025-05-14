@@ -138,7 +138,7 @@ void Toolbar::UpdateIcons() {
 
 ToolbarButton* Toolbar::CreateToolButton(const Tool::Item& tool) {
   // Create a ToolbarButton object
-  ToolbarButton* b = new ToolbarButton(this, tool);
+  auto* b = new ToolbarButton(this, tool);
 
   // Add it to the layout
   layout_->addWidget(b);
@@ -154,7 +154,7 @@ ToolbarButton* Toolbar::CreateToolButton(const Tool::Item& tool) {
 
 ToolbarButton* Toolbar::CreateNonToolButton() {
   // Create a ToolbarButton object
-  ToolbarButton* b = new ToolbarButton(this, Tool::kNone);
+  auto* b = new ToolbarButton(this, Tool::kNone);
 
   // Add it to the layout
   layout_->addWidget(b);

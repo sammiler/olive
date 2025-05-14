@@ -32,11 +32,11 @@ class ColorCodingComboBox : public QComboBox {
  public:
   explicit ColorCodingComboBox(QWidget* parent = nullptr);
 
-  virtual void showPopup() override;
+  void showPopup() override;
 
   void SetColor(int index);
 
-  int GetSelectedColor() const { return index_; }
+  [[nodiscard]] int GetSelectedColor() const { return index_; }
 
  private:
   int index_{};

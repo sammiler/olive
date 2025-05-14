@@ -29,11 +29,11 @@ class PointerTool : public TimelineTool {
  public:
   explicit PointerTool(TimelineWidget* parent);
 
-  virtual void MousePress(TimelineViewMouseEvent* event) override;
-  virtual void MouseMove(TimelineViewMouseEvent* event) override;
-  virtual void MouseRelease(TimelineViewMouseEvent* event) override;
+  void MousePress(TimelineViewMouseEvent* event) override;
+  void MouseMove(TimelineViewMouseEvent* event) override;
+  void MouseRelease(TimelineViewMouseEvent* event) override;
 
-  virtual void HoverMove(TimelineViewMouseEvent* event) override;
+  void HoverMove(TimelineViewMouseEvent* event) override;
 
  protected:
   virtual void FinishDrag(TimelineViewMouseEvent* event);
@@ -68,7 +68,7 @@ class PointerTool : public TimelineTool {
   void InitiateDragInternal(Block* clicked_item, Timeline::MovementMode trim_mode, Qt::KeyboardModifiers modifiers,
                             bool dont_roll_trims, bool allow_nongap_rolling, bool slide_instead_of_moving);
 
-  const Timeline::MovementMode& drag_movement_mode() const { return drag_movement_mode_; }
+  [[nodiscard]] const Timeline::MovementMode& drag_movement_mode() const { return drag_movement_mode_; }
   void set_drag_movement_mode(const Timeline::MovementMode& d) { drag_movement_mode_ = d; }
 
   static bool CanTransitionMove(TransitionBlock* transit, const QVector<Block*>& clips);

@@ -50,9 +50,9 @@ class BlockTrimCommand : public UndoCommand {
         deleted_adjacent_command_(nullptr),
         trim_is_a_roll_edit_(false) {}
 
-  virtual ~BlockTrimCommand() override { delete deleted_adjacent_command_; }
+  ~BlockTrimCommand() override { delete deleted_adjacent_command_; }
 
-  virtual Project* GetRelevantProject() const override { return track_->project(); }
+  [[nodiscard]] Project* GetRelevantProject() const override { return track_->project(); }
 
   /**
    * @brief Set this if the trim should always affect the adjacent clip and not create a gap
@@ -69,9 +69,9 @@ class BlockTrimCommand : public UndoCommand {
   void SetRemoveZeroLengthFromGraph(bool e) { remove_block_from_graph_ = e; }
 
  protected:
-  virtual void prepare() override;
-  virtual void redo() override;
-  virtual void undo() override;
+  void prepare() override;
+  void redo() override;
+  void undo() override;
 
  private:
   bool doing_nothing_{};
@@ -111,19 +111,19 @@ class TrackSlideCommand : public UndoCommand {
     Q_ASSERT(!movement_.isNull());
   }
 
-  virtual ~TrackSlideCommand() override {
+  ~TrackSlideCommand() override {
     delete in_adjacent_remove_command_;
     delete out_adjacent_remove_command_;
   }
 
-  virtual Project* GetRelevantProject() const override { return track_->project(); }
+  [[nodiscard]] Project* GetRelevantProject() const override { return track_->project(); }
 
  protected:
-  virtual void prepare() override;
+  void prepare() override;
 
-  virtual void redo() override;
+  void redo() override;
 
-  virtual void undo() override;
+  void undo() override;
 
  private:
   Track* track_;
@@ -159,14 +159,14 @@ class TrackPlaceBlockCommand : public UndoCommand {
         insert_(block),
         ripple_remove_command_(nullptr) {}
 
-  virtual ~TrackPlaceBlockCommand() override;
+  ~TrackPlaceBlockCommand() override;
 
-  virtual Project* GetRelevantProject() const override { return timeline_->parent()->project(); }
+  [[nodiscard]] Project* GetRelevantProject() const override { return timeline_->parent()->project(); }
 
  protected:
-  virtual void redo() override;
+  void redo() override;
 
-  virtual void undo() override;
+  void undo() override;
 
  private:
   TrackList* timeline_;

@@ -51,7 +51,7 @@ Footage::Footage(const QString &filename)
     set_filename(filename);
   }
 
-  QTimer *check_timer = new QTimer(this);
+  auto *check_timer = new QTimer(this);
   check_timer->setInterval(5000);
   connect(check_timer, &QTimer::timeout, this, &Footage::CheckFootage);
   check_timer->start();

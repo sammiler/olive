@@ -36,21 +36,21 @@ class NodeValueDatabase {
 
   NodeValueTable Take(const QString& key) { return tables_.take(key); }
 
-  NodeValueTable Merge() const;
+  [[nodiscard]] NodeValueTable Merge() const;
 
   using Tables = QHash<QString, NodeValueTable>;
   using const_iterator = Tables::const_iterator;
   using iterator = Tables::iterator;
 
-  inline const_iterator cbegin() const { return tables_.cbegin(); }
+  [[nodiscard]] inline const_iterator cbegin() const { return tables_.cbegin(); }
 
-  inline const_iterator cend() const { return tables_.cend(); }
+  [[nodiscard]] inline const_iterator cend() const { return tables_.cend(); }
 
   inline iterator begin() { return tables_.begin(); }
 
   inline iterator end() { return tables_.end(); }
 
-  inline bool contains(const QString& s) const { return tables_.contains(s); }
+  [[nodiscard]] inline bool contains(const QString& s) const { return tables_.contains(s); }
 
  private:
   Tables tables_;

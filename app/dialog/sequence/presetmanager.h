@@ -41,9 +41,9 @@ class Preset {
  public:
   Preset() = default;
 
-  virtual ~Preset() {}
+  virtual ~Preset() = default;
 
-  const QString& GetName() const { return name_; }
+  [[nodiscard]] const QString& GetName() const { return name_; }
 
   void SetName(const QString& s) { name_ = s; }
 
@@ -115,7 +115,7 @@ class PresetManager {
     }
   }
 
-  QString GetPresetName(QString start) const {
+  [[nodiscard]] QString GetPresetName(QString start) const {
     bool ok;
 
     forever {
@@ -183,7 +183,7 @@ class PresetManager {
     }
   }
 
-  QString GetCustomPresetFilename() const {
+  [[nodiscard]] QString GetCustomPresetFilename() const {
     return QDir(FileFunctions::GetConfigurationLocation()).filePath(preset_name_);
   }
 
@@ -191,9 +191,9 @@ class PresetManager {
 
   void DeletePreset(int index) { custom_preset_data_.removeAt(index); }
 
-  int GetNumberOfPresets() const { return custom_preset_data_.size(); }
+  [[nodiscard]] int GetNumberOfPresets() const { return custom_preset_data_.size(); }
 
-  const QVector<PresetPtr>& GetPresetData() const { return custom_preset_data_; }
+  [[nodiscard]] const QVector<PresetPtr>& GetPresetData() const { return custom_preset_data_; }
 
  private:
   QVector<PresetPtr> custom_preset_data_;

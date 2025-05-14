@@ -34,7 +34,7 @@ class AutoRecoveryDialog : public QDialog {
   AutoRecoveryDialog(const QString& message, const QStringList& recoveries, bool autocheck_latest, QWidget* parent);
 
  public slots:
-  virtual void accept() override;
+  void accept() override;
 
  private:
   void Init(const QString& header_text);

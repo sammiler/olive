@@ -32,7 +32,7 @@ namespace olive {
 class NodeParamViewScrollBlocker : public QObject {
   Q_OBJECT
  public:
-  virtual bool eventFilter(QObject* watched, QEvent* event) override;
+  bool eventFilter(QObject* watched, QEvent* event) override;
 };
 
 class NodeParamViewWidgetBridge : public QObject, public TimeTargetObject {
@@ -40,7 +40,7 @@ class NodeParamViewWidgetBridge : public QObject, public TimeTargetObject {
  public:
   NodeParamViewWidgetBridge(NodeInput input, QObject* parent);
 
-  const QVector<QWidget*>& widgets() const { return widgets_; }
+  [[nodiscard]] const QVector<QWidget*>& widgets() const { return widgets_; }
 
   // Set the timebase of certain Timebased widgets
   void SetTimebase(const rational& timebase);
@@ -53,8 +53,8 @@ class NodeParamViewWidgetBridge : public QObject, public TimeTargetObject {
   void RequestEditTextInViewer();
 
  protected:
-  virtual void TimeTargetDisconnectEvent(ViewerOutput* v) override;
-  virtual void TimeTargetConnectEvent(ViewerOutput* v) override;
+  void TimeTargetDisconnectEvent(ViewerOutput* v) override;
+  void TimeTargetConnectEvent(ViewerOutput* v) override;
 
  private:
   void CreateWidgets();
@@ -76,15 +76,15 @@ class NodeParamViewWidgetBridge : public QObject, public TimeTargetObject {
 
   void UpdateWidgetValues();
 
-  rational GetCurrentTimeAsNodeTime() const;
+  [[nodiscard]] rational GetCurrentTimeAsNodeTime() const;
 
-  const NodeInput& GetOuterInput() const { return input_hierarchy_.first(); }
+  [[nodiscard]] const NodeInput& GetOuterInput() const { return input_hierarchy_.first(); }
 
-  const NodeInput& GetInnerInput() const { return input_hierarchy_.last(); }
+  [[nodiscard]] const NodeInput& GetInnerInput() const { return input_hierarchy_.last(); }
 
-  QString GetCommandName() const;
+  [[nodiscard]] QString GetCommandName() const;
 
-  NodeValue::Type GetDataType() const { return GetOuterInput().GetDataType(); }
+  [[nodiscard]] NodeValue::Type GetDataType() const { return GetOuterInput().GetDataType(); }
 
   void UpdateProperties();
 

@@ -22,7 +22,7 @@
 
 namespace olive {
 
-CrossDissolveTransition::CrossDissolveTransition() {}
+CrossDissolveTransition::CrossDissolveTransition() = default;
 
 QString CrossDissolveTransition::Name() const { return tr("Cross Dissolve"); }
 

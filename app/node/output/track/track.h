@@ -39,21 +39,21 @@ class Track : public Node {
 
   NODE_DEFAULT_FUNCTIONS(Track)
 
-  const Track::Type& type() const;
+  [[nodiscard]] const Track::Type& type() const;
   void set_type(const Track::Type& track_type);
 
-  virtual QString Name() const override;
-  virtual QString id() const override;
-  virtual QVector<CategoryID> Category() const override;
-  virtual QString Description() const override;
+  [[nodiscard]] QString Name() const override;
+  [[nodiscard]] QString id() const override;
+  [[nodiscard]] QVector<CategoryID> Category() const override;
+  [[nodiscard]] QString Description() const override;
 
-  virtual ActiveElements GetActiveElementsAtTime(const QString& input, const TimeRange& r) const override;
-  virtual void Value(const NodeValueRow& value, const NodeGlobals& globals, NodeValueTable* table) const override;
+  [[nodiscard]] ActiveElements GetActiveElementsAtTime(const QString& input, const TimeRange& r) const override;
+  void Value(const NodeValueRow& value, const NodeGlobals& globals, NodeValueTable* table) const override;
 
-  virtual TimeRange InputTimeAdjustment(const QString& input, int element, const TimeRange& input_time,
+  [[nodiscard]] TimeRange InputTimeAdjustment(const QString& input, int element, const TimeRange& input_time,
                                         bool clamp) const override;
 
-  virtual TimeRange OutputTimeAdjustment(const QString& input, int element, const TimeRange& input_time) const override;
+  [[nodiscard]] TimeRange OutputTimeAdjustment(const QString& input, int element, const TimeRange& input_time) const override;
 
   static rational TransformTimeForBlock(const Block* block, const rational& time) {
     if (time == RATIONAL_MAX || time == RATIONAL_MIN) {
@@ -79,16 +79,16 @@ class Track : public Node {
     return TimeRange(TransformTimeFromBlock(block, range.in()), TransformTimeFromBlock(block, range.out()));
   }
 
-  const double& GetTrackHeight() const;
+  [[nodiscard]] const double& GetTrackHeight() const;
   void SetTrackHeight(const double& height);
 
-  int GetTrackHeightInPixels() const { return InternalHeightToPixelHeight(GetTrackHeight()); }
+  [[nodiscard]] int GetTrackHeightInPixels() const { return InternalHeightToPixelHeight(GetTrackHeight()); }
 
   void SetTrackHeightInPixels(int h) { SetTrackHeight(PixelHeightToInternalHeight(h)); }
 
-  virtual bool LoadCustom(QXmlStreamReader* reader, SerializedData* data) override;
-  virtual void SaveCustom(QXmlStreamWriter* writer) const override;
-  virtual void PostLoadEvent(SerializedData* data) override;
+  bool LoadCustom(QXmlStreamReader* reader, SerializedData* data) override;
+  void SaveCustom(QXmlStreamWriter* writer) const override;
+  void PostLoadEvent(SerializedData* data) override;
 
   static int InternalHeightToPixelHeight(double h) { return qRound(h * QFontMetrics(QFont()).height()); }
 
@@ -98,7 +98,7 @@ class Track : public Node {
 
   static int GetMinimumTrackHeightInPixels() { return InternalHeightToPixelHeight(kTrackHeightMinimum); }
 
-  virtual void Retranslate() override;
+  void Retranslate() override;
 
   class Reference {
    public:
@@ -106,9 +106,9 @@ class Track : public Node {
 
     Reference(const Track::Type& type, const int& index) : type_(type), index_(index) {}
 
-    const Track::Type& type() const { return type_; }
+    [[nodiscard]] const Track::Type& type() const { return type_; }
 
-    const int& index() const { return index_; }
+    [[nodiscard]] const int& index() const { return index_; }
 
     bool operator==(const Reference& ref) const { return type_ == ref.type_ && index_ == ref.index_; }
 
@@ -122,7 +122,7 @@ class Track : public Node {
       return index_ < rhs.index_;
     }
 
-    QString ToString() const {
+    [[nodiscard]] QString ToString() const {
       QString type_string = TypeToString(type_);
       if (type_string.isEmpty()) {
         return QString();
@@ -201,7 +201,7 @@ class Track : public Node {
       return ref;
     }
 
-    bool IsValid() const { return type_ > kNone && type_ < kCount && index_ >= 0; }
+    [[nodiscard]] bool IsValid() const { return type_ > kNone && type_ < kCount && index_ >= 0; }
 
    private:
     Track::Type type_;
@@ -209,9 +209,9 @@ class Track : public Node {
     int index_;
   };
 
-  Reference ToReference() const { return Reference(type(), Index()); }
+  [[nodiscard]] Reference ToReference() const { return Reference(type(), Index()); }
 
-  const int& Index() const { return index_; }
+  [[nodiscard]] const int& Index() const { return index_; }
 
   void SetIndex(const int& index);
 
@@ -221,7 +221,7 @@ class Track : public Node {
    * Catches the first block that matches `block.in < time && block.out > time` or nullptr if any
    * block starts/ends precisely at that time or the time exceeds the track length.
    */
-  Block* BlockContainingTime(const rational& time) const;
+  [[nodiscard]] Block* BlockContainingTime(const rational& time) const;
 
   /**
    * @brief Returns the block that starts BEFORE a given time and ends either AFTER or AT that time
@@ -229,7 +229,7 @@ class Track : public Node {
    * @return Catches the first block that matches `block.out >= time` or nullptr if this time
    * exceeds the track length.
    */
-  Block* NearestBlockBefore(const rational& time) const;
+  [[nodiscard]] Block* NearestBlockBefore(const rational& time) const;
 
   /**
    * @brief Returns the block that starts BEFORE or AT a given time.
@@ -237,7 +237,7 @@ class Track : public Node {
    * @return Catches the first block that matches `block.out > time` or nullptr if this time
    * exceeds the track length.
    */
-  Block* NearestBlockBeforeOrAt(const rational& time) const;
+  [[nodiscard]] Block* NearestBlockBeforeOrAt(const rational& time) const;
 
   /**
    * @brief Returns the block that starts either AT a given time or the soonest block AFTER
@@ -245,7 +245,7 @@ class Track : public Node {
    * @return Catches the first block that matches `block.in >= time` or nullptr if this time
    * exceeds the track length.
    */
-  Block* NearestBlockAfterOrAt(const rational& time) const;
+  [[nodiscard]] Block* NearestBlockAfterOrAt(const rational& time) const;
 
   /**
    * @brief Returns the block that starts AFTER the given time (but never AT the given time)
@@ -253,19 +253,19 @@ class Track : public Node {
    * @return Catches the first block that matches `block.in > time` or nullptr if this time
    * exceeds the track length.
    */
-  Block* NearestBlockAfter(const rational& time) const;
+  [[nodiscard]] Block* NearestBlockAfter(const rational& time) const;
 
   /*
    * @brief Returns whether a time range is empty or only has a gap
    */
-  bool IsRangeFree(const TimeRange& range) const;
+  [[nodiscard]] bool IsRangeFree(const TimeRange& range) const;
 
-  const QVector<Block*>& Blocks() const { return blocks_; }
+  [[nodiscard]] const QVector<Block*>& Blocks() const { return blocks_; }
 
-  virtual void InvalidateCache(const TimeRange& range, const QString& from, int element,
+  void InvalidateCache(const TimeRange& range, const QString& from, int element,
                                InvalidateCacheOptions options) override;
 
-  Block* VisibleBlockAtTime(const rational& t) const {
+  [[nodiscard]] Block* VisibleBlockAtTime(const rational& t) const {
     int index = GetBlockIndexAtTime(t);
     return (index == -1) ? nullptr : blocks_.at(index);
   }
@@ -312,15 +312,15 @@ class Track : public Node {
    */
   void ReplaceBlock(Block* old, Block* replace);
 
-  rational track_length() const;
+  [[nodiscard]] rational track_length() const;
 
-  bool IsMuted() const;
+  [[nodiscard]] bool IsMuted() const;
 
-  bool IsLocked() const;
+  [[nodiscard]] bool IsLocked() const;
 
   int GetArrayIndexFromBlock(Block* block) const;
 
-  Sequence* sequence() const { return sequence_; }
+  [[nodiscard]] Sequence* sequence() const { return sequence_; }
 
   void set_sequence(Sequence* sequence) { sequence_ = sequence; }
 
@@ -374,17 +374,17 @@ class Track : public Node {
   void BlocksRefreshed();
 
  protected:
-  virtual void InputConnectedEvent(const QString& input, int element, Node* node) override;
-  virtual void InputValueChangedEvent(const QString& input, int element) override;
+  void InputConnectedEvent(const QString& input, int element, Node* node) override;
+  void InputValueChangedEvent(const QString& input, int element) override;
 
  private:
   void UpdateInOutFrom(int index);
 
-  int GetArrayIndexFromCacheIndex(int index) const;
+  [[nodiscard]] int GetArrayIndexFromCacheIndex(int index) const;
 
-  int GetCacheIndexFromArrayIndex(int index) const;
+  [[nodiscard]] int GetCacheIndexFromArrayIndex(int index) const;
 
-  int GetBlockIndexAtTime(const rational& time) const;
+  [[nodiscard]] int GetBlockIndexAtTime(const rational& time) const;
 
   void ProcessAudioTrack(const NodeValueRow& value, const NodeGlobals& globals, NodeValueTable* table) const;
 

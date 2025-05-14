@@ -45,7 +45,7 @@ public:
     }
 
     /// @brief Returns whether the last focused widget is the tab widget itself
-    bool lastFocusedIsTabWidget() const
+    [[nodiscard]] bool lastFocusedIsTabWidget() const
     {
         if (!m_lastFocusedInScope)
             return false;
@@ -74,8 +74,7 @@ public:
 };
 
 FocusScope::Private::~Private()
-{
-}
+= default;
 
 FocusScope::FocusScope(QWidgetAdapter *thisWidget)
     : d(new Private(this, thisWidget))

@@ -36,7 +36,7 @@ class ViewerPanel : public ViewerPanelBase {
   explicit ViewerPanel(const QString& object_name);
 
  protected:
-  virtual void Retranslate() override;
+  void Retranslate() override;
 };
 
 }  // namespace olive

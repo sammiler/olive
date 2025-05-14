@@ -30,9 +30,9 @@ namespace olive {
 
 OTIOPropertiesDialog::OTIOPropertiesDialog(const QList<Sequence*>& sequences, Project* active_project, QWidget* parent)
     : QDialog(parent), sequences_(sequences) {
-  QVBoxLayout* layout = new QVBoxLayout(this);
+  auto* layout = new QVBoxLayout(this);
 
-  QLabel* msg =
+  auto* msg =
       new QLabel(tr("OpenTimelineIO files do not store sequence parameters (resolution, frame rate, etc.)\n\n"
                     "Please set the correct parameters on the sequences below (they have been set to your default "
                     "sequence parameters as a starting point)."));
@@ -45,12 +45,12 @@ OTIOPropertiesDialog::OTIOPropertiesDialog(const QList<Sequence*>& sequences, Pr
   table_->setRootIsDecorated(false);
 
   for (int i = 0; i < sequences.size(); i++) {
-    QTreeWidgetItem* item = new QTreeWidgetItem();
+    auto* item = new QTreeWidgetItem();
     Sequence* s = sequences.at(i);
 
-    QWidget* item_actions = new QWidget();
-    QHBoxLayout* item_actions_layout = new QHBoxLayout(item_actions);
-    QPushButton* item_settings_btn = new QPushButton(tr("Settings"));
+    auto* item_actions = new QWidget();
+    auto* item_actions_layout = new QHBoxLayout(item_actions);
+    auto* item_settings_btn = new QPushButton(tr("Settings"));
     item_settings_btn->setProperty("index", i);
     connect(item_settings_btn, &QPushButton::clicked, this, &OTIOPropertiesDialog::SetupSequence);
     item_actions_layout->addWidget(item_settings_btn);
@@ -69,7 +69,7 @@ OTIOPropertiesDialog::OTIOPropertiesDialog(const QList<Sequence*>& sequences, Pr
 
   layout->addWidget(table_);
 
-  QDialogButtonBox* buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+  auto* buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
   connect(buttons, &QDialogButtonBox::accepted, this, &OTIOPropertiesDialog::accept);
   connect(buttons, &QDialogButtonBox::rejected, this, &OTIOPropertiesDialog::reject);
   layout->addWidget(buttons);

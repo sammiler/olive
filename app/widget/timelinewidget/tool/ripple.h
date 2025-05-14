@@ -30,9 +30,9 @@ class RippleTool : public PointerTool {
   explicit RippleTool(TimelineWidget* parent);
 
  protected:
-  virtual void FinishDrag(TimelineViewMouseEvent* event) override;
+  void FinishDrag(TimelineViewMouseEvent* event) override;
 
-  virtual void InitiateDrag(Block* clicked_item, Timeline::MovementMode trim_mode,
+  void InitiateDrag(Block* clicked_item, Timeline::MovementMode trim_mode,
                             Qt::KeyboardModifiers modifiers) override;
 };
 

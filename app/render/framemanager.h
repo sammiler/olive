@@ -43,7 +43,7 @@ class FrameManager : public QObject {
  private:
   FrameManager();
 
-  virtual ~FrameManager() override;
+  ~FrameManager() override;
 
   /**
    * @brief Allocate buffer

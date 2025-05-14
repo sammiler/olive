@@ -89,7 +89,7 @@ void AddTool::MouseMove(TimelineViewMouseEvent *event) {
 void AddTool::MouseRelease(TimelineViewMouseEvent *event) {
   if (ghost_) {
     if (!ghost_->GetAdjustedLength().isNull()) {
-      MultiUndoCommand *command = new MultiUndoCommand();
+      auto *command = new MultiUndoCommand();
 
       if (MultiUndoCommand *subtitle_section_command = parent()->TakeSubtitleSectionCommand()) {
         command->add_child(subtitle_section_command);
@@ -167,7 +167,7 @@ Node *AddTool::CreateAddableClip(MultiUndoCommand *command, Sequence *sequence, 
     command->add_child(new NodeSetPositionCommand(node_to_add, clip,Node::Position(extra_node_offset)));
 
     if (!rect.isNull()) {
-      if (ShapeNodeBase *shape = dynamic_cast<ShapeNodeBase *>(node_to_add)) {
+      if (auto *shape = dynamic_cast<ShapeNodeBase *>(node_to_add)) {
         shape->SetRect(rect, sequence->GetVideoParams(), command);
       }
     }

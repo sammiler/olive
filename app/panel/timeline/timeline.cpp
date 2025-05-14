@@ -26,7 +26,7 @@
 namespace olive {
 
 TimelinePanel::TimelinePanel(const QString &name) : TimeBasedPanel(name) {
-  TimelineWidget *tw = new TimelineWidget(this);
+  auto *tw = new TimelineWidget(this);
   SetTimeBasedWidget(tw);
 
   Retranslate();

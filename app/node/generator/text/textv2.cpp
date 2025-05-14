@@ -155,7 +155,7 @@ void TextGeneratorV2::GenerateFrame(FramePtr frame, const GenerateJob &job) cons
   __m128 sse_color = _mm_loadu_ps(rgba.data());
 #endif
 
-  float *frame_dst = reinterpret_cast<float *>(frame->data());
+  auto *frame_dst = reinterpret_cast<float *>(frame->data());
   for (int y = 0; y < frame->height(); y++) {
     uchar *src_y = img.bits() + img.bytesPerLine() * y;
     float *dst_y = frame_dst + y * frame->linesize_pixels() * VideoParams::kRGBAChannelCount;

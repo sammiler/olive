@@ -31,10 +31,10 @@ class OCIOBaseNode : public Node {
  public:
   OCIOBaseNode();
 
-  virtual void AddedToGraphEvent(Project *p) override;
-  virtual void RemovedFromGraphEvent(Project *p) override;
+  void AddedToGraphEvent(Project *p) override;
+  void RemovedFromGraphEvent(Project *p) override;
 
-  virtual void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
+  void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
 
   static const QString kTextureInput;
 
@@ -42,9 +42,9 @@ class OCIOBaseNode : public Node {
   virtual void ConfigChanged() = 0;
 
  protected:
-  ColorManager *manager() const { return manager_; }
+  [[nodiscard]] ColorManager *manager() const { return manager_; }
 
-  ColorProcessorPtr processor() const { return processor_; }
+  [[nodiscard]] ColorProcessorPtr processor() const { return processor_; }
   void set_processor(ColorProcessorPtr p) { processor_ = p; }
 
  private:

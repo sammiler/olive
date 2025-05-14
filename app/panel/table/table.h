@@ -41,7 +41,7 @@ class NodeTablePanel : public TimeBasedPanel {
   }
 
  private:
-  virtual void Retranslate() override;
+  void Retranslate() override;
 };
 
 }  // namespace olive

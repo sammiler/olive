@@ -31,17 +31,17 @@ public:
 
     virtual ~Separator();
 
-    bool isVertical() const;
+    [[nodiscard]] bool isVertical() const;
     void move(int p);
-    Qt::Orientation orientation() const;
+    [[nodiscard]] Qt::Orientation orientation() const;
     void setGeometry(int pos, int pos2, int length);
     void setGeometry(QRect r);
-    int position() const;
-    QObject *host() const;
+    [[nodiscard]] int position() const;
+    [[nodiscard]] QObject *host() const;
 
     void init(Layouting::ItemBoxContainer *, Qt::Orientation orientation);
 
-    ItemBoxContainer *parentContainer() const;
+    [[nodiscard]] ItemBoxContainer *parentContainer() const;
 
     ///@brief Returns whether we're dragging a separator. Can be useful for the app to stop other work while we're not in the final size
     static bool isResizing();
@@ -68,8 +68,8 @@ private:
 
     Q_DISABLE_COPY(Separator)
     void setLazyPosition(int);
-    bool isBeingDragged() const;
-    bool usesLazyResize() const;
+    [[nodiscard]] bool isBeingDragged() const;
+    [[nodiscard]] bool usesLazyResize() const;
     static bool s_isResizing;
     static Separator *s_separatorBeingDragged;
     struct Private;

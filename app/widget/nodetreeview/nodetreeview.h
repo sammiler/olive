@@ -34,7 +34,7 @@ class NodeTreeView : public QTreeWidget {
 
   bool IsNodeEnabled(Node* n) const;
 
-  bool IsInputEnabled(const NodeKeyframeTrackReference& ref) const;
+  [[nodiscard]] bool IsInputEnabled(const NodeKeyframeTrackReference& ref) const;
 
   void SetCheckBoxesEnabled(bool e) { checkboxes_enabled_ = e; }
 
@@ -57,9 +57,9 @@ class NodeTreeView : public QTreeWidget {
   void InputDoubleClicked(const NodeKeyframeTrackReference& ref);
 
  protected:
-  virtual void changeEvent(QEvent* e) override;
+  void changeEvent(QEvent* e) override;
 
-  virtual void mouseDoubleClickEvent(QMouseEvent* e) override;
+  void mouseDoubleClickEvent(QMouseEvent* e) override;
 
  private:
   void Retranslate();

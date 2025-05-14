@@ -39,16 +39,16 @@ class TimelineMarker : public QObject {
   explicit TimelineMarker(QObject* parent = nullptr);
   TimelineMarker(int color, const TimeRange& time, const QString& name = QString(), QObject* parent = nullptr);
 
-  const TimeRange& time() const { return time_; }
+  [[nodiscard]] const TimeRange& time() const { return time_; }
   void set_time(const TimeRange& time);
   void set_time(const rational& time);
 
-  bool has_sibling_at_time(const rational& t) const;
+  [[nodiscard]] bool has_sibling_at_time(const rational& t) const;
 
-  const QString& name() const { return name_; }
+  [[nodiscard]] const QString& name() const { return name_; }
   void set_name(const QString& name);
 
-  int color() const { return color_; }
+  [[nodiscard]] int color() const { return color_; }
   void set_color(int c);
 
   static int GetMarkerHeight(const QFontMetrics& fm);
@@ -77,19 +77,19 @@ class TimelineMarkerList : public QObject {
  public:
   explicit TimelineMarkerList(QObject* parent = nullptr) : QObject(parent) {}
 
-  inline bool empty() const { return markers_.empty(); }
+  [[nodiscard]] inline bool empty() const { return markers_.empty(); }
   inline std::vector<TimelineMarker*>::iterator begin() { return markers_.begin(); }
   inline std::vector<TimelineMarker*>::iterator end() { return markers_.end(); }
-  inline std::vector<TimelineMarker*>::const_iterator cbegin() const { return markers_.cbegin(); }
-  inline std::vector<TimelineMarker*>::const_iterator cend() const { return markers_.cend(); }
-  inline TimelineMarker* back() const { return markers_.back(); }
-  inline TimelineMarker* front() const { return markers_.front(); }
-  inline size_t size() const { return markers_.size(); }
+  [[nodiscard]] inline std::vector<TimelineMarker*>::const_iterator cbegin() const { return markers_.cbegin(); }
+  [[nodiscard]] inline std::vector<TimelineMarker*>::const_iterator cend() const { return markers_.cend(); }
+  [[nodiscard]] inline TimelineMarker* back() const { return markers_.back(); }
+  [[nodiscard]] inline TimelineMarker* front() const { return markers_.front(); }
+  [[nodiscard]] inline size_t size() const { return markers_.size(); }
 
   bool load(QXmlStreamReader* reader);
   void save(QXmlStreamWriter* writer) const;
 
-  TimelineMarker* GetMarkerAtTime(const rational& t) const {
+  [[nodiscard]] TimelineMarker* GetMarkerAtTime(const rational& t) const {
     for (auto it = markers_.cbegin(); it != markers_.cend(); it++) {
       TimelineMarker* m = *it;
       if (m->time().in() == t) {
@@ -100,7 +100,7 @@ class TimelineMarkerList : public QObject {
     return nullptr;
   }
 
-  TimelineMarker* GetClosestMarkerToTime(const rational& t) const {
+  [[nodiscard]] TimelineMarker* GetClosestMarkerToTime(const rational& t) const {
     TimelineMarker* closest = nullptr;
 
     for (auto it = markers_.cbegin(); it != markers_.cend(); it++) {
@@ -132,7 +132,7 @@ class TimelineMarkerList : public QObject {
   void MarkerModified(TimelineMarker* marker);
 
  protected:
-  virtual void childEvent(QChildEvent* e) override;
+  void childEvent(QChildEvent* e) override;
 
  private:
   void InsertIntoList(TimelineMarker* m);
@@ -151,11 +151,11 @@ class MarkerAddCommand : public UndoCommand {
   MarkerAddCommand(TimelineMarkerList* marker_list, const TimeRange& range, const QString& name, int color);
   MarkerAddCommand(TimelineMarkerList* marker_list, TimelineMarker* marker);
 
-  virtual Project* GetRelevantProject() const override;
+  [[nodiscard]] Project* GetRelevantProject() const override;
 
  protected:
-  virtual void redo() override;
-  virtual void undo() override;
+  void redo() override;
+  void undo() override;
 
  private:
   TimelineMarkerList* marker_list_;
@@ -168,11 +168,11 @@ class MarkerRemoveCommand : public UndoCommand {
  public:
   explicit MarkerRemoveCommand(TimelineMarker* marker);
 
-  virtual Project* GetRelevantProject() const override;
+  [[nodiscard]] Project* GetRelevantProject() const override;
 
  protected:
-  virtual void redo() override;
-  virtual void undo() override;
+  void redo() override;
+  void undo() override;
 
  private:
   TimelineMarker* marker_;
@@ -185,11 +185,11 @@ class MarkerChangeColorCommand : public UndoCommand {
  public:
   MarkerChangeColorCommand(TimelineMarker* marker, int new_color);
 
-  virtual Project* GetRelevantProject() const override;
+  [[nodiscard]] Project* GetRelevantProject() const override;
 
  protected:
-  virtual void redo() override;
-  virtual void undo() override;
+  void redo() override;
+  void undo() override;
 
  private:
   TimelineMarker* marker_;
@@ -201,11 +201,11 @@ class MarkerChangeNameCommand : public UndoCommand {
  public:
   MarkerChangeNameCommand(TimelineMarker* marker, QString name);
 
-  virtual Project* GetRelevantProject() const override;
+  [[nodiscard]] Project* GetRelevantProject() const override;
 
  protected:
-  virtual void redo() override;
-  virtual void undo() override;
+  void redo() override;
+  void undo() override;
 
  private:
   TimelineMarker* marker_;
@@ -219,11 +219,11 @@ class MarkerChangeTimeCommand : public UndoCommand {
   MarkerChangeTimeCommand(TimelineMarker* marker, const TimeRange& time)
       : MarkerChangeTimeCommand(marker, time, marker->time()) {}
 
-  virtual Project* GetRelevantProject() const override;
+  [[nodiscard]] Project* GetRelevantProject() const override;
 
  protected:
-  virtual void redo() override;
-  virtual void undo() override;
+  void redo() override;
+  void undo() override;
 
  private:
   TimelineMarker* marker_;

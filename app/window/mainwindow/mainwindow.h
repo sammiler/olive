@@ -57,11 +57,11 @@ class MainWindow : public KDDockWidgets::MainWindow {
  public:
   explicit MainWindow(QWidget *parent = nullptr);
 
-  virtual ~MainWindow() override;
+  ~MainWindow() override;
 
   void LoadLayout(const MainWindowLayoutInfo &info);
 
-  MainWindowLayoutInfo SaveLayout() const;
+  [[nodiscard]] MainWindowLayoutInfo SaveLayout() const;
 
   TimelinePanel *OpenSequence(Sequence *sequence, bool enable_focus = true);
 
@@ -102,9 +102,9 @@ class MainWindow : public KDDockWidgets::MainWindow {
   void SetDefaultLayout();
 
  protected:
-  virtual void showEvent(QShowEvent *e) override;
+  void showEvent(QShowEvent *e) override;
 
-  virtual void closeEvent(QCloseEvent *e) override;
+  void closeEvent(QCloseEvent *e) override;
 
 #ifdef Q_OS_WINDOWS
   virtual bool nativeEvent(const QByteArray &eventType, void *message, long *result) override;

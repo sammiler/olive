@@ -27,7 +27,7 @@ namespace olive {
 
 class SampleJob : public AcceleratedJob {
  public:
-  SampleJob() {}
+  SampleJob() = default;
 
   SampleJob(const TimeRange &time, const NodeValue &value) {
     samples_ = value.toSamples();
@@ -39,11 +39,11 @@ class SampleJob : public AcceleratedJob {
     time_ = time;
   }
 
-  const SampleBuffer &samples() const { return samples_; }
+  [[nodiscard]] const SampleBuffer &samples() const { return samples_; }
 
-  bool HasSamples() const { return samples_.is_allocated(); }
+  [[nodiscard]] bool HasSamples() const { return samples_.is_allocated(); }
 
-  const TimeRange &time() const { return time_; }
+  [[nodiscard]] const TimeRange &time() const { return time_; }
 
  private:
   SampleBuffer samples_;

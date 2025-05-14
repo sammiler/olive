@@ -46,11 +46,11 @@ class NodeView : public HandMovableView {
  public:
   explicit NodeView(QWidget *parent = nullptr);
 
-  virtual ~NodeView() override;
+  ~NodeView() override;
 
   void SetContexts(const QVector<Node *> &nodes);
 
-  const QVector<Node *> &GetContexts() const {
+  [[nodiscard]] const QVector<Node *> &GetContexts() const {
     if (overlay_view_) {
       return overlay_view_->GetContexts();
     } else {
@@ -58,7 +58,7 @@ class NodeView : public HandMovableView {
     }
   }
 
-  bool IsGroupOverlay() const { return overlay_view_; }
+  [[nodiscard]] bool IsGroupOverlay() const { return overlay_view_; }
 
   void CloseContextsBelongingToProject(Project *project);
 
@@ -85,7 +85,7 @@ class NodeView : public HandMovableView {
 
   void ZoomOut();
 
-  const QVector<Node *> &GetCurrentContexts() const { return contexts_; }
+  [[nodiscard]] const QVector<Node *> &GetCurrentContexts() const { return contexts_; }
 
  public slots:
   void SetMiniMapEnabled(bool e) { minimap_->setVisible(e); }
@@ -116,27 +116,27 @@ class NodeView : public HandMovableView {
   void EscPressed();
 
  protected:
-  virtual void keyPressEvent(QKeyEvent *event) override;
+  void keyPressEvent(QKeyEvent *event) override;
 
-  virtual void mousePressEvent(QMouseEvent *event) override;
-  virtual void mouseMoveEvent(QMouseEvent *event) override;
-  virtual void mouseReleaseEvent(QMouseEvent *event) override;
-  virtual void mouseDoubleClickEvent(QMouseEvent *event) override;
+  void mousePressEvent(QMouseEvent *event) override;
+  void mouseMoveEvent(QMouseEvent *event) override;
+  void mouseReleaseEvent(QMouseEvent *event) override;
+  void mouseDoubleClickEvent(QMouseEvent *event) override;
 
-  virtual void dragEnterEvent(QDragEnterEvent *event) override;
-  virtual void dragMoveEvent(QDragMoveEvent *event) override;
-  virtual void dropEvent(QDropEvent *event) override;
-  virtual void dragLeaveEvent(QDragLeaveEvent *event) override;
+  void dragEnterEvent(QDragEnterEvent *event) override;
+  void dragMoveEvent(QDragMoveEvent *event) override;
+  void dropEvent(QDropEvent *event) override;
+  void dragLeaveEvent(QDragLeaveEvent *event) override;
 
-  virtual void resizeEvent(QResizeEvent *event) override;
+  void resizeEvent(QResizeEvent *event) override;
 
-  virtual void ZoomIntoCursorPosition(QWheelEvent *event, double multiplier, const QPointF &cursor_pos) override;
+  void ZoomIntoCursorPosition(QWheelEvent *event, double multiplier, const QPointF &cursor_pos) override;
 
-  virtual bool event(QEvent *event) override;
+  bool event(QEvent *event) override;
 
-  virtual bool eventFilter(QObject *object, QEvent *event) override;
+  bool eventFilter(QObject *object, QEvent *event) override;
 
-  virtual void changeEvent(QEvent *e) override;
+  void changeEvent(QEvent *e) override;
 
  private:
   void DetachItemsFromCursor(bool delete_nodes_too = true);

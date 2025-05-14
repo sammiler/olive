@@ -54,7 +54,7 @@ void MulticamDisplay::OnDestroy() { shader_ = QVariant(); }
 
 TexturePtr MulticamDisplay::LoadCustomTextureFromFrame(const QVariant &v) {
   if (v.canConvert<QVector<TexturePtr> >()) {
-    QVector<TexturePtr> tex = v.value<QVector<TexturePtr> >();
+    auto tex = v.value<QVector<TexturePtr> >();
 
     TexturePtr main = renderer()->CreateTexture(this->GetViewportParams());
 

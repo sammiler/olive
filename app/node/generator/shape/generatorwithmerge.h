@@ -30,9 +30,9 @@ class GeneratorWithMerge : public Node {
  public:
   GeneratorWithMerge();
 
-  virtual void Retranslate() override;
+  void Retranslate() override;
 
-  virtual ShaderCode GetShaderCode(const ShaderRequest &request) const override;
+  [[nodiscard]] ShaderCode GetShaderCode(const ShaderRequest &request) const override;
 
   static const QString kBaseInput;
 

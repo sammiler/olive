@@ -49,15 +49,15 @@ class ProjectExplorer : public QWidget {
  public:
   explicit ProjectExplorer(QWidget* parent);
 
-  const ProjectToolbar::ViewType& view_type() const;
+  [[nodiscard]] const ProjectToolbar::ViewType& view_type() const;
 
-  Project* project() const;
+  [[nodiscard]] Project* project() const;
   void set_project(Project* p);
 
-  Folder* get_root() const;
+  [[nodiscard]] Folder* get_root() const;
   void set_root(Folder* item);
 
-  QVector<Node*> SelectedItems() const;
+  [[nodiscard]] QVector<Node*> SelectedItems() const;
 
   /**
    * @brief Use a heuristic to determine which (if any) folder is selected
@@ -71,7 +71,7 @@ class ProjectExplorer : public QWidget {
    * A folder that's heuristically been determined as "selected", or the root directory if none, or nullptr if no
    * project is open.
    */
-  Folder* GetSelectedFolder() const;
+  [[nodiscard]] Folder* GetSelectedFolder() const;
 
   /**
    * @brief Access the ViewModel model of the project
@@ -148,7 +148,7 @@ class ProjectExplorer : public QWidget {
   /**
    * @brief Get the currently active QAbstractItemView
    */
-  QAbstractItemView* CurrentView() const;
+  [[nodiscard]] QAbstractItemView* CurrentView() const;
 
   QStackedWidget* stacked_widget_;
 

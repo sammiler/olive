@@ -11,15 +11,15 @@ ExportAdvancedVideoDialog::ExportAdvancedVideoDialog(const QList<QString>& pix_f
     : QDialog(parent) {
   setWindowTitle(tr("Advanced"));
 
-  QVBoxLayout* layout = new QVBoxLayout(this);
+  auto* layout = new QVBoxLayout(this);
 
   {
     // Pixel Settings
-    QGroupBox* pixel_group = new QGroupBox();
+    auto* pixel_group = new QGroupBox();
     layout->addWidget(pixel_group);
     pixel_group->setTitle(tr("Pixel"));
 
-    QGridLayout* pixel_layout = new QGridLayout(pixel_group);
+    auto* pixel_layout = new QGridLayout(pixel_group);
 
     int row = 0;
 
@@ -40,11 +40,11 @@ ExportAdvancedVideoDialog::ExportAdvancedVideoDialog(const QList<QString>& pix_f
 
   {
     // Performance Settings
-    QGroupBox* performance_group = new QGroupBox();
+    auto* performance_group = new QGroupBox();
     layout->addWidget(performance_group);
     performance_group->setTitle(tr("Performance"));
 
-    QGridLayout* performance_layout = new QGridLayout(performance_group);
+    auto* performance_layout = new QGridLayout(performance_group);
 
     int row = 0;
 
@@ -59,7 +59,7 @@ ExportAdvancedVideoDialog::ExportAdvancedVideoDialog(const QList<QString>& pix_f
     row++;
   }
 
-  QDialogButtonBox* buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+  auto* buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
   connect(buttons, &QDialogButtonBox::accepted, this, &ExportAdvancedVideoDialog::accept);
   connect(buttons, &QDialogButtonBox::rejected, this, &ExportAdvancedVideoDialog::reject);
   layout->addWidget(buttons);

@@ -82,58 +82,58 @@ public:
     virtual void setLayoutItem(Item *) = 0;
 
     // Not strickly necessary, but it's nice convenience for kddw which is widget based.
-    virtual QWidget *asQWidget() const
+    [[nodiscard]]  virtual QWidget *asQWidget() const
     {
         Q_ASSERT(false); // Only wanted for QtWidgets. All other should not call this.
         return nullptr;
     }
 
-    virtual QSize sizeHint() const
+    [[nodiscard]]  virtual QSize sizeHint() const
     {
         return {};
     }
-    virtual QSize minSize() const = 0;
-    virtual QSize maxSizeHint() const = 0;
-    virtual QRect geometry() const = 0;
+    [[nodiscard]]  virtual QSize minSize() const = 0;
+    [[nodiscard]]  virtual QSize maxSizeHint() const = 0;
+    [[nodiscard]]  virtual QRect geometry() const = 0;
     virtual void setGeometry(QRect) = 0;
     virtual void setParent(Widget *) = 0;
     virtual QDebug &dumpDebug(QDebug &) const = 0;
-    virtual bool isVisible() const = 0;
+    [[nodiscard]]  virtual bool isVisible() const = 0;
     virtual void setVisible(bool) const = 0;
     virtual void move(int x, int y) = 0;
     virtual void setSize(int width, int height) = 0;
     virtual void setWidth(int width) = 0;
     virtual void setHeight(int height) = 0;
-    virtual std::unique_ptr<Widget> parentWidget() const = 0;
+    [[nodiscard]]  virtual std::unique_ptr<Widget> parentWidget() const = 0;
     virtual void show() = 0;
     virtual void hide() = 0;
     virtual void update() = 0;
 
-    QSize size() const
+    [[nodiscard]]  QSize size() const
     {
         return geometry().size();
     }
 
-    QRect rect() const
+    [[nodiscard]]  QRect rect() const
     {
         return QRect(QPoint(0, 0), size());
     }
 
-    QObject *asQObject() const
+    [[nodiscard]]  QObject *asQObject() const
     {
         return m_thisObj;
     }
-    QObject *parent() const
+    [[nodiscard]]  QObject *parent() const
     {
         return m_thisObj->parent();
     }
 
-    int x() const
+    [[nodiscard]]  int x() const
     {
         return geometry().x();
     }
 
-    int y() const
+    [[nodiscard]]  int y() const
     {
         return geometry().y();
     }
@@ -144,7 +144,7 @@ public:
     }
 
     ///@brief returns an id for corelation purposes for saving layouts
-    QString id() const;
+    [[nodiscard]]  QString id() const;
 
     static QSize hardcodedMinimumSize();
 

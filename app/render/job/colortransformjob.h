@@ -45,7 +45,7 @@ class ColorTransformJob : public AcceleratedJob {
 
   explicit ColorTransformJob(const NodeValueRow &row) : ColorTransformJob() { Insert(row); }
 
-  QString id() const {
+  [[nodiscard]] QString id() const {
     if (id_.isEmpty()) {
       return processor_->id();
     } else {
@@ -55,39 +55,39 @@ class ColorTransformJob : public AcceleratedJob {
 
   void SetOverrideID(const QString &id) { id_ = id; }
 
-  const NodeValue &GetInputTexture() const { return input_texture_; }
+  [[nodiscard]] const NodeValue &GetInputTexture() const { return input_texture_; }
   void SetInputTexture(const NodeValue &tex) { input_texture_ = tex; }
   void SetInputTexture(TexturePtr tex) {
     Q_ASSERT(!tex->IsDummy());
     input_texture_ = NodeValue(NodeValue::kTexture, tex);
   }
 
-  ColorProcessorPtr GetColorProcessor() const { return processor_; }
+  [[nodiscard]] ColorProcessorPtr GetColorProcessor() const { return processor_; }
   void SetColorProcessor(ColorProcessorPtr p) { processor_ = p; }
 
-  const AlphaAssociated &GetInputAlphaAssociation() const { return input_alpha_association_; }
+  [[nodiscard]] const AlphaAssociated &GetInputAlphaAssociation() const { return input_alpha_association_; }
   void SetInputAlphaAssociation(const AlphaAssociated &e) { input_alpha_association_ = e; }
 
-  const Node *CustomShaderSource() const { return custom_shader_src_; }
-  const QString &CustomShaderID() const { return custom_shader_id_; }
+  [[nodiscard]] const Node *CustomShaderSource() const { return custom_shader_src_; }
+  [[nodiscard]] const QString &CustomShaderID() const { return custom_shader_id_; }
   void SetNeedsCustomShader(const Node *node, const QString &id = QString()) {
     custom_shader_src_ = node;
     custom_shader_id_ = id;
   }
 
-  bool IsClearDestinationEnabled() const { return clear_destination_; }
+  [[nodiscard]] bool IsClearDestinationEnabled() const { return clear_destination_; }
   void SetClearDestinationEnabled(bool e) { clear_destination_ = e; }
 
-  const QMatrix4x4 &GetTransformMatrix() const { return matrix_; }
+  [[nodiscard]] const QMatrix4x4 &GetTransformMatrix() const { return matrix_; }
   void SetTransformMatrix(const QMatrix4x4 &m) { matrix_ = m; }
 
-  const QMatrix4x4 &GetCropMatrix() const { return crop_matrix_; }
+  [[nodiscard]] const QMatrix4x4 &GetCropMatrix() const { return crop_matrix_; }
   void SetCropMatrix(const QMatrix4x4 &m) { crop_matrix_ = m; }
 
-  const QString &GetFunctionName() const { return function_name_; }
+  [[nodiscard]] const QString &GetFunctionName() const { return function_name_; }
   void SetFunctionName(const QString &function_name = QString()) { function_name_ = function_name; };
 
-  bool GetForceOpaque() const { return force_opaque_; }
+  [[nodiscard]] bool GetForceOpaque() const { return force_opaque_; }
   void SetForceOpaque(bool e) { force_opaque_ = e; }
 
  private:

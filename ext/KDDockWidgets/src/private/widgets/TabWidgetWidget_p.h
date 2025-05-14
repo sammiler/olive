@@ -42,9 +42,9 @@ class DOCKS_EXPORT TabWidgetWidget
 public:
     explicit TabWidgetWidget(Frame *parent, TabWidgetOptions = TabWidgetOption_None);
 
-    TabBar *tabBar() const override;
+    [[nodiscard]] TabBar *tabBar() const override;
 
-    int numDockWidgets() const override;
+    [[nodiscard]] int numDockWidgets() const override;
     void removeDockWidget(DockWidgetBase *) override;
     int indexOfDockWidget(const DockWidgetBase *) const override;
 Q_SIGNALS:
@@ -56,15 +56,15 @@ protected:
     void mousePressEvent(QMouseEvent *) override;
     void tabInserted(int index) override;
     void tabRemoved(int index) override;
-    bool isPositionDraggable(QPoint p) const override;
+    [[nodiscard]] bool isPositionDraggable(QPoint p) const override;
     void setCurrentDockWidget(int index) override;
     bool insertDockWidget(int index, DockWidgetBase *, const QIcon &, const QString &title) override;
     void setTabBarAutoHide(bool) override;
     void renameTab(int index, const QString &) override;
     void changeTabIcon(int index, const QIcon &) override;
 
-    DockWidgetBase *dockwidgetAt(int index) const override;
-    int currentIndex() const override;
+    [[nodiscard]] DockWidgetBase *dockwidgetAt(int index) const override;
+    [[nodiscard]] int currentIndex() const override;
 
     /// @brief Shows the context menu. Override to implement your own context menu.
     /// By default it's used to honour Config::Flag_AllowSwitchingTabsViaMenu

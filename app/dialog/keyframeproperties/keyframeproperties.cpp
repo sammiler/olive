@@ -34,7 +34,7 @@ KeyframePropertiesDialog::KeyframePropertiesDialog(const std::vector<NodeKeyfram
     : QDialog(parent), keys_(keys), timebase_(timebase) {
   setWindowTitle(tr("Keyframe Properties"));
 
-  QGridLayout* layout = new QGridLayout(this);
+  auto* layout = new QGridLayout(this);
 
   int row = 0;
 
@@ -58,7 +58,7 @@ KeyframePropertiesDialog::KeyframePropertiesDialog(const std::vector<NodeKeyfram
   // Bezier handles
   bezier_group_ = new QGroupBox();
 
-  QGridLayout* bezier_group_layout = new QGridLayout(bezier_group_);
+  auto* bezier_group_layout = new QGridLayout(bezier_group_);
 
   bezier_group_layout->addWidget(new QLabel(tr("In:")), 0, 0);
 
@@ -177,7 +177,7 @@ KeyframePropertiesDialog::KeyframePropertiesDialog(const std::vector<NodeKeyfram
 
   row++;
 
-  QDialogButtonBox* buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+  auto* buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
   buttons->setCenterButtons(true);
   layout->addWidget(buttons, row, 0, 1, 2);
   connect(buttons, &QDialogButtonBox::accepted, this, &QDialog::accept);
@@ -185,7 +185,7 @@ KeyframePropertiesDialog::KeyframePropertiesDialog(const std::vector<NodeKeyfram
 }
 
 void KeyframePropertiesDialog::accept() {
-  MultiUndoCommand* command = new MultiUndoCommand();
+  auto* command = new MultiUndoCommand();
 
   rational new_time = time_slider_->GetValue();
   int new_type = type_select_->currentData().toInt();

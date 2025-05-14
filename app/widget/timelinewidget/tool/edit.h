@@ -31,10 +31,10 @@ class EditTool : public BeamTool {
  public:
   explicit EditTool(TimelineWidget *parent);
 
-  virtual void MousePress(TimelineViewMouseEvent *event) override;
-  virtual void MouseMove(TimelineViewMouseEvent *event) override;
-  virtual void MouseRelease(TimelineViewMouseEvent *event) override;
-  virtual void MouseDoubleClick(TimelineViewMouseEvent *event) override;
+  void MousePress(TimelineViewMouseEvent *event) override;
+  void MouseMove(TimelineViewMouseEvent *event) override;
+  void MouseRelease(TimelineViewMouseEvent *event) override;
+  void MouseDoubleClick(TimelineViewMouseEvent *event) override;
 
  private:
   TimelineWidgetSelections start_selections_;

@@ -68,27 +68,27 @@ public:
 
         QRect htCaptionRect; // in global coordinates
         Features features = Feature_All;
-        bool hasFeatures() const
+        [[nodiscard]] bool hasFeatures() const
         {
             return features != Feature_None;
         }
 
-        bool hasShadow() const
+        [[nodiscard]] bool hasShadow() const
         {
             return features & Feature_NativeShadow;
         }
 
-        bool hasMaximize() const
+        [[nodiscard]] bool hasMaximize() const
         {
             return features & Feature_NativeMaximize;
         }
 
-        bool hasResize() const
+        [[nodiscard]] bool hasResize() const
         {
             return features & Feature_NativeResize;
         }
 
-        bool hasDrag() const
+        [[nodiscard]] bool hasDrag() const
         {
             return (features & Feature_NativeDrag) && !htCaptionRect.isNull();
         }
@@ -134,9 +134,9 @@ public:
      */
     void setResizeGap(int);
 
-    bool isMDI() const;
+    [[nodiscard]] bool isMDI() const;
 
-    bool isResizing() const;
+    [[nodiscard]] bool isResizing() const;
 
     static int widgetResizeHandlerMargin();
 
@@ -158,7 +158,7 @@ private:
     void updateCursor(CursorPosition m);
     void setMouseCursor(Qt::CursorShape cursor);
     void restoreMouseCursor();
-    CursorPosition cursorPosition(QPoint) const;
+    [[nodiscard]] CursorPosition cursorPosition(QPoint) const;
     QWidgetOrQuick *mTarget = nullptr;
     CursorPosition mCursorPos = CursorPosition_Undefined;
     QPoint mNewPosition;

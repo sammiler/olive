@@ -39,7 +39,7 @@ class ScrollingLabel : public QWidget {
   void StopAnimating() { timer_.stop(); }
 
  protected:
-  virtual void paintEvent(QPaintEvent* e) override;
+  void paintEvent(QPaintEvent* e) override;
 
  private:
   static void SetOpacityOfScanLine(uchar* scan_line, int width, int channels, double mul);

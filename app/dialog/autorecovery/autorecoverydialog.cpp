@@ -53,7 +53,7 @@ void AutoRecoveryDialog::accept() {
 }
 
 void AutoRecoveryDialog::Init(const QString& header_text) {
-  QVBoxLayout* layout = new QVBoxLayout(this);
+  auto* layout = new QVBoxLayout(this);
 
   setWindowTitle(tr("Auto-Recovery"));
 
@@ -63,7 +63,7 @@ void AutoRecoveryDialog::Init(const QString& header_text) {
   tree_widget_->setHeaderHidden(true);
   layout->addWidget(tree_widget_);
 
-  QDialogButtonBox* buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+  auto* buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
   buttons->button(QDialogButtonBox::Ok)->setText(tr("Load"));
   connect(buttons, &QDialogButtonBox::accepted, this, &AutoRecoveryDialog::accept);
   connect(buttons, &QDialogButtonBox::rejected, this, &AutoRecoveryDialog::reject);
@@ -93,7 +93,7 @@ void AutoRecoveryDialog::PopulateTree(const QStringList& recoveries, bool autoch
       }
     }
 
-    QTreeWidgetItem* top_level = new QTreeWidgetItem(tree_widget_);
+    auto* top_level = new QTreeWidgetItem(tree_widget_);
     top_level->setText(0, pretty_name);
 
     {
@@ -103,7 +103,7 @@ void AutoRecoveryDialog::PopulateTree(const QStringList& recoveries, bool autoch
         const QString& entry = entries.at(i);
 
         if (entry.endsWith(QStringLiteral(".ove"), Qt::CaseInsensitive)) {
-          QTreeWidgetItem* entry_item = new QTreeWidgetItem(top_level);
+          auto* entry_item = new QTreeWidgetItem(top_level);
 
           bool ok;
           qint64 recovery_time = entry.left(entry.indexOf('.')).toLongLong(&ok);

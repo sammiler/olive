@@ -33,11 +33,11 @@ class TrackViewSplitterHandle : public QSplitterHandle {
   TrackViewSplitterHandle(Qt::Orientation orientation, QSplitter *parent);
 
  protected:
-  virtual void mousePressEvent(QMouseEvent *e) override;
-  virtual void mouseMoveEvent(QMouseEvent *e) override;
-  virtual void mouseReleaseEvent(QMouseEvent *e) override;
+  void mousePressEvent(QMouseEvent *e) override;
+  void mouseMoveEvent(QMouseEvent *e) override;
+  void mouseReleaseEvent(QMouseEvent *e) override;
 
-  virtual void paintEvent(QPaintEvent *e) override;
+  void paintEvent(QPaintEvent *e) override;
 
  private:
   int drag_y_{};
@@ -66,7 +66,7 @@ class TrackViewSplitter : public QSplitter {
   void TrackHeightChanged(int index, int height);
 
  protected:
-  virtual QSplitterHandle *createHandle() override;
+  QSplitterHandle *createHandle() override;
 
  private:
   Qt::Alignment alignment_;

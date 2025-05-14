@@ -126,23 +126,23 @@ struct InitialOption
     {
     }
 
-    bool startsHidden() const
+    [[nodiscard]]  bool startsHidden() const
     {
         return visibility == InitialVisibilityOption::StartHidden;
     }
 
-    bool preservesCurrentTab() const
+    [[nodiscard]]  bool preservesCurrentTab() const
     {
         return visibility == InitialVisibilityOption::PreserveCurrentTab;
     }
 
-    int preferredLength(Qt::Orientation o) const
+    [[nodiscard]]  int preferredLength(Qt::Orientation o) const
     {
         return o == Qt::Horizontal ? preferredSize.width()
                                    : preferredSize.height();
     }
 
-    bool hasPreferredLength(Qt::Orientation o) const
+    [[nodiscard]]  bool hasPreferredLength(Qt::Orientation o) const
     {
         return preferredLength(o) > 0;
     }

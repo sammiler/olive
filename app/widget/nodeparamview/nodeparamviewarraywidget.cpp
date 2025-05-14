@@ -29,7 +29,7 @@ namespace olive {
 
 NodeParamViewArrayWidget::NodeParamViewArrayWidget(Node *node, const QString &input, QWidget *parent)
     : QWidget(parent), node_(node), input_(input) {
-  QHBoxLayout *layout = new QHBoxLayout(this);
+  auto *layout = new QHBoxLayout(this);
 
   count_lbl_ = new QLabel();
   layout->addWidget(count_lbl_);

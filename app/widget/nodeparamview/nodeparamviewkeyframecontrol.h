@@ -35,22 +35,22 @@ class NodeParamViewKeyframeControl : public QWidget, public TimeTargetObject {
   explicit NodeParamViewKeyframeControl(bool right_align, QWidget* parent = nullptr);
   explicit NodeParamViewKeyframeControl(QWidget* parent = nullptr) : NodeParamViewKeyframeControl(true, parent) {}
 
-  const NodeInput& GetConnectedInput() const { return input_; }
+  [[nodiscard]] const NodeInput& GetConnectedInput() const { return input_; }
 
   void SetInput(const NodeInput& input);
 
  protected:
-  virtual void TimeTargetDisconnectEvent(ViewerOutput* v) override;
-  virtual void TimeTargetConnectEvent(ViewerOutput* v) override;
+  void TimeTargetDisconnectEvent(ViewerOutput* v) override;
+  void TimeTargetConnectEvent(ViewerOutput* v) override;
 
  private:
-  QPushButton* CreateNewToolButton(const QIcon& icon) const;
+  [[nodiscard]] QPushButton* CreateNewToolButton(const QIcon& icon) const;
 
   void SetButtonsEnabled(bool e);
 
-  rational GetCurrentTimeAsNodeTime() const;
+  [[nodiscard]] rational GetCurrentTimeAsNodeTime() const;
 
-  rational ConvertToViewerTime(const rational& r) const;
+  [[nodiscard]] rational ConvertToViewerTime(const rational& r) const;
 
   QPushButton* prev_key_btn_;
   QPushButton* toggle_key_btn_;

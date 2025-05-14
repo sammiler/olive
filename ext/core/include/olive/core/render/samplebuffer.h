@@ -43,16 +43,16 @@ class SampleBuffer {
   SampleBuffer(const AudioParams& audio_params, const rational& length);
   SampleBuffer(const AudioParams& audio_params, size_t samples_per_channel);
 
-  const AudioParams& audio_params() const;
+  [[nodiscard]] const AudioParams& audio_params() const;
   void set_audio_params(const AudioParams& params);
 
-  const size_t& sample_count() const { return sample_count_per_channel_; }
+  [[nodiscard]] const size_t& sample_count() const { return sample_count_per_channel_; }
   void set_sample_count(const size_t& sample_count);
   void set_sample_count(const rational& length) { set_sample_count(audio_params_.time_to_samples(length)); }
 
   float* data(int channel) { return data_[channel].data(); }
 
-  const float* data(int channel) const { return data_.at(channel).data(); }
+  [[nodiscard]] const float* data(int channel) const { return data_.at(channel).data(); }
 
   std::vector<float*> to_raw_ptrs() {
     std::vector<float*> r(data_.size());
@@ -62,9 +62,9 @@ class SampleBuffer {
     return r;
   }
 
-  int channel_count() const { return data_.size(); }
+  [[nodiscard]] int channel_count() const { return data_.size(); }
 
-  bool is_allocated() const { return !data_.empty(); }
+  [[nodiscard]] bool is_allocated() const { return !data_.empty(); }
   void allocate();
   void destroy();
 

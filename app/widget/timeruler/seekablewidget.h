@@ -34,17 +34,17 @@ class SeekableWidget : public TimeBasedView {
  public:
   explicit SeekableWidget(QWidget *parent = nullptr);
 
-  int GetScroll() const { return horizontalScrollBar()->value(); }
+  [[nodiscard]] int GetScroll() const { return horizontalScrollBar()->value(); }
 
-  TimelineMarkerList *GetMarkers() const { return markers_; }
-  TimelineWorkArea *GetWorkArea() const { return workarea_; }
+  [[nodiscard]] TimelineMarkerList *GetMarkers() const { return markers_; }
+  [[nodiscard]] TimelineWorkArea *GetWorkArea() const { return workarea_; }
 
   void SetMarkers(TimelineMarkerList *markers);
   void SetWorkArea(TimelineWorkArea *workarea);
 
-  virtual bool IsDraggingPlayhead() const override { return dragging_; }
+  [[nodiscard]] bool IsDraggingPlayhead() const override { return dragging_; }
 
-  bool IsMarkerEditingEnabled() const { return marker_editing_enabled_; }
+  [[nodiscard]] bool IsMarkerEditingEnabled() const { return marker_editing_enabled_; }
   void SetMarkerEditingEnabled(bool e) { marker_editing_enabled_ = e; }
 
   void DeleteSelected();
@@ -57,19 +57,19 @@ class SeekableWidget : public TimeBasedView {
 
   void SeekToScenePoint(qreal scene);
 
-  bool HasItemsSelected() const { return !selection_manager_.GetSelectedObjects().empty(); }
+  [[nodiscard]] bool HasItemsSelected() const { return !selection_manager_.GetSelectedObjects().empty(); }
 
-  const std::vector<TimelineMarker *> &GetSelectedMarkers() const { return selection_manager_.GetSelectedObjects(); }
+  [[nodiscard]] const std::vector<TimelineMarker *> &GetSelectedMarkers() const { return selection_manager_.GetSelectedObjects(); }
 
-  virtual void SelectionManagerSelectEvent(void *obj) override;
-  virtual void SelectionManagerDeselectEvent(void *obj) override;
+  void SelectionManagerSelectEvent(void *obj) override;
+  void SelectionManagerDeselectEvent(void *obj) override;
 
-  virtual void CatchUpScrollEvent() override;
+  void CatchUpScrollEvent() override;
 
  public slots:
   void SetScroll(int i) { horizontalScrollBar()->setValue(i); }
 
-  virtual void TimebaseChangedEvent(const rational &) override;
+  void TimebaseChangedEvent(const rational &) override;
 
  signals:
   void DragMoved(int x, int y);
@@ -77,24 +77,24 @@ class SeekableWidget : public TimeBasedView {
   void DragReleased();
 
  protected:
-  virtual void mousePressEvent(QMouseEvent *event) override;
-  virtual void mouseMoveEvent(QMouseEvent *event) override;
-  virtual void mouseReleaseEvent(QMouseEvent *event) override;
-  virtual void mouseDoubleClickEvent(QMouseEvent *event) override;
+  void mousePressEvent(QMouseEvent *event) override;
+  void mouseMoveEvent(QMouseEvent *event) override;
+  void mouseReleaseEvent(QMouseEvent *event) override;
+  void mouseDoubleClickEvent(QMouseEvent *event) override;
 
-  virtual void focusOutEvent(QFocusEvent *event) override;
+  void focusOutEvent(QFocusEvent *event) override;
 
   void DrawMarkers(QPainter *p, int marker_bottom = 0);
   void DrawWorkArea(QPainter *p);
 
   void DrawPlayhead(QPainter *p, int x, int y);
 
-  inline const int &text_height() const { return text_height_; }
+  [[nodiscard]] inline const int &text_height() const { return text_height_; }
 
-  inline const int &playhead_width() const { return playhead_width_; }
+  [[nodiscard]] inline const int &playhead_width() const { return playhead_width_; }
 
-  int GetLeftLimit() const;
-  int GetRightLimit() const;
+  [[nodiscard]] int GetLeftLimit() const;
+  [[nodiscard]] int GetRightLimit() const;
 
  protected slots:
   virtual bool ShowContextMenu(const QPoint &p);

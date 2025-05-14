@@ -34,7 +34,7 @@ class ToolPanel : public PanelWidget {
   ToolPanel();
 
  private:
-  virtual void Retranslate() override;
+  void Retranslate() override;
 };
 
 }  // namespace olive

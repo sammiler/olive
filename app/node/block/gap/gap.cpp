@@ -22,7 +22,7 @@
 
 namespace olive {
 
-GapBlock::GapBlock() {}
+GapBlock::GapBlock() = default;
 
 QString GapBlock::Name() const { return tr("Gap"); }
 

@@ -113,8 +113,8 @@ void PanelWidget::changeEvent(QEvent *e) {
 void PanelWidget::Retranslate() {}
 
 void PanelWidget::SetWidgetWithPadding(QWidget *widget) {
-  QWidget *wrapper = new QWidget();
-  QHBoxLayout *layout = new QHBoxLayout(wrapper);
+  auto *wrapper = new QWidget();
+  auto *layout = new QHBoxLayout(wrapper);
   layout->setContentsMargins(layout->contentsMargins() / 2);
   layout->addWidget(widget);
   setWidget(wrapper);

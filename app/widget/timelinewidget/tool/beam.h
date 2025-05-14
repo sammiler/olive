@@ -29,7 +29,7 @@ class BeamTool : public TimelineTool {
  public:
   explicit BeamTool(TimelineWidget *parent);
 
-  virtual void HoverMove(TimelineViewMouseEvent *event) override;
+  void HoverMove(TimelineViewMouseEvent *event) override;
 
  protected:
   TimelineCoordinate ValidatedCoordinate(TimelineCoordinate coord);

@@ -43,12 +43,12 @@ class DOCKS_EXPORT TabBarWidget
     Q_OBJECT
 public:
     explicit TabBarWidget(TabWidget *parent = nullptr);
-    int tabAt(QPoint localPos) const override;
+    [[nodiscard]] int tabAt(QPoint localPos) const override;
 
-    DockWidgetBase *currentDockWidget() const;
+    [[nodiscard]] DockWidgetBase *currentDockWidget() const;
 
-    QString text(int index) const override;
-    QRect rectForTab(int index) const override;
+    [[nodiscard]] QString text(int index) const override;
+    [[nodiscard]] QRect rectForTab(int index) const override;
     void moveTabTo(int from, int to) override;
 
 Q_SIGNALS:
@@ -56,7 +56,7 @@ Q_SIGNALS:
     void dockWidgetRemoved(int index);
 
 protected:
-    bool dragCanStart(QPoint pressPos, QPoint pos) const override;
+    [[nodiscard]] bool dragCanStart(QPoint pressPos, QPoint pos) const override;
     void mousePressEvent(QMouseEvent *) override;
     void mouseMoveEvent(QMouseEvent *e) override;
     void mouseDoubleClickEvent(QMouseEvent *e) override;

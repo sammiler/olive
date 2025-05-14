@@ -47,9 +47,9 @@ class HandMovableView : public QGraphicsView {
   bool HandRelease(QMouseEvent* event);
 
   void SetDefaultDragMode(DragMode mode);
-  const DragMode& GetDefaultDragMode() const;
+  [[nodiscard]] const DragMode& GetDefaultDragMode() const;
 
-  virtual void wheelEvent(QWheelEvent* event) override;
+  void wheelEvent(QWheelEvent* event) override;
 
   virtual void ZoomIntoCursorPosition(QWheelEvent* event, double multiplier, const QPointF& cursor_pos);
 

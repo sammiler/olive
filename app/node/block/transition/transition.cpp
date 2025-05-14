@@ -197,7 +197,7 @@ void TransitionBlock::InvalidateCache(const TimeRange &range, const QString &fro
   TimeRange r = range;
 
   if (from == kOutBlockInput || from == kInBlockInput) {
-    Block *n = dynamic_cast<Block *>(GetConnectedOutput(from));
+    auto *n = dynamic_cast<Block *>(GetConnectedOutput(from));
     if (n) {
       r = Track::TransformRangeFromBlock(n, r);
     }
@@ -257,7 +257,7 @@ void TransitionBlock::InputDisconnectedEvent(const QString &input, int element, 
 TimeRange TransitionBlock::InputTimeAdjustment(const QString &input, int element, const TimeRange &input_time,
                                                bool clamp) const {
   if (input == kInBlockInput || input == kOutBlockInput) {
-    Block *block = dynamic_cast<Block *>(GetConnectedOutput(input));
+    auto *block = dynamic_cast<Block *>(GetConnectedOutput(input));
     if (block) {
       // Retransform time as if it came from the track
       return input_time + in() - block->in();
@@ -269,7 +269,7 @@ TimeRange TransitionBlock::InputTimeAdjustment(const QString &input, int element
 
 TimeRange TransitionBlock::OutputTimeAdjustment(const QString &input, int element, const TimeRange &input_time) const {
   if (input == kInBlockInput || input == kOutBlockInput) {
-    Block *block = dynamic_cast<Block *>(GetConnectedOutput(input));
+    auto *block = dynamic_cast<Block *>(GetConnectedOutput(input));
     if (block) {
       return input_time + block->in() - in();
     }

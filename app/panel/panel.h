@@ -44,7 +44,7 @@ class PanelWidget : public KDDockWidgets::DockWidget {
    */
   explicit PanelWidget(const QString& object_name);
 
-  virtual ~PanelWidget() override;
+  ~PanelWidget() override;
 
   /**
    * @brief Set visibility of panel's highlighted border, mostly used for showing panel focus
@@ -63,7 +63,7 @@ class PanelWidget : public KDDockWidgets::DockWidget {
   using Info = std::map<QString, QString>;
 
   virtual void LoadData(const Info& info) {}
-  virtual Info SaveData() const { return Info(); }
+  [[nodiscard]] virtual Info SaveData() const { return Info(); }
 
   /**
    * @brief Called whenever this panel is focused and user uses "Zoom In" (either in menus or as a keyboard shortcut)
@@ -187,9 +187,9 @@ class PanelWidget : public KDDockWidgets::DockWidget {
    */
   void paintEvent(QPaintEvent* event) override;
 
-  virtual void changeEvent(QEvent* e) override;
+  void changeEvent(QEvent* e) override;
 
-  virtual void closeEvent(QCloseEvent* event) override;
+  void closeEvent(QCloseEvent* event) override;
 
   virtual void Retranslate();
 

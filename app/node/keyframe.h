@@ -56,49 +56,49 @@ class NodeKeyframe : public QObject {
                QObject* parent = nullptr);
   NodeKeyframe();
 
-  virtual ~NodeKeyframe() override;
+  ~NodeKeyframe() override;
 
   NodeKeyframe* copy(int element, QObject* parent = nullptr) const;
   NodeKeyframe* copy(QObject* parent = nullptr) const;
 
-  Node* parent() const;
+  [[nodiscard]] Node* parent() const;
 
-  const QString& input() const { return input_; }
+  [[nodiscard]] const QString& input() const { return input_; }
   void set_input(const QString& input) { input_ = input; }
 
-  NodeKeyframeTrackReference key_track_ref() const {
+  [[nodiscard]] NodeKeyframeTrackReference key_track_ref() const {
     return NodeKeyframeTrackReference(NodeInput(parent(), input(), element()), track());
   }
 
   /**
    * @brief The time this keyframe is set at
    */
-  const rational& time() const;
+  [[nodiscard]] const rational& time() const;
   void set_time(const rational& time);
 
   /**
    * @brief The value of this keyframe (i.e. the value to use at this keyframe's time)
    */
-  const QVariant& value() const;
+  [[nodiscard]] const QVariant& value() const;
   void set_value(const QVariant& value);
 
   /**
    * @brief The method of interpolation to use with this keyframe
    */
-  const Type& type() const;
+  [[nodiscard]] const Type& type() const;
   void set_type(const Type& type);
   void set_type_no_bezier_adj(const Type& type);
 
   /**
    * @brief For bezier interpolation, the control point leading into this keyframe
    */
-  const QPointF& bezier_control_in() const;
+  [[nodiscard]] const QPointF& bezier_control_in() const;
   void set_bezier_control_in(const QPointF& control);
 
   /**
    * @brief For bezier interpolation, the control point leading out of this keyframe
    */
-  const QPointF& bezier_control_out() const;
+  [[nodiscard]] const QPointF& bezier_control_out() const;
   void set_bezier_control_out(const QPointF& control);
 
   /**
@@ -108,13 +108,13 @@ class NodeKeyframe : public QObject {
    * internally to prevent a situation where the animation overlaps (i.e. there can only be one Y
    * value for any given X in the bezier line). This returns a value that is known good.
    */
-  QPointF valid_bezier_control_in() const;
-  QPointF valid_bezier_control_out() const;
+  [[nodiscard]] QPointF valid_bezier_control_in() const;
+  [[nodiscard]] QPointF valid_bezier_control_out() const;
 
   /**
    * @brief Convenience functions for retrieving/setting bezier handle information with a BezierType
    */
-  const QPointF& bezier_control(BezierType type) const;
+  [[nodiscard]] const QPointF& bezier_control(BezierType type) const;
   void set_bezier_control(BezierType type, const QPointF& control);
 
   /**
@@ -123,10 +123,10 @@ class NodeKeyframe : public QObject {
    * For the majority of keyfreames, this will be 0, but for some types, such as kVec2, this will be 0 for X keyframes
    * and 1 for Y keyframes, etc.
    */
-  int track() const { return track_; }
+  [[nodiscard]] int track() const { return track_; }
   void set_track(int t) { track_ = t; }
 
-  int element() const { return element_; }
+  [[nodiscard]] int element() const { return element_; }
   void set_element(int e) { element_ = e; }
 
   /**
@@ -134,15 +134,15 @@ class NodeKeyframe : public QObject {
    */
   static BezierType get_opposing_bezier_type(BezierType type);
 
-  NodeKeyframe* previous() const { return previous_; }
+  [[nodiscard]] NodeKeyframe* previous() const { return previous_; }
 
   void set_previous(NodeKeyframe* keyframe) { previous_ = keyframe; }
 
-  NodeKeyframe* next() const { return next_; }
+  [[nodiscard]] NodeKeyframe* next() const { return next_; }
 
   void set_next(NodeKeyframe* keyframe) { next_ = keyframe; }
 
-  bool has_sibling_at_time(const rational& t) const;
+  [[nodiscard]] bool has_sibling_at_time(const rational& t) const;
 
   bool load(QXmlStreamReader* reader, NodeValue::Type data_type);
   void save(QXmlStreamWriter* writer, NodeValue::Type data_type) const;

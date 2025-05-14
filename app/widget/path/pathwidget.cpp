@@ -29,7 +29,7 @@
 namespace olive {
 
 PathWidget::PathWidget(const QString &path, QWidget *parent) : QWidget(parent) {
-  QHBoxLayout *layout = new QHBoxLayout(this);
+  auto *layout = new QHBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
 
   path_edit_ = new QLineEdit();

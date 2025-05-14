@@ -32,15 +32,15 @@ class NodeComboBox : public QComboBox {
  public:
   explicit NodeComboBox(QWidget* parent = nullptr);
 
-  virtual void showPopup() override;
+  void showPopup() override;
 
-  const QString& GetSelectedNode() const;
+  [[nodiscard]] const QString& GetSelectedNode() const;
 
  public slots:
   void SetNode(const QString& id);
 
  protected:
-  virtual void changeEvent(QEvent* e) override;
+  void changeEvent(QEvent* e) override;
 
  signals:
   void NodeChanged(const QString& id);

@@ -154,7 +154,7 @@ void TimelineMarker::save(QXmlStreamWriter *writer) const {
 bool TimelineMarkerList::load(QXmlStreamReader *reader) {
   while (XMLReadNextStartElement(reader)) {
     if (reader->name() == QStringLiteral("marker")) {
-      TimelineMarker *marker = new TimelineMarker(this);
+      auto *marker = new TimelineMarker(this);
       if (!marker->load(reader)) {
         return false;
       }
@@ -181,7 +181,7 @@ void TimelineMarkerList::save(QXmlStreamWriter *writer) const {
 void TimelineMarkerList::childEvent(QChildEvent *e) {
   QObject::childEvent(e);
 
-  if (TimelineMarker *marker = dynamic_cast<TimelineMarker *>(e->child())) {
+  if (auto *marker = dynamic_cast<TimelineMarker *>(e->child())) {
     if (e->type() == QChildEvent::ChildAdded) {
       connect(marker, &TimelineMarker::TimeChanged, this, &TimelineMarkerList::HandleMarkerTimeChange);
       connect(marker, &TimelineMarker::TimeChanged, this, &TimelineMarkerList::HandleMarkerModification);
@@ -239,7 +239,7 @@ bool TimelineMarkerList::RemoveFromList(TimelineMarker *marker) {
 void TimelineMarkerList::HandleMarkerModification() { emit MarkerModified(dynamic_cast<TimelineMarker *>(sender())); }
 
 void TimelineMarkerList::HandleMarkerTimeChange() {
-  TimelineMarker *m = dynamic_cast<TimelineMarker *>(sender());
+  auto *m = dynamic_cast<TimelineMarker *>(sender());
 
   auto it = std::find(markers_.begin(), markers_.end(), m);
 

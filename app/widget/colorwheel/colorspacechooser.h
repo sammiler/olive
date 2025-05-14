@@ -34,8 +34,8 @@ class ColorSpaceChooser : public QGroupBox {
   explicit ColorSpaceChooser(ColorManager* color_manager, bool enable_input_field = true, bool enable_display_fields = true,
                     QWidget* parent = nullptr);
 
-  QString input() const;
-  ColorTransform output() const;
+  [[nodiscard]] QString input() const;
+  [[nodiscard]] ColorTransform output() const;
 
   void set_input(const QString& s);
   void set_output(const ColorTransform& out);

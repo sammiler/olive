@@ -26,7 +26,7 @@
 namespace olive {
 
 ToolPanel::ToolPanel() : PanelWidget(QStringLiteral("ToolPanel")) {
-  Toolbar* t = new Toolbar(this);
+  auto* t = new Toolbar(this);
 
   t->SetTool(Core::instance()->tool());
   t->SetSnapping(Core::instance()->snapping());

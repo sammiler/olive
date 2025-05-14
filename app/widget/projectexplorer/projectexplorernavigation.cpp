@@ -30,7 +30,7 @@ namespace olive {
 
 ProjectExplorerNavigation::ProjectExplorerNavigation(QWidget *parent) : QWidget(parent) {
   // Create widget layout
-  QHBoxLayout *layout = new QHBoxLayout(this);
+  auto *layout = new QHBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
 
   // Create "directory up" button

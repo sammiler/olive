@@ -76,7 +76,7 @@ public:
 
     ///@brief Destructor.Don't delete FrameworkWidgetFactory directly, it's owned
     /// by the framework.
-    virtual ~FrameworkWidgetFactory();
+    ~FrameworkWidgetFactory() override;
 
     ///@brief Called internally by the framework to create a Frame class
     ///       Override to provide your own Frame sub-class. A frame is the
@@ -155,7 +155,7 @@ public:
 
     /// @brief Returns the icon to be used with the specified @p type
     /// @param dpr the device pixel ratio of the button
-    virtual QIcon iconForButtonType(TitleBarButtonType type, qreal dpr) const = 0;
+    [[nodiscard]] virtual QIcon iconForButtonType(TitleBarButtonType type, qreal dpr) const = 0;
 
 private:
     Q_DISABLE_COPY(FrameworkWidgetFactory)

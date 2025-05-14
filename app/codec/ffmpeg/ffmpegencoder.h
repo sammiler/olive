@@ -38,23 +38,23 @@ class FFmpegEncoder : public Encoder {
  public:
   explicit FFmpegEncoder(const EncodingParams &params);
 
-  virtual QStringList GetPixelFormatsForCodec(ExportCodec::Codec c) const override;
+  [[nodiscard]] QStringList GetPixelFormatsForCodec(ExportCodec::Codec c) const override;
 
-  virtual std::vector<SampleFormat> GetSampleFormatsForCodec(ExportCodec::Codec c) const override;
+  [[nodiscard]] std::vector<SampleFormat> GetSampleFormatsForCodec(ExportCodec::Codec c) const override;
 
-  virtual bool Open() override;
+  bool Open() override;
 
-  virtual bool WriteFrame(olive::FramePtr frame, olive::core::rational time) override;
+  bool WriteFrame(olive::FramePtr frame, olive::core::rational time) override;
 
-  virtual bool WriteAudio(const olive::SampleBuffer &audio) override;
+  bool WriteAudio(const olive::SampleBuffer &audio) override;
 
   bool WriteAudioData(const AudioParams &audio_params, const uint8_t **data, int input_sample_count);
 
-  virtual bool WriteSubtitle(const SubtitleBlock *sub_block) override;
+  bool WriteSubtitle(const SubtitleBlock *sub_block) override;
 
-  virtual void Close() override;
+  void Close() override;
 
-  virtual PixelFormat GetDesiredPixelFormat() const override { return video_conversion_fmt_; }
+  [[nodiscard]] PixelFormat GetDesiredPixelFormat() const override { return video_conversion_fmt_; }
 
  private:
   /**

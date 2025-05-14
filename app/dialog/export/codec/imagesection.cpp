@@ -26,7 +26,7 @@
 namespace olive {
 
 ImageSection::ImageSection(QWidget* parent) : CodecSection(parent) {
-  QGridLayout* layout = new QGridLayout(this);
+  auto* layout = new QGridLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
 
   int row = 0;

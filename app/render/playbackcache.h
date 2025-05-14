@@ -43,27 +43,27 @@ class PlaybackCache : public QObject {
  public:
   explicit PlaybackCache(QObject *parent = nullptr);
 
-  const QUuid &GetUuid() const { return uuid_; }
+  [[nodiscard]] const QUuid &GetUuid() const { return uuid_; }
   void SetUuid(const QUuid &u);
 
-  TimeRangeList GetInvalidatedRanges(TimeRange intersecting) const;
-  TimeRangeList GetInvalidatedRanges(const rational &length) const {
+  [[nodiscard]] TimeRangeList GetInvalidatedRanges(TimeRange intersecting) const;
+  [[nodiscard]] TimeRangeList GetInvalidatedRanges(const rational &length) const {
     return GetInvalidatedRanges(TimeRange(rational(0), length));
   }
 
-  bool HasInvalidatedRanges(const TimeRange &intersecting) const;
-  bool HasInvalidatedRanges(const rational &length) const { return HasInvalidatedRanges(TimeRange(rational(0), length)); }
+  [[nodiscard]] bool HasInvalidatedRanges(const TimeRange &intersecting) const;
+  [[nodiscard]] bool HasInvalidatedRanges(const rational &length) const { return HasInvalidatedRanges(TimeRange(rational(0), length)); }
 
-  QString GetCacheDirectory() const;
+  [[nodiscard]] QString GetCacheDirectory() const;
 
   void Invalidate(const TimeRange &r);
 
-  bool HasValidatedRanges() const { return !validated_.isEmpty(); }
-  const TimeRangeList &GetValidatedRanges() const { return validated_; }
+  [[nodiscard]] bool HasValidatedRanges() const { return !validated_.isEmpty(); }
+  [[nodiscard]] const TimeRangeList &GetValidatedRanges() const { return validated_; }
 
-  Node *parent() const;
+  [[nodiscard]] Node *parent() const;
 
-  QDir GetThisCacheDirectory() const;
+  [[nodiscard]] QDir GetThisCacheDirectory() const;
   static QDir GetThisCacheDirectory(const QString &cache_path, const QUuid &cache_id);
 
   void LoadState();
@@ -73,7 +73,7 @@ class PlaybackCache : public QObject {
 
   static int GetCacheIndicatorHeight() { return QFontMetrics(QFont()).height() / 4; }
 
-  bool IsSavingEnabled() const { return saving_enabled_; }
+  [[nodiscard]] bool IsSavingEnabled() const { return saving_enabled_; }
   void SetSavingEnabled(bool e) { saving_enabled_ = e; }
 
   virtual void SetPassthrough(PlaybackCache *cache);
@@ -87,7 +87,7 @@ class PlaybackCache : public QObject {
     QUuid cache;
   };
 
-  const std::vector<Passthrough> &GetPassthroughs() const { return passthroughs_; }
+  [[nodiscard]] const std::vector<Passthrough> &GetPassthroughs() const { return passthroughs_; }
 
   void ClearRequestRange(const TimeRange &r) { requested_.remove(r); }
 
@@ -120,7 +120,7 @@ class PlaybackCache : public QObject {
 
   virtual void SaveStateEvent(QDataStream &stream) {}
 
-  Project *GetProject() const;
+  [[nodiscard]] Project *GetProject() const;
 
  private:
   TimeRangeList validated_;

@@ -39,7 +39,7 @@ class ProjectPropertiesDialog : public QDialog {
   ProjectPropertiesDialog(Project* p, QWidget* parent);
 
  public slots:
-  virtual void accept() override;
+  void accept() override;
 
  private:
   bool VerifyPathAndWarnIfBad(const QString& path);

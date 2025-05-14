@@ -27,15 +27,15 @@ class MainWindowLayoutInfo {
 
   void set_state(const QByteArray& layout);
 
-  const std::vector<Folder*>& open_folders() const { return open_folders_; }
+  [[nodiscard]] const std::vector<Folder*>& open_folders() const { return open_folders_; }
 
-  const std::vector<Sequence*>& open_sequences() const { return open_sequences_; }
+  [[nodiscard]] const std::vector<Sequence*>& open_sequences() const { return open_sequences_; }
 
-  const std::vector<ViewerOutput*>& open_viewers() const { return open_viewers_; }
+  [[nodiscard]] const std::vector<ViewerOutput*>& open_viewers() const { return open_viewers_; }
 
-  const std::map<QString, PanelWidget::Info>& panel_data() const { return panel_data_; }
+  [[nodiscard]] const std::map<QString, PanelWidget::Info>& panel_data() const { return panel_data_; }
 
-  const QByteArray& state() const { return state_; }
+  [[nodiscard]] const QByteArray& state() const { return state_; }
 
  private:
   QByteArray state_;

@@ -52,8 +52,8 @@ private:
     void remove(QObject *obj);
     void onSelectionChanged();
     void printProperties(QObject *) const;
-    QObject *selectedObject() const;
-    QWidget *selectedWidget() const;
+    [[nodiscard]] QObject *selectedObject() const;
+    [[nodiscard]] QWidget *selectedWidget() const;
     void updateItemAppearence(QStandardItem *);
     QObject *objectForItem(QStandardItem *) const;
     QWidget *widgetForItem(QStandardItem *) const;

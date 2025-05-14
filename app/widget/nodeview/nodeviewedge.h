@@ -43,17 +43,17 @@ class NodeViewEdge : public QGraphicsPathItem {
 
   explicit NodeViewEdge(QGraphicsItem* parent = nullptr);
 
-  virtual ~NodeViewEdge() override;
+  ~NodeViewEdge() override;
 
-  Node* output() const { return output_; }
+  [[nodiscard]] Node* output() const { return output_; }
 
-  const NodeInput& input() const { return input_; }
+  [[nodiscard]] const NodeInput& input() const { return input_; }
 
-  int element() const { return element_; }
+  [[nodiscard]] int element() const { return element_; }
 
-  NodeViewItem* from_item() const { return from_item_; }
+  [[nodiscard]] NodeViewItem* from_item() const { return from_item_; }
 
-  NodeViewItem* to_item() const { return to_item_; }
+  [[nodiscard]] NodeViewItem* to_item() const { return to_item_; }
 
   void set_from_item(NodeViewItem* i);
 
@@ -73,7 +73,7 @@ class NodeViewEdge : public QGraphicsPathItem {
    */
   void SetConnected(bool c);
 
-  bool IsConnected() const { return connected_; }
+  [[nodiscard]] bool IsConnected() const { return connected_; }
 
   /**
    * @brief Set highlighted state
@@ -93,7 +93,7 @@ class NodeViewEdge : public QGraphicsPathItem {
   void SetCurved(bool e);
 
  protected:
-  virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
+  void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
 
  private:
   void Init();

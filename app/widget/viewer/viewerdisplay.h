@@ -66,7 +66,7 @@ class ViewerDisplayWidget : public ManagedDisplayWidget, public TimeTargetObject
    */
   explicit ViewerDisplayWidget(QWidget *parent = nullptr);
 
-  virtual ~ViewerDisplayWidget() override;
+  ~ViewerDisplayWidget() override;
 
   const ViewerSafeMarginInfo &GetSafeMargin() const;
   void SetSafeMargins(const ViewerSafeMarginInfo &safe_margin);
@@ -121,7 +121,7 @@ class ViewerDisplayWidget : public ManagedDisplayWidget, public TimeTargetObject
 
   QPointF ScreenToScenePoint(const QPoint &p);
 
-  virtual bool eventFilter(QObject *o, QEvent *e) override;
+  bool eventFilter(QObject *o, QEvent *e) override;
 
  public slots:
   /**
@@ -233,9 +233,9 @@ class ViewerDisplayWidget : public ManagedDisplayWidget, public TimeTargetObject
    *
    * Simple OpenGL drawing function for painting the texture on screen. Standardized around OpenGL ES 3.2 Core.
    */
-  virtual void OnPaint() override;
+  void OnPaint() override;
 
-  virtual void OnDestroy() override;
+  void OnDestroy() override;
 
  private:
   QPointF GetTexturePosition(const QPoint &screen_pos);

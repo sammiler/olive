@@ -54,7 +54,7 @@ class AudioPlaybackCache : public PlaybackCache {
  public:
   explicit AudioPlaybackCache(QObject *parent = nullptr);
 
-  virtual ~AudioPlaybackCache() override;
+  ~AudioPlaybackCache() override;
 
   AudioParams GetParameters() { return params_; }
 

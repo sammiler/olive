@@ -37,9 +37,9 @@ class ViewerTextEditorToolBar : public QWidget {
  public:
   explicit ViewerTextEditorToolBar(QWidget *parent = nullptr);
 
-  QString GetFontFamily() const { return font_combo_->currentText(); }
+  [[nodiscard]] QString GetFontFamily() const { return font_combo_->currentText(); }
 
-  QString GetFontStyleName() const { return style_combo_->currentText(); }
+  [[nodiscard]] QString GetFontStyleName() const { return style_combo_->currentText(); }
 
  public slots:
   void SetFontFamily(QString s) {
@@ -83,15 +83,15 @@ class ViewerTextEditorToolBar : public QWidget {
   void FirstPaint();
 
  protected:
-  virtual void mousePressEvent(QMouseEvent *event) override;
+  void mousePressEvent(QMouseEvent *event) override;
 
-  virtual void mouseMoveEvent(QMouseEvent *event) override;
+  void mouseMoveEvent(QMouseEvent *event) override;
 
-  virtual void mouseReleaseEvent(QMouseEvent *event) override;
+  void mouseReleaseEvent(QMouseEvent *event) override;
 
-  virtual void closeEvent(QCloseEvent *event) override;
+  void closeEvent(QCloseEvent *event) override;
 
-  virtual void paintEvent(QPaintEvent *event) override;
+  void paintEvent(QPaintEvent *event) override;
 
  private:
   void AddSpacer(QLayout *l);
@@ -142,13 +142,13 @@ class ViewerTextEditor : public QTextEdit {
 
   void Paint(QPainter *p, Qt::Alignment valign);
 
-  virtual void dragEnterEvent(QDragEnterEvent *e) override { return QTextEdit::dragEnterEvent(e); }
-  virtual void dragMoveEvent(QDragMoveEvent *e) override { return QTextEdit::dragMoveEvent(e); }
-  virtual void dragLeaveEvent(QDragLeaveEvent *e) override { return QTextEdit::dragLeaveEvent(e); }
-  virtual void dropEvent(QDropEvent *e) override { return QTextEdit::dropEvent(e); }
+  void dragEnterEvent(QDragEnterEvent *e) override { return QTextEdit::dragEnterEvent(e); }
+  void dragMoveEvent(QDragMoveEvent *e) override { return QTextEdit::dragMoveEvent(e); }
+  void dragLeaveEvent(QDragLeaveEvent *e) override { return QTextEdit::dragLeaveEvent(e); }
+  void dropEvent(QDropEvent *e) override { return QTextEdit::dropEvent(e); }
 
  protected:
-  virtual void paintEvent(QPaintEvent *event) override;
+  void paintEvent(QPaintEvent *event) override;
 
  private:
   static void UpdateToolBar(ViewerTextEditorToolBar *toolbar, const QTextCharFormat &f, const QTextBlockFormat &b,

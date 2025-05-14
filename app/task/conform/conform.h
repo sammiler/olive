@@ -34,7 +34,7 @@ class ConformTask : public Task {
               const QVector<QString> &output_filenames);
 
  protected:
-  virtual bool Run() override;
+  bool Run() override;
 
  private:
   QString decoder_id_;

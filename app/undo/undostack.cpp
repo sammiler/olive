@@ -28,13 +28,13 @@ const int UndoStack::kMaxUndoCommands = 200;
 
 class EmptyCommand : public UndoCommand {
  public:
-  EmptyCommand() {}
+  EmptyCommand() = default;
 
-  virtual Project *GetRelevantProject() const override { return nullptr; }
+  [[nodiscard]] Project *GetRelevantProject() const override { return nullptr; }
 
  protected:
-  virtual void redo() override {}
-  virtual void undo() override {}
+  void redo() override {}
+  void undo() override {}
 };
 
 UndoStack::UndoStack() {
@@ -56,7 +56,7 @@ UndoStack::~UndoStack() {
 }
 
 void UndoStack::push(UndoCommand *command, const QString &name) {
-  MultiUndoCommand *mcu = dynamic_cast<MultiUndoCommand *>(command);
+  auto *mcu = dynamic_cast<MultiUndoCommand *>(command);
   if (mcu && mcu->child_count() == 0) {
     delete command;
     return;

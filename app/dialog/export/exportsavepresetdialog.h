@@ -34,10 +34,10 @@ class ExportSavePresetDialog : public QDialog {
  public:
   explicit ExportSavePresetDialog(const EncodingParams &p, QWidget *parent = nullptr);
 
-  QString GetSelectedPresetName() const { return name_edit_->text(); }
+  [[nodiscard]] QString GetSelectedPresetName() const { return name_edit_->text(); }
 
  public slots:
-  virtual void accept() override;
+  void accept() override;
 
  private:
   QLineEdit *name_edit_;

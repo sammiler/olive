@@ -36,7 +36,7 @@ class SaveOTIOTask : public Task {
   explicit SaveOTIOTask(Project* project);
 
  protected:
-  virtual bool Run() override;
+  bool Run() override;
 
  private:
   OTIO::Timeline* SerializeTimeline(Sequence* sequence);

@@ -33,7 +33,7 @@ int QtUtils::QFontMetricsWidth(QFontMetrics fm, const QString &s) {
 }
 
 QFrame *QtUtils::CreateHorizontalLine() {
-  QFrame *horizontal_line = new QFrame();
+  auto *horizontal_line = new QFrame();
   horizontal_line->setFrameShape(QFrame::HLine);
   horizontal_line->setFrameShadow(QFrame::Sunken);
   return horizontal_line;

@@ -36,7 +36,7 @@ class ExportAudioTab : public QWidget {
  public:
   explicit ExportAudioTab(QWidget* parent = nullptr);
 
-  ExportCodec::Codec GetCodec() const {
+  [[nodiscard]] ExportCodec::Codec GetCodec() const {
     return static_cast<ExportCodec::Codec>(codec_combobox_->currentData().toInt());
   }
 
@@ -49,13 +49,13 @@ class ExportAudioTab : public QWidget {
     }
   }
 
-  SampleRateComboBox* sample_rate_combobox() const { return sample_rate_combobox_; }
+  [[nodiscard]] SampleRateComboBox* sample_rate_combobox() const { return sample_rate_combobox_; }
 
-  SampleFormatComboBox* sample_format_combobox() const { return sample_format_combobox_; }
+  [[nodiscard]] SampleFormatComboBox* sample_format_combobox() const { return sample_format_combobox_; }
 
-  ChannelLayoutComboBox* channel_layout_combobox() const { return channel_layout_combobox_; }
+  [[nodiscard]] ChannelLayoutComboBox* channel_layout_combobox() const { return channel_layout_combobox_; }
 
-  IntegerSlider* bit_rate_slider() const { return bit_rate_slider_; }
+  [[nodiscard]] IntegerSlider* bit_rate_slider() const { return bit_rate_slider_; }
 
  public slots:
   int SetFormat(ExportFormat::Format format);

@@ -30,8 +30,8 @@ class SlipTool : public PointerTool {
   explicit SlipTool(TimelineWidget *parent);
 
  protected:
-  virtual void ProcessDrag(const TimelineCoordinate &mouse_pos) override;
-  virtual void FinishDrag(TimelineViewMouseEvent *event) override;
+  void ProcessDrag(const TimelineCoordinate &mouse_pos) override;
+  void FinishDrag(TimelineViewMouseEvent *event) override;
 };
 
 }  // namespace olive

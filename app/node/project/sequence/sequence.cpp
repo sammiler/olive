@@ -45,7 +45,7 @@ Sequence::Sequence() {
     AddInput(track_input_id, NodeValue::kNone,
              InputFlags(kInputFlagNotKeyframable | kInputFlagArray | kInputFlagHidden | kInputFlagIgnoreInvalidations));
 
-    TrackList* list = new TrackList(this, static_cast<Track::Type>(i), track_input_id);
+    auto* list = new TrackList(this, static_cast<Track::Type>(i), track_input_id);
     track_lists_.replace(i, list);
     connect(list, &TrackList::TrackListChanged, this, &Sequence::UpdateTrackCache);
     connect(list, &TrackList::LengthChanged, this, &Sequence::VerifyLength);

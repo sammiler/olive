@@ -11,7 +11,7 @@ const QString OpacityEffect::kTextureInput = QStringLiteral("tex_in");
 const QString OpacityEffect::kValueInput = QStringLiteral("opacity_in");
 
 OpacityEffect::OpacityEffect() {
-  MathNode *math = new MathNode();
+  auto *math = new MathNode();
 
   math->SetOperation(MathNode::kOpMultiply);
 

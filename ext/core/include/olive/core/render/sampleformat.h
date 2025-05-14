@@ -83,7 +83,7 @@ class SampleFormat {
     return 0;
   }
 
-  int byte_count() const { return byte_count(f_); }
+  [[nodiscard]] int byte_count() const { return byte_count(f_); }
 
   static std::string to_string(Format f) {
     switch (f) {
@@ -119,7 +119,7 @@ class SampleFormat {
     return "";
   }
 
-  std::string to_string() const { return to_string(f_); }
+  [[nodiscard]] std::string to_string() const { return to_string(f_); }
 
   static SampleFormat from_string(const std::string &s) {
     if (s == "u8") {
@@ -164,11 +164,11 @@ class SampleFormat {
 
   static bool is_packed(Format f) { return f >= PACKED_START && f < PACKED_END; }
 
-  bool is_packed() const { return is_packed(f_); }
+  [[nodiscard]] bool is_packed() const { return is_packed(f_); }
 
   static bool is_planar(Format f) { return f >= PLANAR_START && f < PLANAR_END; }
 
-  bool is_planar() const { return is_planar(f_); }
+  [[nodiscard]] bool is_planar() const { return is_planar(f_); }
 
   static SampleFormat to_packed_equivalent(SampleFormat fmt) {
     switch (static_cast<Format>(fmt)) {
@@ -203,7 +203,7 @@ class SampleFormat {
     return SampleFormat(INVALID);
   }
 
-  SampleFormat to_packed_equivalent() const { return to_packed_equivalent(SampleFormat(f_)); }
+  [[nodiscard]] SampleFormat to_packed_equivalent() const { return to_packed_equivalent(SampleFormat(f_)); }
 
   static SampleFormat to_planar_equivalent(SampleFormat fmt) {
     switch (static_cast<Format>(fmt)) {
@@ -238,7 +238,7 @@ class SampleFormat {
     return SampleFormat(INVALID);
   }
 
-  SampleFormat to_planar_equivalent() const { return to_planar_equivalent(SampleFormat(f_)); }
+  [[nodiscard]] SampleFormat to_planar_equivalent() const { return to_planar_equivalent(SampleFormat(f_)); }
 
  private:
   Format f_;

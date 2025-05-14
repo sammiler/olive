@@ -32,7 +32,7 @@ class ProjectLoadTask : public ProjectLoadBaseTask {
   explicit ProjectLoadTask(const QString& filename);
 
  protected:
-  virtual bool Run() override;
+  bool Run() override;
 };
 
 }  // namespace olive

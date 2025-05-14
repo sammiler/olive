@@ -49,30 +49,30 @@ class NodeViewItem : public QObject, public QGraphicsRectItem {
   NodeViewItem(Node *node, Node *context, QGraphicsItem *parent = nullptr)
       : NodeViewItem(node, QString(), -1, context, parent) {}
 
-  virtual ~NodeViewItem() override;
+  ~NodeViewItem() override;
 
-  Node::Position GetNodePositionData() const;
-  QPointF GetNodePosition() const;
+  [[nodiscard]] Node::Position GetNodePositionData() const;
+  [[nodiscard]] QPointF GetNodePosition() const;
   void SetNodePosition(const QPointF &pos);
   void SetNodePosition(const Node::Position &pos);
 
-  QVector<NodeViewEdge *> GetAllEdgesRecursively() const;
+  [[nodiscard]] QVector<NodeViewEdge *> GetAllEdgesRecursively() const;
 
   /**
    * @brief Get currently attached node
    */
-  Node *GetNode() const { return node_; }
+  [[nodiscard]] Node *GetNode() const { return node_; }
 
-  NodeInput GetInput() const { return NodeInput(node_, input_, element_); }
+  [[nodiscard]] NodeInput GetInput() const { return NodeInput(node_, input_, element_); }
 
-  Node *GetContext() const { return context_; }
+  [[nodiscard]] Node *GetContext() const { return context_; }
 
   /**
    * @brief Get expanded state
    */
-  bool IsExpanded() const { return expanded_; }
+  [[nodiscard]] bool IsExpanded() const { return expanded_; }
 
-  const QVector<NodeViewEdge *> &edges() const { return edges_; }
+  [[nodiscard]] const QVector<NodeViewEdge *> &edges() const { return edges_; }
 
   /**
    * @brief Set expanded state
@@ -80,15 +80,15 @@ class NodeViewItem : public QObject, public QGraphicsRectItem {
   void SetExpanded(bool e, bool hide_titlebar = false);
   void ToggleExpanded();
 
-  QPointF GetInputPoint() const;
-  QPointF GetOutputPoint() const;
+  [[nodiscard]] QPointF GetInputPoint() const;
+  [[nodiscard]] QPointF GetOutputPoint() const;
 
   /**
    * @brief Sets the direction nodes are flowing
    */
   void SetFlowDirection(NodeViewCommon::FlowDirection dir);
 
-  NodeViewCommon::FlowDirection GetFlowDirection() const { return flow_dir_; }
+  [[nodiscard]] NodeViewCommon::FlowDirection GetFlowDirection() const { return flow_dir_; }
 
   static int DefaultTextPadding();
 
@@ -103,13 +103,13 @@ class NodeViewItem : public QObject, public QGraphicsRectItem {
 
   static qreal DefaultItemHorizontalPadding(NodeViewCommon::FlowDirection dir);
   static qreal DefaultItemVerticalPadding(NodeViewCommon::FlowDirection dir);
-  qreal DefaultItemHorizontalPadding() const;
-  qreal DefaultItemVerticalPadding() const;
+  [[nodiscard]] qreal DefaultItemHorizontalPadding() const;
+  [[nodiscard]] qreal DefaultItemVerticalPadding() const;
 
   void AddEdge(NodeViewEdge *edge);
   void RemoveEdge(NodeViewEdge *edge);
 
-  bool IsLabelledAsOutputOfContext() const { return label_as_output_; }
+  [[nodiscard]] bool IsLabelledAsOutputOfContext() const { return label_as_output_; }
 
   void SetLabelAsOutput(bool e);
 
@@ -117,22 +117,22 @@ class NodeViewItem : public QObject, public QGraphicsRectItem {
 
   NodeViewItem *GetItemForInput(NodeInput input);
 
-  bool IsOutputItem() const { return input_.isEmpty(); }
+  [[nodiscard]] bool IsOutputItem() const { return input_.isEmpty(); }
 
   void ReadjustAllEdges();
 
   void UpdateFlowDirectionOfInputItem(NodeViewItem *child);
 
-  bool CanBeExpanded() const;
+  [[nodiscard]] bool CanBeExpanded() const;
 
  protected:
-  virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
+  void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 
-  virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
-  virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
-  virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
+  void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+  void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
+  void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
 
-  virtual QVariant itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value) override;
+  QVariant itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value) override;
 
  private:
   void UpdateContextRect();
@@ -156,7 +156,7 @@ class NodeViewItem : public QObject, public QGraphicsRectItem {
 
   void UpdateChildrenPositions();
 
-  int GetLogicalHeightWithChildren() const;
+  [[nodiscard]] int GetLogicalHeightWithChildren() const;
 
   /**
    * @brief Reference to attached Node

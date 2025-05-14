@@ -34,54 +34,54 @@ class TimelinePanel : public TimeBasedPanel {
  public:
   explicit TimelinePanel(const QString &name);
 
-  inline TimelineWidget *timeline_widget() const { return dynamic_cast<TimelineWidget *>(GetTimeBasedWidget()); }
+  [[nodiscard]] inline TimelineWidget *timeline_widget() const { return dynamic_cast<TimelineWidget *>(GetTimeBasedWidget()); }
 
   void SplitAtPlayhead();
 
-  virtual void LoadData(const Info &info) override;
-  virtual Info SaveData() const override;
+  void LoadData(const Info &info) override;
+  [[nodiscard]] Info SaveData() const override;
 
-  virtual void SelectAll() override;
+  void SelectAll() override;
 
-  virtual void DeselectAll() override;
+  void DeselectAll() override;
 
-  virtual void RippleToIn() override;
+  void RippleToIn() override;
 
-  virtual void RippleToOut() override;
+  void RippleToOut() override;
 
-  virtual void EditToIn() override;
+  void EditToIn() override;
 
-  virtual void EditToOut() override;
+  void EditToOut() override;
 
-  virtual void DeleteSelected() override;
+  void DeleteSelected() override;
 
-  virtual void RippleDelete() override;
+  void RippleDelete() override;
 
-  virtual void IncreaseTrackHeight() override;
+  void IncreaseTrackHeight() override;
 
-  virtual void DecreaseTrackHeight() override;
+  void DecreaseTrackHeight() override;
 
-  virtual void ToggleLinks() override;
+  void ToggleLinks() override;
 
-  virtual void PasteInsert() override;
+  void PasteInsert() override;
 
-  virtual void DeleteInToOut() override;
+  void DeleteInToOut() override;
 
-  virtual void RippleDeleteInToOut() override;
+  void RippleDeleteInToOut() override;
 
-  virtual void ToggleSelectedEnabled() override;
+  void ToggleSelectedEnabled() override;
 
-  virtual void SetColorLabel(int index) override;
+  void SetColorLabel(int index) override;
 
-  virtual void NudgeLeft() override;
+  void NudgeLeft() override;
 
-  virtual void NudgeRight() override;
+  void NudgeRight() override;
 
-  virtual void MoveInToPlayhead() override;
+  void MoveInToPlayhead() override;
 
-  virtual void MoveOutToPlayhead() override;
+  void MoveOutToPlayhead() override;
 
-  virtual void RenameSelected() override;
+  void RenameSelected() override;
 
   void AddDefaultTransitionsToSelected() { timeline_widget()->AddDefaultTransitionsToSelected(); }
 
@@ -93,12 +93,12 @@ class TimelinePanel : public TimeBasedPanel {
 
   void OverwriteFootageAtPlayhead(const QVector<ViewerOutput *> &footage);
 
-  const QVector<Block *> &GetSelectedBlocks() const { return timeline_widget()->GetSelectedBlocks(); }
+  [[nodiscard]] const QVector<Block *> &GetSelectedBlocks() const { return timeline_widget()->GetSelectedBlocks(); }
 
-  Sequence *GetSequence() const { return dynamic_cast<Sequence *>(GetConnectedViewer()); }
+  [[nodiscard]] Sequence *GetSequence() const { return dynamic_cast<Sequence *>(GetConnectedViewer()); }
 
  protected:
-  virtual void Retranslate() override;
+  void Retranslate() override;
 
  signals:
   void BlockSelectionChanged(const QVector<Block *> &selected_blocks);

@@ -30,11 +30,11 @@ class KeyframeSetTypeCommand : public UndoCommand {
  public:
   KeyframeSetTypeCommand(NodeKeyframe* key, NodeKeyframe::Type type);
 
-  virtual Project* GetRelevantProject() const override;
+  [[nodiscard]] Project* GetRelevantProject() const override;
 
  protected:
-  virtual void redo() override;
-  virtual void undo() override;
+  void redo() override;
+  void undo() override;
 
  private:
   NodeKeyframe* key_;
@@ -50,11 +50,11 @@ class KeyframeSetBezierControlPoint : public UndoCommand {
   KeyframeSetBezierControlPoint(NodeKeyframe* key, NodeKeyframe::BezierType mode, const QPointF& new_point,
                                 const QPointF& old_point);
 
-  virtual Project* GetRelevantProject() const override;
+  [[nodiscard]] Project* GetRelevantProject() const override;
 
  protected:
-  virtual void redo() override;
-  virtual void undo() override;
+  void redo() override;
+  void undo() override;
 
  private:
   NodeKeyframe* key_;

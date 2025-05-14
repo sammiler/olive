@@ -34,7 +34,7 @@ class NodeParamViewItemTitleBar : public QWidget {
  public:
   explicit NodeParamViewItemTitleBar(QWidget *parent = nullptr);
 
-  bool IsExpanded() const { return collapse_btn_->isChecked(); }
+  [[nodiscard]] bool IsExpanded() const { return collapse_btn_->isChecked(); }
 
  public slots:
   void SetExpanded(bool e);
@@ -65,10 +65,10 @@ class NodeParamViewItemTitleBar : public QWidget {
   void Clicked();
 
  protected:
-  virtual void paintEvent(QPaintEvent *event) override;
+  void paintEvent(QPaintEvent *event) override;
 
-  virtual void mousePressEvent(QMouseEvent *event) override;
-  virtual void mouseDoubleClickEvent(QMouseEvent *event) override;
+  void mousePressEvent(QMouseEvent *event) override;
+  void mouseDoubleClickEvent(QMouseEvent *event) override;
 
  private:
   bool draw_border_;

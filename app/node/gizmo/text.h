@@ -31,17 +31,17 @@ class TextGizmo : public NodeGizmo {
  public:
   explicit TextGizmo(QObject *parent = nullptr);
 
-  const QRectF &GetRect() const { return rect_; }
+  [[nodiscard]] const QRectF &GetRect() const { return rect_; }
   void SetRect(const QRectF &r);
 
-  const QString &GetHtml() const { return text_; }
+  [[nodiscard]] const QString &GetHtml() const { return text_; }
   void SetHtml(const QString &t) { text_ = t; }
 
   void SetInput(const NodeKeyframeTrackReference &input) { input_ = input; }
 
   void UpdateInputHtml(const QString &s, const rational &time);
 
-  Qt::Alignment GetVerticalAlignment() const { return valign_; }
+  [[nodiscard]] Qt::Alignment GetVerticalAlignment() const { return valign_; }
   void SetVerticalAlignment(Qt::Alignment va);
 
  signals:

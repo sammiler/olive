@@ -35,9 +35,9 @@ class GapBlock : public Block {
 
   NODE_DEFAULT_FUNCTIONS(GapBlock)
 
-  virtual QString Name() const override;
-  virtual QString id() const override;
-  virtual QString Description() const override;
+  [[nodiscard]] QString Name() const override;
+  [[nodiscard]] QString id() const override;
+  [[nodiscard]] QString Description() const override;
 };
 
 }  // namespace olive

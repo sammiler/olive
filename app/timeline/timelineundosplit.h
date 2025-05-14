@@ -30,9 +30,9 @@ class BlockSplitCommand : public UndoCommand {
   BlockSplitCommand(Block* block, rational point)
       : block_(block), new_block_(nullptr), point_(point), reconnect_tree_command_(nullptr) {}
 
-  virtual ~BlockSplitCommand() override { delete reconnect_tree_command_; }
+  ~BlockSplitCommand() override { delete reconnect_tree_command_; }
 
-  virtual Project* GetRelevantProject() const override { return block_->project(); }
+  [[nodiscard]] Project* GetRelevantProject() const override { return block_->project(); }
 
   /**
    * @brief Access the second block created as a result. Only valid after redo().
@@ -40,11 +40,11 @@ class BlockSplitCommand : public UndoCommand {
   Block* new_block() { return new_block_; }
 
  protected:
-  virtual void prepare() override;
+  void prepare() override;
 
-  virtual void redo() override;
+  void redo() override;
 
-  virtual void undo() override;
+  void undo() override;
 
  private:
   Block* block_;
@@ -63,22 +63,22 @@ class BlockSplitPreservingLinksCommand : public UndoCommand {
   BlockSplitPreservingLinksCommand(const QVector<Block*>& blocks, const QList<rational>& times)
       : blocks_(blocks), times_(times) {}
 
-  virtual ~BlockSplitPreservingLinksCommand() override { qDeleteAll(commands_); }
+  ~BlockSplitPreservingLinksCommand() override { qDeleteAll(commands_); }
 
-  virtual Project* GetRelevantProject() const override { return blocks_.first()->project(); }
+  [[nodiscard]] Project* GetRelevantProject() const override { return blocks_.first()->project(); }
 
   Block* GetSplit(Block* original, int time_index) const;
 
  protected:
-  virtual void prepare() override;
+  void prepare() override;
 
-  virtual void redo() override {
+  void redo() override {
     for (int i = 0; i < commands_.size(); i++) {
       commands_.at(i)->redo_now();
     }
   }
 
-  virtual void undo() override {
+  void undo() override {
     for (int i = commands_.size() - 1; i >= 0; i--) {
       commands_.at(i)->undo_now();
     }
@@ -98,20 +98,20 @@ class TrackSplitAtTimeCommand : public UndoCommand {
  public:
   TrackSplitAtTimeCommand(Track* track, rational point) : track_(track), point_(point), command_(nullptr) {}
 
-  virtual ~TrackSplitAtTimeCommand() override { delete command_; }
+  ~TrackSplitAtTimeCommand() override { delete command_; }
 
-  virtual Project* GetRelevantProject() const override { return track_->project(); }
+  [[nodiscard]] Project* GetRelevantProject() const override { return track_->project(); }
 
  protected:
-  virtual void prepare() override;
+  void prepare() override;
 
-  virtual void redo() override {
+  void redo() override {
     if (command_) {
       command_->redo_now();
     }
   }
 
-  virtual void undo() override {
+  void undo() override {
     if (command_) {
       command_->undo_now();
     }

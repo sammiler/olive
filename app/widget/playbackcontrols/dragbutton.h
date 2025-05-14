@@ -36,11 +36,11 @@ class DragButton : public QPushButton {
   void DragStarted();
 
  protected:
-  virtual void mousePressEvent(QMouseEvent* event) override;
+  void mousePressEvent(QMouseEvent* event) override;
 
-  virtual void mouseMoveEvent(QMouseEvent* event) override;
+  void mouseMoveEvent(QMouseEvent* event) override;
 
-  virtual void mouseReleaseEvent(QMouseEvent* event) override;
+  void mouseReleaseEvent(QMouseEvent* event) override;
 
  private:
   bool dragging_;

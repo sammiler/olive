@@ -47,7 +47,7 @@ namespace olive {
 
 ProjectExplorer::ProjectExplorer(QWidget* parent) : QWidget(parent), model_(this) {
   // Create layout
-  QVBoxLayout* layout = new QVBoxLayout(this);
+  auto* layout = new QVBoxLayout(this);
   layout->setSpacing(0);
   layout->setContentsMargins(0, 0, 0, 0);
 
@@ -180,7 +180,7 @@ bool ProjectExplorer::DeleteItemsInternal(const QVector<Node*>& selected, bool& 
 
     if (check_if_item_is_in_use) {
       foreach (const Node::OutputConnection& oc, node->output_connections()) {
-        Folder* folder_test = dynamic_cast<Folder*>(oc.second.node());
+        auto* folder_test = dynamic_cast<Folder*>(oc.second.node());
         if (!folder_test) {
           // This sequence outputs to SOMETHING, confirm the user if they want to delete this
           int r = ConfirmItemDeletion(node);
@@ -200,7 +200,7 @@ bool ProjectExplorer::DeleteItemsInternal(const QVector<Node*>& selected, bool& 
     }
 
     if (can_delete_item) {
-      Sequence* sequence = dynamic_cast<Sequence*>(node);
+      auto* sequence = dynamic_cast<Sequence*>(node);
       if (sequence && Core::instance()->main_window()->IsSequenceOpen(sequence)) {
         command->add_child(new CloseSequenceCommand(sequence));
       }
@@ -338,8 +338,8 @@ void ProjectExplorer::ShowContextMenu() {
     bool all_items_are_footage_or_sequence = true;
 
     foreach (Node* i, context_menu_items_) {
-      Footage* footage_cast_test = dynamic_cast<Footage*>(i);
-      Sequence* sequence_cast_test = dynamic_cast<Sequence*>(i);
+      auto* footage_cast_test = dynamic_cast<Footage*>(i);
+      auto* sequence_cast_test = dynamic_cast<Sequence*>(i);
 
       if (footage_cast_test && !footage_cast_test->HasEnabledVideoStreams()) {
         all_items_have_video_streams = false;
@@ -414,7 +414,7 @@ void ProjectExplorer::ShowItemPropertiesDialog() {
 }
 
 void ProjectExplorer::RevealSelectedFootage() {
-  Footage* footage = dynamic_cast<Footage*>(context_menu_items_.first());
+  auto* footage = dynamic_cast<Footage*>(context_menu_items_.first());
 
 #if defined(Q_OS_WINDOWS)
   // Explorer
@@ -438,7 +438,7 @@ void ProjectExplorer::RevealSelectedFootage() {
 }
 
 void ProjectExplorer::ReplaceSelectedFootage() {
-  Footage* footage = dynamic_cast<Footage*>(context_menu_items_.first());
+  auto* footage = dynamic_cast<Footage*>(context_menu_items_.first());
 
   QString file = QFileDialog::getOpenFileName(this, tr("Replace Footage"));
   if (!file.isEmpty()) {
@@ -466,11 +466,11 @@ void ProjectExplorer::OpenContextMenuItemInNewWindow() {
 }
 
 void ProjectExplorer::ContextMenuStartProxy(QAction* a) {
-  Sequence* sequence = QtUtils::ValueToPtr<Sequence>(a->data());
+  auto* sequence = QtUtils::ValueToPtr<Sequence>(a->data());
 
   // To get here, the `context_menu_items_` must be all kFootage
   foreach (Node* item, context_menu_items_) {
-    Footage* f = dynamic_cast<Footage*>(item);
+    auto* f = dynamic_cast<Footage*>(item);
 
     int sz = f->InputArraySize(Footage::kVideoParamsInput);
 
@@ -479,7 +479,7 @@ void ProjectExplorer::ContextMenuStartProxy(QAction* a) {
 
       if (vp.enabled()) {
         // Start a background task for proxying
-        PreCacheTask* proxy_task = new PreCacheTask(f, j, sequence);
+        auto* proxy_task = new PreCacheTask(f, j, sequence);
         TaskManager::instance()->AddTask(proxy_task);
       }
     }
@@ -487,7 +487,7 @@ void ProjectExplorer::ContextMenuStartProxy(QAction* a) {
 }
 
 void ProjectExplorer::ViewSelectionChanged() {
-  QItemSelectionModel* model = dynamic_cast<QItemSelectionModel*>(sender());
+  auto* model = dynamic_cast<QItemSelectionModel*>(sender());
 
   QModelIndexList selection = model->selectedIndexes();
 
@@ -603,7 +603,7 @@ void ProjectExplorer::DeleteSelected() {
     return;
   }
 
-  MultiUndoCommand* command = new MultiUndoCommand();
+  auto* command = new MultiUndoCommand();
 
   bool check_if_item_is_in_use = true;
 

@@ -36,46 +36,46 @@ class Sequence : public ViewerOutput {
 
   NODE_DEFAULT_FUNCTIONS(Sequence)
 
-  virtual QString Name() const override { return tr("Sequence"); }
+  [[nodiscard]] QString Name() const override { return tr("Sequence"); }
 
-  virtual QString id() const override { return QStringLiteral("org.olivevideoeditor.Olive.sequence"); }
+  [[nodiscard]] QString id() const override { return QStringLiteral("org.olivevideoeditor.Olive.sequence"); }
 
-  virtual QVector<CategoryID> Category() const override { return {kCategoryProject}; }
+  [[nodiscard]] QVector<CategoryID> Category() const override { return {kCategoryProject}; }
 
-  virtual QString Description() const override {
+  [[nodiscard]] QString Description() const override {
     return tr("A series of cuts that result in an edited video. Also called a timeline.");
   }
 
   void add_default_nodes(MultiUndoCommand *command = nullptr);
 
-  virtual QVariant data(const DataType &d) const override;
+  [[nodiscard]] QVariant data(const DataType &d) const override;
 
-  const QVector<Track *> &GetTracks() const { return track_cache_; }
+  [[nodiscard]] const QVector<Track *> &GetTracks() const { return track_cache_; }
 
-  Track *GetTrackFromReference(const Track::Reference &track_ref) const {
+  [[nodiscard]] Track *GetTrackFromReference(const Track::Reference &track_ref) const {
     return track_lists_.at(track_ref.type())->GetTrackAt(track_ref.index());
   }
 
   /**
    * @brief Same as GetTracks() but omits tracks that are locked.
    */
-  QVector<Track *> GetUnlockedTracks() const;
+  [[nodiscard]] QVector<Track *> GetUnlockedTracks() const;
 
-  TrackList *track_list(Track::Type type) const { return track_lists_.at(type); }
+  [[nodiscard]] TrackList *track_list(Track::Type type) const { return track_lists_.at(type); }
 
-  virtual void Retranslate() override;
+  void Retranslate() override;
 
-  virtual void InvalidateCache(const TimeRange &range, const QString &from, int element,
+  void InvalidateCache(const TimeRange &range, const QString &from, int element,
                                InvalidateCacheOptions options) override;
 
   static const QString kTrackInputFormat;
 
  protected:
-  virtual void InputConnectedEvent(const QString &input, int element, Node *output) override;
+  void InputConnectedEvent(const QString &input, int element, Node *output) override;
 
-  virtual void InputDisconnectedEvent(const QString &input, int element, Node *output) override;
+  void InputDisconnectedEvent(const QString &input, int element, Node *output) override;
 
-  virtual rational VerifyLengthInternal(Track::Type type) const override;
+  [[nodiscard]] rational VerifyLengthInternal(Track::Type type) const override;
 
  signals:
   void TrackAdded(Track *track);

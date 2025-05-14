@@ -42,7 +42,7 @@ public:
 
     template<typename Obj, typename Signal>
     void addTransition(Obj *, Signal, State *dest);
-    bool isCurrentState() const;
+    [[nodiscard]]  bool isCurrentState() const;
 
     virtual void onEntry() = 0;
     virtual void onExit()
@@ -59,7 +59,7 @@ class MinimalStateMachine : public QObject
 public:
     explicit MinimalStateMachine(QObject *parent = nullptr);
 
-    State *currentState() const;
+    [[nodiscard]]  State *currentState() const;
     void setCurrentState(State *);
 
 Q_SIGNALS:
@@ -87,27 +87,27 @@ public:
     void registerDraggable(Draggable *);
     void unregisterDraggable(Draggable *);
 
-    bool isDragging() const;
-    bool isInNonClientDrag() const;
-    bool isInClientDrag() const;
-    bool isIdle() const;
+    [[nodiscard]]  bool isDragging() const;
+    [[nodiscard]]  bool isInNonClientDrag() const;
+    [[nodiscard]]  bool isInClientDrag() const;
+    [[nodiscard]]  bool isIdle() const;
 
     void grabMouseFor(QWidgetOrQuick *);
     void releaseMouse(QWidgetOrQuick *);
 
-    FloatingWindow *floatingWindowBeingDragged() const;
+    [[nodiscard]]  FloatingWindow *floatingWindowBeingDragged() const;
 
     /// @brief Returns the current drop area under the mouse
-    DropArea *dropAreaUnderCursor() const;
+    [[nodiscard]]  DropArea *dropAreaUnderCursor() const;
 
     ///@brief Returns the window being dragged
-    WindowBeingDragged *windowBeingDragged() const;
+    [[nodiscard]]  WindowBeingDragged *windowBeingDragged() const;
 
     /// Experimental, internal, not for general use.
     void enableFallbackMouseGrabber();
 
     // Returns the active state
-    StateBase *activeState() const;
+    [[nodiscard]]  StateBase *activeState() const;
 
 Q_SIGNALS:
     void mousePressed();
@@ -131,7 +131,7 @@ private:
     friend class StateDraggingWayland;
 
     explicit DragController(QObject * = nullptr);
-    WidgetType *qtTopLevelUnderCursor() const;
+    [[nodiscard]]  WidgetType *qtTopLevelUnderCursor() const;
     Draggable *draggableForQObject(QObject *o) const;
     QPoint m_pressPos;
     QPoint m_offset;
@@ -152,7 +152,7 @@ class StateBase : public State
     Q_OBJECT
 public:
     explicit StateBase(DragController *parent);
-    ~StateBase();
+    ~StateBase() override;
 
     // Not using QEvent here, to abstract platform differences regarding production of such events
     virtual bool handleMouseButtonPress(Draggable * /*receiver*/, QPoint /*globalPos*/, QPoint /*pos*/)
@@ -191,7 +191,7 @@ public:
     }
 
     // Returns whether this is the current state
-    bool isActiveState() const;
+    [[nodiscard]]  bool isActiveState() const;
 
     DragController *const q;
 };

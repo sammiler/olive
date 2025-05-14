@@ -74,7 +74,7 @@ void TrackSelectTool::SelectBlocksOnTrack(Track *track, TimelineViewMouseEvent *
       }
 
       if (!(event->GetModifiers() & Qt::AltModifier)) {
-        if (ClipBlock *clip = dynamic_cast<ClipBlock *>(b)) {
+        if (auto *clip = dynamic_cast<ClipBlock *>(b)) {
           foreach (Block *link, clip->block_links()) {
             if (!blocks->contains(link)) {
               parent()->AddSelection(link);

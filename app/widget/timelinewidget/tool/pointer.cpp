@@ -50,7 +50,7 @@ void PointerTool::MousePress(TimelineViewMouseEvent* event) {
 
   // Determine if item clicked on is selectable
   clicked_item_ = parent()->GetItemAtScenePos(event->GetCoordinates());
-  ClipBlock* clip_clicked_item = dynamic_cast<ClipBlock*>(clicked_item_);
+  auto* clip_clicked_item = dynamic_cast<ClipBlock*>(clicked_item_);
 
   can_rubberband_select_ = false;
 
@@ -243,12 +243,12 @@ void PointerTool::InitiateDragInternal(Block* clicked_item, Timeline::MovementMo
       // If the user tries to move a transition without moving the clip it belongs to, we turn
       // this into a slide
       foreach (Block* block, clips) {
-        if (TransitionBlock* transit = dynamic_cast<TransitionBlock*>(block)) {
+        if (auto* transit = dynamic_cast<TransitionBlock*>(block)) {
           if (!CanTransitionMove(transit, clips)) {
             slide_instead_of_moving = true;
             break;
           }
-        } else if (ClipBlock* clip = dynamic_cast<ClipBlock*>(block)) {
+        } else if (auto* clip = dynamic_cast<ClipBlock*>(block)) {
           if ((clip->in_transition() && !CanTransitionMove(clip->in_transition(), clips)) ||
               (clip->out_transition() && !CanTransitionMove(clip->out_transition(), clips))) {
             slide_instead_of_moving = true;
@@ -294,11 +294,11 @@ void PointerTool::InitiateDragInternal(Block* clicked_item, Timeline::MovementMo
           TimelineViewGhostItem* earliest_ghost;
           bool slide_with_earliest_previous = true;
           if (sliding_due_to_transition && earliest->previous()) {
-            if (TransitionBlock* transit = dynamic_cast<TransitionBlock*>(earliest)) {
+            if (auto* transit = dynamic_cast<TransitionBlock*>(earliest)) {
               if (earliest->previous() != transit->connected_out_block()) {
                 slide_with_earliest_previous = false;
               }
-            } else if (ClipBlock* clip = dynamic_cast<ClipBlock*>(earliest)) {
+            } else if (auto* clip = dynamic_cast<ClipBlock*>(earliest)) {
               if (earliest->previous() != clip->in_transition()) {
                 slide_with_earliest_previous = false;
               }
@@ -319,11 +319,11 @@ void PointerTool::InitiateDragInternal(Block* clicked_item, Timeline::MovementMo
 
           bool slide_with_latest_next = true;
           if (sliding_due_to_transition) {
-            if (TransitionBlock* transit = dynamic_cast<TransitionBlock*>(latest)) {
+            if (auto* transit = dynamic_cast<TransitionBlock*>(latest)) {
               if (latest->next() != transit->connected_in_block()) {
                 slide_with_latest_next = false;
               }
-            } else if (ClipBlock* clip = dynamic_cast<ClipBlock*>(latest)) {
+            } else if (auto* clip = dynamic_cast<ClipBlock*>(latest)) {
               if (latest->next() != clip->out_transition()) {
                 slide_with_latest_next = false;
               }
@@ -364,7 +364,7 @@ void PointerTool::InitiateDragInternal(Block* clicked_item, Timeline::MovementMo
         auto ghost = AddGhostFromBlock(block, trim_mode, true);
         Q_UNUSED(ghost)
 
-        if (ClipBlock* clip = dynamic_cast<ClipBlock*>(block)) {
+        if (auto* clip = dynamic_cast<ClipBlock*>(block)) {
           if (clip->out_transition()) {
             AddGhostFromBlock(clip->out_transition(), trim_mode, true);
           }
@@ -398,7 +398,7 @@ void PointerTool::InitiateDragInternal(Block* clicked_item, Timeline::MovementMo
       // transition than a trim/roll
       bool treat_trim_as_slide = false;
 
-      ClipBlock* cb = dynamic_cast<ClipBlock*>(block);
+      auto* cb = dynamic_cast<ClipBlock*>(block);
       if (cb) {
         // See if this clip has a transition attached, and move it with the trim if so
         TransitionBlock* connected_transition;
@@ -457,7 +457,7 @@ void PointerTool::InitiateDragInternal(Block* clicked_item, Timeline::MovementMo
           // FIXME: The check for `clips.size() == 1` may not be necessary, but I don't know yet.
           //        I'm only including it to prevent any potentially unintended behavior.
           if (clips.size() == 1 && !(modifiers & Qt::AltModifier)) {
-            if (ClipBlock* adjacent_clip = dynamic_cast<ClipBlock*>(adjacent)) {
+            if (auto* adjacent_clip = dynamic_cast<ClipBlock*>(adjacent)) {
               for (Block* adjacent_link : adjacent_clip->block_links()) {
                 adjacent_ghosts.append(AddGhostFromBlock(adjacent_link, flipped_mode));
               }
@@ -584,7 +584,7 @@ void PointerTool::FinishDrag(TimelineViewMouseEvent* event) {
   // Sort ghosts depending on which ones are trimming, which are moving, and which are sliding
   foreach (TimelineViewGhostItem* ghost, parent()->GetGhostItems()) {
     if (ghost->HasBeenAdjusted()) {
-      Block* b = QtUtils::ValueToPtr<Block>(ghost->GetData(TimelineViewGhostItem::kAttachedBlock));
+      auto* b = QtUtils::ValueToPtr<Block>(ghost->GetData(TimelineViewGhostItem::kAttachedBlock));
 
       if (ghost->GetData(TimelineViewGhostItem::kGhostIsSliding).toBool()) {
         blocks_sliding.append({ghost, b});
@@ -601,7 +601,7 @@ void PointerTool::FinishDrag(TimelineViewMouseEvent* event) {
     return;
   }
 
-  MultiUndoCommand* command = new MultiUndoCommand();
+  auto* command = new MultiUndoCommand();
 
   if (!blocks_trimming.isEmpty()) {
     foreach (const GhostBlockPair& p, blocks_trimming) {
@@ -609,7 +609,7 @@ void PointerTool::FinishDrag(TimelineViewMouseEvent* event) {
 
       if (!ghost->GetData(TimelineViewGhostItem::kTrimShouldBeIgnored).toBool()) {
         // Must be an ordinary trim/roll
-        BlockTrimCommand* c = new BlockTrimCommand(parent()->GetTrackFromReference(ghost->GetAdjustedTrack()), p.block,
+        auto* c = new BlockTrimCommand(parent()->GetTrackFromReference(ghost->GetAdjustedTrack()), p.block,
                                                    ghost->GetAdjustedLength(), ghost->GetMode());
 
         if (event->GetModifiers() & Qt::ControlModifier) {
@@ -664,11 +664,11 @@ void PointerTool::FinishDrag(TimelineViewMouseEvent* event) {
       if (duplicate_clips) {
         // Duplicate rather than move
         // Place the copy instead of the original block
-        Block* new_block = dynamic_cast<Block*>(Node::CopyNodeInGraph(block, command));
+        auto* new_block = dynamic_cast<Block*>(Node::CopyNodeInGraph(block, command));
         relinks.insert(block, new_block);
         block = new_block;
 
-        if (ClipBlock* new_clip = dynamic_cast<ClipBlock*>(block)) {
+        if (auto* new_clip = dynamic_cast<ClipBlock*>(block)) {
           new_clip->AddCachePassthroughFrom(dynamic_cast<ClipBlock*>(p.block));
         }
       }
@@ -690,8 +690,8 @@ void PointerTool::FinishDrag(TimelineViewMouseEvent* event) {
         }
 
         // Re-connect transitions where applicable
-        if (ClipBlock* og_clip = dynamic_cast<ClipBlock*>(it.key())) {
-          ClipBlock* cp_clip = dynamic_cast<ClipBlock*>(it.value());
+        if (auto* og_clip = dynamic_cast<ClipBlock*>(it.key())) {
+          auto* cp_clip = dynamic_cast<ClipBlock*>(it.value());
 
           TransitionBlock* og_in_transition = og_clip->in_transition();
           TransitionBlock* og_out_transition = og_clip->out_transition();
@@ -847,7 +847,7 @@ TimelineViewGhostItem* PointerTool::AddGhostFromBlock(Block* block, Timeline::Mo
 
 TimelineViewGhostItem* PointerTool::AddGhostFromNull(const rational& in, const rational& out,
                                                      const Track::Reference& track, Timeline::MovementMode mode) {
-  TimelineViewGhostItem* ghost = new TimelineViewGhostItem();
+  auto* ghost = new TimelineViewGhostItem();
 
   ghost->SetIn(in);
   ghost->SetOut(out);

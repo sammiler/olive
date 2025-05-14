@@ -41,14 +41,14 @@ class NodeViewMiniMap : public QGraphicsView {
   void MoveToScenePoint(const QPointF &pos);
 
  protected:
-  virtual void drawForeground(QPainter *painter, const QRectF &rect) override;
+  void drawForeground(QPainter *painter, const QRectF &rect) override;
 
-  virtual void resizeEvent(QResizeEvent *event) override;
+  void resizeEvent(QResizeEvent *event) override;
 
-  virtual void mousePressEvent(QMouseEvent *event) override;
-  virtual void mouseMoveEvent(QMouseEvent *event) override;
-  virtual void mouseReleaseEvent(QMouseEvent *event) override;
-  virtual void mouseDoubleClickEvent(QMouseEvent *event) override {}
+  void mousePressEvent(QMouseEvent *event) override;
+  void mouseMoveEvent(QMouseEvent *event) override;
+  void mouseReleaseEvent(QMouseEvent *event) override;
+  void mouseDoubleClickEvent(QMouseEvent *event) override {}
 
  private slots:
   void SceneChanged(const QRectF &bounding);

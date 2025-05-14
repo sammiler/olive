@@ -24,7 +24,7 @@ namespace olive {
 
 #define super Node
 
-TimeInput::TimeInput() {}
+TimeInput::TimeInput() = default;
 
 QString TimeInput::Name() const { return tr("Time"); }
 

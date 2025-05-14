@@ -131,7 +131,7 @@ DiskCacheFolder *DiskManager::GetOpenFolder(const QString &path) {
   }
 
   // We must have to open this folder
-  DiskCacheFolder *f = new DiskCacheFolder(path, this);
+  auto *f = new DiskCacheFolder(path, this);
   connect(f, &DiskCacheFolder::DeletedFrame, this, &DiskManager::DeletedFrame);
   open_folders_.append(f);
 

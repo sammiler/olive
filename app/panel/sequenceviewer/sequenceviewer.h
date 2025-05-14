@@ -34,7 +34,7 @@ class SequenceViewerPanel : public ViewerPanel {
   void StartCapture(const TimeRange &time, const Track::Reference &track);
 
  protected:
-  virtual void Retranslate() override;
+  void Retranslate() override;
 };
 
 }  // namespace olive

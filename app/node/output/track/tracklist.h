@@ -35,31 +35,31 @@ class TrackList : public QObject {
  public:
   TrackList(Sequence* parent, const Track::Type& type, const QString& track_input);
 
-  const Track::Type& type() const { return type_; }
+  [[nodiscard]] const Track::Type& type() const { return type_; }
 
-  const QVector<Track*>& GetTracks() const { return track_cache_; }
+  [[nodiscard]] const QVector<Track*>& GetTracks() const { return track_cache_; }
 
-  Track* GetTrackAt(int index) const;
+  [[nodiscard]] Track* GetTrackAt(int index) const;
 
-  const rational& GetTotalLength() const { return total_length_; }
+  [[nodiscard]] const rational& GetTotalLength() const { return total_length_; }
 
-  int GetTrackCount() const { return track_cache_.size(); }
+  [[nodiscard]] int GetTrackCount() const { return track_cache_.size(); }
 
-  Project* GetParentGraph() const;
+  [[nodiscard]] Project* GetParentGraph() const;
 
-  const QString& track_input() const;
-  NodeInput track_input(int element) const;
+  [[nodiscard]] const QString& track_input() const;
+  [[nodiscard]] NodeInput track_input(int element) const;
 
-  Sequence* parent() const;
+  [[nodiscard]] Sequence* parent() const;
 
-  int ArraySize() const;
+  [[nodiscard]] int ArraySize() const;
 
   void ArrayAppend();
   void ArrayRemoveLast();
 
-  int GetArrayIndexFromCacheIndex(int index) const { return track_array_indexes_.at(index); }
+  [[nodiscard]] int GetArrayIndexFromCacheIndex(int index) const { return track_array_indexes_.at(index); }
 
-  int GetCacheIndexFromArrayIndex(int index) const { return track_array_indexes_.indexOf(index); }
+  [[nodiscard]] int GetCacheIndexFromArrayIndex(int index) const { return track_array_indexes_.indexOf(index); }
 
  public slots:
   /**

@@ -28,7 +28,7 @@
 namespace olive {
 
 NodeParamViewItemTitleBar::NodeParamViewItemTitleBar(QWidget *parent) : QWidget(parent), draw_border_(true) {
-  QHBoxLayout *layout = new QHBoxLayout(this);
+  auto *layout = new QHBoxLayout(this);
 
   collapse_btn_ = new CollapseButton(this);
   connect(collapse_btn_, &QPushButton::clicked, this, &NodeParamViewItemTitleBar::ExpandedStateChanged);

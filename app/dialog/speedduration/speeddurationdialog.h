@@ -39,7 +39,7 @@ class SpeedDurationDialog : public QDialog {
   explicit SpeedDurationDialog(const QVector<ClipBlock *> &clips, const rational &timebase, QWidget *parent = nullptr);
 
  public slots:
-  virtual void accept() override;
+  void accept() override;
 
  signals:
 

@@ -35,7 +35,7 @@ class TaskManagerPanel : public PanelWidget {
   TaskManagerPanel();
 
  private:
-  virtual void Retranslate() override;
+  void Retranslate() override;
 
   TaskView* view_;
 };

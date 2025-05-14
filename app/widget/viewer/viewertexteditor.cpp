@@ -196,7 +196,7 @@ void ViewerTextEditor::FormatChanged(const QTextCharFormat &f) {
 }
 
 void ViewerTextEditor::SetFamily(const QString &s) {
-  ViewerTextEditorToolBar *toolbar = dynamic_cast<ViewerTextEditorToolBar *>(sender());
+  auto *toolbar = dynamic_cast<ViewerTextEditorToolBar *>(sender());
 
   QTextCharFormat f;
   f.setFontFamilies({s});
@@ -207,7 +207,7 @@ void ViewerTextEditor::SetFamily(const QString &s) {
 }
 
 void ViewerTextEditor::SetStyle(const QString &s) {
-  ViewerTextEditorToolBar *toolbar = dynamic_cast<ViewerTextEditorToolBar *>(sender());
+  auto *toolbar = dynamic_cast<ViewerTextEditorToolBar *>(sender());
 
   QTextCharFormat f;
 
@@ -305,12 +305,12 @@ void ViewerTextEditor::DocumentChanged() {
 
 ViewerTextEditorToolBar::ViewerTextEditorToolBar(QWidget *parent)
     : QWidget(parent), painted_(false), drag_enabled_(true) {
-  QVBoxLayout *outer_layout = new QVBoxLayout(this);
+  auto *outer_layout = new QVBoxLayout(this);
 
   const int advanced_slider_width = QtUtils::QFontMetricsWidth(fontMetrics(), QStringLiteral("9999.9%"));
 
   {
-    QHBoxLayout *row_layout = new QHBoxLayout();
+    auto *row_layout = new QHBoxLayout();
     row_layout->setSpacing(0);
     outer_layout->addLayout(row_layout);
 
@@ -350,7 +350,7 @@ ViewerTextEditorToolBar::ViewerTextEditorToolBar(QWidget *parent)
     color_btn_ = new QPushButton();
     color_btn_->setAutoFillBackground(true);
     connect(color_btn_, &QPushButton::clicked, this, [this] {
-      QColor c = color_btn_->property("color").value<QColor>();
+      auto c = color_btn_->property("color").value<QColor>();
 
       QColorDialog cd(c, this);
       if (cd.exec() == QDialog::Accepted) {
@@ -365,7 +365,7 @@ ViewerTextEditorToolBar::ViewerTextEditorToolBar(QWidget *parent)
   }
 
   {
-    QHBoxLayout *row_layout = new QHBoxLayout();
+    auto *row_layout = new QHBoxLayout();
     row_layout->setSpacing(0);
     outer_layout->addLayout(row_layout);
 
@@ -494,13 +494,13 @@ void ViewerTextEditorToolBar::paintEvent(QPaintEvent *event) {
 
 void ViewerTextEditorToolBar::AddSpacer(QLayout *l) {
   const int spacing = this->fontMetrics().height() / 4;
-  QWidget *a = new QWidget();
+  auto *a = new QWidget();
   a->setFixedSize(spacing, 1);
   l->addWidget(a);
 
   l->addWidget(QtUtils::CreateVerticalLine());
 
-  QWidget *b = new QWidget();
+  auto *b = new QWidget();
   b->setFixedSize(spacing, 1);
   l->addWidget(b);
 }

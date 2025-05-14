@@ -36,7 +36,7 @@ class RenderTask : public Task {
  public:
   RenderTask();
 
-  virtual ~RenderTask() override;
+  ~RenderTask() override;
 
  protected:
   bool Render(ColorManager *manager, const TimeRangeList &video_range, const TimeRangeList &audio_range,
@@ -53,32 +53,32 @@ class RenderTask : public Task {
 
   virtual bool EncodeSubtitle(const SubtitleBlock *subtitle);
 
-  ViewerOutput *viewer() const { return viewer_; }
+  [[nodiscard]] ViewerOutput *viewer() const { return viewer_; }
 
   void set_viewer(ViewerOutput *v) { viewer_ = v; }
 
-  const VideoParams &video_params() const { return video_params_; }
+  [[nodiscard]] const VideoParams &video_params() const { return video_params_; }
 
   void set_video_params(const VideoParams &video_params) { video_params_ = video_params; }
 
-  const AudioParams &audio_params() const { return audio_params_; }
+  [[nodiscard]] const AudioParams &audio_params() const { return audio_params_; }
 
   void set_audio_params(const AudioParams &audio_params) { audio_params_ = audio_params; }
 
-  virtual void CancelEvent() override {
+  void CancelEvent() override {
     finished_watcher_mutex_.lock();
     finished_watcher_wait_cond_.wakeAll();
     finished_watcher_mutex_.unlock();
   }
 
-  virtual bool TwoStepFrameRendering() const { return true; }
+  [[nodiscard]] virtual bool TwoStepFrameRendering() const { return true; }
 
   void SetNativeProgressSignallingEnabled(bool e) { native_progress_signalling_ = e; }
 
   /**
    * @brief Only valid after Render() is called
    */
-  int64_t GetTotalNumberOfFrames() const { return total_number_of_frames_; }
+  [[nodiscard]] int64_t GetTotalNumberOfFrames() const { return total_number_of_frames_; }
 
  private:
   void PrepareWatcher(RenderTicketWatcher *watcher, QThread *thread);

@@ -49,7 +49,7 @@ class TimelineWidget : public TimeBasedWidget {
  public:
   explicit TimelineWidget(QWidget* parent = nullptr);
 
-  virtual ~TimelineWidget() override;
+  ~TimelineWidget() override;
 
   void Clear();
 
@@ -81,9 +81,9 @@ class TimelineWidget : public TimeBasedWidget {
 
   void AddDefaultTransitionsToSelected();
 
-  virtual bool CopySelected(bool cut) override;
+  bool CopySelected(bool cut) override;
 
-  virtual bool Paste() override;
+  bool Paste() override;
 
   void PasteInsert();
 
@@ -116,11 +116,11 @@ class TimelineWidget : public TimeBasedWidget {
   /**
    * @brief Timelines should always be connected to sequences
    */
-  Sequence* sequence() const { return dynamic_cast<Sequence*>(GetConnectedNode()); }
+  [[nodiscard]] Sequence* sequence() const { return dynamic_cast<Sequence*>(GetConnectedNode()); }
 
-  const QVector<Block*>& GetSelectedBlocks() const { return selected_blocks_; }
+  [[nodiscard]] const QVector<Block*>& GetSelectedBlocks() const { return selected_blocks_; }
 
-  QByteArray SaveSplitterState() const;
+  [[nodiscard]] QByteArray SaveSplitterState() const;
 
   void RestoreSplitterState(const QByteArray& state);
 
@@ -141,16 +141,16 @@ class TimelineWidget : public TimeBasedWidget {
   void RemoveSelection(const TimeRange& time, const Track::Reference& track);
   void RemoveSelection(Block* item);
 
-  const TimelineWidgetSelections& GetSelections() const { return selections_; }
+  [[nodiscard]] const TimelineWidgetSelections& GetSelections() const { return selections_; }
 
   void SetSelections(const TimelineWidgetSelections& s, bool process_block_changes);
 
-  Track* GetTrackFromReference(const Track::Reference& ref) const;
+  [[nodiscard]] Track* GetTrackFromReference(const Track::Reference& ref) const;
 
   void SetViewBeamCursor(const TimelineCoordinate& coord);
   void SetViewTransitionOverlay(ClipBlock* out, ClipBlock* in);
 
-  const QVector<TimelineViewGhostItem*>& GetGhostItems() const { return ghost_items_; }
+  [[nodiscard]] const QVector<TimelineViewGhostItem*>& GetGhostItems() const { return ghost_items_; }
 
   void InsertGapsAt(const rational& time, const rational& length, MultiUndoCommand* command);
 
@@ -165,7 +165,7 @@ class TimelineWidget : public TimeBasedWidget {
 
   void ClearGhosts();
 
-  bool HasGhosts() const { return !ghost_items_.isEmpty(); }
+  [[nodiscard]] bool HasGhosts() const { return !ghost_items_.isEmpty(); }
 
   bool IsBlockSelected(Block* b) const { return selected_blocks_.contains(b); }
 
@@ -177,7 +177,7 @@ class TimelineWidget : public TimeBasedWidget {
 
   rational GetTimebaseForTrackType(Track::Type type);
 
-  const QRect& GetRubberBandGeometry() const;
+  [[nodiscard]] const QRect& GetRubberBandGeometry() const;
 
   /**
    * @brief Track blocks that have newly been selected (this is preferred over emitting BlocksSelected directly)
@@ -227,12 +227,12 @@ class TimelineWidget : public TimeBasedWidget {
                          const TimelineWidgetSelections& old, bool process_block_changes = true)
         : timeline_(timeline), old_(old), now_(now), process_block_changes_(process_block_changes) {}
 
-    virtual Project* GetRelevantProject() const override { return nullptr; }
+    [[nodiscard]] Project* GetRelevantProject() const override { return nullptr; }
 
    protected:
-    virtual void redo() override { timeline_->SetSelections(now_, process_block_changes_); }
+    void redo() override { timeline_->SetSelections(now_, process_block_changes_); }
 
-    virtual void undo() override { timeline_->SetSelections(old_, process_block_changes_); }
+    void undo() override { timeline_->SetSelections(old_, process_block_changes_); }
 
    private:
     TimelineWidget* timeline_;
@@ -255,19 +255,19 @@ class TimelineWidget : public TimeBasedWidget {
   void RevealViewerInProject(ViewerOutput* r);
 
  protected:
-  virtual void resizeEvent(QResizeEvent* event) override;
+  void resizeEvent(QResizeEvent* event) override;
 
-  virtual void TimeChangedEvent(const rational&) override;
-  virtual void TimebaseChangedEvent(const rational&) override;
-  virtual void ScaleChangedEvent(const double&) override;
+  void TimeChangedEvent(const rational&) override;
+  void TimebaseChangedEvent(const rational&) override;
+  void ScaleChangedEvent(const double&) override;
 
-  virtual void ConnectNodeEvent(ViewerOutput* n) override;
-  virtual void DisconnectNodeEvent(ViewerOutput* n) override;
+  void ConnectNodeEvent(ViewerOutput* n) override;
+  void DisconnectNodeEvent(ViewerOutput* n) override;
 
-  virtual const QVector<Block*>* GetSnapBlocks() const override { return &added_blocks_; }
+  [[nodiscard]] const QVector<Block*>* GetSnapBlocks() const override { return &added_blocks_; }
 
  protected slots:
-  virtual void SendCatchUpScrollEvent() override;
+  void SendCatchUpScrollEvent() override;
 
  private:
   QVector<Timeline::EditToInfo> GetEditToInfo(const rational& playhead_time, Timeline::MovementMode mode);
@@ -326,11 +326,11 @@ class TimelineWidget : public TimeBasedWidget {
    public:
     SetSplitterSizesCommand(QSplitter* splitter, const QList<int>& sizes) : splitter_(splitter), new_sizes_(sizes) {}
 
-    virtual Project* GetRelevantProject() const override { return nullptr; }
+    [[nodiscard]] Project* GetRelevantProject() const override { return nullptr; }
 
    protected:
-    virtual void redo() override;
-    virtual void undo() override;
+    void redo() override;
+    void undo() override;
 
    private:
     QSplitter* splitter_;

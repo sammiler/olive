@@ -36,7 +36,7 @@ class DiskCacheFolder : public QObject {
  public:
   explicit DiskCacheFolder(const QString& path, QObject* parent = nullptr);
 
-  virtual ~DiskCacheFolder() override;
+  ~DiskCacheFolder() override;
 
   bool ClearCache();
 
@@ -44,13 +44,13 @@ class DiskCacheFolder : public QObject {
 
   void CreatedFile(const QString& filename);
 
-  const QString& GetPath() const { return path_; }
+  [[nodiscard]] const QString& GetPath() const { return path_; }
 
   void SetPath(const QString& path);
 
-  qint64 GetLimit() const { return limit_; }
+  [[nodiscard]] qint64 GetLimit() const { return limit_; }
 
-  bool GetClearOnClose() const { return clear_on_close_; }
+  [[nodiscard]] bool GetClearOnClose() const { return clear_on_close_; }
 
   void SetLimit(qint64 l) { limit_ = l; }
 
@@ -102,16 +102,16 @@ class DiskManager : public QObject {
 
   bool ClearDiskCache(const QString& cache_folder);
 
-  DiskCacheFolder* GetDefaultCacheFolder() const {
+  [[nodiscard]] DiskCacheFolder* GetDefaultCacheFolder() const {
     // The first folder will always be the default
     return open_folders_.first();
   }
 
-  const QString& GetDefaultCachePath() const { return GetDefaultCacheFolder()->GetPath(); }
+  [[nodiscard]] const QString& GetDefaultCachePath() const { return GetDefaultCacheFolder()->GetPath(); }
 
   DiskCacheFolder* GetOpenFolder(const QString& path);
 
-  const QVector<DiskCacheFolder*>& GetOpenFolders() const { return open_folders_; }
+  [[nodiscard]] const QVector<DiskCacheFolder*>& GetOpenFolders() const { return open_folders_; }
 
   static bool ShowDiskCacheChangeConfirmationDialog(QWidget* parent);
 
@@ -137,7 +137,7 @@ class DiskManager : public QObject {
  private:
   DiskManager();
 
-  virtual ~DiskManager() override;
+  ~DiskManager() override;
 
   static DiskManager* instance_;
 

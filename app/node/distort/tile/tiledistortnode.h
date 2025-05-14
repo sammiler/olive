@@ -33,17 +33,17 @@ class TileDistortNode : public Node {
 
   NODE_DEFAULT_FUNCTIONS(TileDistortNode)
 
-  virtual QString Name() const override;
-  virtual QString id() const override;
-  virtual QVector<CategoryID> Category() const override;
-  virtual QString Description() const override;
+  [[nodiscard]] QString Name() const override;
+  [[nodiscard]] QString id() const override;
+  [[nodiscard]] QVector<CategoryID> Category() const override;
+  [[nodiscard]] QString Description() const override;
 
-  virtual void Retranslate() override;
+  void Retranslate() override;
 
-  virtual ShaderCode GetShaderCode(const ShaderRequest &request) const override;
-  virtual void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
+  [[nodiscard]] ShaderCode GetShaderCode(const ShaderRequest &request) const override;
+  void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
 
-  virtual void UpdateGizmoPositions(const NodeValueRow &row, const NodeGlobals &globals) override;
+  void UpdateGizmoPositions(const NodeValueRow &row, const NodeGlobals &globals) override;
 
   static const QString kTextureInput;
   static const QString kScaleInput;
@@ -53,7 +53,7 @@ class TileDistortNode : public Node {
   static const QString kMirrorYInput;
 
  protected slots:
-  virtual void GizmoDragMove(double x, double y, const Qt::KeyboardModifiers &modifiers) override;
+  void GizmoDragMove(double x, double y, const Qt::KeyboardModifiers &modifiers) override;
 
  private:
   enum Anchor {

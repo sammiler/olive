@@ -50,17 +50,17 @@ class Footage : public ViewerOutput {
 
   NODE_DEFAULT_FUNCTIONS(Footage)
 
-  virtual QString Name() const override { return tr("Media"); }
+  [[nodiscard]] QString Name() const override { return tr("Media"); }
 
-  virtual QString id() const override { return QStringLiteral("org.olivevideoeditor.Olive.footage"); }
+  [[nodiscard]] QString id() const override { return QStringLiteral("org.olivevideoeditor.Olive.footage"); }
 
-  virtual QVector<CategoryID> Category() const override { return {kCategoryProject}; }
+  [[nodiscard]] QVector<CategoryID> Category() const override { return {kCategoryProject}; }
 
-  virtual QString Description() const override {
+  [[nodiscard]] QString Description() const override {
     return tr("Import video, audio, or still image files into the composition.");
   }
 
-  virtual void Retranslate() override;
+  void Retranslate() override;
 
   /**
    * @brief Reset Footage state ready for running through Probe() again
@@ -74,7 +74,7 @@ class Footage : public ViewerOutput {
    */
   void Clear();
 
-  bool IsValid() const { return valid_; }
+  [[nodiscard]] bool IsValid() const { return valid_; }
 
   /**
    * @brief Sets this footage to valid and ready to use
@@ -84,7 +84,7 @@ class Footage : public ViewerOutput {
   /**
    * @brief Return the current filename of this Footage object
    */
-  QString filename() const;
+  [[nodiscard]] QString filename() const;
 
   /**
    * @brief Set the filename
@@ -104,7 +104,7 @@ class Footage : public ViewerOutput {
    * The file's last modified timestamp is stored for potential organization in the ProjectExplorer. It can be
    * retrieved here.
    */
-  const qint64 &timestamp() const;
+  [[nodiscard]] const qint64 &timestamp() const;
 
   /**
    * @brief Set the last modified time/date
@@ -119,10 +119,10 @@ class Footage : public ViewerOutput {
 
   void SetCancelPointer(CancelAtom *c) { cancelled_ = c; }
 
-  int GetStreamIndex(Track::Type type, int index) const;
-  int GetStreamIndex(const Track::Reference &ref) const { return GetStreamIndex(ref.type(), ref.index()); }
+  [[nodiscard]] int GetStreamIndex(Track::Type type, int index) const;
+  [[nodiscard]] int GetStreamIndex(const Track::Reference &ref) const { return GetStreamIndex(ref.type(), ref.index()); }
 
-  Track::Reference GetReferenceFromRealIndex(int real_index) const;
+  [[nodiscard]] Track::Reference GetReferenceFromRealIndex(int real_index) const;
 
   /**
    * @brief Get the Decoder ID set when this Footage was probed
@@ -131,42 +131,42 @@ class Footage : public ViewerOutput {
    *
    * A decoder ID
    */
-  const QString &decoder() const;
+  [[nodiscard]] const QString &decoder() const;
 
   static QString DescribeVideoStream(const VideoParams &params);
   static QString DescribeAudioStream(const AudioParams &params);
   static QString DescribeSubtitleStream(const SubtitleParams &params);
 
-  virtual void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
+  void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
 
   static QString GetStreamTypeName(Track::Type type);
 
-  virtual Node *GetConnectedTextureOutput() override;
+  Node *GetConnectedTextureOutput() override;
 
-  virtual Node *GetConnectedSampleOutput() override;
+  Node *GetConnectedSampleOutput() override;
 
   static rational AdjustTimeByLoopMode(rational time, LoopMode loop_mode, const rational &length,
                                        VideoParams::Type type, const rational &timebase);
 
-  virtual QVariant data(const DataType &d) const override;
+  [[nodiscard]] QVariant data(const DataType &d) const override;
 
-  virtual int GetTotalStreamCount() const override { return total_stream_count_; }
+  [[nodiscard]] int GetTotalStreamCount() const override { return total_stream_count_; }
 
-  virtual bool LoadCustom(QXmlStreamReader *reader, SerializedData *data) override;
-  virtual void SaveCustom(QXmlStreamWriter *writer) const override;
+  bool LoadCustom(QXmlStreamReader *reader, SerializedData *data) override;
+  void SaveCustom(QXmlStreamWriter *writer) const override;
 
   static const QString kFilenameInput;
 
-  virtual void AddedToGraphEvent(Project *p) override;
-  virtual void RemovedFromGraphEvent(Project *p) override;
+  void AddedToGraphEvent(Project *p) override;
+  void RemovedFromGraphEvent(Project *p) override;
 
  protected:
-  virtual void InputValueChangedEvent(const QString &input, int element) override;
+  void InputValueChangedEvent(const QString &input, int element) override;
 
-  virtual rational VerifyLengthInternal(Track::Type type) const override;
+  [[nodiscard]] rational VerifyLengthInternal(Track::Type type) const override;
 
  private:
-  QString GetColorspaceToUse(const VideoParams &params) const;
+  [[nodiscard]] QString GetColorspaceToUse(const VideoParams &params) const;
 
   void Reprobe();
 

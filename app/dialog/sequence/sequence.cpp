@@ -39,9 +39,9 @@ namespace olive {
 
 SequenceDialog::SequenceDialog(Sequence* s, Type t, QWidget* parent)
     : QDialog(parent), sequence_(s), make_undoable_(true) {
-  QVBoxLayout* layout = new QVBoxLayout(this);
+  auto* layout = new QVBoxLayout(this);
 
-  QSplitter* splitter = new QSplitter();
+  auto* splitter = new QSplitter();
   layout->addWidget(splitter);
 
   preset_tab_ = new SequenceDialogPresetTab();
@@ -57,14 +57,14 @@ SequenceDialog::SequenceDialog(Sequence* s, Type t, QWidget* parent)
           &SequenceDialogPresetTab::SaveParametersAsPreset);
 
   // Set up name section
-  QHBoxLayout* name_layout = new QHBoxLayout();
+  auto* name_layout = new QHBoxLayout();
   name_layout->addWidget(new QLabel(tr("Name:")));
   name_field_ = new QLineEdit();
   name_layout->addWidget(name_field_);
   layout->addLayout(name_layout);
 
   // Set up dialog buttons
-  QDialogButtonBox* buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+  auto* buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
   QPushButton* default_btn = buttons->addButton(tr("Set As Default"), QDialogButtonBox::ActionRole);
   connect(buttons, &QDialogButtonBox::accepted, this, &SequenceDialog::accept);
   connect(buttons, &QDialogButtonBox::rejected, this, &SequenceDialog::reject);
@@ -98,7 +98,7 @@ void SequenceDialog::accept() {
   if (!VideoParams::FormatIsFloat(parameter_tab_->GetSelectedPreviewFormat()) &&
       !OLIVE_CONFIG("PreviewNonFloatDontAskAgain").toBool()) {
     QMessageBox b(this);
-    QCheckBox* dont_show_again_ = new QCheckBox(tr("Don't ask me again"));
+    auto* dont_show_again_ = new QCheckBox(tr("Don't ask me again"));
 
     b.setIcon(QMessageBox::Warning);
     b.setWindowTitle(tr("Low Quality Preview"));
@@ -133,7 +133,7 @@ void SequenceDialog::accept() {
 
   if (make_undoable_) {
     // Make undoable command to change the parameters
-    SequenceParamCommand* param_command = new SequenceParamCommand(
+    auto* param_command = new SequenceParamCommand(
         sequence_, video_params, audio_params, name_field_->text(), parameter_tab_->GetSelectedPreviewAutoCache());
 
     Core::instance()->undo_stack()->push(param_command,

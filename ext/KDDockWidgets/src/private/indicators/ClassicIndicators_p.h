@@ -40,18 +40,18 @@ public:
     explicit ClassicIndicators(DropArea *dropArea);
     ~ClassicIndicators() override;
     DropLocation hover_impl(QPoint globalPos) override;
-    QPoint posForIndicator(DropLocation) const override;
+    [[nodiscard]] QPoint posForIndicator(DropLocation) const override;
 
     // Lots of getters needed because of QML:
-    bool innerLeftIndicatorVisible() const;
-    bool innerRightIndicatorVisible() const;
-    bool innerTopIndicatorVisible() const;
-    bool innerBottomIndicatorVisible() const;
-    bool outterLeftIndicatorVisible() const;
-    bool outterRightIndicatorVisible() const;
-    bool outterTopIndicatorVisible() const;
-    bool outterBottomIndicatorVisible() const;
-    bool tabIndicatorVisible() const;
+    [[nodiscard]] bool innerLeftIndicatorVisible() const;
+    [[nodiscard]] bool innerRightIndicatorVisible() const;
+    [[nodiscard]] bool innerTopIndicatorVisible() const;
+    [[nodiscard]] bool innerBottomIndicatorVisible() const;
+    [[nodiscard]] bool outterLeftIndicatorVisible() const;
+    [[nodiscard]] bool outterRightIndicatorVisible() const;
+    [[nodiscard]] bool outterTopIndicatorVisible() const;
+    [[nodiscard]] bool outterBottomIndicatorVisible() const;
+    [[nodiscard]] bool tabIndicatorVisible() const;
 
 protected:
     bool onResize(QSize newSize) override;
@@ -62,9 +62,9 @@ Q_SIGNALS:
 private:
     friend class KDDockWidgets::Indicator;
     friend class KDDockWidgets::IndicatorWindow;
-    bool rubberBandIsTopLevel() const;
+    [[nodiscard]] bool rubberBandIsTopLevel() const;
     void raiseIndicators();
-    QRect geometryForRubberband(QRect localRect) const;
+    [[nodiscard]] QRect geometryForRubberband(QRect localRect) const;
     void setDropLocation(DropLocation);
     void updateWindowPosition();
 

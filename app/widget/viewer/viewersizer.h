@@ -50,7 +50,7 @@ class ViewerSizer : public QWidget {
    */
   void SetWidget(QWidget* widget);
 
-  QSize GetContainerSize() const;
+  [[nodiscard]] QSize GetContainerSize() const;
 
   static constexpr int kZoomLevelCount = 10;
   static constexpr double kZoomLevels[kZoomLevelCount] = {0.05, 0.1, 0.25, 0.5, 0.75, 1.0, 1.5, 2.0, 4.0, 8.0};
@@ -78,7 +78,7 @@ class ViewerSizer : public QWidget {
 
   void HandDragMove(int x, int y);
 
-  virtual bool eventFilter(QObject* watched, QEvent* event) override;
+  bool eventFilter(QObject* watched, QEvent* event) override;
 
  signals:
   void RequestScale(const QMatrix4x4& matrix);
@@ -89,7 +89,7 @@ class ViewerSizer : public QWidget {
   /**
    * @brief Listen for resize events to ensure the child widget remains correctly sized
    */
-  virtual void resizeEvent(QResizeEvent* event) override;
+  void resizeEvent(QResizeEvent* event) override;
 
  private:
   /**
@@ -99,7 +99,7 @@ class ViewerSizer : public QWidget {
 
   int GetZoomedValue(int value);
 
-  double GetRealCurrentZoom() const;
+  [[nodiscard]] double GetRealCurrentZoom() const;
 
   /**
    * @brief Reference to widget

@@ -210,7 +210,7 @@ ShaderCode PolygonGenerator::GetShaderCode(const ShaderRequest &request) const {
 }
 
 void PolygonGenerator::GizmoDragMove(double x, double y, const Qt::KeyboardModifiers &modifiers) {
-  DraggableGizmo *gizmo = dynamic_cast<DraggableGizmo *>(sender());
+  auto *gizmo = dynamic_cast<DraggableGizmo *>(sender());
 
   if (gizmo == poly_gizmo_) {
     // FIXME: Drag all points

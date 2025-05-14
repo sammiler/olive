@@ -41,7 +41,7 @@ class TrackViewItem : public QWidget {
   void AboutToDeleteTrack(Track* track);
 
  private:
-  QPushButton* CreateMSLButton(const QColor& checked_color) const;
+  [[nodiscard]] QPushButton* CreateMSLButton(const QColor& checked_color) const;
 
   QStackedWidget* stack_;
 

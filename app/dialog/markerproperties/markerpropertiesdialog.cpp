@@ -35,12 +35,12 @@ namespace olive {
 MarkerPropertiesDialog::MarkerPropertiesDialog(const std::vector<TimelineMarker *> &markers, const rational &timebase,
                                                QWidget *parent)
     : super(parent), markers_(markers) {
-  QGridLayout *layout = new QGridLayout(this);
+  auto *layout = new QGridLayout(this);
 
   int row = 0;
 
-  QGroupBox *time_group = new QGroupBox(tr("Time"));
-  QGridLayout *time_layout = new QGridLayout(time_group);
+  auto *time_group = new QGroupBox(tr("Time"));
+  auto *time_layout = new QGridLayout(time_group);
 
   {
     int time_row = 0;
@@ -110,7 +110,7 @@ MarkerPropertiesDialog::MarkerPropertiesDialog(const std::vector<TimelineMarker 
 
   row++;
 
-  QDialogButtonBox *buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+  auto *buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
   connect(buttons, &QDialogButtonBox::accepted, this, &MarkerPropertiesDialog::accept);
   connect(buttons, &QDialogButtonBox::rejected, this, &MarkerPropertiesDialog::reject);
   layout->addWidget(buttons, row, 0, 1, 2);
@@ -125,7 +125,7 @@ void MarkerPropertiesDialog::accept() {
     return;
   }
 
-  MultiUndoCommand *command = new MultiUndoCommand();
+  auto *command = new MultiUndoCommand();
 
   int color = color_menu_->GetSelectedColor();
 

@@ -30,17 +30,17 @@ class PreviewAudioDevice : public QIODevice {
  public:
   explicit PreviewAudioDevice(QObject *parent = nullptr);
 
-  virtual ~PreviewAudioDevice() override;
+  ~PreviewAudioDevice() override;
 
   void StartQueuing();
 
-  virtual bool isSequential() const override;
+  [[nodiscard]] bool isSequential() const override;
 
-  virtual qint64 readData(char *data, qint64 maxSize) override;
+  qint64 readData(char *data, qint64 maxSize) override;
 
-  virtual qint64 writeData(const char *data, qint64 length) override;
+  qint64 writeData(const char *data, qint64 length) override;
 
-  int bytes_per_frame() const { return bytes_per_frame_; }
+  [[nodiscard]] int bytes_per_frame() const { return bytes_per_frame_; }
 
   void set_bytes_per_frame(int b) { bytes_per_frame_ = b; }
 

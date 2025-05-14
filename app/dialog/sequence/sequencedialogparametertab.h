@@ -18,25 +18,25 @@ class SequenceDialogParameterTab : public QWidget {
  public:
   explicit SequenceDialogParameterTab(Sequence* sequence, QWidget* parent = nullptr);
 
-  int GetSelectedVideoWidth() const { return width_slider_->GetValue(); }
+  [[nodiscard]] int GetSelectedVideoWidth() const { return width_slider_->GetValue(); }
 
-  int GetSelectedVideoHeight() const { return height_slider_->GetValue(); }
+  [[nodiscard]] int GetSelectedVideoHeight() const { return height_slider_->GetValue(); }
 
-  rational GetSelectedVideoFrameRate() const { return framerate_combo_->GetFrameRate(); }
+  [[nodiscard]] rational GetSelectedVideoFrameRate() const { return framerate_combo_->GetFrameRate(); }
 
-  rational GetSelectedVideoPixelAspect() const { return pixelaspect_combo_->GetPixelAspectRatio(); }
+  [[nodiscard]] rational GetSelectedVideoPixelAspect() const { return pixelaspect_combo_->GetPixelAspectRatio(); }
 
-  VideoParams::Interlacing GetSelectedVideoInterlacingMode() const { return interlacing_combo_->GetInterlaceMode(); }
+  [[nodiscard]] VideoParams::Interlacing GetSelectedVideoInterlacingMode() const { return interlacing_combo_->GetInterlaceMode(); }
 
-  int GetSelectedAudioSampleRate() const { return audio_sample_rate_field_->GetSampleRate(); }
+  [[nodiscard]] int GetSelectedAudioSampleRate() const { return audio_sample_rate_field_->GetSampleRate(); }
 
-  uint64_t GetSelectedAudioChannelLayout() const { return audio_channels_field_->GetChannelLayout(); }
+  [[nodiscard]] uint64_t GetSelectedAudioChannelLayout() const { return audio_channels_field_->GetChannelLayout(); }
 
-  int GetSelectedPreviewResolution() const { return preview_resolution_field_->GetDivider(); }
+  [[nodiscard]] int GetSelectedPreviewResolution() const { return preview_resolution_field_->GetDivider(); }
 
-  PixelFormat GetSelectedPreviewFormat() const { return preview_format_field_->GetPixelFormat(); }
+  [[nodiscard]] PixelFormat GetSelectedPreviewFormat() const { return preview_format_field_->GetPixelFormat(); }
 
-  bool GetSelectedPreviewAutoCache() const {
+  [[nodiscard]] bool GetSelectedPreviewAutoCache() const {
     // return preview_autocache_field_->isChecked();
     //  TEMP: Disable sequence auto-cache, wanna see if clip cache supersedes it.
     return false;

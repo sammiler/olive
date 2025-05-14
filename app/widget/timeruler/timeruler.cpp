@@ -196,7 +196,7 @@ void TimeRuler::drawForeground(QPainter *p, const QRectF &rect) {
   const int kAverageTextWidth = 200;
 
   for (int i = GetScroll() - kAverageTextWidth; i < GetScroll() + width() + kAverageTextWidth; i++) {
-    double screen_pt = static_cast<double>(i);
+    auto screen_pt = static_cast<double>(i);
 
     if (long_interval > -1) {
       int this_long_unit = std::floor(screen_pt / long_interval);
@@ -255,7 +255,7 @@ void TimeRuler::drawForeground(QPainter *p, const QRectF &rect) {
     int h = PlaybackCache::GetCacheIndicatorHeight();
     QRect cache_rect(0, height() - h, width(), h);
 
-    if (ViewerOutput *viewer = dynamic_cast<ViewerOutput *>(playback_cache_->parent())) {
+    if (auto *viewer = dynamic_cast<ViewerOutput *>(playback_cache_->parent())) {
       int right = TimeToScene(viewer->GetVideoLength());
       cache_rect.setWidth(std::max(0, right));
     }

@@ -31,8 +31,8 @@ class TimelineCoordinate {
   TimelineCoordinate(const rational& frame, const Track::Reference& track);
   TimelineCoordinate(const rational& frame, const Track::Type& track_type, const int& track_index);
 
-  const rational& GetFrame() const;
-  const Track::Reference& GetTrack() const;
+  [[nodiscard]] const rational& GetFrame() const;
+  [[nodiscard]] const Track::Reference& GetTrack() const;
 
   void SetFrame(const rational& frame);
   void SetTrack(const Track::Reference& track);

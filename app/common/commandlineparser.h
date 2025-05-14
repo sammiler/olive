@@ -46,7 +46,7 @@ class CommandLineParser {
    public:
     PositionalArgument() = default;
 
-    const QString& GetSetting() const { return setting_; }
+    [[nodiscard]] const QString& GetSetting() const { return setting_; }
 
     void SetSetting(const QString& s) { setting_ = s; }
 
@@ -58,7 +58,7 @@ class CommandLineParser {
    public:
     Option() { is_set_ = false; }
 
-    bool IsSet() const { return is_set_; }
+    [[nodiscard]] bool IsSet() const { return is_set_; }
 
     void Set() { is_set_ = true; }
 

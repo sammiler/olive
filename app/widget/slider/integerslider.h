@@ -41,13 +41,13 @@ class IntegerSlider : public NumericSliderBase {
   void SetDefaultValue(const int64_t& d);
 
  protected:
-  virtual QString ValueToString(const QVariant& v) const override;
+  [[nodiscard]] QString ValueToString(const QVariant& v) const override;
 
-  virtual QVariant StringToValue(const QString& s, bool* ok) const override;
+  QVariant StringToValue(const QString& s, bool* ok) const override;
 
-  virtual void ValueSignalEvent(const QVariant& value) override;
+  void ValueSignalEvent(const QVariant& value) override;
 
-  virtual QVariant AdjustDragDistanceInternal(const QVariant& start, const double& drag) const override;
+  [[nodiscard]] QVariant AdjustDragDistanceInternal(const QVariant& start, const double& drag) const override;
 
  signals:
   void ValueChanged(int64_t);

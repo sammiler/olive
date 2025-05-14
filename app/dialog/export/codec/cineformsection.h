@@ -32,9 +32,9 @@ class CineformSection : public CodecSection {
  public:
   explicit CineformSection(QWidget *parent = nullptr);
 
-  virtual void AddOpts(EncodingParams *params) override;
+  void AddOpts(EncodingParams *params) override;
 
-  virtual void SetOpts(const EncodingParams *p) override;
+  void SetOpts(const EncodingParams *p) override;
 
  private:
   QComboBox *quality_combobox_;

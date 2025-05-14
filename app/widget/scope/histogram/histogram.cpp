@@ -107,7 +107,7 @@ void HistogramScope::DrawScope(TexturePtr managed_tex, QVariant pipeline) {
   float histogram_end_dim_x = (width() - 1.0) - histogram_start_dim_x;
 
   // for (int i=0; i <= histogram_steps; i++) {
-  for (std::vector<float>::iterator it = histogram_increments.begin(); it != histogram_increments.end(); it++) {
+  for (auto it = histogram_increments.begin(); it != histogram_increments.end(); it++) {
     histogram_lines[it - histogram_increments.begin()].setLine(
         histogram_start_dim_x, (histogram_dim_y * pow(1.0 - *it, histogram_base)) + histogram_start_dim_y,
         histogram_end_dim_x, (histogram_dim_y * pow(1.0 - *it, histogram_base)) + histogram_start_dim_y);

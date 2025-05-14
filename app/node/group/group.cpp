@@ -282,7 +282,7 @@ NodeInput NodeGroup::ResolveInput(NodeInput input) {
 }
 
 bool NodeGroup::GetInner(NodeInput *input) {
-  if (NodeGroup *g = dynamic_cast<NodeGroup *>(input->node())) {
+  if (auto *g = dynamic_cast<NodeGroup *>(input->node())) {
     const NodeInput &passthrough = g->GetInputFromID(input->input());
     if (!passthrough.IsValid()) {
       return false;

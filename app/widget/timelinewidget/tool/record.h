@@ -29,9 +29,9 @@ class RecordTool : public BeamTool {
  public:
   explicit RecordTool(TimelineWidget* parent);
 
-  virtual void MousePress(TimelineViewMouseEvent* event) override;
-  virtual void MouseMove(TimelineViewMouseEvent* event) override;
-  virtual void MouseRelease(TimelineViewMouseEvent* event) override;
+  void MousePress(TimelineViewMouseEvent* event) override;
+  void MouseMove(TimelineViewMouseEvent* event) override;
+  void MouseRelease(TimelineViewMouseEvent* event) override;
 
  protected:
   void MouseMoveInternal(const rational& cursor_frame, bool outwards);

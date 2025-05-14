@@ -38,7 +38,7 @@ class ConfigDialogBase : public QDialog {
   /**
    * @brief Override of accept to save preferences to Config.
    */
-  virtual void accept() override;
+  void accept() override;
 
  protected:
   void AddTab(ConfigDialogBaseTab* tab, const QString& title);

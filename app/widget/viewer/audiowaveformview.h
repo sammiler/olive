@@ -37,7 +37,7 @@ class AudioWaveformView : public SeekableWidget {
   void SetViewer(ViewerOutput *playback);
 
  protected:
-  virtual void drawForeground(QPainter *painter, const QRectF &rect) override;
+  void drawForeground(QPainter *painter, const QRectF &rect) override;
 
  private:
   QThreadPool pool_;

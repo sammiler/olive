@@ -170,7 +170,7 @@ void TrackListRippleRemoveAreaCommand::prepare() {
       continue;
     }
 
-    TrackRippleRemoveAreaCommand* c = new TrackRippleRemoveAreaCommand(track, range_);
+    auto* c = new TrackRippleRemoveAreaCommand(track, range_);
     commands_.append(c);
     working_tracks_.append(track);
   }
@@ -356,7 +356,7 @@ void TimelineRippleDeleteGapsAtRegionsCommand::prepare() {
     Track* track = region.first;
     const TimeRange& range = region.second;
 
-    GapBlock* gap = dynamic_cast<GapBlock*>(track->NearestBlockBeforeOrAt(range.in()));
+    auto* gap = dynamic_cast<GapBlock*>(track->NearestBlockBeforeOrAt(range.in()));
 
     if (gap) {
       QVector<RemovalRequest>& gaps_on_track = requested_gaps[track];

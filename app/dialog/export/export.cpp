@@ -46,26 +46,26 @@ namespace olive {
 
 ExportDialog::ExportDialog(ViewerOutput *viewer_node, bool stills_only_mode, QWidget *parent)
     : super(parent), viewer_node_(viewer_node), stills_only_mode_(stills_only_mode), loading_presets_(false) {
-  QHBoxLayout *layout = new QHBoxLayout(this);
+  auto *layout = new QHBoxLayout(this);
 
-  QSplitter *splitter = new QSplitter(Qt::Horizontal);
+  auto *splitter = new QSplitter(Qt::Horizontal);
   splitter->setChildrenCollapsible(false);
   layout->addWidget(splitter);
 
   preferences_area_ = new QWidget();
-  QGridLayout *preferences_layout = new QGridLayout(preferences_area_);
+  auto *preferences_layout = new QGridLayout(preferences_area_);
   preferences_layout->setContentsMargins(0, 0, 0, 0);
 
   int row = 0;
 
-  QLabel *fn_lbl = new QLabel(tr("Filename:"));
+  auto *fn_lbl = new QLabel(tr("Filename:"));
   fn_lbl->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
   preferences_layout->addWidget(fn_lbl, row, 0);
 
   filename_edit_ = new QLineEdit();
   preferences_layout->addWidget(filename_edit_, row, 1, 1, 2);
 
-  QPushButton *file_browse_btn = new QPushButton();
+  auto *file_browse_btn = new QPushButton();
   file_browse_btn->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
   file_browse_btn->setIcon(icon::Folder);
   file_browse_btn->setToolTip(tr("Browse for exported file filename"));
@@ -74,7 +74,7 @@ ExportDialog::ExportDialog(ViewerOutput *viewer_node, bool stills_only_mode, QWi
 
   row++;
 
-  QLabel *preset_lbl = new QLabel(tr("Preset:"));
+  auto *preset_lbl = new QLabel(tr("Preset:"));
   preset_lbl->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
   preferences_layout->addWidget(preset_lbl, row, 0);
   preset_combobox_ = new QComboBox();
@@ -88,7 +88,7 @@ ExportDialog::ExportDialog(ViewerOutput *viewer_node, bool stills_only_mode, QWi
   preset_load_btn->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
   preferences_layout->addWidget(preset_load_btn, row, 2);*/
 
-  QPushButton *preset_save_btn = new QPushButton();
+  auto *preset_save_btn = new QPushButton();
   preset_save_btn->setIcon(icon::Save);
   preset_save_btn->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
   preferences_layout->addWidget(preset_save_btn, row, 3);
@@ -121,7 +121,7 @@ ExportDialog::ExportDialog(ViewerOutput *viewer_node, bool stills_only_mode, QWi
 
   row++;
 
-  QHBoxLayout *av_enabled_layout = new QHBoxLayout();
+  auto *av_enabled_layout = new QHBoxLayout();
 
   video_enabled_ = new QCheckBox(tr("Export Video"));
   av_enabled_layout->addWidget(video_enabled_);
@@ -158,10 +158,10 @@ ExportDialog::ExportDialog(ViewerOutput *viewer_node, bool stills_only_mode, QWi
   row++;
 
   {
-    QGroupBox *options_group = new QGroupBox();
+    auto *options_group = new QGroupBox();
     preferences_layout->addWidget(options_group, row, 0, 1, 4);
 
-    QGridLayout *options_layout = new QGridLayout(options_group);
+    auto *options_layout = new QGridLayout(options_group);
 
     int opt_row = 0;
 
@@ -181,17 +181,17 @@ ExportDialog::ExportDialog(ViewerOutput *viewer_node, bool stills_only_mode, QWi
 
   row++;
 
-  QHBoxLayout *btn_layout = new QHBoxLayout();
+  auto *btn_layout = new QHBoxLayout();
   btn_layout->setContentsMargins(0, 0, 0, 0);
   preferences_layout->addLayout(btn_layout, row, 0, 1, 4);
 
   btn_layout->addStretch();
 
-  QPushButton *export_btn = new QPushButton(tr("Export"));
+  auto *export_btn = new QPushButton(tr("Export"));
   btn_layout->addWidget(export_btn);
   connect(export_btn, &QPushButton::clicked, this, &ExportDialog::StartExport);
 
-  QPushButton *cancel_btn = new QPushButton(tr("Cancel"));
+  auto *cancel_btn = new QPushButton(tr("Cancel"));
   btn_layout->addWidget(cancel_btn);
   connect(cancel_btn, &QPushButton::clicked, this, &ExportDialog::reject);
 
@@ -199,8 +199,8 @@ ExportDialog::ExportDialog(ViewerOutput *viewer_node, bool stills_only_mode, QWi
 
   splitter->addWidget(preferences_area_);
 
-  QWidget *preview_area = new QWidget();
-  QVBoxLayout *preview_layout = new QVBoxLayout(preview_area);
+  auto *preview_area = new QWidget();
+  auto *preview_layout = new QVBoxLayout(preview_area);
   preview_layout->addWidget(new QLabel(tr("Preview")));
   preview_viewer_ = new ViewerWidget();
   preview_viewer_->ruler()->SetMarkerEditingEnabled(false);
@@ -346,7 +346,7 @@ void ExportDialog::StartExport() {
     return;
   }
 
-  ExportTask *task = new ExportTask(viewer_node_, color_manager_, GenerateParams());
+  auto *task = new ExportTask(viewer_node_, color_manager_, GenerateParams());
 
   if (export_bkg_box_->isChecked()) {
     // Send to TaskManager to export in background
@@ -354,14 +354,14 @@ void ExportDialog::StartExport() {
     this->accept();
   } else {
     // Use modal dialog box
-    TaskDialog *td = new TaskDialog(task, tr("Export"), this);
+    auto *td = new TaskDialog(task, tr("Export"), this);
     connect(td, &TaskDialog::TaskSucceeded, this, &ExportDialog::ExportFinished);
     td->open();
   }
 }
 
 void ExportDialog::ExportFinished() {
-  TaskDialog *td = dynamic_cast<TaskDialog *>(sender());
+  auto *td = dynamic_cast<TaskDialog *>(sender());
 
   if (td->GetTask()->IsCancelled()) {
     // If this task was cancelled, we stay open so the user can potentially queue another export
@@ -411,7 +411,7 @@ void ExportDialog::PresetComboBoxChanged() {
     return;
   }
 
-  QComboBox *c = dynamic_cast<QComboBox *>(sender());
+  auto *c = dynamic_cast<QComboBox *>(sender());
 
   int preset_number = c->currentData().toInt();
   if (preset_number == kPresetDefault) {
@@ -424,7 +424,7 @@ void ExportDialog::PresetComboBoxChanged() {
 }
 
 void ExportDialog::AddPreferencesTab(QWidget *inner_widget, const QString &title) {
-  QScrollArea *scroll_area = new QScrollArea();
+  auto *scroll_area = new QScrollArea();
   scroll_area->setWidgetResizable(true);
   scroll_area->setWidget(inner_widget);
   preferences_tabs_->addTab(scroll_area, title);
@@ -553,7 +553,7 @@ void ExportDialog::SetDefaultFilename() {
 }
 
 bool ExportDialog::SequenceHasSubtitles() const {
-  if (Sequence *s = dynamic_cast<Sequence *>(viewer_node_)) {
+  if (auto *s = dynamic_cast<Sequence *>(viewer_node_)) {
     TrackList *tl = s->track_list(Track::kSubtitle);
     for (Track *t : tl->GetTracks()) {
       if (!t->IsMuted() && !t->Blocks().empty()) {

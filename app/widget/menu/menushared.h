@@ -36,7 +36,7 @@ class MenuShared : public QObject {
   Q_OBJECT
  public:
   MenuShared();
-  virtual ~MenuShared() override;
+  ~MenuShared() override;
 
   static void CreateInstance();
   static void DestroyInstance();

@@ -31,12 +31,12 @@ class FootageDescription {
  public:
   explicit FootageDescription(const QString& decoder = QString()) : decoder_(decoder), total_stream_count_(0) {}
 
-  bool IsValid() const {
+  [[nodiscard]] bool IsValid() const {
     return !decoder_.isEmpty() &&
            (!video_streams_.isEmpty() || !audio_streams_.isEmpty() || !subtitle_streams_.isEmpty());
   }
 
-  const QString& decoder() const { return decoder_; }
+  [[nodiscard]] const QString& decoder() const { return decoder_; }
 
   void AddVideoStream(const VideoParams& video_params) {
     Q_ASSERT(!HasStreamIndex(video_params.stream_index()));
@@ -68,7 +68,7 @@ class FootageDescription {
     }
   }
 
-  bool StreamIsVideo(int index) const {
+  [[nodiscard]] bool StreamIsVideo(int index) const {
     foreach (const VideoParams& vp, video_streams_) {
       if (vp.stream_index() == index) {
         return true;
@@ -78,7 +78,7 @@ class FootageDescription {
     return false;
   }
 
-  bool StreamIsAudio(int index) const {
+  [[nodiscard]] bool StreamIsAudio(int index) const {
     foreach (const AudioParams& ap, audio_streams_) {
       if (ap.stream_index() == index) {
         return true;
@@ -88,7 +88,7 @@ class FootageDescription {
     return false;
   }
 
-  bool StreamIsSubtitle(int index) const {
+  [[nodiscard]] bool StreamIsSubtitle(int index) const {
     foreach (const SubtitleParams& sp, subtitle_streams_) {
       if (sp.stream_index() == index) {
         return true;
@@ -98,24 +98,24 @@ class FootageDescription {
     return false;
   }
 
-  bool HasStreamIndex(int index) const {
+  [[nodiscard]] bool HasStreamIndex(int index) const {
     return StreamIsVideo(index) || StreamIsAudio(index) || StreamIsSubtitle(index);
   }
 
-  int GetStreamCount() const { return total_stream_count_; }
+  [[nodiscard]] int GetStreamCount() const { return total_stream_count_; }
   void SetStreamCount(int s) { total_stream_count_ = s; }
 
   bool Load(const QString& filename);
 
-  bool Save(const QString& filename) const;
+  [[nodiscard]] bool Save(const QString& filename) const;
 
-  const QVector<VideoParams>& GetVideoStreams() const { return video_streams_; }
+  [[nodiscard]] const QVector<VideoParams>& GetVideoStreams() const { return video_streams_; }
   QVector<VideoParams>& GetVideoStreams() { return video_streams_; }
 
-  const QVector<AudioParams>& GetAudioStreams() const { return audio_streams_; }
+  [[nodiscard]] const QVector<AudioParams>& GetAudioStreams() const { return audio_streams_; }
   QVector<AudioParams>& GetAudioStreams() { return audio_streams_; }
 
-  const QVector<SubtitleParams>& GetSubtitleStreams() const { return subtitle_streams_; }
+  [[nodiscard]] const QVector<SubtitleParams>& GetSubtitleStreams() const { return subtitle_streams_; }
   QVector<SubtitleParams>& GetSubtitleStreams() { return subtitle_streams_; }
 
  private:

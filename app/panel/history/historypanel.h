@@ -31,7 +31,7 @@ class HistoryPanel : public PanelWidget {
   HistoryPanel();
 
  protected:
-  virtual void Retranslate() override;
+  void Retranslate() override;
 };
 
 }  // namespace olive

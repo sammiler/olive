@@ -35,12 +35,12 @@ public:
     ///@brief Returns true if this FocusScope is focused.
     /// This is similar to the QWidget::hasFocus(), except that it counts with the children being focused too.
     /// i.e: If any child is focused then this FocusScope has focus too.
-    bool isFocused() const;
+    [[nodiscard]]  bool isFocused() const;
 
     ///@brief Returns the widget that's focused in this scope
     /// The widget itself might not have focus as in QWidget::hasFocus(), but will get actual focus
     /// as soon as this scope is focused.
-    WidgetType *focusedWidget() const;
+    [[nodiscard]]  WidgetType *focusedWidget() const;
 
     ///@brief Sets focus on this scope.
     ///

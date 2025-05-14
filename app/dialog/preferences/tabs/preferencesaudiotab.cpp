@@ -30,11 +30,11 @@
 namespace olive {
 
 PreferencesAudioTab::PreferencesAudioTab() {
-  QVBoxLayout *audio_tab_layout = new QVBoxLayout(this);
+  auto *audio_tab_layout = new QVBoxLayout(this);
 
   {
     // Backend Layout
-    QGridLayout *main_layout = new QGridLayout();
+    auto *main_layout = new QGridLayout();
     main_layout->setContentsMargins(0, 0, 0, 0);
 
     int row = 0;
@@ -50,20 +50,20 @@ PreferencesAudioTab::PreferencesAudioTab() {
   }
 
   {
-    QGroupBox *groupbox = new QGroupBox();
+    auto *groupbox = new QGroupBox();
     audio_tab_layout->addWidget(groupbox);
 
-    QVBoxLayout *layout = new QVBoxLayout(groupbox);
+    auto *layout = new QVBoxLayout(groupbox);
 
     int row = 0;
 
     {
       // Output Group
-      QGroupBox *output_group = new QGroupBox();
+      auto *output_group = new QGroupBox();
       output_group->setTitle(tr("Output"));
       layout->addWidget(output_group);
 
-      QGridLayout *output_layout = new QGridLayout(output_group);
+      auto *output_layout = new QGridLayout(output_group);
 
       output_layout->addWidget(new QLabel(tr("Device:")), row, 0);
 
@@ -75,10 +75,10 @@ PreferencesAudioTab::PreferencesAudioTab() {
       {
         int output_row = 0;
 
-        QGroupBox *output_param_group = new QGroupBox(tr("Advanced"));
+        auto *output_param_group = new QGroupBox(tr("Advanced"));
         output_layout->addWidget(output_param_group, row, 0, 1, 2);
 
-        QGridLayout *output_param_layout = new QGridLayout(output_param_group);
+        auto *output_param_layout = new QGridLayout(output_param_group);
 
         output_param_layout->addWidget(new QLabel(tr("Sample Rate:")), output_row, 0);
 
@@ -109,11 +109,11 @@ PreferencesAudioTab::PreferencesAudioTab() {
     row = 0;
 
     {
-      QGroupBox *input_group = new QGroupBox();
+      auto *input_group = new QGroupBox();
       input_group->setTitle(tr("Input"));
       layout->addWidget(input_group);
 
-      QGridLayout *input_layout = new QGridLayout(input_group);
+      auto *input_layout = new QGridLayout(input_group);
 
       input_layout->addWidget(new QLabel(tr("Device:")), row, 0);
 
@@ -122,12 +122,12 @@ PreferencesAudioTab::PreferencesAudioTab() {
 
       row++;
 
-      QGroupBox *recording_group = new QGroupBox(tr("Recording"));
+      auto *recording_group = new QGroupBox(tr("Recording"));
       input_layout->addWidget(recording_group, row, 0, 1, 2);
 
-      QVBoxLayout *recording_layout = new QVBoxLayout(recording_group);
+      auto *recording_layout = new QVBoxLayout(recording_group);
 
-      QHBoxLayout *fmt_layout = new QHBoxLayout();
+      auto *fmt_layout = new QHBoxLayout();
       recording_layout->addLayout(fmt_layout);
 
       fmt_layout->addWidget(new QLabel(tr("Format:")));
@@ -151,7 +151,7 @@ PreferencesAudioTab::PreferencesAudioTab() {
       connect(record_format_combo_, &ExportFormatComboBox::FormatChanged, record_options_, &ExportAudioTab::SetFormat);
     }
 
-    QHBoxLayout *refresh_layout = new QHBoxLayout();
+    auto *refresh_layout = new QHBoxLayout();
     layout->addLayout(refresh_layout);
     refresh_layout->addStretch();
 
@@ -171,8 +171,8 @@ void PreferencesAudioTab::Accept(MultiUndoCommand *command) {
   Q_UNUSED(command)
 
   // Get device indexes
-  PaDeviceIndex output_device = audio_output_devices_->currentData().value<PaDeviceIndex>();
-  PaDeviceIndex input_device = audio_input_devices_->currentData().value<PaDeviceIndex>();
+  auto output_device = audio_output_devices_->currentData().value<PaDeviceIndex>();
+  auto input_device = audio_input_devices_->currentData().value<PaDeviceIndex>();
 
   // Get device names, which seem to be the closest thing we have to a "unique identifier" for them
   OLIVE_CONFIG("AudioOutput") = audio_output_devices_->currentText();

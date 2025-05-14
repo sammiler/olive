@@ -33,11 +33,11 @@ class TimelineAndTrackView : public QWidget {
  public:
   explicit TimelineAndTrackView(Qt::Alignment vertical_alignment = Qt::AlignTop, QWidget* parent = nullptr);
 
-  QSplitter* splitter() const;
+  [[nodiscard]] QSplitter* splitter() const;
 
-  TimelineView* view() const;
+  [[nodiscard]] TimelineView* view() const;
 
-  TrackView* track_view() const;
+  [[nodiscard]] TrackView* track_view() const;
 
  private:
   QSplitter* splitter_;

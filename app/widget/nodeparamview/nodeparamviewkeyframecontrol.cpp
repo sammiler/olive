@@ -30,7 +30,7 @@
 namespace olive {
 
 NodeParamViewKeyframeControl::NodeParamViewKeyframeControl(bool right_align, QWidget* parent) : QWidget(parent) {
-  QHBoxLayout* layout = new QHBoxLayout(this);
+  auto* layout = new QHBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
   layout->setSpacing(0);
 
@@ -103,7 +103,7 @@ void NodeParamViewKeyframeControl::TimeTargetConnectEvent(ViewerOutput* v) {
 }
 
 QPushButton* NodeParamViewKeyframeControl::CreateNewToolButton(const QIcon& icon) const {
-  QPushButton* btn = new QPushButton();
+  auto* btn = new QPushButton();
   btn->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
   btn->setIcon(icon);
 
@@ -136,14 +136,14 @@ void NodeParamViewKeyframeControl::ToggleKeyframe(bool e) {
 
   QVector<NodeKeyframe*> keys = input_.node()->GetKeyframesAtTime(input_, node_time);
 
-  MultiUndoCommand* command = new MultiUndoCommand();
+  auto* command = new MultiUndoCommand();
 
   int nb_tracks = input_.node()->GetNumberOfKeyframeTracks(input_);
 
   if (e && keys.isEmpty()) {
     // Add a keyframe here (one for each track)
     for (int i = 0; i < nb_tracks; i++) {
-      NodeKeyframe* key = new NodeKeyframe(node_time, input_.node()->GetSplitValueAtTimeOnTrack(input_, node_time, i),
+      auto* key = new NodeKeyframe(node_time, input_.node()->GetSplitValueAtTimeOnTrack(input_, node_time, i),
                                            input_.node()->GetBestKeyframeTypeForTimeOnTrack(input_, node_time, i), i,
                                            input_.element(), input_.input());
 
@@ -209,7 +209,7 @@ void NodeParamViewKeyframeControl::KeyframeEnableBtnClicked(bool e) {
     return;
   }
 
-  MultiUndoCommand* command = new MultiUndoCommand();
+  auto* command = new MultiUndoCommand();
 
   QString command_name;
 
@@ -221,7 +221,7 @@ void NodeParamViewKeyframeControl::KeyframeEnableBtnClicked(bool e) {
     const QVector<QVariant>& key_vals = input_.node()->GetSplitStandardValue(input_);
 
     for (int i = 0; i < key_vals.size(); i++) {
-      NodeKeyframe* key = new NodeKeyframe(GetCurrentTimeAsNodeTime(), key_vals.at(i), NodeKeyframe::kDefaultType, i,
+      auto* key = new NodeKeyframe(GetCurrentTimeAsNodeTime(), key_vals.at(i), NodeKeyframe::kDefaultType, i,
                                            input_.element(), input_.input());
 
       command->add_child(new NodeParamInsertKeyframeCommand(input_.node(), key));

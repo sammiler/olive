@@ -37,7 +37,7 @@ class NodeParamViewArrayButton : public QPushButton {
   explicit NodeParamViewArrayButton(Type type, QWidget* parent = nullptr);
 
  protected:
-  virtual void changeEvent(QEvent* event) override;
+  void changeEvent(QEvent* event) override;
 
  private:
   void Retranslate();
@@ -54,7 +54,7 @@ class NodeParamViewArrayWidget : public QWidget {
   void DoubleClicked();
 
  protected:
-  virtual void mouseDoubleClickEvent(QMouseEvent* event) override;
+  void mouseDoubleClickEvent(QMouseEvent* event) override;
 
  private:
   Node* node_;

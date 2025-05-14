@@ -46,7 +46,7 @@ class Config {
 
   QVariant& operator[](const QString&);
 
-  NodeValue::Type GetConfigEntryType(const QString& key) const;
+  [[nodiscard]] NodeValue::Type GetConfigEntryType(const QString& key) const;
 
  private:
   Config();

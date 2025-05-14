@@ -30,10 +30,10 @@ public:
     explicit DropIndicatorOverlayInterface(DropArea *dropArea);
     void setHoveredFrame(Frame *);
     void setWindowBeingDragged(bool);
-    QRect hoveredFrameRect() const;
-    bool isHovered() const;
-    DropLocation currentDropLocation() const;
-    Frame *hoveredFrame() const
+    [[nodiscard]]  QRect hoveredFrameRect() const;
+    [[nodiscard]]  bool isHovered() const;
+    [[nodiscard]]  DropLocation currentDropLocation() const;
+    [[nodiscard]]  Frame *hoveredFrame() const
     {
         return m_hoveredFrame;
     }
@@ -46,10 +46,10 @@ public:
 
     /// @brief returns the position of the specified drop location
     /// The return is in global coordinates
-    virtual QPoint posForIndicator(DropLocation) const = 0;
+    [[nodiscard]]  virtual QPoint posForIndicator(DropLocation) const = 0;
 
     /// @brief Returns whether the specified drop indicator should be visible
-    virtual bool dropIndicatorVisible(DropLocation) const;
+    [[nodiscard]]  virtual bool dropIndicatorVisible(DropLocation) const;
 
     static KDDockWidgets::Location multisplitterLocationFor(DropLocation);
 

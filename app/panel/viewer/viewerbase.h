@@ -32,17 +32,17 @@ class ViewerPanelBase : public TimeBasedPanel {
  public:
   explicit ViewerPanelBase(const QString &object_name);
 
-  ViewerWidget *GetViewerWidget() const { return dynamic_cast<ViewerWidget *>(GetTimeBasedWidget()); }
+  [[nodiscard]] ViewerWidget *GetViewerWidget() const { return dynamic_cast<ViewerWidget *>(GetTimeBasedWidget()); }
 
-  virtual void PlayPause() override;
+  void PlayPause() override;
 
-  virtual void PlayInToOut() override;
+  void PlayInToOut() override;
 
-  virtual void ShuttleLeft() override;
+  void ShuttleLeft() override;
 
-  virtual void ShuttleStop() override;
+  void ShuttleStop() override;
 
-  virtual void ShuttleRight() override;
+  void ShuttleRight() override;
 
   void ConnectTimeBasedPanel(TimeBasedPanel *panel);
 

@@ -158,7 +158,7 @@ class Menu : public QMenu {
   static QAction* CreateItem(QObject* parent, const QString& id,
                              const typename QtPrivate::FunctionPointer<Func>::Object* receiver, Func member,
                              const QKeySequence& key = QKeySequence()) {
-    QAction* a = new QAction(parent);
+    auto* a = new QAction(parent);
 
     ConformItem(a, id, receiver, member, key);
 

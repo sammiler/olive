@@ -48,7 +48,7 @@ class ManagedDisplayWidgetOpenGL
  public:
   ManagedDisplayWidgetOpenGL() = default;
 
-  virtual ~ManagedDisplayWidgetOpenGL() override {
+  ~ManagedDisplayWidgetOpenGL() override {
     if (context()) {
       DestroyListener();
       disconnect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &ManagedDisplayWidgetOpenGL::DestroyListener);
@@ -62,14 +62,14 @@ class ManagedDisplayWidgetOpenGL
   void OnDestroy();
 
  protected:
-  virtual void initializeGL() override {
+  void initializeGL() override {
     connect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &ManagedDisplayWidgetOpenGL::DestroyListener,
             Qt::DirectConnection);
 
     emit OnInit();
   }
 
-  virtual void paintGL() override { emit OnPaint(); }
+  void paintGL() override { emit OnPaint(); }
 
  private slots:
   void DestroyListener() {
@@ -93,7 +93,7 @@ class ManagedDisplayWidget : public QWidget {
  public:
   explicit ManagedDisplayWidget(QWidget* parent = nullptr);
 
-  virtual ~ManagedDisplayWidget() override;
+  ~ManagedDisplayWidget() override;
 
   /**
    * @brief Disconnect a ColorManager (equivalent to ConnectColorManager(nullptr))
@@ -103,12 +103,12 @@ class ManagedDisplayWidget : public QWidget {
   /**
    * @brief Access currently connected ColorManager (nullptr if none)
    */
-  ColorManager* color_manager() const;
+  [[nodiscard]] ColorManager* color_manager() const;
 
   /**
    * @brief Get current color transform
    */
-  const ColorTransform& GetColorTransform() const;
+  [[nodiscard]] const ColorTransform& GetColorTransform() const;
 
   /**
    * @brief Get menu that can be used to select the colorspace
@@ -135,7 +135,7 @@ class ManagedDisplayWidget : public QWidget {
    */
   void update();
 
-  virtual bool eventFilter(QObject* o, QEvent* e) override;
+  bool eventFilter(QObject* o, QEvent* e) override;
 
  public slots:
   /**
@@ -179,7 +179,7 @@ class ManagedDisplayWidget : public QWidget {
    */
   virtual void ColorProcessorChangedEvent();
 
-  Renderer* renderer() const { return attached_renderer_; }
+  [[nodiscard]] Renderer* renderer() const { return attached_renderer_; }
 
   void makeCurrent();
 
@@ -188,7 +188,7 @@ class ManagedDisplayWidget : public QWidget {
 #ifdef USE_QOPENGLWINDOW
   QWindow*
 #else
-  QWidget*
+  [[nodiscard]] QWidget*
 #endif
   inner_widget() const {
     return inner_widget_;
@@ -200,13 +200,13 @@ class ManagedDisplayWidget : public QWidget {
    * NOTE: This will be incompatible with QVulkanWindow so functions using it
    *       will need to be replaced soon.
    */
-  QPaintDevice* paint_device() const;
+  [[nodiscard]] QPaintDevice* paint_device() const;
 
   void SetInnerMouseTracking(bool e);
 
-  QRect GetInnerRect() const { return wrapper_ ? wrapper_->rect() : QRect(); }
+  [[nodiscard]] QRect GetInnerRect() const { return wrapper_ ? wrapper_->rect() : QRect(); }
 
-  VideoParams GetViewportParams() const;
+  [[nodiscard]] VideoParams GetViewportParams() const;
 
  protected slots:
   /**

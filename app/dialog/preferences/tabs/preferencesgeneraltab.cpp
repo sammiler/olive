@@ -33,11 +33,11 @@
 namespace olive {
 
 PreferencesGeneralTab::PreferencesGeneralTab() {
-  QVBoxLayout* layout = new QVBoxLayout(this);
+  auto* layout = new QVBoxLayout(this);
 
   {
-    QGroupBox* global_groupbox = new QGroupBox(tr("Locale"));
-    QGridLayout* global_layout = new QGridLayout(global_groupbox);
+    auto* global_groupbox = new QGroupBox(tr("Locale"));
+    auto* global_layout = new QGridLayout(global_groupbox);
     layout->addWidget(global_groupbox);
 
     int row = 0;
@@ -70,13 +70,13 @@ PreferencesGeneralTab::PreferencesGeneralTab() {
   }
 
   {
-    QGroupBox* timeline_groupbox = new QGroupBox(tr("Timeline"));
-    QGridLayout* timeline_layout = new QGridLayout(timeline_groupbox);
+    auto* timeline_groupbox = new QGroupBox(tr("Timeline"));
+    auto* timeline_layout = new QGridLayout(timeline_groupbox);
     layout->addWidget(timeline_groupbox);
 
     int row = 0;
 
-    QLabel* autoscroll_lbl = new QLabel(tr("Auto-Scroll Method:"));
+    auto* autoscroll_lbl = new QLabel(tr("Auto-Scroll Method:"));
     autoscroll_lbl->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     timeline_layout->addWidget(autoscroll_lbl, row, 0);
 
@@ -109,8 +109,8 @@ PreferencesGeneralTab::PreferencesGeneralTab() {
   }
 
   {
-    QGroupBox* autorecovery_groupbox = new QGroupBox(tr("Auto-Recovery"));
-    QGridLayout* autorecovery_layout = new QGridLayout(autorecovery_groupbox);
+    auto* autorecovery_groupbox = new QGroupBox(tr("Auto-Recovery"));
+    auto* autorecovery_layout = new QGridLayout(autorecovery_groupbox);
     layout->addWidget(autorecovery_groupbox);
 
     int row = 0;
@@ -144,7 +144,7 @@ PreferencesGeneralTab::PreferencesGeneralTab() {
 
     row++;
 
-    QPushButton* browse_autorecoveries = new QPushButton(tr("Browse Auto-Recoveries"));
+    auto* browse_autorecoveries = new QPushButton(tr("Browse Auto-Recoveries"));
     connect(browse_autorecoveries, &QPushButton::clicked, Core::instance(), &Core::BrowseAutoRecoveries);
     autorecovery_layout->addWidget(browse_autorecoveries, row, 1);
   }

@@ -51,13 +51,13 @@ CrashHandlerDialog::CrashHandlerDialog(QObject* parent, const QString& report_pa
   report_filename_ = report_path;
   waiting_for_upload_ = false;
 
-  QVBoxLayout* layout = new QVBoxLayout(this);
+  auto* layout = new QVBoxLayout(this);
 
   layout->addWidget(
       new QLabel(tr("We're sorry, Olive has crashed. Please help us fix it by "
                     "sending an error report.")));
 
-  QSplitter* splitter = new QSplitter(Qt::Vertical);
+  auto* splitter = new QSplitter(Qt::Vertical);
   splitter->setChildrenCollapsible(false);
   layout->addWidget(splitter);
 
@@ -68,8 +68,8 @@ CrashHandlerDialog::CrashHandlerDialog(QObject* parent, const QString& report_pa
 
   splitter->addWidget(summary_edit_);
 
-  QWidget* crash_widget = new QWidget();
-  QVBoxLayout* crash_widget_layout = new QVBoxLayout(crash_widget);
+  auto* crash_widget = new QWidget();
+  auto* crash_widget_layout = new QVBoxLayout(crash_widget);
   crash_widget_layout->setMargin(0);
 
   crash_widget_layout->addWidget(new QLabel(tr("Crash Report:")));
@@ -81,7 +81,7 @@ CrashHandlerDialog::CrashHandlerDialog(QObject* parent, const QString& report_pa
 
   splitter->addWidget(crash_widget);
 
-  QHBoxLayout* btn_layout = new QHBoxLayout();
+  auto* btn_layout = new QHBoxLayout();
   btn_layout->setMargin(0);
   btn_layout->addStretch();
 
@@ -128,7 +128,7 @@ QString CrashHandlerDialog::GetSymbolPath() {
 }
 
 void CrashHandlerDialog::GenerateReport() {
-  QProcess* p = new QProcess();
+  auto* p = new QProcess();
 
   connect(p, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this,
           &CrashHandlerDialog::ReadProcessFinished);
@@ -206,7 +206,7 @@ void CrashHandlerDialog::SendErrorReport() {
     return;
   }
 
-  QNetworkAccessManager* manager = new QNetworkAccessManager();
+  auto* manager = new QNetworkAccessManager();
   connect(manager, &QNetworkAccessManager::finished, this, &CrashHandlerDialog::ReplyFinished);
   connect(manager, &QNetworkAccessManager::sslErrors, this, &CrashHandlerDialog::HandleSslErrors);
 
@@ -215,7 +215,7 @@ void CrashHandlerDialog::SendErrorReport() {
   request.setUrl(QStringLiteral("https://olivevideoeditor.org/crashpad/report.php"));
 
   // Create HTTP form
-  QHttpMultiPart* multipart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
+  auto* multipart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
 
   // Create description section
   QHttpPart desc_part;
@@ -244,7 +244,7 @@ void CrashHandlerDialog::SendErrorReport() {
   dump_part.setHeader(
       QNetworkRequest::ContentDispositionHeader,
       QStringLiteral("form-data; name=\"dump\"; filename=\"%1\"").arg(QFileInfo(report_filename_).fileName()));
-  QFile* dump_file = new QFile(report_filename_);
+  auto* dump_file = new QFile(report_filename_);
   dump_file->open(QFile::ReadOnly);
   dump_part.setBodyDevice(dump_file);
   dump_file->setParent(multipart);  // Delete file with multipart

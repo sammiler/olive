@@ -49,7 +49,7 @@ public:
     Q_DECLARE_FLAGS(DockByNameFlags, DockByNameFlag)
 
     static DockRegistry *self();
-    ~DockRegistry();
+    ~DockRegistry() override;
     void registerDockWidget(DockWidgetBase *);
     void unregisterDockWidget(DockWidgetBase *);
 

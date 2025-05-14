@@ -34,11 +34,11 @@ class MulticamDisplay : public ViewerDisplayWidget {
   void SetMulticamNode(MultiCamNode *n);
 
  protected:
-  virtual void OnPaint() override;
+  void OnPaint() override;
 
-  virtual void OnDestroy() override;
+  void OnDestroy() override;
 
-  virtual TexturePtr LoadCustomTextureFromFrame(const QVariant &v) override;
+  TexturePtr LoadCustomTextureFromFrame(const QVariant &v) override;
 
  private:
   static QString GenerateShaderCode(int rows, int cols);

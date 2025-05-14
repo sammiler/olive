@@ -38,7 +38,7 @@ class ColorPreviewBox : public QWidget {
   void SetColor(const Color& c);
 
  protected:
-  virtual void paintEvent(QPaintEvent* e) override;
+  void paintEvent(QPaintEvent* e) override;
 
  private:
   Color color_;

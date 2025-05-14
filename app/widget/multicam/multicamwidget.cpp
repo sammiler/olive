@@ -110,7 +110,7 @@ void MulticamWidget::Switch(int source, bool split_clip) {
     return;
   }
 
-  MultiUndoCommand *command = new MultiUndoCommand();
+  auto *command = new MultiUndoCommand();
 
   MultiCamNode *cam = node_;
   ClipBlock *clip = clip_;
@@ -137,7 +137,7 @@ void MulticamWidget::Switch(int source, bool split_clip) {
       new NodeParamSetStandardValueCommand(NodeKeyframeTrackReference(NodeInput(cam, cam->kCurrentInput)), source));
 
   for (Block *link : clip->block_links()) {
-    if (ClipBlock *clink = dynamic_cast<ClipBlock *>(link)) {
+    if (auto *clink = dynamic_cast<ClipBlock *>(link)) {
       if (MultiCamNode *mlink = clink->FindMulticam()) {
         command->add_child(new NodeParamSetStandardValueCommand(
             NodeKeyframeTrackReference(NodeInput(mlink, mlink->kCurrentInput)), source));

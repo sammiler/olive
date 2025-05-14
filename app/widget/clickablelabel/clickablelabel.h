@@ -34,8 +34,8 @@ class ClickableLabel : public QLabel {
   explicit ClickableLabel(QWidget* parent = nullptr);
 
  protected:
-  virtual void mouseReleaseEvent(QMouseEvent* event) override;
-  virtual void mouseDoubleClickEvent(QMouseEvent* event) override;
+  void mouseReleaseEvent(QMouseEvent* event) override;
+  void mouseDoubleClickEvent(QMouseEvent* event) override;
 
  signals:
   void MouseClicked();

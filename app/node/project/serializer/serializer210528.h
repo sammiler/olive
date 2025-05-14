@@ -30,9 +30,9 @@ class ProjectSerializer210528 : public ProjectSerializer {
   ProjectSerializer210528() = default;
 
  protected:
-  virtual LoadData Load(Project *project, QXmlStreamReader *reader, LoadType load_type, void *reserved) const override;
+  LoadData Load(Project *project, QXmlStreamReader *reader, LoadType load_type, void *reserved) const override;
 
-  virtual uint Version() const override { return 210528; }
+  [[nodiscard]] uint Version() const override { return 210528; }
 
  private:
   struct XMLNodeData {

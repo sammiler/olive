@@ -22,6 +22,6 @@
 
 namespace olive {
 
-CLIExportManager::CLIExportManager() {}
+CLIExportManager::CLIExportManager() = default;
 
 }  // namespace olive

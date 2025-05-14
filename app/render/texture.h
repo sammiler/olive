@@ -58,9 +58,9 @@ class Texture {
 
   ~Texture();
 
-  QVariant id() const { return id_; }
+  [[nodiscard]] QVariant id() const { return id_; }
 
-  const VideoParams& params() const { return params_; }
+  [[nodiscard]] const VideoParams& params() const { return params_; }
 
   template <typename T>
   static TexturePtr Job(const VideoParams& p, const T& j) {
@@ -76,26 +76,26 @@ class Texture {
 
   void Download(void* data, int linesize);
 
-  bool IsDummy() const { return !renderer_; }
+  [[nodiscard]] bool IsDummy() const { return !renderer_; }
 
-  int width() const { return params_.effective_width(); }
+  [[nodiscard]] int width() const { return params_.effective_width(); }
 
-  int height() const { return params_.effective_height(); }
+  [[nodiscard]] int height() const { return params_.effective_height(); }
 
-  QVector2D virtual_resolution() const { return QVector2D(params_.square_pixel_width(), params_.height()); }
+  [[nodiscard]] QVector2D virtual_resolution() const { return QVector2D(params_.square_pixel_width(), params_.height()); }
 
-  PixelFormat format() const { return params_.format(); }
+  [[nodiscard]] PixelFormat format() const { return params_.format(); }
 
-  int channel_count() const { return params_.channel_count(); }
+  [[nodiscard]] int channel_count() const { return params_.channel_count(); }
 
-  int divider() const { return params_.divider(); }
+  [[nodiscard]] int divider() const { return params_.divider(); }
 
-  const rational& pixel_aspect_ratio() const { return params_.pixel_aspect_ratio(); }
+  [[nodiscard]] const rational& pixel_aspect_ratio() const { return params_.pixel_aspect_ratio(); }
 
-  Renderer* renderer() const { return renderer_; }
+  [[nodiscard]] Renderer* renderer() const { return renderer_; }
 
-  bool IsJob() const { return job_; }
-  AcceleratedJob* job() const { return job_; }
+  [[nodiscard]] bool IsJob() const { return job_; }
+  [[nodiscard]] AcceleratedJob* job() const { return job_; }
 
  private:
   Renderer* renderer_;

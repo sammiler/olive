@@ -66,14 +66,14 @@ class PanelManager : public QObject {
    *
    * This result == CurrentlyFocused() if HoverFocus is true and panel is hovered
    */
-  PanelWidget* CurrentlyFocused(bool enable_hover = true) const;
+  [[nodiscard]] PanelWidget* CurrentlyFocused(bool enable_hover = true) const;
 
   /**
    * @brief Return the widget that the mouse is currently hovering over, or nullptr if nothing is hovered over
    */
-  PanelWidget* CurrentlyHovered() const;
+  [[nodiscard]] PanelWidget* CurrentlyHovered() const;
 
-  PanelWidget* GetPanelWithName(const QString& name) const;
+  [[nodiscard]] PanelWidget* GetPanelWithName(const QString& name) const;
 
   template <class T>
   /**

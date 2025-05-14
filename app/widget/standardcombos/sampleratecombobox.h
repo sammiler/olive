@@ -39,7 +39,7 @@ class SampleRateComboBox : public QComboBox {
     }
   }
 
-  int GetSampleRate() const { return this->currentData().toInt(); }
+  [[nodiscard]] int GetSampleRate() const { return this->currentData().toInt(); }
 
   void SetSampleRate(int rate) {
     for (int i = 0; i < this->count(); i++) {

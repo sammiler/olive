@@ -38,20 +38,20 @@ namespace olive {
 
 ProjectPropertiesDialog::ProjectPropertiesDialog(Project* p, QWidget* parent)
     : super(parent), working_project_(p), ocio_config_is_valid_(true) {
-  QVBoxLayout* layout = new QVBoxLayout(this);
+  auto* layout = new QVBoxLayout(this);
 
   setWindowTitle(tr("Project Properties for '%1'").arg(working_project_->name()));
 
-  QTabWidget* tabs = new QTabWidget;
+  auto* tabs = new QTabWidget;
   layout->addWidget(tabs);
 
   {
     // Color management group
-    QWidget* color_group = new QWidget();
+    auto* color_group = new QWidget();
 
-    QVBoxLayout* color_outer_layout = new QVBoxLayout(color_group);
+    auto* color_outer_layout = new QVBoxLayout(color_group);
 
-    QGridLayout* color_layout = new QGridLayout();
+    auto* color_layout = new QGridLayout();
     color_outer_layout->addLayout(color_layout);
 
     int row = 0;
@@ -81,7 +81,7 @@ ProjectPropertiesDialog::ProjectPropertiesDialog(Project* p, QWidget* parent)
 
     row++;
 
-    QPushButton* browse_btn = new QPushButton(tr("Browse"));
+    auto* browse_btn = new QPushButton(tr("Browse"));
     color_layout->addWidget(browse_btn, 0, 2);
     connect(browse_btn, &QPushButton::clicked, this, &ProjectPropertiesDialog::BrowseForOCIOConfig);
 
@@ -97,11 +97,11 @@ ProjectPropertiesDialog::ProjectPropertiesDialog(Project* p, QWidget* parent)
 
   {
     // Cache group
-    QWidget* cache_group = new QWidget();
+    auto* cache_group = new QWidget();
 
-    QVBoxLayout* cache_layout = new QVBoxLayout(cache_group);
+    auto* cache_layout = new QVBoxLayout(cache_group);
 
-    QButtonGroup* disk_cache_btn_group = new QButtonGroup();
+    auto* disk_cache_btn_group = new QButtonGroup();
 
     // Create radio buttons and add to widget and button group
     disk_cache_radios_[Project::kCacheUseDefaultLocation] = new QRadioButton(tr("Use Default Location"));
@@ -125,14 +125,14 @@ ProjectPropertiesDialog::ProjectPropertiesDialog(Project* p, QWidget* parent)
     disk_cache_radios_[working_project_->GetCacheLocationSetting()]->setChecked(true);
 
     // Add disk cache settings button
-    QPushButton* disk_cache_settings_btn = new QPushButton(tr("Disk Cache Settings"));
+    auto* disk_cache_settings_btn = new QPushButton(tr("Disk Cache Settings"));
     connect(disk_cache_settings_btn, &QPushButton::clicked, this, &ProjectPropertiesDialog::OpenDiskCacheSettings);
     cache_layout->addWidget(disk_cache_settings_btn);
 
     tabs->addTab(cache_group, tr("Disk Cache"));
   }
 
-  QDialogButtonBox* dialog_btns = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal);
+  auto* dialog_btns = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal);
   layout->addWidget(dialog_btns);
   connect(dialog_btns, &QDialogButtonBox::accepted, this, &ProjectPropertiesDialog::accept);
   connect(dialog_btns, &QDialogButtonBox::rejected, this, &ProjectPropertiesDialog::reject);

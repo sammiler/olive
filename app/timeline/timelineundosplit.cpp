@@ -55,15 +55,15 @@ void BlockSplitCommand::redo() {
   // Insert new block
   track->InsertBlockAfter(new_block(), block_);
 
-  if (ClipBlock* new_clip = dynamic_cast<ClipBlock*>(new_block_)) {
-    ClipBlock* old_clip = dynamic_cast<ClipBlock*>(block_);
+  if (auto* new_clip = dynamic_cast<ClipBlock*>(new_block_)) {
+    auto* old_clip = dynamic_cast<ClipBlock*>(block_);
     new_clip->AddCachePassthroughFrom(old_clip);
   }
 
   // If the block had an out transition, we move it to the new block
   moved_transition_ = NodeInput();
 
-  TransitionBlock* potential_transition = dynamic_cast<TransitionBlock*>(new_block()->next());
+  auto* potential_transition = dynamic_cast<TransitionBlock*>(new_block()->next());
   if (potential_transition) {
     for (const Node::OutputConnection& output : block_->output_connections()) {
       if (output.second.node() == potential_transition) {
@@ -122,7 +122,7 @@ void BlockSplitPreservingLinksCommand::prepare() {
       Block* b = blocks_.at(j);
 
       if (b->in() < time && b->out() > time) {
-        BlockSplitCommand* split_command = new BlockSplitCommand(b, time);
+        auto* split_command = new BlockSplitCommand(b, time);
         split_command->redo_now();
         splits.replace(j, split_command->new_block());
         commands_.append(split_command);
@@ -149,7 +149,7 @@ void BlockSplitPreservingLinksCommand::prepare() {
         // These blocks are linked, ensure all the splits are linked too
 
         foreach (const QVector<Block*>& split_list, splits_) {
-          NodeLinkCommand* blc = new NodeLinkCommand(split_list.at(i), split_list.at(j), true);
+          auto* blc = new NodeLinkCommand(split_list.at(i), split_list.at(j), true);
           blc->redo_now();
           commands_.append(blc);
         }

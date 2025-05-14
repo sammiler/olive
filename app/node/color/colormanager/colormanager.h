@@ -37,11 +37,11 @@ class ColorManager : public QObject {
 
   void Init();
 
-  OCIO::ConstConfigRcPtr GetConfig() const;
+  [[nodiscard]] OCIO::ConstConfigRcPtr GetConfig() const;
 
   static OCIO::ConstConfigRcPtr CreateConfigFromFile(const QString& filename);
 
-  QString GetConfigFilename() const;
+  [[nodiscard]] QString GetConfigFilename() const;
 
   static OCIO::ConstConfigRcPtr GetDefaultConfig();
 
@@ -59,13 +59,13 @@ class ColorManager : public QObject {
 
   QStringList ListAvailableLooks();
 
-  QStringList ListAvailableColorspaces() const;
+  [[nodiscard]] QStringList ListAvailableColorspaces() const;
 
-  QString GetDefaultInputColorSpace() const;
+  [[nodiscard]] QString GetDefaultInputColorSpace() const;
 
   void SetDefaultInputColorSpace(const QString& s);
 
-  QString GetReferenceColorSpace() const;
+  [[nodiscard]] QString GetReferenceColorSpace() const;
 
   QString GetCompliantColorSpace(const QString& s);
 
@@ -75,7 +75,7 @@ class ColorManager : public QObject {
 
   void GetDefaultLumaCoefs(double* rgb) const;
 
-  Project* project() const;
+  [[nodiscard]] Project* project() const;
 
   void UpdateConfigFromFilename();
 

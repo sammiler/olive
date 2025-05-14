@@ -32,7 +32,7 @@ namespace olive {
 
 PlaybackControls::PlaybackControls(QWidget* parent) : QWidget(parent), time_base_(0) {
   // Create lower controls
-  QHBoxLayout* lower_control_layout = new QHBoxLayout(this);
+  auto* lower_control_layout = new QHBoxLayout(this);
   lower_control_layout->setSpacing(0);
   lower_control_layout->setContentsMargins(0, 0, 0, 0);
 
@@ -46,7 +46,7 @@ PlaybackControls::PlaybackControls(QWidget* parent) : QWidget(parent), time_base
 
   lower_control_layout->addWidget(lower_left_container_);
 
-  QHBoxLayout* lower_left_layout = new QHBoxLayout(lower_left_container_);
+  auto* lower_left_layout = new QHBoxLayout(lower_left_container_);
   lower_left_layout->setSpacing(0);
   lower_left_layout->setContentsMargins(0, 0, 0, 0);
 
@@ -58,17 +58,17 @@ PlaybackControls::PlaybackControls(QWidget* parent) : QWidget(parent), time_base
   lower_left_layout->addStretch();
 
   // This is only here
-  QWidget* blank_widget = new QWidget();
+  auto* blank_widget = new QWidget();
   // new QHBoxLayout(blank_widget);
   blank_widget->setSizePolicy(lower_container_size_policy);
   lower_control_layout->addWidget(blank_widget);
 
   // In the lower-middle, we create playback control buttons
-  QWidget* lower_middle_container = new QWidget();
+  auto* lower_middle_container = new QWidget();
   lower_middle_container->setSizePolicy(lower_container_size_policy);
   lower_control_layout->addWidget(lower_middle_container);
 
-  QHBoxLayout* lower_middle_layout = new QHBoxLayout(lower_middle_container);
+  auto* lower_middle_layout = new QHBoxLayout(lower_middle_container);
   lower_middle_layout->setSpacing(0);
   lower_middle_layout->setContentsMargins(0, 0, 0, 0);
   lower_middle_layout->addStretch();
@@ -117,9 +117,9 @@ PlaybackControls::PlaybackControls(QWidget* parent) : QWidget(parent), time_base
 
   lower_middle_layout->addStretch();
 
-  QWidget* av_btn_widget = new QWidget();
+  auto* av_btn_widget = new QWidget();
   av_btn_widget->setSizePolicy(lower_container_size_policy);
-  QHBoxLayout* av_btn_layout = new QHBoxLayout(av_btn_widget);
+  auto* av_btn_layout = new QHBoxLayout(av_btn_widget);
   av_btn_layout->setSpacing(0);
   av_btn_layout->setContentsMargins(0, 0, 0, 0);
   video_drag_btn_ = new DragButton();
@@ -138,7 +138,7 @@ PlaybackControls::PlaybackControls(QWidget* parent) : QWidget(parent), time_base
   lower_right_container_->setSizePolicy(lower_container_size_policy);
   lower_control_layout->addWidget(lower_right_container_);
 
-  QHBoxLayout* lower_right_layout = new QHBoxLayout(lower_right_container_);
+  auto* lower_right_layout = new QHBoxLayout(lower_right_container_);
   lower_right_layout->setSpacing(0);
   lower_right_layout->setContentsMargins(0, 0, 0, 0);
 

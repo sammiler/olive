@@ -35,7 +35,7 @@
 namespace olive {
 
 TrackViewItem::TrackViewItem(Track *track, QWidget *parent) : QWidget(parent), track_(track) {
-  QHBoxLayout *layout = new QHBoxLayout(this);
+  auto *layout = new QHBoxLayout(this);
   layout->setSpacing(0);
   layout->setContentsMargins(0, 0, 0, 0);
 
@@ -79,7 +79,7 @@ TrackViewItem::TrackViewItem(Track *track, QWidget *parent) : QWidget(parent), t
 }
 
 QPushButton *TrackViewItem::CreateMSLButton(const QColor &checked_color) const {
-  QPushButton *button = new QPushButton();
+  auto *button = new QPushButton();
   button->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
   button->setCheckable(true);
   button->setStyleSheet(QStringLiteral("QPushButton::checked { background: %1; }").arg(checked_color.name()));
@@ -157,7 +157,7 @@ void TrackViewItem::DeleteAllEmptyTracks() {
                               tr("This will delete the following tracks:\n\n%1\n\nDo you wish to continue?")
                                   .arg(track_names_to_remove.join('\n')),
                               QMessageBox::Ok | QMessageBox::Cancel) == QMessageBox::Ok) {
-      MultiUndoCommand *command = new MultiUndoCommand();
+      auto *command = new MultiUndoCommand();
       foreach (Track *track, tracks_to_remove) {
         command->add_child(new TimelineRemoveTrackCommand(track));
       }

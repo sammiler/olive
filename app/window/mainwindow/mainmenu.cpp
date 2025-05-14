@@ -324,7 +324,7 @@ void MainMenu::changeEvent(QEvent* e) {
 
 void MainMenu::ToolItemTriggered() {
   // Assume the sender is a QAction
-  QAction* action = dynamic_cast<QAction*>(sender());
+  auto* action = dynamic_cast<QAction*>(sender());
 
   // Assume its data() is a member of Tool::Item
   Tool::Item tool = static_cast<Tool::Item>(action->data().toInt());
@@ -357,7 +357,7 @@ void MainMenu::ViewMenuAboutToShow() {
   view_full_screen_item_->setChecked(parentWidget()->isFullScreen());
 
   // Make sure we're displaying the correct options for the timebase
-  TimeBasedPanel* p = PanelManager::instance()->MostRecentlyFocused<TimeBasedPanel>();
+  auto* p = PanelManager::instance()->MostRecentlyFocused<TimeBasedPanel>();
   if (p) {
     if (p->timebase().denominator() != 0) {
       view_menu_->addSeparator();
@@ -386,7 +386,7 @@ void MainMenu::ToolsMenuAboutToShow() {
 void MainMenu::PlaybackMenuAboutToShow() { playback_loop_item_->setChecked(OLIVE_CONFIG("Loop").toBool()); }
 
 void MainMenu::SequenceMenuAboutToShow() {
-  TimeBasedPanel* p = PanelManager::instance()->MostRecentlyFocused<TimeBasedPanel>();
+  auto* p = PanelManager::instance()->MostRecentlyFocused<TimeBasedPanel>();
 
   bool can_cache_sequence = (p && p->GetConnectedViewer());
 
@@ -429,14 +429,14 @@ void MainMenu::WindowMenuAboutToShow() {
 void MainMenu::PopulateOpenRecent() {
   if (Core::instance()->GetRecentProjects().isEmpty()) {
     // Insert dummy/disabled action to show there's nothing
-    QAction* a = new QAction(tr("(None)"));
+    auto* a = new QAction(tr("(None)"));
     a->setEnabled(false);
     file_open_recent_menu_->insertAction(file_open_recent_separator_, a);
 
   } else {
     // Populate menu with recently opened projects
     for (int i = 0; i < Core::instance()->GetRecentProjects().size(); i++) {
-      QAction* a = new QAction(Core::instance()->GetRecentProjects().at(i));
+      auto* a = new QAction(Core::instance()->GetRecentProjects().at(i));
       a->setData(i);
       connect(a, &QAction::triggered, this, &MainMenu::OpenRecentItemTriggered);
       file_open_recent_menu_->insertAction(file_open_recent_separator_, a);
@@ -482,8 +482,8 @@ void MainMenu::SelectAllTriggered() { PanelManager::instance()->CurrentlyFocused
 void MainMenu::DeselectAllTriggered() { PanelManager::instance()->CurrentlyFocused()->DeselectAll(); }
 
 void MainMenu::InsertTriggered() {
-  FootageManagementPanel* project_panel = PanelManager::instance()->MostRecentlyFocused<FootageManagementPanel>();
-  TimelinePanel* timeline_panel = PanelManager::instance()->MostRecentlyFocused<TimelinePanel>();
+  auto* project_panel = PanelManager::instance()->MostRecentlyFocused<FootageManagementPanel>();
+  auto* timeline_panel = PanelManager::instance()->MostRecentlyFocused<TimelinePanel>();
 
   if (project_panel && timeline_panel) {
     timeline_panel->InsertFootageAtPlayhead(project_panel->GetSelectedFootage());
@@ -491,8 +491,8 @@ void MainMenu::InsertTriggered() {
 }
 
 void MainMenu::OverwriteTriggered() {
-  FootageManagementPanel* project_panel = PanelManager::instance()->MostRecentlyFocused<FootageManagementPanel>();
-  TimelinePanel* timeline_panel = PanelManager::instance()->MostRecentlyFocused<TimelinePanel>();
+  auto* project_panel = PanelManager::instance()->MostRecentlyFocused<FootageManagementPanel>();
+  auto* timeline_panel = PanelManager::instance()->MostRecentlyFocused<TimelinePanel>();
 
   if (project_panel && timeline_panel) {
     timeline_panel->OverwriteFootageAtPlayhead(project_panel->GetSelectedFootage());

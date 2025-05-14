@@ -114,7 +114,7 @@ void SeekableWidget::SetWorkArea(TimelineWorkArea *workarea) {
 
 void SeekableWidget::DeleteSelected() {
   if (!selection_manager_.IsDragging()) {
-    MultiUndoCommand *command = new MultiUndoCommand();
+    auto *command = new MultiUndoCommand();
 
     foreach (TimelineMarker *marker, selection_manager_.GetSelectedObjects()) {
       command->add_child(new MarkerRemoveCommand(marker));
@@ -147,7 +147,7 @@ bool SeekableWidget::PasteMarkers() {
   if (res == ProjectSerializer::kSuccess) {
     const std::vector<TimelineMarker *> &markers = res.GetLoadData().markers;
     if (!markers.empty()) {
-      MultiUndoCommand *command = new MultiUndoCommand();
+      auto *command = new MultiUndoCommand();
 
       // Normalize markers to start at playhead
       rational min = RATIONAL_MAX;
@@ -190,7 +190,7 @@ void SeekableWidget::mousePressEvent(QMouseEvent *event) {
     if (!(event->modifiers() & Qt::ShiftModifier)) {
       selection_manager_.ClearSelection();
     }
-    if (TimelineMarker *m = dynamic_cast<TimelineMarker *>(resize_item_)) {
+    if (auto *m = dynamic_cast<TimelineMarker *>(resize_item_)) {
       selection_manager_.Select(m);
     }
     dragging_ = true;
@@ -246,7 +246,7 @@ void SeekableWidget::mouseReleaseEvent(QMouseEvent *event) {
   }
 
   if (selection_manager_.IsDragging()) {
-    MultiUndoCommand *command = new MultiUndoCommand();
+    auto *command = new MultiUndoCommand();
     selection_manager_.DragStop(command);
     Core::instance()->undo_stack()->push(command,
                                          tr("Moved %1 Marker(s)").arg(selection_manager_.GetSelectedObjects().size()));
@@ -353,7 +353,7 @@ void SeekableWidget::DeselectAllMarkers() {
 }
 
 void SeekableWidget::SetMarkerColor(int c) {
-  MultiUndoCommand *command = new MultiUndoCommand();
+  auto *command = new MultiUndoCommand();
 
   foreach (TimelineMarker *marker, selection_manager_.GetSelectedObjects()) {
     command->add_child(new MarkerChangeColorCommand(marker, c));
@@ -558,7 +558,7 @@ void SeekableWidget::DragResizeHandle(const QPointF &scene) {
     // Markers should not have the same time as anything else
     // NOTE: This code is largely duplicated from TimeBasedViewSelectionManager::DragMove. Not ideal,
     //       but I'm not sure if there's a good way to re-use that code
-    if (TimelineMarker *marker = dynamic_cast<TimelineMarker *>(resize_item_)) {
+    if (auto *marker = dynamic_cast<TimelineMarker *>(resize_item_)) {
       if (marker->has_sibling_at_time(proposed_time)) {
         proposed_time = presnap_time;
 
@@ -577,22 +577,22 @@ void SeekableWidget::DragResizeHandle(const QPointF &scene) {
     new_range.set_out(proposed_time);
   }
 
-  if (TimelineMarker *marker = dynamic_cast<TimelineMarker *>(resize_item_)) {
+  if (auto *marker = dynamic_cast<TimelineMarker *>(resize_item_)) {
     marker->set_time(new_range);
-  } else if (TimelineWorkArea *workarea = dynamic_cast<TimelineWorkArea *>(resize_item_)) {
+  } else if (auto *workarea = dynamic_cast<TimelineWorkArea *>(resize_item_)) {
     workarea->set_range(new_range);
   }
 }
 
 void SeekableWidget::CommitResizeHandle() {
-  MultiUndoCommand *command = new MultiUndoCommand();
+  auto *command = new MultiUndoCommand();
 
   QString command_name;
 
-  if (TimelineMarker *marker = dynamic_cast<TimelineMarker *>(resize_item_)) {
+  if (auto *marker = dynamic_cast<TimelineMarker *>(resize_item_)) {
     command->add_child(new MarkerChangeTimeCommand(marker, marker->time(), resize_item_range_));
     command_name = tr("Changed Marker Length");
-  } else if (TimelineWorkArea *workarea = dynamic_cast<TimelineWorkArea *>(resize_item_)) {
+  } else if (auto *workarea = dynamic_cast<TimelineWorkArea *>(resize_item_)) {
     command->add_child(new WorkareaSetRangeCommand(workarea, workarea->range(), resize_item_range_));
     command_name = tr("Changed Workarea Length");
   }

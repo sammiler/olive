@@ -39,29 +39,29 @@ class PolygonGenerator : public GeneratorWithMerge {
 
   NODE_DEFAULT_FUNCTIONS(PolygonGenerator)
 
-  virtual QString Name() const override;
-  virtual QString id() const override;
-  virtual QVector<CategoryID> Category() const override;
-  virtual QString Description() const override;
+  [[nodiscard]] QString Name() const override;
+  [[nodiscard]] QString id() const override;
+  [[nodiscard]] QVector<CategoryID> Category() const override;
+  [[nodiscard]] QString Description() const override;
 
-  virtual void Retranslate() override;
+  void Retranslate() override;
 
-  virtual void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
+  void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
 
-  virtual void GenerateFrame(FramePtr frame, const GenerateJob &job) const override;
+  void GenerateFrame(FramePtr frame, const GenerateJob &job) const override;
 
-  virtual void UpdateGizmoPositions(const NodeValueRow &row, const NodeGlobals &globals) override;
+  void UpdateGizmoPositions(const NodeValueRow &row, const NodeGlobals &globals) override;
 
-  virtual ShaderCode GetShaderCode(const ShaderRequest &request) const override;
+  [[nodiscard]] ShaderCode GetShaderCode(const ShaderRequest &request) const override;
 
   static const QString kPointsInput;
   static const QString kColorInput;
 
  protected:
-  ShaderJob GetGenerateJob(const NodeValueRow &value, const VideoParams &params) const;
+  [[nodiscard]] ShaderJob GetGenerateJob(const NodeValueRow &value, const VideoParams &params) const;
 
  protected slots:
-  virtual void GizmoDragMove(double x, double y, const Qt::KeyboardModifiers &modifiers) override;
+  void GizmoDragMove(double x, double y, const Qt::KeyboardModifiers &modifiers) override;
 
  private:
   static void AddPointToPath(QPainterPath *path, const Bezier &before, const Bezier &after);

@@ -41,7 +41,7 @@ class TimelineWidgetSelections : public QHash<Track::Reference, TimeRangeList> {
 
   void Subtract(const TimelineWidgetSelections& selections);
 
-  TimelineWidgetSelections Subtracted(const TimelineWidgetSelections& selections) const {
+  [[nodiscard]] TimelineWidgetSelections Subtracted(const TimelineWidgetSelections& selections) const {
     TimelineWidgetSelections copy = *this;
     copy.Subtract(selections);
     return copy;

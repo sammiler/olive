@@ -30,7 +30,7 @@ namespace olive {
 using namespace core;
 
 ElapsedCounterWidget::ElapsedCounterWidget(QWidget* parent) : QWidget(parent), last_progress_(0), start_time_(0) {
-  QHBoxLayout* layout = new QHBoxLayout(this);
+  auto* layout = new QHBoxLayout(this);
   layout->setSpacing(layout->spacing() * 8);
   layout->setContentsMargins(0, 0, 0, 0);
 

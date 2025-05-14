@@ -27,19 +27,19 @@ class ChromaKeyNode : public OCIOBaseNode {
 
   NODE_DEFAULT_FUNCTIONS(ChromaKeyNode)
 
-  virtual QString Name() const override;
-  virtual QString id() const override;
-  virtual QVector<CategoryID> Category() const override;
-  virtual QString Description() const override;
+  [[nodiscard]] QString Name() const override;
+  [[nodiscard]] QString id() const override;
+  [[nodiscard]] QVector<CategoryID> Category() const override;
+  [[nodiscard]] QString Description() const override;
 
-  virtual void Retranslate() override;
+  void Retranslate() override;
 
-  virtual void InputValueChangedEvent(const QString& input, int element) override;
+  void InputValueChangedEvent(const QString& input, int element) override;
 
-  virtual ShaderCode GetShaderCode(const ShaderRequest& request) const override;
-  virtual void Value(const NodeValueRow& value, const NodeGlobals& globals, NodeValueTable* table) const override;
+  [[nodiscard]] ShaderCode GetShaderCode(const ShaderRequest& request) const override;
+  void Value(const NodeValueRow& value, const NodeGlobals& globals, NodeValueTable* table) const override;
 
-  virtual void ConfigChanged() override;
+  void ConfigChanged() override;
 
   static const QString kColorInput;
   static const QString kInvertInput;

@@ -47,11 +47,11 @@ class TimelineViewMouseEvent {
         mime_data_(nullptr),
         bypass_import_buffer_(false) {}
 
-  TimelineCoordinate GetCoordinates(bool round_time = false) const {
+  [[nodiscard]] TimelineCoordinate GetCoordinates(bool round_time = false) const {
     return TimelineCoordinate(GetFrame(round_time), track_);
   }
 
-  const Qt::KeyboardModifiers& GetModifiers() const { return modifiers_; }
+  [[nodiscard]] const Qt::KeyboardModifiers& GetModifiers() const { return modifiers_; }
 
   /**
    * @brief Gets the time at this cursor point
@@ -62,11 +62,11 @@ class TimelineViewMouseEvent {
    * always to the left of the cursor. The former behavior is better for clicking between frames (e.g. razor tool) and
    * the latter is better for clicking directly on frames (e.g. pointer tool).
    */
-  rational GetFrame(bool round = false) const {
+  [[nodiscard]] rational GetFrame(bool round = false) const {
     return TimeScaledObject::SceneToTime(GetSceneX(), scale_x_, timebase_, round);
   }
 
-  const Track::Reference& GetTrack() const { return track_; }
+  [[nodiscard]] const Track::Reference& GetTrack() const { return track_; }
 
   const QMimeData* GetMimeData() { return mime_data_; }
 
@@ -74,12 +74,12 @@ class TimelineViewMouseEvent {
 
   void SetEvent(QEvent* event) { source_event_ = event; }
 
-  qreal GetSceneX() const { return scene_pos_.x(); }
+  [[nodiscard]] qreal GetSceneX() const { return scene_pos_.x(); }
 
-  const QPointF& GetScenePos() const { return scene_pos_; }
-  const QPoint& GetScreenPos() const { return screen_pos_; }
+  [[nodiscard]] const QPointF& GetScenePos() const { return scene_pos_; }
+  [[nodiscard]] const QPoint& GetScreenPos() const { return screen_pos_; }
 
-  const Qt::MouseButton& GetButton() const { return button_; }
+  [[nodiscard]] const Qt::MouseButton& GetButton() const { return button_; }
 
   void accept() {
     if (source_event_ != nullptr) source_event_->accept();
@@ -89,7 +89,7 @@ class TimelineViewMouseEvent {
     if (source_event_ != nullptr) source_event_->ignore();
   }
 
-  bool GetBypassImportBuffer() const { return bypass_import_buffer_; }
+  [[nodiscard]] bool GetBypassImportBuffer() const { return bypass_import_buffer_; }
   void SetBypassImportBuffer(bool e) { bypass_import_buffer_ = e; }
 
  private:

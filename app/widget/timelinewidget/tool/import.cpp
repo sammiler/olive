@@ -74,7 +74,7 @@ void ImportTool::DragEnter(TimelineViewMouseEvent* event) {
       Node* item = reinterpret_cast<Node*>(item_ptr);
 
       // Check if Item is Footage
-      ViewerOutput* f = dynamic_cast<ViewerOutput*>(item);
+      auto* f = dynamic_cast<ViewerOutput*>(item);
 
       if (f && f->GetTotalStreamCount()) {
         // If the Item is Footage, we can create a Ghost from it
@@ -310,7 +310,7 @@ void ImportTool::DropGhosts(bool insert, MultiUndoCommand* parent_command) {
         static_cast<DropWithoutSequenceBehavior>(OLIVE_CONFIG("DropWithoutSequenceBehavior").toInt());
 
     if (behavior == kDWSAsk) {
-      QCheckBox* dont_ask_again_box = new QCheckBox(QCoreApplication::translate("ImportTool", "Don't ask me again"));
+      auto* dont_ask_again_box = new QCheckBox(QCoreApplication::translate("ImportTool", "Don't ask me again"));
 
       QMessageBox mbox(parent());
 
@@ -417,10 +417,10 @@ void ImportTool::DropGhosts(bool insert, MultiUndoCommand* parent_command) {
 
       Track::Type track_type = ghost->GetAdjustedTrack().type();
       if (track_type == Track::kVideo || track_type == Track::kAudio) {
-        TimelineViewGhostItem::AttachedFootage footage_stream =
+        auto footage_stream =
             ghost->GetData(TimelineViewGhostItem::kAttachedFootage).value<TimelineViewGhostItem::AttachedFootage>();
 
-        ClipBlock* clip = new ClipBlock();
+        auto* clip = new ClipBlock();
         block = clip;
         clip->set_media_in(ghost->GetMediaIn());
         command->add_child(new NodeAddCommand(dst_graph, clip));
@@ -437,7 +437,7 @@ void ImportTool::DropGhosts(bool insert, MultiUndoCommand* parent_command) {
 
         switch (Track::Reference::TypeFromString(footage_stream.output)) {
           case Track::kVideo: {
-            TransformDistortNode* transform = new TransformDistortNode();
+            auto* transform = new TransformDistortNode();
             command->add_child(new NodeAddCommand(dst_graph, transform));
 
             command->add_child(
@@ -451,7 +451,7 @@ void ImportTool::DropGhosts(bool insert, MultiUndoCommand* parent_command) {
             break;
           }
           case Track::kAudio: {
-            VolumeNode* volume_node = new VolumeNode();
+            auto* volume_node = new VolumeNode();
             command->add_child(new NodeAddCommand(dst_graph, volume_node));
 
             command->add_child(
@@ -470,7 +470,7 @@ void ImportTool::DropGhosts(bool insert, MultiUndoCommand* parent_command) {
 
         // Link any clips so far that share the same Footage with this one
         for (int j = 0; j < i; j++) {
-          TimelineViewGhostItem::AttachedFootage footage_compare =
+          auto footage_compare =
               parent()
                   ->GetGhostItems()
                   .at(j)
@@ -484,8 +484,8 @@ void ImportTool::DropGhosts(bool insert, MultiUndoCommand* parent_command) {
 
         imported_clips.push_back(clip);
       } else if (track_type == Track::kSubtitle) {
-        Subtitle src = ghost->GetData(TimelineViewGhostItem::kAttachedFootage).value<Subtitle>();
-        SubtitleBlock* sub = new SubtitleBlock();
+        auto src = ghost->GetData(TimelineViewGhostItem::kAttachedFootage).value<Subtitle>();
+        auto* sub = new SubtitleBlock();
         sub->SetText(src.text());
         block = sub;
 
@@ -522,7 +522,7 @@ void ImportTool::DropGhosts(bool insert, MultiUndoCommand* parent_command) {
 
 TimelineViewGhostItem* ImportTool::CreateGhost(const TimeRange& range, const rational& media_in,
                                                const Track::Reference& track) {
-  TimelineViewGhostItem* ghost = new TimelineViewGhostItem();
+  auto* ghost = new TimelineViewGhostItem();
 
   ghost->SetIn(range.in());
   ghost->SetOut(range.out());

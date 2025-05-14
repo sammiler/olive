@@ -59,7 +59,7 @@ void NodeTreeView::SetNodes(const QVector<Node*>& nodes) {
   item_map_.clear();
 
   foreach (Node* n, nodes_) {
-    QTreeWidgetItem* node_item = new QTreeWidgetItem();
+    auto* node_item = new QTreeWidgetItem();
     node_item->setText(0, n->Name());
     if (checkboxes_enabled_) {
       node_item->setCheckState(0, disabled_nodes_.contains(n) ? Qt::Unchecked : Qt::Checked);
@@ -153,7 +153,7 @@ NodeKeyframeTrackReference NodeTreeView::GetSelectedInput() {
 }
 
 QTreeWidgetItem* NodeTreeView::CreateItem(QTreeWidgetItem* parent, const NodeKeyframeTrackReference& ref) {
-  QTreeWidgetItem* input_item = new QTreeWidgetItem(parent);
+  auto* input_item = new QTreeWidgetItem(parent);
 
   QString item_name;
   if (ref.track() == -1 || NodeValue::get_number_of_keyframe_tracks(ref.input().GetDataType()) == 1 ||
@@ -227,7 +227,7 @@ void NodeTreeView::ItemCheckStateChanged(QTreeWidgetItem* item, int column) {
       break;
     }
     case kItemTypeInput: {
-      NodeKeyframeTrackReference i = item->data(0, kItemInputReference).value<NodeKeyframeTrackReference>();
+      auto i = item->data(0, kItemInputReference).value<NodeKeyframeTrackReference>();
 
       if (item->checkState(0) == Qt::Checked) {
         if (disabled_inputs_.contains(i)) {

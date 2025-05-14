@@ -36,7 +36,7 @@ class LineEditWithFocusSignal : public QLineEdit {
   explicit LineEditWithFocusSignal(QWidget *parent = nullptr) : QLineEdit(parent) {}
 
  protected:
-  virtual void focusInEvent(QFocusEvent *e) override {
+  void focusInEvent(QFocusEvent *e) override {
     QLineEdit::focusInEvent(e);
     emit Focused();
   }
@@ -52,7 +52,7 @@ class MarkerPropertiesDialog : public QDialog {
                          QWidget *parent = nullptr);
 
  public slots:
-  virtual void accept() override;
+  void accept() override;
 
  private:
   std::vector<TimelineMarker *> markers_;

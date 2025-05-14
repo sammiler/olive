@@ -75,7 +75,7 @@ class TimeBasedViewSelectionManager {
 
   bool IsSelected(T *key) const { return std::find(selected_.cbegin(), selected_.cend(), key) != selected_.cend(); }
 
-  const std::vector<T *> &GetSelectedObjects() const { return selected_; }
+  [[nodiscard]] const std::vector<T *> &GetSelectedObjects() const { return selected_; }
 
   void SetTimebase(const rational &tb) { timebase_ = tb; }
 
@@ -125,7 +125,7 @@ class TimeBasedViewSelectionManager {
     return key_under_cursor;
   }
 
-  bool IsDragging() const { return !dragging_.empty(); }
+  [[nodiscard]] bool IsDragging() const { return !dragging_.empty(); }
 
   void DragStart(T *initial_item, QMouseEvent *event, TimeTargetObject *target = nullptr) {
     if (event->button() != Qt::LeftButton) {
@@ -339,7 +339,7 @@ class TimeBasedViewSelectionManager {
     }
   }
 
-  bool IsRubberBanding() const { return rubberband_; }
+  [[nodiscard]] bool IsRubberBanding() const { return rubberband_; }
 
   void ForceDragUpdate() {
     if (IsRubberBanding() || IsDragging()) {
@@ -367,12 +367,12 @@ class TimeBasedViewSelectionManager {
       old_time_ = old_time;
     }
 
-    virtual Project *GetRelevantProject() const override { return Project::GetProjectFromObject(key_); }
+    [[nodiscard]] Project *GetRelevantProject() const override { return Project::GetProjectFromObject(key_); }
 
    protected:
-    virtual void redo() override { key_->set_time(new_time_); }
+    void redo() override { key_->set_time(new_time_); }
 
-    virtual void undo() override { key_->set_time(old_time_); }
+    void undo() override { key_->set_time(old_time_); }
 
    private:
     T *key_;

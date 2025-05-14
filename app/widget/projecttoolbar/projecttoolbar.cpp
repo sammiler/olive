@@ -29,7 +29,7 @@
 namespace olive {
 
 ProjectToolbar::ProjectToolbar(QWidget* parent) : QWidget(parent) {
-  QHBoxLayout* layout = new QHBoxLayout(this);
+  auto* layout = new QHBoxLayout(this);
   layout->setSpacing(0);
   layout->setContentsMargins(0, 0, 0, 0);
 
@@ -66,7 +66,7 @@ ProjectToolbar::ProjectToolbar(QWidget* parent) : QWidget(parent) {
   layout->addWidget(icon_button_);
 
   // Group Tree/List/Icon view buttons into a button group for easy exclusive-buttons
-  QButtonGroup* view_button_group = new QButtonGroup(this);
+  auto* view_button_group = new QButtonGroup(this);
   view_button_group->setExclusive(true);
   view_button_group->addButton(tree_button_);
   view_button_group->addButton(list_button_);

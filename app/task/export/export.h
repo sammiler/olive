@@ -36,15 +36,15 @@ class ExportTask : public RenderTask {
   ExportTask(ViewerOutput *viewer_node, ColorManager *color_manager, const EncodingParams &params);
 
  protected:
-  virtual bool Run() override;
+  bool Run() override;
 
-  virtual bool FrameDownloaded(FramePtr frame, const rational &time) override;
+  bool FrameDownloaded(FramePtr frame, const rational &time) override;
 
-  virtual bool AudioDownloaded(const TimeRange &range, const SampleBuffer &samples) override;
+  bool AudioDownloaded(const TimeRange &range, const SampleBuffer &samples) override;
 
-  virtual bool EncodeSubtitle(const SubtitleBlock *sub) override;
+  bool EncodeSubtitle(const SubtitleBlock *sub) override;
 
-  virtual bool TwoStepFrameRendering() const override { return false; }
+  [[nodiscard]] bool TwoStepFrameRendering() const override { return false; }
 
  private:
   bool WriteAudioLoop(const TimeRange &time, const SampleBuffer &samples);

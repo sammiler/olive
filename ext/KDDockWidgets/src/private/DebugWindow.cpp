@@ -52,9 +52,8 @@ class DebugAppEventFilter : public QAbstractNativeEventFilter
 {
 public:
     DebugAppEventFilter()
-    {
-    }
-    ~DebugAppEventFilter();
+    = default;
+    ~DebugAppEventFilter() override;
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     bool nativeEventFilter(const QByteArray &eventType, void *message, qintptr *) override
 #else
@@ -78,8 +77,7 @@ public:
 };
 
 DebugAppEventFilter::~DebugAppEventFilter()
-{
-}
+= default;
 
 DebugWindow::DebugWindow(QWidget *parent)
     : QWidget(parent)

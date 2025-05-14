@@ -40,7 +40,7 @@ class CurveView : public KeyframeView {
 
   void SetKeyframeTrackColor(const NodeKeyframeTrackReference &ref, const QColor &color);
 
-  const QHash<NodeKeyframeTrackReference, KeyframeViewInputConnection *> &GetConnections() const {
+  [[nodiscard]] const QHash<NodeKeyframeTrackReference, KeyframeViewInputConnection *> &GetConnections() const {
     return track_connections_;
   }
 
@@ -52,25 +52,25 @@ class CurveView : public KeyframeView {
   void ResetZoom();
 
  protected:
-  virtual void drawBackground(QPainter *painter, const QRectF &rect) override;
-  virtual void drawForeground(QPainter *painter, const QRectF &rect) override;
+  void drawBackground(QPainter *painter, const QRectF &rect) override;
+  void drawForeground(QPainter *painter, const QRectF &rect) override;
 
-  virtual void ContextMenuEvent(Menu &m) override;
+  void ContextMenuEvent(Menu &m) override;
 
-  virtual void SceneRectUpdateEvent(QRectF &r) override;
+  void SceneRectUpdateEvent(QRectF &r) override;
 
-  virtual qreal GetKeyframeSceneY(KeyframeViewInputConnection *track, NodeKeyframe *key) override;
+  qreal GetKeyframeSceneY(KeyframeViewInputConnection *track, NodeKeyframe *key) override;
 
-  virtual void DrawKeyframe(QPainter *painter, NodeKeyframe *key, KeyframeViewInputConnection *track,
+  void DrawKeyframe(QPainter *painter, NodeKeyframe *key, KeyframeViewInputConnection *track,
                             const QRectF &key_rect) override;
 
-  virtual bool FirstChanceMousePress(QMouseEvent *event) override;
-  virtual void FirstChanceMouseMove(QMouseEvent *event) override;
-  virtual void FirstChanceMouseRelease(QMouseEvent *event) override;
+  bool FirstChanceMousePress(QMouseEvent *event) override;
+  void FirstChanceMouseMove(QMouseEvent *event) override;
+  void FirstChanceMouseRelease(QMouseEvent *event) override;
 
-  virtual void KeyframeDragStart(QMouseEvent *event) override;
-  virtual void KeyframeDragMove(QMouseEvent *event, QString &tip) override;
-  virtual void KeyframeDragRelease(QMouseEvent *event, MultiUndoCommand *command) override;
+  void KeyframeDragStart(QMouseEvent *event) override;
+  void KeyframeDragMove(QMouseEvent *event, QString &tip) override;
+  void KeyframeDragRelease(QMouseEvent *event, MultiUndoCommand *command) override;
 
  private:
   void ZoomToFitInternal(bool selected_only);

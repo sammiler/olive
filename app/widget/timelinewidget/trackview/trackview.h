@@ -42,7 +42,7 @@ class TrackView : public QScrollArea {
   void AboutToDeleteTrack(Track* track);
 
  protected:
-  virtual void resizeEvent(QResizeEvent* e) override;
+  void resizeEvent(QResizeEvent* e) override;
 
  private:
   TrackList* list_;

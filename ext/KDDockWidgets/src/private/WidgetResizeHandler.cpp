@@ -50,8 +50,7 @@ WidgetResizeHandler::WidgetResizeHandler(EventFilterMode filterMode, WindowMode 
 }
 
 WidgetResizeHandler::~WidgetResizeHandler()
-{
-}
+= default;
 
 void WidgetResizeHandler::setAllowedResizeSides(CursorPositions sides)
 {

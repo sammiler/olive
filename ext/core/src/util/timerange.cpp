@@ -117,8 +117,7 @@ std::list<TimeRange> TimeRange::Split(const int &chunk_size) const {
   int end_time = std::ceil(this->out().toDouble() / static_cast<double>(chunk_size)) * chunk_size;
 
   for (int i = start_time; i < end_time; i += chunk_size) {
-    split_ranges.push_back(
-        TimeRange(std::max(this->in(), rational(i)), std::min(this->out(), rational(i + chunk_size))));
+    split_ranges.emplace_back(std::max(this->in(), rational(i)), std::min(this->out(), rational(i + chunk_size)));
   }
 
   return split_ranges;

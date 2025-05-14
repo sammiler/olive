@@ -78,7 +78,7 @@ ViewerWidget::ViewerWidget(ViewerDisplayWidget *display, QWidget *parent)
       ignore_scrub_(0),
       multicam_panel_(nullptr) {
   // Set up main layout
-  QVBoxLayout *layout = new QVBoxLayout(this);
+  auto *layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
 
   // Create main OpenGL-based view and sizer
@@ -344,7 +344,7 @@ void ViewerWidget::SetFullScreen(QScreen *screen) {
     return;
   }
 
-  ViewerWindow *vw = new ViewerWindow(this);
+  auto *vw = new ViewerWindow(this);
 
   vw->setGeometry(screen->geometry());
   vw->showFullScreen();
@@ -482,12 +482,12 @@ void ViewerWidget::UpdateAudioProcessor() {
 }
 
 void ViewerWidget::CreateAddableAt(const QRectF &f) {
-  if (Sequence *s = dynamic_cast<Sequence *>(GetConnectedNode())) {
+  if (auto *s = dynamic_cast<Sequence *>(GetConnectedNode())) {
     Track::Type type = Track::kVideo;
     int track_index = -1;
     TrackList *list = s->track_list(type);
     const rational &in = GetConnectedNode()->GetPlayhead();
-    rational length = OLIVE_CONFIG("DefaultStillLength").value<rational>();
+    auto length = OLIVE_CONFIG("DefaultStillLength").value<rational>();
     rational out = in + length;
 
     // Find a free track where we won't overwrite anything
@@ -510,10 +510,10 @@ void ViewerWidget::CreateAddableAt(const QRectF &f) {
       }
     }
 
-    MultiUndoCommand *command = new MultiUndoCommand();
+    auto *command = new MultiUndoCommand();
     Node *clip = AddTool::CreateAddableClip(command, s, Track::Reference(type, track_index), in, length);
 
-    if (ShapeNodeBase *shape = dynamic_cast<ShapeNodeBase *>(clip)) {
+    if (auto *shape = dynamic_cast<ShapeNodeBase *>(clip)) {
       shape->SetRect(f, s->GetVideoParams(), command);
     }
 
@@ -544,7 +544,7 @@ void ViewerWidget::ShowSubtitleProperties() {
 }
 
 void ViewerWidget::DryRunFinished() {
-  RenderTicketWatcher *w = dynamic_cast<RenderTicketWatcher *>(sender());
+  auto *w = dynamic_cast<RenderTicketWatcher *>(sender());
 
   if (dry_run_watchers_.contains(w)) {
     RequestNextDryRun();
@@ -560,7 +560,7 @@ void ViewerWidget::RequestNextDryRun() {
       if (next_time > GetConnectedNode()->GetPlayhead() + RenderManager::kDryRunInterval) {
         QTimer::singleShot(timebase().toDouble() / playback_speed_, this, &ViewerWidget::RequestNextDryRun);
       } else {
-        RenderTicketWatcher *watcher = new RenderTicketWatcher(this);
+        auto *watcher = new RenderTicketWatcher(this);
         connect(watcher, &RenderTicketWatcher::Finished, this, &ViewerWidget::DryRunFinished);
         watcher->SetTicket(GetSingleFrame(next_time, true));
         dry_run_next_frame_ += playback_speed_;
@@ -592,13 +592,13 @@ void ViewerWidget::DetectMulticamNode(const rational &time) {
 
   // Faster way to do this
   if (multicam_panel_ && multicam_panel_->isVisible()) {
-    if (Sequence *s = dynamic_cast<Sequence *>(GetConnectedNode())) {
+    if (auto *s = dynamic_cast<Sequence *>(GetConnectedNode())) {
       // Prefer selected nodes
       for (Node *n : qAsConst(node_view_selected_)) {
         if ((multicam = dynamic_cast<MultiCamNode *>(n))) {
           // Found multicam, now try to find corresponding clip from selected timeline blocks
           for (Block *b : qAsConst(timeline_selected_blocks_)) {
-            if (ClipBlock *c = dynamic_cast<ClipBlock *>(b)) {
+            if (auto *c = dynamic_cast<ClipBlock *>(b)) {
               if (c->range().Contains(time) && c->ContextContainsNode(multicam)) {
                 clip = c;
                 break;
@@ -689,7 +689,7 @@ void ViewerWidget::QueueNextAudioBuffer() {
     return;
   }
 
-  RenderTicketWatcher *watcher = new RenderTicketWatcher(this);
+  auto *watcher = new RenderTicketWatcher(this);
   connect(watcher, &RenderTicketWatcher::Finished, this, &ViewerWidget::ReceivedAudioBufferForPlayback);
   audio_playback_queue_.push_back(watcher);
   watcher->SetTicket(RenderManager::instance()->GetCacher()->GetRangeOfAudio(
@@ -704,7 +704,7 @@ void ViewerWidget::ReceivedAudioBufferForPlayback() {
     audio_playback_queue_.pop_front();
 
     if (watcher->HasResult()) {
-      SampleBuffer samples = watcher->Get().value<SampleBuffer>();
+      auto samples = watcher->Get().value<SampleBuffer>();
       if (samples.is_allocated()) {
         // If the samples must be reversed, reverse them now
         if (playback_speed_ < 0) {
@@ -742,7 +742,7 @@ void ViewerWidget::ReceivedAudioBufferForPlayback() {
 }
 
 void ViewerWidget::ReceivedAudioBufferForScrubbing() {
-  RenderTicketWatcher *watcher = dynamic_cast<RenderTicketWatcher *>(sender());
+  auto *watcher = dynamic_cast<RenderTicketWatcher *>(sender());
 
   while (!audio_scrub_watchers_.empty() && audio_scrub_watchers_.front() != watcher) {
     audio_scrub_watchers_.pop_front();
@@ -750,7 +750,7 @@ void ViewerWidget::ReceivedAudioBufferForScrubbing() {
 
   if (!audio_scrub_watchers_.empty()) {
     if (watcher->HasResult()) {
-      SampleBuffer samples = watcher->Get().value<SampleBuffer>();
+      auto samples = watcher->Get().value<SampleBuffer>();
       if (samples.is_allocated()) {
         if (samples.audio_params().channel_count() > 0) {
           AudioProcessor::Buffer buf;
@@ -837,7 +837,7 @@ void ViewerWidget::UpdateTextureFromNode() {
   if (frame_exists_at_time || frame_might_be_still) {
     // Frame was not in queue, will require rendering or decoding from cache
     // Not playing, run a task to get the frame either from the cache or the renderer
-    RenderTicketWatcher *watcher = new RenderTicketWatcher();
+    auto *watcher = new RenderTicketWatcher();
     watcher->setProperty("start", QDateTime::currentMSecsSinceEpoch());
     watcher->setProperty("time", QVariant::fromValue(time));
     connect(watcher, &RenderTicketWatcher::Finished, this, &ViewerWidget::RendererGeneratedFrame);
@@ -1004,7 +1004,7 @@ void ViewerWidget::PushScrubbedAudio() {
         // NOTE: Hardcoded scrubbing interval (20ms)
         rational interval = rational(20, 1000);
 
-        RenderTicketWatcher *watcher = new RenderTicketWatcher();
+        auto *watcher = new RenderTicketWatcher();
         connect(watcher, &RenderTicketWatcher::Finished, this, &ViewerWidget::ReceivedAudioBufferForScrubbing);
         audio_scrub_watchers_.push_back(watcher);
         watcher->SetTicket(RenderManager::instance()->GetCacher()->GetRangeOfAudio(
@@ -1193,13 +1193,13 @@ void ViewerWidget::ContextMenuSetCustomSafeMargins() {
 }
 
 void ViewerWidget::WindowAboutToClose() {
-  ViewerWindow *vw = dynamic_cast<ViewerWindow *>(sender());
+  auto *vw = dynamic_cast<ViewerWindow *>(sender());
   windows_.remove(windows_.key(vw));
   playback_devices_.removeOne(vw->display_widget());
 }
 
 void ViewerWidget::RendererGeneratedFrame() {
-  RenderTicketWatcher *ticket = dynamic_cast<RenderTicketWatcher *>(sender());
+  auto *ticket = dynamic_cast<RenderTicketWatcher *>(sender());
 
   if (ticket->HasResult()) {
     if (nonqueue_watchers_.contains(ticket)) {
@@ -1218,7 +1218,7 @@ void ViewerWidget::RendererGeneratedFrame() {
 }
 
 void ViewerWidget::RendererGeneratedFrameForQueue() {
-  RenderTicketWatcher *watcher = dynamic_cast<RenderTicketWatcher *>(sender());
+  auto *watcher = dynamic_cast<RenderTicketWatcher *>(sender());
 
   if (queue_watchers_.contains(watcher)) {
     queue_watchers_.removeOne(watcher);
@@ -1228,7 +1228,7 @@ void ViewerWidget::RendererGeneratedFrameForQueue() {
 
       // Ignore this signal if we've paused now
       if (IsPlaying() || prequeuing_video_) {
-        rational ts = watcher->property("time").value<rational>();
+        auto ts = watcher->property("time").value<rational>();
 
         foreach (ViewerDisplayWidget *dw, playback_devices_) {
           QVariant push;
@@ -1754,7 +1754,7 @@ void ViewerWidget::Dropped(QDropEvent *event) {
 
   if (item_ptr) {
     Node *item = reinterpret_cast<Node *>(item_ptr);
-    ViewerOutput *viewer = dynamic_cast<ViewerOutput *>(item);
+    auto *viewer = dynamic_cast<ViewerOutput *>(item);
 
     if (viewer) {
       ConnectViewerNode(viewer);

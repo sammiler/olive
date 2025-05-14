@@ -130,7 +130,7 @@ class RenderTicketWatcher : public QObject {
  public:
   explicit RenderTicketWatcher(QObject* parent = nullptr);
 
-  RenderTicketPtr GetTicket() const { return ticket_; }
+  [[nodiscard]] RenderTicketPtr GetTicket() const { return ticket_; }
 
   void SetTicket(RenderTicketPtr ticket);
 

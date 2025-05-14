@@ -113,7 +113,7 @@ void NodeParamViewItem::SetInputChecked(const NodeInput& input, bool e) { body_-
 NodeParamViewItemBody::NodeParamViewItemBody(Node* node, NodeParamViewCheckBoxBehavior create_checkboxes,
                                              QWidget* parent)
     : QWidget(parent), node_(node), time_target_(nullptr), create_checkboxes_(create_checkboxes) {
-  QGridLayout* root_layout = new QGridLayout(this);
+  auto* root_layout = new QGridLayout(this);
 
   int insert_row = 0;
 
@@ -141,9 +141,9 @@ NodeParamViewItemBody::NodeParamViewItemBody(Node* node, NodeParamViewCheckBoxBe
 
       if (n->InputIsArray(input)) {
         // Insert here
-        QWidget* array_widget = new QWidget(this);
+        auto* array_widget = new QWidget(this);
 
-        QGridLayout* array_layout = new QGridLayout(array_widget);
+        auto* array_layout = new QGridLayout(array_widget);
         array_layout->setContentsMargins(QtUtils::QFontMetricsWidth(fontMetrics(), QStringLiteral("    ")), 0, 0, 0);
 
         root_layout->addWidget(array_widget, insert_row, 1, 1, 10);
@@ -153,7 +153,7 @@ NodeParamViewItemBody::NodeParamViewItemBody(Node* node, NodeParamViewCheckBoxBe
         int arr_sz = 0;
 
         // Add one last add button for appending to the array
-        NodeParamViewArrayButton* append_btn = new NodeParamViewArrayButton(NodeParamViewArrayButton::kAdd, this);
+        auto* append_btn = new NodeParamViewArrayButton(NodeParamViewArrayButton::kAdd, this);
         connect(append_btn, &NodeParamViewArrayButton::clicked, this, &NodeParamViewItemBody::ArrayAppendClicked);
         array_layout->addWidget(append_btn, arr_sz, kArrayInsertColumn);
 
@@ -196,7 +196,7 @@ void NodeParamViewItemBody::CreateWidgets(QGridLayout* layout, Node* node, const
   if (node->InputIsArray(input)) {
     if (element == -1) {
       // Create a collapse toggle for expanding/collapsing the array
-      CollapseButton* array_collapse_btn = new CollapseButton(this);
+      auto* array_collapse_btn = new CollapseButton(this);
 
       // Default to collapsed
       array_collapse_btn->setChecked(false);
@@ -210,8 +210,8 @@ void NodeParamViewItemBody::CreateWidgets(QGridLayout* layout, Node* node, const
       array_collapse_buttons_.insert({node, input}, array_collapse_btn);
 
     } else {
-      NodeParamViewArrayButton* insert_element_btn = new NodeParamViewArrayButton(NodeParamViewArrayButton::kAdd, this);
-      NodeParamViewArrayButton* remove_element_btn =
+      auto* insert_element_btn = new NodeParamViewArrayButton(NodeParamViewArrayButton::kAdd, this);
+      auto* remove_element_btn =
           new NodeParamViewArrayButton(NodeParamViewArrayButton::kRemove, this);
 
       layout->addWidget(insert_element_btn, row, kArrayInsertColumn);
@@ -382,7 +382,7 @@ void NodeParamViewItemBody::InputArraySizeChangedInternal(Node* node, const QStr
   ArrayUI& array_ui = array_ui_[nip];
 
   if (size != array_ui.count) {
-    QGridLayout* grid = dynamic_cast<QGridLayout*>(array_ui.widget->layout());
+    auto* grid = dynamic_cast<QGridLayout*>(array_ui.widget->layout());
 
     if (array_ui.count < size) {
       // Our UI count is smaller than the size, create more
@@ -473,7 +473,7 @@ void NodeParamViewItemBody::ArrayRemoveClicked() {
 }
 
 void NodeParamViewItemBody::ToggleArrayExpanded() {
-  NodeParamViewWidgetBridge* bridge = dynamic_cast<NodeParamViewWidgetBridge*>(sender());
+  auto* bridge = dynamic_cast<NodeParamViewWidgetBridge*>(sender());
 
   for (auto it = input_ui_map_.cbegin(); it != input_ui_map_.cend(); it++) {
     if (it.value().widget_bridge == bridge) {
@@ -517,7 +517,7 @@ void NodeParamViewItemBody::ShowSpeedDurationDialogForNode() {
 }
 
 void NodeParamViewItemBody::OptionalCheckBoxClicked(bool e) {
-  QCheckBox* cb = dynamic_cast<QCheckBox*>(sender());
+  auto* cb = dynamic_cast<QCheckBox*>(sender());
 
   for (auto it = input_ui_map_.cbegin(); it != input_ui_map_.cend(); it++) {
     if (it.value().optional_checkbox == cb) {

@@ -53,7 +53,7 @@ KeyframeView::KeyframeView(QWidget *parent)
 
 void KeyframeView::DeleteSelected() {
   if (!selection_manager_.IsDragging()) {
-    MultiUndoCommand *command = new MultiUndoCommand();
+    auto *command = new MultiUndoCommand();
 
     foreach (NodeKeyframe *key, GetSelectedKeyframes()) {
       command->add_child(new NodeParamRemoveKeyframeCommand(key));
@@ -103,7 +103,7 @@ KeyframeView::ElementConnections KeyframeView::AddKeyframesOfElement(const NodeI
 }
 
 KeyframeViewInputConnection *KeyframeView::AddKeyframesOfTrack(const NodeKeyframeTrackReference &ref) {
-  KeyframeViewInputConnection *track = new KeyframeViewInputConnection(ref, this);
+  auto *track = new KeyframeViewInputConnection(ref, this);
   connect(track, &KeyframeViewInputConnection::RequireUpdate, this, &KeyframeView::Redraw);
   tracks_.append(track);
   Redraw();
@@ -147,7 +147,7 @@ void KeyframeView::Clear() {
 
 void KeyframeView::SelectionManagerSelectEvent(void *obj) {
   if (autoselect_siblings_) {
-    NodeKeyframe *key = static_cast<NodeKeyframe *>(obj);
+    auto *key = static_cast<NodeKeyframe *>(obj);
     QVector<NodeKeyframe *> keys = key->parent()->GetKeyframesAtTime(key->input(), key->time(), key->element());
     foreach (NodeKeyframe *k, keys) {
       if (k != key) {
@@ -161,7 +161,7 @@ void KeyframeView::SelectionManagerSelectEvent(void *obj) {
 
 void KeyframeView::SelectionManagerDeselectEvent(void *obj) {
   if (autoselect_siblings_) {
-    NodeKeyframe *key = static_cast<NodeKeyframe *>(obj);
+    auto *key = static_cast<NodeKeyframe *>(obj);
     QVector<NodeKeyframe *> keys = key->parent()->GetKeyframesAtTime(key->input(), key->time(), key->element());
     foreach (NodeKeyframe *k, keys) {
       if (k != key) {
@@ -199,7 +199,7 @@ bool KeyframeView::Paste(std::function<Node *(const QString &)> find_node_functi
   if (res == ProjectSerializer::kSuccess) {
     const ProjectSerializer::SerializedKeyframes &keys = res.GetLoadData().keyframes;
 
-    MultiUndoCommand *command = new MultiUndoCommand();
+    auto *command = new MultiUndoCommand();
 
     rational min = RATIONAL_MAX;
     for (auto it = keys.cbegin(); it != keys.cend(); it++) {
@@ -299,7 +299,7 @@ void KeyframeView::mouseReleaseEvent(QMouseEvent *event) {
     FirstChanceMouseRelease(event);
     first_chance_mouse_event_ = false;
   } else if (selection_manager_.IsDragging()) {
-    MultiUndoCommand *command = new MultiUndoCommand();
+    auto *command = new MultiUndoCommand();
     selection_manager_.DragStop(command);
     KeyframeDragRelease(event, command);
     Core::instance()->undo_stack()->push(
@@ -565,7 +565,7 @@ void KeyframeView::ShowContextMenu() {
         new_type = NodeKeyframe::kLinear;
       }
 
-      MultiUndoCommand *command = new MultiUndoCommand();
+      auto *command = new MultiUndoCommand();
       foreach (NodeKeyframe *item, GetSelectedKeyframes()) {
         command->add_child(new KeyframeSetTypeCommand(item, new_type));
       }

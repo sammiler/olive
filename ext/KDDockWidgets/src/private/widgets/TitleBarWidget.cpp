@@ -28,8 +28,7 @@
 using namespace KDDockWidgets;
 
 Button::~Button()
-{
-}
+= default;
 
 void Button::paintEvent(QPaintEvent *)
 {

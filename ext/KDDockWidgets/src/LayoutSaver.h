@@ -80,7 +80,7 @@ public:
     /**
      * @brief saves the layout into a byte array
      */
-    QByteArray serializeLayout() const;
+    [[nodiscard]]  QByteArray serializeLayout() const;
 
     /**
      * @brief restores the layout from a byte array
@@ -102,7 +102,7 @@ public:
      *
      * Useful since some dock widgets can be new, and hence not be included in the last saved layout.
      */
-    QVector<DockWidgetBase *> restoredDockWidgets() const;
+    [[nodiscard]]  QVector<DockWidgetBase *> restoredDockWidgets() const;
 
     /**
      * @brief Sets the list of affinity names for which restore and save will be applied on.
@@ -114,7 +114,7 @@ public:
 
     /// @internal Returns the private-impl. Not intended for public use.
     class Private;
-    Private *dptr() const;
+    [[nodiscard]]  Private *dptr() const;
 
     struct Layout;
     struct MainWindow;

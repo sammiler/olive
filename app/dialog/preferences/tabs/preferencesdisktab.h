@@ -37,9 +37,9 @@ class PreferencesDiskTab : public ConfigDialogBaseTab {
  public:
   PreferencesDiskTab();
 
-  virtual bool Validate() override;
+  bool Validate() override;
 
-  virtual void Accept(MultiUndoCommand* command) override;
+  void Accept(MultiUndoCommand* command) override;
 
  private:
   PathWidget* disk_cache_location_;

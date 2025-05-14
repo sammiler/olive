@@ -34,7 +34,7 @@ class ColorButton : public QPushButton {
   ColorButton(ColorManager* color_manager, bool show_dialog_on_click, QWidget* parent = nullptr);
   explicit ColorButton(ColorManager* color_manager, QWidget* parent = nullptr) : ColorButton(color_manager, true, parent) {}
 
-  const ManagedColor& GetColor() const;
+  [[nodiscard]] const ManagedColor& GetColor() const;
 
  public slots:
   void SetColor(const ManagedColor& c);

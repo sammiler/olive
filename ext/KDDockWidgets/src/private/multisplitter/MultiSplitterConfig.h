@@ -42,7 +42,7 @@ public:
      *
      * Default is 5px.
      */
-    int separatorThickness() const;
+    [[nodiscard]] int separatorThickness() const;
 
     ///@brief setter for @ref separatorThickness
     /// Note: Only use this function at startup before creating any Item
@@ -52,10 +52,10 @@ public:
     void setSeparatorFactoryFunc(SeparatorFactoryFunc);
 
     ///@brief Returns the function used to create separators, null by default
-    SeparatorFactoryFunc separatorFactoryFunc() const;
+    [[nodiscard]] SeparatorFactoryFunc separatorFactoryFunc() const;
 
     ///@brief returns the flags;
-    Config::Flags flags() const;
+    [[nodiscard]] Config::Flags flags() const;
 
     ///@brief sets the flags. Set only before creating any Item
     void setFlags(Flags);

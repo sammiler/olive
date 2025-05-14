@@ -41,12 +41,12 @@ void CurvePanel::SetNodes(const QVector<Node*>& nodes) {
 }
 
 void CurvePanel::IncreaseTrackHeight() {
-  CurveWidget* c = dynamic_cast<CurveWidget*>(GetTimeBasedWidget());
+  auto* c = dynamic_cast<CurveWidget*>(GetTimeBasedWidget());
   c->SetVerticalScale(c->GetVerticalScale() * 2);
 }
 
 void CurvePanel::DecreaseTrackHeight() {
-  CurveWidget* c = dynamic_cast<CurveWidget*>(GetTimeBasedWidget());
+  auto* c = dynamic_cast<CurveWidget*>(GetTimeBasedWidget());
   c->SetVerticalScale(c->GetVerticalScale() * 0.5);
 }
 

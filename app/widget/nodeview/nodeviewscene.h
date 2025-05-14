@@ -40,17 +40,17 @@ class NodeViewScene : public QGraphicsScene {
   void SelectAll();
   void DeselectAll();
 
-  QVector<NodeViewItem *> GetSelectedItems() const;
+  [[nodiscard]] QVector<NodeViewItem *> GetSelectedItems() const;
 
-  const QHash<Node *, NodeViewContext *> &context_map() const { return context_map_; }
+  [[nodiscard]] const QHash<Node *, NodeViewContext *> &context_map() const { return context_map_; }
 
-  Qt::Orientation GetFlowOrientation() const;
+  [[nodiscard]] Qt::Orientation GetFlowOrientation() const;
 
-  NodeViewCommon::FlowDirection GetFlowDirection() const { return direction_; }
+  [[nodiscard]] NodeViewCommon::FlowDirection GetFlowDirection() const { return direction_; }
 
   void SetFlowDirection(NodeViewCommon::FlowDirection direction);
 
-  bool GetEdgesAreCurved() const { return curved_edges_; }
+  [[nodiscard]] bool GetEdgesAreCurved() const { return curved_edges_; }
 
  public slots:
   NodeViewContext *AddContext(Node *node);

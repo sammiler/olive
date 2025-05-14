@@ -578,7 +578,7 @@ void Track::ProcessAudioTrack(const NodeValueRow &value, const NodeGlobals &glob
 
     if (samples_from_this_block.is_allocated()) {
       // If this is a clip, we might have extra speed/reverse information
-      if (ClipBlock *clip_cast = dynamic_cast<ClipBlock *>(b)) {
+      if (auto *clip_cast = dynamic_cast<ClipBlock *>(b)) {
         double speed_value = clip_cast->speed();
         bool reversed = clip_cast->reverse();
 
@@ -696,7 +696,7 @@ void Track::RefreshBlockCacheFromArrayMap() {
   arraymap_invalid_ = false;
 
   for (int i = 0; i < block_array_indexes_.size(); i++) {
-    Block *b = dynamic_cast<Block *>(GetConnectedOutput(kBlockInput, block_array_indexes_.at(i)));
+    auto *b = dynamic_cast<Block *>(GetConnectedOutput(kBlockInput, block_array_indexes_.at(i)));
 
     Block::set_previous_next(prev, b);
 
@@ -722,7 +722,7 @@ void Track::RefreshBlockCacheFromArrayMap() {
 
 void Track::BlockLengthChanged() {
   // Assumes sender is a Block
-  Block *b = dynamic_cast<Block *>(sender());
+  auto *b = dynamic_cast<Block *>(sender());
 
   UpdateInOutFrom(blocks_.indexOf(b));
 }

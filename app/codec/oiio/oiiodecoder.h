@@ -35,16 +35,16 @@ class OIIODecoder : public Decoder {
 
   DECODER_DEFAULT_DESTRUCTOR(OIIODecoder)
 
-  virtual QString id() const override;
+  [[nodiscard]] QString id() const override;
 
-  virtual bool SupportsVideo() override { return true; }
+  bool SupportsVideo() override { return true; }
 
-  virtual FootageDescription Probe(const QString& filename, CancelAtom* cancelled) const override;
+  FootageDescription Probe(const QString& filename, CancelAtom* cancelled) const override;
 
  protected:
-  virtual bool OpenInternal() override;
-  virtual TexturePtr RetrieveVideoInternal(const RetrieveVideoParams& p) override;
-  virtual void CloseInternal() override;
+  bool OpenInternal() override;
+  TexturePtr RetrieveVideoInternal(const RetrieveVideoParams& p) override;
+  void CloseInternal() override;
 
  private:
   std::unique_ptr<OIIO::ImageInput> image_;

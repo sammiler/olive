@@ -25,7 +25,7 @@
 namespace olive {
 
 ParamPanel::ParamPanel() : TimeBasedPanel(QStringLiteral("ParamPanel")) {
-  NodeParamView *view = new NodeParamView(this);
+  auto *view = new NodeParamView(this);
   connect(view, &NodeParamView::FocusedNodeChanged, this, &ParamPanel::FocusedNodeChanged);
   connect(view, &NodeParamView::SelectedNodesChanged, this, &ParamPanel::SelectedNodesChanged);
   connect(view, &NodeParamView::RequestViewerToStartEditingText, this, &ParamPanel::RequestViewerToStartEditingText);

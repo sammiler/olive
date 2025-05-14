@@ -33,7 +33,7 @@ namespace olive {
 
 FootageRelinkDialog::FootageRelinkDialog(const QVector<Footage*>& footage, QWidget* parent)
     : QDialog(parent), footage_(footage) {
-  QVBoxLayout* layout = new QVBoxLayout(this);
+  auto* layout = new QVBoxLayout(this);
 
   layout->addWidget(
       new QLabel("The following files couldn't be found. Clips using them will be "
@@ -54,11 +54,11 @@ FootageRelinkDialog::FootageRelinkDialog(const QVector<Footage*>& footage, QWidg
 
   for (int i = 0; i < footage.size(); i++) {
     Footage* f = footage.at(i);
-    QTreeWidgetItem* item = new QTreeWidgetItem();
+    auto* item = new QTreeWidgetItem();
 
-    QWidget* item_actions = new QWidget();
-    QHBoxLayout* item_actions_layout = new QHBoxLayout(item_actions);
-    QPushButton* item_browse_btn = new QPushButton(tr("Browse"));
+    auto* item_actions = new QWidget();
+    auto* item_actions_layout = new QHBoxLayout(item_actions);
+    auto* item_browse_btn = new QPushButton(tr("Browse"));
     item_browse_btn->setProperty("index", i);
     connect(item_browse_btn, &QPushButton::clicked, this, &FootageRelinkDialog::BrowseForFootage);
     item_actions_layout->addWidget(item_browse_btn);
@@ -74,7 +74,7 @@ FootageRelinkDialog::FootageRelinkDialog(const QVector<Footage*>& footage, QWidg
 
   layout->addWidget(table_);
 
-  QDialogButtonBox* buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+  auto* buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
   connect(buttons, &QDialogButtonBox::accepted, this, &FootageRelinkDialog::accept);
   connect(buttons, &QDialogButtonBox::rejected, this, &FootageRelinkDialog::reject);
   layout->addWidget(buttons);

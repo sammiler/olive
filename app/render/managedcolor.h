@@ -34,10 +34,10 @@ class ManagedColor : public Color {
   ManagedColor(const char* data, const PixelFormat& format, int channel_layout);
   explicit ManagedColor(const Color& c);
 
-  QString color_input() const;
+  [[nodiscard]] QString color_input() const;
   void set_color_input(const QString& color_input);
 
-  const ColorTransform& color_output() const;
+  [[nodiscard]] const ColorTransform& color_output() const;
   void set_color_output(const ColorTransform& color_output);
 
  private:

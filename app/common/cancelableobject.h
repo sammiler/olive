@@ -28,7 +28,7 @@ namespace olive {
 
 class CancelableObject {
  public:
-  CancelableObject() {}
+  CancelableObject() = default;
 
   void Cancel() {
     cancel_.Cancel();

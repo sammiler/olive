@@ -37,9 +37,9 @@ namespace olive {
 #define super TimeBasedWidget
 
 CurveWidget::CurveWidget(QWidget *parent) : super(parent) {
-  QHBoxLayout *outer_layout = new QHBoxLayout(this);
+  auto *outer_layout = new QHBoxLayout(this);
 
-  QSplitter *splitter = new QSplitter();
+  auto *splitter = new QSplitter();
   outer_layout->addWidget(splitter);
 
   tree_view_ = new NodeTreeView();
@@ -48,12 +48,12 @@ CurveWidget::CurveWidget(QWidget *parent) : super(parent) {
   connect(tree_view_, &NodeTreeView::InputSelectionChanged, this, &CurveWidget::InputSelectionChanged);
   splitter->addWidget(tree_view_);
 
-  QWidget *workarea = new QWidget();
-  QVBoxLayout *layout = new QVBoxLayout(workarea);
+  auto *workarea = new QWidget();
+  auto *layout = new QVBoxLayout(workarea);
   layout->setContentsMargins(0, 0, 0, 0);
   splitter->addWidget(workarea);
 
-  QHBoxLayout *top_controls = new QHBoxLayout();
+  auto *top_controls = new QHBoxLayout();
 
   key_control_ = new NodeParamViewKeyframeControl(false);
   top_controls->addWidget(key_control_);
@@ -81,7 +81,7 @@ CurveWidget::CurveWidget(QWidget *parent) : super(parent) {
   layout->addLayout(top_controls);
 
   // We use a separate layout for the ruler+view combination so that there's no spacing between them
-  QVBoxLayout *ruler_view_layout = new QVBoxLayout();
+  auto *ruler_view_layout = new QVBoxLayout();
   ruler_view_layout->setContentsMargins(0, 0, 0, 0);
   ruler_view_layout->setSpacing(0);
 
@@ -269,7 +269,7 @@ void CurveWidget::SelectionChanged() {
 }
 
 void CurveWidget::KeyframeTypeButtonTriggered(bool checked) {
-  QPushButton *key_btn = dynamic_cast<QPushButton *>(sender());
+  auto *key_btn = dynamic_cast<QPushButton *>(sender());
 
   if (!checked) {
     // Keyframe buttons cannot be checked off, we undo this action here
@@ -298,7 +298,7 @@ void CurveWidget::KeyframeTypeButtonTriggered(bool checked) {
   // Ensure only the appropriate button is checked
   SetKeyframeButtonCheckedFromType(new_type);
 
-  MultiUndoCommand *command = new MultiUndoCommand();
+  auto *command = new MultiUndoCommand();
 
   foreach (NodeKeyframe *item, selected) {
     command->add_child(new KeyframeSetTypeCommand(item, new_type));

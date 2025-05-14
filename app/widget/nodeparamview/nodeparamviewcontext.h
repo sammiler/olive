@@ -32,11 +32,11 @@ class NodeParamViewContext : public NodeParamViewItemBase {
  public:
   explicit NodeParamViewContext(QWidget *parent = nullptr);
 
-  NodeParamViewDockArea *GetDockArea() const { return dock_area_; }
+  [[nodiscard]] NodeParamViewDockArea *GetDockArea() const { return dock_area_; }
 
-  const QVector<Node *> &GetContexts() const { return contexts_; }
+  [[nodiscard]] const QVector<Node *> &GetContexts() const { return contexts_; }
 
-  const QVector<NodeParamViewItem *> &GetItems() const { return items_; }
+  [[nodiscard]] const QVector<NodeParamViewItem *> &GetItems() const { return items_; }
 
   NodeParamViewItem *GetItem(Node *node, Node *ctx);
 
@@ -63,7 +63,7 @@ class NodeParamViewContext : public NodeParamViewItemBase {
   void RemoveContext(Node *node) { contexts_.removeOne(node); }
 
  protected slots:
-  virtual void Retranslate() override;
+  void Retranslate() override;
 
  private:
   NodeParamViewDockArea *dock_area_;

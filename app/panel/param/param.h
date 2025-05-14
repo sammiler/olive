@@ -32,20 +32,20 @@ class ParamPanel : public TimeBasedPanel {
  public:
   ParamPanel();
 
-  NodeParamView *GetParamView() const { return dynamic_cast<NodeParamView *>(GetTimeBasedWidget()); }
+  [[nodiscard]] NodeParamView *GetParamView() const { return dynamic_cast<NodeParamView *>(GetTimeBasedWidget()); }
 
-  const QVector<Node *> &GetContexts() const { return GetParamView()->GetContexts(); }
+  [[nodiscard]] const QVector<Node *> &GetContexts() const { return GetParamView()->GetContexts(); }
 
   void CloseContextsBelongingToProject(Project *p) { GetParamView()->CloseContextsBelongingToProject(p); }
 
  public slots:
   void SetSelectedNodes(const QVector<Node::ContextPair> &nodes) { GetParamView()->SetSelectedNodes(nodes, false); }
 
-  virtual void DeleteSelected() override;
+  void DeleteSelected() override;
 
-  virtual void SelectAll() override;
+  void SelectAll() override;
 
-  virtual void DeselectAll() override;
+  void DeselectAll() override;
 
   void SetContexts(const QVector<Node *> &contexts);
 
@@ -57,7 +57,7 @@ class ParamPanel : public TimeBasedPanel {
   void RequestViewerToStartEditingText();
 
  protected:
-  virtual void Retranslate() override;
+  void Retranslate() override;
 };
 
 }  // namespace olive

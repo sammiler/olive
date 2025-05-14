@@ -34,9 +34,9 @@ class DOCKS_EXPORT SideBarButton : public QToolButton
     Q_OBJECT
 public:
     explicit SideBarButton(DockWidgetBase *dw, SideBarWidget *parent);
-    bool isVertical() const;
+    [[nodiscard]] bool isVertical() const;
     void paintEvent(QPaintEvent *) override;
-    QSize sizeHint() const override;
+    [[nodiscard]] QSize sizeHint() const override;
 
 private:
     SideBarWidget *const m_sideBar;

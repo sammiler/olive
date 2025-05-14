@@ -77,7 +77,7 @@ void ExportFormatComboBox::HandleIndexChange(QAction *a) {
 
 void ExportFormatComboBox::PopulateType(Track::Type type) {
   for (int i = 0; i < ExportFormat::kFormatCount; i++) {
-    ExportFormat::Format f = static_cast<ExportFormat::Format>(i);
+    auto f = static_cast<ExportFormat::Format>(i);
 
     if (type == Track::kVideo && !ExportFormat::GetVideoCodecs(f).isEmpty()) {
       // Do nothing
@@ -100,14 +100,14 @@ void ExportFormatComboBox::PopulateType(Track::Type type) {
 }
 
 QWidgetAction *ExportFormatComboBox::CreateHeader(const QIcon &icon, const QString &title) {
-  QWidgetAction *a = new QWidgetAction(this);
+  auto *a = new QWidgetAction(this);
 
-  QWidget *w = new QWidget();
-  QHBoxLayout *layout = new QHBoxLayout(w);
+  auto *w = new QWidget();
+  auto *layout = new QHBoxLayout(w);
 
-  QLabel *icon_lbl = new QLabel();
+  auto *icon_lbl = new QLabel();
 
-  QLabel *text_lbl = new QLabel(title);
+  auto *text_lbl = new QLabel(title);
   text_lbl->setAlignment(Qt::AlignCenter);
   QFont f = text_lbl->font();
   f.setWeight(QFont::Bold);

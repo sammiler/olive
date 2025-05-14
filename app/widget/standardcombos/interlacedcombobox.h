@@ -37,7 +37,7 @@ class InterlacedComboBox : public QComboBox {
     this->addItem(tr("Bottom-Field First"));
   }
 
-  VideoParams::Interlacing GetInterlaceMode() const {
+  [[nodiscard]] VideoParams::Interlacing GetInterlaceMode() const {
     return static_cast<VideoParams::Interlacing>(this->currentIndex());
   }
 

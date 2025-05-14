@@ -37,13 +37,13 @@ SpeedDurationDialog::SpeedDurationDialog(const QVector<ClipBlock *> &clips, cons
     : super(parent), clips_(clips), timebase_(timebase) {
   setWindowTitle(tr("Clip Properties"));
 
-  QVBoxLayout *layout = new QVBoxLayout(this);
+  auto *layout = new QVBoxLayout(this);
 
   {
-    QGroupBox *speed_group = new QGroupBox(tr("Speed/Duration"));
+    auto *speed_group = new QGroupBox(tr("Speed/Duration"));
     layout->addWidget(speed_group);
 
-    QGridLayout *speed_layout = new QGridLayout(speed_group);
+    auto *speed_layout = new QGridLayout(speed_group);
 
     int row = 0;
 
@@ -103,7 +103,7 @@ SpeedDurationDialog::SpeedDurationDialog(const QVector<ClipBlock *> &clips, cons
     loop_layout->addWidget(loop_combo_, row, 1);
   }
 
-  QDialogButtonBox *btns = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+  auto *btns = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
   btns->setCenterButtons(true);
   connect(btns, &QDialogButtonBox::accepted, this, &SpeedDurationDialog::accept);
   connect(btns, &QDialogButtonBox::rejected, this, &SpeedDurationDialog::reject);
@@ -175,7 +175,7 @@ SpeedDurationDialog::SpeedDurationDialog(const QVector<ClipBlock *> &clips, cons
 }
 
 void SpeedDurationDialog::accept() {
-  MultiUndoCommand *command = new MultiUndoCommand();
+  auto *command = new MultiUndoCommand();
 
   // Set duration values
   TimelineRippleDeleteGapsAtRegionsCommand::RangeList ripple_ranges;
@@ -194,7 +194,7 @@ void SpeedDurationDialog::accept() {
     if (proposed_length != c->length()) {
       // Clip length should ideally change, but check if there's "room" to do so
       if (proposed_length > c->length() && c->next()) {
-        if (GapBlock *gap = dynamic_cast<GapBlock *>(c->next())) {
+        if (auto *gap = dynamic_cast<GapBlock *>(c->next())) {
           proposed_length = qMin(proposed_length, gap->out() - c->in());
         } else {
           proposed_length = c->length();

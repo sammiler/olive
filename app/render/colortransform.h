@@ -44,15 +44,15 @@ class ColorTransform {
     look_ = look;
   }
 
-  bool is_display() const { return is_display_; }
+  [[nodiscard]] bool is_display() const { return is_display_; }
 
-  const QString& display() const { return output_; }
+  [[nodiscard]] const QString& display() const { return output_; }
 
-  const QString& output() const { return output_; }
+  [[nodiscard]] const QString& output() const { return output_; }
 
-  const QString& view() const { return view_; }
+  [[nodiscard]] const QString& view() const { return view_; }
 
-  const QString& look() const { return look_; }
+  [[nodiscard]] const QString& look() const { return look_; }
 
  private:
   QString output_;

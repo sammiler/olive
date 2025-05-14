@@ -38,9 +38,9 @@ class RenderJobTracker {
 
   void clear();
 
-  bool isCurrent(const rational &time, JobTime job_time) const;
+  [[nodiscard]] bool isCurrent(const rational &time, JobTime job_time) const;
 
-  TimeRangeList getCurrentSubRanges(const TimeRange &range, const JobTime &job_time) const;
+  [[nodiscard]] TimeRangeList getCurrentSubRanges(const TimeRange &range, const JobTime &job_time) const;
 
  private:
   class TimeRangeWithJob : public TimeRange {
@@ -51,7 +51,7 @@ class RenderJobTracker {
       job_time_ = job_time;
     }
 
-    JobTime GetJobTime() const { return job_time_; }
+    [[nodiscard]] JobTime GetJobTime() const { return job_time_; }
     void SetJobTime(JobTime jt) { job_time_ = jt; }
 
    private:

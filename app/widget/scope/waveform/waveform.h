@@ -33,9 +33,9 @@ class WaveformScope : public ScopeBase {
   MANAGEDDISPLAYWIDGET_DEFAULT_DESTRUCTOR(WaveformScope)
 
  protected:
-  virtual ShaderCode GenerateShaderCode() override;
+  ShaderCode GenerateShaderCode() override;
 
-  virtual void DrawScope(TexturePtr managed_tex, QVariant pipeline) override;
+  void DrawScope(TexturePtr managed_tex, QVariant pipeline) override;
 };
 
 }  // namespace olive

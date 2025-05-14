@@ -44,7 +44,7 @@ void TaskDialog::showEvent(QShowEvent* e) {
 
   if (!already_shown_) {
     // Create watcher for when the task finishes
-    QFutureWatcher<bool>* task_watcher = new QFutureWatcher<bool>();
+    auto* task_watcher = new QFutureWatcher<bool>();
 
     // Listen for when the task finishes
     connect(task_watcher, &QFutureWatcher<bool>::finished, this, &TaskDialog::TaskFinished, Qt::QueuedConnection);
@@ -79,7 +79,7 @@ void TaskDialog::closeEvent(QCloseEvent* e) {
 }
 
 void TaskDialog::TaskFinished() {
-  QFutureWatcher<bool>* task_watcher = dynamic_cast<QFutureWatcher<bool>*>(sender());
+  auto* task_watcher = dynamic_cast<QFutureWatcher<bool>*>(sender());
 
   if (task_watcher->result()) {
     emit TaskSucceeded(task_);

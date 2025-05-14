@@ -51,55 +51,55 @@ class AudioParams {
     calculate_channel_count();
   }
 
-  int sample_rate() const { return sample_rate_; }
+  [[nodiscard]] int sample_rate() const { return sample_rate_; }
 
   void set_sample_rate(int sample_rate) { sample_rate_ = sample_rate; }
 
-  uint64_t channel_layout() const { return channel_layout_; }
+  [[nodiscard]] uint64_t channel_layout() const { return channel_layout_; }
 
   void set_channel_layout(uint64_t channel_layout) {
     channel_layout_ = channel_layout;
     calculate_channel_count();
   }
 
-  rational time_base() const { return timebase_; }
+  [[nodiscard]] rational time_base() const { return timebase_; }
 
   void set_time_base(const rational& timebase) { timebase_ = timebase; }
 
-  rational sample_rate_as_time_base() const { return rational(1, sample_rate()); }
+  [[nodiscard]] rational sample_rate_as_time_base() const { return rational(1, sample_rate()); }
 
-  SampleFormat format() const { return format_; }
+  [[nodiscard]] SampleFormat format() const { return format_; }
 
   void set_format(SampleFormat format) { format_ = format; }
 
-  bool enabled() const { return enabled_; }
+  [[nodiscard]] bool enabled() const { return enabled_; }
 
   void set_enabled(bool e) { enabled_ = e; }
 
-  int stream_index() const { return stream_index_; }
+  [[nodiscard]] int stream_index() const { return stream_index_; }
 
   void set_stream_index(int s) { stream_index_ = s; }
 
-  int64_t duration() const { return duration_; }
+  [[nodiscard]] int64_t duration() const { return duration_; }
 
   void set_duration(int64_t duration) { duration_ = duration; }
 
-  int64_t time_to_bytes(const double& time) const;
-  int64_t time_to_bytes(const rational& time) const;
-  int64_t time_to_bytes_per_channel(const double& time) const;
-  int64_t time_to_bytes_per_channel(const rational& time) const;
-  int64_t time_to_samples(const double& time) const;
-  int64_t time_to_samples(const rational& time) const;
-  int64_t samples_to_bytes(const int64_t& samples) const;
-  int64_t samples_to_bytes_per_channel(const int64_t& samples) const;
-  rational samples_to_time(const int64_t& samples) const;
-  int64_t bytes_to_samples(const int64_t& bytes) const;
-  rational bytes_to_time(const int64_t& bytes) const;
-  rational bytes_per_channel_to_time(const int64_t& bytes) const;
-  int channel_count() const;
-  int bytes_per_sample_per_channel() const;
-  int bits_per_sample() const;
-  bool is_valid() const;
+  [[nodiscard]] int64_t time_to_bytes(const double& time) const;
+  [[nodiscard]] int64_t time_to_bytes(const rational& time) const;
+  [[nodiscard]] int64_t time_to_bytes_per_channel(const double& time) const;
+  [[nodiscard]] int64_t time_to_bytes_per_channel(const rational& time) const;
+  [[nodiscard]] int64_t time_to_samples(const double& time) const;
+  [[nodiscard]] int64_t time_to_samples(const rational& time) const;
+  [[nodiscard]] int64_t samples_to_bytes(const int64_t& samples) const;
+  [[nodiscard]] int64_t samples_to_bytes_per_channel(const int64_t& samples) const;
+  [[nodiscard]] rational samples_to_time(const int64_t& samples) const;
+  [[nodiscard]] int64_t bytes_to_samples(const int64_t& bytes) const;
+  [[nodiscard]] rational bytes_to_time(const int64_t& bytes) const;
+  [[nodiscard]] rational bytes_per_channel_to_time(const int64_t& bytes) const;
+  [[nodiscard]] int channel_count() const;
+  [[nodiscard]] int bytes_per_sample_per_channel() const;
+  [[nodiscard]] int bits_per_sample() const;
+  [[nodiscard]] bool is_valid() const;
 
   bool operator==(const AudioParams& other) const;
   bool operator!=(const AudioParams& other) const;

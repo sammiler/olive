@@ -40,7 +40,7 @@ namespace olive {
 
 FootagePropertiesDialog::FootagePropertiesDialog(QWidget *parent, Footage *footage)
     : QDialog(parent), footage_(footage) {
-  QGridLayout *layout = new QGridLayout(this);
+  auto *layout = new QGridLayout(this);
 
   setWindowTitle(tr("\"%1\" Properties").arg(footage_->GetLabelOrName()));
   setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -103,7 +103,7 @@ FootagePropertiesDialog::FootagePropertiesDialog(QWidget *parent, Footage *foota
         break;
     }
 
-    QListWidgetItem *item = new QListWidgetItem(description, track_list);
+    auto *item = new QListWidgetItem(description, track_list);
     item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
     item->setCheckState(is_enabled ? Qt::Checked : Qt::Unchecked);
     track_list->addItem(item);
@@ -116,7 +116,7 @@ FootagePropertiesDialog::FootagePropertiesDialog(QWidget *parent, Footage *foota
 
   row++;
 
-  QDialogButtonBox *buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+  auto *buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
   buttons->setCenterButtons(true);
   layout->addWidget(buttons, row, 0, 1, 2);
 
@@ -144,10 +144,10 @@ void FootagePropertiesDialog::accept() {
     }
   }
 
-  MultiUndoCommand *command = new MultiUndoCommand();
+  auto *command = new MultiUndoCommand();
 
   if (footage_->GetLabel() != footage_name_field_->text()) {
-    NodeRenameCommand *nrc = new NodeRenameCommand();
+    auto *nrc = new NodeRenameCommand();
     nrc->AddNode(footage_, footage_name_field_->text());
     command->add_child(nrc);
   }

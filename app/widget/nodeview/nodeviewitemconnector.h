@@ -33,10 +33,10 @@ class NodeViewItemConnector : public QGraphicsPolygonItem {
 
   void SetFlowDirection(NodeViewCommon::FlowDirection dir);
 
-  bool IsOutput() const { return output_; }
+  [[nodiscard]] bool IsOutput() const { return output_; }
 
-  virtual QPainterPath shape() const override;
-  virtual QRectF boundingRect() const override;
+  [[nodiscard]] QPainterPath shape() const override;
+  [[nodiscard]] QRectF boundingRect() const override;
 
  private:
   bool output_;

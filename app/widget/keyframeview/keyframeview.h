@@ -59,12 +59,12 @@ class KeyframeView : public TimeBasedView, public TimeTargetObject {
 
   void Clear();
 
-  const std::vector<NodeKeyframe *> &GetSelectedKeyframes() const { return selection_manager_.GetSelectedObjects(); }
+  [[nodiscard]] const std::vector<NodeKeyframe *> &GetSelectedKeyframes() const { return selection_manager_.GetSelectedObjects(); }
 
-  const QVector<KeyframeViewInputConnection *> &GetKeyframeTracks() const { return tracks_; }
+  [[nodiscard]] const QVector<KeyframeViewInputConnection *> &GetKeyframeTracks() const { return tracks_; }
 
-  virtual void SelectionManagerSelectEvent(void *obj) override;
-  virtual void SelectionManagerDeselectEvent(void *obj) override;
+  void SelectionManagerSelectEvent(void *obj) override;
+  void SelectionManagerDeselectEvent(void *obj) override;
 
   void SetMaxScroll(int i) {
     max_scroll_ = i;
@@ -75,7 +75,7 @@ class KeyframeView : public TimeBasedView, public TimeTargetObject {
 
   bool Paste(std::function<Node *(const QString &)> find_node_function);
 
-  virtual void CatchUpScrollEvent() override;
+  void CatchUpScrollEvent() override;
 
  signals:
   void Dragged(int current_x, int current_y);
@@ -85,20 +85,20 @@ class KeyframeView : public TimeBasedView, public TimeTargetObject {
   void Released();
 
  protected:
-  virtual void mousePressEvent(QMouseEvent *event) override;
-  virtual void mouseMoveEvent(QMouseEvent *event) override;
-  virtual void mouseReleaseEvent(QMouseEvent *event) override;
+  void mousePressEvent(QMouseEvent *event) override;
+  void mouseMoveEvent(QMouseEvent *event) override;
+  void mouseReleaseEvent(QMouseEvent *event) override;
 
-  virtual void drawForeground(QPainter *painter, const QRectF &rect) override;
+  void drawForeground(QPainter *painter, const QRectF &rect) override;
 
   virtual void DrawKeyframe(QPainter *painter, NodeKeyframe *key, KeyframeViewInputConnection *track,
                             const QRectF &key_rect);
 
-  virtual void ScaleChangedEvent(const double &scale) override;
+  void ScaleChangedEvent(const double &scale) override;
 
-  virtual void TimeTargetChangedEvent(ViewerOutput *v) override;
+  void TimeTargetChangedEvent(ViewerOutput *v) override;
 
-  virtual void TimebaseChangedEvent(const rational &timebase) override;
+  void TimebaseChangedEvent(const rational &timebase) override;
 
   virtual void ContextMenuEvent(Menu &m);
 
@@ -127,7 +127,7 @@ class KeyframeView : public TimeBasedView, public TimeTargetObject {
 
   void SetAutoSelectSiblings(bool e) { autoselect_siblings_ = e; }
 
-  virtual void SceneRectUpdateEvent(QRectF &rect) override;
+  void SceneRectUpdateEvent(QRectF &rect) override;
 
  protected slots:
   void Redraw();

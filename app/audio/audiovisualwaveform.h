@@ -46,11 +46,11 @@ class AudioVisualWaveform {
 
   using Sample = std::vector<SamplePerChannel>;
 
-  int channel_count() const { return channels_; }
+  [[nodiscard]] int channel_count() const { return channels_; }
 
   void set_channel_count(int channels) { channels_ = channels; }
 
-  const rational &length() const { return length_; }
+  [[nodiscard]] const rational &length() const { return length_; }
 
   /**
    * @brief Writes samples into the visual waveform buffer
@@ -85,14 +85,14 @@ class AudioVisualWaveform {
 
   void TrimIn(rational length);
 
-  AudioVisualWaveform Mid(const rational &offset) const;
-  AudioVisualWaveform Mid(const rational &offset, const rational &length) const;
+  [[nodiscard]] AudioVisualWaveform Mid(const rational &offset) const;
+  [[nodiscard]] AudioVisualWaveform Mid(const rational &offset, const rational &length) const;
 
   void Resize(const rational &length);
 
   void TrimRange(const rational &in, const rational &length);
 
-  Sample GetSummaryFromTime(const rational &start, const rational &length) const;
+  [[nodiscard]] Sample GetSummaryFromTime(const rational &start, const rational &length) const;
 
   static Sample SumSamples(const SampleBuffer &samples, size_t start_index, size_t length);
 
@@ -114,10 +114,10 @@ class AudioVisualWaveform {
   void OverwriteSamplesFromMipmap(const Sample &input, double input_sample_rate, size_t &input_start,
                                   size_t &input_length, const rational &start, double output_rate, Sample &output_data);
 
-  size_t time_to_samples(const rational &time, double sample_rate) const;
-  size_t time_to_samples(const double &time, double sample_rate) const;
+  [[nodiscard]] size_t time_to_samples(const rational &time, double sample_rate) const;
+  [[nodiscard]] size_t time_to_samples(const double &time, double sample_rate) const;
 
-  std::map<rational, Sample>::const_iterator GetMipmapForScale(double scale) const;
+  [[nodiscard]] std::map<rational, Sample>::const_iterator GetMipmapForScale(double scale) const;
 
   void ValidateVirtualStart(const rational &new_start);
 

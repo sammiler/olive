@@ -30,7 +30,7 @@ namespace olive {
 
 class NodeGlobals {
  public:
-  NodeGlobals() {}
+  NodeGlobals() = default;
 
   NodeGlobals(const VideoParams &vparam, const AudioParams &aparam, const TimeRange &time, LoopMode loop_mode)
       : video_params_(vparam), audio_params_(aparam), time_(time), loop_mode_(loop_mode) {}
@@ -38,12 +38,12 @@ class NodeGlobals {
   NodeGlobals(const VideoParams &vparam, const AudioParams &aparam, const rational &time, LoopMode loop_mode)
       : NodeGlobals(vparam, aparam, TimeRange(time, time + vparam.frame_rate_as_time_base()), loop_mode) {}
 
-  QVector2D square_resolution() const { return video_params_.square_resolution(); }
-  QVector2D nonsquare_resolution() const { return video_params_.resolution(); }
-  const AudioParams &aparams() const { return audio_params_; }
-  const VideoParams &vparams() const { return video_params_; }
-  const TimeRange &time() const { return time_; }
-  LoopMode loop_mode() const { return loop_mode_; }
+  [[nodiscard]] QVector2D square_resolution() const { return video_params_.square_resolution(); }
+  [[nodiscard]] QVector2D nonsquare_resolution() const { return video_params_.resolution(); }
+  [[nodiscard]] const AudioParams &aparams() const { return audio_params_; }
+  [[nodiscard]] const VideoParams &vparams() const { return video_params_; }
+  [[nodiscard]] const TimeRange &time() const { return time_; }
+  [[nodiscard]] LoopMode loop_mode() const { return loop_mode_; }
 
  private:
   VideoParams video_params_;

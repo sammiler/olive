@@ -32,18 +32,18 @@ class MosaicFilterNode : public Node {
 
   NODE_DEFAULT_FUNCTIONS(MosaicFilterNode)
 
-  virtual QString Name() const override { return tr("Mosaic"); }
+  [[nodiscard]] QString Name() const override { return tr("Mosaic"); }
 
-  virtual QString id() const override { return QStringLiteral("org.olivevideoeditor.Olive.mosaicfilter"); }
+  [[nodiscard]] QString id() const override { return QStringLiteral("org.olivevideoeditor.Olive.mosaicfilter"); }
 
-  virtual QVector<CategoryID> Category() const override { return {kCategoryFilter}; }
+  [[nodiscard]] QVector<CategoryID> Category() const override { return {kCategoryFilter}; }
 
-  virtual QString Description() const override { return tr("Apply a pixelated mosaic filter to video."); }
+  [[nodiscard]] QString Description() const override { return tr("Apply a pixelated mosaic filter to video."); }
 
-  virtual void Retranslate() override;
+  void Retranslate() override;
 
-  virtual void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
-  virtual ShaderCode GetShaderCode(const ShaderRequest &request) const override;
+  void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
+  [[nodiscard]] ShaderCode GetShaderCode(const ShaderRequest &request) const override;
 
   static const QString kTextureInput;
   static const QString kHorizInput;

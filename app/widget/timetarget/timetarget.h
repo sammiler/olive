@@ -29,7 +29,7 @@ class TimeTargetObject {
  public:
   TimeTargetObject();
 
-  ViewerOutput* GetTimeTarget() const;
+  [[nodiscard]] ViewerOutput* GetTimeTarget() const;
   void SetTimeTarget(ViewerOutput* target);
 
   void SetPathIndex(int index);

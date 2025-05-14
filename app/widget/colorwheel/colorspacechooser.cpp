@@ -28,7 +28,7 @@ namespace olive {
 ColorSpaceChooser::ColorSpaceChooser(ColorManager* color_manager, bool enable_input_field, bool enable_display_fields,
                                      QWidget* parent)
     : QGroupBox(parent), color_manager_(color_manager) {
-  QGridLayout* layout = new QGridLayout(this);
+  auto* layout = new QGridLayout(this);
 
   setTitle(tr("Color Management"));
 

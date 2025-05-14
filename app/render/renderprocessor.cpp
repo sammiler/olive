@@ -58,7 +58,7 @@ FramePtr RenderProcessor::GenerateFrame(TexturePtr texture, const rational &time
   // Set up output frame parameters
   VideoParams frame_params = GetCacheVideoParams();
 
-  QSize frame_size = ticket_->property("size").value<QSize>();
+  auto frame_size = ticket_->property("size").value<QSize>();
   if (!frame_size.isNull()) {
     frame_params.set_width(frame_size.width());
     frame_params.set_height(frame_size.height());
@@ -86,7 +86,7 @@ FramePtr RenderProcessor::GenerateFrame(TexturePtr texture, const rational &time
     memset(frame->data(), 0, frame->allocated_size());
   } else {
     // Dump texture contents to frame
-    ColorProcessorPtr output_color_transform = ticket_->property("coloroutput").value<ColorProcessorPtr>();
+    auto output_color_transform = ticket_->property("coloroutput").value<ColorProcessorPtr>();
     const VideoParams &tex_params = texture->params();
 
     if (output_color_transform) {
@@ -107,7 +107,7 @@ FramePtr RenderProcessor::GenerateFrame(TexturePtr texture, const rational &time
         static_cast<PixelFormat::Format>(tex_params.format()) != static_cast<PixelFormat::Format>(frame_params.format())) {
       TexturePtr blit_tex = render_ctx_->CreateTexture(frame_params);
 
-      QMatrix4x4 matrix = ticket_->property("matrix").value<QMatrix4x4>();
+      auto matrix = ticket_->property("matrix").value<QMatrix4x4>();
 
       // No color transform, just blit
       ShaderJob job;
@@ -130,7 +130,7 @@ FramePtr RenderProcessor::GenerateFrame(TexturePtr texture, const rational &time
 
 void RenderProcessor::Run() {
   // Depending on the render ticket type, start a job
-  RenderManager::TicketType type = ticket_->property("type").value<RenderManager::TicketType>();
+  auto type = ticket_->property("type").value<RenderManager::TicketType>();
 
   SetCancelPointer(ticket_->GetCancelAtom());
 
@@ -144,7 +144,7 @@ void RenderProcessor::Run() {
 
   switch (type) {
     case RenderManager::kTypeVideo: {
-      rational time = ticket_->property("time").value<rational>();
+      auto time = ticket_->property("time").value<rational>();
 
       rational frame_length = GetCacheVideoParams().frame_rate_as_time_base();
       if (GetCacheVideoParams().interlacing() != VideoParams::kInterlaceNone) {
@@ -183,8 +183,8 @@ void RenderProcessor::Run() {
 
             // Save to cache if requested
             if (!cache.isEmpty()) {
-              rational timebase = ticket_->property("cachetimebase").value<rational>();
-              QUuid uuid = ticket_->property("cacheid").value<QUuid>();
+              auto timebase = ticket_->property("cachetimebase").value<rational>();
+              auto uuid = ticket_->property("cacheid").value<QUuid>();
               bool cache_result = FrameHashCache::SaveCacheFrame(cache, uuid, time, timebase, frame);
               ticket_->setProperty("cached", cache_result);
             }
@@ -208,7 +208,7 @@ void RenderProcessor::Run() {
       break;
     }
     case RenderManager::kTypeAudio: {
-      TimeRange time = ticket_->property("time").value<TimeRange>();
+      auto time = ticket_->property("time").value<TimeRange>();
 
       NodeValueTable table;
       if (Node *node = QtUtils::ValueToPtr<Node>(ticket_->property("node"))) {
@@ -286,7 +286,7 @@ DecoderPtr RenderProcessor::ResolveDecoderFromInput(const QString &decoder_id, c
 NodeValueDatabase RenderProcessor::GenerateDatabase(const Node *node, const TimeRange &range) {
   NodeValueDatabase db = super::GenerateDatabase(node, range);
 
-  if (const MultiCamNode *multicam = dynamic_cast<const MultiCamNode *>(node)) {
+  if (const auto *multicam = dynamic_cast<const MultiCamNode *>(node)) {
     if (QtUtils::ValueToPtr<MultiCamNode>(ticket_->property("multicam")) == multicam) {
       int sz = multicam->GetSourceCount();
       QVector<TexturePtr> multicam_tex(sz);
@@ -323,7 +323,7 @@ void RenderProcessor::ProcessVideoFootage(TexturePtr destination, const FootageJ
   // to optimize such a situation
   VideoParams stream_data = stream->video_params();
 
-  ColorManager *color_manager = QtUtils::ValueToPtr<ColorManager>(ticket_->property("colormanager"));
+  auto *color_manager = QtUtils::ValueToPtr<ColorManager>(ticket_->property("colormanager"));
 
   QString using_colorspace = stream_data.colorspace();
 
@@ -534,7 +534,7 @@ void RenderProcessor::ConvertToReferenceSpace(TexturePtr destination, TexturePtr
     return;
   }
 
-  ColorManager *color_manager = QtUtils::ValueToPtr<ColorManager>(ticket_->property("colormanager"));
+  auto *color_manager = QtUtils::ValueToPtr<ColorManager>(ticket_->property("colormanager"));
   ColorProcessorPtr cp = ColorProcessor::Create(color_manager, input_cs, ColorTransform(color_manager->GetReferenceColorSpace()));
 
   ColorTransformJob ctj;

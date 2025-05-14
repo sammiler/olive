@@ -42,7 +42,7 @@ class MainStatusBar : public QStatusBar {
   void DoubleClicked();
 
  protected:
-  virtual void mouseDoubleClickEvent(QMouseEvent* e) override;
+  void mouseDoubleClickEvent(QMouseEvent* e) override;
 
  private slots:
   void UpdateStatus();

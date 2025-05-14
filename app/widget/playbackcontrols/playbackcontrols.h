@@ -113,7 +113,7 @@ class PlaybackControls : public QWidget {
   void TimeChanged(const rational& t);
 
  protected:
-  virtual void changeEvent(QEvent*) override;
+  void changeEvent(QEvent*) override;
 
  private:
   void UpdateIcons();

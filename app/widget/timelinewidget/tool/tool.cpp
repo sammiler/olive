@@ -28,7 +28,7 @@ const int TimelineTool::kDefaultDistanceFromOutput = -4;
 
 TimelineTool::TimelineTool(TimelineWidget *parent) : dragging_(false), parent_(parent) {}
 
-TimelineTool::~TimelineTool() {}
+TimelineTool::~TimelineTool() = default;
 
 TimelineWidget *TimelineTool::parent() { return parent_; }
 

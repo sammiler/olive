@@ -33,7 +33,7 @@ class NodeWidget : public QWidget {
  public:
   explicit NodeWidget(QWidget *parent = nullptr);
 
-  NodeView *view() const { return node_view_; }
+  [[nodiscard]] NodeView *view() const { return node_view_; }
 
   void SetContexts(const QVector<Node *> &nodes) {
     node_view_->SetContexts(nodes);

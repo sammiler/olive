@@ -11,10 +11,10 @@ class MulticamPanel : public TimeBasedPanel {
  public:
   MulticamPanel();
 
-  MulticamWidget *GetMulticamWidget() const { return dynamic_cast<MulticamWidget *>(GetTimeBasedWidget()); }
+  [[nodiscard]] MulticamWidget *GetMulticamWidget() const { return dynamic_cast<MulticamWidget *>(GetTimeBasedWidget()); }
 
  protected:
-  virtual void Retranslate() override;
+  void Retranslate() override;
 };
 
 }  // namespace olive

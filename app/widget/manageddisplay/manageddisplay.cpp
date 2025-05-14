@@ -33,7 +33,7 @@ namespace olive {
 
 ManagedDisplayWidget::ManagedDisplayWidget(QWidget* parent)
     : QWidget(parent), color_manager_(nullptr), color_service_(nullptr) {
-  QHBoxLayout* layout = new QHBoxLayout(this);
+  auto* layout = new QHBoxLayout(this);
   layout->setSpacing(0);
   layout->setContentsMargins(0, 0, 0, 0);
 
@@ -260,7 +260,7 @@ bool ManagedDisplayWidget::eventFilter(QObject* o, QEvent* e) {
       PanelManager::instance()->FocusChanged(nullptr, this);
       break;
     case QEvent::ContextMenu: {
-      QContextMenuEvent* ctx = dynamic_cast<QContextMenuEvent*>(e);
+      auto* ctx = dynamic_cast<QContextMenuEvent*>(e);
       emit customContextMenuRequested(ctx->pos());
       return true;
     }

@@ -35,7 +35,7 @@ class AV1CRFSection : public QWidget {
  public:
   explicit AV1CRFSection(int default_crf, QWidget* parent = nullptr);
 
-  int GetValue() const;
+  [[nodiscard]] int GetValue() const;
 
   static const int kDefaultAV1CRF = 30;
 
@@ -56,7 +56,7 @@ class AV1Section : public CodecSection {
   explicit AV1Section(QWidget* parent = nullptr);
   AV1Section(int default_crf, QWidget* parent);
 
-  virtual void AddOpts(EncodingParams* params) override;
+  void AddOpts(EncodingParams* params) override;
 
  private:
   QStackedWidget* compression_method_stack_;

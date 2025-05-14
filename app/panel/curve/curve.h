@@ -31,11 +31,11 @@ class CurvePanel : public TimeBasedPanel {
  public:
   CurvePanel();
 
-  virtual void DeleteSelected() override;
+  void DeleteSelected() override;
 
-  virtual void SelectAll() override;
+  void SelectAll() override;
 
-  virtual void DeselectAll() override;
+  void DeselectAll() override;
 
  public slots:
   void SetNode(Node *node) {
@@ -51,12 +51,12 @@ class CurvePanel : public TimeBasedPanel {
 
   void SetNodes(const QVector<Node *> &nodes);
 
-  virtual void IncreaseTrackHeight() override;
+  void IncreaseTrackHeight() override;
 
-  virtual void DecreaseTrackHeight() override;
+  void DecreaseTrackHeight() override;
 
  protected:
-  virtual void Retranslate() override;
+  void Retranslate() override;
 };
 
 }  // namespace olive

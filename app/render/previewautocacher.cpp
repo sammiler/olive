@@ -114,7 +114,7 @@ void PreviewAutoCacher::ClearSingleFrameRendersThatArentRunning() {
 }
 
 void PreviewAutoCacher::VideoInvalidatedFromCache(ViewerOutput *context, const TimeRange &range) {
-  PlaybackCache *cache = dynamic_cast<PlaybackCache *>(sender());
+  auto *cache = dynamic_cast<PlaybackCache *>(sender());
 
   cache->ClearRequestRange(range);
 
@@ -122,7 +122,7 @@ void PreviewAutoCacher::VideoInvalidatedFromCache(ViewerOutput *context, const T
 }
 
 void PreviewAutoCacher::AudioInvalidatedFromCache(ViewerOutput *context, const TimeRange &range) {
-  PlaybackCache *cache = dynamic_cast<PlaybackCache *>(sender());
+  auto *cache = dynamic_cast<PlaybackCache *>(sender());
 
   cache->ClearRequestRange(range);
 
@@ -130,7 +130,7 @@ void PreviewAutoCacher::AudioInvalidatedFromCache(ViewerOutput *context, const T
 }
 
 void PreviewAutoCacher::CancelForCache() {
-  PlaybackCache *cache = dynamic_cast<PlaybackCache *>(sender());
+  auto *cache = dynamic_cast<PlaybackCache *>(sender());
 
   if (dynamic_cast<FrameHashCache *>(cache) || dynamic_cast<ThumbnailCache *>(cache)) {
     for (auto it = pending_video_jobs_.begin(); it != pending_video_jobs_.end();) {
@@ -153,34 +153,34 @@ void PreviewAutoCacher::CancelForCache() {
 
 void PreviewAutoCacher::AudioRendered() {
   // Receive watcher
-  RenderTicketWatcher *watcher = dynamic_cast<RenderTicketWatcher *>(sender());
+  auto *watcher = dynamic_cast<RenderTicketWatcher *>(sender());
 
   // If the task list doesn't contain this watcher, presumably it was cleared as a result of a
   // viewer switch, so we'll completely ignore this watcher
   if (running_audio_tasks_.removeOne(watcher)) {
     // Assume that a "result" is a fully completed image and a non-result is a cancelled ticket
-    TimeRange range = watcher->property("time").value<TimeRange>();
+    auto range = watcher->property("time").value<TimeRange>();
     Node *node = copier_->GetOriginal(QtUtils::ValueToPtr<Node>(watcher->property("node")));
 
     if (watcher->HasResult() && node) {
-      if (PlaybackCache *cache = QtUtils::ValueToPtr<PlaybackCache>(watcher->property("cache"))) {
+      if (auto *cache = QtUtils::ValueToPtr<PlaybackCache>(watcher->property("cache"))) {
         AudioCacheData &d = audio_cache_data_[cache];
 
-        JobTime watcher_job_time = watcher->property("job").value<JobTime>();
+        auto watcher_job_time = watcher->property("job").value<JobTime>();
 
         TimeRangeList valid_ranges = d.job_tracker.getCurrentSubRanges(range, watcher_job_time);
 
-        AudioVisualWaveform waveform = watcher->GetTicket()->property("waveform").value<AudioVisualWaveform>();
+        auto waveform = watcher->GetTicket()->property("waveform").value<AudioVisualWaveform>();
 
-        SampleBuffer buf = watcher->Get().value<SampleBuffer>();
+        auto buf = watcher->Get().value<SampleBuffer>();
 
         bool incomplete = watcher->GetTicket()->property("incomplete").toBool();
 
-        if (AudioPlaybackCache *pcm = dynamic_cast<AudioPlaybackCache *>(cache)) {
+        if (auto *pcm = dynamic_cast<AudioPlaybackCache *>(cache)) {
           // WritePCM is tolerant to its buffer being null, it will just write silence instead
           pcm->SetParameters(buf.audio_params());
           pcm->WritePCM(range, valid_ranges, watcher->Get().value<SampleBuffer>());
-        } else if (AudioWaveformCache *wave = dynamic_cast<AudioWaveformCache *>(cache)) {
+        } else if (auto *wave = dynamic_cast<AudioWaveformCache *>(cache)) {
           wave->SetParameters(buf.audio_params());
           if (!incomplete) {
             wave->WriteWaveform(range, valid_ranges, &waveform);
@@ -207,7 +207,7 @@ void PreviewAutoCacher::AudioRendered() {
 }
 
 void PreviewAutoCacher::VideoRendered() {
-  RenderTicketWatcher *watcher = dynamic_cast<RenderTicketWatcher *>(sender());
+  auto *watcher = dynamic_cast<RenderTicketWatcher *>(sender());
 
   const QStringList bad_cache_names = watcher->GetTicket()->property("badcache").toStringList();
   if (!bad_cache_names.empty()) {
@@ -234,9 +234,9 @@ void PreviewAutoCacher::VideoRendered() {
     // Assume that a "result" is a fully completed image and a non-result is a cancelled ticket
     if (watcher->HasResult()) {
       if (watcher->GetTicket()->property("cached").toBool()) {
-        if (FrameHashCache *cache = QtUtils::ValueToPtr<FrameHashCache>(watcher->property("cache"))) {
-          rational time = watcher->property("time").value<rational>();
-          JobTime job = watcher->property("job").value<JobTime>();
+        if (auto *cache = QtUtils::ValueToPtr<FrameHashCache>(watcher->property("cache"))) {
+          auto time = watcher->property("time").value<rational>();
+          auto job = watcher->property("job").value<JobTime>();
 
           if (video_cache_data_.value(cache).job_tracker.isCurrent(time, job)) {
             cache->ValidateTime(time);
@@ -307,7 +307,7 @@ void PreviewAutoCacher::StartCachingRange(const TimeRange &range, TimeRangeList 
 void PreviewAutoCacher::StartCachingVideoRange(ViewerOutput *context, PlaybackCache *cache, const TimeRange &range) {
   Node *node = cache->parent();
   rational using_tb;
-  if (ThumbnailCache *thumbs = dynamic_cast<ThumbnailCache *>(cache)) {
+  if (auto *thumbs = dynamic_cast<ThumbnailCache *>(cache)) {
     using_tb = thumbs->GetTimebase();
   } else {
     using_tb = context->GetVideoParams().frame_rate_as_time_base();
@@ -521,7 +521,7 @@ void PreviewAutoCacher::TryRender() {
 
 RenderTicketWatcher *PreviewAutoCacher::RenderFrame(Node *node, ViewerOutput *context, const rational &time,
                                                     PlaybackCache *cache, bool dry) {
-  RenderTicketWatcher *watcher = new RenderTicketWatcher();
+  auto *watcher = new RenderTicketWatcher();
   watcher->setProperty("job", QVariant::fromValue(copier_->GetLastUpdateTime()));
   watcher->setProperty("cache", QtUtils::PtrToValue(cache));
   watcher->setProperty("time", QVariant::fromValue(time));
@@ -532,8 +532,8 @@ RenderTicketWatcher *PreviewAutoCacher::RenderFrame(Node *node, ViewerOutput *co
   RenderManager::RenderVideoParams rvp(node, context->GetVideoParams(), context->GetAudioParams(), time,
                                        copied_color_manager_, RenderMode::kOffline);
 
-  if (FrameHashCache *frame_cache = dynamic_cast<FrameHashCache *>(cache)) {
-    if (ThumbnailCache *wave_cache = dynamic_cast<ThumbnailCache *>(cache)) {
+  if (auto *frame_cache = dynamic_cast<FrameHashCache *>(cache)) {
+    if (auto *wave_cache = dynamic_cast<ThumbnailCache *>(cache)) {
       Q_UNUSED(wave_cache)
       rvp.video_params.set_divider(
           VideoParams::GetDividerForTargetResolution(rvp.video_params.width(), rvp.video_params.height(), 160, 120));
@@ -561,7 +561,7 @@ RenderTicketWatcher *PreviewAutoCacher::RenderFrame(Node *node, ViewerOutput *co
 
 RenderTicketPtr PreviewAutoCacher::RenderAudio(Node *node, ViewerOutput *context, const TimeRange &r,
                                                PlaybackCache *cache) {
-  RenderTicketWatcher *watcher = new RenderTicketWatcher();
+  auto *watcher = new RenderTicketWatcher();
   watcher->setProperty("job", QVariant::fromValue(copier_->GetLastUpdateTime()));
   watcher->setProperty("node", QtUtils::PtrToValue(node));
   watcher->setProperty("cache", QtUtils::PtrToValue(cache));

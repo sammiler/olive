@@ -34,7 +34,7 @@ TrackViewSplitter::TrackViewSplitter(Qt::Alignment vertical_alignment, QWidget *
   int initial_height = 0;
 
   // Add empty spacer so we get a splitter handle after the last element
-  QWidget *spacer = new QWidget();
+  auto *spacer = new QWidget();
   addWidget(spacer);
 
   setFixedHeight(initial_height);

@@ -49,7 +49,7 @@ void AudioManager::SetOutputNotifyInterval(int n) { output_buffer_->set_notify_i
 
 int OutputCallback(const void *input, void *output, unsigned long frameCount, const PaStreamCallbackTimeInfo *timeInfo,
                    PaStreamCallbackFlags statusFlags, void *userData) {
-  PreviewAudioDevice *device = static_cast<PreviewAudioDevice *>(userData);
+  auto *device = static_cast<PreviewAudioDevice *>(userData);
 
   qint64 max_read = frameCount * device->bytes_per_frame();
   qint64 read_count = device->read(reinterpret_cast<char *>(output), max_read);
@@ -62,7 +62,7 @@ int OutputCallback(const void *input, void *output, unsigned long frameCount, co
 
 int InputCallback(const void *input, void *output, unsigned long frameCount, const PaStreamCallbackTimeInfo *timeInfo,
                   PaStreamCallbackFlags statusFlags, void *userData) {
-  FFmpegEncoder *f = static_cast<FFmpegEncoder *>(userData);
+  auto *f = static_cast<FFmpegEncoder *>(userData);
 
   AudioParams our_params = f->params().audio_params();
   our_params.set_format(f->params().audio_params().format().to_packed_equivalent());

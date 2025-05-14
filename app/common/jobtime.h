@@ -12,7 +12,7 @@ class JobTime {
 
   void Acquire();
 
-  uint64_t value() const { return value_; }
+  [[nodiscard]] uint64_t value() const { return value_; }
 
   bool operator==(const JobTime &rhs) const { return value_ == rhs.value_; }
 

@@ -177,7 +177,7 @@ void Core::Start() {
   if (core_params_.crash_on_startup()) {
     const int interval = 5000;
     qInfo() << "Manual crash was triggered. Application will crash in" << interval << "ms";
-    QTimer* crash_timer = new QTimer(this);
+    auto* crash_timer = new QTimer(this);
     crash_timer->setInterval(interval);
     connect(crash_timer, &QTimer::timeout, this, [] { abort(); });
     crash_timer->start();
@@ -226,7 +226,7 @@ void Core::ImportFiles(const QStringList& urls, Folder* parent) {
     return;
   }
 
-  ProjectImportTask* pim = new ProjectImportTask(parent, urls);
+  auto* pim = new ProjectImportTask(parent, urls);
 
   if (!pim->GetFileCount()) {
     // No files to import
@@ -234,7 +234,7 @@ void Core::ImportFiles(const QStringList& urls, Folder* parent) {
     return;
   }
 
-  TaskDialog* task_dialog = new TaskDialog(pim, tr("Importing..."), main_window());
+  auto* task_dialog = new TaskDialog(pim, tr("Importing..."), main_window());
 
   connect(task_dialog, &TaskDialog::TaskSucceeded, this, &Core::ImportTaskComplete);
 
@@ -263,7 +263,7 @@ void Core::ClearOpenRecentList() {
 void Core::CreateNewProject() {
   // If we already have an empty/new project, switch to it
   if (CloseProject(false)) {
-    Project* p = new Project();
+    auto* p = new Project();
     p->Initialize();
     AddOpenProject(p);
   }
@@ -297,7 +297,7 @@ void Core::DialogImportShow() {
   // Check if the user actually selected files to import
   if (!files.isEmpty()) {
     // Locate the most recently focused Project panel (assume that's the panel the user wants to import into)
-    ProjectPanel* active_project_panel = PanelManager::instance()->MostRecentlyFocused<ProjectPanel>();
+    auto* active_project_panel = PanelManager::instance()->MostRecentlyFocused<ProjectPanel>();
     Project* active_project;
 
     if (active_project_panel == nullptr                                      // Check that we found a Project panel
@@ -346,7 +346,7 @@ bool Core::DialogImportOTIOShow(const QList<Sequence*>& sequences) {
 
 void Core::CreateNewFolder() {
   // Locate the most recently focused Project panel (assume that's the panel the user wants to import into)
-  ProjectPanel* active_project_panel = PanelManager::instance()->MostRecentlyFocused<ProjectPanel>();
+  auto* active_project_panel = PanelManager::instance()->MostRecentlyFocused<ProjectPanel>();
   Project* active_project;
 
   if (active_project_panel == nullptr                                      // Check that we found a Project panel
@@ -359,13 +359,13 @@ void Core::CreateNewFolder() {
   Folder* folder = active_project_panel->GetSelectedFolder();
 
   // Create new folder
-  Folder* new_folder = new Folder();
+  auto* new_folder = new Folder();
 
   // Set a default name
   new_folder->SetLabel(tr("New Folder"));
 
   // Create an undoable command
-  MultiUndoCommand* command = new MultiUndoCommand();
+  auto* command = new MultiUndoCommand();
 
   command->add_child(new NodeAddCommand(active_project, new_folder));
   command->add_child(new FolderAddChild(folder, new_folder));
@@ -395,7 +395,7 @@ void Core::CreateNewSequence() {
 
   if (sd.exec() == QDialog::Accepted) {
     // Create an undoable command
-    MultiUndoCommand* command = new MultiUndoCommand();
+    auto* command = new MultiUndoCommand();
 
     command->add_child(new NodeAddCommand(active_project, new_sequence));
     command->add_child(new FolderAddChild(GetSelectedFolderInActiveProject(), new_sequence));
@@ -432,7 +432,7 @@ void Core::AddOpenProject(Project* p, bool add_to_recents) {
 }
 
 bool Core::AddOpenProjectFromTask(Task* task, bool add_to_recents) {
-  ProjectLoadBaseTask* load_task = dynamic_cast<ProjectLoadBaseTask*>(task);
+  auto* load_task = dynamic_cast<ProjectLoadBaseTask*>(task);
 
   if (!load_task->IsCancelled()) {
     Project* project = load_task->GetLoadedProject();
@@ -466,7 +466,7 @@ void Core::SetActiveProject(Project* p) {
 }
 
 void Core::ImportTaskComplete(Task* task) {
-  ProjectImportTask* import_task = dynamic_cast<ProjectImportTask*>(task);
+  auto* import_task = dynamic_cast<ProjectImportTask*>(task);
 
   MultiUndoCommand* command = import_task->GetCommand();
 
@@ -650,7 +650,7 @@ void Core::OpenStartupProject() {
 
 void Core::AddRecoveryProjectFromTask(Task* task) {
   if (AddOpenProjectFromTask(task, false)) {
-    ProjectLoadBaseTask* load_task = dynamic_cast<ProjectLoadBaseTask*>(task);
+    auto* load_task = dynamic_cast<ProjectLoadBaseTask*>(task);
 
     Project* project = load_task->GetLoadedProject();
 
@@ -775,7 +775,7 @@ void Core::SaveProjectInternal(const QString& override_filename) {
 
 ViewerOutput* Core::GetSequenceToExport() {
   // First try the most recently focused time based window
-  TimeBasedPanel* time_panel = PanelManager::instance()->MostRecentlyFocused<TimeBasedPanel>();
+  auto* time_panel = PanelManager::instance()->MostRecentlyFocused<TimeBasedPanel>();
 
   // If that fails try defaulting to the first timeline (i.e. if a project has just been loaded).
   if (!time_panel->GetConnectedViewer()) {
@@ -965,7 +965,7 @@ void Core::ProjectSaveSucceeded(Task* task) {
 Project* Core::GetActiveProject() const { return open_project_; }
 
 Folder* Core::GetSelectedFolderInActiveProject() const {
-  ProjectPanel* active_project_panel = PanelManager::instance()->MostRecentlyFocused<ProjectPanel>();
+  auto* active_project_panel = PanelManager::instance()->MostRecentlyFocused<ProjectPanel>();
 
   if (active_project_panel) {
     return active_project_panel->GetSelectedFolder();
@@ -1070,7 +1070,7 @@ void Core::OpenRecoveryProject(const QString& filename) { OpenProjectInternal(fi
 void Core::OpenNodeInViewer(ViewerOutput* viewer) { main_window_->OpenNodeInViewer(viewer); }
 
 void Core::OpenExportDialogForViewer(ViewerOutput* viewer, bool start_still_image) {
-  ExportDialog* ed = new ExportDialog(viewer, start_still_image, main_window_);
+  auto* ed = new ExportDialog(viewer, start_still_image, main_window_);
   connect(ed, &ExportDialog::finished, ed, &ExportDialog::deleteLater);
   ed->open();
   connect(ed, &ExportDialog::RequestImportFile, this, &Core::ImportSingleFile);
@@ -1230,7 +1230,7 @@ void Core::OpenProjectInternal(const QString& filename, bool recovery_project) {
     load_task = new ProjectLoadTask(filename);
   }
 
-  TaskDialog* task_dialog = new TaskDialog(load_task, tr("Load Project"), main_window());
+  auto* task_dialog = new TaskDialog(load_task, tr("Load Project"), main_window());
 
   if (recovery_project) {
     connect(task_dialog, &TaskDialog::TaskSucceeded, this, &Core::AddRecoveryProjectFromTask);
@@ -1287,7 +1287,7 @@ bool Core::LabelNodes(const QVector<Node*>& nodes, MultiUndoCommand* parent) {
       QInputDialog::getText(main_window_, tr("Label Node"), tr("Set node label"), QLineEdit::Normal, start_label, &ok);
 
   if (ok) {
-    NodeRenameCommand* rename_command = new NodeRenameCommand();
+    auto* rename_command = new NodeRenameCommand();
 
     foreach (Node* n, nodes) {
       rename_command->AddNode(n, s);
@@ -1306,7 +1306,7 @@ bool Core::LabelNodes(const QVector<Node*>& nodes, MultiUndoCommand* parent) {
 }
 
 Sequence* Core::CreateNewSequenceForProject(const QString& format, Project* project) {
-  Sequence* new_sequence = new Sequence();
+  auto* new_sequence = new Sequence();
 
   // Get default name for this sequence (in the format "Sequence N", the first that doesn't exist)
   int sequence_number = 1;
@@ -1384,7 +1384,7 @@ bool Core::CloseProject(bool auto_open_new, bool ignore_modified) {
 }
 
 void Core::CacheActiveSequence(bool in_out_only) {
-  TimeBasedPanel* p = PanelManager::instance()->MostRecentlyFocused<TimeBasedPanel>();
+  auto* p = PanelManager::instance()->MostRecentlyFocused<TimeBasedPanel>();
 
   if (p && p->GetConnectedViewer()) {
     // Hacky but works for now
@@ -1439,7 +1439,7 @@ bool Core::ValidateFootageInLoadedProject(Project* project, const QString& proje
   QVector<Footage*> footage_we_couldnt_validate;
 
   for (Node* n : project->nodes()) {
-    if (Footage* footage = dynamic_cast<Footage*>(n)) {
+    if (auto* footage = dynamic_cast<Footage*>(n)) {
       QString footage_fn = StripWindowsDriveLetter(footage->filename());
       QString project_fn = StripWindowsDriveLetter(project_saved_url);
 

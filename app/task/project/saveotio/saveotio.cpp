@@ -92,7 +92,7 @@ bool SaveOTIOTask::Run() {
 OTIO::Timeline* SaveOTIOTask::SerializeTimeline(Sequence* sequence) {
   auto otio_timeline = new OTIO::Timeline(sequence->GetLabel().toUtf8().constData());
   // Retainers clean themselves up when the final user is removed
-  OTIO::Timeline::Retainer<OTIO::Timeline>* timeline_retainer =
+  auto* timeline_retainer =
       new OTIO::Timeline::Retainer<OTIO::Timeline>(otio_timeline);
   // Suppress unused variable warning
   Q_UNUSED(timeline_retainer);
@@ -165,7 +165,7 @@ OTIO::Track* SaveOTIOTask::SerializeTrack(Track* track, double sequence_rate, ra
     } else if (dynamic_cast<TransitionBlock*>(block)) {
       auto otio_transition = new OTIO::Transition(block->GetLabel().toUtf8().constData());
 
-      TransitionBlock* our_transition = dynamic_cast<TransitionBlock*>(block);
+      auto* our_transition = dynamic_cast<TransitionBlock*>(block);
 
       otio_transition->set_in_offset(our_transition->in_offset().toRationalTime());
       otio_transition->set_out_offset(our_transition->out_offset().toRationalTime());
@@ -189,7 +189,7 @@ OTIO::Track* SaveOTIOTask::SerializeTrack(Track* track, double sequence_rate, ra
   if (otio_track->duration(&es).to_seconds() < max_track_length.toDouble()) {
     double time_left = max_track_length.toDouble() - otio_track->duration(&es).to_seconds();
 
-    OTIO::Gap* gap = new OTIO::Gap(OTIO::TimeRange(otio_track->duration(&es), OTIO::RationalTime(time_left, 1.0)));
+    auto* gap = new OTIO::Gap(OTIO::TimeRange(otio_track->duration(&es), OTIO::RationalTime(time_left, 1.0)));
     otio_track->append_child(gap, &es);
 
     if (es.outcome != OTIO::ErrorStatus::Outcome::OK) {

@@ -84,7 +84,7 @@ void ProjectImportTask::Import(Folder* folder, QFileInfoList import, int& counte
       // Only proceed if the empty actually has files in it
       if (!entry_list.isEmpty()) {
         // Create a folder corresponding to the directory
-        Folder* f = new Folder();
+        auto* f = new Folder();
 
         f->SetLabel(file_info.fileName());
 
@@ -96,7 +96,7 @@ void ProjectImportTask::Import(Folder* folder, QFileInfoList import, int& counte
       }
 
     } else {
-      Footage* footage = new Footage();
+      auto* footage = new Footage();
 
       footage->SetCancelPointer(this->GetCancelAtom());
 
@@ -145,8 +145,8 @@ void ProjectImportTask::ValidateImageSequence(Footage* footage, QFileInfoList& i
     QString previous_img_fn = Decoder::TransformImageSequenceFileName(footage->filename(), ind - 1);
     QString next_img_fn = Decoder::TransformImageSequenceFileName(footage->filename(), ind + 1);
 
-    Footage* previous_file = new Footage(previous_img_fn);
-    Footage* next_file = new Footage(next_img_fn);
+    auto* previous_file = new Footage(previous_img_fn);
+    auto* next_file = new Footage(next_img_fn);
 
     // Finally see if these files have the same dimensions
     if ((previous_file->IsValid() && CompareStillImageSize(previous_file, dim)) ||
@@ -190,7 +190,7 @@ void ProjectImportTask::ValidateImageSequence(Footage* footage, QFileInfoList& i
         // User has confirmed it is a still image, let's set it accordingly.
         video_stream.set_video_type(VideoParams::kVideoTypeImageSequence);
 
-        rational default_timebase = OLIVE_CONFIG("DefaultSequenceFrameRate").value<rational>();
+        auto default_timebase = OLIVE_CONFIG("DefaultSequenceFrameRate").value<rational>();
         video_stream.set_time_base(default_timebase);
         video_stream.set_frame_rate(default_timebase.flipped());
 
@@ -210,7 +210,7 @@ void ProjectImportTask::AddItemToFolder(Folder* folder, Node* item, MultiUndoCom
   // Create undoable command that adds the items to the model
   Project* project = folder_->project();
 
-  NodeAddCommand* nac = new NodeAddCommand(project, item);
+  auto* nac = new NodeAddCommand(project, item);
   nac->PushToThread(project->thread());
   command->add_child(nac);
 

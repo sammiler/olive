@@ -38,9 +38,9 @@ class ExportFormatComboBox : public QComboBox {
   explicit ExportFormatComboBox(Mode mode, QWidget *parent = nullptr);
   explicit ExportFormatComboBox(QWidget *parent = nullptr) : ExportFormatComboBox(kShowAllFormats, parent) {}
 
-  ExportFormat::Format GetFormat() const { return current_; }
+  [[nodiscard]] ExportFormat::Format GetFormat() const { return current_; }
 
-  void showPopup();
+  void showPopup() override;
 
  signals:
   void FormatChanged(ExportFormat::Format fmt);

@@ -47,21 +47,21 @@ class ViewerOutput : public Node {
 
   NODE_DEFAULT_FUNCTIONS(ViewerOutput)
 
-  virtual QString Name() const override;
-  virtual QString id() const override;
-  virtual QVector<CategoryID> Category() const override;
-  virtual QString Description() const override;
+  [[nodiscard]] QString Name() const override;
+  [[nodiscard]] QString id() const override;
+  [[nodiscard]] QVector<CategoryID> Category() const override;
+  [[nodiscard]] QString Description() const override;
 
-  virtual QVariant data(const DataType &d) const override;
+  [[nodiscard]] QVariant data(const DataType &d) const override;
 
   void set_default_parameters();
 
   void set_parameters_from_footage(const QVector<ViewerOutput *> footage);
 
-  virtual void InvalidateCache(const TimeRange &range, const QString &from, int element,
+  void InvalidateCache(const TimeRange &range, const QString &from, int element,
                                InvalidateCacheOptions options) override;
 
-  VideoParams GetVideoParams(int index = 0) const {
+  [[nodiscard]] VideoParams GetVideoParams(int index = 0) const {
     // This check isn't strictly necessary (GetStandardValue will return a null VideoParams anyway),
     // but it does suppress a warning message that we don't need
     if (index < InputArraySize(kVideoParamsInput)) {
@@ -71,7 +71,7 @@ class ViewerOutput : public Node {
     }
   }
 
-  AudioParams GetAudioParams(int index = 0) const {
+  [[nodiscard]] AudioParams GetAudioParams(int index = 0) const {
     // This check isn't strictly necessary (GetStandardValue will return a null VideoParams anyway),
     // but it does suppress a warning message that we don't need
     if (index < InputArraySize(kAudioParamsInput)) {
@@ -81,7 +81,7 @@ class ViewerOutput : public Node {
     }
   }
 
-  SubtitleParams GetSubtitleParams(int index = 0) const {
+  [[nodiscard]] SubtitleParams GetSubtitleParams(int index = 0) const {
     // This check isn't strictly necessary (GetStandardValue will return a null VideoParams anyway),
     // but it does suppress a warning message that we don't need
     if (index < InputArraySize(kSubtitleParamsInput)) {
@@ -105,13 +105,13 @@ class ViewerOutput : public Node {
     SetStandardValue(kSubtitleParamsInput, QVariant::fromValue(subs), index);
   }
 
-  int GetVideoStreamCount() const { return InputArraySize(kVideoParamsInput); }
+  [[nodiscard]] int GetVideoStreamCount() const { return InputArraySize(kVideoParamsInput); }
 
-  int GetAudioStreamCount() const { return InputArraySize(kAudioParamsInput); }
+  [[nodiscard]] int GetAudioStreamCount() const { return InputArraySize(kAudioParamsInput); }
 
-  int GetSubtitleStreamCount() const { return InputArraySize(kSubtitleParamsInput); }
+  [[nodiscard]] int GetSubtitleStreamCount() const { return InputArraySize(kSubtitleParamsInput); }
 
-  virtual int GetTotalStreamCount() const {
+  [[nodiscard]] virtual int GetTotalStreamCount() const {
     return GetVideoStreamCount() + GetAudioStreamCount() + GetSubtitleStreamCount();
   }
 
@@ -123,32 +123,32 @@ class ViewerOutput : public Node {
     }
   }
 
-  bool HasEnabledVideoStreams() const;
-  bool HasEnabledAudioStreams() const;
-  bool HasEnabledSubtitleStreams() const;
+  [[nodiscard]] bool HasEnabledVideoStreams() const;
+  [[nodiscard]] bool HasEnabledAudioStreams() const;
+  [[nodiscard]] bool HasEnabledSubtitleStreams() const;
 
-  VideoParams GetFirstEnabledVideoStream() const;
-  AudioParams GetFirstEnabledAudioStream() const;
-  SubtitleParams GetFirstEnabledSubtitleStream() const;
+  [[nodiscard]] VideoParams GetFirstEnabledVideoStream() const;
+  [[nodiscard]] AudioParams GetFirstEnabledAudioStream() const;
+  [[nodiscard]] SubtitleParams GetFirstEnabledSubtitleStream() const;
 
-  const rational &GetLength() const { return last_length_; }
-  const rational &GetVideoLength() const { return video_length_; }
-  const rational &GetAudioLength() const { return audio_length_; }
+  [[nodiscard]] const rational &GetLength() const { return last_length_; }
+  [[nodiscard]] const rational &GetVideoLength() const { return video_length_; }
+  [[nodiscard]] const rational &GetAudioLength() const { return audio_length_; }
 
-  TimelineWorkArea *GetWorkArea() const { return workarea_; }
-  TimelineMarkerList *GetMarkers() const { return markers_; }
+  [[nodiscard]] TimelineWorkArea *GetWorkArea() const { return workarea_; }
+  [[nodiscard]] TimelineMarkerList *GetMarkers() const { return markers_; }
 
-  virtual TimeRange GetVideoCacheRange() const override { return TimeRange(rational(0), GetVideoLength()); }
+  [[nodiscard]] TimeRange GetVideoCacheRange() const override { return TimeRange(rational(0), GetVideoLength()); }
 
-  virtual TimeRange GetAudioCacheRange() const override { return TimeRange(rational(0), GetAudioLength()); }
+  [[nodiscard]] TimeRange GetAudioCacheRange() const override { return TimeRange(rational(0), GetAudioLength()); }
 
-  QVector<Track::Reference> GetEnabledStreamsAsReferences() const;
+  [[nodiscard]] QVector<Track::Reference> GetEnabledStreamsAsReferences() const;
 
-  QVector<VideoParams> GetEnabledVideoStreams() const;
+  [[nodiscard]] QVector<VideoParams> GetEnabledVideoStreams() const;
 
-  QVector<AudioParams> GetEnabledAudioStreams() const;
+  [[nodiscard]] QVector<AudioParams> GetEnabledAudioStreams() const;
 
-  virtual void Retranslate() override;
+  void Retranslate() override;
 
   virtual Node *GetConnectedTextureOutput();
 
@@ -160,19 +160,19 @@ class ViewerOutput : public Node {
 
   void SetWaveformEnabled(bool e);
 
-  bool IsVideoAutoCacheEnabled() const {
+  [[nodiscard]] bool IsVideoAutoCacheEnabled() const {
     qDebug() << "sequence ac is a stub";
     return false;
   }
   void SetVideoAutoCacheEnabled(bool e) { qDebug() << "sequence ac is a stub"; }
 
-  virtual void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
+  void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
 
-  const EncodingParams &GetLastUsedEncodingParams() const { return last_used_encoding_params_; }
+  [[nodiscard]] const EncodingParams &GetLastUsedEncodingParams() const { return last_used_encoding_params_; }
   void SetLastUsedEncodingParams(const EncodingParams &p) { last_used_encoding_params_ = p; }
 
-  virtual bool LoadCustom(QXmlStreamReader *reader, SerializedData *data) override;
-  virtual void SaveCustom(QXmlStreamWriter *writer) const override;
+  bool LoadCustom(QXmlStreamReader *reader, SerializedData *data) override;
+  void SaveCustom(QXmlStreamWriter *writer) const override;
 
   static const QString kVideoParamsInput;
   static const QString kAudioParamsInput;
@@ -211,13 +211,13 @@ class ViewerOutput : public Node {
   void SetPlayhead(const rational &t);
 
  protected:
-  virtual void InputConnectedEvent(const QString &input, int element, Node *output) override;
+  void InputConnectedEvent(const QString &input, int element, Node *output) override;
 
-  virtual void InputDisconnectedEvent(const QString &input, int element, Node *output) override;
+  void InputDisconnectedEvent(const QString &input, int element, Node *output) override;
 
-  virtual rational VerifyLengthInternal(Track::Type type) const;
+  [[nodiscard]] virtual rational VerifyLengthInternal(Track::Type type) const;
 
-  virtual void InputValueChangedEvent(const QString &input, int element) override;
+  void InputValueChangedEvent(const QString &input, int element) override;
 
   int AddStream(Track::Type type, const QVariant &value);
   int SetStream(Track::Type type, const QVariant &value, int index);

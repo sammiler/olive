@@ -34,7 +34,7 @@ const qint64 AudioPlaybackCache::kDefaultSegmentSizePerChannel = 10 * 1024 * 102
 
 AudioPlaybackCache::AudioPlaybackCache(QObject *parent) : PlaybackCache(parent) {}
 
-AudioPlaybackCache::~AudioPlaybackCache() {}
+AudioPlaybackCache::~AudioPlaybackCache() = default;
 
 void AudioPlaybackCache::SetParameters(const AudioParams &params) {
   if (params_ == params) {

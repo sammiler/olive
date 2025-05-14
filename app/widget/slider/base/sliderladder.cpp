@@ -39,7 +39,7 @@ namespace olive {
 
 SliderLadder::SliderLadder(double drag_multiplier, int nb_outer_values, QString width_hint, QWidget *parent)
     : QFrame(parent, Qt::Popup) {
-  QVBoxLayout *layout = new QVBoxLayout(this);
+  auto *layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
   layout->setSpacing(0);
 
@@ -55,7 +55,7 @@ SliderLadder::SliderLadder(double drag_multiplier, int nb_outer_values, QString 
   }
 
   // Create center entry
-  SliderLadderElement *start_element = new SliderLadderElement(drag_multiplier, width_hint);
+  auto *start_element = new SliderLadderElement(drag_multiplier, width_hint);
   active_element_ = elements_.size();
   start_element->SetHighlighted(true);
   elements_.append(start_element);
@@ -257,7 +257,7 @@ bool SliderLadder::UsingLadders() const { return elements_.size() > 1; }
 
 SliderLadderElement::SliderLadderElement(const double &multiplier, QString width_hint, QWidget *parent)
     : QWidget(parent), multiplier_(multiplier), highlighted_(false), multiplier_visible_(true) {
-  QVBoxLayout *layout = new QVBoxLayout(this);
+  auto *layout = new QVBoxLayout(this);
 
   label_ = new QLabel();
   label_->setAlignment(Qt::AlignCenter);

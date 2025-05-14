@@ -39,7 +39,7 @@ class ColumnedGridLayout : public QGridLayout {
   explicit ColumnedGridLayout(QWidget* parent = nullptr, int maximum_columns = 0);
 
   void Add(QWidget* widget);
-  int MaximumColumns() const;
+  [[nodiscard]] int MaximumColumns() const;
   void SetMaximumColumns(int maximum_columns);
 
  private:

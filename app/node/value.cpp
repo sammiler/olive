@@ -36,26 +36,26 @@ namespace olive {
 
 QString NodeValue::ValueToString(Type data_type, const QVariant &value, bool value_is_a_key_track) {
   if (!value_is_a_key_track && data_type == kVec2) {
-    QVector2D vec = value.value<QVector2D>();
+    auto vec = value.value<QVector2D>();
 
     return QStringLiteral("%1:%2").arg(QString::number(vec.x()), QString::number(vec.y()));
   } else if (!value_is_a_key_track && data_type == kVec3) {
-    QVector3D vec = value.value<QVector3D>();
+    auto vec = value.value<QVector3D>();
 
     return QStringLiteral("%1:%2:%3").arg(QString::number(vec.x()), QString::number(vec.y()), QString::number(vec.z()));
   } else if (!value_is_a_key_track && data_type == kVec4) {
-    QVector4D vec = value.value<QVector4D>();
+    auto vec = value.value<QVector4D>();
 
     return QStringLiteral("%1:%2:%3:%4")
         .arg(QString::number(vec.x()), QString::number(vec.y()), QString::number(vec.z()), QString::number(vec.w()));
   } else if (!value_is_a_key_track && data_type == kColor) {
-    Color c = value.value<Color>();
+    auto c = value.value<Color>();
 
     return QStringLiteral("%1:%2:%3:%4")
         .arg(QString::number(c.red()), QString::number(c.green()), QString::number(c.blue()),
              QString::number(c.alpha()));
   } else if (!value_is_a_key_track && data_type == kBezier) {
-    Bezier b = value.value<Bezier>();
+    auto b = value.value<Bezier>();
 
     return QStringLiteral("%1:%2:%3:%4:%5:%6")
         .arg(QString::number(b.x()), QString::number(b.y()), QString::number(b.cp1_x()), QString::number(b.cp1_y()),
@@ -87,20 +87,20 @@ QVector<QVariant> NodeValue::split_normal_value_into_track_values(Type type, con
 
   switch (type) {
     case kVec2: {
-      QVector2D vec = value.value<QVector2D>();
+      auto vec = value.value<QVector2D>();
       vals.replace(0, vec.x());
       vals.replace(1, vec.y());
       break;
     }
     case kVec3: {
-      QVector3D vec = value.value<QVector3D>();
+      auto vec = value.value<QVector3D>();
       vals.replace(0, vec.x());
       vals.replace(1, vec.y());
       vals.replace(2, vec.z());
       break;
     }
     case kVec4: {
-      QVector4D vec = value.value<QVector4D>();
+      auto vec = value.value<QVector4D>();
       vals.replace(0, vec.x());
       vals.replace(1, vec.y());
       vals.replace(2, vec.z());
@@ -108,7 +108,7 @@ QVector<QVariant> NodeValue::split_normal_value_into_track_values(Type type, con
       break;
     }
     case kColor: {
-      Color c = value.value<Color>();
+      auto c = value.value<Color>();
       vals.replace(0, c.red());
       vals.replace(1, c.green());
       vals.replace(2, c.blue());
@@ -116,7 +116,7 @@ QVector<QVariant> NodeValue::split_normal_value_into_track_values(Type type, con
       break;
     }
     case kBezier: {
-      Bezier b = value.value<Bezier>();
+      auto b = value.value<Bezier>();
       vals.replace(0, b.x());
       vals.replace(1, b.y());
       vals.replace(2, b.cp1_x());

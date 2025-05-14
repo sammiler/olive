@@ -45,7 +45,7 @@ void TrackList::TrackConnected(Node *node, int element) {
     return;
   }
 
-  Track *track = dynamic_cast<Track *>(node);
+  auto *track = dynamic_cast<Track *>(node);
 
   if (!track) {
     return;
@@ -75,7 +75,7 @@ void TrackList::TrackConnected(Node *node, int element) {
 
   connect(track, &Track::TrackLengthChanged, this, &TrackList::UpdateTotalLength);
   connect(track, &Track::TrackHeightChanged, this, [this]() {
-    Track *t = dynamic_cast<Track *>(sender());
+    auto *t = dynamic_cast<Track *>(sender());
     emit TrackHeightChanged(t, t->GetTrackHeightInPixels());
   });
 
@@ -98,7 +98,7 @@ void TrackList::TrackDisconnected(Node *node, int element) {
     return;
   }
 
-  Track *track = dynamic_cast<Track *>(node);
+  auto *track = dynamic_cast<Track *>(node);
 
   if (!track) {
     return;

@@ -36,18 +36,18 @@ class ColorWheelWidget : public ColorSwatchWidget {
   void DiameterChanged(int radius);
 
  protected:
-  virtual Color GetColorFromScreenPos(const QPoint& p) const override;
+  [[nodiscard]] Color GetColorFromScreenPos(const QPoint& p) const override;
 
-  virtual void resizeEvent(QResizeEvent* e) override;
+  void resizeEvent(QResizeEvent* e) override;
 
-  virtual void paintEvent(QPaintEvent* e) override;
+  void paintEvent(QPaintEvent* e) override;
 
-  virtual void SelectedColorChangedEvent(const Color& c, bool external) override;
+  void SelectedColorChangedEvent(const Color& c, bool external) override;
 
  private:
-  int GetDiameter() const;
+  [[nodiscard]] int GetDiameter() const;
 
-  qreal GetRadius() const;
+  [[nodiscard]] qreal GetRadius() const;
 
   struct Triangle {
     qreal opposite;
@@ -55,11 +55,11 @@ class ColorWheelWidget : public ColorSwatchWidget {
     qreal hypotenuse;
   };
 
-  Triangle GetTriangleFromCoords(const QPoint& center, const QPoint& p) const;
-  Triangle GetTriangleFromCoords(const QPoint& center, qreal y, qreal x) const;
+  [[nodiscard]] Triangle GetTriangleFromCoords(const QPoint& center, const QPoint& p) const;
+  [[nodiscard]] Triangle GetTriangleFromCoords(const QPoint& center, qreal y, qreal x) const;
 
-  Color GetColorFromTriangle(const Triangle& tri) const;
-  QPoint GetCoordsFromColor(const Color& c) const;
+  [[nodiscard]] Color GetColorFromTriangle(const Triangle& tri) const;
+  [[nodiscard]] QPoint GetCoordsFromColor(const Color& c) const;
 
   QPixmap cached_wheel_;
 

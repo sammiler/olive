@@ -50,7 +50,7 @@ class SequencePreset : public Preset {
     SetName(name);
   }
 
-  virtual void Load(QXmlStreamReader* reader) override {
+  void Load(QXmlStreamReader* reader) override {
     while (XMLReadNextStartElement(reader)) {
       if (reader->name() == QStringLiteral("name")) {
         SetName(reader->readElementText());
@@ -80,7 +80,7 @@ class SequencePreset : public Preset {
     }
   }
 
-  virtual void Save(QXmlStreamWriter* writer) const override {
+  void Save(QXmlStreamWriter* writer) const override {
     writer->writeTextElement(QStringLiteral("name"), GetName());
     writer->writeTextElement(QStringLiteral("width"), QString::number(width_));
     writer->writeTextElement(QStringLiteral("height"), QString::number(height_));
@@ -94,25 +94,25 @@ class SequencePreset : public Preset {
     writer->writeTextElement(QStringLiteral("autocache"), QString::number(preview_autocache_));
   }
 
-  int width() const { return width_; }
+  [[nodiscard]] int width() const { return width_; }
 
-  int height() const { return height_; }
+  [[nodiscard]] int height() const { return height_; }
 
-  const rational& frame_rate() const { return frame_rate_; }
+  [[nodiscard]] const rational& frame_rate() const { return frame_rate_; }
 
-  const rational& pixel_aspect() const { return pixel_aspect_; }
+  [[nodiscard]] const rational& pixel_aspect() const { return pixel_aspect_; }
 
-  VideoParams::Interlacing interlacing() const { return interlacing_; }
+  [[nodiscard]] VideoParams::Interlacing interlacing() const { return interlacing_; }
 
-  int sample_rate() const { return sample_rate_; }
+  [[nodiscard]] int sample_rate() const { return sample_rate_; }
 
-  uint64_t channel_layout() const { return channel_layout_; }
+  [[nodiscard]] uint64_t channel_layout() const { return channel_layout_; }
 
-  int preview_divider() const { return preview_divider_; }
+  [[nodiscard]] int preview_divider() const { return preview_divider_; }
 
-  PixelFormat preview_format() const { return preview_format_; }
+  [[nodiscard]] PixelFormat preview_format() const { return preview_format_; }
 
-  bool preview_autocache() const { return preview_autocache_; }
+  [[nodiscard]] bool preview_autocache() const { return preview_autocache_; }
 
  private:
   int width_{};

@@ -54,7 +54,7 @@ MenuShared::MenuShared() {
 
   // List of addable items
   for (int i = 0; i < Tool::kAddableCount; i++) {
-    Tool::AddableObject t = static_cast<Tool::AddableObject>(i);
+    auto t = static_cast<Tool::AddableObject>(i);
     QAction *a = Menu::CreateItem(this, QStringLiteral("add:%1").arg(Tool::GetAddableObjectID(t)), this,
                                   &MenuShared::AddableItemTriggered);
     a->setData(t);
@@ -211,7 +211,7 @@ void MenuShared::AboutToShowTimeRulerActions(const rational &timebase) {
 MenuShared *MenuShared::instance() { return instance_; }
 
 void MenuShared::SplitAtPlayheadTriggered() {
-  TimelinePanel *timeline = PanelManager::instance()->MostRecentlyFocused<TimelinePanel>();
+  auto *timeline = PanelManager::instance()->MostRecentlyFocused<TimelinePanel>();
 
   if (timeline != nullptr) {
     timeline->SplitAtPlayhead();
@@ -258,7 +258,7 @@ void MenuShared::DefaultTransitionTriggered() {
 
 void MenuShared::TimecodeDisplayTriggered() {
   // Assume the sender is a QAction
-  QAction *action = dynamic_cast<QAction *>(sender());
+  auto *action = dynamic_cast<QAction *>(sender());
 
   // Assume its data() is a member of Timecode::Display
   Timecode::Display display = static_cast<Timecode::Display>(action->data().toInt());
@@ -272,7 +272,7 @@ void MenuShared::ColorLabelTriggered(int color_index) {
 }
 
 void MenuShared::SpeedDurationTriggered() {
-  TimelinePanel *timeline = PanelManager::instance()->MostRecentlyFocused<TimelinePanel>();
+  auto *timeline = PanelManager::instance()->MostRecentlyFocused<TimelinePanel>();
 
   if (timeline) {
     timeline->ShowSpeedDurationDialogForSelectedClips();
@@ -280,7 +280,7 @@ void MenuShared::SpeedDurationTriggered() {
 }
 
 void MenuShared::AddableItemTriggered() {
-  QAction *a = dynamic_cast<QAction *>(sender());
+  auto *a = dynamic_cast<QAction *>(sender());
   Tool::AddableObject i = static_cast<Tool::AddableObject>(a->data().toInt());
   Core::instance()->SetTool(Tool::kAdd);
   Core::instance()->SetSelectedAddableObject(i);

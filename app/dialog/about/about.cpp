@@ -41,19 +41,19 @@ AboutDialog::AboutDialog(bool welcome_dialog, QWidget* parent) : QDialog(parent)
 
   QFontMetrics fm = fontMetrics();
 
-  QVBoxLayout* layout = new QVBoxLayout(this);
+  auto* layout = new QVBoxLayout(this);
   layout->setContentsMargins(fm.height(), fm.height(), fm.height(), fm.height());
 
-  QHBoxLayout* horiz_layout = new QHBoxLayout();
+  auto* horiz_layout = new QHBoxLayout();
   horiz_layout->setContentsMargins(fm.height(), fm.height(), fm.height(), fm.height());
   horiz_layout->setSpacing(fm.height() * 2);
 
-  QLabel* icon = new QLabel(QStringLiteral("<html><img src=':/graphics/olive-splash.png'></html>"));
+  auto* icon = new QLabel(QStringLiteral("<html><img src=':/graphics/olive-splash.png'></html>"));
   icon->setAlignment(Qt::AlignCenter);
   horiz_layout->addWidget(icon);
 
   // Construct About text
-  QLabel* label = new QLabel(QStringLiteral("<html><head/><body>"
+  auto* label = new QLabel(QStringLiteral("<html><head/><body>"
                                             "<p><b>%1</b> %2</p>"  // AppName (version identifier)
                                             "<p><a href=\"https://www.olivevideoeditor.org/\">"
                                             "https://www.olivevideoeditor.org/"
@@ -87,7 +87,7 @@ AboutDialog::AboutDialog(bool welcome_dialog, QWidget* parent) : QDialog(parent)
         tr("Olive wouldn't be possible without the support of gracious donations from the following people.");
   }
 
-  QLabel* support_lbl = new QLabel(tr("<html>%1 "
+  auto* support_lbl = new QLabel(tr("<html>%1 "
                                       "If you like this project, please consider making a "
                                       "<a href='https://olivevideoeditor.org/donate.php'>one-time donation</a> or "
                                       "<a href='https://www.patreon.com/olivevideoeditor'>pledging monthly</a> to "
@@ -99,14 +99,14 @@ AboutDialog::AboutDialog(bool welcome_dialog, QWidget* parent) : QDialog(parent)
   layout->addWidget(support_lbl);
 
   if (!patrons.isEmpty()) {
-    ScrollingLabel* scroll = new ScrollingLabel(patrons);
+    auto* scroll = new ScrollingLabel(patrons);
     scroll->StartAnimating();
     layout->addWidget(scroll);
   }
 
   layout->addWidget(new QLabel());
 
-  QHBoxLayout* btn_layout = new QHBoxLayout();
+  auto* btn_layout = new QHBoxLayout();
   btn_layout->setContentsMargins(0, 0, 0, 0);
   btn_layout->setSpacing(0);
 
@@ -117,7 +117,7 @@ AboutDialog::AboutDialog(bool welcome_dialog, QWidget* parent) : QDialog(parent)
     dont_show_again_checkbox_ = nullptr;
   }
 
-  QDialogButtonBox* buttons = new QDialogButtonBox(QDialogButtonBox::Ok, this);
+  auto* buttons = new QDialogButtonBox(QDialogButtonBox::Ok, this);
   if (!welcome_dialog) {
     buttons->setCenterButtons(true);
   }

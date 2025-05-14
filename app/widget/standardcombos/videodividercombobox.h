@@ -36,7 +36,7 @@ class VideoDividerComboBox : public QComboBox {
     }
   }
 
-  int GetDivider() const { return this->currentData().toInt(); }
+  [[nodiscard]] int GetDivider() const { return this->currentData().toInt(); }
 
   void SetDivider(int d) {
     for (int i = 0; i < this->count(); i++) {

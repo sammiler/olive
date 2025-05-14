@@ -46,7 +46,7 @@ NodeKeyframe::NodeKeyframe() { type_ = NodeKeyframe::kLinear; }
 NodeKeyframe::~NodeKeyframe() { setParent(nullptr); }
 
 NodeKeyframe *NodeKeyframe::copy(int element, QObject *parent) const {
-  NodeKeyframe *copy = new NodeKeyframe(time_, value_, type_, track_, element, input_, parent);
+  auto *copy = new NodeKeyframe(time_, value_, type_, track_, element, input_, parent);
   copy->bezier_control_in_ = bezier_control_in_;
   copy->bezier_control_out_ = bezier_control_out_;
   return copy;

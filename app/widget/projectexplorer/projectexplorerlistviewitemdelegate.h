@@ -34,8 +34,8 @@ class ProjectExplorerListViewItemDelegate : public QStyledItemDelegate {
  public:
   explicit ProjectExplorerListViewItemDelegate(QObject *parent = nullptr);
 
-  virtual QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
-  virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+  [[nodiscard]] QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+  void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 };
 
 }  // namespace olive

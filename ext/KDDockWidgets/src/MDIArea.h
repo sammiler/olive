@@ -38,7 +38,7 @@ class DOCKS_EXPORT MDIArea : public QWidgetAdapter
     Q_OBJECT
 public:
     explicit MDIArea(QWidgetOrQuick *parent = nullptr);
-    ~MDIArea();
+    ~MDIArea() override;
 
     /// @brief docks the dock widgets into this MDI area, at the specified position
     void addDockWidget(DockWidgetBase *dw, QPoint localPt, InitialOption addingOption = {});
@@ -51,7 +51,7 @@ public:
 
     /// @brief Returns the list of frames in this MDI Area
     /// Each Frame object represents a 'window' emebedded in the MDI Area
-    QList<Frame *> frames() const;
+    [[nodiscard]] QList<Frame *> frames() const;
 
     /// @brief Forwards the close event to the MDI dock widgets, aborts closing if at least one
     /// dock widget doesn't allow it

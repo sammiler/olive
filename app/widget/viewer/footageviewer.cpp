@@ -59,8 +59,8 @@ void FootageViewerWidget::StartFootageDragInternal(bool enable_video, bool enabl
     return;
   }
 
-  QDrag* drag = new QDrag(this);
-  QMimeData* mimedata = new QMimeData();
+  auto* drag = new QDrag(this);
+  auto* mimedata = new QMimeData();
 
   QByteArray encoded_data;
   QDataStream data_stream(&encoded_data, QIODevice::WriteOnly);

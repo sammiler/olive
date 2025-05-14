@@ -92,12 +92,12 @@ struct LengthOnSide
     int length = 0;
     int minLength = 0;
 
-    int available() const
+    [[nodiscard]] int available() const
     {
         return qMax(0, length - minLength);
     }
 
-    int missing() const
+    [[nodiscard]] int missing() const
     {
         return qMax(0, minLength - length);
     }
@@ -762,8 +762,7 @@ Item::Item(bool isContainer, Widget *hostWidget, ItemContainer *parent)
 }
 
 Item::~Item()
-{
-}
+= default;
 
 bool Item::eventFilter(QObject *widget, QEvent *e)
 {
@@ -3553,8 +3552,7 @@ struct ItemContainer::Private
     }
 
     ~Private()
-    {
-    }
+    = default;
     ItemContainer *const q;
 };
 

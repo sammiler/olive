@@ -60,7 +60,7 @@ class CrashHandlerDialog : public QDialog {
   bool waiting_for_upload_;
 
  protected:
-  virtual void closeEvent(QCloseEvent* e) override;
+  void closeEvent(QCloseEvent* e) override;
 
  private slots:
   void ReplyFinished(QNetworkReply* reply);

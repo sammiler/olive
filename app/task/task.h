@@ -58,14 +58,14 @@ class Task : public QObject, public CancelableObject {
   /**
    * @brief Retrieve the current title of this Task
    */
-  const QString& GetTitle() const { return title_; }
+  [[nodiscard]] const QString& GetTitle() const { return title_; }
 
   /**
    * @brief Returns the error that occurred if Run() returns false
    */
-  const QString& GetError() const { return error_; }
+  [[nodiscard]] const QString& GetError() const { return error_; }
 
-  const qint64& GetStartTime() const { return start_time_; }
+  [[nodiscard]] const qint64& GetStartTime() const { return start_time_; }
 
  public slots:
   /**

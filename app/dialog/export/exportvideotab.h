@@ -45,28 +45,28 @@ class ExportVideoTab : public QWidget {
 
   int SetFormat(ExportFormat::Format format);
 
-  bool IsImageSequenceSet() const;
+  [[nodiscard]] bool IsImageSequenceSet() const;
   void SetImageSequence(bool e) const;
 
-  rational GetStillImageTime() const { return image_section_->GetTime(); }
+  [[nodiscard]] rational GetStillImageTime() const { return image_section_->GetTime(); }
 
-  ExportCodec::Codec GetSelectedCodec() const {
+  [[nodiscard]] ExportCodec::Codec GetSelectedCodec() const {
     return static_cast<ExportCodec::Codec>(codec_combobox()->currentData().toInt());
   }
 
   void SetSelectedCodec(ExportCodec::Codec c) { QtUtils::SetComboBoxData(codec_combobox(), c); }
 
-  QComboBox* codec_combobox() const { return codec_combobox_; }
+  [[nodiscard]] QComboBox* codec_combobox() const { return codec_combobox_; }
 
-  IntegerSlider* width_slider() const { return width_slider_; }
+  [[nodiscard]] IntegerSlider* width_slider() const { return width_slider_; }
 
-  IntegerSlider* height_slider() const { return height_slider_; }
+  [[nodiscard]] IntegerSlider* height_slider() const { return height_slider_; }
 
-  QCheckBox* maintain_aspect_checkbox() const { return maintain_aspect_checkbox_; }
+  [[nodiscard]] QCheckBox* maintain_aspect_checkbox() const { return maintain_aspect_checkbox_; }
 
-  QComboBox* scaling_method_combobox() const { return scaling_method_combobox_; }
+  [[nodiscard]] QComboBox* scaling_method_combobox() const { return scaling_method_combobox_; }
 
-  rational GetSelectedFrameRate() const { return frame_rate_combobox_->GetFrameRate(); }
+  [[nodiscard]] rational GetSelectedFrameRate() const { return frame_rate_combobox_->GetFrameRate(); }
 
   void SetSelectedFrameRate(const rational& fr) {
     frame_rate_combobox_->SetFrameRate(fr);
@@ -77,7 +77,7 @@ class ExportVideoTab : public QWidget {
 
   void SetOCIOColorSpace(const QString& s) { color_space_chooser_->set_input(s); }
 
-  CodecSection* GetCodecSection() const { return dynamic_cast<CodecSection*>(codec_stack_->currentWidget()); }
+  [[nodiscard]] CodecSection* GetCodecSection() const { return dynamic_cast<CodecSection*>(codec_stack_->currentWidget()); }
 
   void SetCodecSection(CodecSection* section) {
     if (section) {
@@ -88,20 +88,20 @@ class ExportVideoTab : public QWidget {
     }
   }
 
-  InterlacedComboBox* interlaced_combobox() const { return interlaced_combobox_; }
+  [[nodiscard]] InterlacedComboBox* interlaced_combobox() const { return interlaced_combobox_; }
 
-  PixelAspectRatioComboBox* pixel_aspect_combobox() const { return pixel_aspect_combobox_; }
+  [[nodiscard]] PixelAspectRatioComboBox* pixel_aspect_combobox() const { return pixel_aspect_combobox_; }
 
-  PixelFormatComboBox* pixel_format_field() const { return pixel_format_field_; }
+  [[nodiscard]] PixelFormatComboBox* pixel_format_field() const { return pixel_format_field_; }
 
-  const int& threads() const { return threads_; }
+  [[nodiscard]] const int& threads() const { return threads_; }
 
   void SetThreads(int t) { threads_ = t; }
 
-  const QString& pix_fmt() const { return pix_fmt_; }
+  [[nodiscard]] const QString& pix_fmt() const { return pix_fmt_; }
   void SetPixFmt(const QString& s) { pix_fmt_ = s; }
 
-  VideoParams::ColorRange color_range() const { return color_range_; }
+  [[nodiscard]] VideoParams::ColorRange color_range() const { return color_range_; }
   void SetColorRange(VideoParams::ColorRange c) { color_range_ = c; }
 
  public slots:

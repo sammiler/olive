@@ -41,10 +41,10 @@ ActionSearch::ActionSearch(QWidget *parent) : QDialog(parent), menu_bar_(nullptr
   // Show dialog as a "popup", which will make the dialog close if the user clicks out of it.
   setWindowFlags(Qt::Popup);
 
-  QVBoxLayout *layout = new QVBoxLayout(this);
+  auto *layout = new QVBoxLayout(this);
 
   // Construct the main entry text field.
-  ActionSearchEntry *entry_field = new ActionSearchEntry(this);
+  auto *entry_field = new ActionSearchEntry(this);
 
   // Set the main entry field font size to 1.2x its standard font size.
   QFont entry_field_font = entry_field->font();
@@ -145,7 +145,7 @@ void ActionSearch::search_update(const QString &s, const QString &p, QMenu *pare
           // See if the action's name contains any of the currently entered string
           if (comp.contains(s, Qt::CaseInsensitive)) {
             // If so, we add it to the list widget.
-            QListWidgetItem *item = new QListWidgetItem(QStringLiteral("%1\n(%2)").arg(comp, menu_text), list_widget);
+            auto *item = new QListWidgetItem(QStringLiteral("%1\n(%2)").arg(comp, menu_text), list_widget);
 
             // Add a pointer to the original QAction in the item's data
             item->setData(Qt::UserRole + 1, reinterpret_cast<quintptr>(a));

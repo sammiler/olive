@@ -53,7 +53,7 @@ class ColorProcessor {
 
   Color ConvertColor(const Color& in);
 
-  const char* id() const { return processor_->getCacheID(); }
+  [[nodiscard]] const char* id() const { return processor_->getCacheID(); }
 
  private:
   OCIO::ConstProcessorRcPtr processor_;

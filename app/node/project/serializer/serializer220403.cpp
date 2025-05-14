@@ -176,7 +176,7 @@ ProjectSerializer220403::LoadData ProjectSerializer220403::Load(Project *project
                               } else {
                                 while (XMLReadNextStartElement(reader)) {
                                   if (reader->name() == QStringLiteral("key")) {
-                                    NodeKeyframe *key = new NodeKeyframe();
+                                    auto *key = new NodeKeyframe();
                                     key->set_input(input_id);
                                     key->set_element(element_id.toInt());
                                     key->set_track(track_id.toInt());
@@ -214,7 +214,7 @@ ProjectSerializer220403::LoadData ProjectSerializer220403::Load(Project *project
       } else if (reader->name() == QStringLiteral("markers")) {
         while (XMLReadNextStartElement(reader)) {
           if (reader->name() == QStringLiteral("marker")) {
-            TimelineMarker *marker = new TimelineMarker();
+            auto *marker = new TimelineMarker();
             LoadMarker(reader, marker);
             load_data.markers.push_back(marker);
           } else {
@@ -323,9 +323,9 @@ ProjectSerializer220403::LoadData ProjectSerializer220403::Load(Project *project
   for (Node *n : nodes) {
     n->SetCachesEnabled(true);
 
-    if (Track *t = dynamic_cast<Track *>(n)) {
+    if (auto *t = dynamic_cast<Track *>(n)) {
       for (int i = 0; i < t->InputArraySize(Track::kBlockInput); i++) {
-        Block *b = dynamic_cast<Block *>(t->GetConnectedOutput(Track::kBlockInput, i));
+        auto *b = dynamic_cast<Block *>(t->GetConnectedOutput(Track::kBlockInput, i));
         if (!b->track()) {
           t->AppendBlock(b);
         }
@@ -333,7 +333,7 @@ ProjectSerializer220403::LoadData ProjectSerializer220403::Load(Project *project
     }
 
     // Clear duplicate label (to facilitate #2147)
-    if (ClipBlock *c = dynamic_cast<ClipBlock *>(n)) {
+    if (auto *c = dynamic_cast<ClipBlock *>(n)) {
       if (c->connected_viewer() && c->GetLabel() == c->connected_viewer()->GetLabel()) {
         c->SetLabel(QString());
       }
@@ -696,7 +696,7 @@ void ProjectSerializer220403::LoadImmediate(QXmlStreamReader *reader, Node *node
             }
 
             if (reader->name() == QStringLiteral("key")) {
-              NodeKeyframe *key = new NodeKeyframe();
+              auto *key = new NodeKeyframe();
               key->set_input(input);
               key->set_element(element);
               key->set_track(track);
@@ -836,8 +836,8 @@ void ProjectSerializer220403::PostConnect(const XMLNodeData &xml_node_data) cons
 
 void ProjectSerializer220403::LoadNodeCustom(QXmlStreamReader *reader, Node *node, XMLNodeData &xml_node_data) const {
   // Viewer-based nodes
-  if (ViewerOutput *viewer = dynamic_cast<ViewerOutput *>(node)) {
-    Footage *footage = dynamic_cast<Footage *>(node);
+  if (auto *viewer = dynamic_cast<ViewerOutput *>(node)) {
+    auto *footage = dynamic_cast<Footage *>(node);
 
     while (XMLReadNextStartElement(reader)) {
       if (reader->name() == QStringLiteral("points")) {
@@ -849,7 +849,7 @@ void ProjectSerializer220403::LoadNodeCustom(QXmlStreamReader *reader, Node *nod
       }
     }
 
-  } else if (Track *track = dynamic_cast<Track *>(node)) {
+  } else if (auto *track = dynamic_cast<Track *>(node)) {
     while (XMLReadNextStartElement(reader)) {
       if (reader->name() == QStringLiteral("height")) {
         track->SetTrackHeight(reader->readElementText().toDouble());
@@ -858,7 +858,7 @@ void ProjectSerializer220403::LoadNodeCustom(QXmlStreamReader *reader, Node *nod
       }
     }
 
-  } else if (NodeGroup *group = dynamic_cast<NodeGroup *>(node)) {
+  } else if (auto *group = dynamic_cast<NodeGroup *>(node)) {
     while (XMLReadNextStartElement(reader)) {
       if (reader->name() == QStringLiteral("inputpassthroughs")) {
         while (XMLReadNextStartElement(reader)) {
@@ -988,7 +988,7 @@ void ProjectSerializer220403::LoadWorkArea(QXmlStreamReader *reader, TimelineWor
 void ProjectSerializer220403::LoadMarkerList(QXmlStreamReader *reader, TimelineMarkerList *markers) const {
   while (XMLReadNextStartElement(reader)) {
     if (reader->name() == QStringLiteral("marker")) {
-      TimelineMarker *marker = new TimelineMarker(markers);
+      auto *marker = new TimelineMarker(markers);
       LoadMarker(reader, marker);
     } else {
       reader->skipCurrentElement();

@@ -54,8 +54,7 @@ MultiSplitter::MultiSplitter(QWidgetOrQuick *parent)
 }
 
 MultiSplitter::~MultiSplitter()
-{
-}
+= default;
 
 bool MultiSplitter::validateInputs(QWidgetOrQuick *widget, Location location,
                                    const Frame *relativeToFrame, InitialOption option) const

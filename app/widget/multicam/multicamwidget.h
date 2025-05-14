@@ -32,14 +32,14 @@ class MulticamWidget : public TimeBasedWidget {
  public:
   explicit MulticamWidget(QWidget *parent = nullptr);
 
-  MulticamDisplay *GetDisplayWidget() const { return display_; }
+  [[nodiscard]] MulticamDisplay *GetDisplayWidget() const { return display_; }
 
   void SetMulticamNode(ViewerOutput *viewer, MultiCamNode *n, ClipBlock *clip, const rational &time);
 
  protected:
-  virtual void ConnectNodeEvent(ViewerOutput *n) override;
-  virtual void DisconnectNodeEvent(ViewerOutput *n) override;
-  virtual void TimeChangedEvent(const rational &t) override;
+  void ConnectNodeEvent(ViewerOutput *n) override;
+  void DisconnectNodeEvent(ViewerOutput *n) override;
+  void TimeChangedEvent(const rational &t) override;
 
  signals:
   void Switched();

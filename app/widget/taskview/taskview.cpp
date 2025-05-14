@@ -43,7 +43,7 @@ TaskView::TaskView(QWidget *parent) : QScrollArea(parent) {
 
 void TaskView::AddTask(Task *t) {
   // Create TaskViewItem (UI representation of a Task) and connect it
-  TaskViewItem *item = new TaskViewItem(t);
+  auto *item = new TaskViewItem(t);
   connect(item, &TaskViewItem::TaskCancelled, this, &TaskView::TaskCancelled);
   items_.insert(t, item);
   layout_->insertWidget(layout_->count() - 1, item);

@@ -35,7 +35,7 @@ class TextDialog : public QDialog {
  public:
   explicit TextDialog(const QString& start, QWidget* parent = nullptr);
 
-  QString text() const { return text_edit_->toPlainText(); }
+  [[nodiscard]] QString text() const { return text_edit_->toPlainText(); }
 
  private:
   QPlainTextEdit* text_edit_;

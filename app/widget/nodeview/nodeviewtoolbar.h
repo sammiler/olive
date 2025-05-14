@@ -20,7 +20,7 @@ class NodeViewToolBar : public QWidget {
   void MiniMapEnabledToggled(bool e);
 
  protected:
-  virtual void changeEvent(QEvent *e) override;
+  void changeEvent(QEvent *e) override;
 
  private:
   void Retranslate();

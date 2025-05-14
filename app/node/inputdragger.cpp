@@ -28,7 +28,7 @@ namespace olive {
 
 int NodeInputDragger::input_being_dragged = 0;
 
-NodeInputDragger::NodeInputDragger() {}
+NodeInputDragger::NodeInputDragger() = default;
 
 bool NodeInputDragger::IsStarted() const { return input_.IsValid(); }
 

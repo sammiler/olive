@@ -33,7 +33,7 @@ namespace olive {
 AV1Section::AV1Section(QWidget* parent) : AV1Section(AV1CRFSection::kDefaultAV1CRF, parent) {}
 
 AV1Section::AV1Section(int default_crf, QWidget* parent) : CodecSection(parent) {
-  QGridLayout* layout = new QGridLayout(this);
+  auto* layout = new QGridLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
 
   int row = 0;
@@ -57,7 +57,7 @@ AV1Section::AV1Section(int default_crf, QWidget* parent) : CodecSection(parent) 
 
   layout->addWidget(new QLabel(tr("Compression Method:")), row, 0);
 
-  QComboBox* compression_box = new QComboBox();
+  auto* compression_box = new QComboBox();
   compression_box->setToolTip(
       tr("This parameter governs the quality/size trade-off.\n"
          "Higher CRF values will result in a final output that takes less space, but begins to lose detail.\n"
@@ -82,7 +82,7 @@ AV1Section::AV1Section(int default_crf, QWidget* parent) : CodecSection(parent) 
 }
 
 void AV1Section::AddOpts(EncodingParams* params) {
-  CompressionMethod method = static_cast<CompressionMethod>(compression_method_stack_->currentIndex());
+  auto method = static_cast<CompressionMethod>(compression_method_stack_->currentIndex());
 
   if (method == kConstantRateFactor) {
     // Set Quantizer value
@@ -93,7 +93,7 @@ void AV1Section::AddOpts(EncodingParams* params) {
 }
 
 AV1CRFSection::AV1CRFSection(int default_crf, QWidget* parent) : QWidget(parent) {
-  QHBoxLayout* layout = new QHBoxLayout(this);
+  auto* layout = new QHBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
 
   crf_slider_ = new QSlider(Qt::Horizontal);
@@ -102,7 +102,7 @@ AV1CRFSection::AV1CRFSection(int default_crf, QWidget* parent) : QWidget(parent)
   crf_slider_->setValue(default_crf);
   layout->addWidget(crf_slider_);
 
-  IntegerSlider* crf_input = new IntegerSlider();
+  auto* crf_input = new IntegerSlider();
   crf_input->setMaximumWidth(QtUtils::QFontMetricsWidth(crf_input->fontMetrics(), QStringLiteral("HHHH")));
   crf_input->SetMinimum(kMinimumCRF);
   crf_input->SetMaximum(kMaximumCRF);

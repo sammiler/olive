@@ -63,11 +63,11 @@ class ColorDialog : public QDialog {
    *
    * The color is always returned in the ColorManager's reference space (usually scene linear).
    */
-  ManagedColor GetSelectedColor() const;
+  [[nodiscard]] ManagedColor GetSelectedColor() const;
 
-  QString GetColorSpaceInput() const;
+  [[nodiscard]] QString GetColorSpaceInput() const;
 
-  ColorTransform GetColorSpaceOutput() const;
+  [[nodiscard]] ColorTransform GetColorSpaceOutput() const;
 
  public slots:
   void SetColor(const ManagedColor& c);

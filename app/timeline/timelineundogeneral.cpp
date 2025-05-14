@@ -314,7 +314,7 @@ void TrackListInsertGaps::prepare() {
   }
 
   for (int i = 0; i < blocks_to_append_gap_to.size(); i++) {
-    GapBlock* gap = new GapBlock();
+    auto* gap = new GapBlock();
     gap->set_length_and_media_out(length_);
     gap->setParent(&memory_manager_);
     gaps_added_.append({gap, blocks_to_append_gap_to.at(i), tracks_to_append_gap_to.at(i)});
@@ -490,14 +490,14 @@ void TrackReplaceBlockWithGapCommand::CreateRemoveTransitionCommandIfNecessary(b
     relevant_block = block_->previous();
   }
 
-  TransitionBlock* transition_cast_test = dynamic_cast<TransitionBlock*>(relevant_block);
+  auto* transition_cast_test = dynamic_cast<TransitionBlock*>(relevant_block);
 
   if (transition_cast_test) {
     if ((next && transition_cast_test->connected_out_block() == block_ &&
          !transition_cast_test->connected_in_block()) ||
         (!next && transition_cast_test->connected_in_block() == block_ &&
          !transition_cast_test->connected_out_block())) {
-      TransitionRemoveCommand* command = new TransitionRemoveCommand(transition_cast_test, true);
+      auto* command = new TransitionRemoveCommand(transition_cast_test, true);
       transition_remove_commands_.append(command);
     }
   }
@@ -554,7 +554,7 @@ void TimelineAddDefaultTransitionCommand::AddTransition(ClipBlock* c, CreateTran
       p = NodeFactory::CreateFromID(OLIVE_CONFIG("DefaultAudioTransition").toString());
     }
 
-    rational transition_length = OLIVE_CONFIG("DefaultTransitionLength").value<rational>();
+    auto transition_length = OLIVE_CONFIG("DefaultTransitionLength").value<rational>();
 
     // Resize original clip
     switch (mode) {
@@ -589,7 +589,7 @@ void TimelineAddDefaultTransitionCommand::AddTransition(ClipBlock* c, CreateTran
     }
 
     if (transition_length > rational(0)) {
-      if (TransitionBlock* transition = dynamic_cast<TransitionBlock*>(p)) {
+      if (auto* transition = dynamic_cast<TransitionBlock*>(p)) {
         transition->set_length_and_media_out(transition_length);
 
         // Add transition

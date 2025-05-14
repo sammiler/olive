@@ -204,7 +204,7 @@ void Project::childEvent(QChildEvent *event) {
       connect(node, &Node::ValueChanged, this, &Project::ValueChanged, Qt::DirectConnection);
       connect(node, &Node::InputValueHintChanged, this, &Project::InputValueHintChanged, Qt::DirectConnection);
 
-      if (NodeGroup *group = dynamic_cast<NodeGroup *>(node)) {
+      if (auto *group = dynamic_cast<NodeGroup *>(node)) {
         connect(group, &NodeGroup::InputPassthroughAdded, this, &Project::GroupAddedInputPassthrough,
                 Qt::DirectConnection);
         connect(group, &NodeGroup::InputPassthroughRemoved, this, &Project::GroupRemovedInputPassthrough,
@@ -240,7 +240,7 @@ void Project::childEvent(QChildEvent *event) {
       disconnect(node, &Node::ValueChanged, this, &Project::ValueChanged);
       disconnect(node, &Node::InputValueHintChanged, this, &Project::InputValueHintChanged);
 
-      if (NodeGroup *group = dynamic_cast<NodeGroup *>(node)) {
+      if (auto *group = dynamic_cast<NodeGroup *>(node)) {
         disconnect(group, &NodeGroup::InputPassthroughAdded, this, &Project::GroupAddedInputPassthrough);
         disconnect(group, &NodeGroup::InputPassthroughRemoved, this, &Project::GroupRemovedInputPassthrough);
         disconnect(group, &NodeGroup::OutputPassthroughChanged, this, &Project::GroupChangedOutputPassthrough);

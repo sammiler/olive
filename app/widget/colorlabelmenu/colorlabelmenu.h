@@ -30,7 +30,7 @@ class ColorLabelMenu : public Menu {
  public:
   explicit ColorLabelMenu(QWidget* parent = nullptr);
 
-  virtual void changeEvent(QEvent* event) override;
+  void changeEvent(QEvent* event) override;
 
  signals:
   void ColorSelected(int i);

@@ -241,7 +241,7 @@ QObject *ObjectViewer::selectedObject() const
     if (indexes.isEmpty())
         return nullptr;
     QModelIndex index = indexes.first();
-    QObject *obj = index.data(ObjRole).value<QObject *>();
+    auto *obj = index.data(ObjRole).value<QObject *>();
     return obj;
 }
 

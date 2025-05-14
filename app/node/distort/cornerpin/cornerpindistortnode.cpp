@@ -139,7 +139,7 @@ QPointF CornerPinDistortNode::ValueToPixel(int value, const NodeValueRow &row, c
 }
 
 void CornerPinDistortNode::GizmoDragMove(double x, double y, const Qt::KeyboardModifiers &modifiers) {
-  DraggableGizmo *gizmo = dynamic_cast<DraggableGizmo *>(sender());
+  auto *gizmo = dynamic_cast<DraggableGizmo *>(sender());
 
   if (gizmo != gizmo_whole_rect_) {
     gizmo->GetDraggers()[0].Drag(gizmo->GetDraggers()[0].GetStartValue().toDouble() + x);

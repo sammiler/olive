@@ -49,7 +49,7 @@ class AboutDialog : public QDialog {
   explicit AboutDialog(bool welcome_dialog, QWidget *parent = nullptr);
 
  public slots:
-  virtual void accept() override;
+  void accept() override;
 
  private:
   QCheckBox *dont_show_again_checkbox_;

@@ -37,7 +37,7 @@ class FrameRateComboBox : public QWidget {
   explicit FrameRateComboBox(QWidget* parent = nullptr) : QWidget(parent) {
     inner_ = new QComboBox();
 
-    QHBoxLayout* layout = new QHBoxLayout(this);
+    auto* layout = new QHBoxLayout(this);
     layout->setSpacing(0);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->addWidget(inner_);
@@ -50,7 +50,7 @@ class FrameRateComboBox : public QWidget {
             &FrameRateComboBox::IndexChanged);
   }
 
-  rational GetFrameRate() const {
+  [[nodiscard]] rational GetFrameRate() const {
     if (inner_->currentIndex() == inner_->count() - 1) {
       return custom_rate_;
     } else {
@@ -80,7 +80,7 @@ class FrameRateComboBox : public QWidget {
   void FrameRateChanged(const rational& frame_rate);
 
  protected:
-  virtual void changeEvent(QEvent* event) override {
+  void changeEvent(QEvent* event) override {
     QWidget::changeEvent(event);
 
     if (event->type() == QEvent::LanguageChange) {

@@ -44,18 +44,18 @@ class TimeBasedWidget : public TimelineScaledWidget {
 
   void ZoomOut();
 
-  ViewerOutput *GetConnectedNode() const;
+  [[nodiscard]] ViewerOutput *GetConnectedNode() const;
 
   void ConnectViewerNode(ViewerOutput *node);
 
-  TimelineWorkArea *GetConnectedWorkArea() const { return workarea_; }
-  TimelineMarkerList *GetConnectedMarkers() const { return markers_; }
+  [[nodiscard]] TimelineWorkArea *GetConnectedWorkArea() const { return workarea_; }
+  [[nodiscard]] TimelineMarkerList *GetConnectedMarkers() const { return markers_; }
   void ConnectWorkArea(TimelineWorkArea *workarea);
   void ConnectMarkers(TimelineMarkerList *markers);
 
   void SetScaleAndCenterOnPlayhead(const double &scale);
 
-  TimeRuler *ruler() const;
+  [[nodiscard]] TimeRuler *ruler() const;
 
   using SnapMask = uint32_t;
   enum SnapPoints {
@@ -116,13 +116,13 @@ class TimeBasedWidget : public TimelineScaledWidget {
   void DeleteSelected();
 
  protected:
-  ResizableTimelineScrollBar *scrollbar() const;
+  [[nodiscard]] ResizableTimelineScrollBar *scrollbar() const;
 
-  virtual void TimebaseChangedEvent(const rational &) override;
+  void TimebaseChangedEvent(const rational &) override;
 
   virtual void TimeChangedEvent(const rational &) {}
 
-  virtual void ScaleChangedEvent(const double &) override;
+  void ScaleChangedEvent(const double &) override;
 
   virtual void ConnectedNodeChangeEvent(ViewerOutput *) {}
 
@@ -135,18 +135,18 @@ class TimeBasedWidget : public TimelineScaledWidget {
 
   void SetAutoMaxScrollBar(bool e);
 
-  virtual void resizeEvent(QResizeEvent *event) override;
+  void resizeEvent(QResizeEvent *event) override;
 
   void ConnectTimelineView(TimeBasedView *base);
 
   void SetCatchUpScrollValue(QScrollBar *b, int v, int maximum);
   void StopCatchUpScrollTimer(QScrollBar *b);
 
-  virtual const QVector<Block *> *GetSnapBlocks() const { return nullptr; }
-  virtual const QVector<KeyframeViewInputConnection *> *GetSnapKeyframes() const { return nullptr; }
-  virtual const TimeTargetObject *GetKeyframeTimeTarget() const { return nullptr; }
-  virtual const std::vector<NodeKeyframe *> *GetSnapIgnoreKeyframes() const { return nullptr; }
-  virtual const std::vector<TimelineMarker *> *GetSnapIgnoreMarkers() const { return nullptr; }
+  [[nodiscard]] virtual const QVector<Block *> *GetSnapBlocks() const { return nullptr; }
+  [[nodiscard]] virtual const QVector<KeyframeViewInputConnection *> *GetSnapKeyframes() const { return nullptr; }
+  [[nodiscard]] virtual const TimeTargetObject *GetKeyframeTimeTarget() const { return nullptr; }
+  [[nodiscard]] virtual const std::vector<NodeKeyframe *> *GetSnapIgnoreKeyframes() const { return nullptr; }
+  [[nodiscard]] virtual const std::vector<TimelineMarker *> *GetSnapIgnoreMarkers() const { return nullptr; }
 
  protected slots:
   /**
@@ -197,7 +197,7 @@ class TimeBasedWidget : public TimelineScaledWidget {
 
   void PageScrollInternal(int screen_position, bool whole_page_scroll);
 
-  bool UserIsDraggingPlayhead() const;
+  [[nodiscard]] bool UserIsDraggingPlayhead() const;
 
   ViewerOutput *viewer_node_;
 

@@ -77,7 +77,7 @@ class ProjectViewModel : public QAbstractItemModel {
    *
    * Currently active project or nullptr if there is none
    */
-  Project *project() const;
+  [[nodiscard]] Project *project() const;
 
   /**
    * @brief Set the project to adapt
@@ -91,23 +91,23 @@ class ProjectViewModel : public QAbstractItemModel {
   void set_project(Project *p);
 
   /** Compulsory Qt QAbstractItemModel overrides */
-  virtual QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const override;
-  virtual QModelIndex parent(const QModelIndex &child) const override;
-  virtual int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-  virtual int columnCount(const QModelIndex &parent = QModelIndex()) const override;
-  virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+  [[nodiscard]] QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const override;
+  [[nodiscard]] QModelIndex parent(const QModelIndex &child) const override;
+  [[nodiscard]] int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+  [[nodiscard]] int columnCount(const QModelIndex &parent = QModelIndex()) const override;
+  [[nodiscard]] QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
   /** Optional Qt QAbstractItemModel overrides */
-  virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
-  virtual bool hasChildren(const QModelIndex &parent = QModelIndex()) const override;
-  virtual bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
-  virtual bool canFetchMore(const QModelIndex &parent) const override;
+  [[nodiscard]] QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
+  [[nodiscard]] bool hasChildren(const QModelIndex &parent = QModelIndex()) const override;
+  bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
+  [[nodiscard]] bool canFetchMore(const QModelIndex &parent) const override;
 
   /** Drag and drop support */
-  virtual Qt::ItemFlags flags(const QModelIndex &index) const override;
-  virtual QStringList mimeTypes() const override;
-  virtual QMimeData *mimeData(const QModelIndexList &indexes) const override;
-  virtual bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column,
+  [[nodiscard]] Qt::ItemFlags flags(const QModelIndex &index) const override;
+  [[nodiscard]] QStringList mimeTypes() const override;
+  [[nodiscard]] QMimeData *mimeData(const QModelIndexList &indexes) const override;
+  bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column,
                             const QModelIndex &parent) override;
 
   /**
@@ -133,7 +133,7 @@ class ProjectViewModel : public QAbstractItemModel {
    *
    * A convenience function for retrieving Item objects. If the index is not valid, this returns the root Item.
    */
-  Node *GetItemObjectFromIndex(const QModelIndex &index) const;
+  [[nodiscard]] Node *GetItemObjectFromIndex(const QModelIndex &index) const;
 
   /**
    * @brief Check if an Item is a parent of a Child

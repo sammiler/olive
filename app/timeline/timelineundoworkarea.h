@@ -30,12 +30,12 @@ class WorkareaSetEnabledCommand : public UndoCommand {
   WorkareaSetEnabledCommand(Project* project, TimelineWorkArea* points, bool enabled)
       : project_(project), points_(points), old_enabled_(points_->enabled()), new_enabled_(enabled) {}
 
-  virtual Project* GetRelevantProject() const override { return project_; }
+  [[nodiscard]] Project* GetRelevantProject() const override { return project_; }
 
  protected:
-  virtual void redo() override { points_->set_enabled(new_enabled_); }
+  void redo() override { points_->set_enabled(new_enabled_); }
 
-  virtual void undo() override { points_->set_enabled(old_enabled_); }
+  void undo() override { points_->set_enabled(old_enabled_); }
 
  private:
   Project* project_;
@@ -55,12 +55,12 @@ class WorkareaSetRangeCommand : public UndoCommand {
   WorkareaSetRangeCommand(TimelineWorkArea* workarea, const TimeRange& range)
       : WorkareaSetRangeCommand(workarea, range, workarea->range()) {}
 
-  virtual Project* GetRelevantProject() const override { return Project::GetProjectFromObject(workarea_); }
+  [[nodiscard]] Project* GetRelevantProject() const override { return Project::GetProjectFromObject(workarea_); }
 
  protected:
-  virtual void redo() override { workarea_->set_range(new_range_); }
+  void redo() override { workarea_->set_range(new_range_); }
 
-  virtual void undo() override { workarea_->set_range(old_range_); }
+  void undo() override { workarea_->set_range(old_range_); }
 
  private:
   TimelineWorkArea* workarea_;

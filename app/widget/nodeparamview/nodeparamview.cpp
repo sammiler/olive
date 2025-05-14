@@ -37,11 +37,11 @@ namespace olive {
 NodeParamView::NodeParamView(bool create_keyframe_view, QWidget *parent)
     : super(true, false, parent), last_scroll_val_(0), focused_node_(nullptr), show_all_nodes_(false) {
   // Create horizontal layout to place scroll area in (and keyframe editing eventually)
-  QHBoxLayout *layout = new QHBoxLayout(this);
+  auto *layout = new QHBoxLayout(this);
   layout->setSpacing(0);
   layout->setContentsMargins(0, 0, 0, 0);
 
-  QSplitter *splitter = new QSplitter(Qt::Horizontal);
+  auto *splitter = new QSplitter(Qt::Horizontal);
   layout->addWidget(splitter);
 
   // Set up scroll area for params
@@ -57,7 +57,7 @@ NodeParamView::NodeParamView(bool create_keyframe_view, QWidget *parent)
 
   param_widget_area_ = new NodeParamViewDockArea();
 
-  QVBoxLayout *param_widget_container_layout = new QVBoxLayout(param_widget_container_);
+  auto *param_widget_container_layout = new QVBoxLayout(param_widget_container_);
   QMargins param_widget_margin = param_widget_container_layout->contentsMargins();
   param_widget_margin.setTop(ruler()->height());
   param_widget_container_layout->setContentsMargins(param_widget_margin);
@@ -69,12 +69,12 @@ NodeParamView::NodeParamView(bool create_keyframe_view, QWidget *parent)
   // Create contexts for three different types
   context_items_.resize(Track::kCount + 1);
   for (int i = 0; i < context_items_.size(); i++) {
-    NodeParamViewContext *c = new NodeParamViewContext(param_widget_area_);
+    auto *c = new NodeParamViewContext(param_widget_area_);
     c->setVisible(false);
     connect(c, &NodeParamViewContext::AboutToDeleteItem, this, &NodeParamView::ItemAboutToBeRemoved,
             Qt::DirectConnection);
 
-    NodeParamViewItemTitleBar *title_bar = dynamic_cast<NodeParamViewItemTitleBar *>(c->titleBarWidget());
+    auto *title_bar = dynamic_cast<NodeParamViewItemTitleBar *>(c->titleBarWidget());
 
     if (i == Track::kVideo || i == Track::kAudio) {
       c->SetEffectType(static_cast<Track::Type>(i));
@@ -108,8 +108,8 @@ NodeParamView::NodeParamView(bool create_keyframe_view, QWidget *parent)
 
   if (create_keyframe_view) {
     // Set up keyframe view
-    QWidget *keyframe_area = new QWidget();
-    QVBoxLayout *keyframe_area_layout = new QVBoxLayout(keyframe_area);
+    auto *keyframe_area = new QWidget();
+    auto *keyframe_area_layout = new QVBoxLayout(keyframe_area);
     keyframe_area_layout->setSpacing(0);
     keyframe_area_layout->setContentsMargins(0, 0, 0, 0);
 
@@ -257,7 +257,7 @@ void NodeParamView::UpdateContexts() {
 
     if (IsGroupMode()) {
       // Check inputs that have been passed through
-      NodeGroup *group = dynamic_cast<NodeGroup *>(contexts_.first());
+      auto *group = dynamic_cast<NodeGroup *>(contexts_.first());
       for (auto it = group->GetInputPassthroughs().cbegin(); it != group->GetInputPassthroughs().cend(); it++) {
         GroupInputPassthroughAdded(group, it->second);
       }
@@ -296,14 +296,14 @@ void NodeParamView::ItemAboutToBeRemoved(NodeParamViewItem *item) {
 void NodeParamView::ItemClicked() { ToggleSelect(dynamic_cast<NodeParamViewItem *>(sender())); }
 
 void NodeParamView::SelectNodeFromConnectedLink(Node *node) {
-  NodeParamViewItem *item = dynamic_cast<NodeParamViewItem *>(sender());
+  auto *item = dynamic_cast<NodeParamViewItem *>(sender());
 
   Node::ContextPair p = {node, item->GetContext()};
   SetSelectedNodes({p});
 }
 
 void NodeParamView::RequestEditTextInViewer() {
-  NodeParamViewItem *item = dynamic_cast<NodeParamViewItem *>(sender());
+  auto *item = dynamic_cast<NodeParamViewItem *>(sender());
 
   SetSelectedNodes({item});
   emit RequestViewerToStartEditingText();
@@ -370,10 +370,10 @@ void NodeParamView::DeleteSelected() {
   if (keyframe_view_ && keyframe_view_->hasFocus()) {
     keyframe_view_->DeleteSelected();
   } else if (!selected_nodes_.isEmpty()) {
-    MultiUndoCommand *c = new MultiUndoCommand();
+    auto *c = new MultiUndoCommand();
 
     // Create command to delete node from context and/or graph
-    NodeViewDeleteCommand *dc = new NodeViewDeleteCommand();
+    auto *dc = new NodeViewDeleteCommand();
     c->add_child(dc);
 
     // Add all nodes
@@ -571,7 +571,7 @@ bool NodeParamView::Paste(
   QHash<Node *, Node *> existing_nodes = get_existing_map_function(res);
 
   QVector<Node *> nodes_to_paste_as_new = res.GetLoadData().nodes;
-  MultiUndoCommand *command = new MultiUndoCommand();
+  auto *command = new MultiUndoCommand();
 
   if (!existing_nodes.empty()) {
     QMessageBox b(parent);
@@ -677,7 +677,7 @@ void NodeParamView::AddNode(Node *n, Node *ctx, NodeParamViewContext *context) {
     return;
   }
 
-  NodeParamViewItem *item =
+  auto *item =
       new NodeParamViewItem(n, IsGroupMode() ? kCheckBoxesOnNonConnected : kNoCheckBoxes, context->GetDockArea());
 
   connect(item, &NodeParamViewItem::RequestSelectNode, this, &NodeParamView::SelectNodeFromConnectedLink);
@@ -762,13 +762,13 @@ void NodeParamView::SortItemsInContext(NodeParamViewContext *context_item) {
 NodeParamViewContext *NodeParamView::GetContextItemFromContext(Node *ctx) {
   Track::Type ctx_type = Track::kCount;
 
-  if (ClipBlock *clip = dynamic_cast<ClipBlock *>(ctx)) {
+  if (auto *clip = dynamic_cast<ClipBlock *>(ctx)) {
     if (clip->track()) {
       if (clip->track()->type() != Track::kNone) {
         ctx_type = clip->track()->type();
       }
     }
-  } else if (Track *track = dynamic_cast<Track *>(ctx)) {
+  } else if (auto *track = dynamic_cast<Track *>(ctx)) {
     if (track->type() != Track::kNone) {
       ctx_type = track->type();
     }
@@ -823,7 +823,7 @@ void NodeParamView::UpdateGlobalScrollBar() {
 }
 
 void NodeParamView::PinNode(bool pin) {
-  NodeParamViewItem *item = dynamic_cast<NodeParamViewItem *>(sender());
+  auto *item = dynamic_cast<NodeParamViewItem *>(sender());
   Node *node = item->GetNode();
 
   if (pin) {
@@ -930,7 +930,7 @@ void NodeParamView::NodeRemovedFromContext(Node *n) {
 }
 
 void NodeParamView::InputCheckBoxChanged(const NodeInput &input, bool e) {
-  NodeGroup *group = dynamic_cast<NodeGroup *>(contexts_.first());
+  auto *group = dynamic_cast<NodeGroup *>(contexts_.first());
 
   if (e) {
     group->AddInputPassthrough(input);
@@ -952,7 +952,7 @@ void NodeParamView::GroupInputPassthroughRemoved(NodeGroup *group, const NodeInp
 }
 
 void NodeParamView::InputArraySizeChanged(const QString &input, int, int new_size) {
-  NodeParamViewItem *sender = dynamic_cast<NodeParamViewItem *>(this->sender());
+  auto *sender = dynamic_cast<NodeParamViewItem *>(this->sender());
 
   KeyframeView::NodeConnections &connections = sender->GetKeyframeConnections();
   KeyframeView::InputConnections &inputs = connections[input];

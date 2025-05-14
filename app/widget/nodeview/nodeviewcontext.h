@@ -16,9 +16,9 @@ class NodeViewContext : public QObject, public QGraphicsRectItem {
  public:
   explicit NodeViewContext(Node *context, QGraphicsItem *item = nullptr);
 
-  virtual ~NodeViewContext() override;
+  ~NodeViewContext() override;
 
-  Node *GetContext() const { return context_; }
+  [[nodiscard]] Node *GetContext() const { return context_; }
 
   void UpdateRect();
 
@@ -30,13 +30,13 @@ class NodeViewContext : public QObject, public QGraphicsRectItem {
 
   void Select(const QVector<Node *> &nodes);
 
-  QVector<NodeViewItem *> GetSelectedItems() const;
+  [[nodiscard]] QVector<NodeViewItem *> GetSelectedItems() const;
 
-  QPointF MapScenePosToNodePosInContext(const QPointF &pos) const;
+  [[nodiscard]] QPointF MapScenePosToNodePosInContext(const QPointF &pos) const;
 
   NodeViewItem *GetItemFromMap(Node *node) const { return item_map_.value(node); }
 
-  virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
+  void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 
  public slots:
   void AddChild(Node *node);
@@ -53,9 +53,9 @@ class NodeViewContext : public QObject, public QGraphicsRectItem {
   void ItemAboutToBeDeleted(NodeViewItem *item);
 
  protected:
-  virtual QVariant itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value) override;
+  QVariant itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value) override;
 
-  virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+  void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
 
  private:
   void AddNodeInternal(Node *node, NodeViewItem *item);

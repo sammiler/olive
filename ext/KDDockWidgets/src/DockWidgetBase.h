@@ -158,7 +158,7 @@ public:
     /**
      * @brief returns the widget which this dock widget hosts
      */
-    QWidgetOrQuick *widget() const;
+    [[nodiscard]]  QWidgetOrQuick *widget() const;
 
     /**
      * @brief Returns whether the dock widget is floating.
@@ -167,7 +167,7 @@ public:
      * then they don't count as floating anymore, as they are
      * side-by-side (or tabbed).
      */
-    bool isFloating() const;
+    [[nodiscard]]  bool isFloating() const;
 
     /**
      * @brief setter to make the dock widget float or dock.
@@ -181,26 +181,26 @@ public:
      * @brief Returns the QAction that allows to hide/show the dock widget
      * Useful to put in menus.
      */
-    Q_INVOKABLE QAction *toggleAction() const;
+    Q_INVOKABLE [[nodiscard]]  QAction *toggleAction() const;
 
     /**
      * @brief Returns the QAction that allows to dock/undock the dock widget
      * Useful to put in menus.
      */
-    Q_INVOKABLE QAction *floatAction() const;
+    Q_INVOKABLE [[nodiscard]]  QAction *floatAction() const;
 
     /**
      * @brief the dock widget's unique name.
      * @internal
      */
-    QString uniqueName() const;
+    [[nodiscard]]  QString uniqueName() const;
 
     /**
      * @brief Returns the dock widget's title.
      *        This title is visible in title bars and tab bars.
      * @sa setTitle
      */
-    QString title() const;
+    [[nodiscard]]  QString title() const;
 
     /**
      * @brief setter for the dock widget's title
@@ -219,17 +219,17 @@ public:
      * The position of the rect is in layout coordinates. 0,0 is the top-left of the layout
      * holding the widgets.
      */
-    QRect frameGeometry() const;
+    [[nodiscard]]  QRect frameGeometry() const;
 
     /**
      * @brief Returns the dock widget's options which control behaviour.
      * @sa setOptions(), optionsChanged()
      */
-    Options options() const;
+    [[nodiscard]]  Options options() const;
 
     /// @brief returns the per-dockwidget options which will affect LayoutSaver
     /// These are the options which were passed to the constructor
-    KDDockWidgets::DockWidgetBase::LayoutSaverOptions layoutSaverOptions() const;
+    [[nodiscard]]  KDDockWidgets::DockWidgetBase::LayoutSaverOptions layoutSaverOptions() const;
 
     /**
      * @brief Setter for the options.
@@ -248,7 +248,7 @@ public:
      * the frame is using Option_AlwaysShowsTabs, in which case this method will return true regardless
      * if being the single one.
      */
-    bool isTabbed() const;
+    [[nodiscard]]  bool isTabbed() const;
 
     /**
      * @brief Returns true if this dock widget is the current one in the tab
@@ -256,7 +256,7 @@ public:
      *        returned, as in this case there will also be a tab widget even
      *        though it's invisible.
      */
-    bool isCurrentTab() const;
+    [[nodiscard]]  bool isCurrentTab() const;
 
     /**
      * @brief Makes this dock widget current in its tab group.
@@ -268,12 +268,12 @@ public:
      * Note that dock widgets are almost always tabbed, even if you don't see the tab bar.
      * A single floating dock widget is still tabbed on a tab widget with a single tab.
      */
-    int tabIndex() const;
+    [[nodiscard]]  int tabIndex() const;
 
     /**
      * @brief Returns the index of the current tab of the tab group this dock widget is in.
      */
-    int currentTabIndex() const;
+    [[nodiscard]]  int currentTabIndex() const;
 
     /**
      * @brief Sets an icon to show on title bars and tab bars.
@@ -292,7 +292,7 @@ public:
      *
      * @sa setIcon()
      */
-    QIcon icon(IconPlace place = IconPlace::TitleBar) const;
+    [[nodiscard]]  QIcon icon(IconPlace place = IconPlace::TitleBar) const;
 
     /**
      * @brief Like QWidget::close() but the hosted widget won't be asked if we
@@ -306,13 +306,13 @@ public:
      * Note that several dock widgets can have the same title bar, in case they are tabbed together.
      * Hidden dock widgets have no associated title bar.
      */
-    TitleBar *titleBar() const;
+    [[nodiscard]]  TitleBar *titleBar() const;
 
     /**
      * @brief Returns whether this dock widget is open.
      * Equivalent to calling toggleAction().isChecked() or isVisible()
      */
-    Q_INVOKABLE bool isOpen() const;
+    Q_INVOKABLE [[nodiscard]]  bool isOpen() const;
 
     /**
      * @brief Sets the affinity names. Dock widgets can only dock into dock widgets of the same affinity.
@@ -340,7 +340,7 @@ public:
     /**
      * @brief Returns the affinity name. Empty by default.
      */
-    QStringList affinities() const;
+    [[nodiscard]]  QStringList affinities() const;
 
     /// @brief Equivalent to QWidget::show(), but it's optimized to reduce flickering on some platforms
     Q_INVOKABLE void show();
@@ -364,7 +364,7 @@ public:
      *
      * See also kddockwidgets_example -j
      */
-    bool isMainWindow() const;
+    [[nodiscard]]  bool isMainWindow() const;
 
     /**
      * @brief Returns whether this dock widget is docked into a main window (as opposed to floating)
@@ -373,17 +373,17 @@ public:
      * main window or into a floating window (groupped/nested with other dock widgets. Use this function
      * then if you need to disambiguate
      */
-    bool isInMainWindow() const;
+    [[nodiscard]]  bool isInMainWindow() const;
 
     /// @brief Returns the main window this dock widget is in. nullptr if it's not inside a main window
     /// Also returns nullptr if it's minimized to a sidebar
-    MainWindowBase *mainWindow() const;
+    [[nodiscard]]  MainWindowBase *mainWindow() const;
 
     ///@brief Returns whether This or any child of this dock widget is focused
     /// Not to be confused with QWidget::hasFocus(), which just refers to 1 widget. This includes
     /// variant includes children.
     ///@sa isFocusedChanged()
-    bool isFocused() const;
+    [[nodiscard]]  bool isFocused() const;
 
     /**
      * @brief Minimizes this dock widget to the MainWindow's side-bar.
@@ -400,27 +400,27 @@ public:
     ///
     /// This is only relevant when using the auto-hide and side-bar feature.
     /// Not to be confused with "floating", which means top-level window.
-    bool isOverlayed() const;
+    [[nodiscard]]  bool isOverlayed() const;
 
     ///@brief Returns whether this dock widget is in a side bar, and which.
     /// SideBarLocation::None is returned if it's not in a sidebar.
     /// This is only relevant when using the auto-hide and side-bar feature.
     /// @sa isInSideBar
-    SideBarLocation sideBarLocation() const;
+    [[nodiscard]]  SideBarLocation sideBarLocation() const;
 
     /// @brief Returns where this dockwidget is in a sidebar
     /// Similar to sideBarLocation(), but returns a bool
-    bool isInSideBar() const;
+    [[nodiscard]]  bool isInSideBar() const;
 
     /// @brief Returns whether this floating dock widget knows its previous docked location
     /// Result only makes sense if it's floating.
     ///
     /// When you call dockWidget->setFloating(false) it will only dock if it knows where to.
-    bool hasPreviousDockedLocation() const;
+    [[nodiscard]]  bool hasPreviousDockedLocation() const;
 
     /// @brief returns the last size the widget has when overlayed
     /// Empty otherwise
-    QSize lastOverlayedSize() const;
+    [[nodiscard]]  QSize lastOverlayedSize() const;
 
 
     /// @brief Returns a dock widget by its name
@@ -429,7 +429,7 @@ public:
     static DockWidgetBase *byName(const QString &uniqueName);
 
     /// @brief Returns whether this widget has the LayoutSaverOption::Skip flag
-    bool skipsRestore() const;
+    [[nodiscard]]  bool skipsRestore() const;
 
     /// @brief If this dock widget is floating, then sets its geometry to @p geo.
     ///
@@ -445,7 +445,7 @@ public:
     /// This type is passed to FrameWorkWidgetFactory::createTitleBar(), which the user can override
     /// and return different TitleBar subclasses, depending on the type.
     void setUserType(int userType);
-    int userType() const;
+    [[nodiscard]]  int userType() const;
 
     /// @brief Sets this dock widgets position to pos within the MDI layout
     /// This only applies if the main window is in MDI mode, which it is not by default
@@ -458,7 +458,7 @@ public:
 
     ///@brief Returns whether this dock widget is the main window persistent central widget
     /// This only applies when using MainWindowOption_HasCentralWidget
-    bool isPersistentCentralDockWidget() const;
+    [[nodiscard]]  bool isPersistentCentralDockWidget() const;
 
     /// @brief Sets the desired floating window flags, in case the defaults aren't desired.
     /// By default KDDW will use the flags specified in KDDockWidgets::Config to influence
@@ -467,7 +467,7 @@ public:
     /// flags. Be sure to not call this before the floating window has already been created.
     /// It's suggested to call it before the dock widget is shown.
     void setFloatingWindowFlags(FloatingWindowFlags);
-    KDDockWidgets::FloatingWindowFlags floatingWindowFlags() const;
+    [[nodiscard]]  KDDockWidgets::FloatingWindowFlags floatingWindowFlags() const;
 
 Q_SIGNALS:
 #ifdef KDDOCKWIDGETS_QTWIDGETS
@@ -568,7 +568,7 @@ private:
     class Private;
     Private *const d;
 
-    Private *dptr() const;
+    [[nodiscard]]  Private *dptr() const;
 };
 
 }

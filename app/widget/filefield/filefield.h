@@ -31,7 +31,7 @@ class FileField : public QWidget {
  public:
   explicit FileField(QWidget* parent = nullptr);
 
-  QString GetFilename() const { return line_edit_->text(); }
+  [[nodiscard]] QString GetFilename() const { return line_edit_->text(); }
 
   void SetFilename(const QString& s) { line_edit_->setText(s); }
 

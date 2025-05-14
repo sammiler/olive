@@ -34,9 +34,9 @@ class ShapeNodeBase : public GeneratorWithMerge {
  public:
   explicit ShapeNodeBase(bool create_color_input = true);
 
-  virtual void Retranslate() override;
+  void Retranslate() override;
 
-  virtual void UpdateGizmoPositions(const NodeValueRow &row, const NodeGlobals &globals) override;
+  void UpdateGizmoPositions(const NodeValueRow &row, const NodeGlobals &globals) override;
 
   void SetRect(QRectF rect, const VideoParams &sequence_res, MultiUndoCommand *command);
 
@@ -45,10 +45,10 @@ class ShapeNodeBase : public GeneratorWithMerge {
   static const QString kColorInput;
 
  protected:
-  PolygonGizmo *poly_gizmo() const { return poly_gizmo_; }
+  [[nodiscard]] PolygonGizmo *poly_gizmo() const { return poly_gizmo_; }
 
  protected slots:
-  virtual void GizmoDragMove(double x, double y, const Qt::KeyboardModifiers &modifiers) override;
+  void GizmoDragMove(double x, double y, const Qt::KeyboardModifiers &modifiers) override;
 
  private:
   QVector2D GenerateGizmoAnchor(const QVector2D &pos, const QVector2D &size, NodeGizmo *gizmo,

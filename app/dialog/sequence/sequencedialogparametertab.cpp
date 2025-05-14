@@ -10,14 +10,14 @@
 namespace olive {
 
 SequenceDialogParameterTab::SequenceDialogParameterTab(Sequence* sequence, QWidget* parent) : QWidget(parent) {
-  QVBoxLayout* layout = new QVBoxLayout(this);
+  auto* layout = new QVBoxLayout(this);
 
   int row = 0;
 
   // Set up video section
-  QGroupBox* video_group = new QGroupBox();
+  auto* video_group = new QGroupBox();
   video_group->setTitle(tr("Video"));
-  QGridLayout* video_layout = new QGridLayout(video_group);
+  auto* video_layout = new QGridLayout(video_group);
   video_layout->addWidget(new QLabel(tr("Width:")), row, 0);
   width_slider_ = new IntegerSlider();
   width_slider_->SetMinimum(0);
@@ -44,9 +44,9 @@ SequenceDialogParameterTab::SequenceDialogParameterTab(Sequence* sequence, QWidg
   row = 0;
 
   // Set up audio section
-  QGroupBox* audio_group = new QGroupBox();
+  auto* audio_group = new QGroupBox();
   audio_group->setTitle(tr("Audio"));
-  QGridLayout* audio_layout = new QGridLayout(audio_group);
+  auto* audio_layout = new QGridLayout(audio_group);
   audio_layout->addWidget(new QLabel(tr("Sample Rate:")), row, 0);
   audio_sample_rate_field_ = new SampleRateComboBox();
   audio_layout->addWidget(audio_sample_rate_field_, row, 1);
@@ -59,9 +59,9 @@ SequenceDialogParameterTab::SequenceDialogParameterTab(Sequence* sequence, QWidg
   row = 0;
 
   // Set up preview section
-  QGroupBox* preview_group = new QGroupBox();
+  auto* preview_group = new QGroupBox();
   preview_group->setTitle(tr("Preview"));
-  QGridLayout* preview_layout = new QGridLayout(preview_group);
+  auto* preview_layout = new QGridLayout(preview_group);
   preview_layout->addWidget(new QLabel(tr("Resolution:")), row, 0);
   preview_resolution_field_ = new VideoDividerComboBox();
   preview_layout->addWidget(preview_resolution_field_, row, 1);
@@ -99,7 +99,7 @@ SequenceDialogParameterTab::SequenceDialogParameterTab(Sequence* sequence, QWidg
 
   layout->addStretch();
 
-  QPushButton* save_preset_btn = new QPushButton(tr("Save Preset"));
+  auto* save_preset_btn = new QPushButton(tr("Save Preset"));
   connect(save_preset_btn, &QPushButton::clicked, this, &SequenceDialogParameterTab::SavePresetClicked);
   layout->addWidget(save_preset_btn);
 

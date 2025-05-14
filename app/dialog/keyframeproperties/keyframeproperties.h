@@ -37,7 +37,7 @@ class KeyframePropertiesDialog : public QDialog {
   KeyframePropertiesDialog(const std::vector<NodeKeyframe*>& keys, const rational& timebase, QWidget* parent = nullptr);
 
  public slots:
-  virtual void accept() override;
+  void accept() override;
 
  private:
   void SetUpBezierSlider(FloatSlider* slider, bool all_same, double value);

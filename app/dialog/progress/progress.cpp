@@ -37,7 +37,7 @@ ProgressDialog::ProgressDialog(const QString& message, const QString& title, QWi
     setWindowTitle(title);
   }
 
-  QVBoxLayout* layout = new QVBoxLayout(this);
+  auto* layout = new QVBoxLayout(this);
 
   layout->addWidget(new QLabel(message));
 
@@ -50,13 +50,13 @@ ProgressDialog::ProgressDialog(const QString& message, const QString& title, QWi
   elapsed_timer_lbl_ = new ElapsedCounterWidget();
   layout->addWidget(elapsed_timer_lbl_);
 
-  QHBoxLayout* cancel_layout = new QHBoxLayout();
+  auto* cancel_layout = new QHBoxLayout();
   layout->addLayout(cancel_layout);
   cancel_layout->setContentsMargins(0, 0, 0, 0);
   cancel_layout->setSpacing(0);
   cancel_layout->addStretch();
 
-  QPushButton* cancel_btn = new QPushButton(tr("Cancel"));
+  auto* cancel_btn = new QPushButton(tr("Cancel"));
 
   // Signal that derivatives can connect to
   connect(cancel_btn, &QPushButton::clicked, this, &ProgressDialog::Cancelled, Qt::DirectConnection);

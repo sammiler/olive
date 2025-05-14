@@ -41,11 +41,11 @@ class ResizableScrollBar : public QScrollBar {
   void ResizeEnded();
 
  protected:
-  virtual void mousePressEvent(QMouseEvent* event) override;
+  void mousePressEvent(QMouseEvent* event) override;
 
-  virtual void mouseMoveEvent(QMouseEvent* event) override;
+  void mouseMoveEvent(QMouseEvent* event) override;
 
-  virtual void mouseReleaseEvent(QMouseEvent* event) override;
+  void mouseReleaseEvent(QMouseEvent* event) override;
 
  private:
   QRect GetScrollBarRect();

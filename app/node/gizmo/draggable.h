@@ -57,7 +57,7 @@ class DraggableGizmo : public NodeGizmo {
 
   QVector<NodeInputDragger> &GetDraggers() { return draggers_; }
 
-  DragValueBehavior GetDragValueBehavior() const { return drag_value_behavior_; }
+  [[nodiscard]] DragValueBehavior GetDragValueBehavior() const { return drag_value_behavior_; }
   void SetDragValueBehavior(DragValueBehavior d) { drag_value_behavior_ = d; }
 
  signals:

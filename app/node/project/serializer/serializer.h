@@ -41,7 +41,7 @@ class ProjectSerializer {
 
   ProjectSerializer() = default;
 
-  virtual ~ProjectSerializer() {}
+  virtual ~ProjectSerializer() = default;
 
   DISABLE_COPY_MOVE(ProjectSerializer)
 
@@ -83,13 +83,13 @@ class ProjectSerializer {
     bool operator==(const ResultCode &code) { return code_ == code; }
     bool operator!=(const ResultCode &code) { return code_ != code; }
 
-    const ResultCode &code() const { return code_; }
+    [[nodiscard]] const ResultCode &code() const { return code_; }
 
-    const QString &GetDetails() const { return details_; }
+    [[nodiscard]] const QString &GetDetails() const { return details_; }
 
     void SetDetails(const QString &s) { details_ = s; }
 
-    const LoadData &GetLoadData() const { return load_data_; }
+    [[nodiscard]] const LoadData &GetLoadData() const { return load_data_; }
 
     void SetLoadData(const LoadData &p) { load_data_ = p; }
 
@@ -109,28 +109,28 @@ class ProjectSerializer {
       filename_ = filename;
     }
 
-    Project *GetProject() const { return project_; }
+    [[nodiscard]] Project *GetProject() const { return project_; }
     void SetProject(Project *p) { project_ = p; }
 
-    const QString &GetFilename() const { return filename_; }
+    [[nodiscard]] const QString &GetFilename() const { return filename_; }
     void SetFilename(const QString &s) { filename_ = s; }
 
-    LoadType type() const { return type_; }
+    [[nodiscard]] LoadType type() const { return type_; }
 
-    const MainWindowLayoutInfo &GetLayout() const { return layout_; }
+    [[nodiscard]] const MainWindowLayoutInfo &GetLayout() const { return layout_; }
     void SetLayout(const MainWindowLayoutInfo &layout) { layout_ = layout; }
 
-    const QVector<Node *> &GetOnlySerializeNodes() const { return only_serialize_nodes_; }
+    [[nodiscard]] const QVector<Node *> &GetOnlySerializeNodes() const { return only_serialize_nodes_; }
     void SetOnlySerializeNodes(const QVector<Node *> &only) { only_serialize_nodes_ = only; }
     void SetOnlySerializeNodesAndResolveGroups(QVector<Node *> only);
 
-    const std::vector<TimelineMarker *> &GetOnlySerializeMarkers() const { return only_serialize_markers_; }
+    [[nodiscard]] const std::vector<TimelineMarker *> &GetOnlySerializeMarkers() const { return only_serialize_markers_; }
     void SetOnlySerializeMarkers(const std::vector<TimelineMarker *> &only) { only_serialize_markers_ = only; }
 
-    const std::vector<NodeKeyframe *> &GetOnlySerializeKeyframes() const { return only_serialize_keyframes_; }
+    [[nodiscard]] const std::vector<NodeKeyframe *> &GetOnlySerializeKeyframes() const { return only_serialize_keyframes_; }
     void SetOnlySerializeKeyframes(const std::vector<NodeKeyframe *> &only) { only_serialize_keyframes_ = only; }
 
-    const SerializedProperties &GetProperties() const { return properties_; }
+    [[nodiscard]] const SerializedProperties &GetProperties() const { return properties_; }
     void SetProperties(const SerializedProperties &p) { properties_ = p; }
 
    private:
@@ -170,9 +170,9 @@ class ProjectSerializer {
 
   virtual void Save(QXmlStreamWriter *writer, const SaveData &data, void *reserved) const {}
 
-  virtual uint Version() const = 0;
+  [[nodiscard]] virtual uint Version() const = 0;
 
-  bool IsCancelled() const;
+  [[nodiscard]] bool IsCancelled() const;
 
  private:
   static Result LoadWithSerializerVersion(uint version, Project *project, QXmlStreamReader *reader, LoadType load_type);

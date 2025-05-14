@@ -32,7 +32,7 @@ NodeValueDatabase NodeTraverser::GenerateDatabase(const Node *node, const TimeRa
 
   // HACK: Pick up loop mode from clips
   LoopMode old_loop_mode = loop_mode_;
-  if (const ClipBlock *clip = dynamic_cast<const ClipBlock *>(node)) {
+  if (const auto *clip = dynamic_cast<const ClipBlock *>(node)) {
     loop_mode_ = clip->loop_mode();
   }
 
@@ -90,7 +90,7 @@ NodeValue NodeTraverser::GenerateRowValue(const Node *node, const QString &input
 
   if (value.array()) {
     // Resolve each element of array
-    NodeValueTableArray tables = value.value<NodeValueTableArray>();
+    auto tables = value.value<NodeValueTableArray>();
     NodeValueArray output;
 
     for (auto it = tables.begin(); it != tables.end(); it++) {
@@ -343,7 +343,7 @@ void NodeTraverser::ResolveJobs(NodeValue &val) {
             ResolveJobs(subval);
           }
 
-          if (CacheJob *cj = dynamic_cast<CacheJob *>(base_job)) {
+          if (auto *cj = dynamic_cast<CacheJob *>(base_job)) {
             TexturePtr tex = ProcessVideoCacheJob(cj);
             if (tex) {
               val.set_value(tex);
@@ -351,7 +351,7 @@ void NodeTraverser::ResolveJobs(NodeValue &val) {
               val.set_value(cj->GetFallback());
             }
 
-          } else if (ColorTransformJob *ctj = dynamic_cast<ColorTransformJob *>(base_job)) {
+          } else if (auto *ctj = dynamic_cast<ColorTransformJob *>(base_job)) {
             VideoParams ctj_params = job_tex->params();
 
             ctj_params.set_format(GetCacheVideoParams().format());
@@ -367,7 +367,7 @@ void NodeTraverser::ResolveJobs(NodeValue &val) {
 
             val.set_value(dest);
 
-          } else if (ShaderJob *sj = dynamic_cast<ShaderJob *>(base_job)) {
+          } else if (auto *sj = dynamic_cast<ShaderJob *>(base_job)) {
             VideoParams tex_params = job_tex->params();
 
             TexturePtr tex = CreateTexture(tex_params);
@@ -376,7 +376,7 @@ void NodeTraverser::ResolveJobs(NodeValue &val) {
 
             val.set_value(tex);
 
-          } else if (GenerateJob *gj = dynamic_cast<GenerateJob *>(base_job)) {
+          } else if (auto *gj = dynamic_cast<GenerateJob *>(base_job)) {
             VideoParams tex_params = job_tex->params();
 
             TexturePtr tex = CreateTexture(tex_params);
@@ -398,7 +398,7 @@ void NodeTraverser::ResolveJobs(NodeValue &val) {
 
             val.set_value(tex);
 
-          } else if (FootageJob *fj = dynamic_cast<FootageJob *>(base_job)) {
+          } else if (auto *fj = dynamic_cast<FootageJob *>(base_job)) {
             rational footage_time = Footage::AdjustTimeByLoopMode(fj->time().in(), fj->loop_mode(), fj->length(),
                                                                   fj->video_params().video_type(),
                                                                   fj->video_params().frame_rate_as_time_base());
@@ -427,13 +427,13 @@ void NodeTraverser::ResolveJobs(NodeValue &val) {
 
   } else if (val.type() == NodeValue::kSamples) {
     if (val.canConvert<SampleJob>()) {
-      SampleJob job = val.value<SampleJob>();
+      auto job = val.value<SampleJob>();
       SampleBuffer output_buffer = CreateSampleBuffer(job.samples().audio_params(), job.samples().sample_count());
       ProcessSamples(output_buffer, val.source(), job.time(), job);
       val.set_value(QVariant::fromValue(output_buffer));
 
     } else if (val.canConvert<FootageJob>()) {
-      FootageJob job = val.value<FootageJob>();
+      auto job = val.value<FootageJob>();
       SampleBuffer buffer = CreateSampleBuffer(GetCacheAudioParams(), job.time().length());
       ProcessAudioFootage(buffer, &job, job.time());
       val.set_value(buffer);

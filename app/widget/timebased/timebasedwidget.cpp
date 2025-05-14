@@ -156,7 +156,7 @@ void TimeBasedWidget::UpdateMaximumScroll() {
 }
 
 void TimeBasedWidget::ScrollBarResizeBegan(int current_bar_width, bool top_handle) {
-  QScrollBar *bar = dynamic_cast<QScrollBar *>(sender());
+  auto *bar = dynamic_cast<QScrollBar *>(sender());
 
   scrollbar_start_width_ = current_bar_width;
   scrollbar_start_value_ = bar->value();
@@ -165,7 +165,7 @@ void TimeBasedWidget::ScrollBarResizeBegan(int current_bar_width, bool top_handl
 }
 
 void TimeBasedWidget::ScrollBarResizeMoved(int movement) {
-  ResizableScrollBar *bar = dynamic_cast<ResizableScrollBar *>(sender());
+  auto *bar = dynamic_cast<ResizableScrollBar *>(sender());
 
   // Negate movement for the top handle
   if (scrollbar_top_handle_) {
@@ -360,7 +360,7 @@ void TimeBasedWidget::ZoomOut() { SetScaleAndCenterOnPlayhead(GetScale() * 0.5);
 
 void TimeBasedWidget::GoToPrevCut() {
   // Cuts are only possible in sequences
-  Sequence *sequence = dynamic_cast<Sequence *>(viewer_node_);
+  auto *sequence = dynamic_cast<Sequence *>(viewer_node_);
 
   if (!sequence) {
     return;
@@ -391,7 +391,7 @@ void TimeBasedWidget::GoToPrevCut() {
 
 void TimeBasedWidget::GoToNextCut() {
   // Cuts are only possible in sequences
-  Sequence *sequence = dynamic_cast<Sequence *>(viewer_node_);
+  auto *sequence = dynamic_cast<Sequence *>(viewer_node_);
 
   if (!sequence) {
     return;
@@ -470,7 +470,7 @@ void TimeBasedWidget::SetPoint(Timeline::MovementMode m, const rational &time) {
     return;
   }
 
-  MultiUndoCommand *command = new MultiUndoCommand();
+  auto *command = new MultiUndoCommand();
   TimelineWorkArea *points = viewer_node_->GetWorkArea();
 
   // Enable workarea if it isn't already enabled
@@ -602,7 +602,7 @@ void TimeBasedWidget::SetMarker() {
       color = OLIVE_CONFIG("MarkerColor").toInt();
     }
 
-    TimelineMarker *marker =
+    auto *marker =
         new TimelineMarker(color, TimeRange(GetConnectedNode()->GetPlayhead(), GetConnectedNode()->GetPlayhead()));
 
     if (OLIVE_CONFIG("SetNameWithMarker").toBool()) {
@@ -722,7 +722,7 @@ bool TimeBasedWidget::SnapPoint(const std::vector<rational> &start_times, ration
 
       if (snap_points & kSnapToMarkers) {
         // Snap to clip markers too
-        if (ClipBlock *clip = dynamic_cast<ClipBlock *>(b)) {
+        if (auto *clip = dynamic_cast<ClipBlock *>(b)) {
           if (clip->connected_viewer()) {
             TimelineMarkerList *markers = clip->connected_viewer()->GetMarkers();
             for (auto jt = markers->cbegin(); jt != markers->cend(); jt++) {

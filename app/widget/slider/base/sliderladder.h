@@ -40,7 +40,7 @@ class SliderLadderElement : public QWidget {
 
   void SetMultiplierVisible(bool e);
 
-  double GetMultiplier() const { return multiplier_; }
+  [[nodiscard]] double GetMultiplier() const { return multiplier_; }
 
  private:
   void UpdateLabel();
@@ -60,16 +60,16 @@ class SliderLadder : public QFrame {
  public:
   SliderLadder(double drag_multiplier, int nb_outer_values, QString width_hint, QWidget* parent = nullptr);
 
-  virtual ~SliderLadder() override;
+  ~SliderLadder() override;
 
   void SetValue(const QString& s);
 
   void StartListeningToMouseInput();
 
  protected:
-  virtual void mouseReleaseEvent(QMouseEvent* event) override;
+  void mouseReleaseEvent(QMouseEvent* event) override;
 
-  virtual void closeEvent(QCloseEvent* event) override;
+  void closeEvent(QCloseEvent* event) override;
 
  signals:
   void DraggedByValue(int value, double multiplier);
@@ -77,7 +77,7 @@ class SliderLadder : public QFrame {
   void Released();
 
  private:
-  bool UsingLadders() const;
+  [[nodiscard]] bool UsingLadders() const;
 
   int drag_start_x_;
   int drag_start_y_;

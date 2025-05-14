@@ -37,14 +37,14 @@ class ScopeBase : public ManagedDisplayWidget {
   void SetBuffer(TexturePtr frame);
 
  protected slots:
-  virtual void OnInit() override;
+  void OnInit() override;
 
-  virtual void OnPaint() override;
+  void OnPaint() override;
 
-  virtual void OnDestroy() override;
+  void OnDestroy() override;
 
  protected:
-  virtual void showEvent(QShowEvent* e) override;
+  void showEvent(QShowEvent* e) override;
 
   virtual ShaderCode GenerateShaderCode() = 0;
 

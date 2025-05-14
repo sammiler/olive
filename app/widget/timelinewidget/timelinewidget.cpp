@@ -68,11 +68,11 @@ TimelineWidget::TimelineWidget(QWidget *parent)
       use_audio_time_units_(false),
       subtitle_show_command_(nullptr),
       subtitle_tentative_track_(nullptr) {
-  QVBoxLayout *vert_layout = new QVBoxLayout(this);
+  auto *vert_layout = new QVBoxLayout(this);
   vert_layout->setSpacing(0);
   vert_layout->setContentsMargins(0, 0, 0, 0);
 
-  QHBoxLayout *ruler_and_time_layout = new QHBoxLayout();
+  auto *ruler_and_time_layout = new QHBoxLayout();
   vert_layout->addLayout(ruler_and_time_layout);
 
   timecode_label_ = new RationalSlider();
@@ -275,7 +275,7 @@ void TimelineWidget::ScaleChangedEvent(const double &scale) {
 }
 
 void TimelineWidget::ConnectNodeEvent(ViewerOutput *n) {
-  Sequence *s = dynamic_cast<Sequence *>(n);
+  auto *s = dynamic_cast<Sequence *>(n);
 
   connect(s, &Sequence::TrackAdded, this, &TimelineWidget::AddTrack);
   connect(s, &Sequence::TrackRemoved, this, &TimelineWidget::RemoveTrack);
@@ -291,7 +291,7 @@ void TimelineWidget::ConnectNodeEvent(ViewerOutput *n) {
   SetTimebase(n->GetVideoParams().frame_rate_as_time_base());
 
   for (int i = 0; i < views_.size(); i++) {
-    Track::Type track_type = static_cast<Track::Type>(i);
+    auto track_type = static_cast<Track::Type>(i);
     TimelineView *view = views_.at(i)->view();
     TrackList *track_list = s->track_list(track_type);
     TrackView *track_view = views_.at(i)->track_view();
@@ -308,7 +308,7 @@ void TimelineWidget::ConnectNodeEvent(ViewerOutput *n) {
 }
 
 void TimelineWidget::DisconnectNodeEvent(ViewerOutput *n) {
-  Sequence *s = dynamic_cast<Sequence *>(n);
+  auto *s = dynamic_cast<Sequence *>(n);
 
   disconnect(s, &Sequence::TrackAdded, this, &TimelineWidget::AddTrack);
   disconnect(s, &Sequence::TrackRemoved, this, &TimelineWidget::RemoveTrack);
@@ -485,14 +485,14 @@ void TimelineWidget::DeleteSelected(bool ripple) {
     ripple = true;
   }
 
-  MultiUndoCommand *command = new MultiUndoCommand();
+  auto *command = new MultiUndoCommand();
 
   // Remove all selections
   command->add_child(new SetSelectionsCommand(this, TimelineWidgetSelections(), GetSelections()));
 
   // For transitions, remove them but extend their attached blocks to fill their place
   foreach (TransitionBlock *transition, transitions_to_delete) {
-    TransitionRemoveCommand *trc = new TransitionRemoveCommand(transition, true);
+    auto *trc = new TransitionRemoveCommand(transition, true);
 
     // Perform the transition removal now so that replacing blocks with gaps below won't get confused
     trc->redo_now();
@@ -592,7 +592,7 @@ void TimelineWidget::AddDefaultTransitionsToSelected() {
 
   foreach (Block *item, GetSelectedBlocks()) {
     // Only clips can be linked
-    if (ClipBlock *clip = dynamic_cast<ClipBlock *>(item)) {
+    if (auto *clip = dynamic_cast<ClipBlock *>(item)) {
       blocks.append(clip);
     }
   }
@@ -680,7 +680,7 @@ void TimelineWidget::DeleteInToOut(bool ripple) {
     return;
   }
 
-  MultiUndoCommand *command = new MultiUndoCommand();
+  auto *command = new MultiUndoCommand();
 
   if (ripple) {
     command->add_child(new TimelineRippleRemoveAreaCommand(sequence(), GetConnectedNode()->GetWorkArea()->in(),
@@ -690,7 +690,7 @@ void TimelineWidget::DeleteInToOut(bool ripple) {
     QVector<Track *> unlocked_tracks = sequence()->GetUnlockedTracks();
 
     foreach (Track *track, unlocked_tracks) {
-      GapBlock *gap = new GapBlock();
+      auto *gap = new GapBlock();
 
       gap->set_length_and_media_out(GetConnectedNode()->GetWorkArea()->length());
 
@@ -719,7 +719,7 @@ void TimelineWidget::ToggleSelectedEnabled() {
     return;
   }
 
-  MultiUndoCommand *command = new MultiUndoCommand();
+  auto *command = new MultiUndoCommand();
 
   foreach (Block *i, items) {
     command->add_child(new BlockEnableDisableCommand(i, !i->is_enabled()));
@@ -729,7 +729,7 @@ void TimelineWidget::ToggleSelectedEnabled() {
 }
 
 void TimelineWidget::SetColorLabel(int index) {
-  MultiUndoCommand *command = new MultiUndoCommand();
+  auto *command = new MultiUndoCommand();
 
   foreach (Block *b, selected_blocks_) {
     command->add_child(new NodeOverrideColorCommand(b, index));
@@ -758,7 +758,7 @@ void TimelineWidget::ShowSpeedDurationDialogForSelectedClips() {
   QVector<ClipBlock *> clips;
 
   foreach (Block *b, selected_blocks_) {
-    ClipBlock *c = dynamic_cast<ClipBlock *>(b);
+    auto *c = dynamic_cast<ClipBlock *>(b);
     if (c) {
       clips.append(c);
     }
@@ -819,7 +819,7 @@ void TimelineWidget::AddTentativeSubtitleTrack() {
       }
 
       if (should_add_sub_track) {
-        TimelineAddTrackCommand *track_add_cmd = new TimelineAddTrackCommand(sequence()->track_list(Track::kSubtitle));
+        auto *track_add_cmd = new TimelineAddTrackCommand(sequence()->track_list(Track::kSubtitle));
         subtitle_tentative_track_ = track_add_cmd->track();
         subtitle_show_command_->add_child(track_add_cmd);
       }
@@ -1120,7 +1120,7 @@ void TimelineWidget::TrackUpdated() { UpdateViewports(dynamic_cast<Track *>(send
 void TimelineWidget::BlockUpdated() { UpdateViewports(dynamic_cast<Block *>(sender())->track()->type()); }
 
 void TimelineWidget::UpdateHorizontalSplitters() {
-  QSplitter *sender_splitter = dynamic_cast<QSplitter *>(sender());
+  auto *sender_splitter = dynamic_cast<QSplitter *>(sender());
 
   foreach (TimelineAndTrackView *tview, views_) {
     QSplitter *recv_splitter = tview->splitter();
@@ -1153,7 +1153,7 @@ void TimelineWidget::ShowContextMenu() {
 
     menu.addSeparator();
 
-    if (ClipBlock *clip = dynamic_cast<ClipBlock *>(selected.first())) {
+    if (auto *clip = dynamic_cast<ClipBlock *>(selected.first())) {
       {
         Menu *cache_menu = new Menu(tr("Cache"), &menu);
         menu.addMenu(cache_menu);
@@ -1185,7 +1185,7 @@ void TimelineWidget::ShowContextMenu() {
         reveal_in_project->setData(reinterpret_cast<quintptr>(clip->connected_viewer()));
         connect(reveal_in_project, &QAction::triggered, this, &TimelineWidget::RevealInProject);
 
-        if (Sequence *sequence = dynamic_cast<Sequence *>(clip->connected_viewer())) {
+        if (auto *sequence = dynamic_cast<Sequence *>(clip->connected_viewer())) {
           QAction *multicam_enabled = menu.addAction(tr("Multi-Cam"));
           multicam_enabled->setCheckable(true);
 
@@ -1294,7 +1294,7 @@ void TimelineWidget::FrameRateChanged() { SetTimebase(GetConnectedNode()->GetVid
 void TimelineWidget::SampleRateChanged() { UpdateViewTimebases(); }
 
 void TimelineWidget::TrackIndexChanged(int old, int now) {
-  Track *track = dynamic_cast<Track *>(sender());
+  auto *track = dynamic_cast<Track *>(sender());
 
   Track::Reference old_ref(track->type(), old);
   Track::Reference new_ref(track->type(), now);
@@ -1311,16 +1311,16 @@ void TimelineWidget::SignalBlockSelectionChange() {
 }
 
 void TimelineWidget::RevealInFootageViewer() {
-  QAction *a = dynamic_cast<QAction *>(sender());
+  auto *a = dynamic_cast<QAction *>(sender());
 
   ViewerOutput *item_to_reveal = reinterpret_cast<ViewerOutput *>(a->data().value<quintptr>());
-  TimeRange r = a->property("range").value<TimeRange>();
+  auto r = a->property("range").value<TimeRange>();
 
   emit RevealViewerInFootageViewer(item_to_reveal, r);
 }
 
 void TimelineWidget::RevealInProject() {
-  QAction *a = dynamic_cast<QAction *>(sender());
+  auto *a = dynamic_cast<QAction *>(sender());
 
   ViewerOutput *item_to_reveal = reinterpret_cast<ViewerOutput *>(a->data().value<quintptr>());
 
@@ -1328,7 +1328,7 @@ void TimelineWidget::RevealInProject() {
 }
 
 void TimelineWidget::RenameSelectedBlocks() {
-  MultiUndoCommand *command = new MultiUndoCommand();
+  auto *command = new MultiUndoCommand();
   QVector<Node *> nodes(selected_blocks_.size());
 
   for (int i = 0; i < nodes.size(); i++) {
@@ -1349,10 +1349,10 @@ void TimelineWidget::TrackAboutToBeDeleted(Track *track) {
 }
 
 void TimelineWidget::SetSelectedClipsAutocaching(bool e) {
-  MultiUndoCommand *command = new MultiUndoCommand();
+  auto *command = new MultiUndoCommand();
 
   for (Block *b : selected_blocks_) {
-    if (ClipBlock *clip = dynamic_cast<ClipBlock *>(b)) {
+    if (auto *clip = dynamic_cast<ClipBlock *>(b)) {
       command->add_child(new NodeParamSetStandardValueCommand(
           NodeKeyframeTrackReference(NodeInput(clip, ClipBlock::kAutoCacheInput)), e));
     }
@@ -1365,7 +1365,7 @@ void TimelineWidget::SetSelectedClipsAutocaching(bool e) {
 
 void TimelineWidget::CacheClips() {
   for (Block *b : selected_blocks_) {
-    if (ClipBlock *clip = dynamic_cast<ClipBlock *>(b)) {
+    if (auto *clip = dynamic_cast<ClipBlock *>(b)) {
       clip->RequestInvalidatedFromConnected(true);
     }
   }
@@ -1381,7 +1381,7 @@ void TimelineWidget::CacheClipsInOut() {
 
   const TimeRange &r = this->sequence()->GetWorkArea()->range();
   for (Block *b : qAsConst(selected_blocks_)) {
-    if (ClipBlock *clip = dynamic_cast<ClipBlock *>(b)) {
+    if (auto *clip = dynamic_cast<ClipBlock *>(b)) {
       if (Node *connected = clip->GetConnectedOutput(clip->kBufferIn)) {
         TimeRange adjusted = tto.GetAdjustedTime(this->sequence(), connected, r, Node::kTransformTowardsInput);
         clip->RequestInvalidatedFromConnected(true, adjusted);
@@ -1398,7 +1398,7 @@ void TimelineWidget::CacheDiscard() {
                                "Do you wish to continue?"),
                             QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes) {
     for (Block *b : selected_blocks_) {
-      if (ClipBlock *clip = dynamic_cast<ClipBlock *>(b)) {
+      if (auto *clip = dynamic_cast<ClipBlock *>(b)) {
         clip->DiscardCache();
       }
     }
@@ -1406,15 +1406,15 @@ void TimelineWidget::CacheDiscard() {
 }
 
 void TimelineWidget::MulticamEnabledTriggered(bool e) {
-  MultiUndoCommand *command = new MultiUndoCommand();
+  auto *command = new MultiUndoCommand();
 
   for (Block *b : qAsConst(selected_blocks_)) {
-    if (ClipBlock *c = dynamic_cast<ClipBlock *>(b)) {
-      if (Sequence *s = dynamic_cast<Sequence *>(c->connected_viewer())) {
+    if (auto *c = dynamic_cast<ClipBlock *>(b)) {
+      if (auto *s = dynamic_cast<Sequence *>(c->connected_viewer())) {
         if (e) {
           // Adding multicams
           // Create multicam node and add it to the graph
-          MultiCamNode *n = new MultiCamNode();
+          auto *n = new MultiCamNode();
           n->SetSequenceType(c->GetTrackType());
           command->add_child(new NodeAddCommand(s->parent(), n));
 
@@ -1438,7 +1438,7 @@ void TimelineWidget::MulticamEnabledTriggered(bool e) {
           // Locate first multicam that specifically ends up at this clip
           QVector<NodeInput> inputs = c->FindWaysNodeArrivesHere(s);
           for (const NodeInput &i : inputs) {
-            if (MultiCamNode *mcn = dynamic_cast<MultiCamNode *>(i.node())) {
+            if (auto *mcn = dynamic_cast<MultiCamNode *>(i.node())) {
               for (auto it = mcn->output_connections().cbegin(); it != mcn->output_connections().cend(); it++) {
                 command->add_child(new NodeEdgeRemoveCommand(it->first, it->second));
                 command->add_child(new NodeEdgeAddCommand(s, it->second));
@@ -1494,7 +1494,7 @@ void TimelineWidget::NudgeInternal(rational amount) {
       return;
     }
 
-    MultiUndoCommand *command = new MultiUndoCommand();
+    auto *command = new MultiUndoCommand();
 
     foreach (Block *b, selected_blocks_) {
       command->add_child(new TrackReplaceBlockWithGapCommand(b->track(), b, false));
@@ -1516,7 +1516,7 @@ void TimelineWidget::NudgeInternal(rational amount) {
 
 void TimelineWidget::MoveToPlayheadInternal(bool out) {
   if (GetConnectedNode() && !selected_blocks_.isEmpty()) {
-    MultiUndoCommand *command = new MultiUndoCommand();
+    auto *command = new MultiUndoCommand();
 
     // Remove each block from the graph
     QHash<Track *, rational> earliest_pts;
@@ -1731,7 +1731,7 @@ void TimelineWidget::RippleTo(Timeline::MovementMode mode) {
   rational in_ripple = qMin(closest_point_to_playhead, playhead_time);
   rational out_ripple = qMax(closest_point_to_playhead, playhead_time);
 
-  TimelineRippleRemoveAreaCommand *c = new TimelineRippleRemoveAreaCommand(sequence(), in_ripple, out_ripple);
+  auto *c = new TimelineRippleRemoveAreaCommand(sequence(), in_ripple, out_ripple);
 
   Core::instance()->undo_stack()->push(c, tr("Rippled Clip(s) To Point"));
 
@@ -1753,7 +1753,7 @@ void TimelineWidget::EditTo(Timeline::MovementMode mode) {
     return;
   }
 
-  MultiUndoCommand *command = new MultiUndoCommand();
+  auto *command = new MultiUndoCommand();
 
   foreach (const Timeline::EditToInfo &info, tracks) {
     if (info.nearest_block && !dynamic_cast<GapBlock *>(info.nearest_block) && info.nearest_time != playhead_time) {
@@ -1794,7 +1794,7 @@ bool TimelineWidget::PasteInternal(bool insert) {
     return false;
   }
 
-  MultiUndoCommand *command = new MultiUndoCommand();
+  auto *command = new MultiUndoCommand();
 
   Project *project = GetConnectedNode()->project();
   foreach (Node *n, res.GetLoadData().nodes) {
@@ -1828,7 +1828,7 @@ bool TimelineWidget::PasteInternal(bool insert) {
   }
 
   for (auto it = res.GetLoadData().properties.cbegin(); it != res.GetLoadData().properties.cend(); it++) {
-    Block *block = dynamic_cast<Block *>(it.key());
+    auto *block = dynamic_cast<Block *>(it.key());
     rational in = rational::fromString(it.value()[QStringLiteral("in")].toUtf8().constData());
     Track::Reference track = Track::Reference::FromString(it.value()[QStringLiteral("track")]);
 
@@ -1842,7 +1842,7 @@ bool TimelineWidget::PasteInternal(bool insert) {
 }
 
 TimelineAndTrackView *TimelineWidget::AddTimelineAndTrackView(Qt::Alignment alignment) {
-  TimelineAndTrackView *v = new TimelineAndTrackView(alignment);
+  auto *v = new TimelineAndTrackView(alignment);
   connect(v->track_view(), &TrackView::AboutToDeleteTrack, this, &TimelineWidget::TrackAboutToBeDeleted);
   return v;
 }
@@ -1933,7 +1933,7 @@ void TimelineWidget::MoveRubberBandSelect(bool enable_selecting, bool select_lin
       rubberband_now_selected_.append(b);
     }
 
-    ClipBlock *c = dynamic_cast<ClipBlock *>(b);
+    auto *c = dynamic_cast<ClipBlock *>(b);
     if (c && select_links) {
       foreach (Block *link, c->block_links()) {
         if (!rubberband_now_selected_.contains(link)) {

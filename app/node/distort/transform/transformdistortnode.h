@@ -35,26 +35,26 @@ class TransformDistortNode : public MatrixGenerator {
 
   NODE_DEFAULT_FUNCTIONS(TransformDistortNode)
 
-  virtual QString Name() const override { return tr("Transform"); }
+  QString Name() const override { return tr("Transform"); }
 
-  virtual QString ShortName() const override {
+  QString ShortName() const override {
     // Override MatrixGenerator's short name "Ortho"
     return Name();
   }
 
-  virtual QString id() const override { return QStringLiteral("org.olivevideoeditor.Olive.transform"); }
+  QString id() const override { return QStringLiteral("org.olivevideoeditor.Olive.transform"); }
 
-  virtual QVector<CategoryID> Category() const override { return {kCategoryDistort}; }
+  QVector<CategoryID> Category() const override { return {kCategoryDistort}; }
 
-  virtual QString Description() const override {
+  QString Description() const override {
     return tr("Transform an image in 2D space. Equivalent to multiplying by an orthographic matrix.");
   }
 
-  virtual void Retranslate() override;
+  void Retranslate() override;
 
-  virtual void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
+  void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
 
-  virtual ShaderCode GetShaderCode(const ShaderRequest &request) const override;
+  ShaderCode GetShaderCode(const ShaderRequest &request) const override;
 
   enum AutoScaleType { kAutoScaleNone, kAutoScaleFit, kAutoScaleFill, kAutoScaleStretch };
 
@@ -62,8 +62,8 @@ class TransformDistortNode : public MatrixGenerator {
                                               const QVector2D &texture_res, const QVector2D &offset,
                                               AutoScaleType autoscale_type = kAutoScaleNone);
 
-  virtual void UpdateGizmoPositions(const NodeValueRow &row, const NodeGlobals &globals) override;
-  virtual QTransform GizmoTransformation(const NodeValueRow &row, const NodeGlobals &globals) const override;
+  void UpdateGizmoPositions(const NodeValueRow &row, const NodeGlobals &globals) override;
+  QTransform GizmoTransformation(const NodeValueRow &row, const NodeGlobals &globals) const override;
 
   static const QString kParentInput;
   static const QString kTextureInput;
@@ -71,9 +71,9 @@ class TransformDistortNode : public MatrixGenerator {
   static const QString kInterpolationInput;
 
  protected slots:
-  virtual void GizmoDragStart(const olive::NodeValueRow &row, double x, double y, const olive::rational &time) override;
+  void GizmoDragStart(const olive::NodeValueRow &row, double x, double y, const olive::rational &time) override;
 
-  virtual void GizmoDragMove(double x, double y, const Qt::KeyboardModifiers &modifiers) override;
+  void GizmoDragMove(double x, double y, const Qt::KeyboardModifiers &modifiers) override;
 
  private:
   static QPointF CreateScalePoint(double x, double y, const QPointF &half_res, const QMatrix4x4 &mat);

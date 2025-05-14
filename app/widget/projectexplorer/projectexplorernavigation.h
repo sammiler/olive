@@ -97,7 +97,7 @@ class ProjectExplorerNavigation : public QWidget {
   void SizeChanged(int size);
 
  protected:
-  virtual void changeEvent(QEvent*) override;
+  void changeEvent(QEvent*) override;
 
  private:
   void Retranslate();

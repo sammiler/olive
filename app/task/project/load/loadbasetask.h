@@ -31,11 +31,11 @@ class ProjectLoadBaseTask : public Task {
  public:
   explicit ProjectLoadBaseTask(const QString& filename);
 
-  Project* GetLoadedProject() const { return project_; }
+  [[nodiscard]] Project* GetLoadedProject() const { return project_; }
 
-  const QString& GetFilename() const { return filename_; }
+  [[nodiscard]] const QString& GetFilename() const { return filename_; }
 
-  const MainWindowLayoutInfo& GetLoadedLayout() const { return layout_; }
+  [[nodiscard]] const MainWindowLayoutInfo& GetLoadedLayout() const { return layout_; }
 
  protected:
   Project* project_;

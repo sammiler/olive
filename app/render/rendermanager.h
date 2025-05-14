@@ -48,7 +48,7 @@ class RenderThread : public QThread {
   void quit();
 
  protected:
-  virtual void run() override;
+  void run() override;
 
  private:
   QMutex mutex_;
@@ -176,9 +176,9 @@ class RenderManager : public QObject {
 
   enum TicketType { kTypeVideo, kTypeAudio };
 
-  Backend backend() const { return backend_; }
+  [[nodiscard]] Backend backend() const { return backend_; }
 
-  PreviewAutoCacher *GetCacher() const { return auto_cacher_; }
+  [[nodiscard]] PreviewAutoCacher *GetCacher() const { return auto_cacher_; }
 
   void SetProject(Project *p) { auto_cacher_->SetProject(p); }
 
@@ -190,7 +190,7 @@ class RenderManager : public QObject {
  private:
   explicit RenderManager(QObject *parent = nullptr);
 
-  virtual ~RenderManager() override;
+  ~RenderManager() override;
 
   RenderThread *CreateThread(Renderer *renderer = nullptr);
 

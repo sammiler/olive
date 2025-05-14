@@ -57,7 +57,7 @@ QModelIndex ProjectViewModel::index(int row, int column, const QModelIndex &pare
   }
 
   // Get the parent object, we assume it's a folder since only folders can have children
-  Folder *item_parent = dynamic_cast<Folder *>(GetItemObjectFromIndex(parent));
+  auto *item_parent = dynamic_cast<Folder *>(GetItemObjectFromIndex(parent));
 
   // Return an index to this object
   return createIndex(row, column, item_parent->item_child(row));
@@ -114,7 +114,7 @@ int ProjectViewModel::columnCount(const QModelIndex &parent) const {
 QVariant ProjectViewModel::data(const QModelIndex &index, int role) const {
   Node *internal_item = GetItemObjectFromIndex(index);
 
-  ColumnType column_type = static_cast<ColumnType>(index.column());
+  auto column_type = static_cast<ColumnType>(index.column());
 
   switch (role) {
     case Qt::DisplayRole:
@@ -176,7 +176,7 @@ QVariant ProjectViewModel::headerData(int section, Qt::Orientation orientation, 
   // Check if we need text data (DisplayRole) and orientation is horizontal
   // FIXME I'm not 100% sure what happens if the orientation is vertical/if that check is necessary
   if (orientation == Qt::Horizontal && role == Qt::DisplayRole) {
-    ColumnType column_type = static_cast<ColumnType>(section);
+    auto column_type = static_cast<ColumnType>(section);
 
     // Return the name based on the column's current type
     switch (column_type) {
@@ -214,7 +214,7 @@ bool ProjectViewModel::setData(const QModelIndex &index, const QVariant &value, 
     QString new_name = value.toString();
 
     if (!new_name.isEmpty()) {
-      NodeRenameCommand *nrc = new NodeRenameCommand();
+      auto *nrc = new NodeRenameCommand();
 
       nrc->AddNode(item, value.toString());
 
@@ -264,7 +264,7 @@ QMimeData *ProjectViewModel::mimeData(const QModelIndexList &indexes) const {
   }
 
   // Encode mime data for the rows/items that were dragged
-  QMimeData *data = new QMimeData();
+  auto *data = new QMimeData();
 
   // Use QDataStream to stream the item data into a byte array
   QByteArray encoded_data;
@@ -282,7 +282,7 @@ QMimeData *ProjectViewModel::mimeData(const QModelIndexList &indexes) const {
         Node *item = static_cast<Node *>(index.internalPointer());
         QVector<Track::Reference> streams;
 
-        if (ViewerOutput *footage = dynamic_cast<ViewerOutput *>(item)) {
+        if (auto *footage = dynamic_cast<ViewerOutput *>(item)) {
           streams = footage->GetEnabledStreamsAsReferences();
         }
 
@@ -322,7 +322,7 @@ bool ProjectViewModel::dropMimeData(const QMimeData *data, Qt::DropAction action
     QDataStream stream(&model_data, QIODevice::ReadOnly);
 
     // Get the Item object that the items were dropped on
-    Folder *drop_location = dynamic_cast<Folder *>(GetItemObjectFromIndex(drop));
+    auto *drop_location = dynamic_cast<Folder *>(GetItemObjectFromIndex(drop));
 
     // If this is not a folder, we cannot drop these items here
     if (!drop_location) {
@@ -334,7 +334,7 @@ bool ProjectViewModel::dropMimeData(const QMimeData *data, Qt::DropAction action
     QList<Track::Reference> streams;
 
     // Loop through all data
-    MultiUndoCommand *move_command = new MultiUndoCommand();
+    auto *move_command = new MultiUndoCommand();
 
     int count = 0;
 
@@ -433,7 +433,7 @@ bool ProjectViewModel::ItemIsParentOfChild(Folder *parent, Node *child) const {
 void ProjectViewModel::ConnectItem(Node *n) {
   connect(n, &Node::LabelChanged, this, &ProjectViewModel::ItemRenamed);
 
-  Folder *f = dynamic_cast<Folder *>(n);
+  auto *f = dynamic_cast<Folder *>(n);
   if (f) {
     connect(f, &Folder::BeginInsertItem, this, &ProjectViewModel::FolderBeginInsertItem);
     connect(f, &Folder::EndInsertItem, this, &ProjectViewModel::FolderEndInsertItem);
@@ -449,7 +449,7 @@ void ProjectViewModel::ConnectItem(Node *n) {
 void ProjectViewModel::DisconnectItem(Node *n) {
   disconnect(n, &Node::LabelChanged, this, &ProjectViewModel::ItemRenamed);
 
-  Folder *f = dynamic_cast<Folder *>(n);
+  auto *f = dynamic_cast<Folder *>(n);
   if (f) {
     disconnect(f, &Folder::BeginInsertItem, this, &ProjectViewModel::FolderBeginInsertItem);
     disconnect(f, &Folder::EndInsertItem, this, &ProjectViewModel::FolderEndInsertItem);
@@ -463,7 +463,7 @@ void ProjectViewModel::DisconnectItem(Node *n) {
 }
 
 void ProjectViewModel::FolderBeginInsertItem(Node *n, int insert_index) {
-  Folder *folder = dynamic_cast<Folder *>(sender());
+  auto *folder = dynamic_cast<Folder *>(sender());
 
   ConnectItem(n);
 
@@ -479,7 +479,7 @@ void ProjectViewModel::FolderBeginInsertItem(Node *n, int insert_index) {
 void ProjectViewModel::FolderEndInsertItem() { endInsertRows(); }
 
 void ProjectViewModel::FolderBeginRemoveItem(Node *n, int child_index) {
-  Folder *folder = dynamic_cast<Folder *>(sender());
+  auto *folder = dynamic_cast<Folder *>(sender());
 
   DisconnectItem(n);
 

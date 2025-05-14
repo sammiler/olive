@@ -39,26 +39,26 @@ class TimeBasedView : public HandMovableView, public TimeScaledObject {
 
   void EnableSnap(const std::vector<rational> &points);
   void DisableSnap();
-  bool IsSnapped() const { return snapped_; }
+  [[nodiscard]] bool IsSnapped() const { return snapped_; }
 
-  TimeBasedWidget *GetSnapService() const { return snap_service_; }
+  [[nodiscard]] TimeBasedWidget *GetSnapService() const { return snap_service_; }
   void SetSnapService(TimeBasedWidget *service) { snap_service_ = service; }
 
-  const double &GetYScale() const;
+  [[nodiscard]] const double &GetYScale() const;
   void SetYScale(const double &y_scale);
 
-  virtual bool IsDraggingPlayhead() const { return dragging_playhead_; }
+  [[nodiscard]] virtual bool IsDraggingPlayhead() const { return dragging_playhead_; }
 
   // To be called only by selection managers
   virtual void SelectionManagerSelectEvent(void *obj) {}
   virtual void SelectionManagerDeselectEvent(void *obj) {}
 
-  ViewerOutput *GetViewerNode() const { return viewer_; }
+  [[nodiscard]] ViewerOutput *GetViewerNode() const { return viewer_; }
 
   void SetViewerNode(ViewerOutput *v);
 
-  QPointF ScalePoint(const QPointF &p) const;
-  QPointF UnscalePoint(const QPointF &p) const;
+  [[nodiscard]] QPointF ScalePoint(const QPointF &p) const;
+  [[nodiscard]] QPointF UnscalePoint(const QPointF &p) const;
 
  public slots:
   void SetEndTime(const rational &length);
@@ -72,25 +72,25 @@ class TimeBasedView : public HandMovableView, public TimeScaledObject {
   void ScaleChanged(double scale);
 
  protected:
-  virtual void drawForeground(QPainter *painter, const QRectF &rect) override;
+  void drawForeground(QPainter *painter, const QRectF &rect) override;
 
-  virtual void resizeEvent(QResizeEvent *event) override;
+  void resizeEvent(QResizeEvent *event) override;
 
-  virtual void ScaleChangedEvent(const double &scale) override;
+  void ScaleChangedEvent(const double &scale) override;
 
   virtual void SceneRectUpdateEvent(QRectF &) {}
 
   virtual void VerticalScaleChangedEvent(double scale);
 
-  virtual void ZoomIntoCursorPosition(QWheelEvent *event, double multiplier, const QPointF &cursor_pos) override;
+  void ZoomIntoCursorPosition(QWheelEvent *event, double multiplier, const QPointF &cursor_pos) override;
 
   bool PlayheadPress(QMouseEvent *event);
   bool PlayheadMove(QMouseEvent *event);
   bool PlayheadRelease(QMouseEvent *event);
 
-  virtual void TimebaseChangedEvent(const rational &) override;
+  void TimebaseChangedEvent(const rational &) override;
 
-  bool IsYAxisEnabled() const { return y_axis_enabled_; }
+  [[nodiscard]] bool IsYAxisEnabled() const { return y_axis_enabled_; }
 
   void SetYAxisEnabled(bool e) { y_axis_enabled_ = e; }
 

@@ -32,17 +32,17 @@ class VolumeNode : public MathNodeBase {
 
   NODE_DEFAULT_FUNCTIONS(VolumeNode)
 
-  virtual QString Name() const override;
-  virtual QString id() const override;
-  virtual QVector<CategoryID> Category() const override;
-  virtual QString Description() const override;
+  [[nodiscard]] QString Name() const override;
+  [[nodiscard]] QString id() const override;
+  [[nodiscard]] QVector<CategoryID> Category() const override;
+  [[nodiscard]] QString Description() const override;
 
-  virtual void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
+  void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
 
-  virtual void ProcessSamples(const NodeValueRow &values, const SampleBuffer &input, SampleBuffer &output,
+  void ProcessSamples(const NodeValueRow &values, const SampleBuffer &input, SampleBuffer &output,
                               int index) const override;
 
-  virtual void Retranslate() override;
+  void Retranslate() override;
 
   static const QString kSamplesInput;
   static const QString kVolumeInput;

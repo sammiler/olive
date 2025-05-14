@@ -34,9 +34,9 @@
 namespace olive {
 
 PreferencesAppearanceTab::PreferencesAppearanceTab() {
-  QVBoxLayout* layout = new QVBoxLayout(this);
+  auto* layout = new QVBoxLayout(this);
 
-  QGridLayout* appearance_layout = new QGridLayout();
+  auto* appearance_layout = new QGridLayout();
   layout->addLayout(appearance_layout);
 
   int row = 0;
@@ -63,16 +63,16 @@ PreferencesAppearanceTab::PreferencesAppearanceTab() {
   row++;
 
   {
-    QGroupBox* color_group = new QGroupBox();
+    auto* color_group = new QGroupBox();
     color_group->setTitle(tr("Default Node Colors"));
 
-    QGridLayout* color_layout = new QGridLayout(color_group);
+    auto* color_layout = new QGridLayout(color_group);
 
     for (int i = 0; i < Node::kCategoryCount; i++) {
       QString cat_name = Node::GetCategoryName(static_cast<Node::CategoryID>(i));
       color_layout->addWidget(new QLabel(cat_name), i, 0);
 
-      ColorCodingComboBox* ccc = new ColorCodingComboBox();
+      auto* ccc = new ColorCodingComboBox();
       ccc->SetColor(OLIVE_CONFIG_STR(QStringLiteral("CatColor%1").arg(i)).toInt());
       color_layout->addWidget(ccc, i, 1);
       color_btns_.append(ccc);
@@ -83,10 +83,10 @@ PreferencesAppearanceTab::PreferencesAppearanceTab() {
 
   row++;
   {
-    QGroupBox* marker_group = new QGroupBox();
+    auto* marker_group = new QGroupBox();
     marker_group->setTitle(tr("Miscellaneous"));
 
-    QGridLayout* marker_layout = new QGridLayout(marker_group);
+    auto* marker_layout = new QGridLayout(marker_group);
 
     marker_layout->addWidget(new QLabel("Default Marker Color"), 0, 0);
 

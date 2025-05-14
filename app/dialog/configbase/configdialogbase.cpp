@@ -29,9 +29,9 @@
 namespace olive {
 
 ConfigDialogBase::ConfigDialogBase(QWidget* parent) : QDialog(parent) {
-  QVBoxLayout* layout = new QVBoxLayout(this);
+  auto* layout = new QVBoxLayout(this);
 
-  QSplitter* splitter = new QSplitter();
+  auto* splitter = new QSplitter();
   splitter->setChildrenCollapsible(false);
   layout->addWidget(splitter);
 
@@ -42,7 +42,7 @@ ConfigDialogBase::ConfigDialogBase(QWidget* parent) : QDialog(parent) {
   splitter->addWidget(list_widget_);
   splitter->addWidget(preference_pane_stack_);
 
-  QDialogButtonBox* button_box = new QDialogButtonBox(this);
+  auto* button_box = new QDialogButtonBox(this);
   button_box->setOrientation(Qt::Horizontal);
   button_box->setStandardButtons(QDialogButtonBox::Cancel | QDialogButtonBox::Ok);
 
@@ -61,7 +61,7 @@ void ConfigDialogBase::accept() {
     }
   }
 
-  MultiUndoCommand* command = new MultiUndoCommand();
+  auto* command = new MultiUndoCommand();
 
   foreach (ConfigDialogBaseTab* tab, tabs_) {
     tab->Accept(command);

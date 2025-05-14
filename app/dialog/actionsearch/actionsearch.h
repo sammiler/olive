@@ -141,7 +141,7 @@ class ActionSearchList : public QListWidget {
   /**
    * @brief Override of QListWidget's double click event that emits a signal.
    */
-  void mouseDoubleClickEvent(QMouseEvent*);
+  void mouseDoubleClickEvent(QMouseEvent*) override;
  signals:
   /**
    * @brief Signal emitted when a QListWidget item is double clicked.
@@ -171,7 +171,7 @@ class ActionSearchEntry : public QLineEdit {
    * @brief Override of QLineEdit's key press event that listens for up/down key presses.
    * @param event
    */
-  virtual bool event(QEvent* e) override;
+  bool event(QEvent* e) override;
 
  signals:
   /**

@@ -29,11 +29,11 @@ class TransitionTool : public AddTool {
  public:
   explicit TransitionTool(TimelineWidget *parent);
 
-  virtual void HoverMove(TimelineViewMouseEvent *event) override;
+  void HoverMove(TimelineViewMouseEvent *event) override;
 
-  virtual void MousePress(TimelineViewMouseEvent *event) override;
-  virtual void MouseMove(TimelineViewMouseEvent *event) override;
-  virtual void MouseRelease(TimelineViewMouseEvent *event) override;
+  void MousePress(TimelineViewMouseEvent *event) override;
+  void MouseMove(TimelineViewMouseEvent *event) override;
+  void MouseRelease(TimelineViewMouseEvent *event) override;
 
  private:
   bool GetBlocksAtCoord(const TimelineCoordinate &coord, ClipBlock **primary, ClipBlock **secondary,

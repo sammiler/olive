@@ -67,7 +67,7 @@ bool RationalSlider::GetLockDisplayType() { return lock_display_type_; }
 void RationalSlider::DisableDisplayType(RationalSlider::DisplayType type) { disabled_.append(type); }
 
 QString RationalSlider::ValueToString(const QVariant &v) const {
-  rational r = v.value<rational>();
+  auto r = v.value<rational>();
 
   if (r.isNaN()) {
     return tr("NaN");
@@ -169,7 +169,7 @@ void RationalSlider::ShowDisplayTypeMenu() {
 }
 
 void RationalSlider::SetDisplayTypeFromMenu() {
-  QAction *action = dynamic_cast<QAction *>(sender());
+  auto *action = dynamic_cast<QAction *>(sender());
 
   DisplayType type = static_cast<DisplayType>(action->data().toInt());
 

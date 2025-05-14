@@ -33,7 +33,7 @@ class LoadOTIOTask : public ProjectLoadBaseTask {
   explicit LoadOTIOTask(const QString& filename);
 
  protected:
-  virtual bool Run() override;
+  bool Run() override;
 };
 
 }  // namespace olive

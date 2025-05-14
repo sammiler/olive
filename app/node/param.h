@@ -122,7 +122,7 @@ class InputFlags {
 
   inline explicit operator bool() const { return f_; }
 
-  inline const uint64_t &value() const { return f_; }
+  [[nodiscard]] inline const uint64_t &value() const { return f_; }
 
  private:
   uint64_t f_;
@@ -169,13 +169,13 @@ class NodeInput {
     return element_ < rhs.element_;
   }
 
-  Node *node() const { return node_; }
+  [[nodiscard]] Node *node() const { return node_; }
 
-  NodeInputPair input_pair() const { return {node_, input_}; }
+  [[nodiscard]] NodeInputPair input_pair() const { return {node_, input_}; }
 
-  const QString &input() const { return input_; }
+  [[nodiscard]] const QString &input() const { return input_; }
 
-  const int &element() const { return element_; }
+  [[nodiscard]] const int &element() const { return element_; }
 
   void set_node(Node *node) { node_ = node; }
 
@@ -183,40 +183,40 @@ class NodeInput {
 
   void set_element(int e) { element_ = e; }
 
-  QString name() const;
+  [[nodiscard]] QString name() const;
 
-  bool IsValid() const { return node_ && !input_.isEmpty() && element_ >= -1; }
+  [[nodiscard]] bool IsValid() const { return node_ && !input_.isEmpty() && element_ >= -1; }
 
-  bool IsHidden() const;
+  [[nodiscard]] bool IsHidden() const;
 
-  bool IsConnected() const;
+  [[nodiscard]] bool IsConnected() const;
 
-  bool IsKeyframing() const;
+  [[nodiscard]] bool IsKeyframing() const;
 
-  bool IsArray() const;
+  [[nodiscard]] bool IsArray() const;
 
-  InputFlags GetFlags() const;
+  [[nodiscard]] InputFlags GetFlags() const;
 
-  QString GetInputName() const;
+  [[nodiscard]] QString GetInputName() const;
 
-  Node *GetConnectedOutput() const;
+  [[nodiscard]] Node *GetConnectedOutput() const;
 
-  NodeValue::Type GetDataType() const;
+  [[nodiscard]] NodeValue::Type GetDataType() const;
 
-  QVariant GetDefaultValue() const;
+  [[nodiscard]] QVariant GetDefaultValue() const;
 
-  QStringList GetComboBoxStrings() const;
+  [[nodiscard]] QStringList GetComboBoxStrings() const;
 
-  QVariant GetProperty(const QString &key) const;
-  QHash<QString, QVariant> GetProperties() const;
+  [[nodiscard]] QVariant GetProperty(const QString &key) const;
+  [[nodiscard]] QHash<QString, QVariant> GetProperties() const;
 
-  QVariant GetValueAtTime(const rational &time) const;
+  [[nodiscard]] QVariant GetValueAtTime(const rational &time) const;
 
-  NodeKeyframe *GetKeyframeAtTimeOnTrack(const rational &time, int track) const;
+  [[nodiscard]] NodeKeyframe *GetKeyframeAtTimeOnTrack(const rational &time, int track) const;
 
-  QVariant GetSplitDefaultValueForTrack(int track) const;
+  [[nodiscard]] QVariant GetSplitDefaultValueForTrack(int track) const;
 
-  int GetArraySize() const;
+  [[nodiscard]] int GetArraySize() const;
 
   void Reset() { *this = NodeInput(); }
 
@@ -254,11 +254,11 @@ class NodeKeyframeTrackReference {
 
   bool operator==(const NodeKeyframeTrackReference &rhs) const { return input_ == rhs.input_ && track_ == rhs.track_; }
 
-  const NodeInput &input() const { return input_; }
+  [[nodiscard]] const NodeInput &input() const { return input_; }
 
-  int track() const { return track_; }
+  [[nodiscard]] int track() const { return track_; }
 
-  bool IsValid() const { return input_.IsValid() && track_ >= 0; }
+  [[nodiscard]] bool IsValid() const { return input_.IsValid() && track_ >= 0; }
 
   void Reset() { *this = NodeKeyframeTrackReference(); }
 

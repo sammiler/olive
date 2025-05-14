@@ -35,18 +35,18 @@ class ProjectImportTask : public Task {
  public:
   ProjectImportTask(Folder* folder, const QStringList& filenames);
 
-  const int& GetFileCount() const;
+  [[nodiscard]] const int& GetFileCount() const;
 
-  MultiUndoCommand* GetCommand() const { return command_; }
+  [[nodiscard]] MultiUndoCommand* GetCommand() const { return command_; }
 
-  const QStringList& GetInvalidFiles() const { return invalid_files_; }
+  [[nodiscard]] const QStringList& GetInvalidFiles() const { return invalid_files_; }
 
-  bool HasInvalidFiles() const { return !invalid_files_.isEmpty(); }
+  [[nodiscard]] bool HasInvalidFiles() const { return !invalid_files_.isEmpty(); }
 
-  const QVector<Footage*>& GetImportedFootage() const { return imported_footage_; }
+  [[nodiscard]] const QVector<Footage*>& GetImportedFootage() const { return imported_footage_; }
 
  protected:
-  virtual bool Run() override;
+  bool Run() override;
 
  private:
   void Import(Folder* folder, QFileInfoList import, int& counter, MultiUndoCommand* parent_command);

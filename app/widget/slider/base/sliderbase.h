@@ -36,17 +36,17 @@ class SliderBase : public QStackedWidget {
 
   void SetAlignment(Qt::Alignment alignment);
 
-  bool IsTristate() const;
+  [[nodiscard]] bool IsTristate() const;
   void SetTristate();
 
   void SetFormat(const QString& s, const bool plural = false);
   void ClearFormat();
 
-  bool IsFormatPlural() const;
+  [[nodiscard]] bool IsFormatPlural() const;
 
   void SetDefaultValue(const QVariant& v);
 
-  QString GetFormattedValueToString(const QVariant& v) const;
+  [[nodiscard]] QString GetFormattedValueToString(const QVariant& v) const;
 
   void InsertLabelSubstitution(const QVariant& value, const QString& label) {
     label_substitutions_.append({value, label});
@@ -62,27 +62,27 @@ class SliderBase : public QStackedWidget {
   void UpdateLabel();
 
  protected:
-  const QVariant& GetValueInternal() const;
+  [[nodiscard]] const QVariant& GetValueInternal() const;
 
   void SetValueInternal(const QVariant& v);
 
-  QString GetFormat() const;
+  [[nodiscard]] QString GetFormat() const;
 
-  QString GetFormattedValueToString() const;
+  [[nodiscard]] QString GetFormattedValueToString() const;
 
   SliderLabel* label() { return label_; }
 
-  virtual QString ValueToString(const QVariant& v) const = 0;
+  [[nodiscard]] virtual QString ValueToString(const QVariant& v) const = 0;
 
   virtual QVariant StringToValue(const QString& s, bool* ok) const = 0;
 
-  virtual QVariant AdjustValue(const QVariant& value) const;
+  [[nodiscard]] virtual QVariant AdjustValue(const QVariant& value) const;
 
-  virtual bool CanSetValue() const;
+  [[nodiscard]] virtual bool CanSetValue() const;
 
   virtual void ValueSignalEvent(const QVariant& value) = 0;
 
-  virtual void changeEvent(QEvent* e) override;
+  void changeEvent(QEvent* e) override;
 
  private:
   bool GetLabelSubstitution(const QVariant& v, QString* out) const;

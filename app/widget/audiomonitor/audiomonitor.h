@@ -36,9 +36,9 @@ class AudioMonitor : public QOpenGLWidget {
  public:
   explicit AudioMonitor(QWidget *parent = nullptr);
 
-  virtual ~AudioMonitor() override;
+  ~AudioMonitor() override;
 
-  bool IsPlaying() const { return waveform_; }
+  [[nodiscard]] bool IsPlaying() const { return waveform_; }
 
   static void StartWaveformOnAll(const AudioWaveformCache *waveform, const rational &start, int playback_speed) {
     foreach (AudioMonitor *m, instances_) {
@@ -68,9 +68,9 @@ class AudioMonitor : public QOpenGLWidget {
   void StartWaveform(const AudioWaveformCache *waveform, const rational &start, int playback_speed);
 
  protected:
-  virtual void paintGL() override;
+  void paintGL() override;
 
-  virtual void mousePressEvent(QMouseEvent *event) override;
+  void mousePressEvent(QMouseEvent *event) override;
 
  private:
   void SetUpdateLoop(bool e);
@@ -83,7 +83,7 @@ class AudioMonitor : public QOpenGLWidget {
 
   void BytesToSampleSummary(const QByteArray &bytes, QVector<double> &v);
 
-  QVector<double> GetAverages() const;
+  [[nodiscard]] QVector<double> GetAverages() const;
 
   AudioParams params_;
 

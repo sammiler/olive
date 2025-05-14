@@ -50,7 +50,7 @@ class PixelAspectRatioComboBox : public QComboBox {
             &PixelAspectRatioComboBox::IndexChanged);
   }
 
-  rational GetPixelAspectRatio() const { return this->currentData().value<rational>(); }
+  [[nodiscard]] rational GetPixelAspectRatio() const { return this->currentData().value<rational>(); }
 
   void SetPixelAspectRatio(const rational& r) {
     // Determine which index to select on startup

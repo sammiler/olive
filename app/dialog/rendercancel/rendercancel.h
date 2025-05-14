@@ -40,7 +40,7 @@ class RenderCancelDialog : public ProgressDialog {
   void WorkerDone();
 
  protected:
-  virtual void showEvent(QShowEvent* event) override;
+  void showEvent(QShowEvent* event) override;
 
  private:
   void UpdateProgress();

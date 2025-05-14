@@ -93,9 +93,9 @@ class rational {
   bool operator!() const { return !r_.num; }
 
   // Function: convert to double
-  double toDouble() const;
+  [[nodiscard]]  double toDouble() const;
 
-  AVRational toAVRational() const;
+  [[nodiscard]]  AVRational toAVRational() const;
 
 #ifdef USE_OTIO
   static rational fromRationalTime(const opentime::RationalTime &t) {
@@ -104,25 +104,25 @@ class rational {
   }
 
   // Convert Olive rationals to opentime rationals with the given framerate (defaults to 24)
-  opentime::RationalTime toRationalTime(double framerate = 24) const;
+  [[nodiscard]]  opentime::RationalTime toRationalTime(double framerate = 24) const;
 #endif
 
   // Produce "flipped" version
-  rational flipped() const;
+  [[nodiscard]]  rational flipped() const;
   void flip();
 
   // Returns whether the rational is valid but equal to zero or not
   //
   // A NaN is always a null, but a null is not always a NaN
-  bool isNull() const { return r_.num == 0; }
+  [[nodiscard]]  bool isNull() const { return r_.num == 0; }
 
   // Returns whether this rational is not a valid number (denominator == 0)
-  bool isNaN() const { return r_.den == 0; }
+  [[nodiscard]]  bool isNaN() const { return r_.den == 0; }
 
-  const int &numerator() const { return r_.num; }
-  const int &denominator() const { return r_.den; }
+  [[nodiscard]]  const int &numerator() const { return r_.num; }
+  [[nodiscard]]  const int &denominator() const { return r_.den; }
 
-  std::string toString() const;
+  [[nodiscard]]  std::string toString() const;
 
   friend std::ostream &operator<<(std::ostream &out, const rational &value) {
     out << value.r_.num << '/' << value.r_.den;

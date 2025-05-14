@@ -58,13 +58,13 @@ MainWindow::MainWindow(QWidget *parent)
   first_show_ = true;
 
   // Create and set main menu
-  MainMenu *main_menu = new MainMenu(this);
+  auto *main_menu = new MainMenu(this);
   setMenuBar(main_menu);
 
   LoadCustomShortcuts();
 
   // Create and set status bar
-  MainStatusBar *status_bar = new MainStatusBar(this);
+  auto *status_bar = new MainStatusBar(this);
   status_bar->ConnectTaskManager(TaskManager::instance());
   connect(status_bar, &MainStatusBar::DoubleClicked, this, &MainWindow::StatusBarDoubleClicked);
   setStatusBar(status_bar);
@@ -360,7 +360,7 @@ void MainWindow::SetProject(Project *p) {
 
     // Close any nodes open in TimeBasedWidgets
     foreach (PanelWidget *panel, PanelManager::instance()->panels()) {
-      TimeBasedPanel *tbp = dynamic_cast<TimeBasedPanel *>(panel);
+      auto *tbp = dynamic_cast<TimeBasedPanel *>(panel);
 
       if (tbp && tbp->GetConnectedViewer() && tbp->GetConnectedViewer()->project() == project_) {
         if (dynamic_cast<TimelinePanel *>(tbp)) {
@@ -470,12 +470,12 @@ void MainWindow::StatusBarDoubleClicked() {
 }
 
 void MainWindow::NodePanelGroupOpenedOrClosed() {
-  NodePanel *p = dynamic_cast<NodePanel *>(sender());
+  auto *p = dynamic_cast<NodePanel *>(sender());
   param_panel_->SetContexts(p->GetContexts());
 }
 
 void MainWindow::TimelinePanelSelectionChanged(const QVector<Block *> &blocks) {
-  TimelinePanel *panel = dynamic_cast<TimelinePanel *>(sender());
+  auto *panel = dynamic_cast<TimelinePanel *>(sender());
 
   if (PanelManager::instance()->CurrentlyFocused(false) == panel) {
     UpdateNodePanelContextFromTimelinePanel(panel);
@@ -535,12 +535,12 @@ void MainWindow::UpdateTitle() {
 }
 
 void MainWindow::TimelineCloseRequested() {
-  TimelinePanel *t = dynamic_cast<TimelinePanel *>(sender());
+  auto *t = dynamic_cast<TimelinePanel *>(sender());
   RemoveTimelinePanel(t);
 }
 
 void MainWindow::ViewerCloseRequested() {
-  ViewerPanel *panel = dynamic_cast<ViewerPanel *>(sender());
+  auto *panel = dynamic_cast<ViewerPanel *>(sender());
 
   if (panel == scope_panel_->GetConnectedViewerPanel()) {
     scope_panel_->SetViewerPanel(sequence_viewer_panel_);
@@ -552,7 +552,7 @@ void MainWindow::ViewerCloseRequested() {
 }
 
 void MainWindow::ViewerWithPanelRemovedFromGraph() {
-  ViewerOutput *vo = dynamic_cast<ViewerOutput *>(sender());
+  auto *vo = dynamic_cast<ViewerOutput *>(sender());
   ViewerPanel *panel = nullptr;
 
   foreach (ViewerPanel *p, viewer_panels_) {
@@ -570,7 +570,7 @@ void MainWindow::ViewerWithPanelRemovedFromGraph() {
 }
 
 void MainWindow::FolderPanelCloseRequested() {
-  ProjectPanel *panel = dynamic_cast<ProjectPanel *>(sender());
+  auto *panel = dynamic_cast<ProjectPanel *>(sender());
   RemovePanelInternal(folder_panels_, panel);
   panel->deleteLater();
 }
@@ -748,27 +748,27 @@ void MainWindow::SelectFootageForProjectPanel(const QVector<Footage *> &e, Proje
 
 void MainWindow::FocusedPanelChanged(PanelWidget *panel) {
   // Update audio monitor panel
-  if (TimeBasedPanel *tbp = dynamic_cast<TimeBasedPanel *>(panel)) {
+  if (auto *tbp = dynamic_cast<TimeBasedPanel *>(panel)) {
     UpdateAudioMonitorParams(tbp->GetConnectedViewer());
   }
 
-  if (NodePanel *node_panel = dynamic_cast<NodePanel *>(panel)) {
+  if (auto *node_panel = dynamic_cast<NodePanel *>(panel)) {
     // Set param view contexts to these
     const QVector<Node *> &new_ctxs = node_panel->GetContexts();
 
     if (new_ctxs != param_panel_->GetContexts()) {
       param_panel_->SetContexts(new_ctxs);
     }
-  } else if (TimelinePanel *timeline = dynamic_cast<TimelinePanel *>(panel)) {
+  } else if (auto *timeline = dynamic_cast<TimelinePanel *>(panel)) {
     // Signal timeline focus
     TimelineFocused(timeline->GetConnectedViewer());
 
     UpdateNodePanelContextFromTimelinePanel(timeline);
-  } else if (ProjectPanel *project = dynamic_cast<ProjectPanel *>(panel)) {
+  } else if (auto *project = dynamic_cast<ProjectPanel *>(panel)) {
     // Signal project panel focus
     Q_UNUSED(project)
     UpdateTitle();
-  } else if (ViewerPanelBase *viewer = dynamic_cast<ViewerPanelBase *>(panel)) {
+  } else if (auto *viewer = dynamic_cast<ViewerPanelBase *>(panel)) {
     // Update scopes for viewer
     scope_panel_->SetViewerPanel(viewer);
   }

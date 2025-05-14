@@ -47,7 +47,7 @@ class ProjectExplorerTreeView : public QTreeView {
    * FIXME: This code is the same as the code in ProjectExplorerListViewBase. Is there a way to merge these two through
    *
    */
-  virtual void mouseDoubleClickEvent(QMouseEvent* event) override;
+  void mouseDoubleClickEvent(QMouseEvent* event) override;
 
  signals:
   /**

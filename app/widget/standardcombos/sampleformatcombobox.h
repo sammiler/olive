@@ -38,7 +38,7 @@ class SampleFormatComboBox : public QComboBox {
   void SetAttemptToRestoreFormat(bool e) { attempt_to_restore_format_ = e; }
 
   void SetAvailableFormats(const std::vector<SampleFormat> &formats) {
-    SampleFormat tmp = SampleFormat(SampleFormat::INVALID);
+    auto tmp = SampleFormat(SampleFormat::INVALID);
 
     if (attempt_to_restore_format_) {
       tmp = GetSampleFormat();
@@ -55,7 +55,7 @@ class SampleFormatComboBox : public QComboBox {
   }
 
   void SetPackedFormats() {
-    SampleFormat tmp = SampleFormat(SampleFormat::INVALID);
+    auto tmp = SampleFormat(SampleFormat::INVALID);
 
     if (attempt_to_restore_format_) {
       tmp = GetSampleFormat();
@@ -71,7 +71,7 @@ class SampleFormatComboBox : public QComboBox {
     }
   }
 
-  SampleFormat GetSampleFormat() const { return SampleFormat(static_cast<SampleFormat::Format>(this->currentData().toInt())); }
+  [[nodiscard]] SampleFormat GetSampleFormat() const { return SampleFormat(static_cast<SampleFormat::Format>(this->currentData().toInt())); }
 
   void SetSampleFormat(SampleFormat fmt) {
     for (int i = 0; i < this->count(); i++) {

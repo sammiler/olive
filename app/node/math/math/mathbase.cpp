@@ -32,10 +32,10 @@ ShaderCode MathNodeBase::GetShaderCodeInternal(const QString &shader_id, const Q
                                                const QString &param_b_in) const {
   QStringList code_id = shader_id.split('.');
 
-  Operation op = static_cast<Operation>(code_id.at(0).toInt());
-  Pairing pairing = static_cast<Pairing>(code_id.at(1).toInt());
-  NodeValue::Type type_a = static_cast<NodeValue::Type>(code_id.at(2).toInt());
-  NodeValue::Type type_b = static_cast<NodeValue::Type>(code_id.at(3).toInt());
+  auto op = static_cast<Operation>(code_id.at(0).toInt());
+  auto pairing = static_cast<Pairing>(code_id.at(1).toInt());
+  auto type_a = static_cast<NodeValue::Type>(code_id.at(2).toInt());
+  auto type_b = static_cast<NodeValue::Type>(code_id.at(3).toInt());
 
   QString operation, frag, vert;
 

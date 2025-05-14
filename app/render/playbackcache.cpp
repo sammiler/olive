@@ -191,7 +191,7 @@ void PlaybackCache::Draw(QPainter *p, const rational &start, double scale, const
 
 void PlaybackCache::SetPassthrough(PlaybackCache *cache) {
   for (const TimeRange &r : cache->GetValidatedRanges()) {
-    Passthrough p = Passthrough(r);
+    auto p = Passthrough(r);
     p.cache = cache->GetUuid();
     passthroughs_.push_back(p);
   }

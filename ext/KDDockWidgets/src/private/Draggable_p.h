@@ -39,7 +39,7 @@ public:
 
     explicit Draggable(QWidgetOrQuick *thisObject, bool enabled = true);
     virtual ~Draggable();
-    QWidgetOrQuick *asWidget() const;
+    [[nodiscard]]  QWidgetOrQuick *asWidget() const;
 
     /**
      * If this draggable is already a window, do nothing.
@@ -53,7 +53,7 @@ public:
      * Because simply inheriting from Draggable doesn't mean you can click anywhere to drag.
      * @param p is the point where the mouse press occurred
      */
-    virtual bool isPositionDraggable(QPoint p) const
+    [[nodiscard]]  virtual bool isPositionDraggable(QPoint p) const
     {
         Q_UNUSED(p)
         return true;
@@ -64,7 +64,7 @@ public:
      * The default implementation just checks if the delta is bigger than
      * QApplication::startDragDistance().
      */
-    virtual bool dragCanStart(QPoint pressPos, QPoint globalPos) const;
+    [[nodiscard]]  virtual bool dragCanStart(QPoint pressPos, QPoint globalPos) const;
 
     /**
      * @brief Sets a widget resize handler
@@ -78,17 +78,17 @@ public:
      * Example: This draggable is a floating window with only 1 dock widget
      * Example:  This draggable is a title bar with two dock widgets -> nullptr
      */
-    virtual DockWidgetBase *singleDockWidget() const = 0;
+    [[nodiscard]]  virtual DockWidgetBase *singleDockWidget() const = 0;
 
     ///@brief Returns whether this draggable is a MDI window, being dragged internally within a main window
-    virtual bool isMDI() const = 0;
+    [[nodiscard]]  virtual bool isMDI() const = 0;
 
     /**
      * @brief Returns whether this draggable is already a window.
      *
      * If true, means the drag will simply move the existing window, and no undocking/untabbing is involved.
      */
-    virtual bool isWindow() const = 0;
+    [[nodiscard]]  virtual bool isWindow() const = 0;
 
     /**
      * @brief Maps the given point in draggable mouse area's coordinate system to
@@ -99,7 +99,7 @@ public:
      * is approx equal to the floating window's 0,0 the discrepancy isn't noticeable, but it can
      * be if there's more window margins
      */
-    virtual QPoint mapToWindow(QPoint pos) const
+    [[nodiscard]]  virtual QPoint mapToWindow(QPoint pos) const
     {
         return pos;
     }

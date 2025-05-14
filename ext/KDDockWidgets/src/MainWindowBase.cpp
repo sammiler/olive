@@ -62,12 +62,12 @@ public:
     {
     }
 
-    bool supportsCentralFrame() const
+    [[nodiscard]] bool supportsCentralFrame() const
     {
         return m_options & MainWindowOption_HasCentralFrame;
     }
 
-    bool supportsPersistentCentralWidget() const
+    [[nodiscard]] bool supportsPersistentCentralWidget() const
     {
         if (!dropArea()) {
             // This is the MDI case
@@ -77,7 +77,7 @@ public:
         return (m_options & MainWindowOption_HasCentralWidget) == MainWindowOption_HasCentralWidget;
     }
 
-    DockWidgetBase *createPersistentCentralDockWidget(const QString &uniqueName) const
+    [[nodiscard]] DockWidgetBase *createPersistentCentralDockWidget(const QString &uniqueName) const
     {
         if (!supportsPersistentCentralWidget())
             return nullptr;
@@ -94,12 +94,12 @@ public:
         return dw;
     }
 
-    DropAreaWithCentralFrame *dropArea() const
+    [[nodiscard]] DropAreaWithCentralFrame *dropArea() const
     {
         return qobject_cast<DropAreaWithCentralFrame *>(m_layoutWidget);
     }
 
-    CursorPositions allowedResizeSides(SideBarLocation loc) const;
+    [[nodiscard]] CursorPositions allowedResizeSides(SideBarLocation loc) const;
 
     QRect rectForOverlay(Frame *, SideBarLocation) const;
     SideBarLocation preferredSideBar(DockWidgetBase *) const;

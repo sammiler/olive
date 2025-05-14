@@ -37,10 +37,10 @@ class Subtitle {
 
   Subtitle(const TimeRange &time, const QString &text) : range_(time), text_(text) {}
 
-  const TimeRange &time() const { return range_; }
+  [[nodiscard]] const TimeRange &time() const { return range_; }
   void set_time(const TimeRange &t) { range_ = t; }
 
-  const QString &text() const { return text_; }
+  [[nodiscard]] const QString &text() const { return text_; }
   void set_text(const QString &t) { text_ = t; }
 
  private:
@@ -62,9 +62,9 @@ class SubtitleParams : public std::vector<Subtitle> {
 
   void Save(QXmlStreamWriter *writer) const;
 
-  bool is_valid() const { return !this->empty(); }
+  [[nodiscard]] bool is_valid() const { return !this->empty(); }
 
-  rational duration() const {
+  [[nodiscard]] rational duration() const {
     if (this->empty()) {
       return rational(0);
     } else {
@@ -72,10 +72,10 @@ class SubtitleParams : public std::vector<Subtitle> {
     }
   }
 
-  int stream_index() const { return stream_index_; }
+  [[nodiscard]] int stream_index() const { return stream_index_; }
   void set_stream_index(int i) { stream_index_ = i; }
 
-  bool enabled() const { return enabled_; }
+  [[nodiscard]] bool enabled() const { return enabled_; }
   void set_enabled(bool e) { enabled_ = e; }
 
  private:

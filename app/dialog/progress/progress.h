@@ -35,9 +35,9 @@ class ProgressDialog : public QDialog {
   ProgressDialog(const QString& message, const QString& title, QWidget* parent = nullptr);
 
  protected:
-  virtual void showEvent(QShowEvent* e) override;
+  void showEvent(QShowEvent* e) override;
 
-  virtual void closeEvent(QCloseEvent*) override;
+  void closeEvent(QCloseEvent*) override;
 
  public slots:
   void SetProgress(double value);

@@ -33,7 +33,7 @@ namespace olive {
 H264Section::H264Section(QWidget* parent) : H264Section(H264CRFSection::kDefaultH264CRF, parent) {}
 
 H264Section::H264Section(int default_crf, QWidget* parent) : CodecSection(parent) {
-  QGridLayout* layout = new QGridLayout(this);
+  auto* layout = new QGridLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
 
   int row = 0;
@@ -66,7 +66,7 @@ H264Section::H264Section(int default_crf, QWidget* parent) : CodecSection(parent
 
   layout->addWidget(new QLabel(tr("Compression Method:")), row, 0);
 
-  QComboBox* compression_box = new QComboBox();
+  auto* compression_box = new QComboBox();
 
   // These items must correspond to the CompressionMethod enum
   compression_box->addItem(tr("Constant Rate Factor"));
@@ -96,7 +96,7 @@ H264Section::H264Section(int default_crf, QWidget* parent) : CodecSection(parent
 void H264Section::AddOpts(EncodingParams* params) {
   // FIXME: Implement two-pass
 
-  CompressionMethod method = static_cast<CompressionMethod>(compression_method_stack_->currentIndex());
+  auto method = static_cast<CompressionMethod>(compression_method_stack_->currentIndex());
 
   // This option is not used by the encoder (nor is anything with the ove_ prefix), it's to help us
   // identify which option was chosen when params are restored
@@ -160,7 +160,7 @@ void H264Section::SetOpts(const EncodingParams* p) {
 }
 
 H264CRFSection::H264CRFSection(int default_crf, QWidget* parent) : QWidget(parent) {
-  QHBoxLayout* layout = new QHBoxLayout(this);
+  auto* layout = new QHBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
 
   crf_slider_ = new QSlider(Qt::Horizontal);
@@ -169,7 +169,7 @@ H264CRFSection::H264CRFSection(int default_crf, QWidget* parent) : QWidget(paren
   crf_slider_->setValue(default_crf);
   layout->addWidget(crf_slider_);
 
-  IntegerSlider* crf_input = new IntegerSlider();
+  auto* crf_input = new IntegerSlider();
   crf_input->setMaximumWidth(QtUtils::QFontMetricsWidth(crf_input->fontMetrics(), QStringLiteral("HHHH")));
   crf_input->SetMinimum(kMinimumCRF);
   crf_input->SetMaximum(kMaximumCRF);
@@ -186,7 +186,7 @@ int H264CRFSection::GetValue() const { return crf_slider_->value(); }
 void H264CRFSection::SetValue(int c) { crf_slider_->setValue(c); }
 
 H264BitRateSection::H264BitRateSection(QWidget* parent) : QWidget(parent) {
-  QGridLayout* layout = new QGridLayout(this);
+  auto* layout = new QGridLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
 
   int row = 0;
@@ -209,7 +209,7 @@ H264BitRateSection::H264BitRateSection(QWidget* parent) : QWidget(parent) {
 
   layout->addWidget(new QLabel(tr("Two-Pass")), row, 0);
 
-  QCheckBox* two_pass_box = new QCheckBox();
+  auto* two_pass_box = new QCheckBox();
   layout->addWidget(two_pass_box, row, 1);
 
   // Bit rate defaults
@@ -226,7 +226,7 @@ int64_t H264BitRateSection::GetMaximumBitRate() const { return qRound64(max_rate
 void H264BitRateSection::SetMaximumBitRate(int64_t b) { max_rate_->SetValue(double(b) * 0.000001); }
 
 H264FileSizeSection::H264FileSizeSection(QWidget* parent) : QWidget(parent) {
-  QGridLayout* layout = new QGridLayout(this);
+  auto* layout = new QGridLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
 
   int row = 0;
@@ -241,7 +241,7 @@ H264FileSizeSection::H264FileSizeSection(QWidget* parent) : QWidget(parent) {
 
   layout->addWidget(new QLabel(tr("Two-Pass")), row, 0);
 
-  QCheckBox* two_pass_box = new QCheckBox();
+  auto* two_pass_box = new QCheckBox();
   layout->addWidget(two_pass_box, row, 1);
 
   // File size defaults

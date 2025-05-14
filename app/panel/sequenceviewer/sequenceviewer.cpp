@@ -29,7 +29,7 @@ SequenceViewerPanel::SequenceViewerPanel() : ViewerPanel(QStringLiteral("Sequenc
 }
 
 void SequenceViewerPanel::StartCapture(const TimeRange &time, const Track::Reference &track) {
-  TimelinePanel *tp = dynamic_cast<TimelinePanel *>(sender());
+  auto *tp = dynamic_cast<TimelinePanel *>(sender());
   dynamic_cast<ViewerWidget *>(GetTimeBasedWidget())->StartCapture(tp->timeline_widget(), time, track);
 }
 

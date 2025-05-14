@@ -48,7 +48,7 @@ class EncodingParams {
   static QDir GetPresetPath();
   static QStringList GetListOfPresets();
 
-  bool IsValid() const { return video_enabled_ || audio_enabled_ || subtitles_enabled_; }
+  [[nodiscard]] bool IsValid() const { return video_enabled_ || audio_enabled_ || subtitles_enabled_; }
 
   void SetFilename(const QString& filename) { filename_ = filename; }
 
@@ -61,7 +61,7 @@ class EncodingParams {
   void DisableAudio();
   void DisableSubtitles();
 
-  const ExportFormat::Format& format() const { return format_; }
+  [[nodiscard]] const ExportFormat::Format& format() const { return format_; }
   void set_format(const ExportFormat::Format& format) { format_ = format; }
 
   void set_video_option(const QString& key, const QString& value) { video_opts_.insert(key, value); }
@@ -74,36 +74,36 @@ class EncodingParams {
   void set_video_is_image_sequence(bool s) { video_is_image_sequence_ = s; }
   void set_color_transform(const ColorTransform& color_transform) { color_transform_ = color_transform; }
 
-  const QString& filename() const { return filename_; }
+  [[nodiscard]] const QString& filename() const { return filename_; }
 
-  bool video_enabled() const { return video_enabled_; }
-  const ExportCodec::Codec& video_codec() const { return video_codec_; }
-  const VideoParams& video_params() const { return video_params_; }
-  const QHash<QString, QString>& video_opts() const { return video_opts_; }
-  QString video_option(const QString& key) const { return video_opts_.value(key); }
-  bool has_video_opt(const QString& key) const { return video_opts_.contains(key); }
-  const int64_t& video_bit_rate() const { return video_bit_rate_; }
-  const int64_t& video_min_bit_rate() const { return video_min_bit_rate_; }
-  const int64_t& video_max_bit_rate() const { return video_max_bit_rate_; }
-  const int64_t& video_buffer_size() const { return video_buffer_size_; }
-  const int& video_threads() const { return video_threads_; }
-  const QString& video_pix_fmt() const { return video_pix_fmt_; }
-  bool video_is_image_sequence() const { return video_is_image_sequence_; }
-  const ColorTransform& color_transform() const { return color_transform_; }
+  [[nodiscard]] bool video_enabled() const { return video_enabled_; }
+  [[nodiscard]] const ExportCodec::Codec& video_codec() const { return video_codec_; }
+  [[nodiscard]] const VideoParams& video_params() const { return video_params_; }
+  [[nodiscard]] const QHash<QString, QString>& video_opts() const { return video_opts_; }
+  [[nodiscard]] QString video_option(const QString& key) const { return video_opts_.value(key); }
+  [[nodiscard]] bool has_video_opt(const QString& key) const { return video_opts_.contains(key); }
+  [[nodiscard]] const int64_t& video_bit_rate() const { return video_bit_rate_; }
+  [[nodiscard]] const int64_t& video_min_bit_rate() const { return video_min_bit_rate_; }
+  [[nodiscard]] const int64_t& video_max_bit_rate() const { return video_max_bit_rate_; }
+  [[nodiscard]] const int64_t& video_buffer_size() const { return video_buffer_size_; }
+  [[nodiscard]] const int& video_threads() const { return video_threads_; }
+  [[nodiscard]] const QString& video_pix_fmt() const { return video_pix_fmt_; }
+  [[nodiscard]] bool video_is_image_sequence() const { return video_is_image_sequence_; }
+  [[nodiscard]] const ColorTransform& color_transform() const { return color_transform_; }
 
-  bool audio_enabled() const { return audio_enabled_; }
-  const ExportCodec::Codec& audio_codec() const { return audio_codec_; }
-  const AudioParams& audio_params() const { return audio_params_; }
-  const int64_t& audio_bit_rate() const { return audio_bit_rate_; }
+  [[nodiscard]] bool audio_enabled() const { return audio_enabled_; }
+  [[nodiscard]] const ExportCodec::Codec& audio_codec() const { return audio_codec_; }
+  [[nodiscard]] const AudioParams& audio_params() const { return audio_params_; }
+  [[nodiscard]] const int64_t& audio_bit_rate() const { return audio_bit_rate_; }
 
   void set_audio_bit_rate(const int64_t& b) { audio_bit_rate_ = b; }
 
-  bool subtitles_enabled() const { return subtitles_enabled_; }
-  bool subtitles_are_sidecar() const { return subtitles_are_sidecar_; }
-  ExportFormat::Format subtitle_sidecar_fmt() const { return subtitle_sidecar_fmt_; }
-  ExportCodec::Codec subtitles_codec() const { return subtitles_codec_; }
+  [[nodiscard]] bool subtitles_enabled() const { return subtitles_enabled_; }
+  [[nodiscard]] bool subtitles_are_sidecar() const { return subtitles_are_sidecar_; }
+  [[nodiscard]] ExportFormat::Format subtitle_sidecar_fmt() const { return subtitle_sidecar_fmt_; }
+  [[nodiscard]] ExportCodec::Codec subtitles_codec() const { return subtitles_codec_; }
 
-  const rational& GetExportLength() const { return export_length_; }
+  [[nodiscard]] const rational& GetExportLength() const { return export_length_; }
   void SetExportLength(const rational& export_length) { export_length_ = export_length; }
 
   bool Load(QIODevice* device);
@@ -112,14 +112,14 @@ class EncodingParams {
   void Save(QIODevice* device) const;
   void Save(QXmlStreamWriter* writer) const;
 
-  bool has_custom_range() const { return has_custom_range_; }
-  const TimeRange& custom_range() const { return custom_range_; }
+  [[nodiscard]] bool has_custom_range() const { return has_custom_range_; }
+  [[nodiscard]] const TimeRange& custom_range() const { return custom_range_; }
   void set_custom_range(const TimeRange& custom_range) {
     has_custom_range_ = true;
     custom_range_ = custom_range;
   }
 
-  const VideoScalingMethod& video_scaling_method() const { return video_scaling_method_; }
+  [[nodiscard]] const VideoScalingMethod& video_scaling_method() const { return video_scaling_method_; }
   void set_video_scaling_method(const VideoScalingMethod& video_scaling_method) {
     video_scaling_method_ = video_scaling_method;
   }
@@ -187,14 +187,14 @@ class Encoder : public QObject {
 
   static Encoder* CreateFromParams(const EncodingParams& params);
 
-  virtual QStringList GetPixelFormatsForCodec(ExportCodec::Codec c) const;
-  virtual std::vector<SampleFormat> GetSampleFormatsForCodec(ExportCodec::Codec c) const;
+  [[nodiscard]] virtual QStringList GetPixelFormatsForCodec(ExportCodec::Codec c) const;
+  [[nodiscard]] virtual std::vector<SampleFormat> GetSampleFormatsForCodec(ExportCodec::Codec c) const;
 
-  const EncodingParams& params() const;
+  [[nodiscard]] const EncodingParams& params() const;
 
-  virtual PixelFormat GetDesiredPixelFormat() const { return PixelFormat(PixelFormat::INVALID); }
+  [[nodiscard]] virtual PixelFormat GetDesiredPixelFormat() const { return PixelFormat(PixelFormat::INVALID); }
 
-  const QString& GetError() const { return error_; }
+  [[nodiscard]] const QString& GetError() const { return error_; }
 
   QString GetFilenameForFrame(const rational& frame);
 

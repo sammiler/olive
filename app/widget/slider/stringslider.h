@@ -32,7 +32,7 @@ class StringSlider : public SliderBase {
 
   void SetDragMultiplier(const double& d) = delete;
 
-  QString GetValue() const;
+  [[nodiscard]] QString GetValue() const;
 
   void SetValue(const QString& v);
 
@@ -42,11 +42,11 @@ class StringSlider : public SliderBase {
   void ValueChanged(const QString& str);
 
  protected:
-  virtual QString ValueToString(const QVariant& value) const override;
+  [[nodiscard]] QString ValueToString(const QVariant& value) const override;
 
-  virtual QVariant StringToValue(const QString& s, bool* ok) const override;
+  QVariant StringToValue(const QString& s, bool* ok) const override;
 
-  virtual void ValueSignalEvent(const QVariant& value) override;
+  void ValueSignalEvent(const QVariant& value) override;
 };
 
 }  // namespace olive

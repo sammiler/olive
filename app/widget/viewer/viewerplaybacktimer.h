@@ -31,7 +31,7 @@ class ViewerPlaybackTimer {
  public:
   void Start(const int64_t& start_timestamp, const int& playback_speed, const double& timebase);
 
-  int64_t GetTimestampNow() const;
+  [[nodiscard]] int64_t GetTimestampNow() const;
 
  private:
   qint64 start_msec_;

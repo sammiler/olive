@@ -45,7 +45,7 @@ class PreviewAutoCacher : public QObject {
  public:
   explicit PreviewAutoCacher(QObject *parent = nullptr);
 
-  virtual ~PreviewAutoCacher() override;
+  ~PreviewAutoCacher() override;
 
   RenderTicketPtr GetSingleFrame(ViewerOutput *viewer, const rational &t, bool dry = false);
   RenderTicketPtr GetSingleFrame(Node *n, ViewerOutput *viewer, const rational &t, bool dry = false);
@@ -85,7 +85,7 @@ class PreviewAutoCacher : public QObject {
   void CancelVideoTasks(bool and_wait_for_them_to_finish = false);
   void CancelAudioTasks(bool and_wait_for_them_to_finish = false);
 
-  bool IsRenderingCustomRange() const;
+  [[nodiscard]] bool IsRenderingCustomRange() const;
 
   void SetRendersPaused(bool e);
   void SetThumbnailsPaused(bool e);

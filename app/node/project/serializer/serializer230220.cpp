@@ -57,7 +57,7 @@ ProjectSerializer230220::LoadData ProjectSerializer230220::Load(Project *project
       if (reader->name() == QStringLiteral("markers")) {
         while (XMLReadNextStartElement(reader)) {
           if (reader->name() == QStringLiteral("marker")) {
-            TimelineMarker *marker = new TimelineMarker();
+            auto *marker = new TimelineMarker();
             marker->load(reader);
             load_data.markers.push_back(marker);
           } else {
@@ -130,7 +130,7 @@ ProjectSerializer230220::LoadData ProjectSerializer230220::Load(Project *project
                               } else {
                                 while (XMLReadNextStartElement(reader)) {
                                   if (reader->name() == QStringLiteral("key")) {
-                                    NodeKeyframe *key = new NodeKeyframe();
+                                    auto *key = new NodeKeyframe();
                                     key->set_input(input_id);
                                     key->set_element(element_id.toInt());
                                     key->set_track(track_id.toInt());

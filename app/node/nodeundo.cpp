@@ -206,7 +206,7 @@ void NodeOverrideColorCommand::redo() {
 
 void NodeOverrideColorCommand::undo() { node_->SetOverrideColor(old_index_); }
 
-NodeViewDeleteCommand::NodeViewDeleteCommand() {}
+NodeViewDeleteCommand::NodeViewDeleteCommand() = default;
 
 void NodeViewDeleteCommand::AddNode(Node *node, Node *context) {
   if (ContainsNode(node, context)) {

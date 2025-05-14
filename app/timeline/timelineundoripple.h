@@ -42,16 +42,16 @@ class TrackRippleRemoveAreaCommand : public UndoCommand {
  public:
   TrackRippleRemoveAreaCommand(Track* track, const TimeRange& range);
 
-  virtual ~TrackRippleRemoveAreaCommand() override;
+  ~TrackRippleRemoveAreaCommand() override;
 
-  virtual Project* GetRelevantProject() const override { return track_->project(); }
+  [[nodiscard]] Project* GetRelevantProject() const override { return track_->project(); }
 
   /**
    * @brief Block to insert after if you want to insert something between this ripple
    */
-  Block* GetInsertionIndex() const { return insert_previous_; }
+  [[nodiscard]] Block* GetInsertionIndex() const { return insert_previous_; }
 
-  Block* GetSplicedBlock() const {
+  [[nodiscard]] Block* GetSplicedBlock() const {
     if (splice_split_command_) {
       return splice_split_command_->new_block();
     }
@@ -62,11 +62,11 @@ class TrackRippleRemoveAreaCommand : public UndoCommand {
   void SetAllowSplittingGaps(bool e) { allow_splitting_gaps_ = e; }
 
  protected:
-  virtual void prepare() override;
+  void prepare() override;
 
-  virtual void redo() override;
+  void redo() override;
 
-  virtual void undo() override;
+  void undo() override;
 
  private:
   struct TrimOperation {
@@ -97,16 +97,16 @@ class TrackListRippleRemoveAreaCommand : public UndoCommand {
  public:
   TrackListRippleRemoveAreaCommand(TrackList* list, rational in, rational out) : list_(list), range_(in, out) {}
 
-  virtual ~TrackListRippleRemoveAreaCommand() override { qDeleteAll(commands_); }
+  ~TrackListRippleRemoveAreaCommand() override { qDeleteAll(commands_); }
 
-  virtual Project* GetRelevantProject() const override { return list_->parent()->project(); }
+  [[nodiscard]] Project* GetRelevantProject() const override { return list_->parent()->project(); }
 
  protected:
-  virtual void prepare() override;
+  void prepare() override;
 
-  virtual void redo() override;
+  void redo() override;
 
-  virtual void undo() override;
+  void undo() override;
 
  private:
   TrackList* list_;
@@ -122,7 +122,7 @@ class TimelineRippleRemoveAreaCommand : public MultiUndoCommand {
  public:
   TimelineRippleRemoveAreaCommand(Sequence* timeline, rational in, rational out);
 
-  virtual Project* GetRelevantProject() const override { return timeline_->project(); }
+  [[nodiscard]] Project* GetRelevantProject() const override { return timeline_->project(); }
 
  private:
   Sequence* timeline_;
@@ -138,12 +138,12 @@ class TrackListRippleToolCommand : public UndoCommand {
   TrackListRippleToolCommand(TrackList* track_list, const QHash<Track*, RippleInfo>& info,
                              const rational& ripple_movement, const Timeline::MovementMode& movement_mode);
 
-  virtual Project* GetRelevantProject() const override { return track_list_->parent()->project(); }
+  [[nodiscard]] Project* GetRelevantProject() const override { return track_list_->parent()->project(); }
 
  protected:
-  virtual void redo() override { ripple(true); }
+  void redo() override { ripple(true); }
 
-  virtual void undo() override { ripple(false); }
+  void undo() override { ripple(false); }
 
  private:
   void ripple(bool redo);
@@ -172,18 +172,18 @@ class TimelineRippleDeleteGapsAtRegionsCommand : public UndoCommand {
 
   TimelineRippleDeleteGapsAtRegionsCommand(Sequence* vo, const RangeList& regions) : timeline_(vo), regions_(regions) {}
 
-  virtual ~TimelineRippleDeleteGapsAtRegionsCommand() override { qDeleteAll(commands_); }
+  ~TimelineRippleDeleteGapsAtRegionsCommand() override { qDeleteAll(commands_); }
 
-  virtual Project* GetRelevantProject() const override { return timeline_->project(); }
+  [[nodiscard]] Project* GetRelevantProject() const override { return timeline_->project(); }
 
-  bool HasCommands() const { return !commands_.isEmpty(); }
+  [[nodiscard]] bool HasCommands() const { return !commands_.isEmpty(); }
 
  protected:
-  virtual void prepare() override;
+  void prepare() override;
 
-  virtual void redo() override;
+  void redo() override;
 
-  virtual void undo() override;
+  void undo() override;
 
  private:
   Sequence* timeline_;

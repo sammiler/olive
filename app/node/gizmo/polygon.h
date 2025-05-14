@@ -32,10 +32,10 @@ class PolygonGizmo : public DraggableGizmo {
  public:
   explicit PolygonGizmo(QObject *parent = nullptr);
 
-  const QPolygonF &GetPolygon() const { return polygon_; }
+  [[nodiscard]] const QPolygonF &GetPolygon() const { return polygon_; }
   void SetPolygon(const QPolygonF &polygon) { polygon_ = polygon; }
 
-  virtual void Draw(QPainter *p) const override;
+  void Draw(QPainter *p) const override;
 
  private:
   QPolygonF polygon_;

@@ -34,7 +34,7 @@ namespace olive {
 
 ExportVideoTab::ExportVideoTab(ColorManager* color_manager, QWidget* parent)
     : QWidget(parent), color_manager_(color_manager), threads_(0), color_range_(VideoParams::kColorRangeDefault) {
-  QVBoxLayout* outer_layout = new QVBoxLayout(this);
+  auto* outer_layout = new QVBoxLayout(this);
 
   outer_layout->addWidget(SetupResolutionSection());
 
@@ -58,13 +58,13 @@ int ExportVideoTab::SetFormat(ExportFormat::Format format) {
 }
 
 bool ExportVideoTab::IsImageSequenceSet() const {
-  ImageSection* img_section = dynamic_cast<ImageSection*>(codec_stack_->currentWidget());
+  auto* img_section = dynamic_cast<ImageSection*>(codec_stack_->currentWidget());
 
   return (img_section && img_section->IsImageSequenceChecked());
 }
 
 void ExportVideoTab::SetImageSequence(bool e) const {
-  if (ImageSection* img_section = dynamic_cast<ImageSection*>(codec_stack_->currentWidget())) {
+  if (auto* img_section = dynamic_cast<ImageSection*>(codec_stack_->currentWidget())) {
     img_section->SetImageSequenceChecked(e);
   }
 }
@@ -72,10 +72,10 @@ void ExportVideoTab::SetImageSequence(bool e) const {
 QWidget* ExportVideoTab::SetupResolutionSection() {
   int row = 0;
 
-  QGroupBox* resolution_group = new QGroupBox();
+  auto* resolution_group = new QGroupBox();
   resolution_group->setTitle(tr("General"));
 
-  QGridLayout* layout = new QGridLayout(resolution_group);
+  auto* layout = new QGridLayout(resolution_group);
 
   layout->addWidget(new QLabel(tr("Width:")), row, 0);
 
@@ -154,10 +154,10 @@ QWidget* ExportVideoTab::SetupColorSection() {
 QWidget* ExportVideoTab::SetupCodecSection() {
   int row = 0;
 
-  QGroupBox* codec_group = new QGroupBox();
+  auto* codec_group = new QGroupBox();
   codec_group->setTitle(tr("Codec"));
 
-  QGridLayout* codec_layout = new QGridLayout(codec_group);
+  auto* codec_layout = new QGridLayout(codec_group);
 
   codec_layout->addWidget(new QLabel(tr("Codec:")), row, 0);
 
@@ -189,7 +189,7 @@ QWidget* ExportVideoTab::SetupCodecSection() {
 
   row++;
 
-  QPushButton* advanced_btn = new QPushButton(tr("Advanced"));
+  auto* advanced_btn = new QPushButton(tr("Advanced"));
   connect(advanced_btn, &QPushButton::clicked, this, &ExportVideoTab::OpenAdvancedDialog);
   codec_layout->addWidget(advanced_btn, row, 1);
 
@@ -220,7 +220,7 @@ void ExportVideoTab::UpdateFrameRate(rational r) {
   r.flip();
 
   for (int i = 0; i < codec_stack_->count(); i++) {
-    ImageSection* img = dynamic_cast<ImageSection*>(codec_stack_->widget(i));
+    auto* img = dynamic_cast<ImageSection*>(codec_stack_->widget(i));
     if (img) {
       img->SetTimebase(r);
     }
@@ -259,7 +259,7 @@ void ExportVideoTab::VideoCodecChanged() {
 
 void ExportVideoTab::SetTime(const rational& time) {
   for (int i = 0; i < codec_stack_->count(); i++) {
-    ImageSection* img = dynamic_cast<ImageSection*>(codec_stack_->widget(i));
+    auto* img = dynamic_cast<ImageSection*>(codec_stack_->widget(i));
     if (img) {
       img->SetTime(time);
     }

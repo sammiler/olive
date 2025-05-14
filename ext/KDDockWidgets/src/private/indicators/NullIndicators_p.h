@@ -32,13 +32,13 @@ public:
         return {};
     }
 
-    DropLocation dropLocationForPos(QPoint) const
+    [[nodiscard]] DropLocation dropLocationForPos(QPoint) const
     {
         return {};
     }
 
 protected:
-    QPoint posForIndicator(DropLocation) const override
+    [[nodiscard]] QPoint posForIndicator(DropLocation) const override
     {
         return {};
     }

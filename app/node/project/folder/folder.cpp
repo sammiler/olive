@@ -58,7 +58,7 @@ Node *GetChildWithNameInternal(const Folder *n, const QString &s) {
 
     if (child->GetLabel() == s) {
       return child;
-    } else if (Folder *subfolder = dynamic_cast<Folder *>(child)) {
+    } else if (auto *subfolder = dynamic_cast<Folder *>(child)) {
       if (Node *n2 = GetChildWithNameInternal(subfolder, s)) {
         return n2;
       }
@@ -74,7 +74,7 @@ bool Folder::HasChildRecursive(Node *child) const {
   for (Node *i : item_children_) {
     if (i == child) {
       return true;
-    } else if (Folder *f = dynamic_cast<Folder *>(i)) {
+    } else if (auto *f = dynamic_cast<Folder *>(i)) {
       if (f->HasChildRecursive(child)) {
         return true;
       }

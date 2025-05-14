@@ -54,11 +54,11 @@ class NodeTraverser {
 
   void Transform(QTransform *transform, const Node *start, const Node *end, const TimeRange &range);
 
-  const VideoParams &GetCacheVideoParams() const { return video_params_; }
+  [[nodiscard]] const VideoParams &GetCacheVideoParams() const { return video_params_; }
 
   void SetCacheVideoParams(const VideoParams &params) { video_params_ = params; }
 
-  const AudioParams &GetCacheAudioParams() const { return audio_params_; }
+  [[nodiscard]] const AudioParams &GetCacheAudioParams() const { return audio_params_; }
 
   void SetCacheAudioParams(const AudioParams &params) { audio_params_ = params; }
 
@@ -100,23 +100,23 @@ class NodeTraverser {
     }
   }
 
-  QVector2D GenerateResolution() const;
+  [[nodiscard]] QVector2D GenerateResolution() const;
 
   bool IsCancelled() { return cancel_ && cancel_->IsCancelled(); }
 
-  bool HeardCancel() const { return cancel_ && cancel_->HeardCancel(); }
+  [[nodiscard]] bool HeardCancel() const { return cancel_ && cancel_->HeardCancel(); }
 
-  CancelAtom *GetCancelPointer() const { return cancel_; }
+  [[nodiscard]] CancelAtom *GetCancelPointer() const { return cancel_; }
   void SetCancelPointer(CancelAtom *cancel) { cancel_ = cancel; }
 
   void ResolveJobs(NodeValue &value);
   void ResolveAudioJobs(NodeValue &value);
 
-  Block *GetCurrentBlock() const { return block_stack_.empty() ? nullptr : block_stack_.back(); }
+  [[nodiscard]] Block *GetCurrentBlock() const { return block_stack_.empty() ? nullptr : block_stack_.back(); }
 
-  LoopMode loop_mode() const { return loop_mode_; }
+  [[nodiscard]] LoopMode loop_mode() const { return loop_mode_; }
 
-  virtual bool UseCache() const { return false; }
+  [[nodiscard]] virtual bool UseCache() const { return false; }
 
  private:
   TexturePtr CreateDummyTexture(const VideoParams &p);

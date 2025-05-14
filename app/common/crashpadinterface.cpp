@@ -66,16 +66,16 @@ Result InitializeCrashpad() {
 
     // Disable crashpad rate limiting so that all crashes have dmp files
     std::vector<std::string> arguments;
-    arguments.push_back("--no-rate-limit");
-    arguments.push_back("--no-upload-gzip");
+    arguments.emplace_back("--no-rate-limit");
+    arguments.emplace_back("--no-upload-gzip");
 
     // Initialize Crashpad database
     std::unique_ptr<crashpad::CrashReportDatabase> database = crashpad::CrashReportDatabase::Initialize(reports_dir);
-    if (database == NULL) return result;
+    if (database == nullptr) return result;
 
     // Disable automated crash uploads
     crashpad::Settings *settings = database->GetSettings();
-    if (settings == NULL) return result;
+    if (settings == nullptr) return result;
     settings->SetUploadsEnabled(false);
 
     // Start crash handler

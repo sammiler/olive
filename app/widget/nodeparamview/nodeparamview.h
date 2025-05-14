@@ -41,7 +41,7 @@ class NodeParamView : public TimeBasedWidget {
   explicit NodeParamView(bool create_keyframe_view, QWidget *parent = nullptr);
   explicit NodeParamView(QWidget *parent = nullptr) : NodeParamView(true, parent) {}
 
-  virtual ~NodeParamView() override;
+  ~NodeParamView() override;
 
   void CloseContextsBelongingToProject(Project *p);
 
@@ -58,11 +58,11 @@ class NodeParamView : public TimeBasedWidget {
   Node *GetNodeWithID(const QString &id);
   Node *GetNodeWithIDAndIgnoreList(const QString &id, const QVector<Node *> &ignore);
 
-  const QVector<Node *> &GetContexts() const { return contexts_; }
+  [[nodiscard]] const QVector<Node *> &GetContexts() const { return contexts_; }
 
-  virtual bool CopySelected(bool cut) override;
+  bool CopySelected(bool cut) override;
 
-  virtual bool Paste() override;
+  bool Paste() override;
   static bool Paste(QWidget *parent,
                     std::function<QHash<Node *, Node *>(const ProjectSerializer::Result &)> get_existing_map_function);
 
@@ -79,22 +79,22 @@ class NodeParamView : public TimeBasedWidget {
   void RequestViewerToStartEditingText();
 
  protected:
-  virtual void resizeEvent(QResizeEvent *event) override;
+  void resizeEvent(QResizeEvent *event) override;
 
-  virtual void ScaleChangedEvent(const double &) override;
-  virtual void TimebaseChangedEvent(const rational &) override;
+  void ScaleChangedEvent(const double &) override;
+  void TimebaseChangedEvent(const rational &) override;
 
-  virtual void ConnectedNodeChangeEvent(ViewerOutput *n) override;
+  void ConnectedNodeChangeEvent(ViewerOutput *n) override;
 
-  virtual const QVector<KeyframeViewInputConnection *> *GetSnapKeyframes() const override {
+  [[nodiscard]] const QVector<KeyframeViewInputConnection *> *GetSnapKeyframes() const override {
     return keyframe_view_ ? &keyframe_view_->GetKeyframeTracks() : nullptr;
   }
 
-  virtual const std::vector<NodeKeyframe *> *GetSnapIgnoreKeyframes() const override {
+  [[nodiscard]] const std::vector<NodeKeyframe *> *GetSnapIgnoreKeyframes() const override {
     return keyframe_view_ ? &keyframe_view_->GetSelectedKeyframes() : nullptr;
   }
 
-  virtual const TimeTargetObject *GetKeyframeTimeTarget() const override { return keyframe_view_; }
+  [[nodiscard]] const TimeTargetObject *GetKeyframeTimeTarget() const override { return keyframe_view_; }
 
  private:
   void QueueKeyframePositionUpdate();
@@ -109,7 +109,7 @@ class NodeParamView : public TimeBasedWidget {
 
   NodeParamViewContext *GetContextItemFromContext(Node *context);
 
-  bool IsGroupMode() const { return contexts_.size() == 1 && dynamic_cast<NodeGroup *>(contexts_.first()); }
+  [[nodiscard]] bool IsGroupMode() const { return contexts_.size() == 1 && dynamic_cast<NodeGroup *>(contexts_.first()); }
 
   void ToggleSelect(NodeParamViewItem *item);
 

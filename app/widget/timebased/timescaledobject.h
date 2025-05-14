@@ -38,14 +38,14 @@ class TimeScaledObject {
 
   void SetTimebase(const rational& timebase);
 
-  const rational& timebase() const;
-  const double& timebase_dbl() const;
+  [[nodiscard]] const rational& timebase() const;
+  [[nodiscard]] const double& timebase_dbl() const;
 
   static rational SceneToTime(const double& x, const double& x_scale, const rational& timebase, bool round = false);
   static rational SceneToTimeNoGrid(const double& x, const double& x_scale);
 
-  const double& GetScale() const;
-  const double& GetMaximumScale() const { return max_scale_; }
+  [[nodiscard]] const double& GetScale() const;
+  [[nodiscard]] const double& GetMaximumScale() const { return max_scale_; }
 
   void SetScale(const double& scale);
 
@@ -53,9 +53,9 @@ class TimeScaledObject {
   static double CalculateScaleFromDimensions(double viewport_sz, double content_sz);
   static double CalculatePaddingFromDimensionScale(double viewport_sz);
 
-  double TimeToScene(const rational& time) const;
-  rational SceneToTime(const double& x, bool round = false) const;
-  rational SceneToTimeNoGrid(const double& x) const;
+  [[nodiscard]] double TimeToScene(const rational& time) const;
+  [[nodiscard]] rational SceneToTime(const double& x, bool round = false) const;
+  [[nodiscard]] rational SceneToTimeNoGrid(const double& x) const;
 
  protected:
   virtual void TimebaseChangedEvent(const rational&) {}

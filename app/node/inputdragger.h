@@ -31,7 +31,7 @@ class NodeInputDragger {
  public:
   NodeInputDragger();
 
-  bool IsStarted() const;
+  [[nodiscard]] bool IsStarted() const;
 
   void Start(const NodeKeyframeTrackReference &input, const rational &time, bool create_key_on_all_tracks = true);
 
@@ -41,11 +41,11 @@ class NodeInputDragger {
 
   static bool IsInputBeingDragged() { return input_being_dragged; }
 
-  const QVariant &GetStartValue() const { return start_value_; }
+  [[nodiscard]] const QVariant &GetStartValue() const { return start_value_; }
 
-  const NodeKeyframeTrackReference &GetInput() const { return input_; }
+  [[nodiscard]] const NodeKeyframeTrackReference &GetInput() const { return input_; }
 
-  const rational &GetTime() const { return time_; }
+  [[nodiscard]] const rational &GetTime() const { return time_; }
 
  private:
   NodeKeyframeTrackReference input_;

@@ -51,7 +51,7 @@ QAction *Menu::AddActionWithData(const QString &text, const QVariant &d, const Q
 }
 
 QAction *Menu::InsertAlphabetically(const QString &s) {
-  QAction *action = new QAction(s, this);
+  auto *action = new QAction(s, this);
   InsertAlphabetically(action);
   return action;
 }

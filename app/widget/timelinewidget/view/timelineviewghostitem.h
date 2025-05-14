@@ -53,7 +53,7 @@ class TimelineViewGhostItem {
       : track_adj_(0), mode_(Timeline::kNone), can_have_zero_length_(true), can_move_tracks_(true), invisible_(false) {}
 
   static TimelineViewGhostItem* FromBlock(Block* block) {
-    TimelineViewGhostItem* ghost = new TimelineViewGhostItem();
+    auto* ghost = new TimelineViewGhostItem();
 
     ghost->SetIn(block->in());
     ghost->SetOut(block->out());
@@ -72,21 +72,21 @@ class TimelineViewGhostItem {
     return ghost;
   }
 
-  bool CanHaveZeroLength() const { return can_have_zero_length_; }
+  [[nodiscard]] bool CanHaveZeroLength() const { return can_have_zero_length_; }
 
-  bool GetCanMoveTracks() const { return can_move_tracks_; }
+  [[nodiscard]] bool GetCanMoveTracks() const { return can_move_tracks_; }
 
   void SetCanMoveTracks(bool e) { can_move_tracks_ = e; }
 
-  const rational& GetIn() const { return in_; }
+  [[nodiscard]] const rational& GetIn() const { return in_; }
 
-  const rational& GetOut() const { return out_; }
+  [[nodiscard]] const rational& GetOut() const { return out_; }
 
-  const rational& GetMediaIn() const { return media_in_; }
+  [[nodiscard]] const rational& GetMediaIn() const { return media_in_; }
 
-  rational GetLength() const { return out_ - in_; }
+  [[nodiscard]] rational GetLength() const { return out_ - in_; }
 
-  rational GetAdjustedLength() const { return GetAdjustedOut() - GetAdjustedIn(); }
+  [[nodiscard]] rational GetAdjustedLength() const { return GetAdjustedOut() - GetAdjustedIn(); }
 
   void SetIn(const rational& in) { in_ = in; }
 
@@ -102,40 +102,40 @@ class TimelineViewGhostItem {
 
   void SetMediaInAdjustment(const rational& media_in_adj) { media_in_adj_ = media_in_adj; }
 
-  const rational& GetInAdjustment() const { return in_adj_; }
+  [[nodiscard]] const rational& GetInAdjustment() const { return in_adj_; }
 
-  const rational& GetOutAdjustment() const { return out_adj_; }
+  [[nodiscard]] const rational& GetOutAdjustment() const { return out_adj_; }
 
-  const rational& GetMediaInAdjustment() const { return media_in_adj_; }
+  [[nodiscard]] const rational& GetMediaInAdjustment() const { return media_in_adj_; }
 
-  const int& GetTrackAdjustment() const { return track_adj_; }
+  [[nodiscard]] const int& GetTrackAdjustment() const { return track_adj_; }
 
-  rational GetAdjustedIn() const { return in_ + in_adj_; }
+  [[nodiscard]] rational GetAdjustedIn() const { return in_ + in_adj_; }
 
-  rational GetAdjustedOut() const { return out_ + out_adj_; }
+  [[nodiscard]] rational GetAdjustedOut() const { return out_ + out_adj_; }
 
-  rational GetAdjustedMediaIn() const { return media_in_ + media_in_adj_; }
+  [[nodiscard]] rational GetAdjustedMediaIn() const { return media_in_ + media_in_adj_; }
 
-  Track::Reference GetAdjustedTrack() const { return Track::Reference(track_.type(), track_.index() + track_adj_); }
+  [[nodiscard]] Track::Reference GetAdjustedTrack() const { return Track::Reference(track_.type(), track_.index() + track_adj_); }
 
-  const Timeline::MovementMode& GetMode() const { return mode_; }
+  [[nodiscard]] const Timeline::MovementMode& GetMode() const { return mode_; }
 
   void SetMode(const Timeline::MovementMode& mode) { mode_ = mode; }
 
-  bool HasBeenAdjusted() const {
+  [[nodiscard]] bool HasBeenAdjusted() const {
     return GetInAdjustment() != rational(0) || GetOutAdjustment() != rational(0) || GetMediaInAdjustment() != rational(0) ||
            GetTrackAdjustment() != 0;
   }
 
-  QVariant GetData(int key) const { return data_.value(key); }
+  [[nodiscard]] QVariant GetData(int key) const { return data_.value(key); }
 
   void SetData(int key, const QVariant& value) { data_.insert(key, value); }
 
-  const Track::Reference& GetTrack() const { return track_; }
+  [[nodiscard]] const Track::Reference& GetTrack() const { return track_; }
 
   void SetTrack(const Track::Reference& track) { track_ = track; }
 
-  bool IsInvisible() const { return invisible_; }
+  [[nodiscard]] bool IsInvisible() const { return invisible_; }
 
   void SetInvisible(bool e) { invisible_ = e; }
 

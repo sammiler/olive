@@ -25,8 +25,7 @@ MDILayoutWidget::MDILayoutWidget(QWidgetOrQuick *parent)
 }
 
 MDILayoutWidget::~MDILayoutWidget()
-{
-}
+= default;
 
 void MDILayoutWidget::addDockWidget(DockWidgetBase *dw, QPoint localPt, InitialOption addingOption)
 {
@@ -42,7 +41,7 @@ void MDILayoutWidget::addDockWidget(DockWidgetBase *dw, QPoint localPt, InitialO
         frame->setLayoutItem(nullptr);
     }
 
-    Layouting::Item *newItem = new Layouting::Item(this);
+    auto *newItem = new Layouting::Item(this);
     if (frame) {
         newItem->setGuestWidget(frame);
     } else {

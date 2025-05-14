@@ -35,12 +35,12 @@ PreferencesDiskTab::PreferencesDiskTab() {
   // Get default disk cache folder
   default_disk_cache_folder_ = DiskManager::instance()->GetDefaultCacheFolder();
 
-  QVBoxLayout* outer_layout = new QVBoxLayout(this);
+  auto* outer_layout = new QVBoxLayout(this);
 
-  QGroupBox* disk_management_group = new QGroupBox(tr("Disk Management"));
+  auto* disk_management_group = new QGroupBox(tr("Disk Management"));
   outer_layout->addWidget(disk_management_group);
 
-  QGridLayout* disk_management_layout = new QGridLayout(disk_management_group);
+  auto* disk_management_layout = new QGridLayout(disk_management_group);
 
   int row = 0;
 
@@ -51,16 +51,16 @@ PreferencesDiskTab::PreferencesDiskTab() {
 
   row++;
 
-  QPushButton* disk_cache_settings_btn = new QPushButton(tr("Disk Cache Settings"));
+  auto* disk_cache_settings_btn = new QPushButton(tr("Disk Cache Settings"));
   connect(disk_cache_settings_btn, &QPushButton::clicked, this,
           [this]() { DiskManager::instance()->ShowDiskCacheSettingsDialog(disk_cache_location_->text(), this); });
   disk_management_layout->addWidget(disk_cache_settings_btn, row, 1);
 
   row++;
 
-  QGroupBox* cache_behavior = new QGroupBox(tr("Cache Behavior"));
+  auto* cache_behavior = new QGroupBox(tr("Cache Behavior"));
   outer_layout->addWidget(cache_behavior);
-  QGridLayout* cache_behavior_layout = new QGridLayout(cache_behavior);
+  auto* cache_behavior_layout = new QGridLayout(cache_behavior);
 
   row = 0;
 

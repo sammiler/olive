@@ -28,7 +28,7 @@
 namespace olive {
 
 PreferencesBehaviorTab::PreferencesBehaviorTab() {
-  QVBoxLayout *layout = new QVBoxLayout(this);
+  auto *layout = new QVBoxLayout(this);
 
   behavior_tree_ = new QTreeWidget();
   layout->addWidget(behavior_tree_);
@@ -89,7 +89,7 @@ void PreferencesBehaviorTab::Accept(MultiUndoCommand *command) {
 
 QTreeWidgetItem *PreferencesBehaviorTab::AddItem(const QString &text, const QString &config_key, const QString &tooltip,
                                                  QTreeWidgetItem *parent) {
-  QTreeWidgetItem *item = new QTreeWidgetItem({text});
+  auto *item = new QTreeWidgetItem({text});
   item->setToolTip(0, tooltip);
   item->setCheckState(0, OLIVE_CONFIG_STR(config_key).toBool() ? Qt::Checked : Qt::Unchecked);
 
@@ -111,7 +111,7 @@ QTreeWidgetItem *PreferencesBehaviorTab::AddItem(const QString &text, const QStr
 
 QTreeWidgetItem *PreferencesBehaviorTab::AddParent(const QString &text, const QString &tooltip,
                                                    QTreeWidgetItem *parent) {
-  QTreeWidgetItem *item = new QTreeWidgetItem({text});
+  auto *item = new QTreeWidgetItem({text});
   item->setToolTip(0, tooltip);
 
   if (parent) {

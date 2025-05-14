@@ -31,7 +31,7 @@ class ViewerWindow : public QWidget {
  public:
   explicit ViewerWindow(QWidget* parent = nullptr);
 
-  ViewerDisplayWidget* display_widget() const;
+  [[nodiscard]] ViewerDisplayWidget* display_widget() const;
 
   /**
    * @brief Used to adjust resulting picture to be the right aspect ratio
@@ -52,9 +52,9 @@ class ViewerWindow : public QWidget {
   void SetPixelAspectRatio(const rational& pixel_aspect);
 
  protected:
-  virtual void keyPressEvent(QKeyEvent* e) override;
+  void keyPressEvent(QKeyEvent* e) override;
 
-  virtual void closeEvent(QCloseEvent* e) override;
+  void closeEvent(QCloseEvent* e) override;
 
  private:
   void UpdateMatrix();

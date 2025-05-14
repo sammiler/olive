@@ -29,10 +29,10 @@ class ImportTool : public TimelineTool {
  public:
   explicit ImportTool(TimelineWidget *parent);
 
-  virtual void DragEnter(TimelineViewMouseEvent *event) override;
-  virtual void DragMove(TimelineViewMouseEvent *event) override;
-  virtual void DragLeave(QDragLeaveEvent *event) override;
-  virtual void DragDrop(TimelineViewMouseEvent *event) override;
+  void DragEnter(TimelineViewMouseEvent *event) override;
+  void DragMove(TimelineViewMouseEvent *event) override;
+  void DragLeave(QDragLeaveEvent *event) override;
+  void DragDrop(TimelineViewMouseEvent *event) override;
 
   using DraggedFootageData = QVector<QPair<ViewerOutput *, QVector<Track::Reference> > >;
 

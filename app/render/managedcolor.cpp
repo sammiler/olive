@@ -22,7 +22,7 @@
 
 namespace olive {
 
-ManagedColor::ManagedColor() {}
+ManagedColor::ManagedColor() = default;
 
 ManagedColor::ManagedColor(const double &r, const double &g, const double &b, const double &a) : Color(r, g, b, a) {}
 

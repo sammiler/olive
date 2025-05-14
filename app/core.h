@@ -57,23 +57,23 @@ class Core : public QObject {
 
     enum RunMode { kRunNormal, kHeadlessExport, kHeadlessPreCache };
 
-    bool fullscreen() const { return run_fullscreen_; }
+    [[nodiscard]] bool fullscreen() const { return run_fullscreen_; }
 
     void set_fullscreen(bool e) { run_fullscreen_ = e; }
 
-    RunMode run_mode() const { return mode_; }
+    [[nodiscard]] RunMode run_mode() const { return mode_; }
 
     void set_run_mode(RunMode m) { mode_ = m; }
 
-    const QString startup_project() const { return startup_project_; }
+    [[nodiscard]] const QString startup_project() const { return startup_project_; }
 
     void set_startup_project(const QString& p) { startup_project_ = p; }
 
-    const QString& startup_language() const { return startup_language_; }
+    [[nodiscard]] const QString& startup_language() const { return startup_language_; }
 
     void set_startup_language(const QString& s) { startup_language_ = s; }
 
-    bool crash_on_startup() const { return crash_; }
+    [[nodiscard]] bool crash_on_startup() const { return crash_; }
 
     void set_crash_on_startup(bool e) { crash_ = true; }
 
@@ -103,7 +103,7 @@ class Core : public QObject {
    */
   static Core* instance();
 
-  const CoreParams& core_params() const { return core_params_; }
+  [[nodiscard]] const CoreParams& core_params() const { return core_params_; }
 
   /**
    * @brief Start Olive Core
@@ -146,27 +146,27 @@ class Core : public QObject {
   /**
    * @brief Get the currently active tool
    */
-  const Tool::Item& tool() const;
+  [[nodiscard]] const Tool::Item& tool() const;
 
   /**
    * @brief Get the currently selected object that the add tool should make (if the add tool is active)
    */
-  const Tool::AddableObject& GetSelectedAddableObject() const;
+  [[nodiscard]] const Tool::AddableObject& GetSelectedAddableObject() const;
 
   /**
    * @brief Get the currently selected node that the transition tool should make (if the transition tool is active)
    */
-  const QString& GetSelectedTransition() const;
+  [[nodiscard]] const QString& GetSelectedTransition() const;
 
   /**
    * @brief Get current snapping value
    */
-  const bool& snapping() const;
+  [[nodiscard]] const bool& snapping() const;
 
   /**
    * @brief Returns a list of the most recently opened/saved projects
    */
-  const QStringList& GetRecentProjects() const;
+  [[nodiscard]] const QStringList& GetRecentProjects() const;
 
   /**
    * @brief Get the currently active project
@@ -178,13 +178,13 @@ class Core : public QObject {
    *
    * The active Project file, or nullptr if the heuristic couldn't find one.
    */
-  Project* GetActiveProject() const;
-  Folder* GetSelectedFolderInActiveProject() const;
+  [[nodiscard]] Project* GetActiveProject() const;
+  [[nodiscard]] Folder* GetSelectedFolderInActiveProject() const;
 
   /**
    * @brief Gets current timecode display mode
    */
-  Timecode::Display GetTimecodeDisplay() const;
+  [[nodiscard]] Timecode::Display GetTimecodeDisplay() const;
 
   /**
    * @brief Sets current timecode display mode
@@ -258,7 +258,7 @@ class Core : public QObject {
 
   void OpenExportDialogForViewer(ViewerOutput* viewer, bool start_still_image);
 
-  bool IsMagicEnabled() const { return magic_; }
+  [[nodiscard]] bool IsMagicEnabled() const { return magic_; }
 
  public slots:
   /**

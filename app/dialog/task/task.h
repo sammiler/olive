@@ -48,12 +48,12 @@ class TaskDialog : public ProgressDialog {
   /**
    * @brief Returns this dialog's task
    */
-  Task* GetTask() const { return task_; }
+  [[nodiscard]] Task* GetTask() const { return task_; }
 
  protected:
-  virtual void showEvent(QShowEvent* e) override;
+  void showEvent(QShowEvent* e) override;
 
-  virtual void closeEvent(QCloseEvent* e) override;
+  void closeEvent(QCloseEvent* e) override;
 
  signals:
   void TaskSucceeded(Task* task);

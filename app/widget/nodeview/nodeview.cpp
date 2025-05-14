@@ -131,7 +131,7 @@ void NodeView::CloseContextsBelongingToProject(Project *project) {
 void NodeView::ClearGraph() { SetContexts(QVector<Node *>()); }
 
 void NodeView::DeleteSelected() {
-  NodeViewDeleteCommand *command = new NodeViewDeleteCommand();
+  auto *command = new NodeViewDeleteCommand();
 
   int count = 0;
 
@@ -281,7 +281,7 @@ void NodeView::Duplicate() {
     for (int i = 0; i < selected.size(); i++) {
       new_nodes[i] = selected.at(i)->copy();
 
-      if (NodeGroup *g = dynamic_cast<NodeGroup *>(selected.at(i))) {
+      if (auto *g = dynamic_cast<NodeGroup *>(selected.at(i))) {
         for (auto it = g->GetContextPositions().cbegin(); it != g->GetContextPositions().cend(); it++) {
           if (!selected.contains(it.key())) {
             // This should automatically recurse if this is a group inside a group
@@ -313,8 +313,8 @@ void NodeView::Duplicate() {
         }
       }
 
-      if (NodeGroup *src_group = dynamic_cast<NodeGroup *>(og)) {
-        NodeGroup *dst_group = dynamic_cast<NodeGroup *>(copy);
+      if (auto *src_group = dynamic_cast<NodeGroup *>(og)) {
+        auto *dst_group = dynamic_cast<NodeGroup *>(copy);
 
         for (auto it = src_group->GetInputPassthroughs().cbegin(); it != src_group->GetInputPassthroughs().cend();
              it++) {
@@ -338,7 +338,7 @@ void NodeView::Duplicate() {
 }
 
 void NodeView::SetColorLabel(int index) {
-  MultiUndoCommand *command = new MultiUndoCommand();
+  auto *command = new MultiUndoCommand();
 
   for (Node *node : qAsConst(selected_nodes_)) {
     command->add_child(new NodeOverrideColorCommand(node, index));
@@ -357,7 +357,7 @@ void NodeView::keyPressEvent(QKeyEvent *event) {
     case Qt::Key_Right:
     case Qt::Key_Up:
     case Qt::Key_Down: {
-      MultiUndoCommand *pos_command = new MultiUndoCommand();
+      auto *pos_command = new MultiUndoCommand();
       for (Node *n : qAsConst(selected_nodes_)) {
         for (Node *context : qAsConst(contexts_)) {
           if (context->ContextContainsNode(n)) {
@@ -423,7 +423,7 @@ void NodeView::mousePressEvent(QMouseEvent *event) {
     create_edge_input_.Reset();
 
     if (event->modifiers() & Qt::ControlModifier) {
-      NodeViewItem *mouse_item = dynamic_cast<NodeViewItem *>(item);
+      auto *mouse_item = dynamic_cast<NodeViewItem *>(item);
 
       if (mouse_item) {
         if (mouse_item->IsOutputItem()) {
@@ -441,8 +441,8 @@ void NodeView::mousePressEvent(QMouseEvent *event) {
 
     if (!create_edge_output_item_ && !create_edge_input_item_) {
       // Determine if user clicked on a connector
-      if (NodeViewItemConnector *connector = dynamic_cast<NodeViewItemConnector *>(item)) {
-        NodeViewItem *attached = dynamic_cast<NodeViewItem *>(connector->parentItem());
+      if (auto *connector = dynamic_cast<NodeViewItemConnector *>(item)) {
+        auto *attached = dynamic_cast<NodeViewItem *>(connector->parentItem());
 
         if (connector->IsOutput()) {
           create_edge_output_item_ = attached;
@@ -532,7 +532,7 @@ void NodeView::mouseReleaseEvent(QMouseEvent *event) {
     EndEdgeDrag();
   }
 
-  MultiUndoCommand *command = new MultiUndoCommand();
+  auto *command = new MultiUndoCommand();
 
   Node *select_context = nullptr;
   QVector<Node *> select_nodes;
@@ -607,7 +607,7 @@ void NodeView::dragEnterEvent(QDragEnterEvent *event) {
       // Get Item object
       Node *item = reinterpret_cast<Node *>(item_ptr);
 
-      if (ViewerOutput *f = dynamic_cast<ViewerOutput *>(item)) {
+      if (auto *f = dynamic_cast<ViewerOutput *>(item)) {
         NodeViewItem *new_item;
 
         new_item = new NodeViewItem(f, nullptr);
@@ -646,7 +646,7 @@ void NodeView::dragMoveEvent(QDragMoveEvent *event) {
 
 void NodeView::dropEvent(QDropEvent *event) {
   if (Node *drop_ctx = GetContextAtMousePos(event->pos())) {
-    MultiUndoCommand *command = new MultiUndoCommand();
+    auto *command = new MultiUndoCommand();
     QVector<Node *> select_nodes = ProcessDroppingAttachedNodes(command, drop_ctx, event->pos());
     Core::instance()->undo_stack()->push(command, tr("Dropped %1 Node(s)").arg(select_nodes.size()));
 
@@ -764,7 +764,7 @@ void NodeView::ShowContextMenu(const QPoint &pos) {
     MenuShared::instance()->AddColorCodingMenu(&m);
 
     // Show in Viewer option for nodes based on Viewer
-    if (ViewerOutput *viewer = dynamic_cast<ViewerOutput *>(selected.first()->GetNode())) {
+    if (auto *viewer = dynamic_cast<ViewerOutput *>(selected.first()->GetNode())) {
       Q_UNUSED(viewer)
       m.addSeparator();
       QAction *open_in_viewer_action = m.addAction(tr("Open in Viewer"));
@@ -811,7 +811,7 @@ void NodeView::CreateNodeSlot(QAction *action) {
   Node *new_node = NodeFactory::CreateFromMenuAction(action);
 
   if (new_node) {
-    NodeViewItem *new_item = new NodeViewItem(new_node, nullptr);
+    auto *new_item = new NodeViewItem(new_node, nullptr);
     new_item->SetFlowDirection(scene_.GetFlowDirection());
     scene_.addItem(new_item);
 
@@ -819,7 +819,7 @@ void NodeView::CreateNodeSlot(QAction *action) {
 
     new_attached.append({new_item, new_node, QPointF(0, 0)});
 
-    if (NodeGroup *new_group = dynamic_cast<NodeGroup *>(new_node)) {
+    if (auto *new_group = dynamic_cast<NodeGroup *>(new_node)) {
       for (auto it = new_group->GetContextPositions().cbegin(); it != new_group->GetContextPositions().cend(); it++) {
         new_attached.append({nullptr, it.key(), QPointF(0, 0)});
       }
@@ -836,7 +836,7 @@ void NodeView::ContextMenuSetDirection(QAction *action) {
 void NodeView::OpenSelectedNodeInViewer() {
   // Find first viewer in list of selected nodes and open it
   foreach (Node *n, selected_nodes_) {
-    if (ViewerOutput *viewer = dynamic_cast<ViewerOutput *>(n)) {
+    if (auto *viewer = dynamic_cast<ViewerOutput *>(n)) {
       Core::instance()->OpenNodeInViewer(viewer);
       break;
     }
@@ -1025,7 +1025,7 @@ QVector<Node *> NodeView::ProcessDroppingAttachedNodes(MultiUndoCommand *command
   }
 
   {
-    MultiUndoCommand *add_command = new MultiUndoCommand();
+    auto *add_command = new MultiUndoCommand();
 
     foreach (const AttachedItem &ai, attached) {
       // Add node to the same graph that the context is in
@@ -1055,7 +1055,7 @@ QVector<Node *> NodeView::ProcessDroppingAttachedNodes(MultiUndoCommand *command
 
   {
     // Dropped attached item onto an edge, connect it between them
-    MultiUndoCommand *drop_edge_command = new MultiUndoCommand();
+    auto *drop_edge_command = new MultiUndoCommand();
     if (attached.size() == 1) {
       Node *dropping_node = nullptr;
 
@@ -1093,7 +1093,7 @@ QVector<Node *> NodeView::ProcessDroppingAttachedNodes(MultiUndoCommand *command
 Node *NodeView::GetContextAtMousePos(const QPoint &p) {
   QList<QGraphicsItem *> items_at_cursor = this->items(p);
   foreach (QGraphicsItem *i, items_at_cursor) {
-    if (NodeViewContext *context_item = dynamic_cast<NodeViewContext *>(i)) {
+    if (auto *context_item = dynamic_cast<NodeViewContext *>(i)) {
       return context_item->GetContext();
     }
   }
@@ -1130,7 +1130,7 @@ void NodeView::ZoomIntoCursorPosition(QWheelEvent *event, double multiplier, con
 
 bool NodeView::event(QEvent *event) {
   if (event->type() == QEvent::ShortcutOverride) {
-    QKeyEvent *se = dynamic_cast<QKeyEvent *>(event);
+    auto *se = dynamic_cast<QKeyEvent *>(event);
     if (se->key() == Qt::Key_Left || se->key() == Qt::Key_Right || se->key() == Qt::Key_Up ||
         se->key() == Qt::Key_Down) {
       se->accept();
@@ -1204,7 +1204,7 @@ void NodeView::PositionNewEdge(const QPoint &pos) {
   QPointF scene_pt = mapToScene(pos);
 
   // Find if the cursor is currently inside an item
-  NodeViewItem *item_at_cursor = dynamic_cast<NodeViewItem *>(itemAt(pos));
+  auto *item_at_cursor = dynamic_cast<NodeViewItem *>(itemAt(pos));
 
   NodeViewItem *source_item = create_edge_from_output_ ? create_edge_output_item_ : create_edge_input_item_;
   NodeViewItem *&opposing_item = create_edge_from_output_ ? create_edge_input_item_ : create_edge_output_item_;
@@ -1312,10 +1312,10 @@ void NodeView::GroupNodes() {
   avg_pos /= items.size();
 
   // Create group
-  NodeGroup *group = new NodeGroup();
+  auto *group = new NodeGroup();
 
   // Add group to graph and context
-  MultiUndoCommand *command = new MultiUndoCommand();
+  auto *command = new MultiUndoCommand();
 
   // Add nodes to group
   Node *output_passthrough = nullptr;
@@ -1377,7 +1377,7 @@ void NodeView::UngroupNodes() {
     return;
   }
 
-  MultiUndoCommand *command = new MultiUndoCommand();
+  auto *command = new MultiUndoCommand();
 
   Node *context = group_item->GetContext();
 
@@ -1395,12 +1395,12 @@ void NodeView::UngroupNodes() {
 void NodeView::ShowNodeProperties() {
   Node *first_node = selected_nodes_.first();
 
-  if (NodeGroup *group = dynamic_cast<NodeGroup *>(first_node)) {
+  if (auto *group = dynamic_cast<NodeGroup *>(first_node)) {
     if (!overlay_view_) {
       overlay_view_ = new NodeView(this);
       overlay_view_->show();
 
-      QPushButton *overlay_close_btn = new QPushButton(overlay_view_);
+      auto *overlay_close_btn = new QPushButton(overlay_view_);
       overlay_close_btn->setIcon(icon::Error);
       int offset = overlay_close_btn->sizeHint().width() / 2;
       overlay_close_btn->move(offset, offset);
@@ -1507,7 +1507,7 @@ void NodeView::CollapseItem(NodeViewItem *item) {
 
 void NodeView::EndEdgeDrag(bool cancel) {
   // Check if the edge was reconnected to the same place as before
-  MultiUndoCommand *command = new MultiUndoCommand();
+  auto *command = new MultiUndoCommand();
 
   bool reconnected_to_itself = false;
 
@@ -1544,11 +1544,11 @@ void NodeView::EndEdgeDrag(bool cancel) {
       if (!reconnected_to_itself) {
         Node *creating_output = create_edge_output_item_->GetNode();
 
-        while (NodeGroup *output_group = dynamic_cast<NodeGroup *>(creating_output)) {
+        while (auto *output_group = dynamic_cast<NodeGroup *>(creating_output)) {
           creating_output = output_group->GetOutputPassthrough();
         }
 
-        while (NodeGroup *input_group = dynamic_cast<NodeGroup *>(creating_input.node())) {
+        while (auto *input_group = dynamic_cast<NodeGroup *>(creating_input.node())) {
           creating_input = input_group->GetInputFromID(creating_input.input());
         }
 
@@ -1653,7 +1653,7 @@ void NodeView::ResizeOverlay() { overlay_view_->resize(this->size()); }
 NodeViewContext *NodeView::GetContextItemFromNodeItem(NodeViewItem *item) {
   QGraphicsItem *i = item;
   while ((i = i->parentItem())) {
-    if (NodeViewContext *nvc = dynamic_cast<NodeViewContext *>(i)) {
+    if (auto *nvc = dynamic_cast<NodeViewContext *>(i)) {
       return nvc;
     }
   }

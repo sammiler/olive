@@ -51,7 +51,7 @@ class NodeParamViewItemBody : public QWidget {
 
   void Retranslate();
 
-  int GetElementY(NodeInput c) const;
+  [[nodiscard]] int GetElementY(NodeInput c) const;
 
   // Set the timebase of any timebased widgets contained here
   void SetTimebase(const rational &timebase);
@@ -174,13 +174,13 @@ class NodeParamViewItem : public NodeParamViewItemBase {
     body_->SetTimebase(timebase);
   }
 
-  Node *GetContext() const { return ctx_; }
+  [[nodiscard]] Node *GetContext() const { return ctx_; }
 
   void SetContext(Node *ctx) { ctx_ = ctx; }
 
-  Node *GetNode() const { return node_; }
+  [[nodiscard]] Node *GetNode() const { return node_; }
 
-  int GetElementY(const NodeInput &c) const;
+  [[nodiscard]] int GetElementY(const NodeInput &c) const;
 
   void SetInputChecked(const NodeInput &input, bool e);
 
@@ -200,7 +200,7 @@ class NodeParamViewItem : public NodeParamViewItemBase {
   void InputArraySizeChanged(const QString &input, int old_size, int new_size);
 
  protected slots:
-  virtual void Retranslate() override;
+  void Retranslate() override;
 
  private:
   NodeParamViewItemBody *body_;

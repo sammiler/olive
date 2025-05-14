@@ -32,14 +32,14 @@ class PreCacheTask : public RenderTask {
  public:
   PreCacheTask(Footage* footage, int index, Sequence* sequence);
 
-  virtual ~PreCacheTask() override;
+  ~PreCacheTask() override;
 
  protected:
-  virtual bool Run() override;
+  bool Run() override;
 
-  virtual bool FrameDownloaded(FramePtr frame, const rational& times) override;
+  bool FrameDownloaded(FramePtr frame, const rational& times) override;
 
-  virtual bool AudioDownloaded(const TimeRange& range, const SampleBuffer& samples) override;
+  bool AudioDownloaded(const TimeRange& range, const SampleBuffer& samples) override;
 
  private:
   Project* project_;

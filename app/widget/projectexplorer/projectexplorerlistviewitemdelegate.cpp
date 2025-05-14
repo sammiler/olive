@@ -42,7 +42,7 @@ void ProjectExplorerListViewItemDelegate::paint(QPainter *painter, const QStyleO
 
   img_rect.setWidth(qMin(img_rect.width(), img_rect.height()));
 
-  QIcon ico = index.data(Qt::DecorationRole).value<QIcon>();
+  auto ico = index.data(Qt::DecorationRole).value<QIcon>();
   QSize icon_size = ico.actualSize(img_rect.size());
   img_rect =
       QRect(img_rect.x() + (img_rect.width() / 2 - icon_size.width() / 2),

@@ -33,11 +33,11 @@ class ViewerSafeMarginInfo {
 
   explicit ViewerSafeMarginInfo(bool enabled, double ratio = 0) : enabled_(enabled), ratio_(ratio) {}
 
-  bool is_enabled() const { return enabled_; }
+  [[nodiscard]] bool is_enabled() const { return enabled_; }
 
-  bool custom_ratio() const { return (ratio_ > 0); }
+  [[nodiscard]] bool custom_ratio() const { return (ratio_ > 0); }
 
-  double ratio() const { return ratio_; }
+  [[nodiscard]] double ratio() const { return ratio_; }
 
   bool operator==(const ViewerSafeMarginInfo& rhs) const {
     return (enabled_ == rhs.enabled_ && qFuzzyCompare(ratio_, rhs.ratio_));

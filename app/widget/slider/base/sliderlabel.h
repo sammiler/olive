@@ -35,13 +35,13 @@ class SliderLabel : public QLabel {
   void SetColor(const QColor &c);
 
  protected:
-  virtual void mousePressEvent(QMouseEvent *e) override;
+  void mousePressEvent(QMouseEvent *e) override;
 
-  virtual void mouseReleaseEvent(QMouseEvent *e) override;
+  void mouseReleaseEvent(QMouseEvent *e) override;
 
-  virtual void focusInEvent(QFocusEvent *event) override;
+  void focusInEvent(QFocusEvent *event) override;
 
-  virtual void changeEvent(QEvent *event) override;
+  void changeEvent(QEvent *event) override;
 
  signals:
   void LabelPressed();

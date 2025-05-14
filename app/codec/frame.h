@@ -46,27 +46,27 @@ class Frame {
 
   static FramePtr Create();
 
-  const VideoParams& video_params() const;
+  [[nodiscard]] const VideoParams& video_params() const;
   void set_video_params(const VideoParams& params);
 
   static FramePtr Interlace(FramePtr top, FramePtr bottom);
 
   static int generate_linesize_bytes(int width, PixelFormat format, int channel_count);
 
-  int linesize_pixels() const { return linesize_pixels_; }
+  [[nodiscard]] int linesize_pixels() const { return linesize_pixels_; }
 
-  int linesize_bytes() const { return linesize_; }
+  [[nodiscard]] int linesize_bytes() const { return linesize_; }
 
-  int width() const { return params_.effective_width(); }
+  [[nodiscard]] int width() const { return params_.effective_width(); }
 
-  int height() const { return params_.effective_height(); }
+  [[nodiscard]] int height() const { return params_.effective_height(); }
 
-  PixelFormat format() const { return params_.format(); }
+  [[nodiscard]] PixelFormat format() const { return params_.format(); }
 
-  int channel_count() const { return params_.channel_count(); }
+  [[nodiscard]] int channel_count() const { return params_.channel_count(); }
 
-  Color get_pixel(int x, int y) const;
-  bool contains_pixel(int x, int y) const;
+  [[nodiscard]] Color get_pixel(int x, int y) const;
+  [[nodiscard]] bool contains_pixel(int x, int y) const;
   void set_pixel(int x, int y, const Color& c);
 
   /**
@@ -74,7 +74,7 @@ class Frame {
    *
    * This timestamp is always a rational that will equate to the time in seconds.
    */
-  const rational& timestamp() const { return timestamp_; }
+  [[nodiscard]] const rational& timestamp() const { return timestamp_; }
 
   void set_timestamp(const rational& timestamp) { timestamp_ = timestamp; }
 
@@ -86,7 +86,7 @@ class Frame {
   /**
    * @brief Get the const data buffer of this frame
    */
-  const char* const_data() const { return data_; }
+  [[nodiscard]] const char* const_data() const { return data_; }
 
   /**
    * @brief Allocate memory buffer to store data based on parameters
@@ -100,7 +100,7 @@ class Frame {
   /**
    * @brief Return whether the frame is allocated or not
    */
-  bool is_allocated() const { return data_; }
+  [[nodiscard]] bool is_allocated() const { return data_; }
 
   /**
    * @brief Destroy a memory buffer allocated with allocate()
@@ -112,9 +112,9 @@ class Frame {
    *
    * Returns 0 if nothing is allocated.
    */
-  int allocated_size() const { return data_size_; }
+  [[nodiscard]] int allocated_size() const { return data_size_; }
 
-  FramePtr convert(PixelFormat format) const;
+  [[nodiscard]] FramePtr convert(PixelFormat format) const;
 
  private:
   VideoParams params_;

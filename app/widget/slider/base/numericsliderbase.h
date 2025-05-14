@@ -36,27 +36,27 @@ class NumericSliderBase : public SliderBase {
 
   void SetOffset(const QVariant& v);
 
-  bool IsDragging() const;
+  [[nodiscard]] bool IsDragging() const;
 
  protected:
-  const QVariant& GetOffset() const { return offset_; }
+  [[nodiscard]] const QVariant& GetOffset() const { return offset_; }
 
-  virtual QVariant AdjustDragDistanceInternal(const QVariant& start, const double& drag) const;
+  [[nodiscard]] virtual QVariant AdjustDragDistanceInternal(const QVariant& start, const double& drag) const;
 
   void SetMinimumInternal(const QVariant& v);
 
   void SetMaximumInternal(const QVariant& v);
 
-  virtual bool ValueGreaterThan(const QVariant& lhs, const QVariant& rhs) const;
+  [[nodiscard]] virtual bool ValueGreaterThan(const QVariant& lhs, const QVariant& rhs) const;
 
-  virtual bool ValueLessThan(const QVariant& lhs, const QVariant& rhs) const;
+  [[nodiscard]] virtual bool ValueLessThan(const QVariant& lhs, const QVariant& rhs) const;
 
-  virtual bool CanSetValue() const override;
+  [[nodiscard]] bool CanSetValue() const override;
 
  private:
-  bool UsingLadders() const;
+  [[nodiscard]] bool UsingLadders() const;
 
-  virtual QVariant AdjustValue(const QVariant& value) const override;
+  [[nodiscard]] QVariant AdjustValue(const QVariant& value) const override;
 
   SliderLadder* drag_ladder_;
 

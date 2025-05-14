@@ -34,11 +34,11 @@ TrackView::TrackView(Qt::Alignment vertical_alignment, QWidget *parent)
     : QScrollArea(parent), list_(nullptr), alignment_(vertical_alignment) {
   setAlignment(Qt::AlignLeft | alignment_);
 
-  QWidget *central = new QWidget();
+  auto *central = new QWidget();
   setWidget(central);
   setWidgetResizable(true);
 
-  QVBoxLayout *layout = new QVBoxLayout(central);
+  auto *layout = new QVBoxLayout(central);
   layout->setContentsMargins(0, 0, 0, 0);
   layout->setSpacing(0);
 
@@ -108,7 +108,7 @@ void TrackView::ScrollbarRangeChanged(int, int max) {
 void TrackView::TrackHeightChanged(int index, int height) { list_->GetTrackAt(index)->SetTrackHeightInPixels(height); }
 
 void TrackView::InsertTrack(Track *track) {
-  TrackViewItem *tvi = new TrackViewItem(track);
+  auto *tvi = new TrackViewItem(track);
 
   connect(tvi, &TrackViewItem::AboutToDeleteTrack, this, &TrackView::AboutToDeleteTrack);
 

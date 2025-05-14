@@ -32,37 +32,37 @@ class NodeGroup : public Node {
 
   NODE_DEFAULT_FUNCTIONS(NodeGroup)
 
-  virtual QString Name() const override;
-  virtual QString id() const override;
-  virtual QVector<CategoryID> Category() const override;
-  virtual QString Description() const override;
+  [[nodiscard]] QString Name() const override;
+  [[nodiscard]] QString id() const override;
+  [[nodiscard]] QVector<CategoryID> Category() const override;
+  [[nodiscard]] QString Description() const override;
 
-  virtual void Retranslate() override;
+  void Retranslate() override;
 
-  virtual bool LoadCustom(QXmlStreamReader *reader, SerializedData *data) override;
-  virtual void SaveCustom(QXmlStreamWriter *writer) const override;
-  virtual void PostLoadEvent(SerializedData *data) override;
+  bool LoadCustom(QXmlStreamReader *reader, SerializedData *data) override;
+  void SaveCustom(QXmlStreamWriter *writer) const override;
+  void PostLoadEvent(SerializedData *data) override;
 
   QString AddInputPassthrough(const NodeInput &input, const QString &force_id = QString());
 
   void RemoveInputPassthrough(const NodeInput &input);
 
-  Node *GetOutputPassthrough() const { return output_passthrough_; }
+  [[nodiscard]] Node *GetOutputPassthrough() const { return output_passthrough_; }
 
   void SetOutputPassthrough(Node *node);
 
   using InputPassthrough = QPair<QString, NodeInput>;
   using InputPassthroughs = QVector<InputPassthrough>;
-  const InputPassthroughs &GetInputPassthroughs() const { return input_passthroughs_; }
+  [[nodiscard]] const InputPassthroughs &GetInputPassthroughs() const { return input_passthroughs_; }
 
-  bool ContainsInputPassthrough(const NodeInput &input) const;
+  [[nodiscard]] bool ContainsInputPassthrough(const NodeInput &input) const;
 
-  virtual QString GetInputName(const QString &id) const override;
+  [[nodiscard]] QString GetInputName(const QString &id) const override;
 
   static NodeInput ResolveInput(NodeInput input);
   static bool GetInner(NodeInput *input);
 
-  QString GetIDOfPassthrough(const NodeInput &input) const {
+  [[nodiscard]] QString GetIDOfPassthrough(const NodeInput &input) const {
     for (auto it = input_passthroughs_.cbegin(); it != input_passthroughs_.cend(); it++) {
       if (it->second == input) {
         return it->first;
@@ -71,7 +71,7 @@ class NodeGroup : public Node {
     return QString();
   }
 
-  NodeInput GetInputFromID(const QString &id) const {
+  [[nodiscard]] NodeInput GetInputFromID(const QString &id) const {
     for (auto it = input_passthroughs_.cbegin(); it != input_passthroughs_.cend(); it++) {
       if (it->first == id) {
         return it->second;
@@ -98,12 +98,12 @@ class NodeGroupAddInputPassthrough : public UndoCommand {
   NodeGroupAddInputPassthrough(NodeGroup *group, const NodeInput &input, const QString &force_id = QString())
       : group_(group), input_(input), actually_added_(false) {}
 
-  virtual Project *GetRelevantProject() const override { return group_->project(); }
+  [[nodiscard]] Project *GetRelevantProject() const override { return group_->project(); }
 
  protected:
-  virtual void redo() override;
+  void redo() override;
 
-  virtual void undo() override;
+  void undo() override;
 
  private:
   NodeGroup *group_;
@@ -119,12 +119,12 @@ class NodeGroupSetOutputPassthrough : public UndoCommand {
  public:
   NodeGroupSetOutputPassthrough(NodeGroup *group, Node *output) : group_(group), new_output_(output) {}
 
-  virtual Project *GetRelevantProject() const override { return group_->project(); }
+  [[nodiscard]] Project *GetRelevantProject() const override { return group_->project(); }
 
  protected:
-  virtual void redo() override;
+  void redo() override;
 
-  virtual void undo() override;
+  void undo() override;
 
  private:
   NodeGroup *group_;

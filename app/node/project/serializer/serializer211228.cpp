@@ -194,9 +194,9 @@ ProjectSerializer211228::LoadData ProjectSerializer211228::Load(Project *project
   for (Node *n : project->nodes()) {
     n->SetCachesEnabled(true);
 
-    if (Track *t = dynamic_cast<Track *>(n)) {
+    if (auto *t = dynamic_cast<Track *>(n)) {
       for (int i = 0; i < t->InputArraySize(Track::kBlockInput); i++) {
-        Block *b = dynamic_cast<Block *>(t->GetConnectedOutput(Track::kBlockInput, i));
+        auto *b = dynamic_cast<Block *>(t->GetConnectedOutput(Track::kBlockInput, i));
         if (!b->track()) {
           t->AppendBlock(b);
         }
@@ -564,7 +564,7 @@ void ProjectSerializer211228::LoadImmediate(QXmlStreamReader *reader, Node *node
 
               key_value = NodeValue::StringToValue(data_type, reader->readElementText(), true);
 
-              NodeKeyframe *key = new NodeKeyframe(key_time, key_value, key_type, track, element, key_input, node);
+              auto *key = new NodeKeyframe(key_time, key_value, key_type, track, element, key_input, node);
               key->set_bezier_control_in(key_in_handle);
               key->set_bezier_control_out(key_out_handle);
             } else {
@@ -652,8 +652,8 @@ void ProjectSerializer211228::PostConnect(const XMLNodeData &xml_node_data) cons
 
 void ProjectSerializer211228::LoadNodeCustom(QXmlStreamReader *reader, Node *node, XMLNodeData &xml_node_data) const {
   // Viewer-based nodes
-  if (ViewerOutput *viewer = dynamic_cast<ViewerOutput *>(node)) {
-    Footage *footage = dynamic_cast<Footage *>(node);
+  if (auto *viewer = dynamic_cast<ViewerOutput *>(node)) {
+    auto *footage = dynamic_cast<Footage *>(node);
 
     while (XMLReadNextStartElement(reader)) {
       if (reader->name() == QStringLiteral("points")) {
@@ -665,7 +665,7 @@ void ProjectSerializer211228::LoadNodeCustom(QXmlStreamReader *reader, Node *nod
       }
     }
 
-  } else if (Track *track = dynamic_cast<Track *>(node)) {
+  } else if (auto *track = dynamic_cast<Track *>(node)) {
     while (XMLReadNextStartElement(reader)) {
       if (reader->name() == QStringLiteral("height")) {
         track->SetTrackHeight(reader->readElementText().toDouble());
@@ -674,7 +674,7 @@ void ProjectSerializer211228::LoadNodeCustom(QXmlStreamReader *reader, Node *nod
       }
     }
 
-  } else if (NodeGroup *group = dynamic_cast<NodeGroup *>(node)) {
+  } else if (auto *group = dynamic_cast<NodeGroup *>(node)) {
     while (XMLReadNextStartElement(reader)) {
       if (reader->name() == QStringLiteral("inputpassthroughs")) {
         while (XMLReadNextStartElement(reader)) {

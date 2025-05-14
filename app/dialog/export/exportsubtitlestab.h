@@ -36,10 +36,10 @@ class ExportSubtitlesTab : public QWidget {
  public:
   explicit ExportSubtitlesTab(QWidget *parent = nullptr);
 
-  bool GetSidecarEnabled() const { return sidecar_checkbox_->isChecked(); }
+  [[nodiscard]] bool GetSidecarEnabled() const { return sidecar_checkbox_->isChecked(); }
   void SetSidecarEnabled(bool e) { sidecar_checkbox_->setEnabled(e); }
 
-  ExportFormat::Format GetSidecarFormat() const { return sidecar_format_combobox_->GetFormat(); }
+  [[nodiscard]] ExportFormat::Format GetSidecarFormat() const { return sidecar_format_combobox_->GetFormat(); }
   void SetSidecarFormat(ExportFormat::Format f) { sidecar_format_combobox_->SetFormat(f); }
 
   int SetFormat(ExportFormat::Format format);

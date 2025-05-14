@@ -43,7 +43,7 @@ const int kDataPresetDataRole = Qt::UserRole + 2;
 
 SequenceDialogPresetTab::SequenceDialogPresetTab(QWidget* parent)
     : QWidget(parent), PresetManager<SequencePreset>(this, QStringLiteral("sequencepresets")) {
-  QVBoxLayout* outer_layout = new QVBoxLayout(this);
+  auto* outer_layout = new QVBoxLayout(this);
   outer_layout->setContentsMargins(0, 0, 0, 0);
 
   preset_tree_ = new QTreeWidget();
@@ -87,7 +87,7 @@ void SequenceDialogPresetTab::SaveParametersAsPreset(SequencePreset preset) {
 }
 
 QTreeWidgetItem* SequenceDialogPresetTab::CreateFolder(const QString& name) {
-  QTreeWidgetItem* folder = new QTreeWidgetItem();
+  auto* folder = new QTreeWidgetItem();
   folder->setText(0, name);
   folder->setIcon(0, icon::Folder);
   return folder;
@@ -172,7 +172,7 @@ void SequenceDialogPresetTab::AddCustomItem(QTreeWidgetItem* folder, PresetPtr p
 
 void SequenceDialogPresetTab::AddItemInternal(QTreeWidgetItem* folder, PresetPtr preset, bool is_custom, int index,
                                               const QString& description) {
-  QTreeWidgetItem* item = new QTreeWidgetItem();
+  auto* item = new QTreeWidgetItem();
 
   item->setText(0, preset->GetName());
   item->setIcon(0, icon::Video);

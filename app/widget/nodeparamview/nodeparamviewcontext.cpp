@@ -31,8 +31,8 @@ namespace olive {
 #define super NodeParamViewItemBase
 
 NodeParamViewContext::NodeParamViewContext(QWidget *parent) : super(parent), type_(Track::kNone) {
-  QWidget *body = new QWidget();
-  QHBoxLayout *body_layout = new QHBoxLayout(body);
+  auto *body = new QWidget();
+  auto *body_layout = new QHBoxLayout(body);
   SetBody(body);
 
   dock_area_ = new NodeParamViewDockArea();
@@ -139,7 +139,7 @@ void NodeParamViewContext::AddEffectMenuItemTriggered(QAction *a) {
 
   if (n) {
     NodeInput new_node_input = n->GetEffectInput();
-    MultiUndoCommand *command = new MultiUndoCommand();
+    auto *command = new MultiUndoCommand();
 
     QVector<Project *> graphs_added_to;
 

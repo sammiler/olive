@@ -37,11 +37,11 @@ ColorValuesWidget::ColorValuesWidget(ColorManager *manager, QWidget *parent)
       ref_to_display_(nullptr),
       display_to_ref_(nullptr),
       ref_to_input_(nullptr) {
-  QVBoxLayout *layout = new QVBoxLayout(this);
+  auto *layout = new QVBoxLayout(this);
 
   // Create preview box
   {
-    QHBoxLayout *preview_layout = new QHBoxLayout();
+    auto *preview_layout = new QHBoxLayout();
 
     preview_layout->setContentsMargins(0, 0, 0, 0);
 
@@ -64,7 +64,7 @@ ColorValuesWidget::ColorValuesWidget(ColorManager *manager, QWidget *parent)
 
   // Create value tabs
   {
-    QTabWidget *tabs = new QTabWidget();
+    auto *tabs = new QTabWidget();
 
     input_tab_ = new ColorValuesTab(true);
     tabs->addTab(input_tab_, tr("Input"));
@@ -119,7 +119,7 @@ bool ColorValuesWidget::eventFilter(QObject *watcher, QEvent *event) {
     color_picker_btn_->setChecked(false);
     return true;
   } else if (event->type() == QEvent::KeyPress) {
-    QKeyEvent *key_ev = dynamic_cast<QKeyEvent *>(event);
+    auto *key_ev = dynamic_cast<QKeyEvent *>(event);
 
     if (key_ev->key() == Qt::Key_Escape) {
       color_picker_btn_->setChecked(false);
@@ -213,7 +213,7 @@ void ColorValuesWidget::UpdateRefFromDisplay() {
 const double ColorValuesTab::kLegacyMultiplier = 255.0;
 
 ColorValuesTab::ColorValuesTab(bool with_legacy_option, QWidget *parent) : QWidget(parent) {
-  QGridLayout *layout = new QGridLayout(this);
+  auto *layout = new QGridLayout(this);
 
   int row = 0;
 
@@ -305,7 +305,7 @@ void ColorValuesTab::SetValueInternal(FloatSlider *slider, double v) {
 }
 
 FloatSlider *ColorValuesTab::CreateColorSlider() {
-  FloatSlider *fs = new FloatSlider();
+  auto *fs = new FloatSlider();
   fs->SetLadderElementCount(1);
   connect(fs, &FloatSlider::ValueChanged, this, &ColorValuesTab::SliderChanged);
   return fs;

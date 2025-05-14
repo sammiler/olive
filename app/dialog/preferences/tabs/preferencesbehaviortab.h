@@ -32,7 +32,7 @@ class PreferencesBehaviorTab : public ConfigDialogBaseTab {
  public:
   PreferencesBehaviorTab();
 
-  virtual void Accept(MultiUndoCommand *command) override;
+  void Accept(MultiUndoCommand *command) override;
 
  private:
   QTreeWidgetItem *AddParent(const QString &text, const QString &tooltip, QTreeWidgetItem *parent = nullptr);

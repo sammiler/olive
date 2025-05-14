@@ -32,15 +32,15 @@ class SubtitleBlock : public ClipBlock {
 
   NODE_DEFAULT_FUNCTIONS(SubtitleBlock)
 
-  virtual QString Name() const override;
-  virtual QString id() const override;
-  virtual QString Description() const override;
+  [[nodiscard]] QString Name() const override;
+  [[nodiscard]] QString id() const override;
+  [[nodiscard]] QString Description() const override;
 
-  virtual void Retranslate() override;
+  void Retranslate() override;
 
   static const QString kTextIn;
 
-  QString GetText() const { return GetStandardValue(kTextIn).toString(); }
+  [[nodiscard]] QString GetText() const { return GetStandardValue(kTextIn).toString(); }
 
   void SetText(const QString &text) { SetStandardValue(kTextIn, text); }
 };

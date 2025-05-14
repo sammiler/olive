@@ -733,7 +733,7 @@ void Node::InputArrayResize(const QString &id, int size) {
     return;
   }
 
-  NodeArrayResizeCommand *c = new NodeArrayResizeCommand(this, id, size);
+  auto *c = new NodeArrayResizeCommand(this, id, size);
   c->redo_now();
   delete c;
 }
@@ -959,8 +959,8 @@ Node *Node::CopyNodeAndDependencyGraphMinusItemsInternal(QMap<Node *, Node *> &c
   }
 
   // If this is a group, copy input and output passthroughs
-  if (NodeGroup *src_group = dynamic_cast<NodeGroup *>(node)) {
-    NodeGroup *dst_group = dynamic_cast<NodeGroup *>(copy);
+  if (auto *src_group = dynamic_cast<NodeGroup *>(node)) {
+    auto *dst_group = dynamic_cast<NodeGroup *>(copy);
 
     for (auto it = src_group->GetInputPassthroughs().cbegin(); it != src_group->GetInputPassthroughs().cend(); it++) {
       // This node should have been created by the context loop above
@@ -1470,7 +1470,7 @@ bool Node::LoadImmediate(QXmlStreamReader *reader, const QString &input, int ele
         if (reader->name() == QStringLiteral("track")) {
           while (XMLReadNextStartElement(reader)) {
             if (reader->name() == QStringLiteral("key")) {
-              NodeKeyframe *key = new NodeKeyframe();
+              auto *key = new NodeKeyframe();
               key->set_input(input);
               key->set_element(element);
               key->set_track(track);
@@ -2072,7 +2072,7 @@ void Node::OutputDisconnectedEvent(const NodeInput &input) { Q_UNUSED(input) }
 void Node::childEvent(QChildEvent *event) {
   super::childEvent(event);
 
-  if (NodeKeyframe *key = dynamic_cast<NodeKeyframe *>(event->child())) {
+  if (auto *key = dynamic_cast<NodeKeyframe *>(event->child())) {
     NodeInput i(this, key->input(), key->element());
 
     if (event->type() == QEvent::ChildAdded) {
@@ -2100,7 +2100,7 @@ void Node::childEvent(QChildEvent *event) {
       GetImmediate(key->input(), key->element())->remove_keyframe(key);
       ParameterValueChanged(i, time_affected);
     }
-  } else if (NodeGizmo *gizmo = dynamic_cast<NodeGizmo *>(event->child())) {
+  } else if (auto *gizmo = dynamic_cast<NodeGizmo *>(event->child())) {
     if (event->type() == QEvent::ChildAdded) {
       gizmos_.append(gizmo);
     } else if (event->type() == QEvent::ChildRemoved) {
@@ -2110,7 +2110,7 @@ void Node::childEvent(QChildEvent *event) {
 }
 
 void Node::InvalidateFromKeyframeBezierInChange() {
-  NodeKeyframe *key = dynamic_cast<NodeKeyframe *>(sender());
+  auto *key = dynamic_cast<NodeKeyframe *>(sender());
   const NodeKeyframeTrack &track = GetTrackFromKeyframe(key);
   int keyframe_index = track.indexOf(key);
 
@@ -2125,7 +2125,7 @@ void Node::InvalidateFromKeyframeBezierInChange() {
 }
 
 void Node::InvalidateFromKeyframeBezierOutChange() {
-  NodeKeyframe *key = dynamic_cast<NodeKeyframe *>(sender());
+  auto *key = dynamic_cast<NodeKeyframe *>(sender());
   const NodeKeyframeTrack &track = GetTrackFromKeyframe(key);
   int keyframe_index = track.indexOf(key);
 
@@ -2140,7 +2140,7 @@ void Node::InvalidateFromKeyframeBezierOutChange() {
 }
 
 void Node::InvalidateFromKeyframeTimeChange() {
-  NodeKeyframe *key = dynamic_cast<NodeKeyframe *>(sender());
+  auto *key = dynamic_cast<NodeKeyframe *>(sender());
   NodeInputImmediate *immediate = GetImmediate(key->input(), key->element());
   TimeRange original_range = GetRangeAffectedByKeyframe(key);
 
@@ -2168,14 +2168,14 @@ void Node::InvalidateFromKeyframeTimeChange() {
 }
 
 void Node::InvalidateFromKeyframeValueChange() {
-  NodeKeyframe *key = dynamic_cast<NodeKeyframe *>(sender());
+  auto *key = dynamic_cast<NodeKeyframe *>(sender());
   ParameterValueChanged(key->key_track_ref().input(), GetRangeAffectedByKeyframe(key));
 
   emit KeyframeValueChanged(key);
 }
 
 void Node::InvalidateFromKeyframeTypeChanged() {
-  NodeKeyframe *key = dynamic_cast<NodeKeyframe *>(sender());
+  auto *key = dynamic_cast<NodeKeyframe *>(sender());
   const NodeKeyframeTrack &track = GetTrackFromKeyframe(key);
 
   if (track.size() == 1) {
@@ -2213,7 +2213,7 @@ void Node::SetValueAtTime(const NodeInput &input, const rational &time, const QV
           track_value = input.node()->GetSplitValueAtTimeOnTrack(input.input(), node_time, i, input.element());
         }
 
-        NodeKeyframe *new_key = new NodeKeyframe(
+        auto *new_key = new NodeKeyframe(
             node_time, track_value,
             input.node()->GetBestKeyframeTypeForTimeOnTrack(NodeKeyframeTrackReference(input, i), node_time), i,
             input.element(), input.input());

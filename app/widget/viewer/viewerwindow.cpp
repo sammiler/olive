@@ -26,7 +26,7 @@
 namespace olive {
 
 ViewerWindow::ViewerWindow(QWidget *parent) : QWidget(parent, Qt::Window | Qt::WindowStaysOnTopHint), pixel_aspect_(1) {
-  QVBoxLayout *layout = new QVBoxLayout(this);
+  auto *layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
   layout->setSpacing(0);
 

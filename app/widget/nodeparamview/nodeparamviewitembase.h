@@ -39,9 +39,9 @@ class NodeParamViewItemBase : public QDockWidget {
     update();
   }
 
-  bool IsHighlighted() const { return highlighted_; }
+  [[nodiscard]] bool IsHighlighted() const { return highlighted_; }
 
-  bool IsExpanded() const;
+  [[nodiscard]] bool IsExpanded() const;
 
   static QString GetTitleBarTextFromNode(Node *n);
 
@@ -62,15 +62,15 @@ class NodeParamViewItemBase : public QDockWidget {
  protected:
   void SetBody(QWidget *body);
 
-  virtual void paintEvent(QPaintEvent *event) override;
+  void paintEvent(QPaintEvent *event) override;
 
-  NodeParamViewItemTitleBar *title_bar() const { return title_bar_; }
+  [[nodiscard]] NodeParamViewItemTitleBar *title_bar() const { return title_bar_; }
 
-  virtual void changeEvent(QEvent *e) override;
+  void changeEvent(QEvent *e) override;
 
-  virtual void moveEvent(QMoveEvent *event) override;
+  void moveEvent(QMoveEvent *event) override;
 
-  virtual void mousePressEvent(QMouseEvent *e) override;
+  void mousePressEvent(QMouseEvent *e) override;
 
  protected slots:
   virtual void Retranslate() {}

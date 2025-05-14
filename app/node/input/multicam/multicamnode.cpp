@@ -80,7 +80,7 @@ QVector<QString> MultiCamNode::IgnoreInputsForRendering() const { return {kSeque
 
 void MultiCamNode::InputConnectedEvent(const QString &input, int element, Node *output) {
   if (input == kSequenceInput) {
-    if (Sequence *s = dynamic_cast<Sequence *>(output)) {
+    if (auto *s = dynamic_cast<Sequence *>(output)) {
       SetInputFlag(kSequenceTypeInput, kInputFlagHidden, false);
       sequence_ = s;
     }

@@ -208,10 +208,10 @@ class NodeValue {
   template <typename T>
   NodeValue(Type type, const T& data, const Node* from, const QString& tag) : NodeValue(type, data, from, false, tag) {}
 
-  Type type() const { return type_; }
+  [[nodiscard]] Type type() const { return type_; }
 
   template <typename T>
-  T value() const {
+  [[nodiscard]]  T value() const {
     return data_.value<T>();
   }
 
@@ -220,20 +220,20 @@ class NodeValue {
     data_ = QVariant::fromValue(v);
   }
 
-  const QVariant& data() const { return data_; }
+  [[nodiscard]] const QVariant& data() const { return data_; }
 
   template <typename T>
-  bool canConvert() const {
+  [[nodiscard]] bool canConvert() const {
     return data_.canConvert<T>();
   }
 
-  const QString& tag() const { return tag_; }
+  [[nodiscard]] const QString& tag() const { return tag_; }
 
   void set_tag(const QString& tag) { tag_ = tag; }
 
-  const Node* source() const { return from_; }
+  [[nodiscard]] const Node* source() const { return from_; }
 
-  bool array() const { return array_; }
+  [[nodiscard]] bool array() const { return array_; }
 
   bool operator==(const NodeValue& rhs) const { return type_ == rhs.type_ && tag_ == rhs.tag_ && data_ == rhs.data_; }
 
@@ -255,7 +255,7 @@ class NodeValue {
 
   static QVariant combine_track_values_into_normal_value(Type type, const QVector<QVariant>& split);
 
-  SplitValue to_split_value() const { return split_normal_value_into_track_values(type_, data_); }
+  [[nodiscard]] SplitValue to_split_value() const { return split_normal_value_into_track_values(type_, data_); }
 
   /**
    * @brief Returns whether a data type can be interpolated or not
@@ -275,22 +275,22 @@ class NodeValue {
 
   static void ValidateVectorString(QStringList* list, int count);
 
-  TexturePtr toTexture() const { return value<TexturePtr>(); }
-  SampleBuffer toSamples() const { return value<SampleBuffer>(); }
-  bool toBool() const { return value<bool>(); }
-  double toDouble() const { return value<double>(); }
-  int64_t toInt() const { return value<int64_t>(); }
-  rational toRational() const { return value<olive::core::rational>(); }
-  QString toString() const { return value<QString>(); }
-  Color toColor() const { return value<olive::core::Color>(); }
-  QMatrix4x4 toMatrix() const { return value<QMatrix4x4>(); }
-  VideoParams toVideoParams() const { return value<VideoParams>(); }
-  AudioParams toAudioParams() const { return value<AudioParams>(); }
-  QVector2D toVec2() const { return value<QVector2D>(); }
-  QVector3D toVec3() const { return value<QVector3D>(); }
-  QVector4D toVec4() const { return value<QVector4D>(); }
-  Bezier toBezier() const { return value<Bezier>(); }
-  NodeValueArray toArray() const { return value<NodeValueArray>(); }
+  [[nodiscard]] TexturePtr toTexture() const { return value<TexturePtr>(); }
+  [[nodiscard]] SampleBuffer toSamples() const { return value<SampleBuffer>(); }
+  [[nodiscard]] bool toBool() const { return value<bool>(); }
+  [[nodiscard]] double toDouble() const { return value<double>(); }
+  [[nodiscard]] int64_t toInt() const { return value<int64_t>(); }
+  [[nodiscard]] rational toRational() const { return value<olive::core::rational>(); }
+  [[nodiscard]] QString toString() const { return value<QString>(); }
+  [[nodiscard]] Color toColor() const { return value<olive::core::Color>(); }
+  [[nodiscard]] QMatrix4x4 toMatrix() const { return value<QMatrix4x4>(); }
+  [[nodiscard]] VideoParams toVideoParams() const { return value<VideoParams>(); }
+  [[nodiscard]] AudioParams toAudioParams() const { return value<AudioParams>(); }
+  [[nodiscard]] QVector2D toVec2() const { return value<QVector2D>(); }
+  [[nodiscard]] QVector3D toVec3() const { return value<QVector3D>(); }
+  [[nodiscard]] QVector4D toVec4() const { return value<QVector4D>(); }
+  [[nodiscard]] Bezier toBezier() const { return value<Bezier>(); }
+  [[nodiscard]] NodeValueArray toArray() const { return value<NodeValueArray>(); }
 
  private:
   Type type_;
@@ -304,12 +304,12 @@ class NodeValueTable {
  public:
   NodeValueTable() = default;
 
-  NodeValue Get(NodeValue::Type type, const QString& tag = QString()) const {
+  [[nodiscard]] NodeValue Get(NodeValue::Type type, const QString& tag = QString()) const {
     QVector<NodeValue::Type> types = {type};
     return Get(types, tag);
   }
 
-  NodeValue Get(const QVector<NodeValue::Type>& type, const QString& tag = QString()) const;
+  [[nodiscard]] NodeValue Get(const QVector<NodeValue::Type>& type, const QString& tag = QString()) const;
 
   NodeValue Take(NodeValue::Type type, const QString& tag = QString()) {
     QVector<NodeValue::Type> types = {type};
@@ -345,19 +345,19 @@ class NodeValueTable {
     Prepend(NodeValue(type, data, from, false, tag));
   }
 
-  const NodeValue& at(int index) const { return values_.at(index); }
+  [[nodiscard]] const NodeValue& at(int index) const { return values_.at(index); }
   NodeValue TakeAt(int index) { return values_.takeAt(index); }
 
-  int Count() const { return values_.size(); }
+  [[nodiscard]] int Count() const { return values_.size(); }
 
-  bool Has(NodeValue::Type type) const;
+  [[nodiscard]] bool Has(NodeValue::Type type) const;
   void Remove(const NodeValue& v);
 
   void Clear() { values_.clear(); }
 
-  bool isEmpty() const { return values_.isEmpty(); }
+  [[nodiscard]] bool isEmpty() const { return values_.isEmpty(); }
 
-  int GetValueIndex(const QVector<NodeValue::Type>& type, const QString& tag) const;
+  [[nodiscard]] int GetValueIndex(const QVector<NodeValue::Type>& type, const QString& tag) const;
 
   static NodeValueTable Merge(QList<NodeValueTable> tables);
 

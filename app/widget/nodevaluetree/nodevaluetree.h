@@ -16,7 +16,7 @@ class NodeValueTree : public QTreeWidget {
   void SetNode(const NodeInput &input, const rational &time);
 
  protected:
-  virtual void changeEvent(QEvent *event) override;
+  void changeEvent(QEvent *event) override;
 
  private:
   void Retranslate();

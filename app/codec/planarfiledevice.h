@@ -34,9 +34,9 @@ class PlanarFileDevice : public QObject {
  public:
   explicit PlanarFileDevice(QObject *parent = nullptr);
 
-  virtual ~PlanarFileDevice() override;
+  ~PlanarFileDevice() override;
 
-  bool isOpen() const { return !files_.isEmpty(); }
+  [[nodiscard]] bool isOpen() const { return !files_.isEmpty(); }
 
   bool open(const QVector<QString> &filenames, QIODevice::OpenMode mode);
 
@@ -44,7 +44,7 @@ class PlanarFileDevice : public QObject {
 
   qint64 write(const char **data, qint64 bytes_per_channel, qint64 offset = 0);
 
-  qint64 size() const;
+  [[nodiscard]] qint64 size() const;
 
   bool seek(qint64 pos);
 

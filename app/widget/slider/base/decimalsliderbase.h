@@ -29,10 +29,10 @@ class DecimalSliderBase : public NumericSliderBase {
  public:
   explicit DecimalSliderBase(QWidget* parent = nullptr);
 
-  int GetDecimalPlaces() const { return decimal_places_; }
+  [[nodiscard]] int GetDecimalPlaces() const { return decimal_places_; }
   void SetDecimalPlaces(int i);
 
-  bool GetAutoTrimDecimalPlaces() const { return autotrim_decimal_places_; };
+  [[nodiscard]] bool GetAutoTrimDecimalPlaces() const { return autotrim_decimal_places_; };
   void SetAutoTrimDecimalPlaces(bool e);
 
   static QString FloatToString(double val, int decimal_places, bool autotrim_decimal_places);

@@ -59,11 +59,11 @@ class MathNodeBase : public Node {
    public:
     PairingCalculator(const NodeValueTable& table_a, const NodeValueTable& table_b);
 
-    bool FoundMostLikelyPairing() const;
-    Pairing GetMostLikelyPairing() const;
+    [[nodiscard]] bool FoundMostLikelyPairing() const;
+    [[nodiscard]] Pairing GetMostLikelyPairing() const;
 
-    const NodeValue& GetMostLikelyValueA() const;
-    const NodeValue& GetMostLikelyValueB() const;
+    [[nodiscard]] const NodeValue& GetMostLikelyValueA() const;
+    [[nodiscard]] const NodeValue& GetMostLikelyValueB() const;
 
    private:
     static QVector<int> GetPairLikelihood(const NodeValueTable& table);
@@ -110,7 +110,7 @@ class MathNodeBase : public Node {
 
   static bool NumberIsNoOp(const Operation& op, const float& number);
 
-  ShaderCode GetShaderCodeInternal(const QString& shader_id, const QString& param_a_in,
+  [[nodiscard]] ShaderCode GetShaderCodeInternal(const QString& shader_id, const QString& param_a_in,
                                    const QString& param_b_in) const;
 
   void PushVector(NodeValueTable* output, NodeValue::Type type, const QVector4D& vec) const;

@@ -32,10 +32,10 @@ class LineGizmo : public NodeGizmo {
  public:
   explicit LineGizmo(QObject *parent = nullptr);
 
-  const QLineF &GetLine() const { return line_; }
+  [[nodiscard]] const QLineF &GetLine() const { return line_; }
   void SetLine(const QLineF &line) { line_ = line; }
 
-  virtual void Draw(QPainter *p) const override;
+  void Draw(QPainter *p) const override;
 
  private:
   QLineF line_;

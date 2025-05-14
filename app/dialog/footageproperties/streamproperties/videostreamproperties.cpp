@@ -34,7 +34,7 @@ namespace olive {
 
 VideoStreamProperties::VideoStreamProperties(Footage *footage, int video_index)
     : footage_(footage), video_index_(video_index), video_premultiply_alpha_(nullptr) {
-  QGridLayout *video_layout = new QGridLayout(this);
+  auto *video_layout = new QGridLayout(this);
   video_layout->setContentsMargins(0, 0, 0, 0);
 
   int row = 0;
@@ -99,8 +99,8 @@ VideoStreamProperties::VideoStreamProperties(Footage *footage, int video_index)
   row++;
 
   if (vp.video_type() == VideoParams::kVideoTypeImageSequence) {
-    QGroupBox *imgseq_group = new QGroupBox(tr("Image Sequence"));
-    QGridLayout *imgseq_layout = new QGridLayout(imgseq_group);
+    auto *imgseq_group = new QGroupBox(tr("Image Sequence"));
+    auto *imgseq_layout = new QGridLayout(imgseq_group);
 
     int imgseq_row = 0;
 

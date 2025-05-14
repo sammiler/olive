@@ -46,7 +46,7 @@ class PreferencesDialog : public ConfigDialogBase {
   explicit PreferencesDialog(MainWindow *main_window);
 
  protected:
-  virtual void AcceptEvent() override;
+  void AcceptEvent() override;
 };
 
 }  // namespace olive

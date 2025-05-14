@@ -39,14 +39,14 @@ class FootageViewerPanel : public ViewerPanelBase, public FootageManagementPanel
 
   void OverrideWorkArea(const TimeRange &r);
 
-  FootageViewerWidget *GetFootageViewerWidget() const {
+  [[nodiscard]] FootageViewerWidget *GetFootageViewerWidget() const {
     return dynamic_cast<FootageViewerWidget *>(GetTimeBasedWidget());
   }
 
-  virtual QVector<ViewerOutput *> GetSelectedFootage() const override;
+  [[nodiscard]] QVector<ViewerOutput *> GetSelectedFootage() const override;
 
  protected:
-  virtual void Retranslate() override;
+  void Retranslate() override;
 };
 
 }  // namespace olive

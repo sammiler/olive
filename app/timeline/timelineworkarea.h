@@ -35,13 +35,13 @@ class TimelineWorkArea : public QObject {
  public:
   explicit TimelineWorkArea(QObject* parent = nullptr);
 
-  bool enabled() const;
+  [[nodiscard]] bool enabled() const;
   void set_enabled(bool e);
 
-  const rational& in() const;
-  const rational& out() const;
-  const rational& length() const;
-  const TimeRange& range() const;
+  [[nodiscard]] const rational& in() const;
+  [[nodiscard]] const rational& out() const;
+  [[nodiscard]] const rational& length() const;
+  [[nodiscard]] const TimeRange& range() const;
   void set_range(const TimeRange& range);
 
   bool load(QXmlStreamReader* reader);

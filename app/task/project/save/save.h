@@ -31,14 +31,14 @@ class ProjectSaveTask : public Task {
  public:
   ProjectSaveTask(Project* project, bool use_compression);
 
-  Project* GetProject() const { return project_; }
+  [[nodiscard]] Project* GetProject() const { return project_; }
 
   void SetOverrideFilename(const QString& filename) { override_filename_ = filename; }
 
   void SetLayout(const MainWindowLayoutInfo& layout) { layout_ = layout; }
 
  protected:
-  virtual bool Run() override;
+  bool Run() override;
 
  private:
   Project* project_;

@@ -36,9 +36,9 @@ class VideoStreamProperties : public StreamProperties {
  public:
   VideoStreamProperties(Footage* footage, int video_index);
 
-  virtual void Accept(MultiUndoCommand* parent) override;
+  void Accept(MultiUndoCommand* parent) override;
 
-  virtual bool SanityCheck() override;
+  bool SanityCheck() override;
 
  private:
   Footage* footage_;
@@ -91,11 +91,11 @@ class VideoStreamProperties : public StreamProperties {
                              VideoParams::Interlacing interlacing, const rational& pixel_ar,
                              VideoParams::ColorRange range);
 
-    virtual Project* GetRelevantProject() const override;
+    [[nodiscard]] Project* GetRelevantProject() const override;
 
    protected:
-    virtual void redo() override;
-    virtual void undo() override;
+    void redo() override;
+    void undo() override;
 
    private:
     Footage* footage_;
@@ -119,11 +119,11 @@ class VideoStreamProperties : public StreamProperties {
     ImageSequenceChangeCommand(Footage* footage, int video_index, int64_t start_index, int64_t duration,
                                const rational& frame_rate);
 
-    virtual Project* GetRelevantProject() const override;
+    [[nodiscard]] Project* GetRelevantProject() const override;
 
    protected:
-    virtual void redo() override;
-    virtual void undo() override;
+    void redo() override;
+    void undo() override;
 
    private:
     Footage* footage_;

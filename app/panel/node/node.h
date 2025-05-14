@@ -34,11 +34,11 @@ class NodePanel : public PanelWidget {
  public:
   NodePanel();
 
-  NodeWidget *GetNodeWidget() const { return node_widget_; }
+  [[nodiscard]] NodeWidget *GetNodeWidget() const { return node_widget_; }
 
-  const QVector<Node *> &GetContexts() const { return node_widget_->view()->GetContexts(); }
+  [[nodiscard]] const QVector<Node *> &GetContexts() const { return node_widget_->view()->GetContexts(); }
 
-  bool IsGroupOverlay() const { return node_widget_->view()->IsGroupOverlay(); }
+  [[nodiscard]] bool IsGroupOverlay() const { return node_widget_->view()->IsGroupOverlay(); }
 
   void SetContexts(const QVector<Node *> &nodes) { node_widget_->SetContexts(nodes); }
 
@@ -46,27 +46,27 @@ class NodePanel : public PanelWidget {
     node_widget_->view()->CloseContextsBelongingToProject(project);
   }
 
-  virtual void SelectAll() override { node_widget_->view()->SelectAll(); }
+  void SelectAll() override { node_widget_->view()->SelectAll(); }
 
-  virtual void DeselectAll() override { node_widget_->view()->DeselectAll(); }
+  void DeselectAll() override { node_widget_->view()->DeselectAll(); }
 
-  virtual void DeleteSelected() override { node_widget_->view()->DeleteSelected(); }
+  void DeleteSelected() override { node_widget_->view()->DeleteSelected(); }
 
-  virtual void CutSelected() override { node_widget_->view()->CopySelected(true); }
+  void CutSelected() override { node_widget_->view()->CopySelected(true); }
 
-  virtual void CopySelected() override { node_widget_->view()->CopySelected(false); }
+  void CopySelected() override { node_widget_->view()->CopySelected(false); }
 
-  virtual void Paste() override { node_widget_->view()->Paste(); }
+  void Paste() override { node_widget_->view()->Paste(); }
 
-  virtual void Duplicate() override { node_widget_->view()->Duplicate(); }
+  void Duplicate() override { node_widget_->view()->Duplicate(); }
 
-  virtual void SetColorLabel(int index) override { node_widget_->view()->SetColorLabel(index); }
+  void SetColorLabel(int index) override { node_widget_->view()->SetColorLabel(index); }
 
-  virtual void ZoomIn() override { node_widget_->view()->ZoomIn(); }
+  void ZoomIn() override { node_widget_->view()->ZoomIn(); }
 
-  virtual void ZoomOut() override { node_widget_->view()->ZoomOut(); }
+  void ZoomOut() override { node_widget_->view()->ZoomOut(); }
 
-  virtual void RenameSelected() override { node_widget_->view()->LabelSelectedNodes(); }
+  void RenameSelected() override { node_widget_->view()->LabelSelectedNodes(); }
 
  public slots:
   void Select(const QVector<Node::ContextPair> &p) { node_widget_->view()->Select(p, true); }
@@ -84,7 +84,7 @@ class NodePanel : public PanelWidget {
   void NodeGroupClosed();
 
  private:
-  virtual void Retranslate() override { SetTitle(tr("Node Editor")); }
+  void Retranslate() override { SetTitle(tr("Node Editor")); }
 
   NodeWidget *node_widget_;
 };

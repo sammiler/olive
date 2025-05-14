@@ -42,14 +42,14 @@ class ProjectCopier : public QObject {
     return static_cast<T *>(copy_map_.key(copy));
   }
 
-  Project *GetCopiedProject() const { return copy_; }
+  [[nodiscard]] Project *GetCopiedProject() const { return copy_; }
 
-  const QHash<Node *, Node *> &GetNodeMap() const { return copy_map_; }
+  [[nodiscard]] const QHash<Node *, Node *> &GetNodeMap() const { return copy_map_; }
 
-  const JobTime &GetGraphChangeTime() const { return graph_changed_time_; }
-  const JobTime &GetLastUpdateTime() const { return last_update_time_; }
+  [[nodiscard]] const JobTime &GetGraphChangeTime() const { return graph_changed_time_; }
+  [[nodiscard]] const JobTime &GetLastUpdateTime() const { return last_update_time_; }
 
-  bool HasUpdatesInQueue() const { return !graph_update_queue_.empty(); }
+  [[nodiscard]] bool HasUpdatesInQueue() const { return !graph_update_queue_.empty(); }
 
   /**
    * @brief Process all changes to internal NodeGraph copy

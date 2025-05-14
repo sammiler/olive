@@ -54,7 +54,7 @@ class ViewerWidget : public TimeBasedWidget {
 
   explicit ViewerWidget(QWidget* parent = nullptr) : ViewerWidget(new ViewerDisplayWidget(), parent) {}
 
-  virtual ~ViewerWidget() override;
+  ~ViewerWidget() override;
 
   void SetPlaybackControlsEnabled(bool enabled);
 
@@ -62,7 +62,7 @@ class ViewerWidget : public TimeBasedWidget {
 
   void TogglePlayPause();
 
-  bool IsPlaying() const;
+  [[nodiscard]] bool IsPlaying() const;
 
   /**
    * @brief Enable or disable the color management menu
@@ -81,7 +81,7 @@ class ViewerWidget : public TimeBasedWidget {
    */
   void SetFullScreen(QScreen* screen = nullptr);
 
-  ColorManager* color_manager() const { return display_widget_->color_manager(); }
+  [[nodiscard]] ColorManager* color_manager() const { return display_widget_->color_manager(); }
 
   void SetGizmos(Node* node);
 
@@ -169,22 +169,22 @@ class ViewerWidget : public TimeBasedWidget {
  protected:
   explicit ViewerWidget(ViewerDisplayWidget* display, QWidget* parent = nullptr);
 
-  virtual void TimebaseChangedEvent(const rational&) override;
-  virtual void TimeChangedEvent(const rational& time) override;
+  void TimebaseChangedEvent(const rational&) override;
+  void TimeChangedEvent(const rational& time) override;
 
-  virtual void ConnectNodeEvent(ViewerOutput*) override;
-  virtual void DisconnectNodeEvent(ViewerOutput*) override;
-  virtual void ConnectedNodeChangeEvent(ViewerOutput*) override;
-  virtual void ConnectedWorkAreaChangeEvent(TimelineWorkArea*) override;
-  virtual void ConnectedMarkersChangeEvent(TimelineMarkerList*) override;
+  void ConnectNodeEvent(ViewerOutput*) override;
+  void DisconnectNodeEvent(ViewerOutput*) override;
+  void ConnectedNodeChangeEvent(ViewerOutput*) override;
+  void ConnectedWorkAreaChangeEvent(TimelineWorkArea*) override;
+  void ConnectedMarkersChangeEvent(TimelineMarkerList*) override;
 
-  virtual void ScaleChangedEvent(const double& s) override;
+  void ScaleChangedEvent(const double& s) override;
 
-  virtual void resizeEvent(QResizeEvent* event) override;
+  void resizeEvent(QResizeEvent* event) override;
 
   PlaybackControls* controls_;
 
-  ViewerDisplayWidget* display_widget() const { return display_widget_; }
+  [[nodiscard]] ViewerDisplayWidget* display_widget() const { return display_widget_; }
 
   void IgnoreNextScrubEvent() { ignore_scrub_++; }
 
@@ -193,7 +193,7 @@ class ViewerWidget : public TimeBasedWidget {
   void SetWaveformMode(WaveformMode wf);
 
  private:
-  int64_t GetTimestamp() const {
+  [[nodiscard]] int64_t GetTimestamp() const {
     return Timecode::time_to_timestamp(GetConnectedNode()->GetPlayhead(), timebase(), Timecode::kFloor);
   }
 
@@ -230,7 +230,7 @@ class ViewerWidget : public TimeBasedWidget {
   static void DecodeCachedImage(RenderTicketPtr ticket, const QString& cache_path, const QUuid& cache_id,
                                 const int64_t& time);
 
-  bool ShouldForceWaveform() const;
+  [[nodiscard]] bool ShouldForceWaveform() const;
 
   void SetEmptyImage();
 
@@ -246,7 +246,7 @@ class ViewerWidget : public TimeBasedWidget {
 
   void DetectMulticamNode(const rational& time);
 
-  bool IsVideoVisible() const;
+  [[nodiscard]] bool IsVideoVisible() const;
 
   ViewerSizer* sizer_;
 

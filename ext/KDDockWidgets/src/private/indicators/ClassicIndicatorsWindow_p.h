@@ -33,7 +33,7 @@ public:
     explicit IndicatorWindow(ClassicIndicators *classicIndicators);
     DropLocation hover(QPoint globalPos);
     void updatePositions();
-    QPoint posForIndicator(DropLocation) const;
+    [[nodiscard]] QPoint posForIndicator(DropLocation) const;
 
 private:
     void updateIndicatorVisibility();
@@ -43,7 +43,7 @@ private:
     // Only happens on Linux
     void updateMask();
 
-    Indicator *indicatorForLocation(DropLocation loc) const;
+    [[nodiscard]] Indicator *indicatorForLocation(DropLocation loc) const;
 
     ClassicIndicators *const classicIndicators;
     Indicator *const m_center;
@@ -68,8 +68,8 @@ public:
     void paintEvent(QPaintEvent *) override;
 
     void setHovered(bool hovered);
-    QString iconName(bool active) const;
-    QString iconFileName(bool active) const;
+    [[nodiscard]] QString iconName(bool active) const;
+    [[nodiscard]] QString iconFileName(bool active) const;
 
     QImage m_image;
     QImage m_imageActive;

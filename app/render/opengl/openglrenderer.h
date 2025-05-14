@@ -38,43 +38,43 @@ class OpenGLRenderer : public Renderer {
  public:
   explicit OpenGLRenderer(QObject *parent = nullptr);
 
-  virtual ~OpenGLRenderer() override;
+  ~OpenGLRenderer() override;
 
   void Init(QOpenGLContext *existing_ctx);
 
-  virtual bool Init() override;
+  bool Init() override;
 
-  virtual void PostDestroy() override;
+  void PostDestroy() override;
 
-  virtual void PostInit() override;
+  void PostInit() override;
 
-  virtual void ClearDestination(olive::Texture *texture = nullptr, double r = 0.0, double g = 0.0, double b = 0.0,
+  void ClearDestination(olive::Texture *texture = nullptr, double r = 0.0, double g = 0.0, double b = 0.0,
                                 double a = 0.0) override;
 
-  virtual QVariant CreateNativeShader(olive::ShaderCode code) override;
+  QVariant CreateNativeShader(olive::ShaderCode code) override;
 
-  virtual void DestroyNativeShader(QVariant shader) override;
+  void DestroyNativeShader(QVariant shader) override;
 
-  virtual void UploadToTexture(const QVariant &handle, const VideoParams &params, const void *data,
+  void UploadToTexture(const QVariant &handle, const VideoParams &params, const void *data,
                                int linesize) override;
 
-  virtual void DownloadFromTexture(const QVariant &handle, const VideoParams &params, void *data,
+  void DownloadFromTexture(const QVariant &handle, const VideoParams &params, void *data,
                                    int linesize) override;
 
-  virtual void Flush() override;
+  void Flush() override;
 
-  virtual Color GetPixelFromTexture(olive::Texture *texture, const QPointF &pt) override;
+  Color GetPixelFromTexture(olive::Texture *texture, const QPointF &pt) override;
 
  protected:
-  virtual void Blit(QVariant shader, olive::ShaderJob job, olive::Texture *destination,
+  void Blit(QVariant shader, olive::ShaderJob job, olive::Texture *destination,
                     olive::VideoParams destination_params, bool clear_destination) override;
 
-  virtual QVariant CreateNativeTexture(int width, int height, int depth, PixelFormat format, int channel_count,
+  QVariant CreateNativeTexture(int width, int height, int depth, PixelFormat format, int channel_count,
                                        const void *data = nullptr, int linesize = 0) override;
 
-  virtual void DestroyNativeTexture(QVariant texture) override;
+  void DestroyNativeTexture(QVariant texture) override;
 
-  virtual void DestroyInternal() override;
+  void DestroyInternal() override;
 
  private:
   static GLint GetInternalFormat(PixelFormat format, int channel_layout);

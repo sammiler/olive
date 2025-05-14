@@ -38,7 +38,7 @@ class ShaderJob : public AcceleratedJob {
 
   explicit ShaderJob(const NodeValueRow& row) : ShaderJob() { Insert(row); }
 
-  const QString& GetShaderID() const { return shader_id_; }
+  [[nodiscard]] const QString& GetShaderID() const { return shader_id_; }
 
   void SetShaderID(const QString& id) { shader_id_ = id; }
 
@@ -51,15 +51,15 @@ class ShaderJob : public AcceleratedJob {
     iterative_input_ = iterative_input;
   }
 
-  int GetIterationCount() const { return iterations_; }
+  [[nodiscard]] int GetIterationCount() const { return iterations_; }
 
-  const QString& GetIterativeInput() const { return iterative_input_; }
+  [[nodiscard]] const QString& GetIterativeInput() const { return iterative_input_; }
 
-  Texture::Interpolation GetInterpolation(const QString& id) const {
+  [[nodiscard]] Texture::Interpolation GetInterpolation(const QString& id) const {
     return interpolation_.value(id, Texture::kDefaultInterpolation);
   }
 
-  const QHash<QString, Texture::Interpolation>& GetInterpolationMap() const { return interpolation_; }
+  [[nodiscard]] const QHash<QString, Texture::Interpolation>& GetInterpolationMap() const { return interpolation_; }
 
   void SetInterpolation(const NodeInput& input, Texture::Interpolation interp) {
     interpolation_.insert(input.input(), interp);

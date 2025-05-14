@@ -33,7 +33,7 @@ namespace olive {
 
 NodeParamViewConnectedLabel::NodeParamViewConnectedLabel(const NodeInput &input, QWidget *parent)
     : QWidget(parent), input_(input), connected_node_(nullptr), viewer_(nullptr) {
-  QVBoxLayout *layout = new QVBoxLayout(this);
+  auto *layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
 
   QSizePolicy p = sizePolicy();
@@ -42,12 +42,12 @@ NodeParamViewConnectedLabel::NodeParamViewConnectedLabel(const NodeInput &input,
   setSizePolicy(p);
 
   // Set up label area
-  QHBoxLayout *label_layout = new QHBoxLayout();
+  auto *label_layout = new QHBoxLayout();
   label_layout->setSpacing(QtUtils::QFontMetricsWidth(fontMetrics(), QStringLiteral(" ")));
   label_layout->setContentsMargins(0, 0, 0, 0);
   layout->addLayout(label_layout);
 
-  CollapseButton *collapse_btn = new CollapseButton(this);
+  auto *collapse_btn = new CollapseButton(this);
   collapse_btn->setChecked(false);
   label_layout->addWidget(collapse_btn);
 

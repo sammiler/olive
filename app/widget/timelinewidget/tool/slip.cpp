@@ -62,13 +62,13 @@ void SlipTool::ProcessDrag(const TimelineCoordinate& mouse_pos) {
 void SlipTool::FinishDrag(TimelineViewMouseEvent* event) {
   Q_UNUSED(event)
 
-  MultiUndoCommand* command = new MultiUndoCommand();
+  auto* command = new MultiUndoCommand();
 
   // Find earliest point to ripple around
   foreach (TimelineViewGhostItem* ghost, parent()->GetGhostItems()) {
-    Block* b = QtUtils::ValueToPtr<Block>(ghost->GetData(TimelineViewGhostItem::kAttachedBlock));
+    auto* b = QtUtils::ValueToPtr<Block>(ghost->GetData(TimelineViewGhostItem::kAttachedBlock));
 
-    ClipBlock* cb = dynamic_cast<ClipBlock*>(b);
+    auto* cb = dynamic_cast<ClipBlock*>(b);
     if (cb) {
       command->add_child(new BlockSetMediaInCommand(cb, ghost->GetAdjustedMediaIn()));
     }

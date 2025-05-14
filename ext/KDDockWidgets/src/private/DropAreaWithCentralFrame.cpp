@@ -24,8 +24,7 @@ DropAreaWithCentralFrame::DropAreaWithCentralFrame(QWidgetOrQuick *parent, MainW
 }
 
 DropAreaWithCentralFrame::~DropAreaWithCentralFrame()
-{
-}
+= default;
 
 Frame *DropAreaWithCentralFrame::createCentralFrame(MainWindowOptions options)
 {

@@ -26,7 +26,7 @@
 namespace olive {
 
 BezierWidget::BezierWidget(QWidget *parent) : QWidget{parent} {
-  QGridLayout *layout = new QGridLayout(this);
+  auto *layout = new QGridLayout(this);
 
   int row = 0;
 
@@ -42,10 +42,10 @@ BezierWidget::BezierWidget(QWidget *parent) : QWidget{parent} {
 
   row++;
 
-  QGroupBox *bezier_group = new QGroupBox(tr("Bezier"));
+  auto *bezier_group = new QGroupBox(tr("Bezier"));
   layout->addWidget(bezier_group, row, 0, 1, 3);
 
-  QGridLayout *bezier_layout = new QGridLayout(bezier_group);
+  auto *bezier_layout = new QGridLayout(bezier_group);
 
   row = 0;
 

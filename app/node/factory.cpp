@@ -142,7 +142,7 @@ Menu* NodeFactory::CreateMenu(QWidget* parent, bool create_none_item, Node::Cate
   }
 
   if (create_none_item) {
-    QAction* none_item = new QAction(QCoreApplication::translate("NodeFactory", "None"), menu);
+    auto* none_item = new QAction(QCoreApplication::translate("NodeFactory", "None"), menu);
 
     none_item->setData(-1);
 

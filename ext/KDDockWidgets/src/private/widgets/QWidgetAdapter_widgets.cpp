@@ -37,8 +37,7 @@ QWidgetAdapter::QWidgetAdapter(QWidget *parent, Qt::WindowFlags f)
 }
 
 QWidgetAdapter::~QWidgetAdapter()
-{
-}
+= default;
 
 FloatingWindow *QWidgetAdapter::floatingWindow() const
 {

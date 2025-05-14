@@ -40,7 +40,7 @@ class ResizableTimelineScrollBar : public ResizableScrollBar, public TimeScaledO
   void SetScale(double d);
 
  protected:
-  virtual void paintEvent(QPaintEvent* event) override;
+  void paintEvent(QPaintEvent* event) override;
 
  private:
   TimelineMarkerList* markers_;

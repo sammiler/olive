@@ -49,7 +49,7 @@ void ColorButton::SetColor(const ManagedColor &c) {
 void ColorButton::ShowColorDialog() {
   if (!dialog_open_) {
     dialog_open_ = true;
-    ColorDialog *cd = new ColorDialog(color_manager_, color_, this);
+    auto *cd = new ColorDialog(color_manager_, color_, this);
 
     connect(cd, &ColorDialog::finished, this, &ColorButton::ColorDialogFinished);
 
@@ -58,7 +58,7 @@ void ColorButton::ShowColorDialog() {
 }
 
 void ColorButton::ColorDialogFinished(int e) {
-  ColorDialog *cd = dynamic_cast<ColorDialog *>(sender());
+  auto *cd = dynamic_cast<ColorDialog *>(sender());
 
   if (e == QDialog::Accepted) {
     color_ = cd->GetSelectedColor();

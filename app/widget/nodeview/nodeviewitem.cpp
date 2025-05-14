@@ -231,7 +231,7 @@ void NodeViewItem::SetExpanded(bool e, bool hide_titlebar) {
       // Create items for each input of the node
       foreach (const QString &input, node_->inputs()) {
         if (IsInputValid(input)) {
-          NodeViewItem *item = new NodeViewItem(node_, input, -1, context_, this);
+          auto *item = new NodeViewItem(node_, input, -1, context_, this);
           children_.append(item);
         }
       }
@@ -247,7 +247,7 @@ void NodeViewItem::SetExpanded(bool e, bool hide_titlebar) {
       int arr_sz = node_->InputArraySize(input_);
       children_.resize(arr_sz);
       for (int i = 0; i < arr_sz; i++) {
-        NodeViewItem *item = new NodeViewItem(node_, input_, i, context_, this);
+        auto *item = new NodeViewItem(node_, input_, i, context_, this);
         children_[i] = item;
       }
 
@@ -446,7 +446,7 @@ void NodeViewItem::UpdateContextRect() {
   QGraphicsItem *item = parentItem();
 
   while (item) {
-    if (NodeViewContext *ctx = dynamic_cast<NodeViewContext *>(item)) {
+    if (auto *ctx = dynamic_cast<NodeViewContext *>(item)) {
       ctx->UpdateRect();
       break;
     }
@@ -642,7 +642,7 @@ void NodeViewItem::UpdateChildrenPositions() {
 
   SetRectSize(y);
 
-  if (NodeViewItem *p = dynamic_cast<NodeViewItem *>(parentItem())) {
+  if (auto *p = dynamic_cast<NodeViewItem *>(parentItem())) {
     p->UpdateChildrenPositions();
   }
 }
@@ -707,7 +707,7 @@ void NodeViewItem::SetHighlighted(bool e) {
 }
 
 NodeViewItem *NodeViewItem::GetItemForInput(NodeInput input) {
-  if (NodeGroup *group = dynamic_cast<NodeGroup *>(node_)) {
+  if (auto *group = dynamic_cast<NodeGroup *>(node_)) {
     if (input.node() != group) {
       // Translate input to group input
       QString id = group->GetIDOfPassthrough(input);

@@ -33,16 +33,16 @@ class OCIOGradingTransformLinearNode : public OCIOBaseNode {
 
   NODE_DEFAULT_FUNCTIONS(OCIOGradingTransformLinearNode)
 
-  virtual QString Name() const override;
-  virtual QString id() const override;
-  virtual QVector<CategoryID> Category() const override;
-  virtual QString Description() const override;
+  [[nodiscard]] QString Name() const override;
+  [[nodiscard]] QString id() const override;
+  [[nodiscard]] QVector<CategoryID> Category() const override;
+  [[nodiscard]] QString Description() const override;
 
-  virtual void Retranslate() override;
-  virtual void InputValueChangedEvent(const QString &input, int element) override;
+  void Retranslate() override;
+  void InputValueChangedEvent(const QString &input, int element) override;
   void GenerateProcessor();
 
-  virtual void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
+  void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
 
   static const QString kContrastInput;
   static const QString kOffsetInput;
@@ -55,7 +55,7 @@ class OCIOGradingTransformLinearNode : public OCIOBaseNode {
   static const QString kClampWhiteInput;
 
  protected slots:
-  virtual void ConfigChanged() override;
+  void ConfigChanged() override;
 
  private:
   void SetVec4InputColors(const QString &input);

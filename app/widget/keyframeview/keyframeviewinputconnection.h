@@ -35,7 +35,7 @@ class KeyframeViewInputConnection : public QObject {
  public:
   KeyframeViewInputConnection(const NodeKeyframeTrackReference &input, KeyframeView *parent);
 
-  const int &GetKeyframeY() const { return y_; }
+  [[nodiscard]] const int &GetKeyframeY() const { return y_; }
 
   void SetKeyframeY(int y);
 
@@ -43,13 +43,13 @@ class KeyframeViewInputConnection : public QObject {
 
   void SetYBehavior(YBehavior e);
 
-  const QVector<NodeKeyframe *> &GetKeyframes() const {
+  [[nodiscard]] const QVector<NodeKeyframe *> &GetKeyframes() const {
     return input_.input().node()->GetKeyframeTracks(input_.input()).at(input_.track());
   }
 
-  const QBrush &GetBrush() const { return brush_; }
+  [[nodiscard]] const QBrush &GetBrush() const { return brush_; }
 
-  const NodeKeyframeTrackReference &GetReference() const { return input_; }
+  [[nodiscard]] const NodeKeyframeTrackReference &GetReference() const { return input_; }
 
   void SetBrush(const QBrush &brush);
 

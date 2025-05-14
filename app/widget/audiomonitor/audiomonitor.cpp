@@ -428,7 +428,7 @@ void AudioMonitor::PushValue(const QVector<double> &v) {
 }
 
 void AudioMonitor::BytesToSampleSummary(const QByteArray &b, QVector<double> &v) {
-  const float *samples = reinterpret_cast<const float *>(b.constData());
+  const auto *samples = reinterpret_cast<const float *>(b.constData());
   int nb_samples = b.size() / sizeof(float);
 
   for (int i = 0; i < nb_samples; i++) {

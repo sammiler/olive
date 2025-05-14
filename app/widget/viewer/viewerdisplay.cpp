@@ -237,7 +237,7 @@ bool ViewerDisplayWidget::eventFilter(QObject *o, QEvent *e) {
   if (o == this->inner_widget()) {
     switch (e->type()) {
       case QEvent::MouseButtonPress: {
-        QMouseEvent *mouse = dynamic_cast<QMouseEvent *>(e);
+        auto *mouse = dynamic_cast<QMouseEvent *>(e);
         if (!(mouse->flags() & Qt::MouseEventCreatedDoubleClick)) {
           if (OnMousePress(mouse)) {
             return true;
@@ -351,7 +351,7 @@ void ViewerDisplayWidget::OnPaint() {
     if (push_mode_ == kPushBlank) {
       DrawBlank(device_params);
     } else if (color_service()) {
-      if (FramePtr frame = load_frame_.value<FramePtr>()) {
+      if (auto frame = load_frame_.value<FramePtr>()) {
         // This is a CPU frame, upload it now
         if (!texture_ || texture_->renderer() != renderer()  // Some implementations don't like it if we upload to a
                                                              // texture created in another (albeit shared) context
@@ -361,7 +361,7 @@ void ViewerDisplayWidget::OnPaint() {
         } else {
           texture_->Upload(frame->data(), frame->linesize_pixels());
         }
-      } else if (TexturePtr texture = load_frame_.value<TexturePtr>()) {
+      } else if (auto texture = load_frame_.value<TexturePtr>()) {
         // This is a GPU texture, switch to it directly
         texture_ = texture;
       } else {
@@ -615,7 +615,7 @@ QTransform ViewerDisplayWidget::GenerateGizmoTransform(NodeTraverser &gt, const 
   QTransform t = GenerateDisplayTransform();
   if (GetTimeTarget()) {
     Node *target = GetTimeTarget();
-    if (ViewerOutput *v = dynamic_cast<ViewerOutput *>(target)) {
+    if (auto *v = dynamic_cast<ViewerOutput *>(target)) {
       if (Node *n = v->GetConnectedTextureOutput()) {
         target = n;
       }
@@ -644,19 +644,19 @@ NodeGizmo *ViewerDisplayWidget::TryGizmoPress(const NodeValueRow &row, const QPo
   for (auto it = gizmos_->GetGizmos().crbegin(); it != gizmos_->GetGizmos().crend(); it++) {
     NodeGizmo *gizmo = *it;
     if (gizmo->IsVisible()) {
-      if (PointGizmo *point = dynamic_cast<PointGizmo *>(gizmo)) {
+      if (auto *point = dynamic_cast<PointGizmo *>(gizmo)) {
         if (point->GetClickingRect(gizmo_last_draw_transform_).contains(p)) {
           return point;
         }
-      } else if (PolygonGizmo *poly = dynamic_cast<PolygonGizmo *>(gizmo)) {
+      } else if (auto *poly = dynamic_cast<PolygonGizmo *>(gizmo)) {
         if (poly->GetPolygon().containsPoint(p, Qt::OddEvenFill)) {
           return poly;
         }
-      } else if (PathGizmo *path = dynamic_cast<PathGizmo *>(gizmo)) {
+      } else if (auto *path = dynamic_cast<PathGizmo *>(gizmo)) {
         if (path->GetPath().contains(p)) {
           return path;
         }
-      } else if (ScreenGizmo *screen = dynamic_cast<ScreenGizmo *>(gizmo)) {
+      } else if (auto *screen = dynamic_cast<ScreenGizmo *>(gizmo)) {
         // NOTE: Perhaps this should limit to the actual visible screen space? We'll see.
         return screen;
       }
@@ -821,7 +821,7 @@ bool ViewerDisplayWidget::OnMouseMove(QMouseEvent *event) {
 
   } else if (current_gizmo_) {
     // Signal movement
-    if (DraggableGizmo *draggable = dynamic_cast<DraggableGizmo *>(current_gizmo_)) {
+    if (auto *draggable = dynamic_cast<DraggableGizmo *>(current_gizmo_)) {
       if (!gizmo_drag_started_) {
         QPointF start = ScreenToScenePoint(gizmo_start_drag_);
 
@@ -884,8 +884,8 @@ bool ViewerDisplayWidget::OnMouseRelease(QMouseEvent *e) {
   } else if (current_gizmo_) {
     // Handle gizmo
     if (gizmo_drag_started_) {
-      MultiUndoCommand *command = new MultiUndoCommand();
-      if (DraggableGizmo *draggable = dynamic_cast<DraggableGizmo *>(current_gizmo_)) {
+      auto *command = new MultiUndoCommand();
+      if (auto *draggable = dynamic_cast<DraggableGizmo *>(current_gizmo_)) {
         draggable->DragEnd(command);
       }
       Core::instance()->undo_stack()->push(command, tr("Dragged Gizmo"));
@@ -905,7 +905,7 @@ bool ViewerDisplayWidget::OnMouseDoubleClick(QMouseEvent *event) {
   } else if (event->button() == Qt::LeftButton && gizmos_) {
     QPointF ptr = TransformViewerSpaceToBufferSpace(event->pos());
     foreach (NodeGizmo *g, gizmos_->GetGizmos()) {
-      if (TextGizmo *text = dynamic_cast<TextGizmo *>(g)) {
+      if (auto *text = dynamic_cast<TextGizmo *>(g)) {
         if (text->GetRect().contains(ptr)) {
           OpenTextGizmo(text, event);
           return true;
@@ -996,7 +996,7 @@ void ViewerDisplayWidget::DrawSubtitleTracks() {
   for (int j = subtitle_tracklist.size() - 1; j >= 0; j--) {
     Track *sub_track = subtitle_tracklist.at(j);
     if (!sub_track->IsMuted()) {
-      if (SubtitleBlock *sub = dynamic_cast<SubtitleBlock *>(sub_track->VisibleBlockAtTime(time_))) {
+      if (auto *sub = dynamic_cast<SubtitleBlock *>(sub_track->VisibleBlockAtTime(time_))) {
         // Split into lines
         QStringList list = QtUtils::WordWrapString(sub->GetText(), fm, bounding_box.width());
 
@@ -1181,7 +1181,7 @@ void ViewerDisplayWidget::SetShowFPS(bool e) {
 void ViewerDisplayWidget::RequestStartEditingText() {
   if (gizmos_) {
     foreach (NodeGizmo *gizmo, gizmos_->GetGizmos()) {
-      if (TextGizmo *text = dynamic_cast<TextGizmo *>(gizmo)) {
+      if (auto *text = dynamic_cast<TextGizmo *>(gizmo)) {
         OpenTextGizmo(text);
         break;
       }
@@ -1272,7 +1272,7 @@ void ViewerDisplayWidget::UpdateFromQueue() {
 }
 
 void ViewerDisplayWidget::TextEditChanged() {
-  ViewerTextEditor *editor = dynamic_cast<ViewerTextEditor *>(sender());
+  auto *editor = dynamic_cast<ViewerTextEditor *>(sender());
 
   TextGizmo *gizmo = reinterpret_cast<TextGizmo *>(editor->property("gizmo").value<quintptr>());
 

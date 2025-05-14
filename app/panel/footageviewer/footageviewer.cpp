@@ -26,7 +26,7 @@ namespace olive {
 
 FootageViewerPanel::FootageViewerPanel() : super(QStringLiteral("FootageViewerPanel")) {
   // Set ViewerWidget as the central widget
-  FootageViewerWidget *fvw = new FootageViewerWidget(this);
+  auto *fvw = new FootageViewerWidget(this);
   SetViewerWidget(fvw);
 
   // Set strings

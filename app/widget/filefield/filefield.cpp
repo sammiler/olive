@@ -29,7 +29,7 @@
 namespace olive {
 
 FileField::FileField(QWidget* parent) : QWidget(parent), directory_mode_(false) {
-  QHBoxLayout* layout = new QHBoxLayout(this);
+  auto* layout = new QHBoxLayout(this);
 
   layout->setContentsMargins(0, 0, 0, 0);
 

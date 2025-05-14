@@ -5,9 +5,9 @@
 namespace olive {
 
 ExportSubtitlesTab::ExportSubtitlesTab(QWidget* parent) : QWidget(parent) {
-  QVBoxLayout* outer_layout = new QVBoxLayout(this);
+  auto* outer_layout = new QVBoxLayout(this);
 
-  QGridLayout* layout = new QGridLayout();
+  auto* layout = new QGridLayout();
   outer_layout->addLayout(layout);
 
   int row = 0;

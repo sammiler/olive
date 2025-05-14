@@ -36,7 +36,7 @@ class PreferencesKeyboardTab : public ConfigDialogBaseTab {
  public:
   explicit PreferencesKeyboardTab(MainWindow* main_window);
 
-  virtual void Accept(MultiUndoCommand* command) override;
+  void Accept(MultiUndoCommand* command) override;
 
  private slots:
   /**

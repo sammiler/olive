@@ -53,21 +53,21 @@ class FFmpegDecoder : public Decoder {
   // Destructor
   DECODER_DEFAULT_DESTRUCTOR(FFmpegDecoder)
 
-  virtual QString id() const override;
+  [[nodiscard]] QString id() const override;
 
-  virtual bool SupportsVideo() override { return true; }
-  virtual bool SupportsAudio() override { return true; }
+  bool SupportsVideo() override { return true; }
+  bool SupportsAudio() override { return true; }
 
-  virtual FootageDescription Probe(const QString& filename, CancelAtom* cancelled) const override;
+  FootageDescription Probe(const QString& filename, CancelAtom* cancelled) const override;
 
  protected:
-  virtual bool OpenInternal() override;
-  virtual TexturePtr RetrieveVideoInternal(const RetrieveVideoParams& p) override;
-  virtual bool ConformAudioInternal(const QVector<QString>& filenames, const AudioParams& params,
+  bool OpenInternal() override;
+  TexturePtr RetrieveVideoInternal(const RetrieveVideoParams& p) override;
+  bool ConformAudioInternal(const QVector<QString>& filenames, const AudioParams& params,
                                     CancelAtom* cancelled) override;
-  virtual void CloseInternal() override;
+  void CloseInternal() override;
 
-  virtual rational GetAudioStartOffset() const override;
+  [[nodiscard]] rational GetAudioStartOffset() const override;
 
  private:
   class Instance {
@@ -78,7 +78,7 @@ class FFmpegDecoder : public Decoder {
 
     bool Open(const char* filename, int stream_index);
 
-    bool IsOpen() const { return fmt_ctx_; }
+    [[nodiscard]] bool IsOpen() const { return fmt_ctx_; }
 
     void Close();
 
@@ -91,7 +91,7 @@ class FFmpegDecoder : public Decoder {
      */
     int GetFrame(AVPacket* pkt, AVFrame* frame);
 
-    const char* GetSubtitleHeader() const;
+    [[nodiscard]] const char* GetSubtitleHeader() const;
 
     int GetSubtitle(AVPacket* pkt, AVSubtitle* sub);
 
@@ -99,9 +99,9 @@ class FFmpegDecoder : public Decoder {
 
     void Seek(int64_t timestamp);
 
-    AVFormatContext* fmt_ctx() const { return fmt_ctx_; }
+    [[nodiscard]] AVFormatContext* fmt_ctx() const { return fmt_ctx_; }
 
-    AVStream* avstream() const { return avstream_; }
+    [[nodiscard]] AVStream* avstream() const { return avstream_; }
 
    private:
     AVFormatContext* fmt_ctx_;
@@ -131,7 +131,7 @@ class FFmpegDecoder : public Decoder {
 
   static bool IsPixelFormatGLSLCompatible(AVPixelFormat f);
 
-  AVFramePtr GetFrameFromCache(const int64_t& t) const;
+  [[nodiscard]] AVFramePtr GetFrameFromCache(const int64_t& t) const;
 
   void ClearFrameCache();
 

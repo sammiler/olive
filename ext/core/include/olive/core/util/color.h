@@ -55,20 +55,20 @@ class Color {
    */
   static Color fromHsv(const DataType& h, const DataType& s, const DataType& v);
 
-  const DataType& red() const { return data_[0]; }
-  const DataType& green() const { return data_[1]; }
-  const DataType& blue() const { return data_[2]; }
-  const DataType& alpha() const { return data_[3]; }
+  [[nodiscard]] const DataType& red() const { return data_[0]; }
+  [[nodiscard]] const DataType& green() const { return data_[1]; }
+  [[nodiscard]] const DataType& blue() const { return data_[2]; }
+  [[nodiscard]] const DataType& alpha() const { return data_[3]; }
 
   void toHsv(DataType* hue, DataType* sat, DataType* val) const;
-  DataType hsv_hue() const;
-  DataType hsv_saturation() const;
-  DataType value() const;
+  [[nodiscard]] DataType hsv_hue() const;
+  [[nodiscard]] DataType hsv_saturation() const;
+  [[nodiscard]] DataType value() const;
 
   void toHsl(DataType* hue, DataType* sat, DataType* lightness) const;
-  DataType hsl_hue() const;
-  DataType hsl_saturation() const;
-  DataType lightness() const;
+  [[nodiscard]] DataType hsl_hue() const;
+  [[nodiscard]] DataType hsl_saturation() const;
+  [[nodiscard]] DataType lightness() const;
 
   void set_red(const DataType& red) { data_[0] = red; }
   void set_green(const DataType& green) { data_[1] = green; }
@@ -76,7 +76,7 @@ class Color {
   void set_alpha(const DataType& alpha) { data_[3] = alpha; }
 
   DataType* data() { return data_; }
-  const DataType* data() const { return data_; }
+  [[nodiscard]] const DataType* data() const { return data_; }
 
   void toData(char* out, const PixelFormat& format, unsigned int nb_channels) const;
 
@@ -84,7 +84,7 @@ class Color {
 
   // Suuuuper rough luminance value mostly used for UI (determining whether to overlay with black
   // or white text)
-  DataType GetRoughLuminance() const;
+  [[nodiscard]] DataType GetRoughLuminance() const;
 
   // Assignment math operators
   Color& operator+=(const Color& rhs);

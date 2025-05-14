@@ -35,15 +35,15 @@ class MatrixGenerator : public Node {
 
   NODE_DEFAULT_FUNCTIONS(MatrixGenerator)
 
-  virtual QString Name() const override;
-  virtual QString ShortName() const override;
-  virtual QString id() const override;
-  virtual QVector<CategoryID> Category() const override;
-  virtual QString Description() const override;
+  [[nodiscard]] QString Name() const override;
+  [[nodiscard]] QString ShortName() const override;
+  [[nodiscard]] QString id() const override;
+  [[nodiscard]] QVector<CategoryID> Category() const override;
+  [[nodiscard]] QString Description() const override;
 
-  virtual void Retranslate() override;
+  void Retranslate() override;
 
-  virtual void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
+  void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
 
   static const QString kPositionInput;
   static const QString kRotationInput;
@@ -52,12 +52,12 @@ class MatrixGenerator : public Node {
   static const QString kAnchorInput;
 
  protected:
-  QMatrix4x4 GenerateMatrix(const NodeValueRow &value, bool ignore_anchor, bool ignore_position, bool ignore_scale,
+  [[nodiscard]] QMatrix4x4 GenerateMatrix(const NodeValueRow &value, bool ignore_anchor, bool ignore_position, bool ignore_scale,
                             const QMatrix4x4 &mat) const;
   static QMatrix4x4 GenerateMatrix(const QVector2D &pos, const float &rot, const QVector2D &scale, bool uniform_scale,
                                    const QVector2D &anchor, QMatrix4x4 mat);
 
-  virtual void InputValueChangedEvent(const QString &input, int element) override;
+  void InputValueChangedEvent(const QString &input, int element) override;
 };
 
 }  // namespace olive

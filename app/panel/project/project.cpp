@@ -36,14 +36,14 @@ namespace olive {
 
 ProjectPanel::ProjectPanel(const QString& unique_name) : PanelWidget(unique_name) {
   // Create main widget and its layout
-  QWidget* central_widget = new QWidget(this);
-  QVBoxLayout* layout = new QVBoxLayout(central_widget);
+  auto* central_widget = new QWidget(this);
+  auto* layout = new QVBoxLayout(central_widget);
   layout->setContentsMargins(0, 0, 0, 0);
 
   SetWidgetWithPadding(central_widget);
 
   // Set up project toolbar
-  ProjectToolbar* toolbar = new ProjectToolbar(this);
+  auto* toolbar = new ProjectToolbar(this);
   layout->addWidget(toolbar);
 
   // Make toolbar connections

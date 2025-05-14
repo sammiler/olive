@@ -68,7 +68,7 @@ void TaskManager::CancelTaskAndWait(Task* t) {
 
 void TaskManager::AddTask(Task* t) {
   // Create a watcher for signalling
-  QFutureWatcher<bool>* watcher = new QFutureWatcher<bool>();
+  auto* watcher = new QFutureWatcher<bool>();
   connect(watcher, &QFutureWatcher<bool>::finished, this, &TaskManager::TaskFinished);
 
   // Add the Task to the queue
@@ -99,7 +99,7 @@ void TaskManager::CancelTask(Task* t) {
 }
 
 void TaskManager::TaskFinished() {
-  QFutureWatcher<bool>* watcher = dynamic_cast<QFutureWatcher<bool>*>(sender());
+  auto* watcher = dynamic_cast<QFutureWatcher<bool>*>(sender());
   Task* t = tasks_.value(watcher);
 
   tasks_.remove(watcher);

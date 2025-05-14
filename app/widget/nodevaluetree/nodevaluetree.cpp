@@ -35,11 +35,11 @@ void NodeValueTree::SetNode(const NodeInput &input, const rational &time) {
 
   for (int i = 0; i < table.Count(); i++) {
     const NodeValue &value = table.at(i);
-    QTreeWidgetItem *item = new QTreeWidgetItem(this);
+    auto *item = new QTreeWidgetItem(this);
 
     Node::ValueHint hint({value.type()}, table.Count() - 1 - i, value.tag());
 
-    QRadioButton *radio = new QRadioButton(this);
+    auto *radio = new QRadioButton(this);
     radio->setProperty("input", QVariant::fromValue(input));
     radio->setProperty("hint", QVariant::fromValue(hint));
     if (i == index) {
@@ -66,9 +66,9 @@ void NodeValueTree::Retranslate() { setHeaderLabels({QString(), tr("Type"), tr("
 
 void NodeValueTree::RadioButtonChecked(bool e) {
   if (e) {
-    QRadioButton *btn = dynamic_cast<QRadioButton *>(sender());
-    Node::ValueHint hint = btn->property("hint").value<Node::ValueHint>();
-    NodeInput input = btn->property("input").value<NodeInput>();
+    auto *btn = dynamic_cast<QRadioButton *>(sender());
+    auto hint = btn->property("hint").value<Node::ValueHint>();
+    auto input = btn->property("input").value<NodeInput>();
 
     input.node()->SetValueHintForInput(input.input(), hint, input.element());
   }

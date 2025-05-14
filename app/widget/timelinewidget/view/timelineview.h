@@ -44,10 +44,10 @@ class TimelineView : public TimeBasedView {
  public:
   explicit TimelineView(Qt::Alignment vertical_alignment = Qt::AlignTop, QWidget *parent = nullptr);
 
-  int GetTrackY(int track_index) const;
-  int GetTrackHeight(int track_index) const;
+  [[nodiscard]] int GetTrackY(int track_index) const;
+  [[nodiscard]] int GetTrackHeight(int track_index) const;
 
-  QPoint GetScrollCoordinates() const;
+  [[nodiscard]] QPoint GetScrollCoordinates() const;
   void SetScrollCoordinates(const QPoint &pt);
 
   void ConnectTrackList(TrackList *list);
@@ -63,9 +63,9 @@ class TimelineView : public TimeBasedView {
 
   int SceneToTrack(double y);
 
-  Block *GetItemAtScenePos(const rational &time, int track_index) const;
+  [[nodiscard]] Block *GetItemAtScenePos(const rational &time, int track_index) const;
 
-  QVector<Block *> GetItemsAtSceneRect(const QRectF &rect) const;
+  [[nodiscard]] QVector<Block *> GetItemsAtSceneRect(const QRectF &rect) const;
 
  signals:
   void MousePressed(TimelineViewMouseEvent *event);
@@ -79,22 +79,22 @@ class TimelineView : public TimeBasedView {
   void DragDropped(TimelineViewMouseEvent *event);
 
  protected:
-  virtual void mousePressEvent(QMouseEvent *event) override;
-  virtual void mouseMoveEvent(QMouseEvent *event) override;
-  virtual void mouseReleaseEvent(QMouseEvent *event) override;
-  virtual void mouseDoubleClickEvent(QMouseEvent *event) override;
+  void mousePressEvent(QMouseEvent *event) override;
+  void mouseMoveEvent(QMouseEvent *event) override;
+  void mouseReleaseEvent(QMouseEvent *event) override;
+  void mouseDoubleClickEvent(QMouseEvent *event) override;
 
-  virtual void dragEnterEvent(QDragEnterEvent *event) override;
-  virtual void dragMoveEvent(QDragMoveEvent *event) override;
-  virtual void dragLeaveEvent(QDragLeaveEvent *event) override;
-  virtual void dropEvent(QDropEvent *event) override;
+  void dragEnterEvent(QDragEnterEvent *event) override;
+  void dragMoveEvent(QDragMoveEvent *event) override;
+  void dragLeaveEvent(QDragLeaveEvent *event) override;
+  void dropEvent(QDropEvent *event) override;
 
-  virtual void drawBackground(QPainter *painter, const QRectF &rect) override;
-  virtual void drawForeground(QPainter *painter, const QRectF &rect) override;
+  void drawBackground(QPainter *painter, const QRectF &rect) override;
+  void drawForeground(QPainter *painter, const QRectF &rect) override;
 
-  virtual void ToolChangedEvent(Tool::Item tool) override;
+  void ToolChangedEvent(Tool::Item tool) override;
 
-  virtual void SceneRectUpdateEvent(QRectF &rect) override;
+  void SceneRectUpdateEvent(QRectF &rect) override;
 
  private:
   Track::Type ConnectedTrackType();
@@ -110,19 +110,19 @@ class TimelineView : public TimeBasedView {
   void DrawBlock(QPainter *painter, bool foreground, Block *block, qreal top, qreal height, const rational &in,
                  const rational &out, const rational &media_in);
   void DrawBlock(QPainter *painter, bool foreground, Block *block, qreal top, qreal height) {
-    ClipBlock *cb = dynamic_cast<ClipBlock *>(block);
+    auto *cb = dynamic_cast<ClipBlock *>(block);
     return DrawBlock(painter, foreground, block, top, height, block->in(), block->out(), cb ? cb->media_in() : rational(0));
   }
 
   void DrawZebraStripes(QPainter *painter, const QRectF &r);
 
-  int GetHeightOfAllTracks() const;
+  [[nodiscard]] int GetHeightOfAllTracks() const;
 
   void UpdatePlayheadRect();
 
-  qreal GetTimelineLeftBound() const;
+  [[nodiscard]] qreal GetTimelineLeftBound() const;
 
-  qreal GetTimelineRightBound() const;
+  [[nodiscard]] qreal GetTimelineRightBound() const;
 
   void DrawThumbnail(QPainter *painter, const FrameHashCache *thumbs, const rational &time, int x,
                      const QRect &preview_rect, QRect *thumb_rect) const;

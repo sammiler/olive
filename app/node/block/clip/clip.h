@@ -41,14 +41,14 @@ class ClipBlock : public Block {
 
   NODE_DEFAULT_FUNCTIONS(ClipBlock)
 
-  virtual QString Name() const override;
-  virtual QString id() const override;
-  virtual QString Description() const override;
+  [[nodiscard]] QString Name() const override;
+  [[nodiscard]] QString id() const override;
+  [[nodiscard]] QString Description() const override;
 
-  virtual void set_length_and_media_out(const rational &length) override;
-  virtual void set_length_and_media_in(const rational &length) override;
+  void set_length_and_media_out(const rational &length) override;
+  void set_length_and_media_in(const rational &length) override;
 
-  Track::Type GetTrackType() const {
+  [[nodiscard]] Track::Type GetTrackType() const {
     if (track()) {
       return track()->type();
     } else {
@@ -56,35 +56,35 @@ class ClipBlock : public Block {
     }
   }
 
-  rational media_in() const;
+  [[nodiscard]] rational media_in() const;
   void set_media_in(const rational &media_in);
 
-  bool IsAutocaching() const { return GetStandardValue(kAutoCacheInput).toBool(); }
+  [[nodiscard]] bool IsAutocaching() const { return GetStandardValue(kAutoCacheInput).toBool(); }
   void SetAutocache(bool e);
 
   void DiscardCache();
 
-  virtual void InvalidateCache(const TimeRange &range, const QString &from, int element,
+  void InvalidateCache(const TimeRange &range, const QString &from, int element,
                                InvalidateCacheOptions options) override;
 
-  virtual TimeRange InputTimeAdjustment(const QString &input, int element, const TimeRange &input_time,
+  [[nodiscard]] TimeRange InputTimeAdjustment(const QString &input, int element, const TimeRange &input_time,
                                         bool clamp) const override;
 
-  virtual TimeRange OutputTimeAdjustment(const QString &input, int element, const TimeRange &input_time) const override;
+  [[nodiscard]] TimeRange OutputTimeAdjustment(const QString &input, int element, const TimeRange &input_time) const override;
 
-  virtual void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
+  void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
 
-  virtual void Retranslate() override;
+  void Retranslate() override;
 
   void RequestInvalidatedFromConnected(bool force_all = false, const TimeRange &intersect = TimeRange());
 
-  double speed() const { return GetStandardValue(kSpeedInput).toDouble(); }
+  [[nodiscard]] double speed() const { return GetStandardValue(kSpeedInput).toDouble(); }
 
-  bool reverse() const { return GetStandardValue(kReverseInput).toBool(); }
+  [[nodiscard]] bool reverse() const { return GetStandardValue(kReverseInput).toBool(); }
 
   void set_reverse(bool e) { SetStandardValue(kReverseInput, e); }
 
-  bool maintain_audio_pitch() const { return GetStandardValue(kMaintainAudioPitchInput).toBool(); }
+  [[nodiscard]] bool maintain_audio_pitch() const { return GetStandardValue(kMaintainAudioPitchInput).toBool(); }
 
   void set_maintain_audio_pitch(bool e) { SetStandardValue(kMaintainAudioPitchInput, e); }
 
@@ -96,9 +96,9 @@ class ClipBlock : public Block {
 
   void set_out_transition(TransitionBlock *t) { out_transition_ = t; }
 
-  const QVector<Block *> &block_links() const { return block_links_; }
+  [[nodiscard]] const QVector<Block *> &block_links() const { return block_links_; }
 
-  FrameHashCache *connected_video_cache() const {
+  [[nodiscard]] FrameHashCache *connected_video_cache() const {
     if (Node *n = GetConnectedOutput(kBufferIn)) {
       return n->video_frame_cache();
     } else {
@@ -106,7 +106,7 @@ class ClipBlock : public Block {
     }
   }
 
-  AudioPlaybackCache *connected_audio_cache() const {
+  [[nodiscard]] AudioPlaybackCache *connected_audio_cache() const {
     if (Node *n = GetConnectedOutput(kBufferIn)) {
       return n->audio_playback_cache();
     } else {
@@ -132,20 +132,20 @@ class ClipBlock : public Block {
 
   void AddCachePassthroughFrom(ClipBlock *other);
 
-  ViewerOutput *connected_viewer() const { return connected_viewer_; }
+  [[nodiscard]] ViewerOutput *connected_viewer() const { return connected_viewer_; }
 
-  virtual TimeRange GetVideoCacheRange() const override { return TimeRange(rational(0), length()); }
+  [[nodiscard]] TimeRange GetVideoCacheRange() const override { return TimeRange(rational(0), length()); }
 
-  virtual TimeRange GetAudioCacheRange() const override { return TimeRange(rational(0), length()); }
+  [[nodiscard]] TimeRange GetAudioCacheRange() const override { return TimeRange(rational(0), length()); }
 
-  virtual void ConnectedToPreviewEvent() override;
+  void ConnectedToPreviewEvent() override;
 
-  TimeRange media_range() const;
+  [[nodiscard]] TimeRange media_range() const;
 
   /**
    * @brief Get currently set loop mode
    */
-  LoopMode loop_mode() const { return static_cast<LoopMode>(GetStandardValue(kLoopModeInput).toInt()); }
+  [[nodiscard]] LoopMode loop_mode() const { return static_cast<LoopMode>(GetStandardValue(kLoopModeInput).toInt()); }
 
   void set_loop_mode(LoopMode l) { SetStandardValue(kLoopModeInput, int(l)); }
 
@@ -161,20 +161,20 @@ class ClipBlock : public Block {
   static const QString kAutoCacheInput;
 
  protected:
-  virtual void LinkChangeEvent() override;
+  void LinkChangeEvent() override;
 
-  virtual void InputConnectedEvent(const QString &input, int element, Node *output) override;
+  void InputConnectedEvent(const QString &input, int element, Node *output) override;
 
-  virtual void InputDisconnectedEvent(const QString &input, int element, Node *output) override;
+  void InputDisconnectedEvent(const QString &input, int element, Node *output) override;
 
-  virtual void InputValueChangedEvent(const QString &input, int element) override;
+  void InputValueChangedEvent(const QString &input, int element) override;
 
  private:
   enum SequenceToMediaTimeFlag { kSTMNone = 0x0, kSTMIgnoreReverse = 0x1, kSTMIgnoreSpeed = 0x2, kSTMIgnoreLoop = 0x4 };
 
-  rational SequenceToMediaTime(const rational &sequence_time, uint64_t flags = kSTMNone) const;
+  [[nodiscard]] rational SequenceToMediaTime(const rational &sequence_time, uint64_t flags = kSTMNone) const;
 
-  rational MediaToSequenceTime(const rational &media_time) const;
+  [[nodiscard]] rational MediaToSequenceTime(const rational &media_time) const;
 
   void RequestRangeFromConnected(const TimeRange &range);
 

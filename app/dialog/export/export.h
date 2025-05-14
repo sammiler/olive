@@ -45,16 +45,16 @@ class ExportDialog : public QDialog {
   ExportDialog(ViewerOutput* viewer_node, bool stills_only_mode, QWidget* parent = nullptr);
   explicit ExportDialog(ViewerOutput* viewer_node, QWidget* parent = nullptr) : ExportDialog(viewer_node, false, parent) {}
 
-  rational GetSelectedTimebase() const;
+  [[nodiscard]] rational GetSelectedTimebase() const;
   void SetSelectedTimebase(const rational& r);
 
-  EncodingParams GenerateParams() const;
+  [[nodiscard]] EncodingParams GenerateParams() const;
   void SetParams(const EncodingParams& e);
 
-  virtual bool eventFilter(QObject* o, QEvent* e) override;
+  bool eventFilter(QObject* o, QEvent* e) override;
 
  public slots:
-  virtual void done(int r) override;
+  void done(int r) override;
 
  signals:
   void RequestImportFile(const QString& s);
@@ -65,7 +65,7 @@ class ExportDialog : public QDialog {
   void LoadPresets();
   void SetDefaultFilename();
 
-  bool SequenceHasSubtitles() const;
+  [[nodiscard]] bool SequenceHasSubtitles() const;
 
   void SetDefaults();
 
@@ -73,8 +73,8 @@ class ExportDialog : public QDialog {
 
   ExportFormat::Format previously_selected_format_;
 
-  rational GetExportLength() const;
-  int64_t GetExportLengthInTimebaseUnits() const;
+  [[nodiscard]] rational GetExportLength() const;
+  [[nodiscard]] int64_t GetExportLengthInTimebaseUnits() const;
 
   enum RangeSelection { kRangeEntireSequence, kRangeInToOut };
 

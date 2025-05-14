@@ -34,7 +34,7 @@ NodeTableView::NodeTableView(QWidget* parent) : QTreeWidget(parent) {
 
 void NodeTableView::SelectNodes(const QVector<Node*>& nodes) {
   foreach (Node* n, nodes) {
-    QTreeWidgetItem* top_item = new QTreeWidgetItem();
+    auto* top_item = new QTreeWidgetItem();
     top_item->setText(0, n->GetLabelAndName());
     top_item->setFirstColumnSpanned(true);
     this->addTopLevelItem(top_item);

@@ -94,8 +94,7 @@ public:
 };
 
 FallbackMouseGrabber::~FallbackMouseGrabber()
-{
-}
+= default;
 
 }
 
@@ -465,8 +464,7 @@ StateInternalMDIDragging::StateInternalMDIDragging(DragController *parent)
 }
 
 StateInternalMDIDragging::~StateInternalMDIDragging()
-{
-}
+= default;
 
 void StateInternalMDIDragging::onEntry()
 {
@@ -545,8 +543,7 @@ StateDraggingWayland::StateDraggingWayland(DragController *parent)
 }
 
 StateDraggingWayland::~StateDraggingWayland()
-{
-}
+= default;
 
 void StateDraggingWayland::onEntry()
 {

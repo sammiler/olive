@@ -32,18 +32,18 @@ ColorDialog::ColorDialog(ColorManager* color_manager, const ManagedColor& start,
     : QDialog(parent), color_manager_(color_manager) {
   setWindowTitle(tr("Select Color"));
 
-  QVBoxLayout* layout = new QVBoxLayout(this);
+  auto* layout = new QVBoxLayout(this);
 
-  QSplitter* splitter = new QSplitter(Qt::Horizontal);
+  auto* splitter = new QSplitter(Qt::Horizontal);
   splitter->setChildrenCollapsible(false);
   layout->addWidget(splitter);
 
-  QWidget* graphics_area = new QWidget();
+  auto* graphics_area = new QWidget();
   splitter->addWidget(graphics_area);
 
-  QVBoxLayout* graphics_layout = new QVBoxLayout(graphics_area);
+  auto* graphics_layout = new QVBoxLayout(graphics_area);
 
-  QHBoxLayout* wheel_layout = new QHBoxLayout();
+  auto* wheel_layout = new QHBoxLayout();
   graphics_layout->addLayout(wheel_layout);
 
   color_wheel_ = new ColorWheelWidget();
@@ -53,7 +53,7 @@ ColorDialog::ColorDialog(ColorManager* color_manager, const ManagedColor& start,
   hsv_value_gradient_->setFixedWidth(QtUtils::QFontMetricsWidth(fontMetrics(), QStringLiteral("HHH")));
   wheel_layout->addWidget(hsv_value_gradient_);
 
-  QHBoxLayout* swatch_layout = new QHBoxLayout();
+  auto* swatch_layout = new QHBoxLayout();
   graphics_layout->addLayout(swatch_layout);
 
   swatch_layout->addStretch();
@@ -64,8 +64,8 @@ ColorDialog::ColorDialog(ColorManager* color_manager, const ManagedColor& start,
 
   swatch_layout->addStretch();
 
-  QWidget* value_area = new QWidget();
-  QVBoxLayout* value_layout = new QVBoxLayout(value_area);
+  auto* value_area = new QWidget();
+  auto* value_layout = new QVBoxLayout(value_area);
   value_layout->setSpacing(0);
   splitter->addWidget(value_area);
 
@@ -100,7 +100,7 @@ ColorDialog::ColorDialog(ColorManager* color_manager, const ManagedColor& start,
 
   connect(color_wheel_, &ColorWheelWidget::DiameterChanged, hsv_value_gradient_, &ColorGradientWidget::setFixedHeight);
 
-  QDialogButtonBox* buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+  auto* buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
   connect(buttons, &QDialogButtonBox::accepted, this, &QDialog::accept);
   connect(buttons, &QDialogButtonBox::rejected, this, &QDialog::reject);
   layout->addWidget(buttons);

@@ -47,15 +47,15 @@ class AudioProcessor {
 
   void Close();
 
-  bool IsOpen() const { return filter_graph_; }
+  [[nodiscard]] bool IsOpen() const { return filter_graph_; }
 
   using Buffer = QVector<QByteArray>;
   int Convert(float **in, int nb_in_samples, AudioProcessor::Buffer *output);
 
   void Flush();
 
-  const AudioParams &from() const { return from_; }
-  const AudioParams &to() const { return to_; }
+  [[nodiscard]] const AudioParams &from() const { return from_; }
+  [[nodiscard]] const AudioParams &to() const { return to_; }
 
  private:
   static AVFilterContext *CreateTempoFilter(AVFilterGraph *graph, AVFilterContext *link, const double &tempo);

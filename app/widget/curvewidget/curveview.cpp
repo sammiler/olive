@@ -359,7 +359,7 @@ void CurveView::FirstChanceMouseMove(QMouseEvent *event) {
 }
 
 void CurveView::FirstChanceMouseRelease(QMouseEvent *event) {
-  MultiUndoCommand *command = new MultiUndoCommand();
+  auto *command = new MultiUndoCommand();
 
   // Create undo command with the current bezier point and the old one
   command->add_child(new KeyframeSetBezierControlPoint(

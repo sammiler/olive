@@ -46,12 +46,12 @@ public:
      * Note: Being in a FloatingWindow doesn't necessarily mean @ref isFloating() returns true, as
      * the dock widget might be in a floating window with other dock widgets side by side.
      */
-    FloatingWindow *floatingWindow() const
+    [[nodiscard]] FloatingWindow *floatingWindow() const
     {
         return qobject_cast<FloatingWindow *>(q->window());
     }
 
-    MainWindowBase *mainWindow() const
+    [[nodiscard]] MainWindowBase *mainWindow() const
     {
         if (q->isWindow())
             return nullptr;
@@ -71,7 +71,7 @@ public:
         return nullptr;
     }
 
-    SideBar *sideBar() const
+    [[nodiscard]] SideBar *sideBar() const
     {
         return DockRegistry::self()->sideBarForDockWidget(q);
     }
@@ -97,12 +97,12 @@ public:
     void close();
     bool restoreToPreviousPosition();
     void maybeRestoreToPreviousPosition();
-    int currentTabIndex() const;
+    [[nodiscard]] int currentTabIndex() const;
 
     /**
      * @brief Serializes this dock widget into an intermediate form
      */
-    std::shared_ptr<LayoutSaver::DockWidget> serialize() const;
+    [[nodiscard]] std::shared_ptr<LayoutSaver::DockWidget> serialize() const;
 
     /**
      * @brief the Frame which contains this dock widgets.
@@ -112,7 +112,7 @@ public:
      *
      * It's nullptr immediately after creation.
      */
-    Frame *frame() const;
+    [[nodiscard]] Frame *frame() const;
 
     ///@brief If this dock widget is floating, then it saves its geometry
     void saveLastFloatingGeometry();
@@ -134,18 +134,18 @@ public:
     void maybeMorphIntoFloatingWindow();
 
     /// @brief Returns the mdi layout this dock widget is in, if any.
-    MDILayoutWidget *mdiLayout() const;
+    [[nodiscard]] MDILayoutWidget *mdiLayout() const;
 
     /// @brief Returns if this is an helper DockWidget created automatically to host a drop area inside MDI
     /// This is only used by the DockWidget::Option_MDINestable feature
-    bool isMDIWrapper() const;
+    [[nodiscard]] bool isMDIWrapper() const;
 
     /// @brief If this dock widget is an MDI wrapper (isMDIWrapper()), then returns the wrapper drop area
-    DropArea *mdiDropAreaWrapper() const;
+    [[nodiscard]] DropArea *mdiDropAreaWrapper() const;
 
     /// @brief If this dock widget is inside a drop area nested in MDI then returns the wrapper dock widget
     /// This goes up the hierarchy, while mdiDropAreaWrapper goes down.
-    DockWidgetBase *mdiDockWidgetWrapper() const;
+    [[nodiscard]] DockWidgetBase *mdiDockWidgetWrapper() const;
 
     const QString name;
     QStringList affinities;

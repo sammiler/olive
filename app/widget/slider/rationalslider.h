@@ -98,17 +98,17 @@ class RationalSlider : public DecimalSliderBase {
   void SetValue(const rational& d);
 
  protected:
-  virtual QString ValueToString(const QVariant& v) const override;
+  [[nodiscard]] QString ValueToString(const QVariant& v) const override;
 
-  virtual QVariant StringToValue(const QString& s, bool* ok) const override;
+  QVariant StringToValue(const QString& s, bool* ok) const override;
 
-  virtual QVariant AdjustDragDistanceInternal(const QVariant& start, const double& drag) const override;
+  [[nodiscard]] QVariant AdjustDragDistanceInternal(const QVariant& start, const double& drag) const override;
 
-  virtual void ValueSignalEvent(const QVariant& v) override;
+  void ValueSignalEvent(const QVariant& v) override;
 
-  virtual bool ValueGreaterThan(const QVariant& lhs, const QVariant& rhs) const override;
+  [[nodiscard]] bool ValueGreaterThan(const QVariant& lhs, const QVariant& rhs) const override;
 
-  virtual bool ValueLessThan(const QVariant& lhs, const QVariant& rhs) const override;
+  [[nodiscard]] bool ValueLessThan(const QVariant& lhs, const QVariant& rhs) const override;
 
  signals:
   void ValueChanged(rational);

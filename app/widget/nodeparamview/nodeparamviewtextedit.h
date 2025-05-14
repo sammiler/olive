@@ -34,7 +34,7 @@ class NodeParamViewTextEdit : public QWidget {
  public:
   explicit NodeParamViewTextEdit(QWidget *parent = nullptr);
 
-  QString text() const { return line_edit_->toPlainText(); }
+  [[nodiscard]] QString text() const { return line_edit_->toPlainText(); }
 
   void SetEditInViewerOnlyMode(bool on);
 

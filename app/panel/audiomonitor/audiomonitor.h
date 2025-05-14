@@ -34,12 +34,12 @@ class AudioMonitorPanel : public PanelWidget {
  public:
   AudioMonitorPanel();
 
-  bool IsPlaying() const { return audio_monitor_->IsPlaying(); }
+  [[nodiscard]] bool IsPlaying() const { return audio_monitor_->IsPlaying(); }
 
   void SetParams(const AudioParams& params) { audio_monitor_->SetParams(params); }
 
  private:
-  virtual void Retranslate() override;
+  void Retranslate() override;
 
   AudioMonitor* audio_monitor_;
 };

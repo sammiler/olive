@@ -86,7 +86,7 @@ class SequenceDialog : public QDialog {
   /**
    * @brief Function called when the user presses OK
    */
-  virtual void accept() override;
+  void accept() override;
 
  private:
   Sequence* sequence_;
@@ -107,11 +107,11 @@ class SequenceDialog : public QDialog {
     SequenceParamCommand(Sequence* s, const VideoParams& video_params, const AudioParams& audio_params,
                          const QString& name, bool autocache);
 
-    virtual Project* GetRelevantProject() const override;
+    [[nodiscard]] Project* GetRelevantProject() const override;
 
    protected:
-    virtual void redo() override;
-    virtual void undo() override;
+    void redo() override;
+    void undo() override;
 
    private:
     Sequence* sequence_;

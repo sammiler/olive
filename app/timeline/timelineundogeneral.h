@@ -36,11 +36,11 @@ class BlockResizeCommand : public UndoCommand {
  public:
   BlockResizeCommand(Block* block, rational new_length) : block_(block), new_length_(new_length) {}
 
-  virtual Project* GetRelevantProject() const override { return block_->project(); }
+  [[nodiscard]] Project* GetRelevantProject() const override { return block_->project(); }
 
  protected:
-  virtual void redo() override;
-  virtual void undo() override;
+  void redo() override;
+  void undo() override;
 
  private:
   Block* block_;
@@ -52,11 +52,11 @@ class BlockResizeWithMediaInCommand : public UndoCommand {
  public:
   BlockResizeWithMediaInCommand(Block* block, rational new_length) : block_(block), new_length_(new_length) {}
 
-  virtual Project* GetRelevantProject() const { return block_->project(); }
+  [[nodiscard]] Project* GetRelevantProject() const override { return block_->project(); }
 
  protected:
-  virtual void redo();
-  virtual void undo();
+  void redo() override;
+  void undo() override;
 
  private:
   Block* block_;
@@ -68,11 +68,11 @@ class BlockSetMediaInCommand : public UndoCommand {
  public:
   BlockSetMediaInCommand(ClipBlock* block, rational new_media_in) : block_(block), new_media_in_(new_media_in) {}
 
-  virtual Project* GetRelevantProject() const { return block_->project(); }
+  [[nodiscard]] Project* GetRelevantProject() const override { return block_->project(); }
 
  protected:
-  virtual void redo();
-  virtual void undo();
+  void redo() override;
+  void undo() override;
 
  private:
   ClipBlock* block_;
@@ -99,16 +99,16 @@ class TimelineAddTrackCommand : public UndoCommand {
     return c.track();
   }
 
-  virtual ~TimelineAddTrackCommand() override { delete position_command_; }
+  ~TimelineAddTrackCommand() override { delete position_command_; }
 
-  Track* track() const { return track_; }
+  [[nodiscard]] Track* track() const { return track_; }
 
-  virtual Project* GetRelevantProject() const override { return timeline_->parent()->project(); }
+  [[nodiscard]] Project* GetRelevantProject() const override { return timeline_->parent()->project(); }
 
  protected:
-  virtual void redo() override;
+  void redo() override;
 
-  virtual void undo() override;
+  void undo() override;
 
  private:
   TrackList* timeline_;
@@ -129,16 +129,16 @@ class TimelineRemoveTrackCommand : public UndoCommand {
  public:
   explicit TimelineRemoveTrackCommand(Track* track) : track_(track), remove_command_(nullptr) {}
 
-  virtual ~TimelineRemoveTrackCommand() { delete remove_command_; }
+  ~TimelineRemoveTrackCommand() override { delete remove_command_; }
 
-  virtual Project* GetRelevantProject() const override { return track_->project(); }
+  [[nodiscard]] Project* GetRelevantProject() const override { return track_->project(); }
 
  protected:
-  virtual void prepare() override;
+  void prepare() override;
 
-  virtual void redo() override;
+  void redo() override;
 
-  virtual void undo() override;
+  void undo() override;
 
  private:
   Track* track_;
@@ -155,12 +155,12 @@ class TransitionRemoveCommand : public UndoCommand {
   TransitionRemoveCommand(TransitionBlock* block, bool remove_from_graph)
       : block_(block), remove_from_graph_(remove_from_graph), remove_command_(nullptr) {}
 
-  virtual Project* GetRelevantProject() const override { return track_->project(); }
+  [[nodiscard]] Project* GetRelevantProject() const override { return track_->project(); }
 
  protected:
-  virtual void redo() override;
+  void redo() override;
 
-  virtual void undo() override;
+  void undo() override;
 
  private:
   TransitionBlock* block_;
@@ -184,12 +184,12 @@ class TrackReplaceBlockWithGapCommand : public UndoCommand {
         our_gap_(nullptr),
         handle_transitions_(handle_transitions) {}
 
-  virtual Project* GetRelevantProject() const override { return block_->project(); }
+  [[nodiscard]] Project* GetRelevantProject() const override { return block_->project(); }
 
  protected:
-  virtual void redo() override;
+  void redo() override;
 
-  virtual void undo() override;
+  void undo() override;
 
  private:
   void CreateRemoveTransitionCommandIfNecessary(bool next);
@@ -214,12 +214,12 @@ class BlockEnableDisableCommand : public UndoCommand {
   BlockEnableDisableCommand(Block* block, bool enabled)
       : block_(block), old_enabled_(block_->is_enabled()), new_enabled_(enabled) {}
 
-  virtual Project* GetRelevantProject() const override { return block_->project(); }
+  [[nodiscard]] Project* GetRelevantProject() const override { return block_->project(); }
 
  protected:
-  virtual void redo() override { block_->set_enabled(new_enabled_); }
+  void redo() override { block_->set_enabled(new_enabled_); }
 
-  virtual void undo() override { block_->set_enabled(old_enabled_); }
+  void undo() override { block_->set_enabled(old_enabled_); }
 
  private:
   Block* block_;
@@ -234,16 +234,16 @@ class TrackListInsertGaps : public UndoCommand {
   TrackListInsertGaps(TrackList* track_list, const rational& point, const rational& length)
       : track_list_(track_list), point_(point), length_(length), split_command_(nullptr) {}
 
-  virtual ~TrackListInsertGaps() override { delete split_command_; }
+  ~TrackListInsertGaps() override { delete split_command_; }
 
-  virtual Project* GetRelevantProject() const override { return track_list_->parent()->project(); }
+  [[nodiscard]] Project* GetRelevantProject() const override { return track_list_->parent()->project(); }
 
  protected:
-  virtual void prepare() override;
+  void prepare() override;
 
-  virtual void redo() override;
+  void redo() override;
 
-  virtual void undo() override;
+  void undo() override;
 
  private:
   TrackList* track_list_;
@@ -274,20 +274,20 @@ class TimelineAddDefaultTransitionCommand : public UndoCommand {
   TimelineAddDefaultTransitionCommand(const QVector<ClipBlock*>& clips, const rational& timebase)
       : clips_(clips), timebase_(timebase) {}
 
-  virtual ~TimelineAddDefaultTransitionCommand() override { qDeleteAll(commands_); }
+  ~TimelineAddDefaultTransitionCommand() override { qDeleteAll(commands_); }
 
-  virtual Project* GetRelevantProject() const override { return clips_.empty() ? nullptr : clips_.first()->project(); }
+  [[nodiscard]] Project* GetRelevantProject() const override { return clips_.empty() ? nullptr : clips_.first()->project(); }
 
  protected:
-  virtual void prepare() override;
+  void prepare() override;
 
-  virtual void redo() override {
+  void redo() override {
     for (auto it = commands_.cbegin(); it != commands_.cend(); it++) {
       (*it)->redo_now();
     }
   }
 
-  virtual void undo() override {
+  void undo() override {
     for (auto it = commands_.crbegin(); it != commands_.crend(); it++) {
       (*it)->undo_now();
     }

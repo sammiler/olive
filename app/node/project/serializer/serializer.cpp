@@ -280,7 +280,7 @@ void ProjectSerializer::SaveData::SetOnlySerializeNodesAndResolveGroups(QVector<
   // For any groups, add children
   for (int i = 0; i < nodes.size(); i++) {
     // If this is a group, add the child nodes too
-    if (NodeGroup *g = dynamic_cast<NodeGroup *>(nodes.at(i))) {
+    if (auto *g = dynamic_cast<NodeGroup *>(nodes.at(i))) {
       for (auto it = g->GetContextPositions().cbegin(); it != g->GetContextPositions().cend(); it++) {
         if (!nodes.contains(it.key())) {
           nodes.append(it.key());

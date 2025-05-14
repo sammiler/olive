@@ -91,7 +91,7 @@ QLayoutItem *FlowLayout::takeAt(int index) {
   if (index >= 0 && index < itemList.size())
     return itemList.takeAt(index);
   else
-    return 0;
+    return nullptr;
 }
 
 Qt::Orientations FlowLayout::expandingDirections() const { return Qt::Horizontal | Qt::Vertical; }
@@ -156,8 +156,8 @@ int FlowLayout::smartSpacing(QStyle::PixelMetric pm) const {
   if (!parent) {
     return -1;
   } else if (parent->isWidgetType()) {
-    QWidget *pw = dynamic_cast<QWidget *>(parent);
-    return pw->style()->pixelMetric(pm, 0, pw);
+    auto *pw = dynamic_cast<QWidget *>(parent);
+    return pw->style()->pixelMetric(pm, nullptr, pw);
   } else {
     return dynamic_cast<QLayout *>(parent)->spacing();
   }

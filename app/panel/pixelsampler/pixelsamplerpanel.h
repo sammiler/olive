@@ -35,7 +35,7 @@ class PixelSamplerPanel : public PanelWidget {
   void SetValues(const Color& reference, const Color& display);
 
  private:
-  virtual void Retranslate() override;
+  void Retranslate() override;
 
   ManagedPixelSamplerWidget* sampler_widget_;
 };

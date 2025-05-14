@@ -49,7 +49,7 @@ class MainMenu : public QMenuBar {
    *
    * @param e
    */
-  virtual void changeEvent(QEvent* e);
+  void changeEvent(QEvent* e) override;
 
  private slots:
   /**
