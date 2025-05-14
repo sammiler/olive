@@ -97,7 +97,7 @@ if (ENABLE_CLANG_TIDY_FIX_EXPORT)
 
         # 再分别收集 ext/ 下你确实想要检查的子目录
         file(GLOB_RECURSE EXT_CORE_FILES_CPP
-                "${CMAKE_SOURCE_DIR}/ext/core/*.cpp" # 假设你只想检查 ext/core
+                "${CMAKE_SOURCE_DIR}/ext/core/src/*.cpp" # 假设你只想检查 ext/core
                 "${CMAKE_SOURCE_DIR}/ext/KDDockWidgets/src/*.cpp"
 
         )
