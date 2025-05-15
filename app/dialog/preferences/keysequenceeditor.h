@@ -8,81 +8,79 @@
 namespace olive {
 
 /**
- * @brief The KeySequenceEditor class
+ * @class KeySequenceEditor
+ * @brief 键盘快捷键序列编辑器类
  *
- * Simple derived class of QKeySequenceEdit that attaches to a QAction and provides functions for transferring
- * keyboard shortcuts to and from it.
+ * 一个简单的 QKeySequenceEdit 派生类，用于关联一个 QAction，并提供在该 QAction 与编辑器之间传递键盘快捷键的功能。
  */
 class KeySequenceEditor : public QKeySequenceEdit {
   Q_OBJECT
  public:
   /**
-   * @brief KeySequenceEditor Constructor
+   * @brief KeySequenceEditor 构造函数
    *
-   * @param parent
-   *
-   * QWidget parent.
-   *
-   * @param a
-   *
-   * The QAction to link to. This cannot be changed throughout the lifetime of a KeySequenceEditor.
+   * @param parent 父 QWidget 对象指针。
+   * @param a 要关联的 QAction 对象指针。此 QAction 在 KeySequenceEditor 的生命周期内不可更改。
    */
   KeySequenceEditor(QWidget *parent, QAction *a);
 
   /**
-   * @brief Sets the attached QAction's shortcut to the shortcut entered in this field.
+   * @brief 将此编辑字段中输入的快捷键设置给关联的 QAction。
    *
-   * This is not done automatically in case the user cancels out of the Preferences dialog, in which case the
-   * expectation is that the changes made will not be saved. Therefore, this needs to be triggered manually when
-   * PreferencesDialog saves.
+   * 此操作不会自动执行，以防用户在“首选项”对话框中取消操作，
+   * 此时期望所做的更改不会被保存。因此，当“首选项对话框”保存时，需要手动触发此函数。
    */
   void set_action_shortcut();
 
   /**
-   * @brief Set this shortcut back to the QAction's default shortcut
+   * @brief 将此编辑字段中的快捷键重置为关联 QAction 的默认快捷键。
    *
-   * Each QAction contains the default shortcut in its `property("default")` and can be used to restore the default
-   * "hard-coded" shortcut with this function.
+   * 每个 QAction 在其 `property("default")` 中都包含默认快捷键，
+   * 可以使用此函数来恢复“硬编码”的默认快捷键。
    *
-   * This function does not save the default shortcut back into the QAction, it simply loads the default shortcut from
-   * the QAction into this edit field. To save it into the QAction, it's necessary to call set_action_shortcut() after
-   * calling this function.
+   * 此函数不会将默认快捷键保存回 QAction，它仅仅是将 QAction 中的默认快捷键加载到此编辑字段中。
+   * 要将其保存到 QAction 中，需要在调用此函数后调用 set_action_shortcut()。
    */
   void reset_to_default();
 
   /**
-   * @brief Return attached QAction's unique ID
+   * @brief 返回关联 QAction 的唯一 ID。
    *
-   * Each of Olive's menu actions has a unique string ID (that, unlike the text, is not translated) for matching with
-   * an external shortcut configuration file. The ID is stored in the QAction's `property("id")`. This function returns
-   * that ID.
+   * Olive 的每个菜单动作都有一个唯一的字符串 ID（与文本不同，它不会被翻译），
+   * 用于与外部快捷键配置文件进行匹配。该 ID 存储在 QAction 的 `property("id")` 中。
+   * 此函数返回该 ID。
    *
-   * @return
-   *
-   * The QAction's unique ID.
+   * @return QAction 的唯一 ID。
    */
   QString action_name();
 
   /**
-   * @brief Serialize this shortcut entry into a string that can be saved to a file
+   * @brief 将此快捷键条目序列化为可以保存到文件的字符串。
    *
-   * @return
-   *
-   * A string serialization of this shortcut. The format is "[ID]\t[SEQUENCE]" where [ID] is the attached QAction's
-   * unique identifier and [SEQUENCE] is the current keyboard shortcut in the field (NOT necessarily the shortcut in
-   * the QAction). If the entered shortcut is the same as the QAction's default shortcut, the return value is empty
-   * because a default shortcut does not need to be saved to a file.
+   * @return 此快捷键的字符串序列化表示。
+   * 格式为 "[ID]\t[SEQUENCE]"，其中 [ID] 是关联 QAction 的唯一标识符，
+   * [SEQUENCE] 是字段中当前的键盘快捷键（不一定是 QAction 中的快捷键）。
+   * 如果输入的快捷键与 QAction 的默认快捷键相同，则返回空字符串，
+   * 因为默认快捷键不需要保存到文件中。
    */
   QString export_shortcut();
 
- protected:
+protected:
+  /**
+   * @brief 重写 QKeySequenceEdit 的按键按下事件处理函数。
+   * @param e QKeyEvent 事件对象指针。
+   */
   void keyPressEvent(QKeyEvent *e) override;
 
+  /**
+   * @brief 重写 QKeySequenceEdit 的按键释放事件处理函数。
+   * @param e QKeyEvent 事件对象指针。
+   */
   void keyReleaseEvent(QKeyEvent *e) override;
 
- private:
+private:
   /**
-   * @brief Internal reference to the linked QAction
+   * @brief 指向关联的 QAction 的内部引用。
    */
   QAction *action;
 };
