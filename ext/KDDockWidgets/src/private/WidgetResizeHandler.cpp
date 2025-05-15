@@ -334,7 +334,7 @@ bool WidgetResizeHandler::handleWindowsNativeEvent(FloatingWindow *fw, const QBy
         }
 
         const QRect htCaptionRect = fw->dragRect();
-        const bool ret = handleWindowsNativeEvent(fw->windowHandle(), msg, result, htCaptionRect);
+        const bool ret = handleWindowsNativeEvent(fw->windowHandle(), msg, result, NativeFeatures(htCaptionRect));
 
         fw->setLastHitTest(*result);
         return ret;

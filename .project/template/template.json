@@ -134,8 +134,8 @@
         "strategy": "set"
       },
       "debug_flag": {
-        "CMAKE_CXX_FLAGS": "/EHsc /W3 /Zi /FS /MDd /D_ITERATOR_DEBUG_LEVEL=2 /O0",
-        "CMAKE_C_FLAGS": "/EHsc /W3 /Zi /FS /MDd /D_ITERATOR_DEBUG_LEVEL=2 /O0"
+        "CMAKE_CXX_FLAGS": "/EHsc /W3 /Zi /FS /MDd /D_ITERATOR_DEBUG_LEVEL=2 ",
+        "CMAKE_C_FLAGS": "/EHsc /W3 /Zi /FS /MDd /D_ITERATOR_DEBUG_LEVEL=2 "
       },
       "rel_flag": {
         "CMAKE_CXX_FLAGS": "/EHsc /W3 /MP6 /O2 /FS /MD",

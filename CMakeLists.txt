@@ -37,7 +37,6 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
 
-
 # Generates a compile_commands.json in the build dir, link that to the repo
 # root to enrich your IDE with clangd language server protocol functionalities
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -59,7 +58,6 @@ if (MSVC)
     set(OLIVE_COMPILE_OPTIONS
             /wd4267
             /wd4244
-            /experimental:external
             /external:anglebrackets
             /external:W0
     )
@@ -82,9 +80,7 @@ else ()
 endif ()
 
 set(OLIVE_DEFINITIONS -DQT_DEPRECATED_WARNINGS)
-if (WIN32)
-    list(APPEND OLIVE_DEFINITIONS -DUNICODE -D_UNICODE)
-endif ()
+
 
 if (${PROJECT_NAME}_QTQUICK)
     list(APPEND OLIVE_DEFINITIONS -DKDDOCKWIDGETS_QTQUICK)
@@ -215,19 +211,19 @@ set(PORTAUDIO_ACTUAL_INCLUDE_DIRS "") # 用于存储从 target 获取的路径
 
 # 检查导入目标是否存在 (通常是包名，或 包名::包名，或 包名大写::包名)
 # 你可以先尝试 'portaudio'，如果不行再试试 'PortAudio::portaudio'
-if(TARGET portaudio) # 根据你贴的片段，目标名可能是全小写的 'portaudio'
+if (TARGET portaudio) # 根据你贴的片段，目标名可能是全小写的 'portaudio'
     get_target_property(PORTAUDIO_ACTUAL_INCLUDE_DIRS portaudio INTERFACE_INCLUDE_DIRECTORIES)
     message(STATUS "DEBUG:   Found target 'portaudio'. INTERFACE_INCLUDE_DIRECTORIES = ${PORTAUDIO_ACTUAL_INCLUDE_DIRS}")
-elseif(TARGET PortAudio::portaudio) # 另一种常见的命名方式
+elseif (TARGET PortAudio::portaudio) # 另一种常见的命名方式
     get_target_property(PORTAUDIO_ACTUAL_INCLUDE_DIRS PortAudio::portaudio INTERFACE_INCLUDE_DIRECTORIES)
     message(STATUS "DEBUG:   Found target 'PortAudio::portaudio'. INTERFACE_INCLUDE_DIRECTORIES = ${PORTAUDIO_ACTUAL_INCLUDE_DIRS}")
-else()
+else ()
     message(WARNING "DEBUG:   Could not find imported target 'portaudio' or 'PortAudio::portaudio'. Will try legacy PortAudio_INCLUDE_DIRS.")
     # 如果没有找到导入目标，作为后备，再检查一下传统的变量（尽管我们知道它可能是空的）
-    if(PortAudio_INCLUDE_DIRS)
+    if (PortAudio_INCLUDE_DIRS)
         set(PORTAUDIO_ACTUAL_INCLUDE_DIRS ${PortAudio_INCLUDE_DIRS})
         message(STATUS "DEBUG:   Using legacy PortAudio_INCLUDE_DIRS = ${PORTAUDIO_ACTUAL_INCLUDE_DIRS}")
-    endif()
+    endif ()
 endif ()
 
 set(CMAKE_REQUIRED_INCLUDES ${PORTAUDIO_ACTUAL_INCLUDE_DIRS})
@@ -253,6 +249,9 @@ endif ()
 find_package(GoogleCrashpad)
 if (GoogleCrashpad_FOUND)
     list(APPEND OLIVE_DEFINITIONS USE_CRASHPAD)
+    if (WIN32)
+        list(APPEND OLIVE_DEFINITIONS NOMINMAX)
+    endif ()
     list(APPEND OLIVE_INCLUDE_DIRS ${CRASHPAD_INCLUDE_DIRS})
     list(APPEND OLIVE_LIBRARIES ${CRASHPAD_LIBRARIES})
 else ()
