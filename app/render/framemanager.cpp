@@ -1,5 +1,3 @@
-
-
 #include "framemanager.h"
 
 #include <QDateTime>

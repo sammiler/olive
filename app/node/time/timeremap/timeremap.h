@@ -1,5 +1,3 @@
-
-
 #ifndef TIMEREMAPNODE_H
 #define TIMEREMAPNODE_H
 

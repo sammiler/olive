@@ -1,5 +1,3 @@
-
-
 #include "nodetablewidget.h"
 
 #include <QVBoxLayout>

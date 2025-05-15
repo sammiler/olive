@@ -1,5 +1,3 @@
-
-
 #include "exportcodec.h"
 
 extern "C" {

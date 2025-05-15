@@ -1,5 +1,3 @@
-
-
 #ifndef WAVEFORMSCOPE_H
 #define WAVEFORMSCOPE_H
 

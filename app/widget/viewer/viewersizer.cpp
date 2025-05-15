@@ -1,5 +1,3 @@
-
-
 #include "viewersizer.h"
 
 #include <QApplication>

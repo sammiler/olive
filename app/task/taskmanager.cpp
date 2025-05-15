@@ -1,5 +1,3 @@
-
-
 #include "taskmanager.h"
 
 #include <QDebug>

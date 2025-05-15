@@ -1,5 +1,3 @@
-
-
 #include "tiledistortnode.h"
 
 #include "widget/slider/floatslider.h"

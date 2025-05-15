@@ -1,5 +1,3 @@
-
-
 #ifndef SLIDERLINEEDIT_H
 #define SLIDERLINEEDIT_H
 

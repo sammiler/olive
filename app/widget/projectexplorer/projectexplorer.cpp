@@ -1,5 +1,3 @@
-
-
 #include "projectexplorer.h"
 
 #include <QDebug>

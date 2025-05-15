@@ -1,5 +1,3 @@
-
-
 #include "razor.h"
 
 #include "node/nodeundo.h"

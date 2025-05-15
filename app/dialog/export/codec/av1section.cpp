@@ -1,5 +1,3 @@
-
-
 #include "av1section.h"
 
 #include <QCheckBox>

@@ -1,5 +1,3 @@
-
-
 #ifndef COLORTRANSFORM_H
 #define COLORTRANSFORM_H
 

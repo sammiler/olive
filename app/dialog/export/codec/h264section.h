@@ -1,5 +1,3 @@
-
-
 #ifndef H264SECTION_H
 #define H264SECTION_H
 

@@ -1,5 +1,3 @@
-
-
 #ifndef POLYGONGIZMO_H
 #define POLYGONGIZMO_H
 

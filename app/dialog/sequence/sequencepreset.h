@@ -1,5 +1,3 @@
-
-
 #ifndef SEQUENCEPARAM_H
 #define SEQUENCEPARAM_H
 

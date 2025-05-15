@@ -1,5 +1,3 @@
-
-
 #ifndef MATHNODEBASE_H
 #define MATHNODEBASE_H
 

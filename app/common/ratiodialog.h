@@ -1,5 +1,3 @@
-
-
 #ifndef RATIODIALOG_H
 #define RATIODIALOG_H
 

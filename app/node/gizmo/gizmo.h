@@ -1,5 +1,3 @@
-
-
 #ifndef NODEGIZMO_H
 #define NODEGIZMO_H
 

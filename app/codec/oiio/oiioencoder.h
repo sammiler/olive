@@ -1,5 +1,3 @@
-
-
 #ifndef OIIOENCODER_H
 #define OIIOENCODER_H
 

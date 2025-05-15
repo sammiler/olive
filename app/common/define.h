@@ -1,5 +1,3 @@
-
-
 #ifndef OLIVECOMMONDEFINE_H
 #define OLIVECOMMONDEFINE_H
 

@@ -1,5 +1,3 @@
-
-
 #ifndef NODEPANEL_H
 #define NODEPANEL_H
 

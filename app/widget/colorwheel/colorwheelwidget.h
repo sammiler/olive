@@ -1,5 +1,3 @@
-
-
 #ifndef COLORWHEELWIDGET_H
 #define COLORWHEELWIDGET_H
 

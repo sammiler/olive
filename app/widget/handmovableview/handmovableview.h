@@ -1,5 +1,3 @@
-
-
 #ifndef HANDMOVABLEVIEW_H
 #define HANDMOVABLEVIEW_H
 

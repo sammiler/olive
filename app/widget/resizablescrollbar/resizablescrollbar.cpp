@@ -1,5 +1,3 @@
-
-
 #include "resizablescrollbar.h"
 
 #include <QDebug>

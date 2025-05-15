@@ -1,5 +1,3 @@
-
-
 #include "loadotio.h"
 
 #include <opentimelineio/clip.h>

@@ -1,5 +1,3 @@
-
-
 #ifndef RIPPLEDISTORTNODE_H
 #define RIPPLEDISTORTNODE_H
 

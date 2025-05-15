@@ -1,5 +1,3 @@
-
-
 #include "footage.h"
 
 #include <QApplication>

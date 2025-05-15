@@ -1,5 +1,3 @@
-
-
 #include "ratiodialog.h"
 
 #include <QCoreApplication>

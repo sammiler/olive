@@ -1,5 +1,3 @@
-
-
 #include "pixelsampler.h"
 
 #include <QVBoxLayout>

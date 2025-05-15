@@ -1,5 +1,3 @@
-
-
 #include "textv1.h"
 
 #include <QAbstractTextDocumentLayout>

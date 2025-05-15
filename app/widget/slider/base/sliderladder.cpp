@@ -1,5 +1,3 @@
-
-
 #include "sliderladder.h"
 
 #include <QApplication>

@@ -1,5 +1,3 @@
-
-
 #include "resizabletimelinescrollbar.h"
 
 #include <QPainter>

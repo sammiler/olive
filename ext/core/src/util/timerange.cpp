@@ -1,5 +1,3 @@
-
-
 #include "util/timerange.h"
 
 #include <algorithm>

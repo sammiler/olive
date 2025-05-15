@@ -1,5 +1,3 @@
-
-
 #include "colorcoding.h"
 
 namespace olive {

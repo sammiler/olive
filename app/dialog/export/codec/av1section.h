@@ -1,5 +1,3 @@
-
-
 #ifndef AV1SECTION_H
 #define AV1SECTION_H
 

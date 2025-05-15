@@ -1,5 +1,3 @@
-
-
 #include "inputdragger.h"
 
 #include "core.h"

@@ -1,5 +1,3 @@
-
-
 #ifndef CINEFORMSECTION_H
 #define CINEFORMSECTION_H
 

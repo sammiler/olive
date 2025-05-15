@@ -1,5 +1,3 @@
-
-
 #include "common/ffmpegutils.h"
 
 namespace olive {

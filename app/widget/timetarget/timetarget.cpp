@@ -1,5 +1,3 @@
-
-
 #include "timetarget.h"
 
 namespace olive {

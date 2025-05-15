@@ -1,5 +1,3 @@
-
-
 #include "gap.h"
 
 namespace olive {

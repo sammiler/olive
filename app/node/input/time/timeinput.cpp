@@ -1,5 +1,3 @@
-
-
 #include "timeinput.h"
 
 namespace olive {

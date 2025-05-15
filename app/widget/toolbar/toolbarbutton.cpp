@@ -1,5 +1,3 @@
-
-
 #include "toolbarbutton.h"
 
 namespace olive {

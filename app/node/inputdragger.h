@@ -1,5 +1,3 @@
-
-
 #ifndef NODEINPUTDRAGGER_H
 #define NODEINPUTDRAGGER_H
 

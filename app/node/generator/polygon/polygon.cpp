@@ -1,5 +1,3 @@
-
-
 #include "polygon.h"
 
 #include <QGuiApplication>

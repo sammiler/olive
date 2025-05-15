@@ -1,5 +1,3 @@
-
-
 #ifndef CHROMAKEYNODE_H
 #define CHROMAKEYNODE_H
 

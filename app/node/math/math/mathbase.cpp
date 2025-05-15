@@ -1,5 +1,3 @@
-
-
 #include "mathbase.h"
 
 #include <cmath>

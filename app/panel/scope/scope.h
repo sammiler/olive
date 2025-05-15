@@ -1,5 +1,3 @@
-
-
 #ifndef SCOPE_PANEL_H
 #define SCOPE_PANEL_H
 

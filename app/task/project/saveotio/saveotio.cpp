@@ -1,5 +1,3 @@
-
-
 #include "saveotio.h"
 
 #include <opentimelineio/clip.h>

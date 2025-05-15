@@ -1,5 +1,3 @@
-
-
 #ifndef CLIPBLOCK_H
 #define CLIPBLOCK_H
 

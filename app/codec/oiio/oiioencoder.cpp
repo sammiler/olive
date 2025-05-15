@@ -1,5 +1,3 @@
-
-
 #include "oiioencoder.h"
 
 #include "common/oiioutils.h"

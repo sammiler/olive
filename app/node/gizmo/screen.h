@@ -1,5 +1,3 @@
-
-
 #ifndef SCREENGIZMO_H
 #define SCREENGIZMO_H
 

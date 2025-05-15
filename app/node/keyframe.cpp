@@ -1,5 +1,3 @@
-
-
 #include "keyframe.h"
 
 #include <utility>

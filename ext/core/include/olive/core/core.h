@@ -1,5 +1,3 @@
-
-
 #ifndef LIBOLIVECORE_H
 #define LIBOLIVECORE_H
 

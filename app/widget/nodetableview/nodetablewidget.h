@@ -1,5 +1,3 @@
-
-
 #ifndef NODETABLEWIDGET_H
 #define NODETABLEWIDGET_H
 

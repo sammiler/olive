@@ -1,5 +1,3 @@
-
-
 #include "previewaudiodevice.h"
 
 namespace olive {

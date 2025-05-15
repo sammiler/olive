@@ -1,5 +1,3 @@
-
-
 #include "project.h"
 
 #include <QDir>

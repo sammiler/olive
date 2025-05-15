@@ -1,5 +1,3 @@
-
-
 #ifndef CUSTOMCACHETASK_H
 #define CUSTOMCACHETASK_H
 

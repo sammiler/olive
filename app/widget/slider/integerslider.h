@@ -1,5 +1,3 @@
-
-
 #ifndef INTEGERSLIDER_H
 #define INTEGERSLIDER_H
 

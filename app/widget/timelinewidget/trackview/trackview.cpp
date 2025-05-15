@@ -1,5 +1,3 @@
-
-
 #include "trackview.h"
 
 #include <QDebug>

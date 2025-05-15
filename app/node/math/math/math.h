@@ -1,5 +1,3 @@
-
-
 #ifndef MATHNODE_H
 #define MATHNODE_H
 

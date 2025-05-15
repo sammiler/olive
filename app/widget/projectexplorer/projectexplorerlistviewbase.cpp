@@ -1,5 +1,3 @@
-
-
 #include "projectexplorerlistviewbase.h"
 
 #include <QMouseEvent>

@@ -1,5 +1,3 @@
-
-
 #include "testutil.h"
 
 #include "common/digit.h"

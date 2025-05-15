@@ -1,5 +1,3 @@
-
-
 #ifndef DRAGBUTTON_H
 #define DRAGBUTTON_H
 

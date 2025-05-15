@@ -1,5 +1,3 @@
-
-
 #include "integerslider.h"
 
 namespace olive {

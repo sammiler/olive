@@ -1,5 +1,3 @@
-
-
 #include "importerrordialog.h"
 
 #include <QDialogButtonBox>

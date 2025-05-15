@@ -1,5 +1,3 @@
-
-
 #include "viewerwindow.h"
 
 #include <QKeyEvent>

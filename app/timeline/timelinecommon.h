@@ -1,5 +1,3 @@
-
-
 #ifndef TIMELINECOMMON_H
 #define TIMELINECOMMON_H
 

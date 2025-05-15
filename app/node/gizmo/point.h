@@ -1,5 +1,3 @@
-
-
 #ifndef POINTGIZMO_H
 #define POINTGIZMO_H
 

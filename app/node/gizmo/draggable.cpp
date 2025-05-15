@@ -1,5 +1,3 @@
-
-
 #include "draggable.h"
 
 namespace olive {

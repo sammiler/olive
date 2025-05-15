@@ -1,5 +1,3 @@
-
-
 #include "projectcopier.h"
 
 #include "node/group/group.h"

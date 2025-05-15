@@ -1,5 +1,3 @@
-
-
 #ifndef TIMEBASEDWIDGET_H
 #define TIMEBASEDWIDGET_H
 

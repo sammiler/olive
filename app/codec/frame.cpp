@@ -1,5 +1,3 @@
-
-
 #include "frame.h"
 
 #include <OpenImageIO/imagebuf.h>

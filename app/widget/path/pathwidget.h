@@ -1,5 +1,3 @@
-
-
 #ifndef PATHWIDGET_H
 #define PATHWIDGET_H
 

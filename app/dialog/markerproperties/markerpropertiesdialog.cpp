@@ -1,5 +1,3 @@
-
-
 #include "markerpropertiesdialog.h"
 
 #include <QDialogButtonBox>

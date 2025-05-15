@@ -1,5 +1,3 @@
-
-
 #ifndef CANCELABLEOBJECT_H
 #define CANCELABLEOBJECT_H
 

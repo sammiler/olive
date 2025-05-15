@@ -1,5 +1,3 @@
-
-
 #include "audioprocessor.h"
 
 extern "C" {

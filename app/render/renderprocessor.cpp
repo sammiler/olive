@@ -1,5 +1,3 @@
-
-
 #include "renderprocessor.h"
 
 #include <QOpenGLContext>

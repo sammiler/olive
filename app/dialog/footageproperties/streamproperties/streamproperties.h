@@ -1,5 +1,3 @@
-
-
 #ifndef STREAMPROPERTIES_H
 #define STREAMPROPERTIES_H
 

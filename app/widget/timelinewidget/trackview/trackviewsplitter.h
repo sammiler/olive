@@ -1,5 +1,3 @@
-
-
 #ifndef TRACKVIEWSPLITTER_H
 #define TRACKVIEWSPLITTER_H
 

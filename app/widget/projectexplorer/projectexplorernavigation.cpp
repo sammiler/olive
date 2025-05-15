@@ -1,5 +1,3 @@
-
-
 #include "projectexplorernavigation.h"
 
 #include <QEvent>

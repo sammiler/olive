@@ -1,5 +1,3 @@
-
-
 #include "focusablelineedit.h"
 
 #include <QKeyEvent>

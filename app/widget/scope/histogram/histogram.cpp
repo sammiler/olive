@@ -1,5 +1,3 @@
-
-
 #include "histogram.h"
 
 #include <QPainter>

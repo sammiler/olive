@@ -1,5 +1,3 @@
-
-
 #ifndef FRAMEMANAGER_H
 #define FRAMEMANAGER_H
 

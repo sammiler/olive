@@ -1,5 +1,3 @@
-
-
 #include "widget/timelinewidget/timelinewidget.h"
 
 #include "node/block/transition/transition.h"

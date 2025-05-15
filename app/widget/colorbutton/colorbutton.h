@@ -1,5 +1,3 @@
-
-
 #ifndef COLORBUTTON_H
 #define COLORBUTTON_H
 

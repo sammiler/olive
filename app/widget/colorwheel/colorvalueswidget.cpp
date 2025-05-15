@@ -1,5 +1,3 @@
-
-
 #include "colorvalueswidget.h"
 
 #include <QGridLayout>

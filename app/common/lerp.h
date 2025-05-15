@@ -1,5 +1,3 @@
-
-
 #ifndef LERP_H
 #define LERP_H
 

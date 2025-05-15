@@ -1,5 +1,3 @@
-
-
 #include "cliexportmanager.h"
 
 namespace olive {

@@ -1,5 +1,3 @@
-
-
 #ifndef SCROLLINGLABEL_H
 #define SCROLLINGLABEL_H
 

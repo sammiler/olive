@@ -1,5 +1,3 @@
-
-
 #include "nodeparamview.h"
 
 #include <QApplication>

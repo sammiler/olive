@@ -1,5 +1,3 @@
-
-
 #ifndef PATREON_H
 #define PATREON_H
 

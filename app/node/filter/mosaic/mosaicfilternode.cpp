@@ -1,5 +1,3 @@
-
-
 #include "mosaicfilternode.h"
 
 namespace olive {

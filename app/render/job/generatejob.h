@@ -1,5 +1,3 @@
-
-
 #ifndef GENERATEJOB_H
 #define GENERATEJOB_H
 

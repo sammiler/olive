@@ -1,5 +1,3 @@
-
-
 #ifndef UNDOCOMMAND_H
 #define UNDOCOMMAND_H
 

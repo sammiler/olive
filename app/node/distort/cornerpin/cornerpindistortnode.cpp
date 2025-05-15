@@ -1,5 +1,3 @@
-
-
 #include "cornerpindistortnode.h"
 
 #include "common/lerp.h"

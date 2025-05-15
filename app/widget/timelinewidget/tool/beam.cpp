@@ -1,5 +1,3 @@
-
-
 #include "beam.h"
 #include "widget/timelinewidget/timelinewidget.h"
 

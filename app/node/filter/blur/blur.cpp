@@ -1,5 +1,3 @@
-
-
 #include "blur.h"
 
 namespace olive {

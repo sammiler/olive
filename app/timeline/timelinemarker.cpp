@@ -1,5 +1,3 @@
-
-
 #include "timelinemarker.h"
 
 #include <QApplication>

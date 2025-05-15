@@ -1,5 +1,3 @@
-
-
 #ifndef RICHTEXTDIALOG_H
 #define RICHTEXTDIALOG_H
 

@@ -1,5 +1,3 @@
-
-
 #ifndef TIMEFORMAT_H
 #define TIMEFORMAT_H
 

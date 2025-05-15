@@ -1,5 +1,3 @@
-
-
 #include "autorecoverydialog.h"
 
 #include <QDateTime>

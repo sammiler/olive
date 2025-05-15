@@ -1,5 +1,3 @@
-
-
 #ifndef NUMERICSLIDERBASE_H
 #define NUMERICSLIDERBASE_H
 

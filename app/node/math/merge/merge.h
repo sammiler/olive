@@ -1,5 +1,3 @@
-
-
 #ifndef MERGENODE_H
 #define MERGENODE_H
 

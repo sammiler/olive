@@ -1,5 +1,3 @@
-
-
 #include "qtutils.h"
 
 #include <QDebug>

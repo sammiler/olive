@@ -1,5 +1,3 @@
-
-
 #include "track.h"
 
 #include <QApplication>

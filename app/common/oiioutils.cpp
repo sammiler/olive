@@ -1,5 +1,3 @@
-
-
 #include "oiioutils.h"
 
 #include <QDebug>

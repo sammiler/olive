@@ -1,5 +1,3 @@
-
-
 #ifndef VIEWERQUEUE_H
 #define VIEWERQUEUE_H
 

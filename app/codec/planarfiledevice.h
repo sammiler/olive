@@ -1,5 +1,3 @@
-
-
 #ifndef PLANARFILEDEVICE_H
 #define PLANARFILEDEVICE_H
 

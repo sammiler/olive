@@ -1,5 +1,3 @@
-
-
 #ifndef TASKMANAGER_H
 #define TASKMANAGER_H
 

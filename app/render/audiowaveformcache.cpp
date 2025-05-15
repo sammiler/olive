@@ -1,5 +1,3 @@
-
-
 #include "audiowaveformcache.h"
 
 namespace olive {

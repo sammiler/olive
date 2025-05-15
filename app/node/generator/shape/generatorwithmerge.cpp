@@ -1,5 +1,3 @@
-
-
 #include "generatorwithmerge.h"
 
 #include "node/math/merge/merge.h"

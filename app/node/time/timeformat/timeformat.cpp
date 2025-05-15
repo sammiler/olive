@@ -1,5 +1,3 @@
-
-
 #include "timeformat.h"
 
 #include <QDateTime>

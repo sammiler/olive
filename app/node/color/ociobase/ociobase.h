@@ -1,5 +1,3 @@
-
-
 #ifndef OCIOBASENODE_H
 #define OCIOBASENODE_H
 

@@ -1,5 +1,3 @@
-
-
 #include "nodeparamviewtextedit.h"
 
 #include <QHBoxLayout>

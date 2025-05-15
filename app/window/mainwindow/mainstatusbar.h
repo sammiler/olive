@@ -1,5 +1,3 @@
-
-
 #ifndef MAINSTATUSBAR_H
 #define MAINSTATUSBAR_H
 

@@ -1,5 +1,3 @@
-
-
 #ifndef WAVEDISTORTNODE_H
 #define WAVEDISTORTNODE_H
 

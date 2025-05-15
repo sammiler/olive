@@ -1,5 +1,3 @@
-
-
 #include "nodeparamviewitembase.h"
 
 #include <QEvent>

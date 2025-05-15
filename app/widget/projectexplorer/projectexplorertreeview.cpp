@@ -1,5 +1,3 @@
-
-
 #include "projectexplorertreeview.h"
 
 #include <QMouseEvent>

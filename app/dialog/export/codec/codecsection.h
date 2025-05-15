@@ -1,5 +1,3 @@
-
-
 #ifndef CODECSECTION_H
 #define CODECSECTION_H
 

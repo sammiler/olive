@@ -1,5 +1,3 @@
-
-
 #ifndef NODEUNDO_H
 #define NODEUNDO_H
 

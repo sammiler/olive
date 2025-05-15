@@ -1,5 +1,3 @@
-
-
 #include "nodeparamviewitem.h"
 
 #include <QCheckBox>

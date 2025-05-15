@@ -1,5 +1,3 @@
-
-
 #include "progress.h"
 
 #include <QLabel>

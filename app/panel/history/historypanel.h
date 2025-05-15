@@ -1,5 +1,3 @@
-
-
 #ifndef HISTORYPANEL_H
 #define HISTORYPANEL_H
 

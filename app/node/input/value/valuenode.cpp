@@ -1,5 +1,3 @@
-
-
 #include "valuenode.h"
 
 namespace olive {

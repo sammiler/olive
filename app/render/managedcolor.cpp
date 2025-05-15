@@ -1,5 +1,3 @@
-
-
 #include "managedcolor.h"
 
 namespace olive {

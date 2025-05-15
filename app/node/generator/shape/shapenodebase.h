@@ -1,5 +1,3 @@
-
-
 #ifndef SHAPENODEBASE_H
 #define SHAPENODEBASE_H
 

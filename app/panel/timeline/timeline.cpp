@@ -1,5 +1,3 @@
-
-
 #include "timeline.h"
 
 #include "panel/panelmanager.h"

@@ -1,5 +1,3 @@
-
-
 #ifndef PRESETMANAGER_H
 #define PRESETMANAGER_H
 

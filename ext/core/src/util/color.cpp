@@ -1,5 +1,3 @@
-
-
 #include "util/color.h"
 
 #include <Imath/half.h>

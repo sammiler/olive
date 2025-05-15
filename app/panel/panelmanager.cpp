@@ -1,5 +1,3 @@
-
-
 #include "panelmanager.h"
 
 #include "config/config.h"

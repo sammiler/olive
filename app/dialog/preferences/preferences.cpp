@@ -1,5 +1,3 @@
-
-
 #include "preferences.h"
 
 #include <QDialogButtonBox>

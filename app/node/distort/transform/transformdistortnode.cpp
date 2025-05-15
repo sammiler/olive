@@ -1,5 +1,3 @@
-
-
 #include "transformdistortnode.h"
 
 #include <QGuiApplication>

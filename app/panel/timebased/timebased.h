@@ -1,5 +1,3 @@
-
-
 #ifndef TIMEBASEDPANEL_H
 #define TIMEBASEDPANEL_H
 

@@ -1,5 +1,3 @@
-
-
 #ifndef CLITASKDIALOG_H
 #define CLITASKDIALOG_H
 

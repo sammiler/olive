@@ -1,5 +1,3 @@
-
-
 #ifndef RENDERMODE_H
 #define RENDERMODE_H
 

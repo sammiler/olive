@@ -1,5 +1,3 @@
-
-
 #include "timelinewidget.h"
 
 #include <QSplitter>

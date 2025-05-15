@@ -1,5 +1,3 @@
-
-
 #ifndef TIMERULER_H
 #define TIMERULER_H
 

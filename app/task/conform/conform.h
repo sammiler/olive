@@ -1,5 +1,3 @@
-
-
 #ifndef CONFORMTASK_H
 #define CONFORMTASK_H
 

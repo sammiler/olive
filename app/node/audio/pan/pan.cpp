@@ -1,5 +1,3 @@
-
-
 #include "pan.h"
 
 #include "widget/slider/floatslider.h"

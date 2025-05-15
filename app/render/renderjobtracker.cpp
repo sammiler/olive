@@ -1,5 +1,3 @@
-
-
 #include "renderjobtracker.h"
 
 #include <ranges>

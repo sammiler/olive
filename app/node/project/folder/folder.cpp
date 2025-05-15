@@ -1,5 +1,3 @@
-
-
 #include "folder.h"
 
 #include "common/xmlutils.h"

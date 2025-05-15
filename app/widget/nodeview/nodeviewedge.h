@@ -1,5 +1,3 @@
-
-
 #ifndef NODEEDGEITEM_H
 #define NODEEDGEITEM_H
 

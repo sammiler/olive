@@ -1,5 +1,3 @@
-
-
 #ifndef COLORSWATCHWIDGET_H
 #define COLORSWATCHWIDGET_H
 

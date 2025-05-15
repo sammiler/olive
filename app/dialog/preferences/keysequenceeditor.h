@@ -1,5 +1,3 @@
-
-
 #ifndef KEYSEQUENCEEDITOR_H
 #define KEYSEQUENCEEDITOR_H
 

@@ -1,6 +1,3 @@
-
-
-
 #include "waveform.h"
 
 #include <QDebug>

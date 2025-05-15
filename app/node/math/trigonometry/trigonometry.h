@@ -1,5 +1,3 @@
-
-
 #ifndef TRIGNODE_H
 #define TRIGNODE_H
 

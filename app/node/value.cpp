@@ -1,5 +1,3 @@
-
-
 #include "value.h"
 #include <qchar.h>
 

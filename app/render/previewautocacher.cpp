@@ -1,5 +1,3 @@
-
-
 #include "previewautocacher.h"
 
 #include <QApplication>

@@ -1,5 +1,3 @@
-
-
 #include "streamproperties.h"
 
 namespace olive {

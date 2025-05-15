@@ -1,5 +1,3 @@
-
-
 #include "add.h"
 #include "core.h"
 #include "node/block/subtitle/subtitle.h"

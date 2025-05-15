@@ -1,5 +1,3 @@
-
-
 #include "screen.h"
 
 namespace olive {

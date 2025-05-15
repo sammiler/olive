@@ -1,5 +1,3 @@
-
-
 #include "timeremap.h"
 
 #include "widget/slider/rationalslider.h"

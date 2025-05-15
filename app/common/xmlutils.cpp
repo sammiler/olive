@@ -1,5 +1,3 @@
-
-
 #include "xmlutils.h"
 
 #include "node/block/block.h"

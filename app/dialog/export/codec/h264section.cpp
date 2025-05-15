@@ -1,5 +1,3 @@
-
-
 #include "h264section.h"
 
 #include <QCheckBox>

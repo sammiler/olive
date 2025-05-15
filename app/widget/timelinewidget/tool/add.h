@@ -1,5 +1,3 @@
-
-
 #ifndef ADDTIMELINETOOL_H
 #define ADDTIMELINETOOL_H
 

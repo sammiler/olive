@@ -1,5 +1,3 @@
-
-
 #include "exportaudiotab.h"
 
 #include <QGridLayout>

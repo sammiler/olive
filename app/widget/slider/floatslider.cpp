@@ -1,5 +1,3 @@
-
-
 #include "floatslider.h"
 
 #include <QDebug>

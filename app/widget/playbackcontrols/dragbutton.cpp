@@ -1,5 +1,3 @@
-
-
 #include "dragbutton.h"
 
 #include <QMouseEvent>

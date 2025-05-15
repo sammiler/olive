@@ -1,5 +1,3 @@
-
-
 #include <iostream>
 
 #define OLIVE_TEST_SUCCESS -1

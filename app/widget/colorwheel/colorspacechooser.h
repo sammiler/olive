@@ -1,5 +1,3 @@
-
-
 #ifndef COLORSPACECHOOSER_H
 #define COLORSPACECHOOSER_H
 

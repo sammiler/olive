@@ -1,5 +1,3 @@
-
-
 #include "exportvideotab.h"
 
 #include <QCheckBox>

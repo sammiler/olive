@@ -1,5 +1,3 @@
-
-
 #include "nodeparamviewitemtitlebar.h"
 
 #include <QHBoxLayout>

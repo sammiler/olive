@@ -1,5 +1,3 @@
-
-
 #ifndef VALUENODE_H
 #define VALUENODE_H
 

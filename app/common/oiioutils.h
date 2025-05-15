@@ -1,5 +1,3 @@
-
-
 #ifndef OIIOUTILS_H
 #define OIIOUTILS_H
 

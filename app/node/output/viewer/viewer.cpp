@@ -1,5 +1,3 @@
-
-
 #include "viewer.h"
 
 #include "config/config.h"

@@ -1,5 +1,3 @@
-
-
 #include "viewer.h"
 
 namespace olive {

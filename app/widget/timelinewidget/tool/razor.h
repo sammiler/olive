@@ -1,5 +1,3 @@
-
-
 #ifndef RAZORTIMELINETOOL_H
 #define RAZORTIMELINETOOL_H
 

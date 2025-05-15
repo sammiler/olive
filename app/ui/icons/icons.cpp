@@ -1,5 +1,3 @@
-
-
 #include "icons.h"
 
 namespace olive {

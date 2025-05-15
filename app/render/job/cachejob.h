@@ -1,5 +1,3 @@
-
-
 #ifndef CACHEJOB_H
 #define CACHEJOB_H
 

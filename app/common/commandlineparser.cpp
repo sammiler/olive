@@ -1,5 +1,3 @@
-
-
 #include "commandlineparser.h"
 
 #include <QCoreApplication>

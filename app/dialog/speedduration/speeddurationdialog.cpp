@@ -1,5 +1,3 @@
-
-
 #include "speeddurationdialog.h"
 
 #include <QDialogButtonBox>

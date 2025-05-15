@@ -1,5 +1,3 @@
-
-
 #ifndef FOOTAGE_VIEWER_PANEL_H
 #define FOOTAGE_VIEWER_PANEL_H
 

@@ -1,5 +1,3 @@
-
-
 #ifndef CRASHPAD_INTERFACE_H
 #define CRASHPAD_INTERFACE_H
 

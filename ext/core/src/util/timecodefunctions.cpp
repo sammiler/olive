@@ -1,5 +1,3 @@
-
-
 #include "util/timecodefunctions.h"
 
 extern "C" {

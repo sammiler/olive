@@ -1,5 +1,3 @@
-
-
 #ifndef COLORTRANSFORMJOB_H
 #define COLORTRANSFORMJOB_H
 

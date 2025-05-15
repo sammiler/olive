@@ -1,5 +1,3 @@
-
-
 #include "nodeparamviewkeyframecontrol.h"
 
 #include <QHBoxLayout>

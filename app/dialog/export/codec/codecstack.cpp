@@ -1,5 +1,3 @@
-
-
 #include "codecstack.h"
 
 namespace olive {

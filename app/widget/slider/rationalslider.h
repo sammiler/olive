@@ -1,5 +1,3 @@
-
-
 #ifndef RATIONALSLIDER_H
 #define RATIONALSLIDER_H
 

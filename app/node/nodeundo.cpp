@@ -1,5 +1,3 @@
-
-
 #include "nodeundo.h"
 
 #include <KDDockWidgets/src/private/Position_p.h>

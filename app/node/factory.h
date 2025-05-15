@@ -1,5 +1,3 @@
-
-
 #ifndef NODEFACTORY_H
 #define NODEFACTORY_H
 

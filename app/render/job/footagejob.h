@@ -1,5 +1,3 @@
-
-
 #ifndef FOOTAGEJOB_H
 #define FOOTAGEJOB_H
 

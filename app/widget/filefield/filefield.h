@@ -1,5 +1,3 @@
-
-
 #ifndef FILEFIELD_H
 #define FILEFIELD_H
 

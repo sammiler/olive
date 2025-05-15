@@ -1,5 +1,3 @@
-
-
 #include "historywidget.h"
 
 #include "core.h"

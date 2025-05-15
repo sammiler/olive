@@ -1,5 +1,3 @@
-
-
 #ifndef CODECSTACK_H
 #define CODECSTACK_H
 

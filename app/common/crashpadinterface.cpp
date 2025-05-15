@@ -1,5 +1,3 @@
-
-
 #include "crashpadinterface.h"
 #include <qchar.h>
 #include <qdir.h>

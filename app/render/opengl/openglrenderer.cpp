@@ -1,5 +1,3 @@
-
-
 #include "openglrenderer.h"
 
 #include <QDateTime>

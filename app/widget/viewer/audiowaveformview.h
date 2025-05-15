@@ -1,5 +1,3 @@
-
-
 #ifndef AUDIOWAVEFORMVIEW_H
 #define AUDIOWAVEFORMVIEW_H
 

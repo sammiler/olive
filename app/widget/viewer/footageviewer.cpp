@@ -1,5 +1,3 @@
-
-
 #include "footageviewer.h"
 
 #include <QDrag>

@@ -1,5 +1,3 @@
-
-
 #include "trigonometry.h"
 
 namespace olive {

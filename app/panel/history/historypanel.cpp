@@ -1,5 +1,3 @@
-
-
 #include "historypanel.h"
 
 #include "widget/history/historywidget.h"

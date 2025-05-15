@@ -1,5 +1,3 @@
-
-
 #include "zoom.h"
 #include "widget/timelinewidget/timelinewidget.h"
 

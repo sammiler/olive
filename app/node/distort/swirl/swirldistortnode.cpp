@@ -1,5 +1,3 @@
-
-
 #include "swirldistortnode.h"
 
 namespace olive {

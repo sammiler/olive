@@ -1,5 +1,3 @@
-
-
 #ifndef STRINGSLIDER_H
 #define STRINGSLIDER_H
 

@@ -1,5 +1,3 @@
-
-
 #ifndef FFMPEGENCODER_H
 #define FFMPEGENCODER_H
 

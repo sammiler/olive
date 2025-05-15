@@ -1,5 +1,3 @@
-
-
 #ifndef PROGRESSDIALOG_H
 #define PROGRESSDIALOG_H
 

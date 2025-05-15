@@ -1,5 +1,3 @@
-
-
 #ifndef BEZIERWIDGET_H
 #define BEZIERWIDGET_H
 

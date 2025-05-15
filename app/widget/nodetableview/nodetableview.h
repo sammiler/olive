@@ -1,5 +1,3 @@
-
-
 #ifndef NODETABLEVIEW_H
 #define NODETABLEVIEW_H
 

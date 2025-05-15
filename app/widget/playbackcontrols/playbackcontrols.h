@@ -1,5 +1,3 @@
-
-
 #ifndef PLAYBACKCONTROLS_H
 #define PLAYBACKCONTROLS_H
 

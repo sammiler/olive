@@ -1,5 +1,3 @@
-
-
 #ifndef CONFIGBASE_H
 #define CONFIGBASE_H
 

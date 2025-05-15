@@ -1,5 +1,3 @@
-
-
 #ifndef XMLREADLOOP_H
 #define XMLREADLOOP_H
 

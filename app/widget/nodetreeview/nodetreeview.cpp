@@ -1,5 +1,3 @@
-
-
 #include "nodetreeview.h"
 
 #include <QEvent>

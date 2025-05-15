@@ -1,5 +1,3 @@
-
-
 #include "shapenodebase.h"
 
 #include <QVector2D>

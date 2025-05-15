@@ -1,5 +1,3 @@
-
-
 #include "timelineundopointer.h"
 
 #include "node/block/gap/gap.h"

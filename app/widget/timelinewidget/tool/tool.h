@@ -1,5 +1,3 @@
-
-
 #ifndef TIMELINETOOL_H
 #define TIMELINETOOL_H
 

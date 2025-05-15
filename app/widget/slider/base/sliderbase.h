@@ -1,5 +1,3 @@
-
-
 #ifndef SLIDERBASE_H
 #define SLIDERBASE_H
 

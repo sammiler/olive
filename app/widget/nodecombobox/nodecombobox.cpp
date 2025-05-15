@@ -1,5 +1,3 @@
-
-
 #include "nodecombobox.h"
 
 #include <QAction>

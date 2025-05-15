@@ -1,5 +1,3 @@
-
-
 #ifndef TIMELINEWIDGET_H
 #define TIMELINEWIDGET_H
 

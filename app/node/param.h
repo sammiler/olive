@@ -1,5 +1,3 @@
-
-
 #ifndef NODEPARAM_H
 #define NODEPARAM_H
 

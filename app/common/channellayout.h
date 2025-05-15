@@ -1,5 +1,3 @@
-
-
 #ifndef CHANNELLAYOUT_H
 #define CHANNELLAYOUT_H
 

@@ -1,5 +1,3 @@
-
-
 #ifndef CONFORMMANAGER_H
 #define CONFORMMANAGER_H
 

@@ -1,5 +1,3 @@
-
-
 #include "configdialogbase.h"
 
 #include <QDialogButtonBox>

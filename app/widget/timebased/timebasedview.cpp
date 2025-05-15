@@ -1,5 +1,3 @@
-
-
 #include "timebasedview.h"
 
 #include <QGraphicsRectItem>

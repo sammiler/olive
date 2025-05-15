@@ -1,5 +1,3 @@
-
-
 #include "typeserializer.h"
 
 namespace olive {

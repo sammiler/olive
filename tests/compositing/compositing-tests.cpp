@@ -1,5 +1,3 @@
-
-
 #include "testutil.h"
 
 #include "node/distort/crop/cropdistortnode.h"

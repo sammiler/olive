@@ -1,5 +1,3 @@
-
-
 #ifndef SERIALIZER211228_H
 #define SERIALIZER211228_H
 

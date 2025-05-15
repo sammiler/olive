@@ -1,5 +1,3 @@
-
-
 #include "multicamdisplay.h"
 
 namespace olive {

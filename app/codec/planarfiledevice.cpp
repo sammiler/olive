@@ -1,5 +1,3 @@
-
-
 #include "planarfiledevice.h"
 
 namespace olive {

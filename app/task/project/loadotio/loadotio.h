@@ -1,5 +1,3 @@
-
-
 #ifndef OTIODECODER_H
 #define OTIODECODER_H
 

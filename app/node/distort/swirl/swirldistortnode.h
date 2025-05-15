@@ -1,5 +1,3 @@
-
-
 #ifndef SWIRLDISTORTNODE_H
 #define SWIRLDISTORTNODE_H
 

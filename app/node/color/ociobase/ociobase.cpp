@@ -1,5 +1,3 @@
-
-
 #include "ociobase.h"
 
 #include "node/color/colormanager/colormanager.h"

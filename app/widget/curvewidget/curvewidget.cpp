@@ -1,5 +1,3 @@
-
-
 #include "curvewidget.h"
 
 #include <QEvent>

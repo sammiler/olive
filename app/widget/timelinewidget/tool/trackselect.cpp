@@ -1,5 +1,3 @@
-
-
 #include "trackselect.h"
 
 #include "node/block/gap/gap.h"

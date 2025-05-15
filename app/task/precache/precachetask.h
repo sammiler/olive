@@ -1,5 +1,3 @@
-
-
 #ifndef PRECACHETASK_H
 #define PRECACHETASK_H
 

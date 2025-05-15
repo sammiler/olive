@@ -1,5 +1,3 @@
-
-
 #include "subtitleparams.h"
 
 #include <QCoreApplication>

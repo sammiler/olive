@@ -1,5 +1,3 @@
-
-
 #include "line.h"
 
 namespace olive {

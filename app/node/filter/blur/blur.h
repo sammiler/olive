@@ -1,5 +1,3 @@
-
-
 #ifndef BLURFILTERNODE_H
 #define BLURFILTERNODE_H
 

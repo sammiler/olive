@@ -1,5 +1,3 @@
-
-
 #ifndef SUBTITLEPARAMS_H
 #define SUBTITLEPARAMS_H
 

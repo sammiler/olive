@@ -1,5 +1,3 @@
-
-
 #ifndef CURVEVIEW_H
 #define CURVEVIEW_H
 

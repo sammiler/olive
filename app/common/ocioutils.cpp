@@ -1,5 +1,3 @@
-
-
 #include "ocioutils.h"
 
 namespace olive {

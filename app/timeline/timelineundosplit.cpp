@@ -1,5 +1,3 @@
-
-
 #include "timelineundosplit.h"
 
 #include "node/block/clip/clip.h"

@@ -1,5 +1,3 @@
-
-
 #include "projecttoolbar.h"
 
 #include <QButtonGroup>

@@ -1,5 +1,3 @@
-
-
 #include "version.h"
 
 namespace olive {

@@ -1,5 +1,3 @@
-
-
 #include "footagerelinkdialog.h"
 
 #include <QDialogButtonBox>

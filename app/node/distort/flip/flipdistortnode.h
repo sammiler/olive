@@ -1,5 +1,3 @@
-
-
 #ifndef FLIPDISTORTNODE_H
 #define FLIPDISTORTNODE_H
 

@@ -1,5 +1,3 @@
-
-
 #ifndef LIBOLIVECORE_COLOR_H
 #define LIBOLIVECORE_COLOR_H
 

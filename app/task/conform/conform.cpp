@@ -1,5 +1,3 @@
-
-
 #include "conform.h"
 
 #include <utility>

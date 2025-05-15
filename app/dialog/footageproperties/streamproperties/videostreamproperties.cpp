@@ -1,5 +1,3 @@
-
-
 #include "videostreamproperties.h"
 
 #include <QGridLayout>

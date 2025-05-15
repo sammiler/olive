@@ -1,5 +1,3 @@
-
-
 #include "traverser.h"
 
 #include "node.h"

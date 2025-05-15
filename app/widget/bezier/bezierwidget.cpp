@@ -1,5 +1,3 @@
-
-
 #include "bezierwidget.h"
 
 #include <QGridLayout>

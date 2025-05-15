@@ -1,5 +1,3 @@
-
-
 #include "exportsavepresetdialog.h"
 
 #include <QDialogButtonBox>

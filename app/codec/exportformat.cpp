@@ -1,5 +1,3 @@
-
-
 #include "exportformat.h"
 
 #include "encoder.h"

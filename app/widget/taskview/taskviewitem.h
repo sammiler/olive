@@ -1,5 +1,3 @@
-
-
 #ifndef TASKVIEWITEM_H
 #define TASKVIEWITEM_H
 

@@ -1,5 +1,3 @@
-
-
 #include "framehashcache.h"
 
 #include <OpenEXR/ImfChannelList.h>

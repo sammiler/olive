@@ -1,5 +1,3 @@
-
-
 #include "nodeviewitem.h"
 
 #include <QDebug>

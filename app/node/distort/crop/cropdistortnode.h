@@ -1,5 +1,3 @@
-
-
 #ifndef CROPDISTORTNODE_H
 #define CROPDISTORTNODE_H
 

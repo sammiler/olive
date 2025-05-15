@@ -1,5 +1,3 @@
-
-
 #include "sequence.h"
 
 #include <QDialogButtonBox>

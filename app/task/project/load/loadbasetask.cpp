@@ -1,5 +1,3 @@
-
-
 #include "loadbasetask.h"
 
 namespace olive {

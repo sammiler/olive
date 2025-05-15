@@ -1,5 +1,3 @@
-
-
 #include "customcachetask.h"
 
 namespace olive {

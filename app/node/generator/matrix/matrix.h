@@ -1,5 +1,3 @@
-
-
 #ifndef MATRIXGENERATOR_H
 #define MATRIXGENERATOR_H
 

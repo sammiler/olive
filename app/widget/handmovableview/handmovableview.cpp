@@ -1,5 +1,3 @@
-
-
 #include "handmovableview.h"
 
 #include <QMouseEvent>

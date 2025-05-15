@@ -1,5 +1,3 @@
-
-
 #include "gizmo.h"
 
 namespace olive {

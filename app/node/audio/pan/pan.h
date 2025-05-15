@@ -1,5 +1,3 @@
-
-
 #ifndef PANNODE_H
 #define PANNODE_H
 

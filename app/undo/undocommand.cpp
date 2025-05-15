@@ -1,5 +1,3 @@
-
-
 #include "undocommand.h"
 
 #include <ranges>

@@ -1,5 +1,3 @@
-
-
 #include "keyframeproperties.h"
 
 #include <QDialogButtonBox>

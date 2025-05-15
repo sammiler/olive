@@ -1,5 +1,3 @@
-
-
 #ifndef NODETRAVERSER_H
 #define NODETRAVERSER_H
 

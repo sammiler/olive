@@ -1,5 +1,3 @@
-
-
 #ifndef CRASHPADUTILS_H
 #define CRASHPADUTILS_H
 

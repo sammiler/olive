@@ -1,5 +1,3 @@
-
-
 #include "param.h"
 
 #include "window/mainwindow/mainwindow.h"

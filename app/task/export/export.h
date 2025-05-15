@@ -1,5 +1,3 @@
-
-
 #ifndef EXPORTTASK_H
 #define EXPORTTASK_H
 

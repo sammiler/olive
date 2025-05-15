@@ -1,5 +1,3 @@
-
-
 #include "colorswatchchooser.h"
 
 #include <QGridLayout>

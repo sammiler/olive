@@ -1,5 +1,3 @@
-
-
 #ifndef LIBOLIVECORE_BEZIER_H
 #define LIBOLIVECORE_BEZIER_H
 

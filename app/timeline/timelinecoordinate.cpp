@@ -1,5 +1,3 @@
-
-
 #include "timelinecoordinate.h"
 
 namespace olive {

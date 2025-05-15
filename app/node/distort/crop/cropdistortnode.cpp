@@ -1,5 +1,3 @@
-
-
 #include "cropdistortnode.h"
 
 #include "common/util.h"

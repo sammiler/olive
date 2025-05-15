@@ -1,5 +1,3 @@
-
-
 #ifndef VIDEOPARAMS_H
 #define VIDEOPARAMS_H
 

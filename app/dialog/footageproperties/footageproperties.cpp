@@ -1,5 +1,3 @@
-
-
 #include "footageproperties.h"
 
 #include <QCheckBox>

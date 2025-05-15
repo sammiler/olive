@@ -1,5 +1,3 @@
-
-
 #include "nodeviewminimap.h"
 
 #include <QMouseEvent>

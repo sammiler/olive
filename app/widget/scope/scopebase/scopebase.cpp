@@ -1,5 +1,3 @@
-
-
 #include "scopebase.h"
 
 #include <utility>

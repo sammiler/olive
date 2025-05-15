@@ -1,5 +1,3 @@
-
-
 #ifndef DECIMALSLIDERBASE_H
 #define DECIMALSLIDERBASE_H
 

@@ -1,5 +1,3 @@
-
-
 #include "multicamwidget.h"
 
 #include <QShortcut>

@@ -1,5 +1,3 @@
-
-
 #ifndef HISTOGRAMSCOPE_H
 #define HISTOGRAMSCOPE_H
 

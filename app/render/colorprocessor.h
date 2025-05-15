@@ -1,5 +1,3 @@
-
-
 #ifndef COLORPROCESSOR_H
 #define COLORPROCESSOR_H
 

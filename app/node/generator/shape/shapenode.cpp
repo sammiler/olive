@@ -1,5 +1,3 @@
-
-
 #include "shapenode.h"
 
 namespace olive {

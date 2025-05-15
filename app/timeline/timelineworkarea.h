@@ -1,5 +1,3 @@
-
-
 #ifndef TIMELINEWORKAREA_H
 #define TIMELINEWORKAREA_H
 

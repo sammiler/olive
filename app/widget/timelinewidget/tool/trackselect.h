@@ -1,5 +1,3 @@
-
-
 #ifndef TRACKSELECTTOOL_H
 #define TRACKSELECTTOOL_H
 

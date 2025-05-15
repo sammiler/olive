@@ -1,5 +1,3 @@
-
-
 #include "decimalsliderbase.h"
 
 namespace olive {

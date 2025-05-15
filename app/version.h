@@ -1,5 +1,3 @@
-
-
 #ifndef GITHASH_H
 #define GITHASH_H
 

@@ -1,5 +1,3 @@
-
-
 #include "colorcodingcombobox.h"
 
 #include "ui/colorcoding.h"

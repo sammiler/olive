@@ -1,5 +1,3 @@
-
-
 #include "timelinewidgetselections.h"
 
 namespace olive {

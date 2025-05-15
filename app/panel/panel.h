@@ -1,5 +1,3 @@
-
-
 #ifndef PANEL_WIDGET_H
 #define PANEL_WIDGET_H
 

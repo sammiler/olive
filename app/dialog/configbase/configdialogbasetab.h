@@ -1,5 +1,3 @@
-
-
 #ifndef PREFERENCESTAB_H
 #define PREFERENCESTAB_H
 

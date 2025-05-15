@@ -1,5 +1,3 @@
-
-
 #include "sliderlabel.h"
 
 #include <QApplication>

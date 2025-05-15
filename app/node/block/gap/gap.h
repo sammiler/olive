@@ -1,5 +1,3 @@
-
-
 #ifndef GAPBLOCK_H
 #define GAPBLOCK_H
 

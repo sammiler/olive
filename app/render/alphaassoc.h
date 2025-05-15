@@ -1,5 +1,3 @@
-
-
 #ifndef ALPHAASSOC_H
 #define ALPHAASSOC_H
 

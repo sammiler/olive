@@ -1,5 +1,3 @@
-
-
 #ifndef ACCELERATEDJOB_H
 #define ACCELERATEDJOB_H
 

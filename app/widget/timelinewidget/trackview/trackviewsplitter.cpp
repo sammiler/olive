@@ -1,5 +1,3 @@
-
-
 #include "trackviewsplitter.h"
 
 #include <QDebug>

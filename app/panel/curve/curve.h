@@ -1,5 +1,3 @@
-
-
 #ifndef CURVEPANEL_H
 #define CURVEPANEL_H
 

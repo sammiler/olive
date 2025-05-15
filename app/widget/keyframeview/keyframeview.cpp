@@ -1,5 +1,3 @@
-
-
 #include "keyframeview.h"
 
 #include <QMouseEvent>

@@ -1,5 +1,3 @@
-
-
 #ifndef FRAMERATECOMBOBOX_H
 #define FRAMERATECOMBOBOX_H
 

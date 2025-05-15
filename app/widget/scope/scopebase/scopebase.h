@@ -1,5 +1,3 @@
-
-
 #ifndef SCOPEBASE_H
 #define SCOPEBASE_H
 

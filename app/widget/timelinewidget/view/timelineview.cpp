@@ -1,5 +1,3 @@
-
-
 #include "timelineview.h"
 
 #include <QDebug>

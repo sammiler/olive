@@ -1,5 +1,3 @@
-
-
 #ifndef TASKVIEW_H
 #define TASKVIEW_H
 

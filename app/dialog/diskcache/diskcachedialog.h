@@ -1,5 +1,3 @@
-
-
 #ifndef DISKCACHEDIALOG_H
 #define DISKCACHEDIALOG_H
 

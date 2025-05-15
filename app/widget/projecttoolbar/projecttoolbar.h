@@ -1,5 +1,3 @@
-
-
 #ifndef PROJECTTOOLBAR_H
 #define PROJECTTOOLBAR_H
 

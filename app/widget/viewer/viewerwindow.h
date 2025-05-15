@@ -1,5 +1,3 @@
-
-
 #ifndef VIEWERWINDOW_H
 #define VIEWERWINDOW_H
 

@@ -1,5 +1,3 @@
-
-
 #ifndef THREADSAFEMAP_H
 #define THREADSAFEMAP_H
 

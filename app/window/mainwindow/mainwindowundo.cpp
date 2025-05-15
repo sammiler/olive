@@ -1,5 +1,3 @@
-
-
 #include "mainwindowundo.h"
 
 #include "core.h"

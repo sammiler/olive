@@ -1,5 +1,3 @@
-
-
 #include "stroke.h"
 
 #include "widget/slider/floatslider.h"

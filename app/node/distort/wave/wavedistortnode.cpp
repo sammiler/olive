@@ -1,5 +1,3 @@
-
-
 #include "wavedistortnode.h"
 
 namespace olive {

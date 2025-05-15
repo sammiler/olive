@@ -1,5 +1,3 @@
-
-
 #include "codecsection.h"
 
 namespace olive {

@@ -1,5 +1,3 @@
-
-
 #include "actionsearch.h"
 
 #include <QKeyEvent>

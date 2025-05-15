@@ -1,5 +1,3 @@
-
-
 #include "ociogradingtransformlinear.h"
 
 #include <iostream>

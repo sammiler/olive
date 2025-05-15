@@ -1,5 +1,3 @@
-
-
 #ifndef FOOTAGE_H
 #define FOOTAGE_H
 

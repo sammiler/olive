@@ -1,5 +1,3 @@
-
-
 #include "keyframeviewinputconnection.h"
 
 #include "keyframeview.h"

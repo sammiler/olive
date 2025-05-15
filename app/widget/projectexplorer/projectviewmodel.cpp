@@ -1,5 +1,3 @@
-
-
 #include "projectviewmodel.h"
 
 #include <QDebug>

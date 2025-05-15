@@ -1,5 +1,3 @@
-
-
 #include "timebased.h"
 
 namespace olive {

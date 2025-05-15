@@ -1,5 +1,3 @@
-
-
 #ifndef TIMELINE_PANEL_H
 #define TIMELINE_PANEL_H
 

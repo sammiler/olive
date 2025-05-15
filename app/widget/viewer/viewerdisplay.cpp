@@ -1,5 +1,3 @@
-
-
 #include "viewerdisplay.h"
 
 #include <OpenImageIO/imagebuf.h>

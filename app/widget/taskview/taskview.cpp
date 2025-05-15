@@ -1,5 +1,3 @@
-
-
 #include "taskview.h"
 
 #include <QPushButton>

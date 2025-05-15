@@ -1,5 +1,3 @@
-
-
 #ifndef MULTICAMWIDGET_H
 #define MULTICAMWIDGET_H
 

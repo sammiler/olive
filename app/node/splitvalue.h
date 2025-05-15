@@ -1,5 +1,3 @@
-
-
 #ifndef SPLITVALUE_H
 #define SPLITVALUE_H
 

@@ -1,5 +1,3 @@
-
-
 #include "render/audioparams.h"
 
 #include <cmath>

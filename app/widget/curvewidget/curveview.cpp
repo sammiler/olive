@@ -1,5 +1,3 @@
-
-
 #include "curveview.h"
 
 #include <QHash>

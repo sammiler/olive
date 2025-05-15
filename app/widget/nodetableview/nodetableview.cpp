@@ -1,5 +1,3 @@
-
-
 #include "nodetableview.h"
 
 #include <QCheckBox>

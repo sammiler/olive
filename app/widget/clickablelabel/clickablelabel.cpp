@@ -1,5 +1,3 @@
-
-
 #include "clickablelabel.h"
 
 #include <QMouseEvent>

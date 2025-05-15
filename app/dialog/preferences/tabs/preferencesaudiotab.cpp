@@ -1,5 +1,3 @@
-
-
 #include "preferencesaudiotab.h"
 
 #include <QGridLayout>

@@ -1,5 +1,3 @@
-
-
 #include "transition.h"
 
 #include "node/block/clip/clip.h"

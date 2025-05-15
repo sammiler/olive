@@ -1,5 +1,3 @@
-
-
 #ifndef FILEFUNCTIONS_H
 #define FILEFUNCTIONS_H
 

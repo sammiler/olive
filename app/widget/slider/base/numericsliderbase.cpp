@@ -1,5 +1,3 @@
-
-
 #include "numericsliderbase.h"
 
 #include "common/qtutils.h"

@@ -1,5 +1,3 @@
-
-
 #include "despill.h"
 
 #include "node/project.h"

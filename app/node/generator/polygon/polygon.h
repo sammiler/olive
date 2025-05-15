@@ -1,5 +1,3 @@
-
-
 #ifndef POLYGONGENERATOR_H
 #define POLYGONGENERATOR_H
 

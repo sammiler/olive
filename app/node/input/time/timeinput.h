@@ -1,5 +1,3 @@
-
-
 #ifndef TIMEINPUT_H
 #define TIMEINPUT_H
 

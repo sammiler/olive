@@ -1,5 +1,3 @@
-
-
 #ifndef TIMELINEUNDOTRACK_H
 #define TIMELINEUNDOTRACK_H
 

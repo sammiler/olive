@@ -1,5 +1,3 @@
-
-
 #ifndef BEAMTIMELINETOOL_H
 #define BEAMTIMELINETOOL_H
 

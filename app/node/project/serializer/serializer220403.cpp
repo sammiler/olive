@@ -1,5 +1,3 @@
-
-
 #include "serializer220403.h"
 
 #include "config/config.h"

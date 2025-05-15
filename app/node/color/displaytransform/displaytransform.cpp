@@ -1,5 +1,3 @@
-
-
 #include "displaytransform.h"
 
 #include "node/color/colormanager/colormanager.h"

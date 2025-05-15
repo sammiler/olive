@@ -1,5 +1,3 @@
-
-
 #ifndef IMAGESECTION_H
 #define IMAGESECTION_H
 

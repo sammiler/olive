@@ -1,5 +1,3 @@
-
-
 #ifndef TASKDIALOG_H
 #define TASKDIALOG_H
 

@@ -1,5 +1,3 @@
-
-
 #include "node.h"
 
 namespace olive {

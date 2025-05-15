@@ -1,5 +1,3 @@
-
-
 #ifndef RENDERJOBTRACKER_H
 #define RENDERJOBTRACKER_H
 

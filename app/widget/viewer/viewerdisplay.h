@@ -1,5 +1,3 @@
-
-
 #ifndef VIEWERGLWIDGET_H
 #define VIEWERGLWIDGET_H
 

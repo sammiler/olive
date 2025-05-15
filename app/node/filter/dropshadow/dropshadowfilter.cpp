@@ -1,5 +1,3 @@
-
-
 #include "dropshadowfilter.h"
 
 #include "widget/slider/floatslider.h"

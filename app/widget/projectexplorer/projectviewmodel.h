@@ -1,5 +1,3 @@
-
-
 #ifndef VIEWMODEL_H
 #define VIEWMODEL_H
 

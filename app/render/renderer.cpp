@@ -1,5 +1,3 @@
-
-
 #include "renderer.h"
 #include <OpenColorIO/OpenColorIO.h>
 

@@ -1,5 +1,3 @@
-
-
 #include "filefield.h"
 
 #include <QFileDialog>

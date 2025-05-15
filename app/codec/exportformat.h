@@ -1,5 +1,3 @@
-
-
 #ifndef EXPORTFORMAT_H
 #define EXPORTFORMAT_H
 

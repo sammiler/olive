@@ -1,5 +1,3 @@
-
-
 #include "sequenceviewer.h"
 #include "panel/timeline/timeline.h"
 

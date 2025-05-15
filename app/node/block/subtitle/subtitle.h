@@ -1,5 +1,3 @@
-
-
 #ifndef SUBTITLEBLOCK_H
 #define SUBTITLEBLOCK_H
 

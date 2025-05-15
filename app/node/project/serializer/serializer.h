@@ -1,5 +1,3 @@
-
-
 #ifndef PROJECTSERIALIZER_H
 #define PROJECTSERIALIZER_H
 

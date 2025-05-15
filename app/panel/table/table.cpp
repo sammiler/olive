@@ -1,5 +1,3 @@
-
-
 #include "table.h"
 
 namespace olive {

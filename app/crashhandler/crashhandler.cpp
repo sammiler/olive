@@ -1,5 +1,3 @@
-
-
 #include "crashhandler.h"
 #include <qobject.h>
 

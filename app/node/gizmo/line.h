@@ -1,5 +1,3 @@
-
-
 #ifndef LINEGIZMO_H
 #define LINEGIZMO_H
 

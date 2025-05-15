@@ -1,5 +1,3 @@
-
-
 #include "panel.h"
 
 #include <QCloseEvent>

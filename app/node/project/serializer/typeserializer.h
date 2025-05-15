@@ -1,5 +1,3 @@
-
-
 #ifndef TYPESERIALIZER_H
 #define TYPESERIALIZER_H
 

@@ -1,5 +1,3 @@
-
-
 #include "task.h"
 
 #include <QtConcurrent/QtConcurrent>

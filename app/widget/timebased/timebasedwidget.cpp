@@ -1,5 +1,3 @@
-
-
 #include "timebasedwidget.h"
 
 #include <QInputDialog>

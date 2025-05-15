@@ -1,5 +1,3 @@
-
-
 #ifndef VIEWERTEXTEDITOR_H
 #define VIEWERTEXTEDITOR_H
 

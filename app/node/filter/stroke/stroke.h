@@ -1,5 +1,3 @@
-
-
 #ifndef STROKEFILTERNODE_H
 #define STROKEFILTERNODE_H
 

@@ -1,5 +1,3 @@
-
-
 #include "nodeparamviewconnectedlabel.h"
 
 #include <QHBoxLayout>

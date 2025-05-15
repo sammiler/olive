@@ -1,5 +1,3 @@
-
-
 #ifndef DECIBEL_H
 #define DECIBEL_H
 

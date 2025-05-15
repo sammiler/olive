@@ -1,5 +1,3 @@
-
-
 #include "nodeparamviewarraywidget.h"
 
 #include <QEvent>

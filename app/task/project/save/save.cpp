@@ -1,5 +1,3 @@
-
-
 #include "save.h"
 
 #include <QDir>

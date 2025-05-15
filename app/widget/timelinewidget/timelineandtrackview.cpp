@@ -1,5 +1,3 @@
-
-
 #include "timelineandtrackview.h"
 
 #include <QHBoxLayout>

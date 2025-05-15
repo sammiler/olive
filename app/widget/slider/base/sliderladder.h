@@ -1,5 +1,3 @@
-
-
 #ifndef SLIDERLADDER_H
 #define SLIDERLADDER_H
 

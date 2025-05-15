@@ -1,5 +1,3 @@
-
-
 #ifndef SOLIDGENERATOR_H
 #define SOLIDGENERATOR_H
 

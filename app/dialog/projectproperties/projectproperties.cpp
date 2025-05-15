@@ -1,5 +1,3 @@
-
-
 #include "projectproperties.h"
 
 #include <QButtonGroup>

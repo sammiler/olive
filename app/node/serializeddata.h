@@ -1,5 +1,3 @@
-
-
 #ifndef SERIALIZEDDATA_H
 #define SERIALIZEDDATA_H
 

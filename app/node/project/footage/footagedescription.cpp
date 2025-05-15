@@ -1,5 +1,3 @@
-
-
 #include "footagedescription.h"
 
 #include <QFile>

@@ -1,5 +1,3 @@
-
-
 #ifndef RENDERCACHE_H
 #define RENDERCACHE_H
 

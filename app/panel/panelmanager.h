@@ -1,5 +1,3 @@
-
-
 #ifndef PANELFOCUSMANAGER_H
 #define PANELFOCUSMANAGER_H
 

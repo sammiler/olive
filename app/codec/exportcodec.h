@@ -1,5 +1,3 @@
-
-
 #ifndef EXPORTCODEC_H
 #define EXPORTCODEC_H
 

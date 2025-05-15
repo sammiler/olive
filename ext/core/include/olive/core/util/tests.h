@@ -1,5 +1,3 @@
-
-
 #ifndef LIBOLIVECORE_TESTS_H
 #define LIBOLIVECORE_TESTS_H
 

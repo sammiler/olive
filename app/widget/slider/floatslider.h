@@ -1,5 +1,3 @@
-
-
 #ifndef FLOATSLIDER_H
 #define FLOATSLIDER_H
 

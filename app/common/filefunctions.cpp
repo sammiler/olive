@@ -1,5 +1,3 @@
-
-
 #include "filefunctions.h"
 
 #include <QCoreApplication>

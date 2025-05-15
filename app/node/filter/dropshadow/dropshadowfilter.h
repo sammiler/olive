@@ -1,5 +1,3 @@
-
-
 #ifndef DROPSHADOWFILTER_H
 #define DROPSHADOWFILTER_H
 

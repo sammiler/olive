@@ -1,5 +1,3 @@
-
-
 #include "edit.h"
 #include "widget/timelinewidget/timelinewidget.h"
 

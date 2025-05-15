@@ -1,5 +1,3 @@
-
-
 #ifndef TOOLBARBUTTON_H
 #define TOOLBARBUTTON_H
 

@@ -1,5 +1,3 @@
-
-
 #include "projectexplorericonviewitemdelegate.h"
 
 #include <QPainter>

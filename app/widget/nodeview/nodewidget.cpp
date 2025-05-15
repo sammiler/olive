@@ -1,5 +1,3 @@
-
-
 #include "nodewidget.h"
 
 #include <QVBoxLayout>

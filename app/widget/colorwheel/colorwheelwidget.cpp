@@ -1,5 +1,3 @@
-
-
 #include "colorwheelwidget.h"
 
 #include <QPainter>

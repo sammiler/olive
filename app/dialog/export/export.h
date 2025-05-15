@@ -1,5 +1,3 @@
-
-
 #ifndef EXPORTDIALOG_H
 #define EXPORTDIALOG_H
 

@@ -1,5 +1,3 @@
-
-
 #ifndef SLIPTIMELINETOOL_H
 #define SLIPTIMELINETOOL_H
 

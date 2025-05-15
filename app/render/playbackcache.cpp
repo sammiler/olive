@@ -1,5 +1,3 @@
-
-
 #include "playbackcache.h"
 
 #include "node/output/viewer/viewer.h"

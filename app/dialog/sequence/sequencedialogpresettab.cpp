@@ -1,5 +1,3 @@
-
-
 #include "sequencedialogpresettab.h"
 
 #include <QDir>

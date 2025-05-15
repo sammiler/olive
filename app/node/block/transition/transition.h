@@ -1,5 +1,3 @@
-
-
 #ifndef TRANSITIONBLOCK_H
 #define TRANSITIONBLOCK_H
 

@@ -1,5 +1,3 @@
-
-
 #ifndef MAINWINDOWUNDO_H
 #define MAINWINDOWUNDO_H
 

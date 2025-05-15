@@ -1,5 +1,3 @@
-
-
 #include "matrix.h"
 
 #include <QMatrix4x4>

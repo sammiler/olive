@@ -1,5 +1,3 @@
-
-
 #include "import.h"
 
 #include <QDir>

@@ -1,5 +1,3 @@
-
-
 #include "util/stringutils.h"
 
 #include <cstdarg>

@@ -1,5 +1,3 @@
-
-
 #ifndef JOBTIME_H
 #define JOBTIME_H
 

@@ -1,5 +1,3 @@
-
-
 #include "ffmpegdecoder.h"
 
 extern "C" {

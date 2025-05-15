@@ -1,5 +1,3 @@
-
-
 #ifndef AUTOSCROLL_H
 #define AUTOSCROLL_H
 

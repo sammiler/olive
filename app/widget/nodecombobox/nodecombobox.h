@@ -1,5 +1,3 @@
-
-
 #ifndef NODECOMBOBOX_H
 #define NODECOMBOBOX_H
 

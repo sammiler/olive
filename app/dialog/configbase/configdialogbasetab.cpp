@@ -1,5 +1,3 @@
-
-
 #include "configdialogbasetab.h"
 
 namespace olive {

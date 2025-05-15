@@ -1,5 +1,3 @@
-
-
 #ifndef TIMETARGETOBJECT_H
 #define TIMETARGETOBJECT_H
 

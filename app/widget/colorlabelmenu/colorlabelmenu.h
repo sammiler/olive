@@ -1,5 +1,3 @@
-
-
 #ifndef COLORLABELMENU_H
 #define COLORLABELMENU_H
 

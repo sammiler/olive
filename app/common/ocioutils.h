@@ -1,5 +1,3 @@
-
-
 #ifndef OCIOUTILS_H
 #define OCIOUTILS_H
 

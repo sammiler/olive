@@ -1,5 +1,3 @@
-
-
 #include "taskviewitem.h"
 
 #include <QDateTime>

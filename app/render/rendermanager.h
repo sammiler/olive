@@ -1,5 +1,3 @@
-
-
 #ifndef RENDERBACKEND_H
 #define RENDERBACKEND_H
 

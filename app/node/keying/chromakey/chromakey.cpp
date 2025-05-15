@@ -1,5 +1,3 @@
-
-
 #include "chromakey.h"
 
 #include "node/color/colormanager/colormanager.h"

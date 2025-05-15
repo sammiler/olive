@@ -1,5 +1,3 @@
-
-
 #include "nodeparamviewcontext.h"
 
 #include <QMessageBox>

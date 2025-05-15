@@ -1,5 +1,3 @@
-
-
 #ifndef ACTIONSEARCH_H
 #define ACTIONSEARCH_H
 

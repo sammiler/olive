@@ -1,5 +1,3 @@
-
-
 #ifndef TILEDISTORTNODE_H
 #define TILEDISTORTNODE_H
 

@@ -1,5 +1,3 @@
-
-
 #include "nodeviewitemconnector.h"
 
 #include <QApplication>

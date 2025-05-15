@@ -1,5 +1,3 @@
-
-
 #ifndef SHADERCODE_H
 #define SHADERCODE_H
 

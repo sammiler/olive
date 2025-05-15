@@ -1,5 +1,3 @@
-
-
 #ifndef FFMPEGDECODER_H
 #define FFMPEGDECODER_H
 

@@ -1,5 +1,3 @@
-
-
 // FileWatcher.h (假设这是文件名)
 #ifndef FILEWATCHER_H_OLIVE // 通常会加上项目名或特定后缀避免冲突
 #define FILEWATCHER_H_OLIVE

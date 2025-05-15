@@ -1,5 +1,3 @@
-
-
 #include "collapsebutton.h"
 
 #include "ui/icons/icons.h"

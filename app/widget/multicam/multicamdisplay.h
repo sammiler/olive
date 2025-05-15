@@ -1,5 +1,3 @@
-
-
 #ifndef MULTICAMDISPLAY_H
 #define MULTICAMDISPLAY_H
 

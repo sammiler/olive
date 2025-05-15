@@ -1,5 +1,3 @@
-
-
 #ifndef AUDIOMONITORPANEL_H
 #define AUDIOMONITORPANEL_H
 

@@ -1,5 +1,3 @@
-
-
 #ifndef TIMEOFFSETNODE_H
 #define TIMEOFFSETNODE_H
 

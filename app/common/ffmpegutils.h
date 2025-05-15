@@ -1,5 +1,3 @@
-
-
 #ifndef FFMPEGABSTRACTION_H
 #define FFMPEGABSTRACTION_H
 

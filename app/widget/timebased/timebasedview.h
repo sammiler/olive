@@ -1,5 +1,3 @@
-
-
 #ifndef TIMELINEVIEWBASE_H
 #define TIMELINEVIEWBASE_H
 

@@ -1,5 +1,3 @@
-
-
 #include "serializer.h"
 
 #include <QApplication>

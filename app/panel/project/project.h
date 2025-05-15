@@ -1,5 +1,3 @@
-
-
 #ifndef PROJECT_PANEL_H
 #define PROJECT_PANEL_H
 

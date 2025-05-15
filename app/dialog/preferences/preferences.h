@@ -1,5 +1,3 @@
-
-
 #ifndef PREFERENCESDIALOG_H
 #define PREFERENCESDIALOG_H
 

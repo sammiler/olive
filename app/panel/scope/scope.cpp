@@ -1,5 +1,3 @@
-
-
 #include "scope.h"
 
 #include <QVBoxLayout>

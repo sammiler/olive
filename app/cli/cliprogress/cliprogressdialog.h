@@ -1,5 +1,3 @@
-
-
 #ifndef CLIPROGRESSDIALOG_H
 #define CLIPROGRESSDIALOG_H
 

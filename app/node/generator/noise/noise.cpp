@@ -1,5 +1,3 @@
-
-
 #include "noise.h"
 
 #include "widget/slider/floatslider.h"

@@ -1,5 +1,3 @@
-
-
 #ifndef NODEGROUP_H
 #define NODEGROUP_H
 

@@ -1,5 +1,3 @@
-
-
 #ifndef DESPILLNODE_H
 #define DESPILLNODE_H
 

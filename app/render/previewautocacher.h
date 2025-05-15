@@ -1,5 +1,3 @@
-
-
 #ifndef AUTOCACHER_H
 #define AUTOCACHER_H
 

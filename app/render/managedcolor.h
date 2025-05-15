@@ -1,5 +1,3 @@
-
-
 #ifndef MANAGEDCOLOR_H
 #define MANAGEDCOLOR_H
 

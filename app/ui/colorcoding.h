@@ -1,5 +1,3 @@
-
-
 #ifndef COLORCODING_H
 #define COLORCODING_H
 

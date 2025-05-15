@@ -1,5 +1,3 @@
-
-
 #include "colorpreviewbox.h"
 
 #include <QPainter>

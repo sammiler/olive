@@ -1,5 +1,3 @@
-
-
 #include "util/rational.h"
 
 #include <cmath>

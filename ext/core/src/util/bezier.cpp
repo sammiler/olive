@@ -1,5 +1,3 @@
-
-
 #include "util/bezier.h"
 
 #include <algorithm>

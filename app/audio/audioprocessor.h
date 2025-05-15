@@ -1,5 +1,3 @@
-
-
 #ifndef AUDIOPROCESSOR_H
 #define AUDIOPROCESSOR_H
 

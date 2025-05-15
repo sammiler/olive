@@ -1,5 +1,3 @@
-
-
 #include "render.h"
 
 #include <utility>

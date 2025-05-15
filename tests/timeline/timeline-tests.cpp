@@ -1,5 +1,3 @@
-
-
 #include "core.h"
 #include "node/block/clip/clip.h"
 #include "node/block/transition/crossdissolve/crossdissolvetransition.h"

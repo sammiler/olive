@@ -1,5 +1,3 @@
-
-
 #ifndef ZOOMTIMELINETOOL_H
 #define ZOOMTIMELINETOOL_H
 

@@ -1,5 +1,3 @@
-
-
 #include "imagesection.h"
 
 #include <QGridLayout>

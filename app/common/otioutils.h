@@ -1,5 +1,3 @@
-
-
 #ifndef OTIOUTILS_H
 #define OTIOUTILS_H
 

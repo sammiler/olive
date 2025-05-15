@@ -1,5 +1,3 @@
-
-
 #ifndef SEQUENCEDIALOG_H
 #define SEQUENCEDIALOG_H
 

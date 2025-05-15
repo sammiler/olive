@@ -1,5 +1,3 @@
-
-
 #ifndef VIEWERSIZER_H
 #define VIEWERSIZER_H
 

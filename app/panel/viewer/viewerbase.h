@@ -1,5 +1,3 @@
-
-
 #ifndef VIEWERPANELBASE_H
 #define VIEWERPANELBASE_H
 

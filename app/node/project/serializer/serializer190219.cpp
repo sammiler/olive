@@ -1,5 +1,3 @@
-
-
 #include "serializer190219.h"
 
 namespace olive {

@@ -1,5 +1,3 @@
-
-
 #include "nodeviewscene.h"
 
 #include "core.h"

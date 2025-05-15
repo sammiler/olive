@@ -1,5 +1,3 @@
-
-
 #ifndef MOSAICFILTERNODE_H
 #define MOSAICFILTERNODE_H
 

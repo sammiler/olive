@@ -1,5 +1,3 @@
-
-
 #ifndef VOLUMENODE_H
 #define VOLUMENODE_H
 

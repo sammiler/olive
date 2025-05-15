@@ -1,5 +1,3 @@
-
-
 #include "rendercancel.h"
 
 namespace olive {

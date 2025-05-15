@@ -1,5 +1,3 @@
-
-
 #include "projectexplorerlistview.h"
 
 namespace olive {

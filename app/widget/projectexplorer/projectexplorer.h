@@ -1,5 +1,3 @@
-
-
 #ifndef PROJECTEXPLORER_H
 #define PROJECTEXPLORER_H
 

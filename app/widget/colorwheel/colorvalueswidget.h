@@ -1,5 +1,3 @@
-
-
 #ifndef COLORVALUESWIDGET_H
 #define COLORVALUESWIDGET_H
 

@@ -1,5 +1,3 @@
-
-
 #include "diskmanager.h"
 
 #include <QDataStream>

@@ -1,5 +1,3 @@
-
-
 #include "textv2.h"
 
 #include <olive/core/core.h>

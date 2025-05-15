@@ -1,5 +1,3 @@
-
-
 #ifndef TEXTGIZMO_H
 #define TEXTGIZMO_H
 

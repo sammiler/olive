@@ -1,5 +1,3 @@
-
-
 #include "text.h"
 
 #include <QDebug>

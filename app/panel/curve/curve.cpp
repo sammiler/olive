@@ -1,5 +1,3 @@
-
-
 #include "curve.h"
 
 namespace olive {

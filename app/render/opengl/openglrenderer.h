@@ -1,5 +1,3 @@
-
-
 #ifndef OPENGLCONTEXT_H
 #define OPENGLCONTEXT_H
 

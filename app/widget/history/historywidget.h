@@ -1,5 +1,3 @@
-
-
 #ifndef HISTORYWIDGET_H
 #define HISTORYWIDGET_H
 

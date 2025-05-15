@@ -1,5 +1,3 @@
-
-
 #include "clip.h"
 
 #include "config/config.h"

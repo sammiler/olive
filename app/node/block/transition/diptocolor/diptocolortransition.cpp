@@ -1,5 +1,3 @@
-
-
 #include "diptocolortransition.h"
 
 namespace olive {

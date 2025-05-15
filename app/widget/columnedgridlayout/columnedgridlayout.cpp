@@ -1,5 +1,3 @@
-
-
 #include "columnedgridlayout.h"
 
 namespace olive {

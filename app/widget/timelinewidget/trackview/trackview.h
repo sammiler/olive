@@ -1,5 +1,3 @@
-
-
 #ifndef TRACKVIEW_H
 #define TRACKVIEW_H
 

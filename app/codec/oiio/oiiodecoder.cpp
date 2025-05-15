@@ -1,5 +1,3 @@
-
-
 #include "oiiodecoder.h"
 
 #include <QDebug>

@@ -1,5 +1,3 @@
-
-
 #include "colormanager.h"
 
 #include <QDir>

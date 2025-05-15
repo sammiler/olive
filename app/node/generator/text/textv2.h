@@ -1,5 +1,3 @@
-
-
 #ifndef TEXTGENERATORV2_H
 #define TEXTGENERATORV2_H
 

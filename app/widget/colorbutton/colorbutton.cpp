@@ -1,5 +1,3 @@
-
-
 #include "colorbutton.h"
 
 #include "dialog/color/colordialog.h"

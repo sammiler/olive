@@ -1,5 +1,3 @@
-
-
 #include "otiopropertiesdialog.h"
 
 #include <QDialogButtonBox>

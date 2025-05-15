@@ -1,5 +1,3 @@
-
-
 #include "preferencesbehaviortab.h"
 
 #include <QCheckBox>

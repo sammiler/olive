@@ -1,5 +1,3 @@
-
-
 #include "clitaskdialog.h"
 
 namespace olive {

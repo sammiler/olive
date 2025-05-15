@@ -1,5 +1,3 @@
-
-
 #include "timeruler.h"
 
 #include <QDebug>

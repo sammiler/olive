@@ -1,5 +1,3 @@
-
-
 #include "nodeview.h"
 
 #include <QInputDialog>

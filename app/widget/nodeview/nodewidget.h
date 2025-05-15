@@ -1,5 +1,3 @@
-
-
 #ifndef NODEWIDGET_H
 #define NODEWIDGET_H
 

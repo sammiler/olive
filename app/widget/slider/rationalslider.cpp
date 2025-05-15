@@ -1,5 +1,3 @@
-
-
 #include "rationalslider.h"
 
 #include "core.h"

@@ -1,5 +1,3 @@
-
-
 #ifndef NODEVIEWSCENE_H
 #define NODEVIEWSCENE_H
 

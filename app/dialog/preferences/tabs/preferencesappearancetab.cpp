@@ -1,5 +1,3 @@
-
-
 #include "preferencesappearancetab.h"
 
 #include <QColorDialog>

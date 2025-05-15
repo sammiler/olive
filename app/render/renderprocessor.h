@@ -1,5 +1,3 @@
-
-
 #ifndef RENDERPROCESSOR_H
 #define RENDERPROCESSOR_H
 

@@ -1,5 +1,3 @@
-
-
 #include "menu.h"
 
 #include "ui/style/style.h"

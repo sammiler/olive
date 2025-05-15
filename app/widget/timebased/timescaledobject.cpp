@@ -1,5 +1,3 @@
-
-
 #include "timescaledobject.h"
 
 #include <QtMath>

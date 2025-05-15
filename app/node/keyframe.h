@@ -1,5 +1,3 @@
-
-
 #ifndef NODEKEYFRAME_H
 #define NODEKEYFRAME_H
 

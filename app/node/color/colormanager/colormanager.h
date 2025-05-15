@@ -1,5 +1,3 @@
-
-
 #ifndef COLORSERVICE_H
 #define COLORSERVICE_H
 

@@ -1,5 +1,3 @@
-
-
 #ifndef EDITTIMELINETOOL_H
 #define EDITTIMELINETOOL_H
 

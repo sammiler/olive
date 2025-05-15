@@ -1,5 +1,3 @@
-
-
 #ifndef TIMELINEMARKER_H
 #define TIMELINEMARKER_H
 

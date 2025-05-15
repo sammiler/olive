@@ -1,5 +1,3 @@
-
-
 #include "rendermanager.h"
 
 #include <QApplication>

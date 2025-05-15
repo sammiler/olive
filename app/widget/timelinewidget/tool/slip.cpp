@@ -1,5 +1,3 @@
-
-
 #include "slip.h"
 
 #include <QToolTip>

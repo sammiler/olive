@@ -1,5 +1,3 @@
-
-
 // 防止多重包含
 #ifndef DEBUG_H
 #define DEBUG_H

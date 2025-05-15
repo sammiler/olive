@@ -1,5 +1,3 @@
-
-
 #include "style.h"
 
 #include <QApplication>

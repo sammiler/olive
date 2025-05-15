@@ -1,5 +1,3 @@
-
-
 #include "tool.h"
 
 #include "core.h"

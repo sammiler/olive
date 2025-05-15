@@ -1,5 +1,3 @@
-
-
 #include "rippledistortnode.h"
 
 namespace olive {

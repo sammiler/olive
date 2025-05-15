@@ -1,5 +1,3 @@
-
-
 #ifndef RENDERTICKET_H
 #define RENDERTICKET_H
 

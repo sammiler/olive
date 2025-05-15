@@ -1,5 +1,3 @@
-
-
 #include "audiomanager.h"
 
 #ifdef PA_HAS_JACK

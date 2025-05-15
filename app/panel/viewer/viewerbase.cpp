@@ -1,5 +1,3 @@
-
-
 #include "viewerbase.h"
 
 #include "window/mainwindow/mainwindow.h"

@@ -1,5 +1,3 @@
-
-
 #ifndef EXPORTVIDEOTAB_H
 #define EXPORTVIDEOTAB_H
 

@@ -1,5 +1,3 @@
-
-
 #include "colorgradientwidget.h"
 
 #include <QPainter>

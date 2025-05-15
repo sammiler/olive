@@ -1,5 +1,3 @@
-
-
 #include "colorspacechooser.h"
 
 #include <QGridLayout>

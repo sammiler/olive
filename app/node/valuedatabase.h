@@ -1,5 +1,3 @@
-
-
 #ifndef NODEVALUEDATABASE_H
 #define NODEVALUEDATABASE_H
 

@@ -1,5 +1,3 @@
-
-
 #ifndef SLIDETIMELINETOOL_H
 #define SLIDETIMELINETOOL_H
 

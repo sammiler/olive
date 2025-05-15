@@ -1,5 +1,3 @@
-
-
 #include "exportformatcombobox.h"
 
 #include <QHBoxLayout>

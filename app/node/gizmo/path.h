@@ -1,5 +1,3 @@
-
-
 #ifndef PATHGIZMO_H
 #define PATHGIZMO_H
 

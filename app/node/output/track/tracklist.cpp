@@ -1,5 +1,3 @@
-
-
 #include "tracklist.h"
 
 #include <utility>

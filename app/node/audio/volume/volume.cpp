@@ -1,5 +1,3 @@
-
-
 #include "volume.h"
 
 #include "widget/slider/floatslider.h"

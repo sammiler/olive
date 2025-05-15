@@ -1,5 +1,3 @@
-
-
 #ifndef AUDIOMANAGER_H
 #define AUDIOMANAGER_H
 

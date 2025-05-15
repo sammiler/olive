@@ -1,5 +1,3 @@
-
-
 #ifndef KEYFRAMEVIEWBASE_H
 #define KEYFRAMEVIEWBASE_H
 

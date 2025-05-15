@@ -1,5 +1,3 @@
-
-
 #ifndef PROJECTCOPIER_H
 #define PROJECTCOPIER_H
 

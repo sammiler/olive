@@ -1,5 +1,3 @@
-
-
 #include "elapsedcounterwidget.h"
 
 #include <olive/core/core.h>

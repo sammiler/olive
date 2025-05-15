@@ -1,5 +1,3 @@
-
-
 #include "videoparams.h"
 
 extern "C" {

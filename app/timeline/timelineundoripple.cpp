@@ -1,5 +1,3 @@
-
-
 #include "timelineundoripple.h"
 
 #include <ranges>

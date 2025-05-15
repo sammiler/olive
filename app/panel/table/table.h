@@ -1,5 +1,3 @@
-
-
 #ifndef NODETABLEPANEL_H
 #define NODETABLEPANEL_H
 

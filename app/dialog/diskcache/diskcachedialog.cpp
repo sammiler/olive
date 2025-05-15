@@ -1,5 +1,3 @@
-
-
 #include "diskcachedialog.h"
 
 #include <QDialogButtonBox>

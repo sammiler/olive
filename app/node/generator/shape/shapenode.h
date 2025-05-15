@@ -1,5 +1,3 @@
-
-
 #ifndef SHAPENODE_H
 #define SHAPENODE_H
 

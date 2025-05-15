@@ -1,5 +1,3 @@
-
-
 #ifndef PIXELSAMPLERPANEL_H
 #define PIXELSAMPLERPANEL_H
 

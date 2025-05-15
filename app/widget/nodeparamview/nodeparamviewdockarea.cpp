@@ -1,5 +1,3 @@
-
-
 #include "nodeparamviewdockarea.h"
 
 #include <QDockWidget>

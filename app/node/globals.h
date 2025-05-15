@@ -1,5 +1,3 @@
-
-
 #ifndef NODEGLOBALS_H
 #define NODEGLOBALS_H
 

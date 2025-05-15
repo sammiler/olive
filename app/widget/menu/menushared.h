@@ -1,5 +1,3 @@
-
-
 #ifndef MENUSHARED_H
 #define MENUSHARED_H
 

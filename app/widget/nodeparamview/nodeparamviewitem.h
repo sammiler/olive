@@ -1,5 +1,3 @@
-
-
 #ifndef NODEPARAMVIEWITEM_H
 #define NODEPARAMVIEWITEM_H
 

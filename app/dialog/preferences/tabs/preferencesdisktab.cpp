@@ -1,5 +1,3 @@
-
-
 #include "preferencesdisktab.h"
 
 #include <QDir>

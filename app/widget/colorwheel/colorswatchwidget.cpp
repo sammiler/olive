@@ -1,5 +1,3 @@
-
-
 #include "colorswatchwidget.h"
 
 #include <QMouseEvent>

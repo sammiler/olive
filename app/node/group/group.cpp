@@ -1,5 +1,3 @@
-
-
 #include "group.h"
 
 #include "node/serializeddata.h"

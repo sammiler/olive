@@ -1,5 +1,3 @@
-
-
 #ifndef SLIDERLABEL_H
 #define SLIDERLABEL_H
 

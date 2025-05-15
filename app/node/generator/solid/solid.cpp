@@ -1,5 +1,3 @@
-
-
 #include "solid.h"
 
 namespace olive {

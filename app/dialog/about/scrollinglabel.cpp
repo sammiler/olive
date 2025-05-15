@@ -1,5 +1,3 @@
-
-
 #include "scrollinglabel.h"
 
 #include <QPainter>

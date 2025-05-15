@@ -1,5 +1,3 @@
-
-
 #include "timelineworkarea.h"
 
 #include "common/xmlutils.h"

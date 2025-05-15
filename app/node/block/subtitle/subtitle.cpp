@@ -1,5 +1,3 @@
-
-
 #include "subtitle.h"
 
 namespace olive {

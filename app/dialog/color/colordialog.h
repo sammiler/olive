@@ -1,5 +1,3 @@
-
-
 #ifndef COLORDIALOG_H
 #define COLORDIALOG_H
 

@@ -1,5 +1,3 @@
-
-
 #include "audioplaybackcache.h"
 
 #include <QDir>

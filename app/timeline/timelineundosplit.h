@@ -1,5 +1,3 @@
-
-
 #ifndef TIMELINEUNDOSPLIT_H
 #define TIMELINEUNDOSPLIT_H
 

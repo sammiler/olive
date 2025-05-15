@@ -1,5 +1,3 @@
-
-
 #include "viewerplaybacktimer.h"
 
 #include <QDateTime>

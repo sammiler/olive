@@ -1,5 +1,3 @@
-
-
 #include "colordifferencekey.h"
 
 namespace olive {

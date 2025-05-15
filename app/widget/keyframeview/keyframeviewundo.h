@@ -1,5 +1,3 @@
-
-
 #ifndef KEYFRAMEVIEWUNDO_H
 #define KEYFRAMEVIEWUNDO_H
 

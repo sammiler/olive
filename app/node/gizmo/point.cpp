@@ -1,5 +1,3 @@
-
-
 #include "point.h"
 
 #include <QApplication>

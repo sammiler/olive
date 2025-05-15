@@ -1,5 +1,3 @@
-
-
 #ifndef WIDGETMENU_H
 #define WIDGETMENU_H
 

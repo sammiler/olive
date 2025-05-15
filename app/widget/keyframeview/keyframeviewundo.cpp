@@ -1,5 +1,3 @@
-
-
 #include "keyframeviewundo.h"
 
 #include "node/node.h"

@@ -1,5 +1,3 @@
-
-
 #ifndef UNDOSTACK_H
 #define UNDOSTACK_H
 

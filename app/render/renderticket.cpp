@@ -1,5 +1,3 @@
-
-
 #include "renderticket.h"
 
 #include <utility>

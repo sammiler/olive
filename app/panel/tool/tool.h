@@ -1,5 +1,3 @@
-
-
 #ifndef TOOL_PANEL_H
 #define TOOL_PANEL_H
 

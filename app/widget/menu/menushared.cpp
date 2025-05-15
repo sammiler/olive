@@ -1,5 +1,3 @@
-
-
 #include "menushared.h"
 
 #include <QActionGroup>

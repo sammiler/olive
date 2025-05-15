@@ -1,5 +1,3 @@
-
-
 #ifndef CURVEWIDGET_H
 #define CURVEWIDGET_H
 

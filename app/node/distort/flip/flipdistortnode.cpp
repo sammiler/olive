@@ -1,5 +1,3 @@
-
-
 #include "flipdistortnode.h"
 
 namespace olive {

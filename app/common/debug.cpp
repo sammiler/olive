@@ -1,5 +1,3 @@
-
-
 #include "debug.h"
 
 namespace olive {

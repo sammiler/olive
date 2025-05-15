@@ -1,5 +1,3 @@
-
-
 #include "timeoffsetnode.h"
 
 #include "widget/slider/rationalslider.h"

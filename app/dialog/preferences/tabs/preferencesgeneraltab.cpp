@@ -1,5 +1,3 @@
-
-
 #include "preferencesgeneraltab.h"
 
 #include <QGridLayout>

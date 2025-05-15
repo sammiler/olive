@@ -1,5 +1,3 @@
-
-
 #include "viewertexteditor.h"
 
 #include <QAbstractTextDocumentLayout>

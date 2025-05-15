@@ -1,5 +1,3 @@
-
-
 #ifndef RENDERTEXTURE_H
 #define RENDERTEXTURE_H
 

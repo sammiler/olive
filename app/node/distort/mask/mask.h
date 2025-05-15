@@ -1,5 +1,3 @@
-
-
 #ifndef MASKDISTORTNODE_H
 #define MASKDISTORTNODE_H
 

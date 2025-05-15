@@ -1,5 +1,3 @@
-
-
 #ifndef AUDIOVISUALWAVEFORM_H // 假设宏名称与类名对应
 #define AUDIOVISUALWAVEFORM_H
 

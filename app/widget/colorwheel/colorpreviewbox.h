@@ -1,5 +1,3 @@
-
-
 #ifndef COLORPREVIEWBOX_H
 #define COLORPREVIEWBOX_H
 

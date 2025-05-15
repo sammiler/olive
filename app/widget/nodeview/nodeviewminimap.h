@@ -1,5 +1,3 @@
-
-
 #ifndef NODEVIEWMINIMAP_H
 #define NODEVIEWMINIMAP_H
 

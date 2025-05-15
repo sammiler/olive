@@ -1,5 +1,3 @@
-
-
 #include "audiostreamproperties.h"
 
 namespace olive {

@@ -1,5 +1,3 @@
-
-
 #include "load.h"
 
 #include <QApplication>

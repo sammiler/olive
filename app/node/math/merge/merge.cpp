@@ -1,5 +1,3 @@
-
-
 #include "merge.h"
 
 #include "node/traverser.h"

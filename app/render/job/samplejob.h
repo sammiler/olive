@@ -1,5 +1,3 @@
-
-
 #ifndef SAMPLEJOB_H
 #define SAMPLEJOB_H
 

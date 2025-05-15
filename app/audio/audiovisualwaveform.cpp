@@ -1,5 +1,3 @@
-
-
 #include "audiovisualwaveform.h"
 
 #include <QDebug>

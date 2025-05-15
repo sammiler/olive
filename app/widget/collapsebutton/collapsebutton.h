@@ -1,5 +1,3 @@
-
-
 #ifndef COLLAPSEBUTTON_H
 #define COLLAPSEBUTTON_H
 

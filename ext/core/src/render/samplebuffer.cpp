@@ -1,5 +1,3 @@
-
-
 #include "render/samplebuffer.h"
 
 #include <algorithm>

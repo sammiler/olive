@@ -1,5 +1,3 @@
-
-
 #include "crossdissolvetransition.h"
 
 namespace olive {

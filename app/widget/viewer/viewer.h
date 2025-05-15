@@ -1,5 +1,3 @@
-
-
 #ifndef VIEWER_WIDGET_H
 #define VIEWER_WIDGET_H
 

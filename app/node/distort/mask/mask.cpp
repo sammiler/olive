@@ -1,5 +1,3 @@
-
-
 #include "mask.h"
 
 #include "node/filter/blur/blur.h"

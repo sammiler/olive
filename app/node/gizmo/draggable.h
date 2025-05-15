@@ -1,5 +1,3 @@
-
-
 #ifndef DRAGGABLEGIZMO_H
 #define DRAGGABLEGIZMO_H
 

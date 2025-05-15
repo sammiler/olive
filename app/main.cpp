@@ -1,5 +1,3 @@
-
-
 /** \mainpage Olive Video Editor - Code Documentation
  *
  * This documentation is a primarily a developer resource. For information on using Olive, visit the website

@@ -1,5 +1,3 @@
-
-
 #ifndef SHADERJOB_H
 #define SHADERJOB_H
 

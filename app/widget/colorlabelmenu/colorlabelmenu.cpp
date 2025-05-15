@@ -1,5 +1,3 @@
-
-
 #include "colorlabelmenu.h"
 
 #include <QEvent>

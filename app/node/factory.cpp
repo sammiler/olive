@@ -1,5 +1,3 @@
-
-
 #include "factory.h"
 
 #include <QCoreApplication>

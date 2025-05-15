@@ -1,5 +1,3 @@
-
-
 #include "timelineundogeneral.h"
 
 #include <ranges>

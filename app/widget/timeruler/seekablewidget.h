@@ -1,5 +1,3 @@
-
-
 #ifndef SEEKABLEWIDGET_H
 #define SEEKABLEWIDGET_H
 
