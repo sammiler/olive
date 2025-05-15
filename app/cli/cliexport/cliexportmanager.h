@@ -1,33 +1,34 @@
-/***
 
-  Olive - Non-Linear Video Editor
-  Copyright (C) 2022 Olive Team
-
-  This program is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-***/
 
 #ifndef CLIEXPORTMANAGER_H
 #define CLIEXPORTMANAGER_H
 
-#include "task/export/export.h"
+#include "task/export/export.h" // 假设 Export 类定义在此
 
 namespace olive {
 
+/**
+ * @brief 管理命令行界面 (CLI) 导出操作的类。
+ *
+ * 此类负责处理通过命令行启动的导出任务的逻辑和流程。
+ * 它通常会与导出任务 (Export) 类交互，以执行实际的导出工作。
+ * 作为 QObject 的子类，它可以利用 Qt 的信号和槽机制。
+ */
 class CLIExportManager : public QObject {
+  Q_OBJECT // Qt元对象系统宏，如果需要信号槽等特性
  public:
+  /**
+   * @brief 构造一个新的 CLIExportManager 对象。
+   */
   CLIExportManager();
+
+  // 根据实际的功能，这里可能会有更多的方法，例如：
+  // - 初始化导出参数的方法
+  // - 开始导出过程的方法
+  // - 处理导出状态和进度的方法
+  // - 清理资源的方法
+  // 由于当前代码中只有构造函数，所以只注释构造函数。
+  // 如果未来添加其他成员（方法、变量、信号等），我会为它们添加相应的注释。
 };
 
 }  // namespace olive

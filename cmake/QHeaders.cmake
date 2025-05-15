@@ -3,6 +3,8 @@
 
 set(Q_HEADERS
         ${CMAKE_SOURCE_DIR}/app/audio/audiomanager.h
+        ${CMAKE_SOURCE_DIR}/app/cli/cliexport/cliexportmanager.h
+        ${CMAKE_SOURCE_DIR}/app/cli/cliprogress/cliprogressdialog.h
         ${CMAKE_SOURCE_DIR}/app/cli/clitask/clitaskdialog.h
         ${CMAKE_SOURCE_DIR}/app/codec/conformmanager.h
         ${CMAKE_SOURCE_DIR}/app/codec/decoder.h
