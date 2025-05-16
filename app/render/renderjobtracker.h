@@ -1,15 +1,15 @@
-#ifndef RENDERJOBTRACKER_H // 防止头文件被重复包含的宏
-#define RENDERJOBTRACKER_H // 定义 RENDERJOBTRACKER_H 宏
+#ifndef RENDERJOBTRACKER_H  // 防止头文件被重复包含的宏
+#define RENDERJOBTRACKER_H  // 定义 RENDERJOBTRACKER_H 宏
 
-#include <olive/core/core.h> // 包含 Olive 核心定义 (可能包含 TimeRange, rational, TimeRangeList)
+#include <olive/core/core.h>  // 包含 Olive 核心定义 (可能包含 TimeRange, rational, TimeRangeList)
 
 #include "common/jobtime.h"  // 包含 JobTime 结构体或类的定义 (用于标记作业的时间戳或版本)
 
 // 假设 std::vector 已通过其他方式被间接包含。
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
-using namespace core; // 使用 olive::core 命名空间中的类型 (如 TimeRange, rational)
+using namespace core;  // 使用 olive::core 命名空间中的类型 (如 TimeRange, rational)
 
 /**
  * @brief RenderJobTracker 类用于跟踪已提交的渲染作业 (Job) 及其相关的时间信息。
@@ -67,7 +67,7 @@ class RenderJobTracker {
    * @brief TimeRangeWithJob 内部类，继承自 TimeRange，并额外存储了一个 JobTime。
    * 用于将一个时间范围与其对应的渲染作业时间戳关联起来。
    */
-  class TimeRangeWithJob : public TimeRange { // 继承自 TimeRange
+  class TimeRangeWithJob : public TimeRange {  // 继承自 TimeRange
    public:
     // 默认构造函数
     TimeRangeWithJob() = default;
@@ -77,8 +77,8 @@ class RenderJobTracker {
      * @param job_time 与此时间范围关联的渲染作业时间戳。
      */
     TimeRangeWithJob(const TimeRange &range, const JobTime &job_time) {
-      set_range(range.in(), range.out()); // 设置时间范围的入点和出点
-      job_time_ = job_time;              // 存储作业时间戳
+      set_range(range.in(), range.out());  // 设置时间范围的入点和出点
+      job_time_ = job_time;                // 存储作业时间戳
     }
 
     /**
@@ -91,7 +91,7 @@ class RenderJobTracker {
     void SetJobTime(JobTime jt) { job_time_ = jt; }
 
    private:
-    JobTime job_time_; // 存储渲染作业的时间戳/版本
+    JobTime job_time_;  // 存储渲染作业的时间戳/版本
   };
 
   // 存储所有已记录的渲染作业及其时间范围的列表

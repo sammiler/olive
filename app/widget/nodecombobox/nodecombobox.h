@@ -1,9 +1,9 @@
 #ifndef NODECOMBOBOX_H
 #define NODECOMBOBOX_H
 
-#include <QComboBox> // Qt 组合框控件基类
+#include <QComboBox>  // Qt 组合框控件基类
 
-#include "node/node.h" // 节点基类定义
+#include "node/node.h"  // 节点基类定义
 
 // 前向声明 Qt 类 (根据用户要求，不添加)
 // class QWidget;
@@ -20,14 +20,14 @@ namespace olive {
  * 当选中的节点发生改变时，会发出 NodeChanged 信号。
  */
 class NodeComboBox : public QComboBox {
-  Q_OBJECT // Qt 元对象系统宏，用于支持信号和槽机制
+ Q_OBJECT  // Qt 元对象系统宏，用于支持信号和槽机制
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit NodeComboBox(QWidget* parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit NodeComboBox(QWidget* parent = nullptr);
 
   /**
    * @brief 重写 QComboBox 的 showPopup 方法。
@@ -44,14 +44,14 @@ class NodeComboBox : public QComboBox {
    */
   [[nodiscard]] const QString& GetSelectedNode() const;
 
-public slots:
- /**
-  * @brief 设置当前选中的节点。
-  * @param id 要选中的节点的 ID 字符串。
-  */
- void SetNode(const QString& id);
+ public slots:
+  /**
+   * @brief 设置当前选中的节点。
+   * @param id 要选中的节点的 ID 字符串。
+   */
+  void SetNode(const QString& id);
 
-protected:
+ protected:
   /**
    * @brief 处理 Qt 的 changeEvent 事件。
    *
@@ -61,14 +61,14 @@ protected:
    */
   void changeEvent(QEvent* e) override;
 
-  signals:
-   /**
-    * @brief 当用户通过组合框选择了不同的节点时发出此信号。
-    * @param id 新选中的节点的 ID 字符串。
-    */
-   void NodeChanged(const QString& id);
+ signals:
+  /**
+   * @brief 当用户通过组合框选择了不同的节点时发出此信号。
+   * @param id 新选中的节点的 ID 字符串。
+   */
+  void NodeChanged(const QString& id);
 
-private:
+ private:
   /**
    * @brief 更新组合框当前显示的文本以匹配选中的节点。
    *
@@ -83,7 +83,7 @@ private:
    */
   void SetNodeInternal(const QString& id, bool emit_signal);
 
-  QString selected_id_; ///< 存储当前选中的节点的 ID。
+  QString selected_id_;  ///< 存储当前选中的节点的 ID。
 };
 
 }  // namespace olive

@@ -1,7 +1,7 @@
 #ifndef CROSSDISSOLVETRANSITION_H
 #define CROSSDISSOLVETRANSITION_H
 
-#include "node/block/transition/transition.h" // 引入基类 TransitionBlock 的定义
+#include "node/block/transition/transition.h"  // 引入基类 TransitionBlock 的定义
 
 namespace olive {
 
@@ -10,14 +10,14 @@ namespace olive {
  * 当一个片段淡出而另一个片段同时淡入时，使用此转场。
  */
 class CrossDissolveTransition : public TransitionBlock {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief CrossDissolveTransition 构造函数。
-   */
-  CrossDissolveTransition();
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief CrossDissolveTransition 构造函数。
+      */
+     CrossDissolveTransition();
 
-  NODE_DEFAULT_FUNCTIONS(CrossDissolveTransition) // 节点默认功能宏，可能包含克隆、类型信息等标准实现
+  NODE_DEFAULT_FUNCTIONS(CrossDissolveTransition)  // 节点默认功能宏，可能包含克隆、类型信息等标准实现
 
   /**
    * @brief 获取此交叉溶解转场的名称。
@@ -49,7 +49,7 @@ class CrossDissolveTransition : public TransitionBlock {
    */
   [[nodiscard]] ShaderCode GetShaderCode(const ShaderRequest &request) const override;
 
-protected:
+ protected:
   /**
    * @brief 处理音频采样的转场事件。
    * 用于在两个音频片段之间应用交叉溶解（通常是音频的交叉淡化）。

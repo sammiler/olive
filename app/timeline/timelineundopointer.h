@@ -1,12 +1,12 @@
 #ifndef TIMELINEUNDOPOINTER_H
 #define TIMELINEUNDOPOINTER_H
 
-#include "node/block/gap/gap.h"                // 引入 GapBlock 类的定义，用于处理空白区块
-#include "node/output/track/track.h"           // 引入 Track 类的定义
-#include "node/output/track/tracklist.h"       // 引入 TrackList 类的定义
-#include "node/project/sequence/sequence.h"    // 引入 Sequence 类的定义
-#include "timelineundogeneral.h"               // 引入通用的时间轴撤销命令定义
-#include "timelineundoripple.h"                // 引入涟漪编辑相关的撤销命令定义
+#include "node/block/gap/gap.h"              // 引入 GapBlock 类的定义，用于处理空白区块
+#include "node/output/track/track.h"         // 引入 Track 类的定义
+#include "node/output/track/tracklist.h"     // 引入 TrackList 类的定义
+#include "node/project/sequence/sequence.h"  // 引入 Sequence 类的定义
+#include "timelineundogeneral.h"             // 引入通用的时间轴撤销命令定义
+#include "timelineundoripple.h"              // 引入涟漪编辑相关的撤销命令定义
 
 namespace olive {
 
@@ -81,25 +81,25 @@ class BlockTrimCommand : public UndoCommand {
   void undo() override;
 
  private:
-  bool doing_nothing_{};        // 标记此命令是否实际执行任何操作
-  rational trim_diff_;          // 裁切的长度差值
+  bool doing_nothing_{};  // 标记此命令是否实际执行任何操作
+  rational trim_diff_;    // 裁切的长度差值
 
-  Track* track_;                // 目标轨道
-  Block* block_;                // 被裁切的区块
-  rational old_length_;         // 区块的原始长度
-  rational new_length_;         // 区块的新长度
-  Timeline::MovementMode mode_; // 裁切模式 (入点或出点)
+  Track* track_;                 // 目标轨道
+  Block* block_;                 // 被裁切的区块
+  rational old_length_;          // 区块的原始长度
+  rational new_length_;          // 区块的新长度
+  Timeline::MovementMode mode_;  // 裁切模式 (入点或出点)
 
-  Block* adjacent_{};           // 相邻的区块
-  bool needs_adjacent_{};       // 是否需要处理相邻区块
-  bool we_created_adjacent_{};  // 标记是否是此命令创建了相邻区块（通常是空白）
-  bool we_removed_adjacent_{};  // 标记是否是此命令移除了相邻区块
-  UndoCommand* deleted_adjacent_command_; // 如果移除了相邻区块，存储其移除命令以供撤销
+  Block* adjacent_{};                      // 相邻的区块
+  bool needs_adjacent_{};                  // 是否需要处理相邻区块
+  bool we_created_adjacent_{};             // 标记是否是此命令创建了相邻区块（通常是空白）
+  bool we_removed_adjacent_{};             // 标记是否是此命令移除了相邻区块
+  UndoCommand* deleted_adjacent_command_;  // 如果移除了相邻区块，存储其移除命令以供撤销
 
-  bool trim_is_a_roll_edit_;    // 标记是否为卷动编辑模式
-  bool remove_block_from_graph_{}; // 标记是否从节点图中移除零长度区块
+  bool trim_is_a_roll_edit_;        // 标记是否为卷动编辑模式
+  bool remove_block_from_graph_{};  // 标记是否从节点图中移除零长度区块
 
-  QObject memory_manager_;      // 用于管理此命令作用域内动态创建的对象的生命周期
+  QObject memory_manager_;  // 用于管理此命令作用域内动态创建的对象的生命周期
 };
 
 /**
@@ -128,7 +128,7 @@ class TrackSlideCommand : public UndoCommand {
         we_removed_out_adjacent_(false),
         out_adjacent_(out_adjacent),
         out_adjacent_remove_command_(nullptr) {
-    Q_ASSERT(!movement_.isNull()); // 断言移动量不为空或无效
+    Q_ASSERT(!movement_.isNull());  // 断言移动量不为空或无效
   }
 
   /**
@@ -163,21 +163,21 @@ class TrackSlideCommand : public UndoCommand {
   void undo() override;
 
  private:
-  Track* track_;             // 目标轨道
-  QList<Block*> blocks_;     // 被滑动的区块列表
-  rational movement_;        // 滑动的量
+  Track* track_;          // 目标轨道
+  QList<Block*> blocks_;  // 被滑动的区块列表
+  rational movement_;     // 滑动的量
 
-  bool we_created_in_adjacent_{};  // 标记是否是此命令在入点侧创建了相邻区块
-  bool we_removed_in_adjacent_{};  // 标记是否是此命令在入点侧移除了相邻区块
-  Block* in_adjacent_;             // 入点侧的相邻区块
-  UndoCommand* in_adjacent_remove_command_; // 如果移除了入点侧相邻区块，存储其移除命令
+  bool we_created_in_adjacent_{};            // 标记是否是此命令在入点侧创建了相邻区块
+  bool we_removed_in_adjacent_{};            // 标记是否是此命令在入点侧移除了相邻区块
+  Block* in_adjacent_;                       // 入点侧的相邻区块
+  UndoCommand* in_adjacent_remove_command_;  // 如果移除了入点侧相邻区块，存储其移除命令
 
-  bool we_created_out_adjacent_{}; // 标记是否是此命令在出点侧创建了相邻区块
-  bool we_removed_out_adjacent_{}; // 标记是否是此命令在出点侧移除了相邻区块
-  Block* out_adjacent_;            // 出点侧的相邻区块
-  UndoCommand* out_adjacent_remove_command_; // 如果移除了出点侧相邻区块，存储其移除命令
+  bool we_created_out_adjacent_{};            // 标记是否是此命令在出点侧创建了相邻区块
+  bool we_removed_out_adjacent_{};            // 标记是否是此命令在出点侧移除了相邻区块
+  Block* out_adjacent_;                       // 出点侧的相邻区块
+  UndoCommand* out_adjacent_remove_command_;  // 如果移除了出点侧相邻区块，存储其移除命令
 
-  QObject memory_manager_; // 用于管理此命令作用域内动态创建的对象的生命周期
+  QObject memory_manager_;  // 用于管理此命令作用域内动态创建的对象的生命周期
 };
 
 /**
@@ -230,14 +230,14 @@ class TrackPlaceBlockCommand : public UndoCommand {
   void undo() override;
 
  private:
-  TrackList* timeline_;     // 目标时间轴
-  int track_index_;         // 目标轨道的索引
-  rational in_;             // 区块的放置入点
-  GapBlock* gap_;           // 如果需要，用于填充序列末尾的空白区块
-  Block* insert_;           // 要插入的区块
-  QVector<TimelineAddTrackCommand*> add_track_commands_; // 如果目标轨道不存在，存储用于添加轨道的命令
-  QObject memory_manager_;  // 用于管理动态创建的对象的生命周期
-  TrackRippleRemoveAreaCommand* ripple_remove_command_; // 用于处理因放置区块而可能触发的涟漪删除区域的命令
+  TrackList* timeline_;                                   // 目标时间轴
+  int track_index_;                                       // 目标轨道的索引
+  rational in_;                                           // 区块的放置入点
+  GapBlock* gap_;                                         // 如果需要，用于填充序列末尾的空白区块
+  Block* insert_;                                         // 要插入的区块
+  QVector<TimelineAddTrackCommand*> add_track_commands_;  // 如果目标轨道不存在，存储用于添加轨道的命令
+  QObject memory_manager_;                                // 用于管理动态创建的对象的生命周期
+  TrackRippleRemoveAreaCommand* ripple_remove_command_;   // 用于处理因放置区块而可能触发的涟漪删除区域的命令
 };
 
 }  // namespace olive

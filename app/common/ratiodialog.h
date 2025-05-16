@@ -1,9 +1,9 @@
 #ifndef RATIODIALOG_H
 #define RATIODIALOG_H
 
-#include <QInputDialog> // Qt 输入对话框类
-#include <QWidget>      // 为了 QWidget* parent 参数
-#include <QString>      // 为了 QString title 参数
+#include <QInputDialog>  // Qt 输入对话框类
+#include <QString>       // 为了 QString title 参数
+#include <QWidget>       // 为了 QWidget* parent 参数
 
 namespace olive {
 
@@ -23,6 +23,6 @@ namespace olive {
  */
 double GetFloatRatioFromUser(QWidget* parent, const QString& title, bool* ok_in);
 
-} // namespace olive
+}  // namespace olive
 
 #endif  // RATIODIALOG_H

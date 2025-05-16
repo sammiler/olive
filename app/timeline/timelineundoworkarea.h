@@ -1,7 +1,7 @@
 #ifndef TIMELINEUNDOWORKAREA_H
 #define TIMELINEUNDOWORKAREA_H
 
-#include "node/project.h" // 引入 Project 类的定义，工作区操作通常与项目关联
+#include "node/project.h"  // 引入 Project 类的定义，工作区操作通常与项目关联
 // 前向声明 TimelineWorkArea，因为头文件可能只依赖其指针或引用
 // 实际的 TimelineWorkArea 定义应该在其他地方，这里可能只需要知道它是一个类
 // (如果 TimelineWorkArea 是在此项目中定义的，确保其头文件被包含，
@@ -49,10 +49,10 @@ class WorkareaSetEnabledCommand : public UndoCommand {
   void undo() override { points_->set_enabled(old_enabled_); }
 
  private:
-  Project* project_;              // 指向相关的项目对象
-  TimelineWorkArea* points_;      // 指向被操作的时间轴工作区对象
-  bool old_enabled_;              // 工作区原始的启用状态
-  bool new_enabled_;              // 工作区新的启用状态
+  Project* project_;          // 指向相关的项目对象
+  TimelineWorkArea* points_;  // 指向被操作的时间轴工作区对象
+  bool old_enabled_;          // 工作区原始的启用状态
+  bool new_enabled_;          // 工作区新的启用状态
 };
 
 /**
@@ -77,7 +77,7 @@ class WorkareaSetRangeCommand : public UndoCommand {
    * @param range 新的时间范围。
    */
   WorkareaSetRangeCommand(TimelineWorkArea* workarea, const TimeRange& range)
-      : WorkareaSetRangeCommand(workarea, range, workarea->range()) {} // 调用主构造函数，并获取当前范围作为旧范围
+      : WorkareaSetRangeCommand(workarea, range, workarea->range()) {}  // 调用主构造函数，并获取当前范围作为旧范围
 
   /**
    * @brief 获取与此命令相关的项目对象。
@@ -100,9 +100,9 @@ class WorkareaSetRangeCommand : public UndoCommand {
   void undo() override { workarea_->set_range(old_range_); }
 
  private:
-  TimelineWorkArea* workarea_; // 指向被操作的时间轴工作区对象
-  TimeRange old_range_;        // 工作区原始的时间范围
-  TimeRange new_range_;        // 工作区新的时间范围
+  TimelineWorkArea* workarea_;  // 指向被操作的时间轴工作区对象
+  TimeRange old_range_;         // 工作区原始的时间范围
+  TimeRange new_range_;         // 工作区新的时间范围
 };
 
 }  // namespace olive

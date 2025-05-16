@@ -1,15 +1,15 @@
 #ifndef CONFIGBASE_H
 #define CONFIGBASE_H
 
-#include <QDialog>        // QDialog 基类
-#include <QListWidget>    // 列表控件，用作选项卡选择器
-#include <QStackedWidget> // 堆叠控件，用于显示不同的配置页面
-#include <QWidget>        // 为了 QWidget* parent 参数
-#include <QString>        // 为了选项卡标题
-#include <QList>          // 为了存储 ConfigDialogBaseTab 指针的 QList
+#include <QDialog>         // QDialog 基类
+#include <QList>           // 为了存储 ConfigDialogBaseTab 指针的 QList
+#include <QListWidget>     // 列表控件，用作选项卡选择器
+#include <QStackedWidget>  // 堆叠控件，用于显示不同的配置页面
+#include <QString>         // 为了选项卡标题
+#include <QWidget>         // 为了 QWidget* parent 参数
 
 // 假设 configdialogbasetab.h 声明了 ConfigDialogBaseTab 类
-#include "configdialogbasetab.h" // 配置对话框中每个选项卡的基类
+#include "configdialogbasetab.h"  // 配置对话框中每个选项卡的基类
 
 namespace olive {
 

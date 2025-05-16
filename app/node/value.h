@@ -1,21 +1,21 @@
-#ifndef NODEVALUE_H // 防止头文件被重复包含的宏
-#define NODEVALUE_H // 定义 NODEVALUE_H 宏
+#ifndef NODEVALUE_H  // 防止头文件被重复包含的宏
+#define NODEVALUE_H  // 定义 NODEVALUE_H 宏
 
-#include <QMatrix4x4> // Qt 4x4 矩阵类
-#include <QString>    // Qt 字符串类
-#include <QVariant>   // Qt 通用数据类型 QVariant
-#include <QVector>    // Qt 动态数组容器 QVector
-#include <utility>    // 标准库 utility 头文件，提供 std::move 等
+#include <QMatrix4x4>  // Qt 4x4 矩阵类
+#include <QString>     // Qt 字符串类
+#include <QVariant>    // Qt 通用数据类型 QVariant
+#include <QVector>     // Qt 动态数组容器 QVector
+#include <utility>     // 标准库 utility 头文件，提供 std::move 等
 
 #include "common/qtutils.h"   // Qt 工具类 (可能包含 Color, Bezier 等自定义类型)
 #include "node/splitvalue.h"  // SplitValue 类型定义
 #include "render/texture.h"   // Texture (纹理) 和 SampleBuffer (音频样本) 相关定义
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
-class Node;           // 向前声明 Node 类
-class NodeValue;      // 向前声明 NodeValue 类自身 (用于类型别名)
-class NodeValueTable; // 向前声明 NodeValueTable 类
+class Node;            // 向前声明 Node 类
+class NodeValue;       // 向前声明 NodeValue 类自身 (用于类型别名)
+class NodeValueTable;  // 向前声明 NodeValueTable 类
 
 // 类型别名：NodeValueArray 代表一个从整数索引到 NodeValue 的映射 (通常用于表示数组类型的输入值)
 using NodeValueArray = std::map<int, NodeValue>;
@@ -35,7 +35,7 @@ class NodeValue {
    * @brief 定义了可以在节点之间传递的数据类型枚举。
    */
   enum Type {
-    kNone, // 无类型或未定义类型
+    kNone,  // 无类型或未定义类型
 
     /**
      ****************************** SPECIFIC IDENTIFIERS (特定标识符) ******************************
@@ -184,7 +184,7 @@ class NodeValue {
   template <typename T>
   NodeValue(Type type, const T& data, const Node* from = nullptr, bool array = false, QString tag = QString())
       : type_(type), from_(from), tag_(std::move(tag)), array_(array) {
-    set_value(data); // 将数据存入内部的 QVariant
+    set_value(data);  // 将数据存入内部的 QVariant
   }
 
   /**
@@ -203,7 +203,7 @@ class NodeValue {
    */
   template <typename T>
   [[nodiscard]] T value() const {
-    return data_.value<T>(); // 从 QVariant 获取值
+    return data_.value<T>();  // 从 QVariant 获取值
   }
 
   /**
@@ -213,7 +213,7 @@ class NodeValue {
    */
   template <typename T>
   void set_value(const T& v) {
-    data_ = QVariant::fromValue(v); // 将数据包装成 QVariant
+    data_ = QVariant::fromValue(v);  // 将数据包装成 QVariant
   }
 
   // 获取内部存储的 QVariant 数据的常量引用
@@ -323,7 +323,7 @@ class NodeValue {
   [[nodiscard]] QVector3D toVec3() const { return value<QVector3D>(); }
   [[nodiscard]] QVector4D toVec4() const { return value<QVector4D>(); }
   [[nodiscard]] Bezier toBezier() const { return value<Bezier>(); }
-  [[nodiscard]] NodeValueArray toArray() const { return value<NodeValueArray>(); } // 获取数组类型的值
+  [[nodiscard]] NodeValueArray toArray() const { return value<NodeValueArray>(); }  // 获取数组类型的值
 
  private:
   Type type_;         // NodeValue 的枚举类型
@@ -352,7 +352,7 @@ class NodeValueTable {
    * @return 返回找到的 NodeValue。如果未找到，返回一个无效的 NodeValue (Type 为 kNone)。
    */
   [[nodiscard]] NodeValue Get(NodeValue::Type type, const QString& tag = QString()) const {
-    QVector<NodeValue::Type> types = {type}; // 包装成类型列表
+    QVector<NodeValue::Type> types = {type};  // 包装成类型列表
     return Get(types, tag);
   }
 
@@ -441,7 +441,7 @@ class NodeValueTable {
   static NodeValueTable Merge(QList<NodeValueTable> tables);
 
  private:
-  QVector<NodeValue> values_; // 存储 NodeValue 对象的动态数组
+  QVector<NodeValue> values_;  // 存储 NodeValue 对象的动态数组
 };
 
 // 类型别名：NodeValueRow 代表一个从输入端口ID (QString) 到其对应 NodeValue 的映射。

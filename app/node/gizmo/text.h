@@ -1,8 +1,8 @@
-#ifndef TEXTGIZMO_H // 防止头文件被多次包含的宏定义开始
+#ifndef TEXTGIZMO_H  // 防止头文件被多次包含的宏定义开始
 #define TEXTGIZMO_H
 
-#include "gizmo.h"      // 引入基类 NodeGizmo (或类似 Gizmo 基类) 的定义
-#include "node/param.h" // 引入节点参数相关的定义，如 NodeKeyframeTrackReference
+#include "gizmo.h"       // 引入基类 NodeGizmo (或类似 Gizmo 基类) 的定义
+#include "node/param.h"  // 引入节点参数相关的定义，如 NodeKeyframeTrackReference
 
 // 可能需要的前向声明
 // namespace olive {
@@ -10,7 +10,7 @@
 // }
 // Qt::Alignment 可能需要 <Qt> 或 <QFlags> 等头文件
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
 /**
  * @brief 代表一个文本 Gizmo (图形交互控件)。
@@ -18,13 +18,13 @@ namespace olive { // Olive 编辑器的命名空间
  * 它通常与文本生成器节点 (如 TextGeneratorV3) 关联。
  */
 class TextGizmo : public NodeGizmo {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief TextGizmo 构造函数。
-   * @param parent 父 QObject 对象，默认为 nullptr。
-   */
-  explicit TextGizmo(QObject *parent = nullptr);
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief TextGizmo 构造函数。
+      * @param parent 父 QObject 对象，默认为 nullptr。
+      */
+     explicit TextGizmo(QObject *parent = nullptr);
 
   /**
    * @brief 获取文本框的矩形区域。
@@ -74,7 +74,7 @@ class TextGizmo : public NodeGizmo {
    */
   void SetVerticalAlignment(Qt::Alignment va);
 
- signals: // Qt 信号声明区域
+ signals:  // Qt 信号声明区域
   /**
    * @brief 当 Gizmo 被激活（例如，用户开始编辑文本）时发射此信号。
    */
@@ -95,13 +95,13 @@ class TextGizmo : public NodeGizmo {
   void RectChanged(const QRectF &r);
 
  private:
-  QRectF rect_; ///< 存储文本框的位置和大小。
+  QRectF rect_;  ///< 存储文本框的位置和大小。
 
-  QString text_; ///< 存储当前 Gizmo 中显示的文本内容（可能为 HTML）。
+  QString text_;  ///< 存储当前 Gizmo 中显示的文本内容（可能为 HTML）。
 
-  NodeKeyframeTrackReference input_; ///< 引用此 Gizmo 所关联的节点文本内容输入参数。
+  NodeKeyframeTrackReference input_;  ///< 引用此 Gizmo 所关联的节点文本内容输入参数。
 
-  Qt::Alignment valign_; ///< 存储文本的垂直对齐方式。
+  Qt::Alignment valign_;  ///< 存储文本的垂直对齐方式。
 };
 
 }  // namespace olive

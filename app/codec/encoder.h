@@ -1,24 +1,24 @@
 #ifndef ENCODER_H
 #define ENCODER_H
 
+#include <QDir>        // 用于 GetPresetPath
+#include <QHash>       // 用于 video_opts_
+#include <QIODevice>   // 用于 Load/Save
+#include <QMatrix4x4>  // 用于 GenerateMatrix
 #include <QRegularExpression>
 #include <QString>
-#include <QXmlStreamWriter> // 用于保存参数
-#include <QXmlStreamReader> // 用于加载参数 (在 .cpp 中使用，但对应 Load/Save 接口)
-#include <QIODevice>        // 用于 Load/Save
-#include <QDir>             // 用于 GetPresetPath
-#include <QHash>            // 用于 video_opts_
-#include <QMatrix4x4>       // 用于 GenerateMatrix
-#include <memory>           // 为了 std::shared_ptr
+#include <QXmlStreamReader>  // 用于加载参数 (在 .cpp 中使用，但对应 Load/Save 接口)
+#include <QXmlStreamWriter>  // 用于保存参数
+#include <memory>            // 为了 std::shared_ptr
 
 #include "codec/exportcodec.h"   // 包含 ExportCodec::Codec
 #include "codec/exportformat.h"  // 包含 ExportFormat::Format
 #include "codec/frame.h"         // 包含 olive::FramePtr, olive::SampleBuffer (假设SampleBuffer也在此或其包含文件)
-#include "node/block/subtitle/subtitle.h" // 包含 SubtitleBlock
-#include "render/colortransform.h" // 包含 ColorTransform
-#include "render/subtitleparams.h" // (可能包含 SubtitleParams，但未使用)
-#include "render/videoparams.h"  // 包含 VideoParams, AudioParams (假设AudioParams在此或其包含文件)
 #include "common/define.h"       // 包含 olive::rational, olive::PixelFormat, olive::TimeRange 等
+#include "node/block/subtitle/subtitle.h"  // 包含 SubtitleBlock
+#include "render/colortransform.h"         // 包含 ColorTransform
+#include "render/subtitleparams.h"         // (可能包含 SubtitleParams，但未使用)
+#include "render/videoparams.h"            // 包含 VideoParams, AudioParams (假设AudioParams在此或其包含文件)
 
 namespace olive {
 
@@ -40,9 +40,9 @@ class EncodingParams {
    * @brief 视频缩放（当源尺寸和目标尺寸不一致时）的方法枚举。
    */
   enum VideoScalingMethod {
-    kFit,     ///< @brief 适应模式 (Letterbox/Pillarbox)：保持原始宽高比，将图像完整放入目标尺寸，多余部分填充黑边。
-    kStretch, ///< @brief 拉伸模式：忽略原始宽高比，将图像拉伸以完全填充目标尺寸。
-    kCrop     ///< @brief 裁剪模式 (Pan and Scan)：保持原始宽高比，缩放图像以填满目标尺寸的一边，并裁剪另一边超出的部分。
+    kFit,      ///< @brief 适应模式 (Letterbox/Pillarbox)：保持原始宽高比，将图像完整放入目标尺寸，多余部分填充黑边。
+    kStretch,  ///< @brief 拉伸模式：忽略原始宽高比，将图像拉伸以完全填充目标尺寸。
+    kCrop  ///< @brief 裁剪模式 (Pan and Scan)：保持原始宽高比，缩放图像以填满目标尺寸的一边，并裁剪另一边超出的部分。
   };
 
   /**
@@ -526,9 +526,9 @@ class Encoder : public QObject {
    * @brief 编码器类型的枚举。
    */
   enum Type {
-    kEncoderTypeNone = -1, ///< @brief 未指定或无效的编码器类型。
-    kEncoderTypeFFmpeg,    ///< @brief 基于 FFmpeg 的编码器。
-    kEncoderTypeOIIO       ///< @brief 基于 OpenImageIO 的编码器 (通常用于图像序列)。
+    kEncoderTypeNone = -1,  ///< @brief 未指定或无效的编码器类型。
+    kEncoderTypeFFmpeg,     ///< @brief 基于 FFmpeg 的编码器。
+    kEncoderTypeOIIO        ///< @brief 基于 OpenImageIO 的编码器 (通常用于图像序列)。
   };
 
   /**

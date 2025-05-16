@@ -1,8 +1,8 @@
-#ifndef MULTICAMNODE_H // 防止头文件被多次包含的宏定义开始
+#ifndef MULTICAMNODE_H  // 防止头文件被多次包含的宏定义开始
 #define MULTICAMNODE_H
 
-#include "node/node.h"               // 引入基类 Node 的定义
-#include "node/output/track/tracklist.h" // 引入 TrackList 定义，多机位可能与轨道列表交互
+#include "node/node.h"                    // 引入基类 Node 的定义
+#include "node/output/track/tracklist.h"  // 引入 TrackList 定义，多机位可能与轨道列表交互
 
 // 前向声明
 // class Sequence; // 假设 Sequence 类定义
@@ -12,9 +12,9 @@
 // class NodeValueTable; // 假设
 // class TimeRange; // 假设
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
-class Sequence; // 前向声明 Sequence 类，多机位节点通常在序列环境中使用
+class Sequence;  // 前向声明 Sequence 类，多机位节点通常在序列环境中使用
 
 /**
  * @brief 代表“多机位编辑”功能的节点。
@@ -22,14 +22,14 @@ class Sequence; // 前向声明 Sequence 类，多机位节点通常在序列环
  * 它通常用于处理多摄像机拍摄的素材，方便进行同步和剪辑。
  */
 class MultiCamNode : public Node {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief MultiCamNode 构造函数。
-   */
-  MultiCamNode();
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief MultiCamNode 构造函数。
+      */
+     MultiCamNode();
 
-  NODE_DEFAULT_FUNCTIONS(MultiCamNode) // 节点默认功能宏，可能包含克隆、类型信息等标准实现
+  NODE_DEFAULT_FUNCTIONS(MultiCamNode)  // 节点默认功能宏，可能包含克隆、类型信息等标准实现
 
   /**
    * @brief 获取此多机位节点的名称。
@@ -75,10 +75,12 @@ class MultiCamNode : public Node {
   void Retranslate() override;
 
   // --- 静态常量，用作节点输入参数的键名 ---
-  static const QString kCurrentInput;      ///< "Current" - 当前选定的源（机位）索引的参数键名。
-  static const QString kSourcesInput;      ///< "Sources" - 连接多个视频源（机位）的输入端口（通常是一个数组或可变数量的端口）的键名。
-  static const QString kSequenceInput;     ///< "Sequence" - 关联的序列对象的参数键名 (如果需要从序列获取信息)。
-  static const QString kSequenceTypeInput; ///< "SequenceType" - 序列类型（如视频、音频）的参数键名，可能影响多机位处理方式。
+  static const QString kCurrentInput;  ///< "Current" - 当前选定的源（机位）索引的参数键名。
+  static const QString
+      kSourcesInput;  ///< "Sources" - 连接多个视频源（机位）的输入端口（通常是一个数组或可变数量的端口）的键名。
+  static const QString kSequenceInput;  ///< "Sequence" - 关联的序列对象的参数键名 (如果需要从序列获取信息)。
+  static const QString
+      kSequenceTypeInput;  ///< "SequenceType" - 序列类型（如视频、音频）的参数键名，可能影响多机位处理方式。
 
   /**
    * @brief 获取当前选定的源（机位）的索引。
@@ -110,7 +112,9 @@ class MultiCamNode : public Node {
    * @brief 设置与此多机位节点相关的序列类型。
    * @param t Track::Type 枚举值，表示序列类型 (例如视频轨道、音频轨道)。
    */
-  void SetSequenceType(Track::Type t) { SetStandardValue(kSequenceTypeInput, static_cast<int>(t)); } // 假设 Track::Type 可以转为 int
+  void SetSequenceType(Track::Type t) {
+    SetStandardValue(kSequenceTypeInput, static_cast<int>(t));
+  }  // 假设 Track::Type 可以转为 int
 
   /**
    * @brief (静态工具函数) 根据源的索引以及总行数和总列数，计算该源在预览网格中的行号和列号。
@@ -179,7 +183,7 @@ class MultiCamNode : public Node {
    */
   [[nodiscard]] TrackList *GetTrackList() const;
 
-  Sequence *sequence_; ///< 指向与此多机位节点关联的 Sequence 对象的指针。
+  Sequence *sequence_;  ///< 指向与此多机位节点关联的 Sequence 对象的指针。
 };
 
 }  // namespace olive

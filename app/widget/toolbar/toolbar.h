@@ -1,15 +1,15 @@
-#ifndef TOOLBAR_H // 防止头文件被多次包含的宏定义
+#ifndef TOOLBAR_H  // 防止头文件被多次包含的宏定义
 #define TOOLBAR_H
 
-#include <QPushButton> // 引入 QPushButton 类，虽然 ToolbarButton 是其子类，但此处可能用于其他目的或作为 ToolbarButton 依赖的一部分
+#include <QPushButton>  // 引入 QPushButton 类，虽然 ToolbarButton 是其子类，但此处可能用于其他目的或作为 ToolbarButton 依赖的一部分
 
-#include "tool/tool.h" // 引入 Tool 枚举 (Tool::Item) 和相关工具定义
-#include "widget/flowlayout/flowlayout.h" // 引入 FlowLayout 类的定义，用于工具栏按钮的流式布局
-#include "widget/toolbar/toolbarbutton.h" // 引入 ToolbarButton 类的定义，自定义的工具栏按钮
+#include "tool/tool.h"                     // 引入 Tool 枚举 (Tool::Item) 和相关工具定义
+#include "widget/flowlayout/flowlayout.h"  // 引入 FlowLayout 类的定义，用于工具栏按钮的流式布局
+#include "widget/toolbar/toolbarbutton.h"  // 引入 ToolbarButton 类的定义，自定义的工具栏按钮
 
-namespace olive { // olive 命名空间开始
+namespace olive {  // olive 命名空间开始
 
-class ToolbarButton; // 前向声明 ToolbarButton 类 (虽然已包含头文件，但如果原始代码中有，则保留)
+class ToolbarButton;  // 前向声明 ToolbarButton 类 (虽然已包含头文件，但如果原始代码中有，则保留)
 
 /**
  * @brief Toolbar 类是一个包含 Olive 所有应用程序级工具按钮的控件。
@@ -21,19 +21,19 @@ class ToolbarButton; // 前向声明 ToolbarButton 类 (虽然已包含头文件
  * 这样工具栏就可以在应用程序范围内更新当前工具，并且当工具在其他地方更改时也会自动更新。
  */
 class Toolbar : public QWidget {
-  Q_OBJECT // Q_OBJECT 宏，用于启用 Qt 的元对象特性，如信号和槽
+ Q_OBJECT  // Q_OBJECT 宏，用于启用 Qt 的元对象特性，如信号和槽
 
- public:
-  /**
-   * @brief Toolbar 构造函数
-   *
-   * 创建并连接所有的工具栏按钮。
-   *
-   * @param parent 父 QWidget 对象。
-   */
-  explicit Toolbar(QWidget* parent);
+     public :
+     /**
+      * @brief Toolbar 构造函数
+      *
+      * 创建并连接所有的工具栏按钮。
+      *
+      * @param parent 父 QWidget 对象。
+      */
+     explicit Toolbar(QWidget* parent);
 
- public slots: // 公共槽函数
+ public slots:  // 公共槽函数
   /**
    * @brief 设置要显示为“选中”状态的工具。
    *
@@ -54,7 +54,7 @@ class Toolbar : public QWidget {
    */
   void SetSnapping(const bool& snapping);
 
- protected: // 受保护的重写方法
+ protected:  // 受保护的重写方法
   /**
    * @brief Qt changeEvent 事件处理函数。
    *
@@ -72,7 +72,7 @@ class Toolbar : public QWidget {
    */
   void resizeEvent(QResizeEvent* e) override;
 
- signals: // 信号
+ signals:  // 信号
   /**
    * @brief 当通过此控件选择一个工具时发出此信号。
    *
@@ -93,7 +93,7 @@ class Toolbar : public QWidget {
    */
   void SelectedTransitionChanged(const QString& id);
 
- private: // 私有方法
+ private:  // 私有方法
   /**
    * @brief 根据当前选择的语言重置所有字符串。
    */
@@ -141,23 +141,23 @@ class Toolbar : public QWidget {
    */
   QList<ToolbarButton*> toolbar_btns_;
 
-  ToolbarButton* btn_pointer_tool_;     ///< 指针工具按钮。
-  ToolbarButton* btn_trackselect_tool_; ///< 轨道选择工具按钮。
-  ToolbarButton* btn_edit_tool_;        ///< 编辑工具按钮。
-  ToolbarButton* btn_ripple_tool_;      ///< 涟漪编辑工具按钮。
-  ToolbarButton* btn_rolling_tool_;     ///< 滚动编辑工具按钮。
-  ToolbarButton* btn_razor_tool_;       ///< 剃刀工具按钮。
-  ToolbarButton* btn_slip_tool_;        ///< 滑移工具按钮。
-  ToolbarButton* btn_slide_tool_;       ///< 滑动工具按钮。
-  ToolbarButton* btn_hand_tool_;        ///< 手型工具（抓手工具）按钮。
-  ToolbarButton* btn_transition_tool_;  ///< 转场工具按钮。
-  ToolbarButton* btn_zoom_tool_;        ///< 缩放工具按钮。
-  ToolbarButton* btn_record_;           ///< 录制工具按钮。
-  ToolbarButton* btn_add_;              ///< 添加（可能指添加剪辑或效果）工具按钮。
+  ToolbarButton* btn_pointer_tool_;      ///< 指针工具按钮。
+  ToolbarButton* btn_trackselect_tool_;  ///< 轨道选择工具按钮。
+  ToolbarButton* btn_edit_tool_;         ///< 编辑工具按钮。
+  ToolbarButton* btn_ripple_tool_;       ///< 涟漪编辑工具按钮。
+  ToolbarButton* btn_rolling_tool_;      ///< 滚动编辑工具按钮。
+  ToolbarButton* btn_razor_tool_;        ///< 剃刀工具按钮。
+  ToolbarButton* btn_slip_tool_;         ///< 滑移工具按钮。
+  ToolbarButton* btn_slide_tool_;        ///< 滑动工具按钮。
+  ToolbarButton* btn_hand_tool_;         ///< 手型工具（抓手工具）按钮。
+  ToolbarButton* btn_transition_tool_;   ///< 转场工具按钮。
+  ToolbarButton* btn_zoom_tool_;         ///< 缩放工具按钮。
+  ToolbarButton* btn_record_;            ///< 录制工具按钮。
+  ToolbarButton* btn_add_;               ///< 添加（可能指添加剪辑或效果）工具按钮。
 
-  ToolbarButton* btn_snapping_toggle_; ///< 吸附功能切换按钮。
+  ToolbarButton* btn_snapping_toggle_;  ///< 吸附功能切换按钮。
 
- private slots: // 私有槽函数
+ private slots:  // 私有槽函数
   /**
    * @brief ToolbarButton 被点击时的槽函数。
    *

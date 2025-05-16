@@ -1,7 +1,7 @@
 #ifndef TIMELINECOORDINATE_H
 #define TIMELINECOORDINATE_H
 
-#include "node/output/track/track.h" // 引入 Track 类的定义，TimelineCoordinate 与轨道相关
+#include "node/output/track/track.h"  // 引入 Track 类的定义，TimelineCoordinate 与轨道相关
 
 namespace olive {
 
@@ -13,7 +13,7 @@ namespace olive {
  * 这个类帮助定位在特定轨道的特定时间点。
  */
 class TimelineCoordinate {
-public:
+ public:
   /**
    * @brief 默认构造函数。
    *
@@ -70,7 +70,7 @@ public:
    */
   void SetTrack(const Track::Reference& track);
 
-private:
+ private:
   /**
    * @brief 存储坐标的帧号。
    *

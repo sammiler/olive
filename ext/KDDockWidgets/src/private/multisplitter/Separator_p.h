@@ -4,7 +4,7 @@
 #include "kddockwidgets/docks_export.h" // 包含导出宏定义
 
 #include <QObject> // 包含 QObject 基类
-#include <QPoint>  // 包含 QPoint 类，用于表示二维点
+#include <QPoint> // 包含 QPoint 类，用于表示二维点
 
 // 前向声明 Qt::Orientation，避免不必要的 Qt 核心头文件包含
 QT_BEGIN_NAMESPACE
@@ -13,10 +13,10 @@ QT_END_NAMESPACE
 
 namespace Layouting { // 布局相关的命名空间
 
-class Config;             // 前向声明 Config 类
-class ItemBoxContainer;   // 前向声明 ItemBoxContainer 类
-class Separator;          // 前向声明 Separator 类自身 (用于 typedef List)
-class Widget;             // 前向声明 Widget 类 (可能是 KDDockWidgets::Widget 的别名或特定于布局的 Widget)
+class Config; // 前向声明 Config 类
+class ItemBoxContainer; // 前向声明 ItemBoxContainer 类
+class Separator; // 前向声明 Separator 类自身 (用于 typedef List)
+class Widget; // 前向声明 Widget 类 (可能是 KDDockWidgets::Widget 的别名或特定于布局的 Widget)
 
 /**
  * @brief Separator 类代表布局中的分隔条。
@@ -216,11 +216,11 @@ private:
      */
     [[nodiscard]] bool usesLazyResize() const;
 
-    static bool s_isResizing;                           ///< 静态成员，标记当前是否有任何分隔条正在调整大小。
-    static Separator *s_separatorBeingDragged;          ///< 静态成员，指向当前正在被拖动的 Separator 对象，如果没有则为 nullptr。
+    static bool s_isResizing; ///< 静态成员，标记当前是否有任何分隔条正在调整大小。
+    static Separator *s_separatorBeingDragged; ///< 静态成员，指向当前正在被拖动的 Separator 对象，如果没有则为 nullptr。
 
-    struct Private;     // 前向声明私有数据结构体 (PImpl 模式)
-    Private *const d;   ///< 指向私有数据结构体的常量指针。
+    struct Private; // 前向声明私有数据结构体 (PImpl 模式)
+    Private *const d; ///< 指向私有数据结构体的常量指针。
 };
 
 } // namespace Layouting

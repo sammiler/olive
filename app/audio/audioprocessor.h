@@ -4,7 +4,7 @@
 #include <inttypes.h>
 #include <olive/core/core.h>
 #include <QByteArray>
-#include <QVector> // 为 QVector 包含
+#include <QVector>  // 为 QVector 包含
 
 extern "C" {
 #include <libavfilter/avfilter.h>

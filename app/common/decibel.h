@@ -1,9 +1,9 @@
 #ifndef DECIBEL_H
 #define DECIBEL_H
 
-#include <QtGlobal> // 为了 qFuzzyIsNull
-#include <cmath>    // 为了 std::log10, std::pow, std::isinf, std::exp, std::log
-#include <limits>   // 为了 std::numeric_limits (如果 ALLOW_RETURNING_INFINITY 被定义)
+#include <QtGlobal>  // 为了 qFuzzyIsNull
+#include <cmath>     // 为了 std::log10, std::pow, std::isinf, std::exp, std::log
+#include <limits>    // 为了 std::numeric_limits (如果 ALLOW_RETURNING_INFINITY 被定义)
 
 // #define ALLOW_RETURNING_INFINITY // 控制是否允许返回无穷大值
 
@@ -35,7 +35,7 @@ class Decibel {
   static double fromLinear(double linear) {
     double v = double(20.0) * std::log10(linear);
 #ifndef ALLOW_RETURNING_INFINITY
-    if (std::isinf(v)) { // 检查是否为无穷大 (通常是负无穷)
+    if (std::isinf(v)) {  // 检查是否为无穷大 (通常是负无穷)
       return MINIMUM;
     }
 #endif
@@ -54,7 +54,7 @@ class Decibel {
 
     // 定义一个阈值，低于此值即视为0，以避免极小的非零值
     if (to_linear < 0.000001) {
-      return 0.0; // 返回标准0.0
+      return 0.0;  // 返回标准0.0
     } else {
       return to_linear;
     }
@@ -69,14 +69,14 @@ class Decibel {
    * 如果 logarithmic 接近1 (大于0.99)，返回 0 dB。
    */
   static double fromLogarithmic(double logarithmic) {
-    if (logarithmic < 0.001) // 接近静音
+    if (logarithmic < 0.001)  // 接近静音
 #ifdef ALLOW_RETURNING_INFINITY
-      return std::numeric_limits<double>::infinity(); // 或者可能是负无穷大，取决于期望
+      return std::numeric_limits<double>::infinity();  // 或者可能是负无穷大，取决于期望
 #else
       return MINIMUM;
 #endif
-    else if (logarithmic > 0.99) // 接近最大音量 (0dB)
-      return 0.0; // 返回标准0.0
+    else if (logarithmic > 0.99)  // 接近最大音量 (0dB)
+      return 0.0;                 // 返回标准0.0
     else
       // 具体转换公式，可能基于特定的对数映射曲线
       return 20.0 * std::log10(-std::log(1.0 - logarithmic) / LOG100);
@@ -89,8 +89,8 @@ class Decibel {
    * 如果 decibel 接近0 (使用 qFuzzyIsNull 判断)，则返回 1.0 (表示最大音量)。
    */
   static double toLogarithmic(double decibel) {
-    if (qFuzzyIsNull(decibel)) { // 检查是否接近0dB
-      return 1.0; // 返回标准1.0
+    if (qFuzzyIsNull(decibel)) {  // 检查是否接近0dB
+      return 1.0;                 // 返回标准1.0
     } else {
       // 具体转换公式
       return 1.0 - std::exp(-std::pow(10.0, decibel / 20.0) * LOG100);
@@ -115,8 +115,8 @@ class Decibel {
    * 如果 logarithmic 接近1 (大于0.99)，返回1.0。
    */
   static double LogarithmicToLinear(double logarithmic) {
-    if (logarithmic > 0.99) { // 接近最大
-      return 1.0; // 返回标准1.0
+    if (logarithmic > 0.99) {  // 接近最大
+      return 1.0;              // 返回标准1.0
     } else {
       // 公式: -ln(1 - logarithmic) / LOG100
       return -std::log(1.0 - logarithmic) / LOG100;

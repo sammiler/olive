@@ -1,9 +1,9 @@
 #ifndef NODEPARAMVIEWWIDGETBRIDGE_H
 #define NODEPARAMVIEWWIDGETBRIDGE_H
 
-#include <QObject> // Qt 对象模型基类
-#include <QWidget> // Qt 控件基类 (用于 CreateSliders 和 widgets_ 成员)
-#include <QVector> // Qt 动态数组容器
+#include <QObject>  // Qt 对象模型基类
+#include <QVector>  // Qt 动态数组容器
+#include <QWidget>  // Qt 控件基类 (用于 CreateSliders 和 widgets_ 成员)
 
 #include "node/inputdragger.h"                     // 节点输入参数拖拽处理器
 #include "widget/slider/base/numericsliderbase.h"  // 数值滑块控件基类
@@ -31,16 +31,17 @@ namespace olive {
  * 而是允许滚轮事件用于控件本身（如果控件支持）。
  */
 class NodeParamViewScrollBlocker : public QObject {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief 事件过滤器函数。
-   * @param watched 被监视的对象。
-   * @param event 发生的事件。
-   * @return 如果事件应被过滤（即阻止其进一步传播），则返回 true；否则返回 false。
-   */
-  bool eventFilter(QObject* watched, QEvent* event) override;
+     public :
+     /**
+      * @brief 事件过滤器函数。
+      * @param watched 被监视的对象。
+      * @param event 发生的事件。
+      * @return 如果事件应被过滤（即阻止其进一步传播），则返回 true；否则返回 false。
+      */
+     bool
+     eventFilter(QObject* watched, QEvent* event) override;
 };
 
 /**
@@ -51,15 +52,15 @@ class NodeParamViewScrollBlocker : public QObject {
  * 同时，它也作为 TimeTargetObject，可以响应时间变化。
  */
 class NodeParamViewWidgetBridge : public QObject, public TimeTargetObject {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param input 此桥接器管理的节点输入参数 (NodeInput)。
-   * @param parent 父 QObject 指针。
-   */
-  NodeParamViewWidgetBridge(NodeInput input, QObject* parent);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param input 此桥接器管理的节点输入参数 (NodeInput)。
+      * @param parent 父 QObject 指针。
+      */
+     NodeParamViewWidgetBridge(NodeInput input, QObject* parent);
 
   /**
    * @brief 获取此桥接器创建和管理的所有UI控件。
@@ -203,13 +204,14 @@ class NodeParamViewWidgetBridge : public QObject, public TimeTargetObject {
    */
   void UpdateProperties();
 
-  QVector<NodeInput> input_hierarchy_; ///< 存储输入参数的层级结构。例如，一个 Vector3D 参数可能包含 X, Y, Z 三个子输入。
+  QVector<NodeInput>
+      input_hierarchy_;  ///< 存储输入参数的层级结构。例如，一个 Vector3D 参数可能包含 X, Y, Z 三个子输入。
 
-  QVector<QWidget*> widgets_; ///< 存储为此参数创建的所有UI编辑控件的列表。
+  QVector<QWidget*> widgets_;  ///< 存储为此参数创建的所有UI编辑控件的列表。
 
-  NodeInputDragger dragger_; ///< 用于处理通过拖拽方式修改参数值的功能。
+  NodeInputDragger dragger_;  ///< 用于处理通过拖拽方式修改参数值的功能。
 
-  NodeParamViewScrollBlocker scroll_filter_; ///< 事件过滤器，用于阻止在参数控件上意外滚动父视图。
+  NodeParamViewScrollBlocker scroll_filter_;  ///< 事件过滤器，用于阻止在参数控件上意外滚动父视图。
 
  private slots:
   /**

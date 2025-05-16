@@ -1,12 +1,12 @@
-#ifndef POINTGIZMO_H // 防止头文件被多次包含的宏定义开始
+#ifndef POINTGIZMO_H  // 防止头文件被多次包含的宏定义开始
 #define POINTGIZMO_H
 
-#include <QPointF> // Qt 的浮点数点类
+#include <QPointF>  // Qt 的浮点数点类
 
-#include "draggable.h" // 引入基类 DraggableGizmo (或类似可拖动 Gizmo 基类) 的定义
-                       // 假设 "draggable.h" 是正确的基类头文件名
+#include "draggable.h"  // 引入基类 DraggableGizmo (或类似可拖动 Gizmo 基类) 的定义
+                        // 假设 "draggable.h" 是正确的基类头文件名
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
 /**
  * @brief 代表一个点 Gizmo (图形交互控件)。
@@ -15,16 +15,16 @@ namespace olive { // Olive 编辑器的命名空间
  * 它可以显示为不同的形状（方形、圆形等）。
  */
 class PointGizmo : public DraggableGizmo {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief 定义点 Gizmo 可以显示的形状。
-   */
-  enum Shape {
-    kSquare,      ///< 方形
-    kCircle,      ///< 圆形
-    kAnchorPoint  ///< 特殊的锚点形状 (通常用于表示贝塞尔曲线的顶点)
-  };
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief 定义点 Gizmo 可以显示的形状。
+      */
+     enum Shape {
+       kSquare,      ///< 方形
+       kCircle,      ///< 圆形
+       kAnchorPoint  ///< 特殊的锚点形状 (通常用于表示贝塞尔曲线的顶点)
+     };
 
   /**
    * @brief PointGizmo 构造函数。
@@ -109,11 +109,11 @@ class PointGizmo : public DraggableGizmo {
    */
   [[nodiscard]] QRectF GetDrawingRect(const QTransform &transform, double radius) const;
 
-  Shape shape_; ///< 点 Gizmo 的显示形状 (方形、圆形等)。
+  Shape shape_;  ///< 点 Gizmo 的显示形状 (方形、圆形等)。
 
-  QPointF point_; ///< 点 Gizmo 在序列（画布）坐标系中的位置。
+  QPointF point_;  ///< 点 Gizmo 在序列（画布）坐标系中的位置。
 
-  bool smaller_; ///< 标记是否以较小尺寸绘制此 Gizmo。
+  bool smaller_;  ///< 标记是否以较小尺寸绘制此 Gizmo。
 };
 
 }  // namespace olive

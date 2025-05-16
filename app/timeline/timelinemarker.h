@@ -1,15 +1,15 @@
 #ifndef TIMELINEMARKER_H
 #define TIMELINEMARKER_H
 
-#include <olive/core/core.h>      // 引入 Olive 核心库的头文件，提供基础数据结构如 TimeRange 和 rational
-#include <QPainter>               // 引入 QPainter 类，用于自定义绘制
-#include <QString>                // 引入 QString 类，用于字符串操作
-#include <QXmlStreamReader>       // 引入 QXmlStreamReader 类，用于读取 XML 数据
-#include <QXmlStreamWriter>       // 引入 QXmlStreamWriter 类，用于写入 XML 数据
+#include <olive/core/core.h>  // 引入 Olive 核心库的头文件，提供基础数据结构如 TimeRange 和 rational
+#include <QPainter>           // 引入 QPainter 类，用于自定义绘制
+#include <QString>            // 引入 QString 类，用于字符串操作
+#include <QXmlStreamReader>   // 引入 QXmlStreamReader 类，用于读取 XML 数据
+#include <QXmlStreamWriter>   // 引入 QXmlStreamWriter 类，用于写入 XML 数据
 
-#include "undo/undocommand.h"     // 引入 UndoCommand 基类，用于实现撤销/重做功能
+#include "undo/undocommand.h"  // 引入 UndoCommand 基类，用于实现撤销/重做功能
 
-using namespace olive::core; // 使用 olive::core 命名空间，方便直接访问其成员，如 TimeRange, rational
+using namespace olive::core;  // 使用 olive::core 命名空间，方便直接访问其成员，如 TimeRange, rational
 
 namespace olive {
 
@@ -147,9 +147,9 @@ class TimelineMarker : public QObject {
   void ColorChanged(int c);
 
  private:
-  TimeRange time_; // 标记的时间范围
-  QString name_;   // 标记的名称
-  int color_;      // 标记的颜色标识
+  TimeRange time_;  // 标记的时间范围
+  QString name_;    // 标记的名称
+  int color_;       // 标记的颜色标识
 };
 
 /**
@@ -259,12 +259,12 @@ class TimelineMarkerList : public QObject {
    * [[nodiscard]] 属性提示编译器，此函数的返回值不应被忽略。
    */
   [[nodiscard]] TimelineMarker* GetMarkerAtTime(const rational& t) const {
-    for (auto m : markers_) { // 遍历所有标记
-      if (m->time().in() == t) { // 如果标记的入点时间与指定时间相同
-        return m; // 返回该标记
+    for (auto m : markers_) {     // 遍历所有标记
+      if (m->time().in() == t) {  // 如果标记的入点时间与指定时间相同
+        return m;                 // 返回该标记
       }
     }
-    return nullptr; // 未找到则返回空指针
+    return nullptr;  // 未找到则返回空指针
   }
 
   /**
@@ -276,23 +276,23 @@ class TimelineMarkerList : public QObject {
    * [[nodiscard]] 属性提示编译器，此函数的返回值不应被忽略。
    */
   [[nodiscard]] TimelineMarker* GetClosestMarkerToTime(const rational& t) const {
-    TimelineMarker* closest = nullptr; // 初始化最近标记为空
+    TimelineMarker* closest = nullptr;  // 初始化最近标记为空
 
-    for (auto m : markers_) { // 遍历所有标记
-      rational this_diff = rational::qAbs(m->time().in() - t); // 计算当前标记与目标时间的差值绝对值
+    for (auto m : markers_) {                                   // 遍历所有标记
+      rational this_diff = rational::qAbs(m->time().in() - t);  // 计算当前标记与目标时间的差值绝对值
 
-      if (closest) { // 如果已经有一个最近标记的候选者
-        rational stored_diff = rational::qAbs(closest->time().in() - t); // 计算已存储的最近标记与目标时间的差值绝对值
+      if (closest) {                                                      // 如果已经有一个最近标记的候选者
+        rational stored_diff = rational::qAbs(closest->time().in() - t);  // 计算已存储的最近标记与目标时间的差值绝对值
 
-        if (this_diff > stored_diff) { // 如果当前标记的差值更大
+        if (this_diff > stored_diff) {  // 如果当前标记的差值更大
           // 由于列表按时间组织，如果差值开始增加，
           // 假设我们只会离目标时间越来越远，无需继续检查。
           break;
         }
       }
-      closest = m; // 更新最近标记为当前标记
+      closest = m;  // 更新最近标记为当前标记
     }
-    return closest; // 返回找到的最近标记
+    return closest;  // 返回找到的最近标记
   }
 
  signals:
@@ -406,9 +406,9 @@ class MarkerAddCommand : public UndoCommand {
   void undo() override;
 
  private:
-  TimelineMarkerList* marker_list_; // 指向目标标记列表的指针
-  TimelineMarker* added_marker_;    // 指向被添加的标记的指针
-  QObject memory_manager_;          // 用于管理 added_marker_ 的生命周期，确保在命令销毁时标记也被正确处理（如果是由命令创建的）
+  TimelineMarkerList* marker_list_;  // 指向目标标记列表的指针
+  TimelineMarker* added_marker_;     // 指向被添加的标记的指针
+  QObject memory_manager_;  // 用于管理 added_marker_ 的生命周期，确保在命令销毁时标记也被正确处理（如果是由命令创建的）
 };
 
 /**
@@ -443,9 +443,9 @@ class MarkerRemoveCommand : public UndoCommand {
   void undo() override;
 
  private:
-  TimelineMarker* marker_;        // 指向被移除的标记的指针
-  QObject* marker_list_{};        // 指向标记所属列表的指针（在构造时获取）
-  QObject memory_manager_;        // 用于管理 marker_ 的生命周期，确保在撤销后重新添加时标记仍然有效
+  TimelineMarker* marker_;  // 指向被移除的标记的指针
+  QObject* marker_list_{};  // 指向标记所属列表的指针（在构造时获取）
+  QObject memory_manager_;  // 用于管理 marker_ 的生命周期，确保在撤销后重新添加时标记仍然有效
 };
 
 /**
@@ -479,9 +479,9 @@ class MarkerChangeColorCommand : public UndoCommand {
   void undo() override;
 
  private:
-  TimelineMarker* marker_; // 指向被修改的标记
-  int old_color_{};        // 标记的旧颜色值
-  int new_color_;          // 标记的新颜色值
+  TimelineMarker* marker_;  // 指向被修改的标记
+  int old_color_{};         // 标记的旧颜色值
+  int new_color_;           // 标记的新颜色值
 };
 
 /**
@@ -515,9 +515,9 @@ class MarkerChangeNameCommand : public UndoCommand {
   void undo() override;
 
  private:
-  TimelineMarker* marker_; // 指向被修改的标记
-  QString old_name_;       // 标记的旧名称
-  QString new_name_;       // 标记的新名称
+  TimelineMarker* marker_;  // 指向被修改的标记
+  QString old_name_;        // 标记的旧名称
+  QString new_name_;        // 标记的新名称
 };
 
 /**
@@ -539,7 +539,7 @@ class MarkerChangeTimeCommand : public UndoCommand {
    * @param time 新的时间范围。
    */
   MarkerChangeTimeCommand(TimelineMarker* marker, const TimeRange& time)
-      : MarkerChangeTimeCommand(marker, time, marker->time()) {} // 调用主构造函数
+      : MarkerChangeTimeCommand(marker, time, marker->time()) {}  // 调用主构造函数
 
   /**
    * @brief 获取与此命令相关的项目对象。
@@ -560,9 +560,9 @@ class MarkerChangeTimeCommand : public UndoCommand {
   void undo() override;
 
  private:
-  TimelineMarker* marker_; // 指向被修改的标记
-  TimeRange old_time_;     // 标记的旧时间范围
-  TimeRange new_time_;     // 标记的新时间范围
+  TimelineMarker* marker_;  // 指向被修改的标记
+  TimeRange old_time_;      // 标记的旧时间范围
+  TimeRange new_time_;      // 标记的新时间范围
 };
 
 }  // namespace olive

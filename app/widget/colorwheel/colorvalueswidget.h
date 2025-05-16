@@ -1,9 +1,9 @@
 #ifndef COLORVALUESWIDGET_H
 #define COLORVALUESWIDGET_H
 
-#include <QCheckBox>     // Qt 复选框控件
-#include <QPushButton>   // Qt 按钮控件
-#include <QWidget>       // Qt 控件基类
+#include <QCheckBox>    // Qt 复选框控件
+#include <QPushButton>  // Qt 按钮控件
+#include <QWidget>      // Qt 控件基类
 
 #include "colorpreviewbox.h"                       // 自定义颜色预览框控件
 #include "node/color/colormanager/colormanager.h"  // 色彩管理器类
@@ -25,15 +25,15 @@ namespace olive {
  * 当颜色值发生变化时，会发出 ColorChanged 信号。
  */
 class ColorValuesTab : public QWidget {
-  Q_OBJECT // Qt 元对象系统宏，用于支持信号和槽机制
+ Q_OBJECT  // Qt 元对象系统宏，用于支持信号和槽机制
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param with_legacy_option 布尔值，指示是否显示“传统值”复选框。默认为 false。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit ColorValuesTab(bool with_legacy_option = false, QWidget* parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param with_legacy_option 布尔值，指示是否显示“传统值”复选框。默认为 false。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit ColorValuesTab(bool with_legacy_option = false, QWidget* parent = nullptr);
 
   /**
    * @brief 获取当前选项卡表示的颜色。
@@ -90,7 +90,7 @@ class ColorValuesTab : public QWidget {
   void ColorChanged(const Color& c);
 
  private:
-  static const double kLegacyMultiplier; ///< 用于“传统值”模式的乘数常量。
+  static const double kLegacyMultiplier;  ///< 用于“传统值”模式的乘数常量。
 
   /**
    * @brief 内部辅助函数，用于从指定的浮点数滑块获取值。
@@ -119,16 +119,16 @@ class ColorValuesTab : public QWidget {
    */
   [[nodiscard]] FloatSlider* CreateColorSlider() const;
 
-  FloatSlider* red_slider_;   ///< 控制红色分量的滑块。
-  FloatSlider* green_slider_; ///< 控制绿色分量的滑块。
-  FloatSlider* blue_slider_;  ///< 控制蓝色分量的滑块。
+  FloatSlider* red_slider_;    ///< 控制红色分量的滑块。
+  FloatSlider* green_slider_;  ///< 控制绿色分量的滑块。
+  FloatSlider* blue_slider_;   ///< 控制蓝色分量的滑块。
 
   QLabel* hex_lbl_;           ///< 显示 "Hex" 标签的 QLabel。
   StringSlider* hex_slider_;  ///< 用于输入和显示十六进制颜色代码的 StringSlider。
 
-  QVector<FloatSlider*> sliders_; ///< 存储所有颜色分量滑块的 QVector，方便统一处理。
+  QVector<FloatSlider*> sliders_;  ///< 存储所有颜色分量滑块的 QVector，方便统一处理。
 
-  QCheckBox* legacy_box_; ///< 用于切换“传统值”模式的复选框。
+  QCheckBox* legacy_box_;  ///< 用于切换“传统值”模式的复选框。
 
  private slots:
   /**
@@ -167,15 +167,15 @@ class ColorValuesTab : public QWidget {
  * 通过 ColorManager 和 ColorProcessor 实现颜色空间之间的转换。
  */
 class ColorValuesWidget : public QWidget {
-  Q_OBJECT // Qt 元对象系统宏，用于支持信号和槽机制
+ Q_OBJECT  // Qt 元对象系统宏，用于支持信号和槽机制
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param manager 指向色彩管理器的指针。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit ColorValuesWidget(ColorManager* manager, QWidget* parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param manager 指向色彩管理器的指针。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit ColorValuesWidget(ColorManager* manager, QWidget* parent = nullptr);
 
   /**
    * @brief 获取当前控件表示的颜色（通常是在参考色彩空间中）。
@@ -253,24 +253,24 @@ class ColorValuesWidget : public QWidget {
    */
   void UpdateRefFromDisplay();
 
-  ColorManager* manager_; ///< 指向色彩管理器的指针。
+  ColorManager* manager_;  ///< 指向色彩管理器的指针。
 
-  ColorPreviewBox* preview_; ///< 用于显示当前颜色的预览框。
+  ColorPreviewBox* preview_;  ///< 用于显示当前颜色的预览框。
 
-  ColorValuesTab* input_tab_;     ///< 用于显示和编辑输入色彩空间中颜色的选项卡。
-  ColorValuesTab* reference_tab_; ///< 用于显示和编辑参考色彩空间中颜色的选项卡。
-  ColorValuesTab* display_tab_;   ///< 用于显示和编辑显示色彩空间中颜色的选项卡。
+  ColorValuesTab* input_tab_;      ///< 用于显示和编辑输入色彩空间中颜色的选项卡。
+  ColorValuesTab* reference_tab_;  ///< 用于显示和编辑参考色彩空间中颜色的选项卡。
+  ColorValuesTab* display_tab_;    ///< 用于显示和编辑显示色彩空间中颜色的选项卡。
 
-  ColorProcessorPtr input_to_ref_;     ///< 从输入空间到参考空间的色彩转换器。
-  ColorProcessorPtr ref_to_display_;   ///< 从参考空间到显示空间的色彩转换器。
-  ColorProcessorPtr display_to_ref_;   ///< 从显示空间到参考空间的色彩转换器。
-  ColorProcessorPtr ref_to_input_;     ///< 从参考空间到输入空间的色彩转换器。
+  ColorProcessorPtr input_to_ref_;    ///< 从输入空间到参考空间的色彩转换器。
+  ColorProcessorPtr ref_to_display_;  ///< 从参考空间到显示空间的色彩转换器。
+  ColorProcessorPtr display_to_ref_;  ///< 从显示空间到参考空间的色彩转换器。
+  ColorProcessorPtr ref_to_input_;    ///< 从参考空间到输入空间的色彩转换器。
 
-  QPushButton* color_picker_btn_; ///< 颜色拾取器按钮。
+  QPushButton* color_picker_btn_;  ///< 颜色拾取器按钮。
 
-  Color picker_end_color_; ///< 存储颜色拾取操作结束时的颜色。
+  Color picker_end_color_;  ///< 存储颜色拾取操作结束时的颜色。
 
-  QVector<QWidget*> ignore_pick_from_; ///< 在颜色拾取模式下应忽略的控件列表。
+  QVector<QWidget*> ignore_pick_from_;  ///< 在颜色拾取模式下应忽略的控件列表。
 
  private slots:
   /**

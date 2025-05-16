@@ -1,9 +1,9 @@
-#ifndef SLIPTIMELINETOOL_H // 防止头文件被多次包含的宏定义
+#ifndef SLIPTIMELINETOOL_H  // 防止头文件被多次包含的宏定义
 #define SLIPTIMELINETOOL_H
 
-#include "pointer.h" // 引入 PointerTool 类的定义，SlipTool 是 PointerTool 的派生类
+#include "pointer.h"  // 引入 PointerTool 类的定义，SlipTool 是 PointerTool 的派生类
 
-namespace olive { // olive 命名空间开始
+namespace olive {  // olive 命名空间开始
 
 /**
  * @brief SlipTool 类是时间轴上的滑移编辑工具（Slip Edit Tool）。
@@ -13,14 +13,14 @@ namespace olive { // olive 命名空间开始
  * 改变剪辑内容在其窗口中的起始和结束帧。这相当于在剪辑的“窗口”内滑动其内容。
  */
 class SlipTool : public PointerTool {
-public:
+ public:
   /**
    * @brief 构造一个 SlipTool 对象。
    * @param parent 指向其所属的 TimelineWidget 的指针。
    */
   explicit SlipTool(TimelineWidget *parent);
 
-protected: // 受保护成员
+ protected:  // 受保护成员
   /**
    * @brief 处理拖动过程中的逻辑的虚函数（重写自 PointerTool 或其基类）。
    *

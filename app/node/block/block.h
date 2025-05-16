@@ -1,24 +1,24 @@
 #ifndef BLOCK_H
 #define BLOCK_H
 
-#include "node/node.h"             // 引入基类 Node 的定义
-#include "timeline/timelinecommon.h" // 引入时间线相关的通用定义，可能包含 rational, TimeRange 等
+#include "node/node.h"                // 引入基类 Node 的定义
+#include "timeline/timelinecommon.h"  // 引入时间线相关的通用定义，可能包含 rational, TimeRange 等
 
 namespace olive {
 
-class TransitionBlock; // 前向声明 TransitionBlock，可能用于类型检查或特定逻辑
+class TransitionBlock;  // 前向声明 TransitionBlock，可能用于类型检查或特定逻辑
 
 /**
  * @brief 代表一个时间块的节点，可以显示在时间线上。
  * 这是时间线上各种元素（如媒体片段、间隙、转场等）的基类。
  */
 class Block : public Node {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief Block 构造函数。
-   */
-  Block();
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief Block 构造函数。
+      */
+     Block();
 
   /**
    * @brief 获取此 Block 所属的分类 ID 列表。
@@ -111,7 +111,7 @@ class Block : public Node {
    */
   void set_track(Track* track) {
     track_ = track;             // 设置轨道指针
-    emit TrackChanged(track_); // 发射轨道变更信号
+    emit TrackChanged(track_);  // 发射轨道变更信号
   }
 
   /**
@@ -142,7 +142,7 @@ class Block : public Node {
   void InvalidateCache(const TimeRange& range, const QString& from, int element = -1,
                        InvalidateCacheOptions options = InvalidateCacheOptions()) override;
 
-  static const QString kLengthInput; ///< "Length" - 长度参数的键名。
+  static const QString kLengthInput;  ///< "Length" - 长度参数的键名。
 
   /**
    * @brief 工具函数，方便地设置两个 Block 之间的前后链接关系。
@@ -151,9 +151,9 @@ class Block : public Node {
    */
   static void set_previous_next(Block* previous, Block* next);
 
- public slots: // Qt 槽函数声明区域
+ public slots:  // Qt 槽函数声明区域
 
- signals: // Qt 信号声明区域
+ signals:  // Qt 信号声明区域
   /**
    * @brief 当 Block 的启用状态发生改变时发射此信号。
    */
@@ -185,8 +185,8 @@ class Block : public Node {
   void InputValueChangedEvent(const QString& input, int element) override;
 
   // --- 受保护的成员变量 ---
-  Block* previous_; ///< 指向轨道上此 Block 的前一个 Block。
-  Block* next_;     ///< 指向轨道上此 Block 的后一个 Block。
+  Block* previous_;  ///< 指向轨道上此 Block 的前一个 Block。
+  Block* next_;      ///< 指向轨道上此 Block 的后一个 Block。
 
  private:
   /**
@@ -196,11 +196,11 @@ class Block : public Node {
   void set_length_internal(const rational& length);
 
   // --- 私有成员变量 ---
-  rational in_point_;  ///< Block 在时间线上的入点。
-  rational out_point_; ///< Block 在时间线上的出点。
-  Track* track_;       ///< 指向此 Block 所属的 Track 对象。
+  rational in_point_;   ///< Block 在时间线上的入点。
+  rational out_point_;  ///< Block 在时间线上的出点。
+  Track* track_;        ///< 指向此 Block 所属的 Track 对象。
 
-  rational last_length_; ///< 上一次记录的长度，可能用于检测长度变化。
+  rational last_length_;  ///< 上一次记录的长度，可能用于检测长度变化。
 };
 
 }  // namespace olive

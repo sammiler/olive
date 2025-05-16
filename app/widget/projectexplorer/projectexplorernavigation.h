@@ -1,12 +1,13 @@
-#ifndef PROJECTEXPLORERLISTVIEWTOOLBAR_H // 注意：头文件保护宏与文件名 (projectexplorernavigation.h) 不完全匹配，可能应为 PROJECTEXPLORERNNAVIGATION_H
+#ifndef PROJECTEXPLORERLISTVIEWTOOLBAR_H  // 注意：头文件保护宏与文件名 (projectexplorernavigation.h)
+                                          // 不完全匹配，可能应为 PROJECTEXPLORERNNAVIGATION_H
 #define PROJECTEXPLORERLISTVIEWTOOLBAR_H
 
-#include <QLabel>      // Qt 标签控件
-#include <QPushButton> // Qt 按钮控件
-#include <QSlider>     // Qt 滑块控件
-#include <QWidget>     // Qt 控件基类
+#include <QLabel>       // Qt 标签控件
+#include <QPushButton>  // Qt 按钮控件
+#include <QSlider>      // Qt 滑块控件
+#include <QWidget>      // Qt 控件基类
 
-#include "common/define.h" // 项目通用定义
+#include "common/define.h"  // 项目通用定义
 
 // 前向声明 Qt 类 (根据用户要求，不添加)
 // class QString;
@@ -32,14 +33,14 @@ namespace olive {
  * 默认情况下，“向上”按钮是禁用的（假设在根文件夹），文本为空，图标大小滑块设置为 kProjectIconSizeDefault。
  */
 class ProjectExplorerNavigation : public QWidget {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父控件指针。
-   */
-  explicit ProjectExplorerNavigation(QWidget* parent);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父控件指针。
+      */
+     explicit ProjectExplorerNavigation(QWidget* parent);
 
   /**
    * @brief 设置文本字符串。
@@ -108,9 +109,9 @@ class ProjectExplorerNavigation : public QWidget {
    */
   void UpdateIcons();
 
-  QPushButton* dir_up_btn_; ///< “向上”（返回上一级目录）按钮。
-  QLabel* dir_lbl_;         ///< 用于显示当前目录名称的标签。
-  QSlider* size_slider_;    ///< 用于调整图标大小的滑块。
+  QPushButton* dir_up_btn_;  ///< “向上”（返回上一级目录）按钮。
+  QLabel* dir_lbl_;          ///< 用于显示当前目录名称的标签。
+  QSlider* size_slider_;     ///< 用于调整图标大小的滑块。
 };
 
 }  // namespace olive

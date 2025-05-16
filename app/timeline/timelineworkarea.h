@@ -1,14 +1,14 @@
 #ifndef TIMELINEWORKAREA_H
 #define TIMELINEWORKAREA_H
 
-#include <olive/core/core.h>      // 引入 Olive 核心库的头文件，提供 TimeRange, rational 等核心类型
-#include <QObject>                // 引入 QObject 基类，用于信号和槽机制
-#include <QXmlStreamReader>       // 引入 QXmlStreamReader 类，用于从 XML 读取数据
-#include <QXmlStreamWriter>       // 引入 QXmlStreamWriter 类，用于向 XML 写入数据
+#include <olive/core/core.h>  // 引入 Olive 核心库的头文件，提供 TimeRange, rational 等核心类型
+#include <QObject>            // 引入 QObject 基类，用于信号和槽机制
+#include <QXmlStreamReader>   // 引入 QXmlStreamReader 类，用于从 XML 读取数据
+#include <QXmlStreamWriter>   // 引入 QXmlStreamWriter 类，用于向 XML 写入数据
 
 namespace olive {
 
-using namespace core; // 使用 olive::core 命名空间，方便直接访问其成员如 TimeRange, rational
+using namespace core;  // 使用 olive::core 命名空间，方便直接访问其成员如 TimeRange, rational
 
 /**
  * @brief 管理时间轴上的一个可定义的工作区域。
@@ -118,8 +118,8 @@ class TimelineWorkArea : public QObject {
   void RangeChanged(const TimeRange& r);
 
  private:
-  bool workarea_enabled_;       // 存储工作区的启用状态
-  TimeRange workarea_range_;    // 存储工作区的时间范围（入点和出点）
+  bool workarea_enabled_;     // 存储工作区的启用状态
+  TimeRange workarea_range_;  // 存储工作区的时间范围（入点和出点）
 };
 
 }  // namespace olive

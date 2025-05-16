@@ -12,8 +12,8 @@ extern "C" {
 #include <libswresample/swresample.h>
 }
 
-#include "codec/encoder.h" // 基类 Encoder 和其他相关定义
-#include "common/define.h" // 包含 olive::FramePtr, olive::SampleBuffer 等类型定义
+#include "codec/encoder.h"  // 基类 Encoder 和其他相关定义
+#include "common/define.h"  // 包含 olive::FramePtr, olive::SampleBuffer 等类型定义
 
 // Forward declarations (如果需要)
 // namespace olive {

@@ -1,9 +1,9 @@
 #ifndef PREFERENCESBEHAVIORTAB_H
 #define PREFERENCESBEHAVIORTAB_H
 
-#include <QTreeWidget> // 引入 QTreeWidget 类，用于创建树形列表控件
+#include <QTreeWidget>  // 引入 QTreeWidget 类，用于创建树形列表控件
 
-#include "dialog/configbase/configdialogbase.h" // 引入配置对话框基类相关定义
+#include "dialog/configbase/configdialogbase.h"  // 引入配置对话框基类相关定义
 
 namespace olive {
 

@@ -1,9 +1,9 @@
 #ifndef LIBOLIVECORE_BEZIER_H
 #define LIBOLIVECORE_BEZIER_H
 
-#include <Imath/ImathVec.h> // 引入 Imath 库的向量类 (Imath::V2d)，用于二维点和向量操作
+#include <Imath/ImathVec.h>  // 引入 Imath 库的向量类 (Imath::V2d)，用于二维点和向量操作
 
-namespace olive::core { // Olive 核心功能命名空间
+namespace olive::core {  // Olive 核心功能命名空间
 
 /**
  * @brief 表示一个贝塞尔曲线上的点及其控制点。
@@ -211,14 +211,14 @@ class Bezier {
    */
   static double CalculateTFromX(bool cubic, double x, double a, double b, double c, double d);
 
-  double x_;     ///< 锚点的 x 坐标。
-  double y_;     ///< 锚点的 y 坐标。
+  double x_;  ///< 锚点的 x 坐标。
+  double y_;  ///< 锚点的 y 坐标。
 
-  double cp1_x_; ///< 第一个控制点的 x 坐标。
-  double cp1_y_; ///< 第一个控制点的 y 坐标。
+  double cp1_x_;  ///< 第一个控制点的 x 坐标。
+  double cp1_y_;  ///< 第一个控制点的 y 坐标。
 
-  double cp2_x_; ///< 第二个控制点的 x 坐标。
-  double cp2_y_; ///< 第二个控制点的 y 坐标。
+  double cp2_x_;  ///< 第二个控制点的 x 坐标。
+  double cp2_y_;  ///< 第二个控制点的 y 坐标。
 };
 
 }  // namespace olive::core

@@ -16,14 +16,14 @@ namespace olive {
  * 它还支持设置自定义的文本颜色。
  */
 class SliderLabel : public QLabel {
-  Q_OBJECT // Qt 元对象系统宏，用于支持信号和槽机制
+ Q_OBJECT  // Qt 元对象系统宏，用于支持信号和槽机制
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父控件指针。
-   */
-  explicit SliderLabel(QWidget *parent);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父控件指针。
+      */
+     explicit SliderLabel(QWidget *parent);
 
   /**
    * @brief 设置标签的文本颜色。
@@ -98,8 +98,8 @@ class SliderLabel : public QLabel {
   void ChangeSliderType();
 
  private:
-  bool override_color_enabled_; ///< 标记是否启用了自定义文本颜色覆盖。
-  QColor override_color_;       ///< 存储自定义的文本颜色。
+  bool override_color_enabled_;  ///< 标记是否启用了自定义文本颜色覆盖。
+  QColor override_color_;        ///< 存储自定义的文本颜色。
 };
 
 }  // namespace olive

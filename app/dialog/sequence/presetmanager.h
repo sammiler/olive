@@ -1,16 +1,16 @@
 #ifndef PRESETMANAGER_H
 #define PRESETMANAGER_H
 
-#include <QCoreApplication> // Qt核心应用类，用于国际化翻译等
-#include <QDir>             // 目录操作类
-#include <QFile>            // 文件操作类
-#include <QInputDialog>   // 输入对话框类
-#include <QMessageBox>    // 消息对话框类
-#include <QObject>          // Qt对象模型基类
-#include <QXmlStreamReader> // XML流读取类
-#include <QXmlStreamWriter> // XML流写入类
-#include <memory>           // C++智能指针库
-#include <utility>          // C++实用工具库，例如 std::move
+#include <QCoreApplication>  // Qt核心应用类，用于国际化翻译等
+#include <QDir>              // 目录操作类
+#include <QFile>             // 文件操作类
+#include <QInputDialog>      // 输入对话框类
+#include <QMessageBox>       // 消息对话框类
+#include <QObject>           // Qt对象模型基类
+#include <QXmlStreamReader>  // XML流读取类
+#include <QXmlStreamWriter>  // XML流写入类
+#include <memory>            // C++智能指针库
+#include <utility>           // C++实用工具库，例如 std::move
 
 #include "common/define.h"         // 项目通用定义
 #include "common/filefunctions.h"  // 文件操作相关函数
@@ -101,30 +101,30 @@ class PresetManager {
    */
   PresetManager(QWidget* parent, QString preset_name) : preset_name_(std::move(preset_name)), parent_(parent) {
     // 从文件加载自定义预设数据
-    QFile preset_file(GetCustomPresetFilename()); // 获取预设文件的完整路径
-    if (preset_file.open(QFile::ReadOnly)) {    // 以只读方式打开文件
-      QXmlStreamReader reader(&preset_file);    // 创建 XML 流读取器
+    QFile preset_file(GetCustomPresetFilename());  // 获取预设文件的完整路径
+    if (preset_file.open(QFile::ReadOnly)) {       // 以只读方式打开文件
+      QXmlStreamReader reader(&preset_file);       // 创建 XML 流读取器
 
       // 循环读取 XML 文档
-      while (XMLReadNextStartElement(&reader)) { // XMLReadNextStartElement 是一个辅助函数，用于跳过非元素节点
-        if (reader.name() == QStringLiteral("presets")) { // 查找根元素 "presets"
+      while (XMLReadNextStartElement(&reader)) {           // XMLReadNextStartElement 是一个辅助函数，用于跳过非元素节点
+        if (reader.name() == QStringLiteral("presets")) {  // 查找根元素 "presets"
           while (XMLReadNextStartElement(&reader)) {
-            if (reader.name() == QStringLiteral("preset")) { // 查找每个 "preset" 元素
-              PresetPtr p = std::make_unique<T>(); // 创建一个具体类型 T 的预设对象
+            if (reader.name() == QStringLiteral("preset")) {  // 查找每个 "preset" 元素
+              PresetPtr p = std::make_unique<T>();            // 创建一个具体类型 T 的预设对象
 
-              p->Load(&reader); // 调用预设对象的 Load 方法从 XML 加载数据
+              p->Load(&reader);  // 调用预设对象的 Load 方法从 XML 加载数据
 
-              custom_preset_data_.append(p); // 将加载的预设添加到列表中
+              custom_preset_data_.append(p);  // 将加载的预设添加到列表中
             } else {
-              reader.skipCurrentElement(); // 跳过不认识的元素
+              reader.skipCurrentElement();  // 跳过不认识的元素
             }
           }
         } else {
-          reader.skipCurrentElement(); // 跳过根元素之外的其他元素
+          reader.skipCurrentElement();  // 跳过根元素之外的其他元素
         }
       }
 
-      preset_file.close(); // 关闭文件
+      preset_file.close();  // 关闭文件
     }
   }
 
@@ -136,28 +136,28 @@ class PresetManager {
   ~PresetManager() {
     // 将自定义预设保存到磁盘
     QFile preset_file(GetCustomPresetFilename());
-    if (preset_file.open(QFile::WriteOnly)) { // 以只写方式打开文件
-      QXmlStreamWriter writer(&preset_file);  // 创建 XML 流写入器
-      writer.setAutoFormatting(true);       // 设置自动格式化，使输出的 XML 更易读
+    if (preset_file.open(QFile::WriteOnly)) {  // 以只写方式打开文件
+      QXmlStreamWriter writer(&preset_file);   // 创建 XML 流写入器
+      writer.setAutoFormatting(true);          // 设置自动格式化，使输出的 XML 更易读
 
-      writer.writeStartDocument(); // 写入 XML 文档开始标记
+      writer.writeStartDocument();  // 写入 XML 文档开始标记
 
-      writer.writeStartElement(QStringLiteral("presets")); // 写入根元素 "presets"
+      writer.writeStartElement(QStringLiteral("presets"));  // 写入根元素 "presets"
 
       // 遍历所有自定义预设并保存
       foreach (PresetPtr p, custom_preset_data_) {
-        writer.writeStartElement(QStringLiteral("preset")); // 写入 "preset" 元素开始标记
+        writer.writeStartElement(QStringLiteral("preset"));  // 写入 "preset" 元素开始标记
 
-        p->Save(&writer); // 调用预设对象的 Save 方法将数据写入 XML
+        p->Save(&writer);  // 调用预设对象的 Save 方法将数据写入 XML
 
         writer.writeEndElement();  // 结束 "preset" 元素
       }
 
       writer.writeEndElement();  // 结束 "presets" 元素
 
-      writer.writeEndDocument(); // 写入 XML 文档结束标记
+      writer.writeEndDocument();  // 写入 XML 文档结束标记
 
-      preset_file.close(); // 关闭文件
+      preset_file.close();  // 关闭文件
     }
   }
 
@@ -170,32 +170,33 @@ class PresetManager {
    * [[nodiscard]] 属性提示编译器调用者应该使用此函数的返回值。
    */
   [[nodiscard]] QString GetPresetName(QString start) const {
-    bool ok; // 用于接收输入对话框的返回状态
+    bool ok;  // 用于接收输入对话框的返回状态
 
-    forever { // 无限循环，直到获得有效名称或用户取消
+    forever {  // 无限循环，直到获得有效名称或用户取消
       // 显示文本输入对话框
-      start = QInputDialog::getText(parent_, QCoreApplication::translate("PresetManager", "Save Preset"), // 对话框标题
-                                    QCoreApplication::translate("PresetManager", "Set preset name:"),  // 提示标签
-                                    QLineEdit::Normal, // 输入框模式
-                                    start,             // 默认文本
-                                    &ok);              // 获取用户操作结果 (确定/取消)
+      start = QInputDialog::getText(parent_, QCoreApplication::translate("PresetManager", "Save Preset"),  // 对话框标题
+                                    QCoreApplication::translate("PresetManager", "Set preset name:"),      // 提示标签
+                                    QLineEdit::Normal,                                                     // 输入框模式
+                                    start,                                                                 // 默认文本
+                                    &ok);  // 获取用户操作结果 (确定/取消)
 
       if (!ok) {
         // 用户取消了对话框 - 完全退出函数
-        return {}; // 返回空 QString
+        return {};  // 返回空 QString
       }
 
       if (start.isEmpty()) {
         // 未输入预设名称，重新开始循环
-        QMessageBox::critical(parent_, QCoreApplication::translate("PresetManager", "Invalid preset name"), // 错误对话框标题
-                              QCoreApplication::translate("PresetManager", "You must enter a preset name"), // 错误消息
+        QMessageBox::critical(parent_,
+                              QCoreApplication::translate("PresetManager", "Invalid preset name"),  // 错误对话框标题
+                              QCoreApplication::translate("PresetManager", "You must enter a preset name"),  // 错误消息
                               QMessageBox::Ok);
       } else {
-        break; // 名称有效，跳出循环
+        break;  // 名称有效，跳出循环
       }
     }
 
-    return start; // 返回有效的预设名称
+    return start;  // 返回有效的预设名称
   }
 
   /**
@@ -203,9 +204,9 @@ class PresetManager {
    * @brief 保存预设操作的状态。
    */
   enum SaveStatus {
-    kAppended, ///< 预设已成功添加。
-    kReplaced, ///< 同名预设已被替换。
-    kNotSaved  ///< 预设未保存（例如用户取消）。
+    kAppended,  ///< 预设已成功添加。
+    kReplaced,  ///< 同名预设已被替换。
+    kNotSaved   ///< 预设未保存（例如用户取消）。
   };
 
   /**
@@ -216,11 +217,11 @@ class PresetManager {
    * @return SaveStatus 保存操作的状态。
    */
   SaveStatus SavePreset(const PresetPtr& preset) {
-    QString preset_name_str; // 用于存储用户输入的预设名称，避免与成员变量 preset_name_ 混淆
-    int existing_preset_index; // 用于存储已存在预设的索引
+    QString preset_name_str;    // 用于存储用户输入的预设名称，避免与成员变量 preset_name_ 混淆
+    int existing_preset_index;  // 用于存储已存在预设的索引
 
-    forever { // 无限循环，直到获得有效操作或用户取消
-      preset_name_str = GetPresetName(preset_name_str); // 获取预设名称
+    forever {                                            // 无限循环，直到获得有效操作或用户取消
+      preset_name_str = GetPresetName(preset_name_str);  // 获取预设名称
 
       if (preset_name_str.isEmpty()) {
         // 用户取消了对话框 - 完全退出函数
@@ -238,8 +239,9 @@ class PresetManager {
 
       // 如果不存在同名预设，或者用户同意替换现有预设，则跳出循环
       if (existing_preset_index == -1 ||
-          QMessageBox::question(parent_, QCoreApplication::translate("PresetManager", "Preset exists"), // 询问对话框标题
-                                QCoreApplication::translate("PresetManager",                             // 询问消息
+          QMessageBox::question(parent_,
+                                QCoreApplication::translate("PresetManager", "Preset exists"),  // 询问对话框标题
+                                QCoreApplication::translate("PresetManager",                    // 询问消息
                                                             "A preset with this name already exists. "
                                                             "Would you like to replace it?")) == QMessageBox::Yes) {
         break;
@@ -247,7 +249,7 @@ class PresetManager {
       // 如果用户选择不替换，则循环将继续，提示用户输入新的名称
     }
 
-    preset->SetName(preset_name_str); // 设置预设对象的名称
+    preset->SetName(preset_name_str);  // 设置预设对象的名称
 
     if (existing_preset_index >= 0) {
       // 如果预设已存在，则替换它

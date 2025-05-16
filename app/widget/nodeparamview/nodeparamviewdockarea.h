@@ -1,7 +1,7 @@
 #ifndef NODEPARAMVIEWDOCKAREA_H
 #define NODEPARAMVIEWDOCKAREA_H
 
-#include <QMainWindow> // Qt 主窗口类，此处用于其停靠部件功能
+#include <QMainWindow>  // Qt 主窗口类，此处用于其停靠部件功能
 
 // 前向声明 Qt 类 (根据用户要求，不添加)
 // class QWidget;
@@ -22,14 +22,14 @@ namespace olive {
  * 在 NodeParamViewContext 中，这个区域会容纳并允许用户自由排列各个参数的编辑控件。
  */
 class NodeParamViewDockArea : public QMainWindow {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit NodeParamViewDockArea(QWidget *parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit NodeParamViewDockArea(QWidget *parent = nullptr);
 
   /**
    * @brief 重写 QMainWindow 的 createPopupMenu 方法。

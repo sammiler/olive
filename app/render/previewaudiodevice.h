@@ -1,12 +1,12 @@
-#ifndef PREVIEWAUDIODEVICE_H // 防止头文件被重复包含的宏
-#define PREVIEWAUDIODEVICE_H // 定义 PREVIEWAUDIODEVICE_H 宏
+#ifndef PREVIEWAUDIODEVICE_H  // 防止头文件被重复包含的宏
+#define PREVIEWAUDIODEVICE_H  // 定义 PREVIEWAUDIODEVICE_H 宏
 
-#include "previewautocacher.h" // 包含 PreviewAutoCacher 相关的定义
-                               // (虽然在此头文件中 PreviewAutoCacher 未被直接使用，
-                               //  但 PreviewAudioDevice 的设计可能与其协同工作)
+#include "previewautocacher.h"  // 包含 PreviewAutoCacher 相关的定义
+                                // (虽然在此头文件中 PreviewAutoCacher 未被直接使用，
+                                //  但 PreviewAudioDevice 的设计可能与其协同工作)
 // 假设 QIODevice, QMutex, QByteArray 等 Qt 类已通过标准方式被包含。
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
 /**
  * @brief PreviewAudioDevice 类是一个自定义的 QIODevice，专门用于音频预览播放。
@@ -25,15 +25,15 @@ namespace olive { // olive 项目的命名空间
  * 这个类通常与音频渲染和缓存系统配合，渲染线程将生成的音频PCM数据写入此设备，
  * 而音频播放线程从此设备读取数据并发送到声卡。
  */
-class PreviewAudioDevice : public QIODevice { // PreviewAudioDevice 继承自 QIODevice
-  Q_OBJECT // 声明此类使用 Qt 的元对象系统
+class PreviewAudioDevice : public QIODevice {  // PreviewAudioDevice 继承自 QIODevice
+ Q_OBJECT                                      // 声明此类使用 Qt 的元对象系统
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父对象指针，默认为 nullptr。
-   */
-  explicit PreviewAudioDevice(QObject *parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父对象指针，默认为 nullptr。
+      */
+     explicit PreviewAudioDevice(QObject *parent = nullptr);
 
   // 析构函数
   ~PreviewAudioDevice() override;
@@ -94,7 +94,7 @@ class PreviewAudioDevice : public QIODevice { // PreviewAudioDevice 继承自 QI
    */
   void clear();
 
- signals: // Qt 信号声明
+ signals:  // Qt 信号声明
   /**
    * @brief 通知信号。
    * 可能在以下情况下发出：
@@ -106,15 +106,15 @@ class PreviewAudioDevice : public QIODevice { // PreviewAudioDevice 继承自 QI
   void Notify();
 
  private:
-  QMutex lock_; // 互斥锁，用于保护对内部缓冲区 `buffer_` 和其他共享状态的线程安全访问
+  QMutex lock_;  // 互斥锁，用于保护对内部缓冲区 `buffer_` 和其他共享状态的线程安全访问
 
-  QByteArray buffer_; // 内部字节数组，用作音频数据的环形缓冲区或队列
+  QByteArray buffer_;  // 内部字节数组，用作音频数据的环形缓冲区或队列
 
-  int bytes_per_frame_{}; // 每个音频帧的字节数 (例如，采样大小 * 通道数)
+  int bytes_per_frame_{};  // 每个音频帧的字节数 (例如，采样大小 * 通道数)
 
-  qint64 notify_interval_; // 通知间隔，可能用于控制 Notify() 信号的发出频率
+  qint64 notify_interval_;  // 通知间隔，可能用于控制 Notify() 信号的发出频率
 
-  qint64 bytes_read_; // 已从缓冲区读取的总字节数 (或类似的计数器，用于通知逻辑)
+  qint64 bytes_read_;  // 已从缓冲区读取的总字节数 (或类似的计数器，用于通知逻辑)
 };
 
 }  // namespace olive

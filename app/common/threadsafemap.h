@@ -1,9 +1,9 @@
 #ifndef THREADSAFEMAP_H
 #define THREADSAFEMAP_H
 
-#include <QMap>   // Qt 的映射容器
-#include <QMutex> // Qt 的互斥锁，用于线程同步
-#include <QMutexLocker> // (可选) 为了更安全的锁管理，但当前代码直接使用 lock/unlock
+#include <QMap>          // Qt 的映射容器
+#include <QMutex>        // Qt 的互斥锁，用于线程同步
+#include <QMutexLocker>  // (可选) 为了更安全的锁管理，但当前代码直接使用 lock/unlock
 
 // namespace olive { // 如果此类应属于特定命名空间
 
@@ -36,9 +36,8 @@ class ThreadSafeMap {
   // 如果需要支持这些操作，必须非常小心地处理互斥锁的状态。
   ThreadSafeMap(const ThreadSafeMap&) = delete;
   ThreadSafeMap& operator=(const ThreadSafeMap&) = delete;
-  ThreadSafeMap(ThreadSafeMap&&) = delete; // 移动构造也可能复杂
-  ThreadSafeMap& operator=(ThreadSafeMap&&) = delete; // 移动赋值
-
+  ThreadSafeMap(ThreadSafeMap&&) = delete;             // 移动构造也可能复杂
+  ThreadSafeMap& operator=(ThreadSafeMap&&) = delete;  // 移动赋值
 
   /**
    * @brief 向映射中插入一个键值对。
@@ -47,7 +46,7 @@ class ThreadSafeMap {
    * @param value 与键关联的值。
    */
   void insert(K key, V value) {
-    QMutexLocker locker(&mutex_); // 使用 QMutexLocker 可以在作用域结束时自动解锁
+    QMutexLocker locker(&mutex_);  // 使用 QMutexLocker 可以在作用域结束时自动解锁
     map_.insert(key, value);
     // mutex_.lock(); // 旧的手动加锁方式
     // map_.insert(key, value);
@@ -88,7 +87,7 @@ class ThreadSafeMap {
    * 可重入的互斥锁 (QMutex::Recursive) 可能在某些复杂场景下需要，但通常非递归锁更推荐。
    * 此处默认为非递归。
    */
-  mutable QMutex mutex_; // 标记为 mutable 允许在 const 方法中使用 QMutexLocker
+  mutable QMutex mutex_;  // 标记为 mutable 允许在 const 方法中使用 QMutexLocker
 
   /**
    * @brief 内部存储键值对的 QMap 对象。

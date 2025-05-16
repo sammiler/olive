@@ -1,13 +1,13 @@
-#ifndef SEEKABLEWIDGET_H // 防止头文件被多次包含的宏定义
+#ifndef SEEKABLEWIDGET_H  // 防止头文件被多次包含的宏定义
 #define SEEKABLEWIDGET_H
 
-#include <QHBoxLayout> // 引入 QHBoxLayout 类，用于水平布局
-#include <QScrollBar>  // 引入 QScrollBar 类，用于滚动条功能
+#include <QHBoxLayout>  // 引入 QHBoxLayout 类，用于水平布局
+#include <QScrollBar>   // 引入 QScrollBar 类，用于滚动条功能
 
-#include "widget/menu/menu.h" // 引入 Menu 类的定义，可能用于上下文菜单
-#include "widget/timebased/timebasedviewselectionmanager.h" // 引入 TimeBasedViewSelectionManager 模板类的定义，用于管理时间轴上对象的选择
+#include "widget/menu/menu.h"                                // 引入 Menu 类的定义，可能用于上下文菜单
+#include "widget/timebased/timebasedviewselectionmanager.h"  // 引入 TimeBasedViewSelectionManager 模板类的定义，用于管理时间轴上对象的选择
 
-namespace olive { // olive 命名空间开始
+namespace olive {  // olive 命名空间开始
 
 /**
  * @brief SeekableWidget 类是一个可定位的视图控件，通常用于显示时间轴标尺或类似内容。
@@ -16,14 +16,14 @@ namespace olive { // olive 命名空间开始
  * 和播放头的功能。它还管理这些元素的选择和编辑。
  */
 class SeekableWidget : public TimeBasedView {
-  Q_OBJECT // Q_OBJECT 宏，用于启用 Qt 的元对象特性，如信号和槽
+ Q_OBJECT  // Q_OBJECT 宏，用于启用 Qt 的元对象特性，如信号和槽
 
- public:
-  /**
-   * @brief 构造一个 SeekableWidget 对象。
-   * @param parent 父 QWidget 对象，默认为 nullptr。
-   */
-  explicit SeekableWidget(QWidget *parent = nullptr);
+     public :
+     /**
+      * @brief 构造一个 SeekableWidget 对象。
+      * @param parent 父 QWidget 对象，默认为 nullptr。
+      */
+     explicit SeekableWidget(QWidget *parent = nullptr);
 
   /**
    * @brief 获取当前水平滚动条的值。
@@ -131,7 +131,7 @@ class SeekableWidget : public TimeBasedView {
    */
   void CatchUpScrollEvent() override;
 
- public slots: // 公共槽函数
+ public slots:  // 公共槽函数
   /**
    * @brief 设置水平滚动条的值。
    * @param i 新的滚动条值。
@@ -144,7 +144,7 @@ class SeekableWidget : public TimeBasedView {
    */
   void TimebaseChangedEvent(const rational &) override;
 
- signals: // 信号
+ signals:  // 信号
   /**
    * @brief 当拖动操作移动时发出此信号。
    * @param x 鼠标的X坐标。
@@ -157,7 +157,7 @@ class SeekableWidget : public TimeBasedView {
    */
   void DragReleased();
 
- protected: // 受保护的重写方法
+ protected:  // 受保护的重写方法
   /**
    * @brief 重写 QWidget::mousePressEvent()，处理鼠标按下事件。
    * @param event 指向 QMouseEvent 对象的指针。
@@ -228,7 +228,7 @@ class SeekableWidget : public TimeBasedView {
    */
   [[nodiscard]] int GetRightLimit() const;
 
- protected slots: // 受保护槽函数
+ protected slots:  // 受保护槽函数
   /**
    * @brief 显示上下文菜单的虚函数。
    *
@@ -238,14 +238,14 @@ class SeekableWidget : public TimeBasedView {
    */
   virtual bool ShowContextMenu(const QPoint &p);
 
- private: // 私有枚举和成员变量
+ private:  // 私有枚举和成员变量
   /**
    * @brief ResizeMode 枚举定义了调整大小操作的模式。
    */
   enum ResizeMode {
-    kResizeNone, ///< 无调整大小操作
-    kResizeIn,   ///< 正在调整入点
-    kResizeOut   ///< 正在调整出点
+    kResizeNone,  ///< 无调整大小操作
+    kResizeIn,    ///< 正在调整入点
+    kResizeOut    ///< 正在调整出点
   };
 
   /**
@@ -271,33 +271,33 @@ class SeekableWidget : public TimeBasedView {
    */
   void CommitResizeHandle();
 
-  TimelineMarkerList *markers_; ///< 指向关联的标记点列表对象的指针。
-  TimelineWorkArea *workarea_;  ///< 指向关联的工作区对象的指针。
+  TimelineMarkerList *markers_;  ///< 指向关联的标记点列表对象的指针。
+  TimelineWorkArea *workarea_;   ///< 指向关联的工作区对象的指针。
 
-  int text_height_; ///< 用于绘制文本的预设高度。
+  int text_height_;  ///< 用于绘制文本的预设高度。
 
-  int playhead_width_; ///< 播放头的宽度。
+  int playhead_width_;  ///< 播放头的宽度。
 
-  bool dragging_; ///< 标记当前是否正在拖动播放头或标记点。
+  bool dragging_;  ///< 标记当前是否正在拖动播放头或标记点。
 
-  bool ignore_next_focus_out_; ///< 标记是否应忽略下一次的焦点移出事件。
+  bool ignore_next_focus_out_;  ///< 标记是否应忽略下一次的焦点移出事件。
 
-  TimeBasedViewSelectionManager<TimelineMarker> selection_manager_; ///< 用于管理 TimelineMarker 选择的实例。
+  TimeBasedViewSelectionManager<TimelineMarker> selection_manager_;  ///< 用于管理 TimelineMarker 选择的实例。
 
-  QObject *resize_item_;      ///< 指向当前正在调整大小的对象的指针 (可能是 TimelineMarker 或 TimelineWorkArea)。
-  ResizeMode resize_mode_;    ///< 当前的调整大小模式。
-  TimeRange resize_item_range_; ///< 正在调整大小的对象的原始时间范围。
-  QPointF resize_start_;      ///< 调整大小操作开始时的鼠标场景坐标。
-  uint32_t resize_snap_mask_{}; ///< 调整大小操作期间使用的吸附掩码。
+  QObject *resize_item_;         ///< 指向当前正在调整大小的对象的指针 (可能是 TimelineMarker 或 TimelineWorkArea)。
+  ResizeMode resize_mode_;       ///< 当前的调整大小模式。
+  TimeRange resize_item_range_;  ///< 正在调整大小的对象的原始时间范围。
+  QPointF resize_start_;         ///< 调整大小操作开始时的鼠标场景坐标。
+  uint32_t resize_snap_mask_{};  ///< 调整大小操作期间使用的吸附掩码。
 
-  int marker_top_;    ///< 标记点绘制区域的顶部Y坐标。
-  int marker_bottom_; ///< 标记点绘制区域的底部Y坐标。
+  int marker_top_;     ///< 标记点绘制区域的顶部Y坐标。
+  int marker_bottom_;  ///< 标记点绘制区域的底部Y坐标。
 
-  bool marker_editing_enabled_; ///< 标记标记点编辑功能是否启用。
+  bool marker_editing_enabled_;  ///< 标记标记点编辑功能是否启用。
 
-  QPolygon last_playhead_shape_; ///< 上一次绘制的播放头形状，用于高效重绘。
+  QPolygon last_playhead_shape_;  ///< 上一次绘制的播放头形状，用于高效重绘。
 
- private slots: // 私有槽函数
+ private slots:  // 私有槽函数
   /**
    * @brief 设置选中标记点的颜色。
    * @param c 颜色索引或 QColor 的某种表示（具体取决于实现）。

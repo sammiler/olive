@@ -1,13 +1,13 @@
-#ifndef CACHEJOB_H // 防止头文件被重复包含的宏
-#define CACHEJOB_H // 定义 CACHEJOB_H 宏
+#ifndef CACHEJOB_H  // 防止头文件被重复包含的宏
+#define CACHEJOB_H  // 定义 CACHEJOB_H 宏
 
-#include <QString>  // Qt 字符串类
-#include <QVariant> // Qt 通用数据类型 QVariant (虽然 NodeValue 内部使用，但此处可能间接相关)
+#include <QString>   // Qt 字符串类
+#include <QVariant>  // Qt 通用数据类型 QVariant (虽然 NodeValue 内部使用，但此处可能间接相关)
 
 #include "node/value.h"                 // 包含 NodeValue 的定义
-#include "render/job/acceleratedjob.h" // 包含 AcceleratedJob 基类的定义
+#include "render/job/acceleratedjob.h"  // 包含 AcceleratedJob 基类的定义
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
 /**
  * @brief CacheJob 类代表一个与缓存相关的加速任务。
@@ -23,8 +23,8 @@ namespace olive { // olive 项目的命名空间
  *
  * 这个类用于实现 Olive 的渲染缓存机制，以避免重复计算昂贵的节点操作。
  */
-class CacheJob : public AcceleratedJob { // CacheJob 继承自 AcceleratedJob
-public:
+class CacheJob : public AcceleratedJob {  // CacheJob 继承自 AcceleratedJob
+ public:
   // 默认构造函数
   CacheJob() = default;
 
@@ -33,11 +33,11 @@ public:
    * @param filename 缓存文件的名称或路径。
    * @param fallback (可选) 如果缓存未命中或无效，则使用的回退 NodeValue。默认为一个空的 NodeValue。
    */
-  explicit CacheJob(const QString &filename, const NodeValue &fallback = NodeValue()) : fallback_(fallback) { // 修正：确保 fallback_ 被初始化
+  explicit CacheJob(const QString &filename, const NodeValue &fallback = NodeValue())
+      : fallback_(fallback) {  // 修正：确保 fallback_ 被初始化
     filename_ = filename;
     // fallback_ = fallback; // 已在成员初始化列表中完成
   }
-
 
   /**
    * @brief 获取缓存文件的名称或路径。
@@ -62,10 +62,10 @@ public:
    */
   void SetFallback(const NodeValue &val) { fallback_ = val; }
 
-private:
-  QString filename_; // 存储缓存文件的名称或路径
+ private:
+  QString filename_;  // 存储缓存文件的名称或路径
 
-  NodeValue fallback_; // 存储在缓存未命中时的回退 NodeValue
+  NodeValue fallback_;  // 存储在缓存未命中时的回退 NodeValue
 };
 
 }  // namespace olive

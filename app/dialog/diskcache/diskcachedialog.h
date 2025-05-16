@@ -4,8 +4,8 @@
 #include <QCheckBox>    // 复选框控件
 #include <QDialog>      // QDialog 基类
 #include <QPushButton>  // 按钮控件
-#include <QWidget>      // 为了 QWidget* parent 参数
 #include <QString>      // 为了路径参数
+#include <QWidget>      // 为了 QWidget* parent 参数
 
 // 假设 diskmanager.h 声明了 DiskCacheFolder 类
 #include "render/diskmanager.h"

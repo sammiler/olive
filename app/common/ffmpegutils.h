@@ -2,20 +2,20 @@
 #define FFMPEGABSTRACTION_H
 
 extern "C" {
-#include <libavcodec/avcodec.h>   // FFmpeg 编解码核心库
-#include <libavformat/avformat.h> // FFmpeg 封装格式处理库
-#include <libavutil/frame.h>      // FFmpeg AVFrame 相关 (av_frame_alloc, av_frame_free)
-#include <libswscale/swscale.h>   // FFmpeg 图像缩放和像素格式转换库
+#include <libavcodec/avcodec.h>    // FFmpeg 编解码核心库
+#include <libavformat/avformat.h>  // FFmpeg 封装格式处理库
+#include <libavutil/frame.h>       // FFmpeg AVFrame 相关 (av_frame_alloc, av_frame_free)
+#include <libswscale/swscale.h>    // FFmpeg 图像缩放和像素格式转换库
 }
 
-#include <olive/core/core.h> // 包含 olive::core 命名空间的基础定义，如 PixelFormat, SampleFormat
-#include <memory>            // 为了 std::shared_ptr
+#include <olive/core/core.h>  // 包含 olive::core 命名空间的基础定义，如 PixelFormat, SampleFormat
+#include <memory>             // 为了 std::shared_ptr
 
 #include "render/videoparams.h"  // 包含 VideoParams (可能也定义了PixelFormat, SampleFormat)
 
 namespace olive {
 
-using namespace core; // 使用 olive::core 命名空间
+using namespace core;  // 使用 olive::core 命名空间
 
 /**
  * @brief 提供 FFmpeg 相关转换和工具函数的静态工具类。
@@ -107,16 +107,14 @@ using AVFramePtr = std::shared_ptr<AVFrame>;
  * @return AVFramePtr 指向 AVFrame 的共享指针，该指针将在销毁时自动释放 AVFrame。
  */
 inline AVFramePtr CreateAVFramePtr(AVFrame* f) {
-  return {f, [](AVFrame* g) { av_frame_free(&g); }}; // 自定义删除器
+  return {f, [](AVFrame* g) { av_frame_free(&g); }};  // 自定义删除器
 }
 
 /**
  * @brief 分配一个新的 AVFrame 并返回一个管理它的 AVFramePtr 共享指针。
  * @return AVFramePtr 指向新分配的 AVFrame 的共享指针。如果分配失败，内部指针可能为 nullptr。
  */
-inline AVFramePtr CreateAVFramePtr() {
-  return CreateAVFramePtr(av_frame_alloc());
-}
+inline AVFramePtr CreateAVFramePtr() { return CreateAVFramePtr(av_frame_alloc()); }
 
 }  // namespace olive
 

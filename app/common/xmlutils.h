@@ -1,13 +1,13 @@
 #ifndef XMLREADLOOP_H
 #define XMLREADLOOP_H
 
+#include <QVector>              // 为了 QXmlStreamAttributes::attributes() 返回类型 (通常是 QVector)
+#include <QXmlStreamAttribute>  // 为了 QXmlStreamAttribute，在宏中展开后使用
 #include <QXmlStreamReader>
-#include <QXmlStreamAttribute> // 为了 QXmlStreamAttribute，在宏中展开后使用
-#include <QVector>          // 为了 QXmlStreamAttributes::attributes() 返回类型 (通常是 QVector)
 
-#include "node/param.h"        // (虽然包含，但在此头文件中的直接代码未使用其内容)
-#include "render/cancelatom.h" // 包含 CancelAtom
-#include "undo/undocommand.h"  // (虽然包含，但在此头文件中的直接代码未使用其内容)
+#include "node/param.h"         // (虽然包含，但在此头文件中的直接代码未使用其内容)
+#include "render/cancelatom.h"  // 包含 CancelAtom
+#include "undo/undocommand.h"   // (虽然包含，但在此头文件中的直接代码未使用其内容)
 
 namespace olive {
 

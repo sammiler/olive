@@ -1,12 +1,12 @@
-#ifndef TRACKVIEW_H // 防止头文件被多次包含的宏定义
+#ifndef TRACKVIEW_H  // 防止头文件被多次包含的宏定义
 #define TRACKVIEW_H
 
-#include <QScrollArea> // 引入 QScrollArea 类，用于提供带滚动条的视图区域
-#include <QSplitter>   // 引入 QSplitter 类，用于创建可动态调整大小的分割条
+#include <QScrollArea>  // 引入 QScrollArea 类，用于提供带滚动条的视图区域
+#include <QSplitter>    // 引入 QSplitter 类，用于创建可动态调整大小的分割条
 
-#include "node/output/track/tracklist.h" // 引入 TrackList 类的定义，表示轨道列表
-#include "trackviewitem.h"         // 引入 TrackViewItem 类的定义，表示单个轨道视图项
-#include "trackviewsplitter.h"     // 引入 TrackViewSplitter 类的定义，自定义的分割条
+#include "node/output/track/tracklist.h"  // 引入 TrackList 类的定义，表示轨道列表
+#include "trackviewitem.h"                // 引入 TrackViewItem 类的定义，表示单个轨道视图项
+#include "trackviewsplitter.h"            // 引入 TrackViewSplitter 类的定义，自定义的分割条
 
 // 根据代码上下文，以下类型应由已包含的头文件或其传递包含的头文件提供定义：
 // - Qt::Alignment: Qt 枚举，用于构造函数参数
@@ -15,7 +15,7 @@
 // - olive::Track: 用于信号和槽函数的参数
 // 此处严格按照用户提供的代码，不添加额外的 #include 或前向声明。
 
-namespace olive { // olive 命名空间开始
+namespace olive {  // olive 命名空间开始
 
 /**
  * @brief TrackView 类是一个用于显示时间轴中各个轨道头部信息（如轨道名称、控制按钮等）的控件。
@@ -25,15 +25,15 @@ namespace olive { // olive 命名空间开始
  * 它内部使用一个 QSplitter 来管理各个轨道视图项 (TrackViewItem) 的布局和大小调整。
  */
 class TrackView : public QScrollArea {
-  Q_OBJECT // Q_OBJECT 宏，用于启用 Qt 的元对象特性，如信号和槽
+ Q_OBJECT  // Q_OBJECT 宏，用于启用 Qt 的元对象特性，如信号和槽
 
- public:
-  /**
-   * @brief 构造一个 TrackView 对象。
-   * @param vertical_alignment 轨道视图项在垂直方向上的对齐方式，默认为 Qt::AlignTop (顶部对齐)。
-   * @param parent 父 QWidget 对象，默认为 nullptr。
-   */
-  explicit TrackView(Qt::Alignment vertical_alignment = Qt::AlignTop, QWidget* parent = nullptr);
+     public :
+     /**
+      * @brief 构造一个 TrackView 对象。
+      * @param vertical_alignment 轨道视图项在垂直方向上的对齐方式，默认为 Qt::AlignTop (顶部对齐)。
+      * @param parent 父 QWidget 对象，默认为 nullptr。
+      */
+     explicit TrackView(Qt::Alignment vertical_alignment = Qt::AlignTop, QWidget* parent = nullptr);
 
   /**
    * @brief 连接到一个 TrackList 对象。
@@ -50,7 +50,7 @@ class TrackView : public QScrollArea {
    */
   void DisconnectTrackList();
 
- signals: // 信号
+ signals:  // 信号
   /**
    * @brief 当一个轨道即将被删除时发出此信号。
    *
@@ -59,7 +59,7 @@ class TrackView : public QScrollArea {
    */
   void AboutToDeleteTrack(Track* track);
 
- protected: // 受保护成员
+ protected:  // 受保护成员
   /**
    * @brief 重写 QWidget::resizeEvent()，处理控件大小调整事件。
    *
@@ -68,16 +68,16 @@ class TrackView : public QScrollArea {
    */
   void resizeEvent(QResizeEvent* e) override;
 
- private: // 私有成员
-  TrackList* list_; ///< 指向当前连接的 TrackList 对象的指针，提供轨道数据。
+ private:            // 私有成员
+  TrackList* list_;  ///< 指向当前连接的 TrackList 对象的指针，提供轨道数据。
 
-  TrackViewSplitter* splitter_; ///< 指向 TrackViewSplitter 对象的指针，用于管理轨道项的布局和分隔。
+  TrackViewSplitter* splitter_;  ///< 指向 TrackViewSplitter 对象的指针，用于管理轨道项的布局和分隔。
 
-  Qt::Alignment alignment_; ///< 存储轨道视图项的垂直对齐方式。
+  Qt::Alignment alignment_;  ///< 存储轨道视图项的垂直对齐方式。
 
-  int last_scrollbar_max_; ///< 记录上一次滚动条的最大值，可能用于检测变化。
+  int last_scrollbar_max_;  ///< 记录上一次滚动条的最大值，可能用于检测变化。
 
- private slots: // 私有槽函数
+ private slots:  // 私有槽函数
   /**
    * @brief 当滚动条的范围 (最小值和最大值) 发生变化时调用的槽函数。
    * @param min 滚动条新的最小值。

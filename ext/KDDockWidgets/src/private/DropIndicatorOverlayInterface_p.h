@@ -1,9 +1,9 @@
 #ifndef KD_DROPINDICATOROVERLAYINTERFACE_P_H
 #define KD_DROPINDICATOROVERLAYINTERFACE_P_H
 
-#include "kddockwidgets/docks_export.h"    // 导入导出宏定义
-#include "kddockwidgets/QWidgetAdapter.h"  // QWidget 和 QQuickItem 的适配器类
-#include "Frame_p.h"                       // Frame 私有头文件
+#include "kddockwidgets/docks_export.h" // 导入导出宏定义
+#include "kddockwidgets/QWidgetAdapter.h" // QWidget 和 QQuickItem 的适配器类
+#include "Frame_p.h" // Frame 私有头文件
 #include "kddockwidgets/KDDockWidgets.h" // KDDockWidgets 公共头文件，包含枚举和基本类型
 
 namespace KDDockWidgets {
@@ -158,7 +158,7 @@ protected:
     }
 
     Frame *m_hoveredFrame = nullptr; ///< 指向当前悬停的框架。
-    DropArea *const m_dropArea;      ///< 指向此覆盖层所属的 DropArea。
+    DropArea *const m_dropArea; ///< 指向此覆盖层所属的 DropArea。
     bool m_draggedWindowIsHovering = false; ///< 标记是否有窗口正在被拖拽并悬停在此区域。
 };
 

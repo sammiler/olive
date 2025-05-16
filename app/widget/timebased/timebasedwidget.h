@@ -1,23 +1,23 @@
-#ifndef TIMEBASEDWIDGET_H // 防止头文件被多次包含的宏定义
+#ifndef TIMEBASEDWIDGET_H  // 防止头文件被多次包含的宏定义
 #define TIMEBASEDWIDGET_H
 
-#include <QWidget> // 引入 QWidget 类，是所有用户界面对象的基类
+#include <QWidget>  // 引入 QWidget 类，是所有用户界面对象的基类
 
-#include "node/output/viewer/viewer.h" // 引入 ViewerOutput 类，用于连接视图节点
-#include "timeline/timelinecommon.h"   // 引入时间轴相关的通用定义
-#include "widget/keyframeview/keyframeviewinputconnection.h" // 引入关键帧视图输入连接类
-#include "widget/resizablescrollbar/resizabletimelinescrollbar.h" // 引入可调整大小的时间轴滚动条类
-#include "widget/timebased/timescaledobject.h" // 引入 TimeScaledObject 类，提供时间缩放功能
-#include "widget/timelinewidget/view/timelineview.h" // 引入 TimelineView 类
-#include "widget/timetarget/timetarget.h" // 引入 TimeTargetObject 类，用于时间目标转换
+#include "node/output/viewer/viewer.h"                             // 引入 ViewerOutput 类，用于连接视图节点
+#include "timeline/timelinecommon.h"                               // 引入时间轴相关的通用定义
+#include "widget/keyframeview/keyframeviewinputconnection.h"       // 引入关键帧视图输入连接类
+#include "widget/resizablescrollbar/resizabletimelinescrollbar.h"  // 引入可调整大小的时间轴滚动条类
+#include "widget/timebased/timescaledobject.h"                     // 引入 TimeScaledObject 类，提供时间缩放功能
+#include "widget/timelinewidget/view/timelineview.h"               // 引入 TimelineView 类
+#include "widget/timetarget/timetarget.h"                          // 引入 TimeTargetObject 类，用于时间目标转换
 
 // Qt类的头文件，如QScrollBar, QTimer, QMap等，如果仅在成员变量中使用指针且未在头文件方法中解引用，
 // 则通常不需要在头文件中显式#include，除非其定义在cpp文件中需要。
 // 根据用户指示，此处不修改任何#include指令。
 
-namespace olive { // olive 命名空间开始
+namespace olive {  // olive 命名空间开始
 
-class TimeRuler; // 前向声明 TimeRuler 类
+class TimeRuler;  // 前向声明 TimeRuler 类
 
 /**
  * @brief TimeBasedWidget 类是一个基于时间轴的复杂控件。
@@ -26,17 +26,17 @@ class TimeRuler; // 前向声明 TimeRuler 类
  * 提供了时间轴显示、播放头控制、缩放、吸附、标记点、输入/输出点设置等功能。
  * 通常作为更复杂的时间轴编辑器或关键帧编辑器的基础。
  */
-class TimeBasedWidget : public TimelineScaledWidget { // TimeBasedWidget 类声明，继承自 TimelineScaledWidget
-  Q_OBJECT // Q_OBJECT 宏，用于启用 Qt 的元对象特性，如信号和槽
- public:
-  /**
-   * @brief 构造一个 TimeBasedWidget 对象。
-   * @param ruler_text_visible 时间标尺上的文本是否可见，默认为 true。
-   * @param ruler_cache_status_visible 时间标尺上的缓存状态是否可见，默认为 false。
-   * @param parent 父 QWidget 对象，默认为 nullptr。
-   */
-  explicit TimeBasedWidget(bool ruler_text_visible = true, bool ruler_cache_status_visible = false,
-                           QWidget *parent = nullptr);
+class TimeBasedWidget : public TimelineScaledWidget {  // TimeBasedWidget 类声明，继承自 TimelineScaledWidget
+ Q_OBJECT                                              // Q_OBJECT 宏，用于启用 Qt 的元对象特性，如信号和槽
+     public :
+     /**
+      * @brief 构造一个 TimeBasedWidget 对象。
+      * @param ruler_text_visible 时间标尺上的文本是否可见，默认为 true。
+      * @param ruler_cache_status_visible 时间标尺上的缓存状态是否可见，默认为 false。
+      * @param parent 父 QWidget 对象，默认为 nullptr。
+      */
+     explicit TimeBasedWidget(bool ruler_text_visible = true, bool ruler_cache_status_visible = false,
+                              QWidget *parent = nullptr);
 
   /**
    * @brief 放大视图。
@@ -103,12 +103,12 @@ class TimeBasedWidget : public TimelineScaledWidget { // TimeBasedWidget 类声�
    * 这些值可以用作位掩码，以允许多种类型的吸附。
    */
   enum SnapPoints {
-    kSnapToClips = 0x1,        ///< 吸附到片段边缘
-    kSnapToPlayhead = 0x2,     ///< 吸附到播放头
-    kSnapToMarkers = 0x4,      ///< 吸附到标记点
-    kSnapToKeyframes = 0x8,    ///< 吸附到关键帧
-    kSnapToWorkarea = 0x10,    ///< 吸附到工作区边缘 (入点/出点)
-    kSnapAll = UINT32_MAX      ///< 吸附到所有类型的目标 (使用 UINT32_MAX 来确保所有位都被设置)
+    kSnapToClips = 0x1,      ///< 吸附到片段边缘
+    kSnapToPlayhead = 0x2,   ///< 吸附到播放头
+    kSnapToMarkers = 0x4,    ///< 吸附到标记点
+    kSnapToKeyframes = 0x8,  ///< 吸附到关键帧
+    kSnapToWorkarea = 0x10,  ///< 吸附到工作区边缘 (入点/出点)
+    kSnapAll = UINT32_MAX    ///< 吸附到所有类型的目标 (使用 UINT32_MAX 来确保所有位都被设置)
   };
 
   /**
@@ -143,7 +143,7 @@ class TimeBasedWidget : public TimelineScaledWidget { // TimeBasedWidget 类声�
    */
   virtual bool Paste();
 
- public slots: // 公共槽函数
+ public slots:  // 公共槽函数
   /**
    * @brief 设置时间基准（例如帧率）。
    * @param timebase 新的时间基准 (rational)。
@@ -238,7 +238,7 @@ class TimeBasedWidget : public TimelineScaledWidget { // TimeBasedWidget 类声�
    */
   void DeleteSelected();
 
- protected: // 受保护成员
+ protected:  // 受保护成员
   /**
    * @brief 获取可调整大小的时间轴滚动条。
    * @return 指向 ResizableTimelineScrollBar 对象的指针。
@@ -367,7 +367,7 @@ class TimeBasedWidget : public TimelineScaledWidget { // TimeBasedWidget 类声�
    */
   [[nodiscard]] virtual const std::vector<TimelineMarker *> *GetSnapIgnoreMarkers() const { return nullptr; }
 
- protected slots: // 受保护槽函数
+ protected slots:  // 受保护槽函数
   /**
    * @brief Slot to center the horizontal scroll bar on the playhead's current position
    * (原始英文注释：将水平滚动条居中于播放头当前位置的槽函数)
@@ -377,7 +377,8 @@ class TimeBasedWidget : public TimelineScaledWidget { // TimeBasedWidget 类声�
   /**
    * @brief By default, TimeBasedWidget will set the timebase to the viewer node's video timebase.
    * Set this to false if you want to set your own timebase.
-   * (原始英文注释：默认情况下，TimeBasedWidget 会将时间基准设置为查看器节点的视频时间基准。如果您想设置自己的时间基准，请将此设置为 false。)
+   * (原始英文注释：默认情况下，TimeBasedWidget
+   * 会将时间基准设置为查看器节点的视频时间基准。如果您想设置自己的时间基准，请将此设置为 false。)
    * @param e 如果为 true，则自动设置时间基准；否则不自动设置。
    */
   void SetAutoSetTimebase(bool e);
@@ -402,7 +403,7 @@ class TimeBasedWidget : public TimelineScaledWidget { // TimeBasedWidget 类声�
    */
   void SetCatchUpScrollValue(int v);
 
- signals: // 信号
+ signals:  // 信号
   /**
    * @brief 当时间基准发生变化时发出此信号。
    * @param timebase 新的时间基准 (rational)。
@@ -416,7 +417,7 @@ class TimeBasedWidget : public TimelineScaledWidget { // TimeBasedWidget 类声�
    */
   void ConnectedNodeChanged(ViewerOutput *old_node, ViewerOutput *new_node);
 
- protected slots: // 受保护槽函数 (再次出现，可能是代码风格或遗漏，保持原样)
+ protected slots:  // 受保护槽函数 (再次出现，可能是代码风格或遗漏，保持原样)
   /**
    * @brief 发送“追赶”滚动事件的虚槽函数。
    *
@@ -424,7 +425,7 @@ class TimeBasedWidget : public TimelineScaledWidget { // TimeBasedWidget 类声�
    */
   virtual void SendCatchUpScrollEvent();
 
- private: //私有成员
+ private:  // 私有成员
   /**
    * @brief Set either in or out point to the current playhead
    * (原始英文注释：将入点或出点设置到当前播放头位置)
@@ -460,43 +461,43 @@ class TimeBasedWidget : public TimelineScaledWidget { // TimeBasedWidget 类声�
    */
   [[nodiscard]] bool UserIsDraggingPlayhead() const;
 
-  ViewerOutput *viewer_node_; ///< 指向当前连接的 ViewerOutput 节点的指针。
+  ViewerOutput *viewer_node_;  ///< 指向当前连接的 ViewerOutput 节点的指针。
 
-  TimeRuler *ruler_; ///< 指向 TimeRuler 对象的指针，用于显示时间标尺。
+  TimeRuler *ruler_;  ///< 指向 TimeRuler 对象的指针，用于显示时间标尺。
 
-  ResizableTimelineScrollBar *scrollbar_; ///< 指向 ResizableTimelineScrollBar 对象的指针，用于时间轴的滚动和缩放。
+  ResizableTimelineScrollBar *scrollbar_;  ///< 指向 ResizableTimelineScrollBar 对象的指针，用于时间轴的滚动和缩放。
 
-  bool auto_max_scrollbar_; ///< 标记是否自动设置滚动条的最大值。
+  bool auto_max_scrollbar_;  ///< 标记是否自动设置滚动条的最大值。
 
-  QList<TimeBasedView *> timeline_views_; ///< 存储与此控件关联的 TimeBasedView 实例列表。
+  QList<TimeBasedView *> timeline_views_;  ///< 存储与此控件关联的 TimeBasedView 实例列表。
 
-  bool toggle_show_all_; ///< 标记“显示全部”模式是否启用。
+  bool toggle_show_all_;  ///< 标记“显示全部”模式是否启用。
 
-  double toggle_show_all_old_scale_{}; ///< 在“显示全部”模式切换前保存的旧缩放比例。
-  int toggle_show_all_old_scroll_{};   ///< 在“显示全部”模式切换前保存的旧滚动条位置。
+  double toggle_show_all_old_scale_{};  ///< 在“显示全部”模式切换前保存的旧缩放比例。
+  int toggle_show_all_old_scroll_{};    ///< 在“显示全部”模式切换前保存的旧滚动条位置。
 
-  bool auto_set_timebase_; ///< 标记是否根据连接的 ViewerOutput 节点自动设置时间基准。
+  bool auto_set_timebase_;  ///< 标记是否根据连接的 ViewerOutput 节点自动设置时间基准。
 
-  int scrollbar_start_width_{};      ///< 滚动条开始调整大小时的宽度。
-  double scrollbar_start_value_{};   ///< 滚动条开始调整大小时的值。
-  double scrollbar_start_scale_{};   ///< 滚动条开始调整大小时的缩放比例。
-  bool scrollbar_top_handle_{};      ///< 标记滚动条调整大小操作是否从顶部句柄开始。
+  int scrollbar_start_width_{};     ///< 滚动条开始调整大小时的宽度。
+  double scrollbar_start_value_{};  ///< 滚动条开始调整大小时的值。
+  double scrollbar_start_scale_{};  ///< 滚动条开始调整大小时的缩放比例。
+  bool scrollbar_top_handle_{};     ///< 标记滚动条调整大小操作是否从顶部句柄开始。
 
-  TimelineWorkArea *workarea_;       ///< 指向连接的时间轴工作区对象的指针。
-  TimelineMarkerList *markers_;      ///< 指向连接的时间轴标记列表对象的指针。
+  TimelineWorkArea *workarea_;   ///< 指向连接的时间轴工作区对象的指针。
+  TimelineMarkerList *markers_;  ///< 指向连接的时间轴标记列表对象的指针。
 
-  QTimer *catchup_scroll_timer_;     ///< 用于“追赶”滚动的 QTimer 指针。
+  QTimer *catchup_scroll_timer_;  ///< 用于“追赶”滚动的 QTimer 指针。
   /**
    * @brief 存储“追赶”滚动数据的结构体。
    */
   struct CatchUpScrollData {
-    qint64 last_forced = 0; ///< 上次强制滚动的时间戳
-    int maximum{};          ///< 滚动条最大值
-    int value{};            ///< 滚动条当前值
+    qint64 last_forced = 0;  ///< 上次强制滚动的时间戳
+    int maximum{};           ///< 滚动条最大值
+    int value{};             ///< 滚动条当前值
   };
-  QMap<QScrollBar *, CatchUpScrollData> catchup_scroll_values_; ///< 存储每个滚动条的“追赶”滚动数据。
+  QMap<QScrollBar *, CatchUpScrollData> catchup_scroll_values_;  ///< 存储每个滚动条的“追赶”滚动数据。
 
- private slots: // 私有槽函数
+ private slots:  // 私有槽函数
   /**
    * @brief 更新滚动条的最大值。
    */

@@ -1,9 +1,9 @@
 #ifndef COLORCODINGCOMBOBOX_H
 #define COLORCODINGCOMBOBOX_H
 
-#include <QComboBox> // Qt 组合框控件基类
+#include <QComboBox>  // Qt 组合框控件基类
 
-#include "widget/colorlabelmenu/colorlabelmenu.h" // 引入颜色标签菜单类，可能用于自定义下拉列表的显示
+#include "widget/colorlabelmenu/colorlabelmenu.h"  // 引入颜色标签菜单类，可能用于自定义下拉列表的显示
 
 namespace olive {
 
@@ -15,14 +15,14 @@ namespace olive {
  * 用户可以通过这个组合框选择一个预定义的颜色。
  */
 class ColorCodingComboBox : public QComboBox {
-  Q_OBJECT // Qt 元对象系统宏，用于支持信号和槽机制
+ Q_OBJECT  // Qt 元对象系统宏，用于支持信号和槽机制
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit ColorCodingComboBox(QWidget* parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit ColorCodingComboBox(QWidget* parent = nullptr);
 
   /**
    * @brief 重写 QComboBox 的 showPopup 方法。
@@ -48,8 +48,8 @@ class ColorCodingComboBox : public QComboBox {
    */
   [[nodiscard]] int GetSelectedColor() const { return index_; }
 
-private:
-  int index_{}; ///< 存储当前选中颜色的索引。
+ private:
+  int index_{};  ///< 存储当前选中颜色的索引。
 };
 
 }  // namespace olive

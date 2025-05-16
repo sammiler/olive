@@ -1,7 +1,7 @@
 #ifndef TIMELINEUNDOSPLIT_H
 #define TIMELINEUNDOSPLIT_H
 
-#include "node/output/track/track.h" // 引入 Track 类的定义，分割操作通常在轨道上进行
+#include "node/output/track/track.h"  // 引入 Track 类的定义，分割操作通常在轨道上进行
 
 namespace olive {
 
@@ -62,15 +62,15 @@ class BlockSplitCommand : public UndoCommand {
   void undo() override;
 
  private:
-  Block* block_;        // 指向被分割的原始区块
-  Block* new_block_;    // 指向分割后产生的新区块
+  Block* block_;      // 指向被分割的原始区块
+  Block* new_block_;  // 指向分割后产生的新区块
 
-  rational old_length_; // 原始区块的长度
-  rational point_;      // 分割点
+  rational old_length_;  // 原始区块的长度
+  rational point_;       // 分割点
 
-  MultiUndoCommand* reconnect_tree_command_; // 可能用于处理分割后节点树连接关系的复合撤销命令
+  MultiUndoCommand* reconnect_tree_command_;  // 可能用于处理分割后节点树连接关系的复合撤销命令
 
-  NodeInput moved_transition_; // 如果分割点处有转场，可能需要移动或处理该转场的输入
+  NodeInput moved_transition_;  // 如果分割点处有转场，可能需要移动或处理该转场的输入
 };
 
 /**
@@ -123,8 +123,8 @@ class BlockSplitPreservingLinksCommand : public UndoCommand {
    * @brief 执行所有分割操作。
    */
   void redo() override {
-    for (auto command : commands_) { // 遍历所有子命令
-      command->redo_now();           // 执行子命令的 redo
+    for (auto command : commands_) {  // 遍历所有子命令
+      command->redo_now();            // 执行子命令的 redo
     }
   }
 
@@ -132,19 +132,19 @@ class BlockSplitPreservingLinksCommand : public UndoCommand {
    * @brief 撤销所有分割操作。
    */
   void undo() override {
-    for (int i = commands_.size() - 1; i >= 0; i--) { // 反向遍历子命令
-      commands_.at(i)->undo_now();                   // 执行子命令的 undo
+    for (int i = commands_.size() - 1; i >= 0; i--) {  // 反向遍历子命令
+      commands_.at(i)->undo_now();                     // 执行子命令的 undo
     }
   }
 
  private:
-  QVector<Block*> blocks_; // 要被分割的区块列表
+  QVector<Block*> blocks_;  // 要被分割的区块列表
 
-  QList<rational> times_; // 对应的分割时间点列表
+  QList<rational> times_;  // 对应的分割时间点列表
 
-  QVector<UndoCommand*> commands_; // 存储实际执行分割的子命令（可能是 BlockSplitCommand 实例）
+  QVector<UndoCommand*> commands_;  // 存储实际执行分割的子命令（可能是 BlockSplitCommand 实例）
 
-  QVector<QVector<Block*> > splits_; // 可能用于存储每个原始区块分割后产生的所有新区块片段
+  QVector<QVector<Block*> > splits_;  // 可能用于存储每个原始区块分割后产生的所有新区块片段
 };
 
 /**
@@ -187,8 +187,8 @@ class TrackSplitAtTimeCommand : public UndoCommand {
    * @brief 执行分割操作。
    */
   void redo() override {
-    if (command_) { // 如果存在实际的分割子命令
-      command_->redo_now(); // 执行它
+    if (command_) {          // 如果存在实际的分割子命令
+      command_->redo_now();  // 执行它
     }
   }
 
@@ -196,17 +196,17 @@ class TrackSplitAtTimeCommand : public UndoCommand {
    * @brief 撤销分割操作。
    */
   void undo() override {
-    if (command_) { // 如果存在实际的分割子命令
-      command_->undo_now(); // 撤销它
+    if (command_) {          // 如果存在实际的分割子命令
+      command_->undo_now();  // 撤销它
     }
   }
 
  private:
-  Track* track_; // 目标轨道
+  Track* track_;  // 目标轨道
 
-  rational point_; // 分割的时间点
+  rational point_;  // 分割的时间点
 
-  UndoCommand* command_; // 指向实际执行分割的 BlockSplitCommand（或类似命令）的指针
+  UndoCommand* command_;  // 指向实际执行分割的 BlockSplitCommand（或类似命令）的指针
 };
 
 }  // namespace olive

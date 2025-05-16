@@ -1,8 +1,8 @@
 #ifndef SWIRLDISTORTNODE_H
 #define SWIRLDISTORTNODE_H
 
-#include "node/gizmo/point.h" // 引入点 Gizmo (交互控件) 的定义，用于控制漩涡中心
-#include "node/node.h"        // 引入基类 Node 的定义
+#include "node/gizmo/point.h"  // 引入点 Gizmo (交互控件) 的定义，用于控制漩涡中心
+#include "node/node.h"         // 引入基类 Node 的定义
 
 namespace olive {
 
@@ -11,14 +11,14 @@ namespace olive {
  * 该节点可以在图像上以指定中心点、半径和角度创建漩涡状的扭曲。
  */
 class SwirlDistortNode : public Node {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief SwirlDistortNode 构造函数。
-   */
-  SwirlDistortNode();
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief SwirlDistortNode 构造函数。
+      */
+     SwirlDistortNode();
 
-  NODE_DEFAULT_FUNCTIONS(SwirlDistortNode) // 节点默认功能宏，可能包含克隆、类型信息等标准实现
+  NODE_DEFAULT_FUNCTIONS(SwirlDistortNode)  // 节点默认功能宏，可能包含克隆、类型信息等标准实现
 
   /**
    * @brief 获取此节点的名称。
@@ -69,10 +69,10 @@ class SwirlDistortNode : public Node {
   void UpdateGizmoPositions(const NodeValueRow &row, const NodeGlobals &globals) override;
 
   // --- 静态常量，用作节点输入参数的键名 ---
-  static const QString kTextureInput;  ///< "Texture" - 输入纹理（图像）的参数键名。
-  static const QString kRadiusInput;   ///< "Radius" - 漩涡影响半径的参数键名。
-  static const QString kAngleInput;    ///< "Angle" - 漩涡旋转角度的参数键名。
-  static const QString kPositionInput; ///< "Position" - 漩涡中心位置的参数键名。
+  static const QString kTextureInput;   ///< "Texture" - 输入纹理（图像）的参数键名。
+  static const QString kRadiusInput;    ///< "Radius" - 漩涡影响半径的参数键名。
+  static const QString kAngleInput;     ///< "Angle" - 漩涡旋转角度的参数键名。
+  static const QString kPositionInput;  ///< "Position" - 漩涡中心位置的参数键名。
 
  protected slots:
   /**
@@ -84,7 +84,7 @@ class SwirlDistortNode : public Node {
   void GizmoDragMove(double x, double y, const Qt::KeyboardModifiers &modifiers) override;
 
  private:
-  PointGizmo *gizmo_; ///< 指向控制漩涡中心位置的 PointGizmo 对象的指针。
+  PointGizmo *gizmo_;  ///< 指向控制漩涡中心位置的 PointGizmo 对象的指针。
 };
 
 }  // namespace olive

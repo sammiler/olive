@@ -1,17 +1,17 @@
 #ifndef MAINWINDOWLAYOUTINFO_H
 #define MAINWINDOWLAYOUTINFO_H
 
-#include <QXmlStreamWriter> // 引入 QXmlStreamWriter，用于将布局信息序列化为 XML
-#include <QXmlStreamReader> // 引入 QXmlStreamReader，用于从 XML 反序列化布局信息
-#include <QByteArray>       // 引入 QByteArray，用于存储原始的停靠布局状态
-#include <vector>           // 引入 std::vector，用于存储打开的文件夹、序列和查看器列表
-#include <map>              // 引入 std::map，用于存储面板数据
-#include <QHash>            // 引入 QHash，用于 fromXml 中的节点指针映射
-#include <QMetaType>        // 引入 QMetaType，用于 Q_DECLARE_METATYPE
+#include <QByteArray>        // 引入 QByteArray，用于存储原始的停靠布局状态
+#include <QHash>             // 引入 QHash，用于 fromXml 中的节点指针映射
+#include <QMetaType>         // 引入 QMetaType，用于 Q_DECLARE_METATYPE
+#include <QXmlStreamReader>  // 引入 QXmlStreamReader，用于从 XML 反序列化布局信息
+#include <QXmlStreamWriter>  // 引入 QXmlStreamWriter，用于将布局信息序列化为 XML
+#include <map>               // 引入 std::map，用于存储面板数据
+#include <vector>            // 引入 std::vector，用于存储打开的文件夹、序列和查看器列表
 
-#include "node/project/folder/folder.h"     // 引入 Folder 类的定义
-#include "node/project/sequence/sequence.h" // 引入 Sequence 类的定义
-#include "panel/panel.h"                    // 引入 PanelWidget::Info 的定义 (假设 PanelWidget 在 panel.h 中定义或间接包含)
+#include "node/project/folder/folder.h"      // 引入 Folder 类的定义
+#include "node/project/sequence/sequence.h"  // 引入 Sequence 类的定义
+#include "panel/panel.h"  // 引入 PanelWidget::Info 的定义 (假设 PanelWidget 在 panel.h 中定义或间接包含)
 
 // 前向声明 Node 和 ViewerOutput，如果它们的完整定义已在上述头文件中，则可能非必需
 // namespace olive { namespace core { class Node; } }
@@ -130,13 +130,13 @@ class MainWindowLayoutInfo {
   [[nodiscard]] const QByteArray& state() const { return state_; }
 
  private:
-  QByteArray state_; ///< 存储 KDDockWidgets 主窗口的原始布局状态。
+  QByteArray state_;  ///< 存储 KDDockWidgets 主窗口的原始布局状态。
 
-  std::vector<Folder*> open_folders_; ///< 存储当前打开的文件夹列表。
-  std::vector<Sequence*> open_sequences_; ///< 存储当前打开的序列列表。
-  std::vector<ViewerOutput*> open_viewers_; ///< 存储当前打开的查看器（通常是与节点关联的）列表。
+  std::vector<Folder*> open_folders_;        ///< 存储当前打开的文件夹列表。
+  std::vector<Sequence*> open_sequences_;    ///< 存储当前打开的序列列表。
+  std::vector<ViewerOutput*> open_viewers_;  ///< 存储当前打开的查看器（通常是与节点关联的）列表。
 
-  std::map<QString, PanelWidget::Info> panel_data_; ///< 存储各个面板的特定配置数据，键为面板ID。
+  std::map<QString, PanelWidget::Info> panel_data_;  ///< 存储各个面板的特定配置数据，键为面板ID。
 
   /**
    * @brief 布局信息格式的版本号。

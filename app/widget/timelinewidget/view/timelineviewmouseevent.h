@@ -1,4 +1,4 @@
-#ifndef TIMELINEVIEWMOUSEEVENT_H // 防止头文件被多次包含的宏定义
+#ifndef TIMELINEVIEWMOUSEEVENT_H  // 防止头文件被多次包含的宏定义
 #define TIMELINEVIEWMOUSEEVENT_H
 
 #include <QEvent>     // 引入 QEvent 类，是所有 Qt 事件类的基类
@@ -6,8 +6,8 @@
 #include <QPoint>     // 引入 QPoint 类，表示二维平面上的点 (整数坐标)
 #include <QPointF>    // 引入 QPointF 类，表示二维平面上的点 (浮点数坐标)
 
-#include "timeline/timelinecoordinate.h" // 引入 TimelineCoordinate 类的定义，表示时间轴上的坐标 (时间和轨道)
-#include "widget/timebased/timescaledobject.h" // 引入 TimeScaledObject 类的定义，提供时间与场景坐标转换的功能
+#include "timeline/timelinecoordinate.h"        // 引入 TimelineCoordinate 类的定义，表示时间轴上的坐标 (时间和轨道)
+#include "widget/timebased/timescaledobject.h"  // 引入 TimeScaledObject 类的定义，提供时间与场景坐标转换的功能
 
 // 根据代码上下文，以下类型应由已包含的头文件或其传递包含的头文件提供定义：
 // - olive::Track::Reference: 用于构造函数参数和成员变量 (Track 命名空间下的类型)
@@ -16,7 +16,7 @@
 // - Qt::KeyboardModifiers: Qt 枚举，用于构造函数参数和成员变量
 // 此处严格按照用户提供的代码，不添加额外的 #include 或前向声明。
 
-namespace olive { // olive 命名空间开始
+namespace olive {  // olive 命名空间开始
 
 /**
  * @brief TimelineViewMouseEvent 类封装了在时间轴视图 (TimelineView) 中发生的鼠标事件的详细信息。
@@ -41,16 +41,16 @@ class TimelineViewMouseEvent {
   TimelineViewMouseEvent(const QPointF& scene_pos, const QPoint& screen_pos, const double& scale_x,
                          const rational& timebase, const Track::Reference& track, const Qt::MouseButton& button,
                          const Qt::KeyboardModifiers& modifiers = Qt::NoModifier)
-      : scene_pos_(scene_pos),         // 初始化场景位置
-        screen_pos_(screen_pos),       // 初始化屏幕位置
-        scale_x_(scale_x),             // 初始化X轴缩放比例
-        timebase_(timebase),           // 初始化时间基准
-        track_(track),                 // 初始化轨道引用
-        button_(button),               // 初始化鼠标按钮
-        modifiers_(modifiers),         // 初始化键盘修饰键
-        source_event_(nullptr),        // 初始化源QEvent指针为空
-        mime_data_(nullptr),           // 初始化MIME数据指针为空
-        bypass_import_buffer_(false) {} // 初始化是否绕过导入缓冲为false
+      : scene_pos_(scene_pos),           // 初始化场景位置
+        screen_pos_(screen_pos),         // 初始化屏幕位置
+        scale_x_(scale_x),               // 初始化X轴缩放比例
+        timebase_(timebase),             // 初始化时间基准
+        track_(track),                   // 初始化轨道引用
+        button_(button),                 // 初始化鼠标按钮
+        modifiers_(modifiers),           // 初始化键盘修饰键
+        source_event_(nullptr),          // 初始化源QEvent指针为空
+        mime_data_(nullptr),             // 初始化MIME数据指针为空
+        bypass_import_buffer_(false) {}  // 初始化是否绕过导入缓冲为false
 
   /**
    * @brief 获取鼠标事件发生位置的时间轴坐标 (时间和轨道)。
@@ -58,7 +58,7 @@ class TimelineViewMouseEvent {
    * @return 对应的时间轴坐标 (TimelineCoordinate)。
    */
   [[nodiscard]] TimelineCoordinate GetCoordinates(bool round_time = false) const {
-    return TimelineCoordinate(GetFrame(round_time), track_); // 使用获取到的帧和当前轨道创建坐标
+    return TimelineCoordinate(GetFrame(round_time), track_);  // 使用获取到的帧和当前轨道创建坐标
   }
 
   /**
@@ -77,7 +77,8 @@ class TimelineViewMouseEvent {
    * If set to true, the time will be rounded to the nearest time. If set to false, the time is floored so the time is
    * always to the left of the cursor. The former behavior is better for clicking between frames (e.g. razor tool) and
    * the latter is better for clicking directly on frames (e.g. pointer tool).
-   * (原始英文注释：如果设置为 true，时间将被四舍五入到最近的时间点。如果设置为 false，时间将向下取整，因此时间总是位于光标的左侧。
+   * (原始英文注释：如果设置为 true，时间将被四舍五入到最近的时间点。如果设置为
+   * false，时间将向下取整，因此时间总是位于光标的左侧。
    * 前者更适用于在帧之间点击（例如剃刀工具），后者更适用于直接点击帧（例如指针工具）。)
    * @return 对应的时间帧 (rational)。
    */
@@ -162,23 +163,23 @@ class TimelineViewMouseEvent {
    */
   void SetBypassImportBuffer(bool e) { bypass_import_buffer_ = e; }
 
- private: // 私有成员变量
-  QPointF scene_pos_; ///< 鼠标事件在场景坐标系中的位置。
-  QPoint screen_pos_; ///< 鼠标事件在屏幕（或视图控件）坐标系中的位置。
-  double scale_x_;    ///< 当前时间轴视图的 X 轴（时间轴）缩放比例。
-  rational timebase_; ///< 当前时间轴的时间基准。
+ private:              // 私有成员变量
+  QPointF scene_pos_;  ///< 鼠标事件在场景坐标系中的位置。
+  QPoint screen_pos_;  ///< 鼠标事件在屏幕（或视图控件）坐标系中的位置。
+  double scale_x_;     ///< 当前时间轴视图的 X 轴（时间轴）缩放比例。
+  rational timebase_;  ///< 当前时间轴的时间基准。
 
-  Track::Reference track_; ///< 鼠标事件发生时所在的轨道引用。
+  Track::Reference track_;  ///< 鼠标事件发生时所在的轨道引用。
 
-  Qt::MouseButton button_; ///< 触发事件的鼠标按钮。
+  Qt::MouseButton button_;  ///< 触发事件的鼠标按钮。
 
-  Qt::KeyboardModifiers modifiers_; ///< 事件发生时的键盘修饰键状态。
+  Qt::KeyboardModifiers modifiers_;  ///< 事件发生时的键盘修饰键状态。
 
-  QEvent* source_event_; ///< 指向原始 Qt 事件 (QMouseEvent, QDragEvent 等) 的指针。
+  QEvent* source_event_;  ///< 指向原始 Qt 事件 (QMouseEvent, QDragEvent 等) 的指针。
 
-  const QMimeData* mime_data_; ///< 指向与拖放操作相关的 MIME 数据的常量指针。
+  const QMimeData* mime_data_;  ///< 指向与拖放操作相关的 MIME 数据的常量指针。
 
-  bool bypass_import_buffer_; ///< 标记在导入操作时是否应绕过（预）缓冲步骤。
+  bool bypass_import_buffer_;  ///< 标记在导入操作时是否应绕过（预）缓冲步骤。
 };
 
 }  // namespace olive

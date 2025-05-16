@@ -1,17 +1,17 @@
 #ifndef NODEPARAMVIEWCONTEXT_H
 #define NODEPARAMVIEWCONTEXT_H
 
-#include <QWidget> // Qt 控件基类 (作为 NodeParamViewContext 的基类 NodeParamViewItemBase 的父类)
-#include <QVector> // Qt 动态数组容器
-#include <QHash>   // Qt 哈希表容器 (虽然本文件未直接使用，但其包含的头文件可能使用)
-#include <QAction> // Qt 动作类 (用于槽函数参数)
+#include <QAction>  // Qt 动作类 (用于槽函数参数)
+#include <QHash>    // Qt 哈希表容器 (虽然本文件未直接使用，但其包含的头文件可能使用)
+#include <QVector>  // Qt 动态数组容器
+#include <QWidget>  // Qt 控件基类 (作为 NodeParamViewContext 的基类 NodeParamViewItemBase 的父类)
 
-#include "nodeparamviewdockarea.h"   // 节点参数视图停靠区域类
-#include "nodeparamviewitem.h"       // 节点参数视图中的单个参数项
-#include "nodeparamviewitembase.h"   // 节点参数视图项的基类 (NodeParamViewContext 的父类)
-#include "node/node.h"               // 节点基类 (用于 contexts_ 成员和函数参数)
-#include "node/param.h"              // 节点参数相关定义 (用于 SetInputChecked 等)
-#include "node/output/track/track.h" // 轨道类型定义 (用于 Track::Type)
+#include "node/node.h"                // 节点基类 (用于 contexts_ 成员和函数参数)
+#include "node/output/track/track.h"  // 轨道类型定义 (用于 Track::Type)
+#include "node/param.h"               // 节点参数相关定义 (用于 SetInputChecked 等)
+#include "nodeparamviewdockarea.h"    // 节点参数视图停靠区域类
+#include "nodeparamviewitem.h"        // 节点参数视图中的单个参数项
+#include "nodeparamviewitembase.h"    // 节点参数视图项的基类 (NodeParamViewContext 的父类)
 
 // 前向声明项目内部类 (根据用户要求，不添加)
 // class rational;
@@ -28,14 +28,14 @@ namespace olive {
  * 内部包含一个 NodeParamViewDockArea 来实际布局各个参数控件。
  */
 class NodeParamViewContext : public NodeParamViewItemBase {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit NodeParamViewContext(QWidget *parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit NodeParamViewContext(QWidget *parent = nullptr);
 
   /**
    * @brief 获取此上下文内部用于停靠和排列参数项的区域。
@@ -137,14 +137,14 @@ class NodeParamViewContext : public NodeParamViewItemBase {
   void Retranslate() override;
 
  private:
-  NodeParamViewDockArea *dock_area_; ///< 用于停靠和显示此上下文中所有 NodeParamViewItem 的区域。
+  NodeParamViewDockArea *dock_area_;  ///< 用于停靠和显示此上下文中所有 NodeParamViewItem 的区域。
 
-  QVector<Node *> contexts_; ///< 存储此 UI 上下文所代表的实际节点（或节点组）的列表。
-                           ///< 例如，如果多个节点被同时编辑，它们可能共享一个上下文显示。
+  QVector<Node *> contexts_;  ///< 存储此 UI 上下文所代表的实际节点（或节点组）的列表。
+                              ///< 例如，如果多个节点被同时编辑，它们可能共享一个上下文显示。
 
-  QVector<NodeParamViewItem *> items_; ///< 存储此上下文中所有直接显示的 NodeParamViewItem 的列表。
+  QVector<NodeParamViewItem *> items_;  ///< 存储此上下文中所有直接显示的 NodeParamViewItem 的列表。
 
-  Track::Type type_; ///< 可能用于指示此上下文关联的轨道类型（视频、音频），影响可添加的效果等。
+  Track::Type type_;  ///< 可能用于指示此上下文关联的轨道类型（视频、音频），影响可添加的效果等。
 
  private slots:
   /**

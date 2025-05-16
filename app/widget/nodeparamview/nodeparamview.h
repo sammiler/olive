@@ -1,17 +1,17 @@
 #ifndef NODEPARAMVIEW_H
 #define NODEPARAMVIEW_H
 
-#include <QVBoxLayout> // Qt 垂直布局类
-#include <QWidget>     // Qt 控件基类
+#include <QVBoxLayout>  // Qt 垂直布局类
+#include <QWidget>      // Qt 控件基类
 
-#include "node/group/group.h"                        // 节点组类
-#include "node/node.h"                               // 节点基类
-#include "node/project/serializer/serializer.h"      // 项目序列化相关，用于复制粘贴
-#include "nodeparamviewcontext.h"                    // 节点参数视图上下文类
-#include "nodeparamviewdockarea.h"                   // 节点参数视图停靠区域类
-#include "nodeparamviewitem.h"                       // 节点参数视图中的单个参数项
-#include "widget/keyframeview/keyframeview.h"        // 关键帧视图控件
-#include "widget/timebased/timebasedwidget.h"      // 基于时间的控件基类
+#include "node/group/group.h"                    // 节点组类
+#include "node/node.h"                           // 节点基类
+#include "node/project/serializer/serializer.h"  // 项目序列化相关，用于复制粘贴
+#include "nodeparamviewcontext.h"                // 节点参数视图上下文类
+#include "nodeparamviewdockarea.h"               // 节点参数视图停靠区域类
+#include "nodeparamviewitem.h"                   // 节点参数视图中的单个参数项
+#include "widget/keyframeview/keyframeview.h"    // 关键帧视图控件
+#include "widget/timebased/timebasedwidget.h"    // 基于时间的控件基类
 
 // 前向声明 Qt 类 (根据用户要求，不添加)
 // class QScrollBar;
@@ -42,15 +42,15 @@ namespace olive {
  * 并使用 NodeParamViewDockArea 来组织这些参数项的布局。
  */
 class NodeParamView : public TimeBasedWidget {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param create_keyframe_view 布尔值，指示是否应创建并集成一个 KeyframeView。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit NodeParamView(bool create_keyframe_view, QWidget *parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param create_keyframe_view 布尔值，指示是否应创建并集成一个 KeyframeView。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit NodeParamView(bool create_keyframe_view, QWidget *parent = nullptr);
   /**
    * @brief 构造函数重载，默认创建 KeyframeView。
    * @param parent 父控件指针，默认为 nullptr。
@@ -288,30 +288,31 @@ class NodeParamView : public TimeBasedWidget {
    */
   QHash<Node *, Node *> GenerateExistingPasteMap(const ProjectSerializer::Result &r);
 
-  KeyframeView *keyframe_view_; ///< 指向内部集成的 KeyframeView 控件的指针，用于编辑动画曲线。
+  KeyframeView *keyframe_view_;  ///< 指向内部集成的 KeyframeView 控件的指针，用于编辑动画曲线。
 
-  QVector<NodeParamViewContext *> context_items_; ///< 存储所有活动的 NodeParamViewContext 对象的列表，每个对象代表一个显示的节点上下文。
+  QVector<NodeParamViewContext *>
+      context_items_;  ///< 存储所有活动的 NodeParamViewContext 对象的列表，每个对象代表一个显示的节点上下文。
 
-  QScrollBar *vertical_scrollbar_; ///< 用于参数区域垂直滚动的滚动条。
+  QScrollBar *vertical_scrollbar_;  ///< 用于参数区域垂直滚动的滚动条。
 
-  int last_scroll_val_; ///< 上一次滚动条的值，用于检测滚动变化。
+  int last_scroll_val_;  ///< 上一次滚动条的值，用于检测滚动变化。
 
-  QScrollArea *param_scroll_area_; ///< 用于容纳可滚动参数控件区域的 QScrollArea。
+  QScrollArea *param_scroll_area_;  ///< 用于容纳可滚动参数控件区域的 QScrollArea。
 
-  QWidget *param_widget_container_; ///< 作为 param_scroll_area_ 内容的实际容器控件。
+  QWidget *param_widget_container_;  ///< 作为 param_scroll_area_ 内容的实际容器控件。
 
-  NodeParamViewDockArea *param_widget_area_; ///< 用于组织和停靠各个参数项 (NodeParamViewItem) 的区域。
+  NodeParamViewDockArea *param_widget_area_;  ///< 用于组织和停靠各个参数项 (NodeParamViewItem) 的区域。
 
-  QVector<Node *> pinned_nodes_; ///< 被用户“钉住”的节点列表，这些节点的参数会持续显示。
-  QVector<Node *> active_nodes_; ///< 当前活动的（例如，被选中的）节点列表。
+  QVector<Node *> pinned_nodes_;  ///< 被用户“钉住”的节点列表，这些节点的参数会持续显示。
+  QVector<Node *> active_nodes_;  ///< 当前活动的（例如，被选中的）节点列表。
 
-  NodeParamViewItem *focused_node_;         ///< 指向当前获得焦点的节点参数项。
-  QVector<NodeParamViewItem *> selected_nodes_; ///< 当前选中的节点参数项列表。
+  NodeParamViewItem *focused_node_;              ///< 指向当前获得焦点的节点参数项。
+  QVector<NodeParamViewItem *> selected_nodes_;  ///< 当前选中的节点参数项列表。
 
-  QVector<Node *> contexts_;         ///< 当前配置要显示其参数的上下文（节点）列表。
-  QVector<Node *> current_contexts_; ///< 实际当前正在显示的上下文列表（可能与 contexts_ 不同，例如在加载过程中）。
+  QVector<Node *> contexts_;          ///< 当前配置要显示其参数的上下文（节点）列表。
+  QVector<Node *> current_contexts_;  ///< 实际当前正在显示的上下文列表（可能与 contexts_ 不同，例如在加载过程中）。
 
-  bool show_all_nodes_; ///< 标记是否应显示所有节点的参数（可能用于全局模式）。
+  bool show_all_nodes_;  ///< 标记是否应显示所有节点的参数（可能用于全局模式）。
 
  private slots:
   /**

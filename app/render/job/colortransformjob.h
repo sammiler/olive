@@ -1,18 +1,18 @@
-#ifndef COLORTRANSFORMJOB_H // 防止头文件被重复包含的宏
-#define COLORTRANSFORMJOB_H // 定义 COLORTRANSFORMJOB_H 宏
+#ifndef COLORTRANSFORMJOB_H  // 防止头文件被重复包含的宏
+#define COLORTRANSFORMJOB_H  // 定义 COLORTRANSFORMJOB_H 宏
 
-#include <QMatrix4x4> // Qt 4x4 矩阵类
-#include <QString>    // Qt 字符串类
-#include <utility>    // 标准库 utility 头文件，提供 std::move
+#include <QMatrix4x4>  // Qt 4x4 矩阵类
+#include <QString>     // Qt 字符串类
+#include <utility>     // 标准库 utility 头文件，提供 std::move
 
-#include "acceleratedjob.h"      // 包含 AcceleratedJob 基类的定义
-#include "render/alphaassoc.h"   // 包含 AlphaAssociated (Alpha关联类型) 枚举的定义
-#include "render/colorprocessor.h" // 包含 ColorProcessor (颜色处理器) 相关的定义 (例如 ColorProcessorPtr)
-#include "render/texture.h"      // 包含 Texture (纹理) 相关的定义 (例如 TexturePtr)
+#include "acceleratedjob.h"         // 包含 AcceleratedJob 基类的定义
+#include "render/alphaassoc.h"      // 包含 AlphaAssociated (Alpha关联类型) 枚举的定义
+#include "render/colorprocessor.h"  // 包含 ColorProcessor (颜色处理器) 相关的定义 (例如 ColorProcessorPtr)
+#include "render/texture.h"         // 包含 Texture (纹理) 相关的定义 (例如 TexturePtr)
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
-class Node; // 向前声明 Node 类
+class Node;  // 向前声明 Node 类
 
 /**
  * @brief ColorTransformJob 类代表一个颜色转换的加速任务。
@@ -28,24 +28,26 @@ class Node; // 向前声明 Node 类
  * - 变换矩阵和裁剪矩阵，用于在颜色转换前对纹理进行几何变换或裁剪。
  * - 其他控制标志，如是否清空目标、是否强制不透明等。
  */
-class ColorTransformJob : public AcceleratedJob { // ColorTransformJob 继承自 AcceleratedJob
+class ColorTransformJob : public AcceleratedJob {  // ColorTransformJob 继承自 AcceleratedJob
  public:
   // 默认构造函数，初始化成员变量为默认状态
   ColorTransformJob() {
-    processor_ = nullptr;                 // 颜色处理器默认为空
-    custom_shader_src_ = nullptr;         // 自定义着色器源节点默认为空
-    input_alpha_association_ = kAlphaNone; // 输入Alpha关联类型默认为无
-    clear_destination_ = true;            // 默认在渲染前清空目标纹理
-    force_opaque_ = false;                // 默认不强制输出为不透明
-                                          // id_, input_texture_, custom_shader_id_, matrix_, crop_matrix_, function_name_
-                                          // 会进行默认初始化 (例如 QString 为空，NodeValue 为 kNone，QMatrix4x4 为单位矩阵)
+    processor_ = nullptr;                   // 颜色处理器默认为空
+    custom_shader_src_ = nullptr;           // 自定义着色器源节点默认为空
+    input_alpha_association_ = kAlphaNone;  // 输入Alpha关联类型默认为无
+    clear_destination_ = true;              // 默认在渲染前清空目标纹理
+    force_opaque_ = false;                  // 默认不强制输出为不透明
+                            // id_, input_texture_, custom_shader_id_, matrix_, crop_matrix_, function_name_
+                            // 会进行默认初始化 (例如 QString 为空，NodeValue 为 kNone，QMatrix4x4 为单位矩阵)
   }
 
   /**
    * @brief 构造函数，使用一个 NodeValueRow 初始化任务参数。
    * @param row 包含任务参数的 NodeValueRow。
    */
-  explicit ColorTransformJob(const NodeValueRow &row) : ColorTransformJob() { Insert(row); } // 调用默认构造函数后插入参数
+  explicit ColorTransformJob(const NodeValueRow &row) : ColorTransformJob() {
+    Insert(row);
+  }  // 调用默认构造函数后插入参数
 
   /**
    * @brief 获取此颜色转换任务的ID。
@@ -53,10 +55,10 @@ class ColorTransformJob : public AcceleratedJob { // ColorTransformJob 继承自
    * @return 返回任务的ID字符串。
    */
   [[nodiscard]] QString id() const {
-    if (id_.isEmpty()) { // 如果覆盖ID为空
-      return processor_ ? processor_->id() : QString(); // 返回颜色处理器的ID (如果处理器存在)
+    if (id_.isEmpty()) {                                 // 如果覆盖ID为空
+      return processor_ ? processor_->id() : QString();  // 返回颜色处理器的ID (如果处理器存在)
     } else {
-      return id_; // 返回覆盖ID
+      return id_;  // 返回覆盖ID
     }
   }
 
@@ -81,8 +83,8 @@ class ColorTransformJob : public AcceleratedJob { // ColorTransformJob 继承自
    * @param tex 指向输入纹理的 TexturePtr。断言确保纹理不是虚拟的。
    */
   void SetInputTexture(const TexturePtr &tex) {
-    Q_ASSERT(!tex->IsDummy()); // 确保纹理不是一个虚拟/占位纹理
-    input_texture_ = NodeValue(NodeValue::kTexture, tex); // 将 TexturePtr 包装成 NodeValue
+    Q_ASSERT(!tex->IsDummy());                             // 确保纹理不是一个虚拟/占位纹理
+    input_texture_ = NodeValue(NodeValue::kTexture, tex);  // 将 TexturePtr 包装成 NodeValue
   }
 
   /**
@@ -94,7 +96,7 @@ class ColorTransformJob : public AcceleratedJob { // ColorTransformJob 继承自
    * @brief 设置颜色处理器。
    * @param p 要设置的 ColorProcessorPtr。
    */
-  void SetColorProcessor(ColorProcessorPtr p) { processor_ = std::move(p); } // 使用 std::move 转移所有权
+  void SetColorProcessor(ColorProcessorPtr p) { processor_ = std::move(p); }  // 使用 std::move 转移所有权
 
   /**
    * @brief 获取输入纹理的Alpha关联类型。
@@ -183,24 +185,24 @@ class ColorTransformJob : public AcceleratedJob { // ColorTransformJob 继承自
   void SetForceOpaque(bool e) { force_opaque_ = e; }
 
  private:
-  ColorProcessorPtr processor_; // 指向颜色处理器对象的智能指针
-  QString id_;                  // 任务的覆盖ID (可选)
+  ColorProcessorPtr processor_;  // 指向颜色处理器对象的智能指针
+  QString id_;                   // 任务的覆盖ID (可选)
 
-  NodeValue input_texture_; // 输入纹理 (作为 NodeValue 存储)
+  NodeValue input_texture_;  // 输入纹理 (作为 NodeValue 存储)
 
-  const Node *custom_shader_src_; // 提供自定义着色器代码的源节点指针 (不拥有所有权)
-  QString custom_shader_id_;      // 自定义着色器的ID
+  const Node *custom_shader_src_;  // 提供自定义着色器代码的源节点指针 (不拥有所有权)
+  QString custom_shader_id_;       // 自定义着色器的ID
 
-  AlphaAssociated input_alpha_association_; // 输入纹理的Alpha关联类型
+  AlphaAssociated input_alpha_association_;  // 输入纹理的Alpha关联类型
 
-  bool clear_destination_; // 是否在渲染前清空目标纹理的标志
+  bool clear_destination_;  // 是否在渲染前清空目标纹理的标志
 
-  QMatrix4x4 matrix_;      // 应用于输入纹理的变换矩阵
-  QMatrix4x4 crop_matrix_; // 应用于输入纹理的裁剪矩阵
+  QMatrix4x4 matrix_;       // 应用于输入纹理的变换矩阵
+  QMatrix4x4 crop_matrix_;  // 应用于输入纹理的裁剪矩阵
 
   QString function_name_;  // 在自定义着色器中调用的函数名 (可选)
 
-  bool force_opaque_;      // 是否强制输出为不透明的标志
+  bool force_opaque_;  // 是否强制输出为不透明的标志
 };
 
 }  // namespace olive

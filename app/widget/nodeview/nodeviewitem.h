@@ -1,20 +1,19 @@
 #ifndef NODEVIEWITEM_H
 #define NODEVIEWITEM_H
 
-#include <QFontMetrics>        // Qt 字体度量类，用于计算文本尺寸
-#include <QGraphicsRectItem>   // Qt 图形矩形项基类
-#include <QLinearGradient>     // Qt 线性渐变类 (可能用于绘制背景或高亮)
-#include <QWidget>             // Qt 控件基类 (用于 paint 方法的 widget 参数)
+#include <QFontMetrics>       // Qt 字体度量类，用于计算文本尺寸
+#include <QGraphicsRectItem>  // Qt 图形矩形项基类
+#include <QLinearGradient>    // Qt 线性渐变类 (可能用于绘制背景或高亮)
+#include <QWidget>            // Qt 控件基类 (用于 paint 方法的 widget 参数)
 
-
-#include "node/node.h"                 // 节点基类定义
-#include "nodeviewcommon.h"            // 节点视图通用定义 (例如 FlowDirection)
-#include "nodeviewitemconnector.h"     // 节点视图项的连接器（输入/输出点）
+#include "node/node.h"              // 节点基类定义
+#include "nodeviewcommon.h"         // 节点视图通用定义 (例如 FlowDirection)
+#include "nodeviewitemconnector.h"  // 节点视图项的连接器（输入/输出点）
 
 namespace olive {
 
-class NodeViewItem; // 前向声明自身，用于某些内部结构或递归引用
-class NodeViewEdge; // 前向声明节点视图边类，因为 NodeViewItem 会管理与之相连的边
+class NodeViewItem;  // 前向声明自身，用于某些内部结构或递归引用
+class NodeViewEdge;  // 前向声明节点视图边类，因为 NodeViewItem 会管理与之相连的边
 
 /**
  * @brief NodeViewItem 类是 NodeView 中 Node 对象的视觉控件表示。
@@ -25,18 +24,18 @@ class NodeViewEdge; // 前向声明节点视图边类，因为 NodeViewItem 会�
  * 它继承自 QObject (用于信号槽) 和 QGraphicsRectItem (用于在场景中绘制为矩形)。
  */
 class NodeViewItem : public QObject, public QGraphicsRectItem {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief 构造函数，用于表示节点的一个特定输入/元素。
-   * @param node 此图形项关联的实际 Node 对象。
-   * @param input 如果此项代表一个输入参数，则为输入参数的名称；否则为空 QString。
-   * @param element 如果输入参数是多维的（如向量），则为元素索引；否则为 -1。
-   * @param context 此节点项所属的父上下文 Node（例如，如果此节点在组内，则 context 是该组节点）。
-   * @param parent 父 QGraphicsItem 指针，默认为 nullptr。
-   */
-  NodeViewItem(Node *node, QString input, int element, Node *context, QGraphicsItem *parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数，用于表示节点的一个特定输入/元素。
+      * @param node 此图形项关联的实际 Node 对象。
+      * @param input 如果此项代表一个输入参数，则为输入参数的名称；否则为空 QString。
+      * @param element 如果输入参数是多维的（如向量），则为元素索引；否则为 -1。
+      * @param context 此节点项所属的父上下文 Node（例如，如果此节点在组内，则 context 是该组节点）。
+      * @param parent 父 QGraphicsItem 指针，默认为 nullptr。
+      */
+     NodeViewItem(Node *node, QString input, int element, Node *context, QGraphicsItem *parent = nullptr);
   /**
    * @brief 构造函数重载，用于表示整个节点（而非特定输入）。
    * @param node 此图形项关联的实际 Node 对象。
@@ -44,7 +43,7 @@ class NodeViewItem : public QObject, public QGraphicsRectItem {
    * @param parent 父 QGraphicsItem 指针，默认为 nullptr。
    */
   NodeViewItem(Node *node, Node *context, QGraphicsItem *parent = nullptr)
-      : NodeViewItem(node, QString(), -1, context, parent) {} // 委托给更通用的构造函数
+      : NodeViewItem(node, QString(), -1, context, parent) {}  // 委托给更通用的构造函数
 
   /**
    * @brief 析构函数。
@@ -380,42 +379,42 @@ class NodeViewItem : public QObject, public QGraphicsRectItem {
   /**
    * @brief 引用附加的 Node 对象。
    */
-  Node *node_;      ///< 指向此图形项所代表的实际 Node 对象。
-  QString input_;   ///< 如果此项代表一个输入参数，则为其名称；否则为空。
-  int element_;     ///< 如果输入参数是多维的，则为元素索引；否则为 -1。
+  Node *node_;     ///< 指向此图形项所代表的实际 Node 对象。
+  QString input_;  ///< 如果此项代表一个输入参数，则为其名称；否则为空。
+  int element_;    ///< 如果输入参数是多维的，则为元素索引；否则为 -1。
 
-  Node *context_;   ///< 此节点项所属的父上下文 Node（例如，所在的组节点）。
+  Node *context_;  ///< 此节点项所属的父上下文 Node（例如，所在的组节点）。
 
   /**
    * @brief 缓存的节点输入子项列表。
    */
-  QVector<NodeViewItem *> children_; ///< 如果此项是可展开的（如代表整个节点或组），则存储其子参数项。
+  QVector<NodeViewItem *> children_;  ///< 如果此项是可展开的（如代表整个节点或组），则存储其子参数项。
 
   /// 绘制时使用的尺寸变量
-  int node_border_width_; ///< 节点项边框的宽度。
+  int node_border_width_;  ///< 节点项边框的宽度。
 
   /**
    * @brief 展开状态。
    */
-  bool expanded_; ///< 标记此项当前是否已展开以显示其内容/子项。
+  bool expanded_;  ///< 标记此项当前是否已展开以显示其内容/子项。
 
-  bool highlighted_; ///< 标记此项当前是否处于高亮状态。
+  bool highlighted_;  ///< 标记此项当前是否处于高亮状态。
 
-  NodeViewCommon::FlowDirection flow_dir_; ///< 此节点项内部子项（如果存在）的布局流向。
+  NodeViewCommon::FlowDirection flow_dir_;  ///< 此节点项内部子项（如果存在）的布局流向。
 
-  QVector<NodeViewEdge *> edges_; ///< 与此节点项（的输入或输出连接器）相连的所有边的列表。
+  QVector<NodeViewEdge *> edges_;  ///< 与此节点项（的输入或输出连接器）相连的所有边的列表。
 
-  QPointF cached_node_pos_; ///< 缓存的节点位置，用于优化或检测变化。
+  QPointF cached_node_pos_;  ///< 缓存的节点位置，用于优化或检测变化。
 
-  QRect last_arrow_rect_; ///< 上次绘制的展开/折叠箭头图标的矩形区域，用于点击检测。
-  bool arrow_click_;      ///< 标记鼠标按下是否在箭头上，用于处理展开/折叠点击。
+  QRect last_arrow_rect_;  ///< 上次绘制的展开/折叠箭头图标的矩形区域，用于点击检测。
+  bool arrow_click_;       ///< 标记鼠标按下是否在箭头上，用于处理展开/折叠点击。
 
-  NodeViewItemConnector *input_connector_;  ///< 指向输入连接器的图形项。
-  NodeViewItemConnector *output_connector_; ///< 指向输出连接器的图形项。
+  NodeViewItemConnector *input_connector_;   ///< 指向输入连接器的图形项。
+  NodeViewItemConnector *output_connector_;  ///< 指向输出连接器的图形项。
 
-  bool has_connectable_inputs_{}; ///< 标记此节点是否有可连接的输入端点。
+  bool has_connectable_inputs_{};  ///< 标记此节点是否有可连接的输入端点。
 
-  bool label_as_output_; ///< 标记此项是否应被特别标记为上下文的输出（例如，组节点的输出伪节点）。
+  bool label_as_output_;  ///< 标记此项是否应被特别标记为上下文的输出（例如，组节点的输出伪节点）。
 
  private slots:
   /**

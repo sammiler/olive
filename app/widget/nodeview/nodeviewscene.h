@@ -1,17 +1,17 @@
 #ifndef NODEVIEWSCENE_H
 #define NODEVIEWSCENE_H
 
-#include <QGraphicsScene> // Qt 图形场景基类
-#include <QTimer>         // Qt 定时器类 (虽然在此头文件未直接使用，但可能在 .cpp 或相关类中使用)
-#include <QHash>          // Qt 哈希表容器 (用于 context_map_)
-#include <QVector>        // Qt 动态数组容器 (用于 GetSelectedItems 返回类型)
+#include <QGraphicsScene>  // Qt 图形场景基类
+#include <QHash>           // Qt 哈希表容器 (用于 context_map_)
+#include <QTimer>          // Qt 定时器类 (虽然在此头文件未直接使用，但可能在 .cpp 或相关类中使用)
+#include <QVector>         // Qt 动态数组容器 (用于 GetSelectedItems 返回类型)
 
 #include "node/project.h"     // 项目类定义 (graph_ 成员)
+#include "nodeviewcommon.h"   // 节点视图通用定义 (例如 FlowDirection)
 #include "nodeviewcontext.h"  // 节点视图上下文项类
 #include "nodeviewedge.h"     // 节点视图连接线项类 (虽然未直接使用，但上下文会管理)
 #include "nodeviewitem.h"     // 节点视图中的单个节点图形项类
 #include "undo/undostack.h"   // 撤销栈类 (虽然未直接使用，但场景操作通常会与撤销栈交互)
-#include "nodeviewcommon.h"   // 节点视图通用定义 (例如 FlowDirection)
 
 // 前向声明 Qt 类 (根据用户要求，不添加)
 // class QObject; // QGraphicsScene 的基类
@@ -30,14 +30,14 @@ namespace olive {
  * 此场景还处理选择逻辑、布局流向以及边的绘制样式（直线或曲线）。
  */
 class NodeViewScene : public QGraphicsScene {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父 QObject 指针，默认为 nullptr。
-   */
-  explicit NodeViewScene(QObject *parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父 QObject 指针，默认为 nullptr。
+      */
+     explicit NodeViewScene(QObject *parent = nullptr);
 
   /**
    * @brief 选中场景中的所有可选图形项（通常是 NodeViewItem）。
@@ -109,14 +109,15 @@ class NodeViewScene : public QGraphicsScene {
   void SetEdgesAreCurved(bool curved);
 
  private:
-  QHash<Node *, NodeViewContext *> context_map_; ///< 存储从 Node 指针到其对应的 NodeViewContext 图形项的映射。
+  QHash<Node *, NodeViewContext *> context_map_;  ///< 存储从 Node 指针到其对应的 NodeViewContext 图形项的映射。
 
-  Project *graph_{}; ///< 指向当前场景关联的项目 (Project) 或节点图 (NodeGraph) 的指针。初始化为 nullptr。
-                     ///< 注意：变量名是 graph_，但类型是 Project*，这可能暗示 Project 类也扮演了图的角色，或者这里有待澄清。
+  Project *graph_{};  ///< 指向当前场景关联的项目 (Project) 或节点图 (NodeGraph) 的指针。初始化为 nullptr。
+                      ///< 注意：变量名是 graph_，但类型是 Project*，这可能暗示 Project
+                      ///< 类也扮演了图的角色，或者这里有待澄清。
 
-  NodeViewCommon::FlowDirection direction_; ///< 当前场景中节点布局的流向。
+  NodeViewCommon::FlowDirection direction_;  ///< 当前场景中节点布局的流向。
 
-  bool curved_edges_; ///< 标记场景中的连接线是否应绘制为曲线。
+  bool curved_edges_;  ///< 标记场景中的连接线是否应绘制为曲线。
 };
 
 }  // namespace olive

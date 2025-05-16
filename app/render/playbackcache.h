@@ -1,25 +1,25 @@
-#ifndef PLAYBACKCACHE_H // 防止头文件被重复包含的宏
-#define PLAYBACKCACHE_H // 定义 PLAYBACKCACHE_H 宏
+#ifndef PLAYBACKCACHE_H  // 防止头文件被重复包含的宏
+#define PLAYBACKCACHE_H  // 定义 PLAYBACKCACHE_H 宏
 
-#include <olive/core/core.h> // 包含 Olive 核心定义 (可能包含 TimeRange, rational, TimeRangeList 等)
-#include <QDir>              // Qt 目录操作类
-#include <QMutex>            // Qt 互斥锁类
-#include <QObject>           // Qt 对象模型基类
-#include <QPainter>          // Qt 绘图类 (用于绘制缓存状态指示)
-#include <QUuid>             // Qt 通用唯一标识符类
+#include <olive/core/core.h>  // 包含 Olive 核心定义 (可能包含 TimeRange, rational, TimeRangeList 等)
+#include <QDir>               // Qt 目录操作类
+#include <QMutex>             // Qt 互斥锁类
+#include <QObject>            // Qt 对象模型基类
+#include <QPainter>           // Qt 绘图类 (用于绘制缓存状态指示)
+#include <QUuid>              // Qt 通用唯一标识符类
 
 #include "common/jobtime.h"  // 可能包含与时间或任务相关的定义 (TimeRangeList 如果未在core中定义)
 
-using namespace olive::core; // 使用 olive::core 命名空间中的类型 (如 rational, TimeRange)
+using namespace olive::core;  // 使用 olive::core 命名空间中的类型 (如 rational, TimeRange)
 
 // 假设 Node, Project, ViewerOutput, QDataStream, QFont, QFontMetrics, QRect, std::vector
 // 已通过其他方式被间接包含。
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
-class Node;         // 向前声明 Node 类
-class Project;      // 向前声明 Project 类
-class ViewerOutput; // 向前声明 ViewerOutput 类 (通常代表可输出帧的节点)
+class Node;          // 向前声明 Node 类
+class Project;       // 向前声明 Project 类
+class ViewerOutput;  // 向前声明 ViewerOutput 类 (通常代表可输出帧的节点)
 
 /**
  * @brief PlaybackCache 类是所有用于播放时缓存数据的基类。
@@ -36,15 +36,15 @@ class ViewerOutput; // 向前声明 ViewerOutput 类 (通常代表可输出帧�
  * - 支持“透传”模式，即如果当前缓存没有数据，可以尝试从另一个缓存获取。
  * - 发出信号通知缓存状态的改变或数据请求。
  */
-class PlaybackCache : public QObject { // PlaybackCache 继承自 QObject
-  Q_OBJECT // 声明此类使用 Qt 的元对象系统
+class PlaybackCache : public QObject {  // PlaybackCache 继承自 QObject
+ Q_OBJECT                               // 声明此类使用 Qt 的元对象系统
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父对象指针，默认为 nullptr。
-   */
-  explicit PlaybackCache(QObject *parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父对象指针，默认为 nullptr。
+      */
+     explicit PlaybackCache(QObject *parent = nullptr);
 
   /**
    * @brief 获取此缓存实例的唯一标识符 (UUID)。
@@ -168,12 +168,12 @@ class PlaybackCache : public QObject { // PlaybackCache 继承自 QObject
   QMutex *mutex() { return &mutex_; }
 
   // 内部类，用于表示一个透传缓存及其有效的时间范围
-  class Passthrough : public TimeRange { // 继承自 TimeRange
+  class Passthrough : public TimeRange {  // 继承自 TimeRange
    public:
     // 构造函数，初始化时间范围
     explicit Passthrough(const TimeRange &r) : TimeRange(r) {}
 
-    QUuid cache; // 透传缓存的 UUID
+    QUuid cache;  // 透传缓存的 UUID
   };
 
   /**
@@ -194,12 +194,12 @@ class PlaybackCache : public QObject { // PlaybackCache 继承自 QObject
    * 可能在某些状态改变后需要重新触发请求逻辑。
    */
   void ResignalRequests() {
-    for (const TimeRange &r : requested_) { // Qt 的 foreach 风格循环
+    for (const TimeRange &r : requested_) {  // Qt 的 foreach 风格循环
       emit Requested(request_context_, r);
     }
   }
 
- public slots: // Qt 公有槽函数
+ public slots:  // Qt 公有槽函数
   /**
    * @brief 使此缓存中的所有数据失效。
    */
@@ -213,7 +213,7 @@ class PlaybackCache : public QObject { // PlaybackCache 继承自 QObject
    */
   void Request(ViewerOutput *context, const TimeRange &r);
 
- signals: // Qt 信号声明
+ signals:  // Qt 信号声明
   /**
    * @brief 当缓存中的某个时间范围变为无效时发出的信号。
    * @param r 失效的时间范围。
@@ -276,20 +276,20 @@ class PlaybackCache : public QObject { // PlaybackCache 继承自 QObject
   [[nodiscard]] Project *GetProject() const;
 
  private:
-  TimeRangeList validated_; // 存储所有已验证 (有效) 的缓存时间范围的列表
+  TimeRangeList validated_;  // 存储所有已验证 (有效) 的缓存时间范围的列表
 
-  TimeRangeList requested_;        // 存储当前已请求但尚未完全缓存的时间范围列表
-  ViewerOutput *request_context_{}; // 存储最近一次数据请求的上下文 (哪个 ViewerOutput 请求的)
+  TimeRangeList requested_;          // 存储当前已请求但尚未完全缓存的时间范围列表
+  ViewerOutput *request_context_{};  // 存储最近一次数据请求的上下文 (哪个 ViewerOutput 请求的)
 
-  QUuid uuid_; // 此缓存实例的唯一标识符
+  QUuid uuid_;  // 此缓存实例的唯一标识符
 
-  bool saving_enabled_; // 标记是否启用将缓存状态持久化保存
+  bool saving_enabled_;  // 标记是否启用将缓存状态持久化保存
 
-  QMutex mutex_; // 用于保护对内部数据结构 (如 validated_, requested_) 的线程安全访问
+  QMutex mutex_;  // 用于保护对内部数据结构 (如 validated_, requested_) 的线程安全访问
 
-  std::vector<Passthrough> passthroughs_; // 存储配置的透传缓存信息
+  std::vector<Passthrough> passthroughs_;  // 存储配置的透传缓存信息
 
-  qint64 last_loaded_state_; // 上次加载状态的时间戳或标记 (可能用于避免不必要的重复加载)
+  qint64 last_loaded_state_;  // 上次加载状态的时间戳或标记 (可能用于避免不必要的重复加载)
 };
 
 }  // namespace olive

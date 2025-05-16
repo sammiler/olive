@@ -1,13 +1,13 @@
-#ifndef FOOTAGE_VIEWER_PANEL_H // 防止头文件被重复包含的宏
-#define FOOTAGE_VIEWER_PANEL_H // 定义 FOOTAGE_VIEWER_PANEL_H 宏
+#ifndef FOOTAGE_VIEWER_PANEL_H  // 防止头文件被重复包含的宏
+#define FOOTAGE_VIEWER_PANEL_H  // 定义 FOOTAGE_VIEWER_PANEL_H 宏
 
-#include <QOpenGLFunctions> // Qt OpenGL 功能基类 (可能用于渲染)
+#include <QOpenGLFunctions>  // Qt OpenGL 功能基类 (可能用于渲染)
 
-#include "panel/project/footagemanagementpanel.h" // 包含素材管理面板接口或基类的定义
-#include "panel/viewer/viewerbase.h"              // 包含查看器面板基类 ViewerPanelBase 的定义
-#include "widget/viewer/footageviewer.h"          // 包含 FootageViewerWidget 控件的定义
+#include "panel/project/footagemanagementpanel.h"  // 包含素材管理面板接口或基类的定义
+#include "panel/viewer/viewerbase.h"               // 包含查看器面板基类 ViewerPanelBase 的定义
+#include "widget/viewer/footageviewer.h"           // 包含 FootageViewerWidget 控件的定义
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
 /**
  * @brief FootageViewerPanel 类是一个可停靠的面板，用于包装和管理一个 FootageViewerWidget。
@@ -19,12 +19,12 @@ namespace olive { // olive 项目的命名空间
  *
  * 用户通常通过这个面板来查看导入的视频、音频或图像素材的原始内容。
  */
-class FootageViewerPanel : public ViewerPanelBase, public FootageManagementPanel { // FootageViewerPanel 多重继承
-  Q_OBJECT // 声明此类使用 Qt 的元对象系统
+class FootageViewerPanel : public ViewerPanelBase, public FootageManagementPanel {  // FootageViewerPanel 多重继承
+ Q_OBJECT                                                                           // 声明此类使用 Qt 的元对象系统
 
- public:
-  // 构造函数
-  FootageViewerPanel();
+     public :
+     // 构造函数
+     FootageViewerPanel();
 
   /**
    * @brief (可能用于) 覆盖或设置查看器的工作区域/播放范围。
@@ -50,7 +50,7 @@ class FootageViewerPanel : public ViewerPanelBase, public FootageManagementPanel
    */
   [[nodiscard]] QVector<ViewerOutput *> GetSelectedFootage() const override;
 
-protected:
+ protected:
   /**
    * @brief 重写基类的 Retranslate 方法，用于在语言更改时更新此面板内UI元素的文本。
    */

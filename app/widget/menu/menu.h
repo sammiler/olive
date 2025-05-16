@@ -1,11 +1,11 @@
 #ifndef WIDGETMENU_H
 #define WIDGETMENU_H
 
-#include <QMenu>       // Qt 菜单基类
-#include <QMenuBar>    // Qt 菜单栏类
-#include <QMetaMethod> // Qt 元方法类，用于模板元编程和信号槽连接
+#include <QMenu>        // Qt 菜单基类
+#include <QMenuBar>     // Qt 菜单栏类
+#include <QMetaMethod>  // Qt 元方法类，用于模板元编程和信号槽连接
 
-#include "common/define.h" // 项目通用定义
+#include "common/define.h"  // 项目通用定义
 
 // QtPrivate::FunctionPointer 是 Qt 内部用于模板元编程处理函数指针的辅助类，
 // 通常在 Qt 的 connect 调用中用于类型安全的信号槽连接。
@@ -50,10 +50,10 @@ class Menu : public QMenu {
    */
   template <typename Func>
   Menu(QMenuBar* bar, const typename QtPrivate::FunctionPointer<Func>::Object* receiver, Func member) {
-    bar->addMenu(this); // 将当前菜单添加到菜单栏
+    bar->addMenu(this);  // 将当前菜单添加到菜单栏
 
-    Init(); // 执行通用初始化
-    ConnectAboutToShow(receiver, member); // 连接 aboutToShow 信号
+    Init();                                // 执行通用初始化
+    ConnectAboutToShow(receiver, member);  // 连接 aboutToShow 信号
   }
 
   /**
@@ -75,10 +75,10 @@ class Menu : public QMenu {
    * @param member 要连接到 aboutToShow 信号的槽函数指针。
    */
   Menu(Menu* menu, const typename QtPrivate::FunctionPointer<Func>::Object* receiver, Func member) {
-    menu->addMenu(this); // 将当前菜单作为子菜单添加到父菜单
+    menu->addMenu(this);  // 将当前菜单作为子菜单添加到父菜单
 
-    Init(); // 执行通用初始化
-    ConnectAboutToShow(receiver, member); // 连接 aboutToShow 信号
+    Init();                                // 执行通用初始化
+    ConnectAboutToShow(receiver, member);  // 连接 aboutToShow 信号
   }
 
   /**
@@ -106,9 +106,9 @@ class Menu : public QMenu {
    */
   static QAction* CreateItem(QObject* parent, const QString& id, Func member,
                              const QKeySequence& key = QKeySequence()) {
-    auto* a = new QAction(parent); // 创建 QAction
+    auto* a = new QAction(parent);  // 创建 QAction
 
-    ConformItem(a, id, member, key); // 使 QAction 符合 Olive 的菜单系统
+    ConformItem(a, id, member, key);  // 使 QAction 符合 Olive 的菜单系统
 
     return a;
   }
@@ -126,9 +126,9 @@ class Menu : public QMenu {
    * @param key 默认的键盘快捷键序列。
    */
   static void ConformItem(QAction* a, const QString& id, Func member, const QKeySequence& key = QKeySequence()) {
-    ConformItem(a, id, key); // 调用重载版本设置 ID 和快捷键
+    ConformItem(a, id, key);  // 调用重载版本设置 ID 和快捷键
 
-    connect(a, &QAction::triggered, member); // 连接 triggered 信号到槽函数
+    connect(a, &QAction::triggered, member);  // 连接 triggered 信号到槽函数
   }
 
   template <typename Func>
@@ -141,9 +141,9 @@ class Menu : public QMenu {
    * @return 返回创建并添加到此菜单的 QAction 指针。
    */
   QAction* AddItem(const QString& id, Func member, const QKeySequence& key = QKeySequence()) {
-    QAction* a = CreateItem(this, id, member, key); // 创建菜单项，父对象为当前菜单
+    QAction* a = CreateItem(this, id, member, key);  // 创建菜单项，父对象为当前菜单
 
-    addAction(a); // 将动作添加到菜单
+    addAction(a);  // 将动作添加到菜单
 
     return a;
   }
@@ -160,9 +160,9 @@ class Menu : public QMenu {
    */
   QAction* AddItem(const QString& id, const typename QtPrivate::FunctionPointer<Func>::Object* receiver, Func member,
                    const QKeySequence& key = QKeySequence()) {
-    QAction* a = CreateItem(this, id, receiver, member, key); // 创建菜单项，父对象为当前菜单
+    QAction* a = CreateItem(this, id, receiver, member, key);  // 创建菜单项，父对象为当前菜单
 
-    addAction(a); // 将动作添加到菜单
+    addAction(a);  // 将动作添加到菜单
 
     return a;
   }
@@ -207,9 +207,9 @@ class Menu : public QMenu {
   static QAction* CreateItem(QObject* parent, const QString& id,
                              const typename QtPrivate::FunctionPointer<Func>::Object* receiver, Func member,
                              const QKeySequence& key = QKeySequence()) {
-    auto* a = new QAction(parent); // 创建 QAction
+    auto* a = new QAction(parent);  // 创建 QAction
 
-    ConformItem(a, id, receiver, member, key); // 使 QAction 符合 Olive 的菜单系统
+    ConformItem(a, id, receiver, member, key);  // 使 QAction 符合 Olive 的菜单系统
 
     return a;
   }
@@ -229,9 +229,9 @@ class Menu : public QMenu {
   static void ConformItem(QAction* a, const QString& id,
                           const typename QtPrivate::FunctionPointer<Func>::Object* receiver, Func member,
                           const QKeySequence& key = QKeySequence()) {
-    ConformItem(a, id, key); // 调用重载版本设置 ID 和快捷键
+    ConformItem(a, id, key);  // 调用重载版本设置 ID 和快捷键
 
-    connect(a, &QAction::triggered, receiver, member); // 连接 triggered 信号到指定接收者的槽函数
+    connect(a, &QAction::triggered, receiver, member);  // 连接 triggered 信号到指定接收者的槽函数
   }
 
   /**

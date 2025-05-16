@@ -1,9 +1,9 @@
-#ifndef CANCELATOM_H // 防止头文件被重复包含的宏
-#define CANCELATOM_H // 定义 CANCELATOM_H 宏
+#ifndef CANCELATOM_H  // 防止头文件被重复包含的宏
+#define CANCELATOM_H  // 定义 CANCELATOM_H 宏
 
-#include <QMutex> // Qt 互斥锁类，用于线程同步
+#include <QMutex>  // Qt 互斥锁类，用于线程同步
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
 /**
  * @brief CancelAtom 类提供了一个简单的线程安全的取消机制。
@@ -22,7 +22,7 @@ namespace olive { // olive 项目的命名空间
  * - 主线程或其他控制线程可以通过调用 `Cancel()` 来请求渲染线程停止。
  */
 class CancelAtom {
-public:
+ public:
   // 构造函数，初始化取消状态为 false，听到取消状态也为 false
   CancelAtom() : cancelled_(false), heard_(false) {}
 
@@ -33,21 +33,21 @@ public:
    * @return 如果操作已被取消，则返回 true；否则返回 false。
    */
   bool IsCancelled() {
-    QMutexLocker locker(&mutex_); // 获取互斥锁，确保独占访问
-    if (cancelled_) {          // 如果已被取消
-      heard_ = true;           // 将 "heard_" 标志设置为 true
+    QMutexLocker locker(&mutex_);  // 获取互斥锁，确保独占访问
+    if (cancelled_) {              // 如果已被取消
+      heard_ = true;               // 将 "heard_" 标志设置为 true
     }
-    return cancelled_;         // 返回取消状态
-  } // 锁在此处自动释放 (QMutexLocker 析构)
+    return cancelled_;  // 返回取消状态
+  }  // 锁在此处自动释放 (QMutexLocker 析构)
 
   /**
    * @brief 请求取消当前操作。
    * 此方法是线程安全的。
    */
   void Cancel() {
-    QMutexLocker locker(&mutex_); // 获取互斥锁
-    cancelled_ = true;          // 将取消标志设置为 true
-  } // 锁在此处自动释放
+    QMutexLocker locker(&mutex_);  // 获取互斥锁
+    cancelled_ = true;             // 将取消标志设置为 true
+  }  // 锁在此处自动释放
 
   /**
    * @brief 检查取消请求是否已被“听到” (即 IsCancelled() 是否在 cancelled_ 为 true 后被调用过)。
@@ -55,15 +55,15 @@ public:
    * @return 如果取消请求已被注意到，则返回 true；否则返回 false。
    */
   bool HeardCancel() {
-    QMutexLocker locker(&mutex_); // 获取互斥锁
-    return heard_;               // 返回 "heard_" 状态
-  } // 锁在此处自动释放
+    QMutexLocker locker(&mutex_);  // 获取互斥锁
+    return heard_;                 // 返回 "heard_" 状态
+  }  // 锁在此处自动释放
 
-private:
-  QMutex mutex_; // 互斥锁，用于保护成员变量的线程安全访问
+ private:
+  QMutex mutex_;  // 互斥锁，用于保护成员变量的线程安全访问
 
-  bool cancelled_; // 标记操作是否已被请求取消
-  bool heard_;     // 标记取消请求是否已被 IsCancelled() 方法注意到
+  bool cancelled_;  // 标记操作是否已被请求取消
+  bool heard_;      // 标记取消请求是否已被 IsCancelled() 方法注意到
 };
 
 }  // namespace olive

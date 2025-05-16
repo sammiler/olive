@@ -1,8 +1,8 @@
-#ifndef MANAGEDCOLOR_H // 防止头文件被重复包含的宏
-#define MANAGEDCOLOR_H // 定义 MANAGEDCOLOR_H 宏
+#ifndef MANAGEDCOLOR_H  // 防止头文件被重复包含的宏
+#define MANAGEDCOLOR_H  // 定义 MANAGEDCOLOR_H 宏
 
-#include <olive/core/core.h> // 包含 Olive 核心定义，很可能 Color 和 PixelFormat 在这里定义
-                             // (例如，olive::core::Color, olive::core::PixelFormat)
+#include <olive/core/core.h>  // 包含 Olive 核心定义，很可能 Color 和 PixelFormat 在这里定义
+                              // (例如，olive::core::Color, olive::core::PixelFormat)
 
 #include "colortransform.h"  // 包含 ColorTransform 类的定义
 
@@ -10,7 +10,7 @@
 // 并且是类似 olive::core::Color 和 olive::core::PixelFormat 的形式。
 // ManagedColor 继承自 Color，所以 Color 的定义是必需的。
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
 /**
  * @brief ManagedColor 类扩展了基础的 Color 类，增加了色彩空间管理和转换的上下文信息。
@@ -24,7 +24,7 @@ namespace olive { // olive 项目的命名空间
  *
  * 这个类主要用于那些需要在不同色彩空间之间传递和处理的颜色值。
  */
-class ManagedColor : public Color { // ManagedColor 继承自 (olive::core::)Color
+class ManagedColor : public Color {  // ManagedColor 继承自 (olive::core::)Color
  public:
   // 默认构造函数
   ManagedColor();
@@ -76,9 +76,9 @@ class ManagedColor : public Color { // ManagedColor 继承自 (olive::core::)Col
   void set_color_output(const ColorTransform& color_output);
 
  private:
-  QString color_input_; // 存储此颜色值的原始输入色彩空间的名称
+  QString color_input_;  // 存储此颜色值的原始输入色彩空间的名称
 
-  ColorTransform color_transform_; // 存储此颜色值期望的输出色彩变换配置
+  ColorTransform color_transform_;  // 存储此颜色值期望的输出色彩变换配置
 };
 
 }  // namespace olive

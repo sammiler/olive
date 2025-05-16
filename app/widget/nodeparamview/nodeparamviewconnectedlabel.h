@@ -1,11 +1,11 @@
 #ifndef NODEPARAMVIEWCONNECTEDLABEL_H
 #define NODEPARAMVIEWCONNECTEDLABEL_H
 
-#include <QWidget> // Qt 控件基类
+#include <QWidget>  // Qt 控件基类
 
-#include "node/param.h"                             // 节点参数相关定义 (包含 NodeInput)
-#include "widget/clickablelabel/clickablelabel.h"   // 可点击标签控件
-#include "widget/nodevaluetree/nodevaluetree.h"     // 节点值树形视图控件
+#include "node/param.h"                            // 节点参数相关定义 (包含 NodeInput)
+#include "widget/clickablelabel/clickablelabel.h"  // 可点击标签控件
+#include "widget/nodevaluetree/nodevaluetree.h"    // 节点值树形视图控件
 
 // 前向声明 Qt 类 (根据用户要求，不添加)
 // class QMouseEvent; // 如果 mouseDoubleClickEvent 被重写，则需要
@@ -24,15 +24,15 @@ namespace olive {
  * 内部可能使用一个 NodeValueTree 来展示连接源的详细数值（如果适用）。
  */
 class NodeParamViewConnectedLabel : public QWidget {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param input 此标签关联的节点输入参数 (NodeInput)。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit NodeParamViewConnectedLabel(NodeInput input, QWidget *parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param input 此标签关联的节点输入参数 (NodeInput)。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit NodeParamViewConnectedLabel(NodeInput input, QWidget *parent = nullptr);
 
   /**
    * @brief 设置关联的查看器输出。
@@ -98,15 +98,15 @@ class NodeParamViewConnectedLabel : public QWidget {
    */
   void CreateTree();
 
-  ClickableLabel *connected_to_lbl_; ///< 用于显示连接信息的自定义可点击标签。
+  ClickableLabel *connected_to_lbl_;  ///< 用于显示连接信息的自定义可点击标签。
 
-  NodeInput input_; ///< 此控件关联的节点输入参数。
+  NodeInput input_;  ///< 此控件关联的节点输入参数。
 
-  Node *connected_node_; ///< 指向当前连接到的源节点的指针 (如果已连接)。
+  Node *connected_node_;  ///< 指向当前连接到的源节点的指针 (如果已连接)。
 
-  NodeValueTree *value_tree_; ///< 用于显示连接源节点输出值的树形视图 (可能默认隐藏)。
+  NodeValueTree *value_tree_;  ///< 用于显示连接源节点输出值的树形视图 (可能默认隐藏)。
 
-  ViewerOutput *viewer_; ///< 指向关联的查看器输出对象的指针。
+  ViewerOutput *viewer_;  ///< 指向关联的查看器输出对象的指针。
 
  private slots:
   /**

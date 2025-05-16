@@ -1,7 +1,7 @@
 #ifndef VOLUMENODE_H
 #define VOLUMENODE_H
 
-#include "node/math/math/mathbase.h" // 引入数学节点基类定义
+#include "node/math/math/mathbase.h"  // 引入数学节点基类定义
 
 namespace olive {
 
@@ -13,14 +13,14 @@ namespace olive {
  * 用于调整音频信号的音量大小。
  */
 class VolumeNode : public MathNodeBase {
-  Q_OBJECT // Qt对象的元对象系统宏，用于信号和槽等特性
- public:
-  /**
-   * @brief VolumeNode 构造函数。
-   *
-   * 初始化音量节点，设置其输入端口（如音频样本输入、音量控制输入）等。
-   */
-  VolumeNode();
+ Q_OBJECT  // Qt对象的元对象系统宏，用于信号和槽等特性
+     public :
+     /**
+      * @brief VolumeNode 构造函数。
+      *
+      * 初始化音量节点，设置其输入端口（如音频样本输入、音量控制输入）等。
+      */
+     VolumeNode();
 
   /**
    * @brief 宏，可能用于生成节点类常用的默认函数，例如克隆、序列化等。

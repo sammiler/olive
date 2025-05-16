@@ -1,8 +1,8 @@
 #ifndef KEYFRAMEVIEWUNDO_H
 #define KEYFRAMEVIEWUNDO_H
 
-#include "node/keyframe.h"    // 关键帧数据结构和类型定义
-#include "undo/undocommand.h" // 撤销命令基类
+#include "node/keyframe.h"     // 关键帧数据结构和类型定义
+#include "undo/undocommand.h"  // 撤销命令基类
 
 // 前向声明 Qt 类 (根据用户要求，不添加)
 // class QPointF; // Qt 浮点数二维点类 (已在 node/keyframe.h 中通过 NodeKeyframe::BezierType 间接使用或定义)
@@ -51,10 +51,10 @@ class KeyframeSetTypeCommand : public UndoCommand {
   void undo() override;
 
  private:
-  NodeKeyframe* key_; ///< 指向被操作的关键帧的指针。
+  NodeKeyframe* key_;  ///< 指向被操作的关键帧的指针。
 
-  NodeKeyframe::Type old_type_; ///< 关键帧原始的插值类型。
-  NodeKeyframe::Type new_type_; ///< 关键帧要设置的新的插值类型。
+  NodeKeyframe::Type old_type_;  ///< 关键帧原始的插值类型。
+  NodeKeyframe::Type new_type_;  ///< 关键帧要设置的新的插值类型。
 };
 
 /**
@@ -110,12 +110,12 @@ class KeyframeSetBezierControlPoint : public UndoCommand {
   void undo() override;
 
  private:
-  NodeKeyframe* key_; ///< 指向被操作的关键帧的指针。
+  NodeKeyframe* key_;  ///< 指向被操作的关键帧的指针。
 
-  NodeKeyframe::BezierType mode_; ///< 指示要修改的是哪个贝塞尔控制点（例如，入点、出点）。
+  NodeKeyframe::BezierType mode_;  ///< 指示要修改的是哪个贝塞尔控制点（例如，入点、出点）。
 
-  QPointF old_point_; ///< 控制点原始的位置。
-  QPointF new_point_; ///< 控制点新的位置。
+  QPointF old_point_;  ///< 控制点原始的位置。
+  QPointF new_point_;  ///< 控制点新的位置。
 };
 
 }  // namespace olive

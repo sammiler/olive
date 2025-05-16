@@ -3,10 +3,10 @@
 
 #ifdef KDDOCKWIDGETS_QTWIDGETS // 仅当定义了 KDDOCKWIDGETS_QTWIDGETS 宏时才编译以下内容 (表示在 Qt Widgets 环境下)
 
-#include "kddockwidgets/docks_export.h"      // 包含导出宏定义
-#include "Separator_p.h"                     // 包含 Separator 私有头文件 (SeparatorWidget 的基类之一)
-#include "Widget_qwidget.h"                  // 包含 Widget_qwidget.h (SeparatorWidget 和 RubberBand 的基类之一，用于 Qt Widgets 的 Widget 适配)
-#include "kddockwidgets/Qt5Qt6Compat_p.h"    // 包含 Qt5/Qt6 兼容性辅助头文件
+#include "kddockwidgets/docks_export.h" // 包含导出宏定义
+#include "Separator_p.h" // 包含 Separator 私有头文件 (SeparatorWidget 的基类之一)
+#include "Widget_qwidget.h" // 包含 Widget_qwidget.h (SeparatorWidget 和 RubberBand 的基类之一，用于 Qt Widgets 的 Widget 适配)
+#include "kddockwidgets/Qt5Qt6Compat_p.h" // 包含 Qt5/Qt6 兼容性辅助头文件
 
 #include <QRubberBand> // 包含 QRubberBand 类，用于创建橡皮筋选择框
 
@@ -27,12 +27,12 @@ namespace Layouting { // 布局相关的命名空间
  * 并在需要时绘制自身。
  */
 class DOCKS_EXPORT SeparatorWidget
-    : public QWidget,                 // 继承自 QWidget，使其成为一个标准的 Qt 部件
-      public Layouting::Separator,     // 继承自 Layouting::Separator，获取分隔条的核心逻辑
+    : public QWidget, // 继承自 QWidget，使其成为一个标准的 Qt 部件
+      public Layouting::Separator, // 继承自 Layouting::Separator，获取分隔条的核心逻辑
       public Layouting::Widget_qwidget // 继承自 Layouting::Widget_qwidget，作为 Qt Widgets 的 Widget 适配器
 {
-    Q_OBJECT // 启用 Qt 元对象系统特性
-public:
+Q_OBJECT // 启用 Qt 元对象系统特性
+    public :
     /**
      * @brief 构造一个 SeparatorWidget 对象。
      * @param parent 指向父 Layouting::Widget 对象的指针，默认为 nullptr。
@@ -122,8 +122,8 @@ protected:
  */
 class RubberBand : public QRubberBand, public Layouting::Widget_qwidget
 {
-    Q_OBJECT // 启用 Qt 元对象系统特性
-public:
+Q_OBJECT // 启用 Qt 元对象系统特性
+    public :
     /**
      * @brief 构造一个 RubberBand 对象。
      * @param parent 指向父 Layouting::Widget 对象的指针。

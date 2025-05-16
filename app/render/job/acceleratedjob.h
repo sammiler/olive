@@ -1,11 +1,11 @@
-#ifndef ACCELERATEDJOB_H // 防止头文件被重复包含的宏
-#define ACCELERATEDJOB_H // 定义 ACCELERATEDJOB_H 宏
+#ifndef ACCELERATEDJOB_H  // 防止头文件被重复包含的宏
+#define ACCELERATEDJOB_H  // 定义 ACCELERATEDJOB_H 宏
 
-#include "node/param.h"       // 可能包含 NodeInput 或其他参数相关定义 (虽然在此文件中不明显直接使用)
-#include "node/valuedatabase.h" // 包含 NodeValueRow (QHash<QString, NodeValue>) 的定义，
-                              // 也可能间接包含 NodeValue
+#include "node/param.h"          // 可能包含 NodeInput 或其他参数相关定义 (虽然在此文件中不明显直接使用)
+#include "node/valuedatabase.h"  // 包含 NodeValueRow (QHash<QString, NodeValue>) 的定义，
+                                 // 也可能间接包含 NodeValue
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
 /**
  * @brief AcceleratedJob 类是一个基类或通用结构，用于封装提交给加速处理单元 (如 GPU) 的任务所需的数据。
@@ -54,9 +54,9 @@ class AcceleratedJob {
    * @param row 要插入的 NodeValueRow。
    */
   void Insert(const NodeValueRow &row) {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0) // Qt 5.15 及更高版本 QHash 支持直接插入另一个 QHash
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)  // Qt 5.15 及更高版本 QHash 支持直接插入另一个 QHash
     value_map_.insert(row);
-#else // 兼容旧版 Qt
+#else  // 兼容旧版 Qt
     // 遍历 row 中的每个键值对并逐个插入
     for (auto it = row.cbegin(); it != row.cend(); it++) {
       value_map_.insert(it.key(), it.value());
@@ -76,7 +76,7 @@ class AcceleratedJob {
   NodeValueRow &GetValues() { return value_map_; }
 
  private:
-  NodeValueRow value_map_; // 存储任务参数的映射 (输入ID -> NodeValue)
+  NodeValueRow value_map_;  // 存储任务参数的映射 (输入ID -> NodeValue)
 };
 
 }  // namespace olive

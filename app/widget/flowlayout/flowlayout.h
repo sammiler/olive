@@ -1,9 +1,9 @@
 #ifndef FLOWLAYOUT_H
 #define FLOWLAYOUT_H
 
-#include <QLayout>   // Qt 布局基类
-#include <QRect>     // Qt 矩形类
-#include <QStyle>    // Qt 样式类，用于获取像素度量等
+#include <QLayout>  // Qt 布局基类
+#include <QRect>    // Qt 矩形类
+#include <QStyle>   // Qt 样式类，用于获取像素度量等
 
 // 注意：这里不需要显式包含 QWidget、QLayoutItem、QSize、QList，
 // 因为它们通常会被 QLayout 或 QStyle 间接包含，或者作为函数参数/返回值类型时，
@@ -146,9 +146,9 @@ class FlowLayout : public QLayout {
    */
   [[nodiscard]] int smartSpacing(QStyle::PixelMetric pm) const;
 
-  QList<QLayoutItem *> itemList; ///< 存储布局中所有 QLayoutItem 的列表。
-  int m_hSpace;                  ///< 子项之间的水平间距。
-  int m_vSpace;                  ///< 子项之间的垂直间距。
+  QList<QLayoutItem *> itemList;  ///< 存储布局中所有 QLayoutItem 的列表。
+  int m_hSpace;                   ///< 子项之间的水平间距。
+  int m_vSpace;                   ///< 子项之间的垂直间距。
 };
 
 #endif  // FLOWLAYOUT_H

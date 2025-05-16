@@ -1,7 +1,7 @@
-#ifndef FOLDER_H // 防止头文件被多次包含的宏定义开始
+#ifndef FOLDER_H  // 防止头文件被多次包含的宏定义开始
 #define FOLDER_H
 
-#include "node/node.h" // 引入基类 Node 的定义
+#include "node/node.h"  // 引入基类 Node 的定义
 
 // 可能需要的前向声明
 // class QVariant; // 假设
@@ -9,7 +9,7 @@
 // class Project; // 假设
 // class MultiUndoCommand; // 假设
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
 /**
  * @brief 代表项目结构中的一个“文件夹”或“目录”。
@@ -17,14 +17,14 @@ namespace olive { // Olive 编辑器的命名空间
  * Folder 类明确地启用了这种层级结构功能，允许用户将多个项目（节点）组织到一个集合中。
  */
 class Folder : public Node {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief Folder 构造函数。
-   */
-  Folder();
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief Folder 构造函数。
+      */
+     Folder();
 
-  NODE_DEFAULT_FUNCTIONS(Folder) // 节点默认功能宏，可能包含克隆、类型信息等标准实现
+  NODE_DEFAULT_FUNCTIONS(Folder)  // 节点默认功能宏，可能包含克隆、类型信息等标准实现
 
   /**
    * @brief 获取此文件夹节点的名称。
@@ -120,24 +120,24 @@ class Folder : public Node {
    */
   template <typename T>
   [[nodiscard]] QVector<T*> ListChildrenOfType() const {
-    QVector<T*> list; // 初始化空列表
+    QVector<T*> list;  // 初始化空列表
 
-    foreach (Node* node, item_children_) { // 遍历所有直接子节点
-      T* cast_test = dynamic_cast<T*>(node); // 尝试将子节点转换为类型 T
-      if (cast_test) { // 如果转换成功
-        list.append(cast_test); // 添加到列表中
+    foreach (Node* node, item_children_) {    // 遍历所有直接子节点
+      T* cast_test = dynamic_cast<T*>(node);  // 尝试将子节点转换为类型 T
+      if (cast_test) {                        // 如果转换成功
+        list.append(cast_test);               // 添加到列表中
       }
 
-      auto* folder_test = dynamic_cast<Folder*>(node); // 尝试将子节点转换为 Folder 类型
-      if (folder_test) { // 如果是子文件夹
-        list.append(folder_test->ListChildrenOfType<T>()); // 递归调用并合并结果
+      auto* folder_test = dynamic_cast<Folder*>(node);      // 尝试将子节点转换为 Folder 类型
+      if (folder_test) {                                    // 如果是子文件夹
+        list.append(folder_test->ListChildrenOfType<T>());  // 递归调用并合并结果
       }
     }
 
-    return list; // 返回结果列表
+    return list;  // 返回结果列表
   }
 
-  static const QString kChildInput; ///< "Children" - 用于连接子节点的输入端口（通常是一个数组输入）的键名。
+  static const QString kChildInput;  ///< "Children" - 用于连接子节点的输入端口（通常是一个数组输入）的键名。
 
   /**
    * @brief 用于从文件夹中移除一个子元素（节点）的撤销/重做命令类。
@@ -166,19 +166,19 @@ class Folder : public Node {
      *  如果移除操作内部产生了其他子命令（例如，断开连接），则也撤销这些子命令。
      */
     void undo() override {
-      if (subcommand_) { // 如果有子命令
-        subcommand_->undo_now(); // 立即撤销子命令
+      if (subcommand_) {          // 如果有子命令
+        subcommand_->undo_now();  // 立即撤销子命令
       }
     }
 
    private:
-    Folder* folder_; ///< 指向目标文件夹的指针。
-    Node* child_;    ///< 要移除/重新添加的子节点。
-    int remove_index_{}; ///< 子节点被移除前在其父文件夹中的索引，用于撤销时恢复位置。
-    MultiUndoCommand* subcommand_; ///< 可能用于聚合移除操作内部产生的多个子命令。
+    Folder* folder_;                ///< 指向目标文件夹的指针。
+    Node* child_;                   ///< 要移除/重新添加的子节点。
+    int remove_index_{};            ///< 子节点被移除前在其父文件夹中的索引，用于撤销时恢复位置。
+    MultiUndoCommand* subcommand_;  ///< 可能用于聚合移除操作内部产生的多个子命令。
   };
 
- signals: // Qt 信号声明区域
+ signals:  // Qt 信号声明区域
   /**
    * @brief 在即将向文件夹插入一个子项之前发射此信号。
    * @param n 要插入的子项（节点）。
@@ -205,7 +205,8 @@ class Folder : public Node {
 
  protected:
   /**
-   * @brief 当文件夹的某个输入端口（通常是 kChildInput 数组的某个元素）连接上一个输出节点（即子节点）时调用的事件处理函数。
+   * @brief 当文件夹的某个输入端口（通常是 kChildInput
+   * 数组的某个元素）连接上一个输出节点（即子节点）时调用的事件处理函数。
    * @param input 连接的输入端口名称。
    * @param element 输入端口的元素索引。
    * @param output 连接到的输出节点 (即子节点)。
@@ -231,28 +232,29 @@ class Folder : public Node {
    */
   template <typename T>
   static void ListOutputsOfTypeInternal(const Folder* n, QVector<T*>& list, bool recursive) {
-    foreach (const Node::OutputConnection& c, n->output_connections()) { // 遍历所有输出连接
-      Node* connected = c.second.node(); // 获取连接的节点
+    foreach (const Node::OutputConnection& c, n->output_connections()) {  // 遍历所有输出连接
+      Node* connected = c.second.node();                                  // 获取连接的节点
 
-      T* cast_test = dynamic_cast<T*>(connected); // 尝试转换为类型 T
-      if (cast_test) { // 如果成功
+      T* cast_test = dynamic_cast<T*>(connected);  // 尝试转换为类型 T
+      if (cast_test) {                             // 如果成功
         // Avoid duplicates // 避免重复添加
         if (!list.contains(cast_test)) {
           list.append(cast_test);
         }
       }
 
-      if (recursive) { // 如果需要递归
-        auto* subfolder = dynamic_cast<Folder*>(connected); // 检查连接的是否是另一个文件夹
+      if (recursive) {                                       // 如果需要递归
+        auto* subfolder = dynamic_cast<Folder*>(connected);  // 检查连接的是否是另一个文件夹
         if (subfolder) {
-          ListOutputsOfTypeInternal(subfolder, list, recursive); // 递归调用
+          ListOutputsOfTypeInternal(subfolder, list, recursive);  // 递归调用
         }
       }
     }
   }
 
-  QVector<Node*> item_children_;      ///< 存储此文件夹直接子节点的指针向量。
-  QVector<int> item_element_index_; ///< 存储每个子节点对应在其父文件夹（即此 Folder 对象）的 kChildInput 输入数组中的元素索引。
+  QVector<Node*> item_children_;  ///< 存储此文件夹直接子节点的指针向量。
+  QVector<int>
+      item_element_index_;  ///< 存储每个子节点对应在其父文件夹（即此 Folder 对象）的 kChildInput 输入数组中的元素索引。
 };
 
 /**
@@ -278,8 +280,8 @@ class FolderAddChild : public UndoCommand {
   void undo() override;
 
  private:
-  Folder* folder_; ///< 指向目标文件夹的指针。
-  Node* child_;    ///< 要添加/移除的子节点。
+  Folder* folder_;  ///< 指向目标文件夹的指针。
+  Node* child_;     ///< 要添加/移除的子节点。
 };
 
 }  // namespace olive

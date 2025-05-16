@@ -1,12 +1,12 @@
-#ifndef PROJECTCOPIER_H // 防止头文件被重复包含的宏
-#define PROJECTCOPIER_H // 定义 PROJECTCOPIER_H 宏
+#ifndef PROJECTCOPIER_H  // 防止头文件被重复包含的宏
+#define PROJECTCOPIER_H  // 定义 PROJECTCOPIER_H 宏
 
-#include "node/project.h" // 包含 Project 类的定义
+#include "node/project.h"  // 包含 Project 类的定义
 
 // 假设 Node, NodeInput, JobTime, QObject, QHash, QVector, std::list 等类型
 // 已通过 "node/project.h" 或其他方式被间接包含。
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
 /**
  * @brief ProjectCopier 类负责创建一个项目 (Project) 的副本，并管理该副本与原始项目之间的同步。
@@ -21,15 +21,15 @@ namespace olive { // olive 项目的命名空间
  *
  * ProjectCopier 还维护了一个从原始节点到其副本节点的映射 (`copy_map_`)，以便在需要时进行转换。
  */
-class ProjectCopier : public QObject { // ProjectCopier 继承自 QObject
-  Q_OBJECT // 声明此类使用 Qt 的元对象系统
+class ProjectCopier : public QObject {  // ProjectCopier 继承自 QObject
+ Q_OBJECT                               // 声明此类使用 Qt 的元对象系统
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父对象指针，默认为 nullptr。
-   */
-  explicit ProjectCopier(QObject *parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父对象指针，默认为 nullptr。
+      */
+     explicit ProjectCopier(QObject *parent = nullptr);
 
   /**
    * @brief 设置要进行拷贝和同步的原始项目。
@@ -100,7 +100,7 @@ class ProjectCopier : public QObject { // ProjectCopier 继承自 QObject
    */
   void ProcessUpdateQueue();
 
- signals: // Qt 信号声明
+ signals:  // Qt 信号声明
   /**
    * @brief 当一个节点被添加到项目副本时发出的信号。
    * @param n 被添加到副本中的节点指针 (指向副本中的节点)。
@@ -114,13 +114,13 @@ class ProjectCopier : public QObject { // ProjectCopier 继承自 QObject
 
  private:
   // --- 私有方法，用于在项目副本上实际执行排队的操作 ---
-  void DoNodeAdd(Node *node);     // 在副本中添加节点
-  void DoNodeRemove(Node *node);  // 从副本中移除节点
-  void DoEdgeAdd(Node *output, const NodeInput &input); // 在副本中添加边连接
-  void DoEdgeRemove(Node *output, const NodeInput &input); // 在副本中移除边连接
-  void DoValueChange(const NodeInput &input);         // 在副本中更新参数值
-  void DoValueHintChange(const NodeInput &input);     // 在副本中更新值提示
-  void DoProjectSettingChange(const QString &key, const QString &value); // 在副本中更新项目设置
+  void DoNodeAdd(Node *node);                                             // 在副本中添加节点
+  void DoNodeRemove(Node *node);                                          // 从副本中移除节点
+  void DoEdgeAdd(Node *output, const NodeInput &input);                   // 在副本中添加边连接
+  void DoEdgeRemove(Node *output, const NodeInput &input);                // 在副本中移除边连接
+  void DoValueChange(const NodeInput &input);                             // 在副本中更新参数值
+  void DoValueHintChange(const NodeInput &input);                         // 在副本中更新值提示
+  void DoProjectSettingChange(const QString &key, const QString &value);  // 在副本中更新项目设置
 
   // 将原始节点与其副本节点之间的映射关系插入到 copy_map_ 中
   void InsertIntoCopyMap(Node *node, Node *copy);
@@ -130,8 +130,8 @@ class ProjectCopier : public QObject { // ProjectCopier 继承自 QObject
   // 更新上次同步时间戳
   void UpdateLastSyncedValue();
 
-  Project *original_; // 指向原始项目的指针
-  Project *copy_;     // 指向项目副本的指针 (由 ProjectCopier 创建和管理)
+  Project *original_;  // 指向原始项目的指针
+  Project *copy_;      // 指向项目副本的指针 (由 ProjectCopier 创建和管理)
 
   // 内部类，用于表示一个排队的更新作业
   class QueuedJob {
@@ -152,8 +152,8 @@ class ProjectCopier : public QObject { // ProjectCopier 继承自 QObject
     NodeInput input;  // 相关的输入端口 (例如，值改变的输入，或连接的输入端)
     Node *output;     // 相关的输出节点 (例如，连接的输出端)
 
-    QString key;      // (用于项目设置) 设置的键
-    QString value;    // (用于项目设置) 设置的值
+    QString key;    // (用于项目设置) 设置的键
+    QString value;  // (用于项目设置) 设置的值
   };
 
   // 存储待处理的图更新作业的队列
@@ -165,10 +165,10 @@ class ProjectCopier : public QObject { // ProjectCopier 继承自 QObject
   // 存储在拷贝过程中新创建的节点 (副本中的节点)
   QVector<Node *> created_nodes_;
 
-  JobTime graph_changed_time_; // 记录原始图结构上次更改的时间
-  JobTime last_update_time_;   // 记录副本上次与原始图同步的时间
+  JobTime graph_changed_time_;  // 记录原始图结构上次更改的时间
+  JobTime last_update_time_;    // 记录副本上次与原始图同步的时间
 
- private slots: // Qt 私有槽函数
+ private slots:  // Qt 私有槽函数
   // --- 当原始项目发生变化时，以下槽函数会被调用，将变化加入到更新队列中 ---
   void QueueNodeAdd(Node *node);
   void QueueNodeRemove(Node *node);

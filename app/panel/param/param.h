@@ -1,11 +1,11 @@
-#ifndef PARAM_H // 防止头文件被重复包含的宏 (文件名似乎应为 PARAMPANEL_H 以匹配类名)
-#define PARAM_H // 定义 PARAM_H 宏
+#ifndef PARAM_H  // 防止头文件被重复包含的宏 (文件名似乎应为 PARAMPANEL_H 以匹配类名)
+#define PARAM_H  // 定义 PARAM_H 宏
 
-#include "panel/curve/curve.h"             // 包含曲线面板 CurvePanel 的定义 (可能用于联动或接口)
-#include "panel/timebased/timebased.h"     // 包含 TimeBasedPanel 基类的定义
-#include "widget/nodeparamview/nodeparamview.h" // 包含 NodeParamView 控件的定义
+#include "panel/curve/curve.h"                   // 包含曲线面板 CurvePanel 的定义 (可能用于联动或接口)
+#include "panel/timebased/timebased.h"           // 包含 TimeBasedPanel 基类的定义
+#include "widget/nodeparamview/nodeparamview.h"  // 包含 NodeParamView 控件的定义
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
 /**
  * @brief ParamPanel 类代表一个用于显示和编辑节点参数的面板。
@@ -14,12 +14,12 @@ namespace olive { // olive 项目的命名空间
  * 这个面板通常会包含一个 NodeParamView 控件，该控件负责列出所选节点的参数，
  * 并提供用户界面来修改这些参数的值，以及管理它们是否启用关键帧、是否连接等状态。
  */
-class ParamPanel : public TimeBasedPanel { // ParamPanel 继承自 TimeBasedPanel
-  Q_OBJECT // 声明此类使用 Qt 的元对象系统
+class ParamPanel : public TimeBasedPanel {  // ParamPanel 继承自 TimeBasedPanel
+ Q_OBJECT                                   // 声明此类使用 Qt 的元对象系统
 
- public:
-  // 构造函数
-  ParamPanel();
+     public :
+     // 构造函数
+     ParamPanel();
 
   /**
    * @brief 获取内部封装的 NodeParamView 控件的指针。
@@ -45,7 +45,7 @@ class ParamPanel : public TimeBasedPanel { // ParamPanel 继承自 TimeBasedPane
    */
   void CloseContextsBelongingToProject(Project *p) const { GetParamView()->CloseContextsBelongingToProject(p); }
 
- public slots: // Qt 公有槽函数
+ public slots:  // Qt 公有槽函数
   /**
    * @brief 设置参数视图当前要显示的选定节点。
    * 参数视图将列出这些选定节点的参数。
@@ -78,7 +78,7 @@ class ParamPanel : public TimeBasedPanel { // ParamPanel 继承自 TimeBasedPane
    */
   void SetContexts(const QVector<Node *> &contexts);
 
- signals: // Qt 信号声明
+ signals:  // Qt 信号声明
   /**
    * @brief 当参数视图中当前聚焦的节点发生改变时发出的信号。
    * 聚焦的节点可能是用户正在编辑其参数的节点。

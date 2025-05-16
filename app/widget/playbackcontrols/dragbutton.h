@@ -1,10 +1,10 @@
 #ifndef DRAGBUTTON_H
 #define DRAGBUTTON_H
 
-#include <QPushButton>   // Qt 按钮控件基类
-#include <QMouseEvent>   // Qt 鼠标事件类 (用于 mousePressEvent, mouseMoveEvent, mouseReleaseEvent)
+#include <QMouseEvent>  // Qt 鼠标事件类 (用于 mousePressEvent, mouseMoveEvent, mouseReleaseEvent)
+#include <QPushButton>  // Qt 按钮控件基类
 
-#include "common/define.h" // 项目通用定义
+#include "common/define.h"  // 项目通用定义
 
 // 前向声明 Qt 类 (根据用户要求，不添加)
 // class QWidget; // QPushButton 的基类 QAbstractButton 的基类
@@ -19,24 +19,24 @@ namespace olive {
  * 这可以用于实现一些拖放操作的起点，或者需要按钮在被拖动时触发特定行为的场景。
  */
 class DragButton : public QPushButton {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit DragButton(QWidget* parent = nullptr);
+
+ signals:
   /**
-   * @brief 构造函数。
-   * @param parent 父控件指针，默认为 nullptr。
+   * @brief 当用户在此按钮上开始拖拽操作时发出此信号。
+   *
+   * 拖拽开始通常定义为：鼠标左键按下后，光标移动了一小段距离。
    */
-  explicit DragButton(QWidget* parent = nullptr);
+  void DragStarted();
 
-  signals:
-   /**
-    * @brief 当用户在此按钮上开始拖拽操作时发出此信号。
-    *
-    * 拖拽开始通常定义为：鼠标左键按下后，光标移动了一小段距离。
-    */
-   void DragStarted();
-
-protected:
+ protected:
   /**
    * @brief 重写 QWidget 的鼠标按下事件处理函数。
    *
@@ -62,8 +62,8 @@ protected:
    */
   void mouseReleaseEvent(QMouseEvent* event) override;
 
-private:
-  bool dragging_; ///< 标记当前是否正在进行拖拽操作。
+ private:
+  bool dragging_;  ///< 标记当前是否正在进行拖拽操作。
 };
 
 }  // namespace olive

@@ -1,7 +1,7 @@
-#ifndef TEXTGENERATORV2_H // 防止头文件被多次包含的宏定义开始
+#ifndef TEXTGENERATORV2_H  // 防止头文件被多次包含的宏定义开始
 #define TEXTGENERATORV2_H
 
-#include "node/generator/shape/shapenodebase.h" // 引入基类 ShapeNodeBase 的定义
+#include "node/generator/shape/shapenodebase.h"  // 引入基类 ShapeNodeBase 的定义
 
 // 可能需要的前向声明 (如果 FramePtr 和 GenerateJob 在此未完全定义)
 // namespace olive {
@@ -10,7 +10,7 @@
 // struct GenerateJob; // 假设
 // }
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
 /**
  * @brief 代表“文本生成器”（版本2）的节点。
@@ -19,15 +19,15 @@ namespace olive { // Olive 编辑器的命名空间
  * "V2" 后缀表明这是文本生成功能的改进版或不同实现。
  */
 class TextGeneratorV2 : public ShapeNodeBase {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief TextGeneratorV2 构造函数。
-   *  通常会在这里初始化文本相关的输入参数，并可能利用基类的构造函数设置颜色等。
-   */
-  TextGeneratorV2();
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief TextGeneratorV2 构造函数。
+      *  通常会在这里初始化文本相关的输入参数，并可能利用基类的构造函数设置颜色等。
+      */
+     TextGeneratorV2();
 
-  NODE_DEFAULT_FUNCTIONS(TextGeneratorV2) // 节点默认功能宏，可能包含克隆、类型信息等标准实现
+  NODE_DEFAULT_FUNCTIONS(TextGeneratorV2)  // 节点默认功能宏，可能包含克隆、类型信息等标准实现
 
   /**
    * @brief 获取此节点的名称。
@@ -74,11 +74,11 @@ class TextGeneratorV2 : public ShapeNodeBase {
 
   // --- 静态常量，用作节点输入参数的键名 ---
   // 注意：颜色 (kColorInput)、位置 (kPositionInput)、大小 (kSizeInput) 参数可能继承自 ShapeNodeBase
-  static const QString kTextInput;     ///< "Text" - 要显示的纯文本内容的参数键名。
-  static const QString kHtmlInput;     ///< "RichText" - 是否将输入文本作为富文本 (HTML) 解析的布尔参数键名。
-  static const QString kVAlignInput;   ///< "VerticalAlignment" - 文本在边界框内的垂直对齐方式的参数键名。
-  static const QString kFontInput;     ///< "Font" - 选择字体的参数键名 (例如字体家族名称)。
-  static const QString kFontSizeInput; ///< "FontSize" - 字体大小的参数键名。
+  static const QString kTextInput;      ///< "Text" - 要显示的纯文本内容的参数键名。
+  static const QString kHtmlInput;      ///< "RichText" - 是否将输入文本作为富文本 (HTML) 解析的布尔参数键名。
+  static const QString kVAlignInput;    ///< "VerticalAlignment" - 文本在边界框内的垂直对齐方式的参数键名。
+  static const QString kFontInput;      ///< "Font" - 选择字体的参数键名 (例如字体家族名称)。
+  static const QString kFontSizeInput;  ///< "FontSize" - 字体大小的参数键名。
 };
 
 }  // namespace olive

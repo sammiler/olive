@@ -2,7 +2,7 @@
 #define KD_WINDOWBEINGDRAGGED_P_H
 
 #include "kddockwidgets/docks_export.h" // 导入导出宏定义
-#include "FloatingWindow_p.h"           // FloatingWindow 私有头文件
+#include "FloatingWindow_p.h" // FloatingWindow 私有头文件
 
 #include <QPointer> // Qt QObject 指针的弱引用，用于安全地跟踪对象生命周期
 
@@ -15,8 +15,8 @@ namespace KDDockWidgets {
 
 // 前向声明 KDDockWidgets 内部类
 class FloatingWindow; // 浮动窗口类
-class Draggable;      // 可拖拽对象接口类
-class LayoutWidget;   // 布局小部件基类
+class Draggable; // 可拖拽对象接口类
+class LayoutWidget; // 布局小部件基类
 
 /**
  * @brief WindowBeingDragged 结构体代表一个正在被用户拖拽的窗口或可拖拽实体。
@@ -132,7 +132,7 @@ protected:
     Q_DISABLE_COPY(WindowBeingDragged) ///< 禁止拷贝构造函数和拷贝赋值操作符。
 
     QPointer<FloatingWindow> m_floatingWindow; ///< 指向关联的浮动窗口的弱指针。
-    Draggable *const m_draggable;              ///< 指向原始可拖拽对象的常量指针。
+    Draggable *const m_draggable; ///< 指向原始可拖拽对象的常量指针。
     QPointer<QWidgetOrQuick> m_draggableWidget; ///< 指向可拖拽对象的实际 QWidgetOrQuick 实例的弱指针，用于安全访问。
 };
 
@@ -190,7 +190,7 @@ public:
     // 这两个成员仅为 Wayland 设置，在 Wayland 中我们无法立即创建浮动窗口（无法定位它）。
     // 因此，我们拖拽的要么是包含多个停靠小部件的框架，要么是单个标签页，将它们保存在这里。
     // 了解我们正在拖拽什么很重要，这样拖放橡皮筋才能尊重最小/最大尺寸。
-    QPointer<Frame> m_frame;               ///< 如果正在拖拽一个框架（可能包含多个标签页），则指向该 Frame 的弱指针。
+    QPointer<Frame> m_frame; ///< 如果正在拖拽一个框架（可能包含多个标签页），则指向该 Frame 的弱指针。
     QPointer<DockWidgetBase> m_dockWidget; ///< 如果正在拖拽单个停靠小部件（单个标签页），则指向该 DockWidgetBase 的弱指针。
 };
 

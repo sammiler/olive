@@ -1,15 +1,15 @@
-#ifndef VIEWER_H // 防止头文件被多次包含的宏定义开始
+#ifndef VIEWER_H  // 防止头文件被多次包含的宏定义开始
 #define VIEWER_H
 
-#include "codec/encoder.h"                // 编码器相关定义，可能用于导出或录制
-#include "node/node.h"                    // 引入基类 Node 的定义
-#include "node/output/track/track.h"      // 引入 Track 定义，用于流类型等
-#include "render/audioplaybackcache.h"    // 音频播放缓存
-#include "render/framehashcache.h"        // 帧哈希缓存，可能用于视频帧缓存
-#include "render/subtitleparams.h"        // 字幕流参数定义
-#include "render/videoparams.h"           // 视频流参数定义
-#include "timeline/timelinemarker.h"      // 时间线标记定义
-#include "timeline/timelineworkarea.h"    // 时间线工作区定义
+#include "codec/encoder.h"              // 编码器相关定义，可能用于导出或录制
+#include "node/node.h"                  // 引入基类 Node 的定义
+#include "node/output/track/track.h"    // 引入 Track 定义，用于流类型等
+#include "render/audioplaybackcache.h"  // 音频播放缓存
+#include "render/framehashcache.h"      // 帧哈希缓存，可能用于视频帧缓存
+#include "render/subtitleparams.h"      // 字幕流参数定义
+#include "render/videoparams.h"         // 视频流参数定义
+#include "timeline/timelinemarker.h"    // 时间线标记定义
+#include "timeline/timelineworkarea.h"  // 时间线工作区定义
 
 // 可能需要的前向声明
 // class QVariant; // 假设
@@ -28,9 +28,9 @@
 // class EncodingParams; // 假设
 // enum class SampleFormat; // 假设
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
-class Footage; // 前向声明 Footage 类，ViewerOutput 可能与素材交互
+class Footage;  // 前向声明 Footage 类，ViewerOutput 可能与素材交互
 
 /**
  * @brief 作为节点系统与 ViewerPanel (查看器界面面板) 之间的桥梁。
@@ -39,16 +39,16 @@ class Footage; // 前向声明 Footage 类，ViewerOutput 可能与素材交互
  * ViewerOutput 本质上是一个特殊的输出节点，代表了用户最终看到的画面和听到的声音。
  */
 class ViewerOutput : public Node {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief ViewerOutput 构造函数。
-   * @param create_buffer_inputs 是否创建用于连接纹理和音频样本的默认输入端口，默认为 true。
-   * @param create_default_streams 是否创建默认的视频和音频流参数，默认为 true。
-   */
-  explicit ViewerOutput(bool create_buffer_inputs = true, bool create_default_streams = true);
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief ViewerOutput 构造函数。
+      * @param create_buffer_inputs 是否创建用于连接纹理和音频样本的默认输入端口，默认为 true。
+      * @param create_default_streams 是否创建默认的视频和音频流参数，默认为 true。
+      */
+     explicit ViewerOutput(bool create_buffer_inputs = true, bool create_default_streams = true);
 
-  NODE_DEFAULT_FUNCTIONS(ViewerOutput) // 节点默认功能宏，可能包含克隆、类型信息等标准实现
+  NODE_DEFAULT_FUNCTIONS(ViewerOutput)  // 节点默认功能宏，可能包含克隆、类型信息等标准实现
 
   /** @brief 获取此查看器输出节点的名称。 */
   [[nodiscard]] QString Name() const override;
@@ -73,7 +73,7 @@ class ViewerOutput : public Node {
    * @brief 根据一组 Footage (素材) 对象来设置节点的参数。
    * @param footage Footage 对象指针的 QVector。
    */
-  void set_parameters_from_footage(const QVector<ViewerOutput *> &footage); // 参数类型可能是笔误，应为 Footage*
+  void set_parameters_from_footage(const QVector<ViewerOutput *> &footage);  // 参数类型可能是笔误，应为 Footage*
 
   /**
    * @brief 使指定时间范围内的缓存无效。
@@ -93,10 +93,10 @@ class ViewerOutput : public Node {
   [[nodiscard]] VideoParams GetVideoParams(int index = 0) const {
     // This check isn't strictly necessary (GetStandardValue will return a null VideoParams anyway),
     // but it does suppress a warning message that we don't need
-    if (index < InputArraySize(kVideoParamsInput)) { // 检查索引是否在有效范围内
-      return GetStandardValue(kVideoParamsInput, index).value<VideoParams>(); // 获取并转换为 VideoParams
+    if (index < InputArraySize(kVideoParamsInput)) {                           // 检查索引是否在有效范围内
+      return GetStandardValue(kVideoParamsInput, index).value<VideoParams>();  // 获取并转换为 VideoParams
     } else {
-      return {}; // 返回默认构造的 VideoParams (空参数)
+      return {};  // 返回默认构造的 VideoParams (空参数)
     }
   }
 
@@ -108,10 +108,10 @@ class ViewerOutput : public Node {
   [[nodiscard]] AudioParams GetAudioParams(int index = 0) const {
     // This check isn't strictly necessary (GetStandardValue will return a null VideoParams anyway),
     // but it does suppress a warning message that we don't need
-    if (index < InputArraySize(kAudioParamsInput)) { // 检查索引是否在有效范围内
-      return GetStandardValue(kAudioParamsInput, index).value<AudioParams>(); // 获取并转换为 AudioParams
+    if (index < InputArraySize(kAudioParamsInput)) {                           // 检查索引是否在有效范围内
+      return GetStandardValue(kAudioParamsInput, index).value<AudioParams>();  // 获取并转换为 AudioParams
     } else {
-      return {}; // 返回默认构造的 AudioParams (空参数)
+      return {};  // 返回默认构造的 AudioParams (空参数)
     }
   }
 
@@ -123,10 +123,10 @@ class ViewerOutput : public Node {
   [[nodiscard]] SubtitleParams GetSubtitleParams(int index = 0) const {
     // This check isn't strictly necessary (GetStandardValue will return a null VideoParams anyway),
     // but it does suppress a warning message that we don't need
-    if (index < InputArraySize(kSubtitleParamsInput)) { // 检查索引是否在有效范围内
-      return GetStandardValue(kSubtitleParamsInput, index).value<SubtitleParams>(); // 获取并转换为 SubtitleParams
+    if (index < InputArraySize(kSubtitleParamsInput)) {                              // 检查索引是否在有效范围内
+      return GetStandardValue(kSubtitleParamsInput, index).value<SubtitleParams>();  // 获取并转换为 SubtitleParams
     } else {
-      return {}; // 返回默认构造的 SubtitleParams (空参数)
+      return {};  // 返回默认构造的 SubtitleParams (空参数)
     }
   }
 
@@ -177,8 +177,8 @@ class ViewerOutput : public Node {
    * @return const AudioWaveformCache* 指向波形缓存的指针，如果没有连接或无缓存则为 nullptr。
    */
   const AudioWaveformCache *GetConnectedWaveform() {
-    if (Node *n = GetConnectedSampleOutput()) { // 获取连接的音频样本输出节点
-      return n->waveform_cache(); // 返回其波形缓存
+    if (Node *n = GetConnectedSampleOutput()) {  // 获取连接的音频样本输出节点
+      return n->waveform_cache();                // 返回其波形缓存
     } else {
       return nullptr;
     }
@@ -240,7 +240,7 @@ class ViewerOutput : public Node {
 
   /** @brief (静态方法) 检查是否启用了视频自动缓存 (此实现为存根)。 */
   [[nodiscard]] static bool IsVideoAutoCacheEnabled() {
-    qDebug() << "sequence ac is a stub"; // 调试输出，表明是存根实现
+    qDebug() << "sequence ac is a stub";  // 调试输出，表明是存根实现
     return false;
   }
   /** @brief (静态方法) 设置是否启用视频自动缓存 (此实现为存根)。 */
@@ -274,16 +274,16 @@ class ViewerOutput : public Node {
   void SaveCustom(QXmlStreamWriter *writer) const override;
 
   // --- 静态常量，用作节点输入参数的键名 ---
-  static const QString kVideoParamsInput;    ///< "VideoParams" - 存储视频流参数的数组输入参数键名。
-  static const QString kAudioParamsInput;    ///< "AudioParams" - 存储音频流参数的数组输入参数键名。
-  static const QString kSubtitleParamsInput; ///< "SubtitleParams" - 存储字幕流参数的数组输入参数键名。
+  static const QString kVideoParamsInput;     ///< "VideoParams" - 存储视频流参数的数组输入参数键名。
+  static const QString kAudioParamsInput;     ///< "AudioParams" - 存储音频流参数的数组输入参数键名。
+  static const QString kSubtitleParamsInput;  ///< "SubtitleParams" - 存储字幕流参数的数组输入参数键名。
 
-  static const QString kTextureInput; ///< "TextureIn" - 连接视频帧纹理的输入端口键名。
-  static const QString kSamplesInput; ///< "SamplesIn" - 连接音频样本的输入端口键名。
+  static const QString kTextureInput;  ///< "TextureIn" - 连接视频帧纹理的输入端口键名。
+  static const QString kSamplesInput;  ///< "SamplesIn" - 连接音频样本的输入端口键名。
 
-  static const SampleFormat kDefaultSampleFormat; ///< 默认的音频采样格式。
+  static const SampleFormat kDefaultSampleFormat;  ///< 默认的音频采样格式。
 
- signals: // Qt 信号声明区域
+ signals:  // Qt 信号声明区域
   /** @brief 当视频帧率改变时发射。 @param 新的帧率。 */
   void FrameRateChanged(const rational &);
   /** @brief 当总长度改变时发射。 @param 新的长度。 */
@@ -366,24 +366,24 @@ class ViewerOutput : public Node {
   int SetStream(Track::Type type, const QVariant &value, int index);
 
  private:
-  rational last_length_;  ///< 上一次计算得到的总长度。
-  rational video_length_; ///< 视频内容的总长度。
-  rational audio_length_; ///< 音频内容的总长度。
+  rational last_length_;   ///< 上一次计算得到的总长度。
+  rational video_length_;  ///< 视频内容的总长度。
+  rational audio_length_;  ///< 音频内容的总长度。
 
-  VideoParams cached_video_params_; ///< 缓存的视频参数，用于快速访问或比较变化。
-  AudioParams cached_audio_params_; ///< 缓存的音频参数。
+  VideoParams cached_video_params_;  ///< 缓存的视频参数，用于快速访问或比较变化。
+  AudioParams cached_audio_params_;  ///< 缓存的音频参数。
 
   TimelineWorkArea *workarea_;   ///< 指向时间线工作区对象的指针。
-  TimelineMarkerList *markers_; ///< 指向时间线标记列表对象的指针。
+  TimelineMarkerList *markers_;  ///< 指向时间线标记列表对象的指针。
 
-  bool autocache_input_video_; ///< 是否自动缓存视频输入。
-  bool autocache_input_audio_; ///< 是否自动缓存音频输入。
+  bool autocache_input_video_;  ///< 是否自动缓存视频输入。
+  bool autocache_input_audio_;  ///< 是否自动缓存音频输入。
 
-  EncodingParams last_used_encoding_params_; ///< 上一次导出或编码时使用的参数。
+  EncodingParams last_used_encoding_params_;  ///< 上一次导出或编码时使用的参数。
 
-  bool waveform_requests_enabled_; ///< 是否启用了音频波形数据的请求。
+  bool waveform_requests_enabled_;  ///< 是否启用了音频波形数据的请求。
 
-  rational playhead_; ///< 当前播放头的时间位置。
+  rational playhead_;  ///< 当前播放头的时间位置。
 };
 
 }  // namespace olive

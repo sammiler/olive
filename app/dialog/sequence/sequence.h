@@ -7,14 +7,14 @@
 
 // 前向声明，避免不必要的头文件包含
 QT_BEGIN_NAMESPACE
-class QLineEdit; // Qt的单行文本输入框
-class QTabWidget; // Qt的选项卡控件
+class QLineEdit;   // Qt的单行文本输入框
+class QTabWidget;  // Qt的选项卡控件
 QT_END_NAMESPACE
 
-#include "node/project/sequence/sequence.h"     // 引入序列类定义
-#include "sequencedialogparametertab.h"         // 引入序列对话框参数选项卡
-#include "sequencedialogpresettab.h"            // 引入序列对话框预设选项卡
-#include "undo/undocommand.h"                   // 引入撤销命令基类
+#include "node/project/sequence/sequence.h"  // 引入序列类定义
+#include "sequencedialogparametertab.h"      // 引入序列对话框参数选项卡
+#include "sequencedialogpresettab.h"         // 引入序列对话框预设选项卡
+#include "undo/undocommand.h"                // 引入撤销命令基类
 
 namespace olive {
 

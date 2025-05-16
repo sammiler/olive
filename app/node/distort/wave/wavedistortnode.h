@@ -1,7 +1,7 @@
 #ifndef WAVEDISTORTNODE_H
 #define WAVEDISTORTNODE_H
 
-#include "node/node.h" // 引入基类 Node 的定义
+#include "node/node.h"  // 引入基类 Node 的定义
 
 namespace olive {
 
@@ -10,14 +10,14 @@ namespace olive {
  * 该节点可以在图像上模拟正弦波或余弦波的扭曲效果，可以控制波的频率、强度、相位（演化）以及方向（水平或垂直）。
  */
 class WaveDistortNode : public Node {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief WaveDistortNode 构造函数。
-   */
-  WaveDistortNode();
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief WaveDistortNode 构造函数。
+      */
+     WaveDistortNode();
 
-  NODE_DEFAULT_FUNCTIONS(WaveDistortNode) // 节点默认功能宏，可能包含克隆、类型信息等标准实现
+  NODE_DEFAULT_FUNCTIONS(WaveDistortNode)  // 节点默认功能宏，可能包含克隆、类型信息等标准实现
 
   /**
    * @brief 获取此节点的名称。
@@ -60,11 +60,11 @@ class WaveDistortNode : public Node {
   void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
 
   // --- 静态常量，用作节点输入参数的键名 ---
-  static const QString kTextureInput;   ///< "Texture" - 输入纹理（图像）的参数键名。
-  static const QString kFrequencyInput; ///< "Frequency" - 波浪频率（单位长度内的波数）的参数键名。
-  static const QString kIntensityInput; ///< "Intensity" - 波浪振幅（强度）的参数键名。
-  static const QString kEvolutionInput; ///< "Evolution" - 波浪相位（随时间演化/动画）的参数键名。
-  static const QString kVerticalInput;  ///< "Vertical" - 波浪是否为垂直方向的布尔参数键名 (若false则为水平方向)。
+  static const QString kTextureInput;    ///< "Texture" - 输入纹理（图像）的参数键名。
+  static const QString kFrequencyInput;  ///< "Frequency" - 波浪频率（单位长度内的波数）的参数键名。
+  static const QString kIntensityInput;  ///< "Intensity" - 波浪振幅（强度）的参数键名。
+  static const QString kEvolutionInput;  ///< "Evolution" - 波浪相位（随时间演化/动画）的参数键名。
+  static const QString kVerticalInput;   ///< "Vertical" - 波浪是否为垂直方向的布尔参数键名 (若false则为水平方向)。
 };
 
 }  // namespace olive

@@ -1,10 +1,9 @@
-#ifndef TIMETARGETOBJECT_H // 防止头文件被多次包含的宏定义
+#ifndef TIMETARGETOBJECT_H  // 防止头文件被多次包含的宏定义
 #define TIMETARGETOBJECT_H
 
-#include "node/output/viewer/viewer.h" // 引入 ViewerOutput 类的定义，用于时间目标
+#include "node/output/viewer/viewer.h"  // 引入 ViewerOutput 类的定义，用于时间目标
 
-
-namespace olive { // olive 命名空间开始
+namespace olive {  // olive 命名空间开始
 
 /**
  * @brief TimeTargetObject 类用于处理不同节点之间的时间转换和同步。
@@ -31,7 +30,8 @@ class TimeTargetObject {
   /**
    * @brief 设置时间目标节点。
    *
-   * 当时间目标改变时，会触发相应的事件回调 (TimeTargetChangedEvent, TimeTargetConnectEvent, TimeTargetDisconnectEvent)。
+   * 当时间目标改变时，会触发相应的事件回调 (TimeTargetChangedEvent, TimeTargetConnectEvent,
+   * TimeTargetDisconnectEvent)。
    * @param target 指向新的时间目标 ViewerOutput 对象的指针。
    */
   void SetTimeTarget(ViewerOutput* target);
@@ -65,7 +65,7 @@ class TimeTargetObject {
 
   // int GetNumberOfPathAdjustments(Node* from, NodeParam::Type direction) const; // 原始注释掉的代码行，保持原样
 
- protected: // 受保护的虚函数，用于派生类处理时间目标变化事件
+ protected:  // 受保护的虚函数，用于派生类处理时间目标变化事件
   /**
    * @brief 当时间目标断开连接时调用的虚函数。
    *
@@ -88,10 +88,10 @@ class TimeTargetObject {
    */
   virtual void TimeTargetConnectEvent(ViewerOutput*) {}
 
- private: // 私有成员变量
-  ViewerOutput* time_target_; ///< 指向当前时间目标 ViewerOutput 节点的指针。
+ private:                      // 私有成员变量
+  ViewerOutput* time_target_;  ///< 指向当前时间目标 ViewerOutput 节点的指针。
 
-  int path_index_; ///< 存储路径索引，可能用于多路径时间转换。
+  int path_index_;  ///< 存储路径索引，可能用于多路径时间转换。
 };
 
 }  // namespace olive

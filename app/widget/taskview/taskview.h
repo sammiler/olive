@@ -1,10 +1,10 @@
 #ifndef TASKVIEW_H
 #define TASKVIEW_H
 
-#include <QScrollArea> // 引入 QScrollArea 类，用于提供带滚动条的视图区域
-#include <QVBoxLayout> // 引入 QVBoxLayout 类，用于垂直布局
+#include <QScrollArea>  // 引入 QScrollArea 类，用于提供带滚动条的视图区域
+#include <QVBoxLayout>  // 引入 QVBoxLayout 类，用于垂直布局
 
-#include "widget/taskview/taskviewitem.h" // 引入 TaskViewItem 类，用于显示单个任务项
+#include "widget/taskview/taskviewitem.h"  // 引入 TaskViewItem 类，用于显示单个任务项
 
 namespace olive {
 
@@ -15,30 +15,30 @@ namespace olive {
  * 主要的入口点是 AddTask() 槽函数，该槽函数应连接到 TaskManager 的 TaskAdded() 信号。
  * 不需要进行更多的连接，因为当任务完成时，TaskViewItem 会自动删除自身（从而将其从 TaskView 中移除）。
  */
-class TaskView : public QScrollArea { // TaskView 类继承自 QScrollArea
-  Q_OBJECT // Q_OBJECT 宏，用于启用 Qt 的元对象特性，如信号和槽
- public:
+class TaskView : public QScrollArea {  // TaskView 类继承自 QScrollArea
+ Q_OBJECT                              // Q_OBJECT 宏，用于启用 Qt 的元对象特性，如信号和槽
+     public :
+     /**
+      * @brief 构造一个 TaskView 对象。
+      * @param parent 父 QWidget 对象。
+      */
+     explicit TaskView(QWidget* parent);
+
+ signals:
   /**
-   * @brief 构造一个 TaskView 对象。
-   * @param parent 父 QWidget 对象。
+   * @brief 当任务被取消时发出此信号。
+   * @param t 指向被取消的 Task 对象的指针。
    */
-  explicit TaskView(QWidget* parent);
+  void TaskCancelled(Task* t);
 
-  signals:
-   /**
-    * @brief 当任务被取消时发出此信号。
-    * @param t 指向被取消的 Task 对象的指针。
-    */
-   void TaskCancelled(Task* t);
-
-public slots:
- /**
-  * @brief 创建一个 TaskViewItem，将其连接到一个 Task，并将其添加到此控件中。
-  *
-  * 将此槽函数连接到 TaskManager::TaskAdded() 信号。
-  * @param t 指向要添加的 Task 对象的指针。
-  */
- void AddTask(Task* t);
+ public slots:
+  /**
+   * @brief 创建一个 TaskViewItem，将其连接到一个 Task，并将其添加到此控件中。
+   *
+   * 将此槽函数连接到 TaskManager::TaskAdded() 信号。
+   * @param t 指向要添加的 Task 对象的指针。
+   */
+  void AddTask(Task* t);
 
   /**
    * @brief 当任务失败时调用的槽函数。
@@ -56,7 +56,7 @@ public slots:
    */
   void RemoveTask(Task* t);
 
-private:
+ private:
   /**
    * @brief 作为滚动区域中心控件的 QWidget 指针。
    *

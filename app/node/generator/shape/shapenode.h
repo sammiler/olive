@@ -1,21 +1,21 @@
-#ifndef SHAPENODE_H // 防止头文件被多次包含的宏定义开始
+#ifndef SHAPENODE_H  // 防止头文件被多次包含的宏定义开始
 #define SHAPENODE_H
 
-#include "shapenodebase.h" // 引入基类 ShapeNodeBase 的定义
+#include "shapenodebase.h"  // 引入基类 ShapeNodeBase 的定义
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
 /**
  * @brief 代表一个通用形状生成器节点，可以生成多种基本形状如矩形、椭圆等。
  * 继承自 ShapeNodeBase，提供了生成和渲染这些形状的基础功能。
  */
 class ShapeNode : public ShapeNodeBase {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief ShapeNode 构造函数。
-   */
-  ShapeNode();
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief ShapeNode 构造函数。
+      */
+     ShapeNode();
 
   /**
    * @brief 定义可生成的形状类型。
@@ -26,7 +26,7 @@ class ShapeNode : public ShapeNodeBase {
     kRoundedRectangle  ///< 圆角矩形
   };
 
-  NODE_DEFAULT_FUNCTIONS(ShapeNode) // 节点默认功能宏，可能包含克隆、类型信息等标准实现
+  NODE_DEFAULT_FUNCTIONS(ShapeNode)  // 节点默认功能宏，可能包含克隆、类型信息等标准实现
 
   /**
    * @brief 获取此节点的名称。
@@ -69,8 +69,8 @@ class ShapeNode : public ShapeNodeBase {
   void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
 
   // --- 静态常量，用作节点输入参数的键名 ---
-  static QString kTypeInput;   ///< "Type" - 选择形状类型 (参照 Type 枚举) 的参数键名。
-  static QString kRadiusInput; ///< "Radius" - 圆角矩形的圆角半径参数键名。
+  static QString kTypeInput;    ///< "Type" - 选择形状类型 (参照 Type 枚举) 的参数键名。
+  static QString kRadiusInput;  ///< "Radius" - 圆角矩形的圆角半径参数键名。
 
  protected:
   /**

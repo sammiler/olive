@@ -1,16 +1,16 @@
-#ifndef POLYGONGENERATOR_H // 防止头文件被多次包含的宏定义开始
+#ifndef POLYGONGENERATOR_H  // 防止头文件被多次包含的宏定义开始
 #define POLYGONGENERATOR_H
 
-#include <QPainterPath> // Qt 的 QPainterPath 类，用于表示和操作2D路径，是多边形的核心
+#include <QPainterPath>  // Qt 的 QPainterPath 类，用于表示和操作2D路径，是多边形的核心
 
-#include "node/generator/shape/generatorwithmerge.h" // 引入基类 GeneratorWithMerge，表明此多边形生成器可能支持合并操作
-#include "node/gizmo/line.h"                         // 引入线段 Gizmo (交互控件) 的定义
-#include "node/gizmo/path.h"                         // 引入路径 Gizmo 的定义
-#include "node/gizmo/point.h"                        // 引入点 Gizmo 的定义
-#include "node/inputdragger.h"                       // 引入输入拖动器相关定义，用于 Gizmo 交互
-#include "node/node.h"                               // 引入基类 Node 的定义
+#include "node/generator/shape/generatorwithmerge.h"  // 引入基类 GeneratorWithMerge，表明此多边形生成器可能支持合并操作
+#include "node/gizmo/line.h"                          // 引入线段 Gizmo (交互控件) 的定义
+#include "node/gizmo/path.h"                          // 引入路径 Gizmo 的定义
+#include "node/gizmo/point.h"                         // 引入点 Gizmo 的定义
+#include "node/inputdragger.h"                        // 引入输入拖动器相关定义，用于 Gizmo 交互
+#include "node/node.h"                                // 引入基类 Node 的定义
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
 /**
  * @brief 代表“多边形生成器”的节点。
@@ -18,15 +18,15 @@ namespace olive { // Olive 编辑器的命名空间
  * 它继承自 GeneratorWithMerge，表明它是一个形状生成器，并可能具有合并形状的功能。
  */
 class PolygonGenerator : public GeneratorWithMerge {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief PolygonGenerator 构造函数。
-   *  通常在这里初始化节点的基本属性和输入参数。
-   */
-  PolygonGenerator();
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief PolygonGenerator 构造函数。
+      *  通常在这里初始化节点的基本属性和输入参数。
+      */
+     PolygonGenerator();
 
-  NODE_DEFAULT_FUNCTIONS(PolygonGenerator) // 节点默认功能宏，可能包含克隆、类型信息等标准实现
+  NODE_DEFAULT_FUNCTIONS(PolygonGenerator)  // 节点默认功能宏，可能包含克隆、类型信息等标准实现
 
   /**
    * @brief 获取此节点的名称。
@@ -87,8 +87,8 @@ class PolygonGenerator : public GeneratorWithMerge {
   [[nodiscard]] ShaderCode GetShaderCode(const ShaderRequest &request) const override;
 
   // --- 静态常量，用作节点输入参数的键名 ---
-  static const QString kPointsInput; ///< "Points" - 定义多边形顶点（及可能的贝塞尔控制点）的参数键名。
-  static const QString kColorInput;  ///< "Color" - 多边形填充颜色的参数键名。
+  static const QString kPointsInput;  ///< "Points" - 定义多边形顶点（及可能的贝塞尔控制点）的参数键名。
+  static const QString kColorInput;   ///< "Color" - 多边形填充颜色的参数键名。
 
  protected:
   /**
@@ -98,7 +98,7 @@ class PolygonGenerator : public GeneratorWithMerge {
    * @param params 目标视频的参数 (如分辨率)。
    * @return ShaderJob 对象。
    */
-  [[nodiscard]] ShaderJob GetGenerateJob(const NodeValueRow &value, const VideoParams & ms) const;
+  [[nodiscard]] ShaderJob GetGenerateJob(const NodeValueRow &value, const VideoParams &ms) const;
 
  protected slots:
   /**
@@ -146,10 +146,10 @@ class PolygonGenerator : public GeneratorWithMerge {
   NodeGizmo *CreateAppropriateGizmo();
 
   // --- Gizmo 相关私有成员变量 ---
-  PathGizmo *poly_gizmo_;                          ///< 指向表示整个多边形路径的 PathGizmo 对象的指针。
-  QVector<PointGizmo *> gizmo_position_handles_;   ///< 存储指向各个顶点位置控制 Gizmo (PointGizmo) 的 QVector。
-  QVector<PointGizmo *> gizmo_bezier_handles_;     ///< 存储指向各个贝塞尔控制点 Gizmo (PointGizmo) 的 QVector。
-  QVector<LineGizmo *> gizmo_bezier_lines_;        ///< 存储指向连接顶点和其贝塞尔控制点的线条 Gizmo (LineGizmo) 的 QVector。
+  PathGizmo *poly_gizmo_;                         ///< 指向表示整个多边形路径的 PathGizmo 对象的指针。
+  QVector<PointGizmo *> gizmo_position_handles_;  ///< 存储指向各个顶点位置控制 Gizmo (PointGizmo) 的 QVector。
+  QVector<PointGizmo *> gizmo_bezier_handles_;    ///< 存储指向各个贝塞尔控制点 Gizmo (PointGizmo) 的 QVector。
+  QVector<LineGizmo *> gizmo_bezier_lines_;  ///< 存储指向连接顶点和其贝塞尔控制点的线条 Gizmo (LineGizmo) 的 QVector。
 };
 
 }  // namespace olive

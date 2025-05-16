@@ -1,9 +1,9 @@
 #ifndef COLORPREVIEWBOX_H
 #define COLORPREVIEWBOX_H
 
-#include <QWidget> // Qt 控件基类
+#include <QWidget>  // Qt 控件基类
 
-#include "render/colorprocessor.h" // 引入色彩处理器类
+#include "render/colorprocessor.h"  // 引入色彩处理器类
 
 // 前向声明 Qt 类
 class QPaintEvent;
@@ -18,14 +18,14 @@ namespace olive {
  * 它可以配置两个色彩处理器，一个用于参考色彩空间，一个用于显示色彩空间。
  */
 class ColorPreviewBox : public QWidget {
-  Q_OBJECT // Qt 元对象系统宏，用于支持信号和槽机制
+ Q_OBJECT  // Qt 元对象系统宏，用于支持信号和槽机制
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit ColorPreviewBox(QWidget* parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit ColorPreviewBox(QWidget* parent = nullptr);
 
   /**
    * @brief 设置用于颜色转换的色彩处理器。
@@ -34,14 +34,14 @@ class ColorPreviewBox : public QWidget {
    */
   void SetColorProcessor(ColorProcessorPtr to_ref, ColorProcessorPtr to_display);
 
-public slots:
- /**
-  * @brief 设置要在预览框中显示的颜色。
-  * @param c 要显示的 Color 对象。此颜色将通过配置的色彩处理器进行转换后显示。
-  */
- void SetColor(const Color& c);
+ public slots:
+  /**
+   * @brief 设置要在预览框中显示的颜色。
+   * @param c 要显示的 Color 对象。此颜色将通过配置的色彩处理器进行转换后显示。
+   */
+  void SetColor(const Color& c);
 
-protected:
+ protected:
   /**
    * @brief 绘制事件处理函数。
    *
@@ -50,11 +50,11 @@ protected:
    */
   void paintEvent(QPaintEvent* e) override;
 
-private:
-  Color color_; ///< 存储当前要显示的原始颜色值。
+ private:
+  Color color_;  ///< 存储当前要显示的原始颜色值。
 
-  ColorProcessorPtr to_ref_processor_;     ///< 指向将输入颜色转换为参考色彩空间的色彩处理器的智能指针。
-  ColorProcessorPtr to_display_processor_; ///< 指向将参考颜色转换为最终显示色彩空间的色彩处理器的智能指针。
+  ColorProcessorPtr to_ref_processor_;      ///< 指向将输入颜色转换为参考色彩空间的色彩处理器的智能指针。
+  ColorProcessorPtr to_display_processor_;  ///< 指向将参考颜色转换为最终显示色彩空间的色彩处理器的智能指针。
 };
 
 }  // namespace olive

@@ -1,16 +1,16 @@
-#ifndef VIDEOPARAMS_H // 防止头文件被重复包含的宏
-#define VIDEOPARAMS_H // 定义 VIDEOPARAMS_H 宏
+#ifndef VIDEOPARAMS_H  // 防止头文件被重复包含的宏
+#define VIDEOPARAMS_H  // 定义 VIDEOPARAMS_H 宏
 
-#include <olive/core/core.h> // 包含 Olive 核心定义 (可能包含 PixelFormat, rational)
-#include <QVector2D>         // Qt 二维向量类
-#include <QXmlStreamReader>  // Qt XML 流读取器
-#include <QXmlStreamWriter>  // Qt XML 流写入器
+#include <olive/core/core.h>  // 包含 Olive 核心定义 (可能包含 PixelFormat, rational)
+#include <QVector2D>          // Qt 二维向量类
+#include <QXmlStreamReader>   // Qt XML 流读取器
+#include <QXmlStreamWriter>   // Qt XML 流写入器
 
 // 假设 PixelFormat 和 rational 类型在 <olive/core/core.h> 中定义。
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
-using namespace core; // 使用 olive::core 命名空间中的类型
+using namespace core;  // 使用 olive::core 命名空间中的类型
 
 /**
  * @brief VideoParams 类封装了描述视频流或图像序列的各种参数。
@@ -39,9 +39,9 @@ class VideoParams {
 
   // 定义视频内容类型的枚举
   enum Type {
-    kVideoTypeVideo,        // 视频类型 (动态影像)
-    kVideoTypeStill,        // 静止图像类型
-    kVideoTypeImageSequence // 图像序列类型
+    kVideoTypeVideo,         // 视频类型 (动态影像)
+    kVideoTypeStill,         // 静止图像类型
+    kVideoTypeImageSequence  // 图像序列类型
   };
 
   // 定义色彩范围的枚举
@@ -49,7 +49,7 @@ class VideoParams {
     kColorRangeLimited,  // 有限范围 (例如视频中常见的 16-235 for 8-bit YUV)
     kColorRangeFull,     // 完全范围 (例如计算机图形中常见的 0-255 for 8-bit RGB)
 
-    kColorRangeDefault = kColorRangeLimited // 默认色彩范围为有限范围
+    kColorRangeDefault = kColorRangeLimited  // 默认色彩范围为有限范围
   };
 
   // 默认构造函数，会设置一些初始值
@@ -89,8 +89,8 @@ class VideoParams {
    */
   void set_width(int width) {
     width_ = width;
-    calculate_effective_size(); // 重新计算有效尺寸
-    calculate_square_pixel_width(); // 重新计算方形像素宽度
+    calculate_effective_size();      // 重新计算有效尺寸
+    calculate_square_pixel_width();  // 重新计算方形像素宽度
   }
 
   /**
@@ -218,8 +218,8 @@ class VideoParams {
    */
   void set_pixel_aspect_ratio(const rational& r) {
     pixel_aspect_ratio_ = r;
-    validate_pixel_aspect_ratio(); // 验证PAR是否有效
-    calculate_square_pixel_width(); // 重新计算
+    validate_pixel_aspect_ratio();   // 验证PAR是否有效
+    calculate_square_pixel_width();  // 重新计算
   }
 
   /**
@@ -280,12 +280,12 @@ class VideoParams {
   static const int kInternalChannelCount;
 
   // --- 预定义的常用像素宽高比常量 ---
-  static const rational kPixelAspectSquare;       // 方形像素 (1:1)
-  static const rational kPixelAspectNTSCStandard;   // NTSC 标清 (例如 10:11 for 720x480 DV)
-  static const rational kPixelAspectNTSCWidescreen; // NTSC 宽屏
-  static const rational kPixelAspectPALStandard;    // PAL 标清 (例如 59:54 for 720x576 DV)
-  static const rational kPixelAspectPALWidescreen;  // PAL 宽屏
-  static const rational kPixelAspect1080Anamorphic; // 1080P 变形宽银幕 (例如 4:3 PAR for 1440x1080 -> 1920x1080)
+  static const rational kPixelAspectSquare;          // 方形像素 (1:1)
+  static const rational kPixelAspectNTSCStandard;    // NTSC 标清 (例如 10:11 for 720x480 DV)
+  static const rational kPixelAspectNTSCWidescreen;  // NTSC 宽屏
+  static const rational kPixelAspectPALStandard;     // PAL 标清 (例如 59:54 for 720x576 DV)
+  static const rational kPixelAspectPALWidescreen;   // PAL 宽屏
+  static const rational kPixelAspect1080Anamorphic;  // 1080P 变形宽银幕 (例如 4:3 PAR for 1440x1080 -> 1920x1080)
 
   // 支持的帧率和像素宽高比列表 (用于UI下拉框或验证)
   static const QVector<rational> kSupportedFrameRates;
@@ -294,9 +294,9 @@ class VideoParams {
   static const QVector<int> kSupportedDividers;
 
   // 常用通道数常量
-  static const int kHSVChannelCount = 3; // HSV 颜色模型通道数
-  static const int kRGBChannelCount = 3; // RGB 颜色模型通道数
-  static const int kRGBAChannelCount = 4; // RGBA 颜色模型通道数
+  static const int kHSVChannelCount = 3;   // HSV 颜色模型通道数
+  static const int kRGBChannelCount = 3;   // RGB 颜色模型通道数
+  static const int kRGBAChannelCount = 4;  // RGBA 颜色模型通道数
 
   /**
    * @brief (静态) 将 rational 类型的帧率 (例如 25/1) 转换为用户友好的字符串 (例如 "25 fps")。
@@ -322,11 +322,11 @@ class VideoParams {
   void set_enabled(bool e) { enabled_ = e; }
 
   // (可能用于图像在画布上的偏移)
-  [[nodiscard]] float x() const { return x_; } // X轴偏移
+  [[nodiscard]] float x() const { return x_; }  // X轴偏移
   void set_x(float x) { x_ = x; }
-  [[nodiscard]] float y() const { return y_; } // Y轴偏移
+  [[nodiscard]] float y() const { return y_; }  // Y轴偏移
   void set_y(float y) { y_ = y; }
-  [[nodiscard]] QVector2D offset() const { return {x_, y_}; } // 获取偏移向量
+  [[nodiscard]] QVector2D offset() const { return {x_, y_}; }  // 获取偏移向量
 
   /**
    * @brief 获取视频流的索引 (在包含多个视频流的媒体文件中)。
@@ -432,39 +432,39 @@ class VideoParams {
   void calculate_square_pixel_width();
 
   // --- 成员变量 ---
-  int width_;          // 原始宽度
-  int height_;         // 原始高度
-  int depth_;          // 深度 (通常为1，对于3D数据 >1)
-  rational time_base_; // 时间基准 (帧持续时间的倒数)
+  int width_;           // 原始宽度
+  int height_;          // 原始高度
+  int depth_;           // 深度 (通常为1，对于3D数据 >1)
+  rational time_base_;  // 时间基准 (帧持续时间的倒数)
 
-  PixelFormat format_; // 像素格式
+  PixelFormat format_;  // 像素格式
 
-  int channel_count_; // 通道数量
+  int channel_count_;  // 通道数量
 
-  rational pixel_aspect_ratio_; // 像素宽高比
+  rational pixel_aspect_ratio_;  // 像素宽高比
 
-  Interlacing interlacing_; // 隔行扫描方式
+  Interlacing interlacing_;  // 隔行扫描方式
 
-  int divider_; // 图像缩放因子 (1 表示原始尺寸)
+  int divider_;  // 图像缩放因子 (1 表示原始尺寸)
 
   // 缓存的计算值
-  int effective_width_{};  // 有效宽度 (width_ / divider_)
-  int effective_height_{}; // 有效高度 (height_ / divider_)
-  int effective_depth_{};  // 有效深度 (depth_ / divider_)
-  int par_width_{};        // 方形像素宽度 (width_ * pixel_aspect_ratio_)
+  int effective_width_{};   // 有效宽度 (width_ / divider_)
+  int effective_height_{};  // 有效高度 (height_ / divider_)
+  int effective_depth_{};   // 有效深度 (depth_ / divider_)
+  int par_width_{};         // 方形像素宽度 (width_ * pixel_aspect_ratio_)
 
   // 更多元数据
-  bool enabled_{true}; // 是否启用 (默认为true)
-  int stream_index_{0}; // 流索引 (默认为0)
-  Type video_type_{kVideoTypeVideo}; // 视频类型 (默认为视频)
-  rational frame_rate_; // 帧率 (例如 25/1 fps)
-  int64_t start_time_{0}; // 开始时间 (以时间基准为单位)
-  int64_t duration_{0};   // 总时长 (以时间基准为单位)
-  bool premultiplied_alpha_{false}; // Alpha是否预乘 (默认为false)
-  QString colorspace_;   // 色彩空间名称
-  float x_{0.0f};         // X轴偏移 (默认为0)
-  float y_{0.0f};         // Y轴偏移 (默认为0)
-  ColorRange color_range_{kColorRangeDefault}; // 色彩范围 (默认为有限范围)
+  bool enabled_{true};                          // 是否启用 (默认为true)
+  int stream_index_{0};                         // 流索引 (默认为0)
+  Type video_type_{kVideoTypeVideo};            // 视频类型 (默认为视频)
+  rational frame_rate_;                         // 帧率 (例如 25/1 fps)
+  int64_t start_time_{0};                       // 开始时间 (以时间基准为单位)
+  int64_t duration_{0};                         // 总时长 (以时间基准为单位)
+  bool premultiplied_alpha_{false};             // Alpha是否预乘 (默认为false)
+  QString colorspace_;                          // 色彩空间名称
+  float x_{0.0f};                               // X轴偏移 (默认为0)
+  float y_{0.0f};                               // Y轴偏移 (默认为0)
+  ColorRange color_range_{kColorRangeDefault};  // 色彩范围 (默认为有限范围)
 };
 
 }  // namespace olive

@@ -5,7 +5,7 @@
 // 假设 footage.h 声明了 Footage 类
 #include "node/project/footage/footage.h"
 // 假设 streamproperties.h 声明了 StreamProperties 基类
-#include "streamproperties.h" // 这个头文件的实际路径可能需要确认
+#include "streamproperties.h"  // 这个头文件的实际路径可能需要确认
 // 假设 undocommand.h 声明了 MultiUndoCommand 类 (虽然 Accept 方法在此头文件中未被 Q_OBJECT 标记为槽)
 #include "undo/undocommand.h"
 // #include "common/define.h" // 如果需要 common/define.h 中的内容
@@ -23,7 +23,7 @@ namespace olive {
  */
 class AudioStreamProperties : public StreamProperties {
   // Q_OBJECT // 如果此类需要信号槽机制，则应添加此宏
-public:
+ public:
   /**
    * @brief 构造一个新的 AudioStreamProperties 对象。
    * @param footage 指向包含此音频流的 Footage 对象的指针。
@@ -48,7 +48,7 @@ public:
    */
   void Accept(MultiUndoCommand *parent) override;
 
-private:
+ private:
   /**
    * @brief 指向包含此音频流的 Footage 对象的指针。
    */

@@ -1,16 +1,16 @@
-#ifndef NODEINPUTDRAGGER_H // 防止头文件被多次包含的宏定义开始
+#ifndef NODEINPUTDRAGGER_H  // 防止头文件被多次包含的宏定义开始
 #define NODEINPUTDRAGGER_H
 
-#include "node/keyframe.h" // 引入 NodeKeyframe 定义，拖动操作可能涉及创建或修改关键帧
-#include "node/param.h"    // 引入 NodeInput 和 NodeKeyframeTrackReference 等参数相关定义
-#include "undo/undocommand.h" // 引入撤销命令相关定义，拖动操作应可撤销
+#include "node/keyframe.h"     // 引入 NodeKeyframe 定义，拖动操作可能涉及创建或修改关键帧
+#include "node/param.h"        // 引入 NodeInput 和 NodeKeyframeTrackReference 等参数相关定义
+#include "undo/undocommand.h"  // 引入撤销命令相关定义，拖动操作应可撤销
 
 // 可能需要的前向声明
 // class QVariant; // 假设
 // class rational; // 假设
 // class MultiUndoCommand; // 假设
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
 /**
  * @brief 用于处理节点输入参数值通过 Gizmo 或其他 UI 控件进行拖动修改的辅助类。
@@ -61,7 +61,9 @@ class NodeInputDragger {
    * @brief (静态方法) 检查当前是否有任何输入参数正在被拖动。
    * @return 如果有参数正在被拖动，则返回 true，否则返回 false。
    */
-  static bool IsInputBeingDragged() { return input_being_dragged > 0; } // 修改：如果 input_being_dragged 是计数器，则应 > 0
+  static bool IsInputBeingDragged() {
+    return input_being_dragged > 0;
+  }  // 修改：如果 input_being_dragged 是计数器，则应 > 0
 
   /**
    * @brief 获取拖动开始时参数的初始值。
@@ -82,20 +84,20 @@ class NodeInputDragger {
   [[nodiscard]] const rational &GetTime() const { return time_; }
 
  private:
-  NodeKeyframeTrackReference input_; ///< 当前正在拖动修改的节点输入参数的引用。
+  NodeKeyframeTrackReference input_;  ///< 当前正在拖动修改的节点输入参数的引用。
 
-  rational time_; ///< 拖动操作开始时的时间点。
+  rational time_;  ///< 拖动操作开始时的时间点。
 
-  QVariant start_value_; ///< 拖动开始时参数的初始值。
-  QVariant end_value_;   ///< 拖动结束时参数的最终值（在 Drag() 中临时更新，在 End() 中确认）。
+  QVariant start_value_;  ///< 拖动开始时参数的初始值。
+  QVariant end_value_;    ///< 拖动结束时参数的最终值（在 Drag() 中临时更新，在 End() 中确认）。
 
-  NodeKeyframe *dragging_key_{};      ///< 如果拖动操作直接修改一个已存在的关键帧，则此指针指向该关键帧。
-  QVector<NodeKeyframe *> created_keys_; ///< 在拖动过程中（通常在 Start() 或 End() 时）新创建的关键帧列表。
+  NodeKeyframe *dragging_key_{};          ///< 如果拖动操作直接修改一个已存在的关键帧，则此指针指向该关键帧。
+  QVector<NodeKeyframe *> created_keys_;  ///< 在拖动过程中（通常在 Start() 或 End() 时）新创建的关键帧列表。
 
   // 静态成员变量，用于全局追踪是否有任何 NodeInputDragger 实例当前处于活动拖动状态。
   // 这可能是一个简单的布尔标志，或者是一个计数器（如果允许多个拖动器同时活动，虽然不常见）。
   // 从 IsInputBeingDragged 的实现来看，它更可能是一个计数器。
-  static int input_being_dragged; ///< 全局静态变量，指示是否有输入参数正在被拖动 (可能是一个计数器)。
+  static int input_being_dragged;  ///< 全局静态变量，指示是否有输入参数正在被拖动 (可能是一个计数器)。
 };
 
 }  // namespace olive

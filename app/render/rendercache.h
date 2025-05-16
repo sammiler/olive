@@ -1,12 +1,12 @@
-#ifndef RENDERCACHE_H // 防止头文件被重复包含的宏
-#define RENDERCACHE_H // 定义 RENDERCACHE_H 宏
+#ifndef RENDERCACHE_H  // 防止头文件被重复包含的宏
+#define RENDERCACHE_H  // 定义 RENDERCACHE_H 宏
 
-#include "codec/decoder.h" // 包含解码器 (Decoder) 相关的定义，特别是 DecoderPtr 和 Decoder::CodecStream
+#include "codec/decoder.h"  // 包含解码器 (Decoder) 相关的定义，特别是 DecoderPtr 和 Decoder::CodecStream
 
 // 假设 QHash 和 QMutex 已通过标准方式被包含。
 // QVariant 也可能需要，因为它用在 ShaderCache 中。
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
 /**
  * @brief RenderCache 类是一个模板类，它继承自 QHash<K, V> 并为其添加了一个互斥锁 (QMutex)。
@@ -18,8 +18,8 @@ namespace olive { // olive 项目的命名空间
  * @tparam V 缓存中值 (Value) 的类型。
  */
 template <typename K, typename V>
-class RenderCache : public QHash<K, V> { // RenderCache 继承自 QHash<K, V>
-public:
+class RenderCache : public QHash<K, V> {  // RenderCache 继承自 QHash<K, V>
+ public:
   /**
    * @brief 获取用于保护此缓存访问的互斥锁。
    * 外部代码在访问此缓存的内容之前，应该先获取并锁定这个互斥锁。
@@ -27,16 +27,16 @@ public:
    */
   QMutex *mutex() { return &mutex_; }
 
-private:
-  QMutex mutex_; // 互斥锁，用于同步对 QHash 成员的访问
+ private:
+  QMutex mutex_;  // 互斥锁，用于同步对 QHash 成员的访问
 };
 
 /**
  * @brief DecoderPair 结构体用于在解码器缓存 (DecoderCache) 中存储解码器实例及其相关信息。
  */
 struct DecoderPair {
-  DecoderPtr decoder = nullptr; // 指向解码器实例的共享指针 (DecoderPtr)
-  qint64 last_modified = 0;   // 文件或流的最后修改时间戳，用于判断解码器是否需要更新
+  DecoderPtr decoder = nullptr;  // 指向解码器实例的共享指针 (DecoderPtr)
+  qint64 last_modified = 0;      // 文件或流的最后修改时间戳，用于判断解码器是否需要更新
 };
 
 // 类型别名：DecoderCache 是一个 RenderCache 的特化实例，

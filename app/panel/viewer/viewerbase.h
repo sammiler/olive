@@ -1,13 +1,13 @@
-#ifndef VIEWERPANELBASE_H // 防止头文件被重复包含的宏
-#define VIEWERPANELBASE_H // 定义 VIEWERPANELBASE_H 宏
+#ifndef VIEWERPANELBASE_H  // 防止头文件被重复包含的宏
+#define VIEWERPANELBASE_H  // 定义 VIEWERPANELBASE_H 宏
 
-#include "panel/pixelsampler/pixelsamplerpanel.h" // 包含像素采样器面板 (PixelSamplerPanel) 的定义 (可能用于交互)
-#include "panel/timebased/timebased.h"          // 包含 TimeBasedPanel 基类的定义
-#include "widget/viewer/viewer.h"               // 包含 ViewerWidget (查看器核心控件) 基类的定义
+#include "panel/pixelsampler/pixelsamplerpanel.h"  // 包含像素采样器面板 (PixelSamplerPanel) 的定义 (可能用于交互)
+#include "panel/timebased/timebased.h"             // 包含 TimeBasedPanel 基类的定义
+#include "widget/viewer/viewer.h"                  // 包含 ViewerWidget (查看器核心控件) 基类的定义
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
-class MulticamWidget; // 向前声明 MulticamWidget 类
+class MulticamWidget;  // 向前声明 MulticamWidget 类
 
 /**
  * @brief ViewerPanelBase 类是所有特定类型查看器面板 (如序列查看器、素材查看器) 的通用基类。
@@ -19,15 +19,15 @@ class MulticamWidget; // 向前声明 MulticamWidget 类
  * 这个基类提供了一些通用的查看器面板功能，例如全屏切换、颜色管理访问、
  * 以及与其他面板 (如时间轴、像素采样器) 的联动。
  */
-class ViewerPanelBase : public TimeBasedPanel { // ViewerPanelBase 继承自 TimeBasedPanel
-  Q_OBJECT // 声明此类使用 Qt 的元对象系统
+class ViewerPanelBase : public TimeBasedPanel {  // ViewerPanelBase 继承自 TimeBasedPanel
+ Q_OBJECT                                        // 声明此类使用 Qt 的元对象系统
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param object_name 面板的 Qt 对象名称。
-   */
-  explicit ViewerPanelBase(const QString &object_name);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param object_name 面板的 Qt 对象名称。
+      */
+     explicit ViewerPanelBase(const QString &object_name);
 
   /**
    * @brief 获取内部封装的 ViewerWidget 控件的指针。
@@ -105,7 +105,7 @@ class ViewerPanelBase : public TimeBasedPanel { // ViewerPanelBase 继承自 Tim
    */
   void ConnectMulticamWidget(MulticamWidget *p) const { GetViewerWidget()->ConnectMulticamWidget(p); }
 
- public slots: // Qt 公有槽函数
+ public slots:  // Qt 公有槽函数
   /**
    * @brief 为指定的节点设置或更新在查看器中显示的 Gizmos (屏幕控制器)。
    * @param node 要为其显示 Gizmos 的节点指针。如果为 nullptr，则可能清除当前 Gizmos。
@@ -128,7 +128,7 @@ class ViewerPanelBase : public TimeBasedPanel { // ViewerPanelBase 继承自 Tim
    */
   void RequestStartEditingText() const { GetViewerWidget()->RequestStartEditingText(); }
 
- signals: // Qt 信号声明
+ signals:  // Qt 信号声明
   /**
    * @brief 当查看器加载并显示了新的视频帧 (纹理) 时发出的信号。
    * @param t 指向新帧纹理的 TexturePtr。
@@ -157,7 +157,7 @@ class ViewerPanelBase : public TimeBasedPanel { // ViewerPanelBase 继承自 Tim
    */
   void SetViewerWidget(ViewerWidget *vw);
 
- private slots: // Qt 私有槽函数
+ private slots:  // Qt 私有槽函数
   /**
    * @brief 当应用程序中当前聚焦的面板发生改变时的处理槽函数。
    * 查看器面板可能需要根据哪个面板是活动的来调整自身行为 (例如，是否响应快捷键)。

@@ -1,9 +1,9 @@
-#ifndef ZOOMTIMELINETOOL_H // 防止头文件被多次包含的宏定义
+#ifndef ZOOMTIMELINETOOL_H  // 防止头文件被多次包含的宏定义
 #define ZOOMTIMELINETOOL_H
 
-#include "tool.h" // 引入 Tool 类的定义，ZoomTool 是 TimelineTool 的派生类
+#include "tool.h"  // 引入 Tool 类的定义，ZoomTool 是 TimelineTool 的派生类
 
-namespace olive { // olive 命名空间开始
+namespace olive {  // olive 命名空间开始
 
 /**
  * @brief ZoomTool 类是时间轴上的缩放工具。
@@ -12,7 +12,7 @@ namespace olive { // olive 命名空间开始
  * 用户可以通过按下鼠标、拖动来定义一个缩放区域或方向，释放鼠标后应用缩放。
  */
 class ZoomTool : public TimelineTool {
-public:
+ public:
   /**
    * @brief 构造一个 ZoomTool 对象。
    * @param parent 指向其所属的 TimelineWidget 的指针。
@@ -44,8 +44,8 @@ public:
    */
   void MouseRelease(TimelineViewMouseEvent *event) override;
 
-private: // 私有成员
-  QPoint drag_global_start_; ///< 记录鼠标拖拽开始时的全局屏幕坐标。
+ private:                     // 私有成员
+  QPoint drag_global_start_;  ///< 记录鼠标拖拽开始时的全局屏幕坐标。
 };
 
 }  // namespace olive

@@ -1,9 +1,9 @@
 #ifndef HUMANSTRINGS_H
 #define HUMANSTRINGS_H
 
-#include <olive/core/core.h> // 引入 Olive 核心库的头文件，提供 SampleFormat 等核心类型
-#include <QObject>           // 引入 QObject 基类，HumanStrings 本身继承自 QObject
-#include <QString>           // 引入 QString 类，用于返回可读字符串
+#include <olive/core/core.h>  // 引入 Olive 核心库的头文件，提供 SampleFormat 等核心类型
+#include <QObject>            // 引入 QObject 基类，HumanStrings 本身继承自 QObject
+#include <QString>            // 引入 QString 类，用于返回可读字符串
 
 // 前向声明 core 命名空间中的相关类型，如果 olive/core/core.h 中已定义则无需再次声明
 // 例如：
@@ -12,7 +12,7 @@
 
 namespace olive {
 
-using namespace core; // 使用 olive::core 命名空间，方便直接访问其成员如 SampleFormat
+using namespace core;  // 使用 olive::core 命名空间，方便直接访问其成员如 SampleFormat
 
 /**
  * @brief 提供将各种内部数据类型转换为人类可读字符串的静态工具方法。

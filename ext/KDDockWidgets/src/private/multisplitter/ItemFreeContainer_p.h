@@ -1,9 +1,9 @@
 #pragma once // 确保该头文件在一次编译中仅被包含一次
 
 
-#include "kddockwidgets/docks_export.h"      // 包含导出宏定义
+#include "kddockwidgets/docks_export.h" // 包含导出宏定义
 #include "kddockwidgets/KDDockWidgets.h" // 包含 KDDockWidgets 库的主头文件
-#include "Item_p.h"                          // 包含 Item 私有头文件，ItemFreeContainer 继承自 ItemContainer，而 ItemContainer 继承自 Item
+#include "Item_p.h" // 包含 Item 私有头文件，ItemFreeContainer 继承自 ItemContainer，而 ItemContainer 继承自 Item
 
 namespace Layouting { // 布局相关的命名空间
 
@@ -18,8 +18,8 @@ namespace Layouting { // 布局相关的命名空间
 class DOCKS_EXPORT_FOR_UNIT_TESTS ItemFreeContainer : public ItemContainer
 {
 public:
-    Q_OBJECT // 启用 Qt 元对象系统特性，如信号和槽
-public:
+Q_OBJECT // 启用 Qt 元对象系统特性，如信号和槽
+    public :
     /**
      * @brief 构造一个 ItemFreeContainer 对象。
      * @param hostWidget 托管此容器的 Widget。

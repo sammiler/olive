@@ -1,11 +1,11 @@
 #ifndef NODEPARAMVIEWITEMTITLEBAR_H
 #define NODEPARAMVIEWITEMTITLEBAR_H
 
-#include <QCheckBox>   // Qt 复选框控件
-#include <QLabel>      // Qt 标签控件
-#include <QWidget>     // Qt 控件基类
+#include <QCheckBox>  // Qt 复选框控件
+#include <QLabel>     // Qt 标签控件
+#include <QWidget>    // Qt 控件基类
 
-#include "widget/collapsebutton/collapsebutton.h" // 自定义的可折叠/展开按钮
+#include "widget/collapsebutton/collapsebutton.h"  // 自定义的可折叠/展开按钮
 
 // 前向声明 Qt 类 (根据用户要求，不添加)
 // class QString;
@@ -23,14 +23,14 @@ namespace olive {
  * 此标题栏负责显示项的名称，并提供控制项状态（如展开、钉住、启用）的用户界面。
  */
 class NodeParamViewItemTitleBar : public QWidget {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit NodeParamViewItemTitleBar(QWidget *parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit NodeParamViewItemTitleBar(QWidget *parent = nullptr);
 
   /**
    * @brief 检查标题栏关联的项当前是否处于展开状态。
@@ -57,9 +57,9 @@ class NodeParamViewItemTitleBar : public QWidget {
    * @param s 要显示的文本字符串。
    */
   void SetText(const QString &s) {
-    lbl_->setText(s);         // 设置标签文本
-    lbl_->setToolTip(s);      // 设置工具提示
-    lbl_->setMinimumWidth(1); // 确保标签有最小宽度以避免完全消失
+    lbl_->setText(s);          // 设置标签文本
+    lbl_->setToolTip(s);       // 设置工具提示
+    lbl_->setMinimumWidth(1);  // 确保标签有最小宽度以避免完全消失
   }
 
   /**
@@ -140,16 +140,16 @@ class NodeParamViewItemTitleBar : public QWidget {
   void mouseDoubleClickEvent(QMouseEvent *event) override;
 
  private:
-  bool draw_border_; ///< 标记是否需要绘制边框。
+  bool draw_border_;  ///< 标记是否需要绘制边框。
 
-  QLabel *lbl_; ///< 用于显示标题文本的标签。
+  QLabel *lbl_;  ///< 用于显示标题文本的标签。
 
-  CollapseButton *collapse_btn_; ///< 用于控制展开/折叠的自定义按钮。
+  CollapseButton *collapse_btn_;  ///< 用于控制展开/折叠的自定义按钮。
 
-  QPushButton *pin_btn_; ///< 用于“钉住”参数项的按钮。
-  QPushButton *add_fx_btn_; ///< 用于添加效果的按钮。
+  QPushButton *pin_btn_;     ///< 用于“钉住”参数项的按钮。
+  QPushButton *add_fx_btn_;  ///< 用于添加效果的按钮。
 
-  QCheckBox *enabled_checkbox_; ///< 用于启用/禁用关联项的复选框。
+  QCheckBox *enabled_checkbox_;  ///< 用于启用/禁用关联项的复选框。
 };
 
 }  // namespace olive

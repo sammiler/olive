@@ -1,10 +1,10 @@
 #ifndef SLIDERBASE_H
 #define SLIDERBASE_H
 
-#include <QStackedWidget> // Qt 堆叠控件基类，用于在标签和编辑器之间切换
+#include <QStackedWidget>  // Qt 堆叠控件基类，用于在标签和编辑器之间切换
 
-#include "sliderlabel.h"                               // 自定义滑块标签控件
-#include "sliderladder.h"                              // 滑块梯形调整器控件 (虽然未直接使用，但 NumericSliderBase 可能需要)
+#include "sliderlabel.h"   // 自定义滑块标签控件
+#include "sliderladder.h"  // 滑块梯形调整器控件 (虽然未直接使用，但 NumericSliderBase 可能需要)
 #include "widget/focusablelineedit/focusablelineedit.h"  // 可获取焦点的行编辑控件
 
 // Qt 命名空间中常用的类，如 QVariant, QString, QVector, QPair, QColor, QWidget, QObject, QEvent, Qt::Alignment
@@ -21,14 +21,14 @@ namespace olive {
  * 派生类需要实现特定于数据类型的值与字符串之间的转换逻辑。
  */
 class SliderBase : public QStackedWidget {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit SliderBase(QWidget* parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit SliderBase(QWidget* parent = nullptr);
 
   /**
    * @brief 设置标签和编辑器的对齐方式。
@@ -95,8 +95,8 @@ class SliderBase : public QStackedWidget {
    * @param label 替换 `value` 时显示的 QString 标签。
    */
   void InsertLabelSubstitution(const QVariant& value, const QString& label) {
-    label_substitutions_.append({value, label}); // 添加替换规则
-    UpdateLabel(); // 更新标签显示
+    label_substitutions_.append({value, label});  // 添加替换规则
+    UpdateLabel();                                // 更新标签显示
   }
 
   /**
@@ -221,18 +221,18 @@ class SliderBase : public QStackedWidget {
    */
   bool GetLabelSubstitution(const QVariant& v, QString* out) const;
 
-  SliderLabel* label_; ///< 用于显示滑块当前值的自定义标签控件。
-  FocusableLineEdit* editor_; ///< 用于通过文本输入编辑滑块值的可获取焦点的行编辑控件。
+  SliderLabel* label_;         ///< 用于显示滑块当前值的自定义标签控件。
+  FocusableLineEdit* editor_;  ///< 用于通过文本输入编辑滑块值的可获取焦点的行编辑控件。
 
-  QVariant value_;         ///< 滑块当前的值。
-  QVariant default_value_; ///< 滑块的默认值。
+  QVariant value_;          ///< 滑块当前的值。
+  QVariant default_value_;  ///< 滑块的默认值。
 
-  bool tristate_; ///< 标记滑块是否处于三态模式。
+  bool tristate_;  ///< 标记滑块是否处于三态模式。
 
-  QString custom_format_; ///< 自定义的格式化字符串。
-  bool format_plural_;    ///< 标记自定义格式是否用于复数形式。
+  QString custom_format_;  ///< 自定义的格式化字符串。
+  bool format_plural_;     ///< 标记自定义格式是否用于复数形式。
 
-  QVector<QPair<QVariant, QString> > label_substitutions_; ///< 存储值到标签的替换规则列表。
+  QVector<QPair<QVariant, QString> > label_substitutions_;  ///< 存储值到标签的替换规则列表。
 
  private slots:
   /**

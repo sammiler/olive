@@ -1,11 +1,11 @@
 #ifndef WAVEFORMSCOPE_H
 #define WAVEFORMSCOPE_H
 
-#include "widget/scope/scopebase/scopebase.h" // 示波器基类 (继承自 ManagedDisplayWidget)
-#include "render/texture.h"                   // 纹理类 (TexturePtr)
-#include "render/shadercode.h"                // 着色器代码封装类
-#include <QVariant>                           // Qt 通用数据类型 (用于 pipeline 参数)
-#include <QWidget>                            // Qt 控件基类 (ScopeBase 的基类 ManagedDisplayWidget 的基类)
+#include <QVariant>                            // Qt 通用数据类型 (用于 pipeline 参数)
+#include <QWidget>                             // Qt 控件基类 (ScopeBase 的基类 ManagedDisplayWidget 的基类)
+#include "render/shadercode.h"                 // 着色器代码封装类
+#include "render/texture.h"                    // 纹理类 (TexturePtr)
+#include "widget/scope/scopebase/scopebase.h"  // 示波器基类 (继承自 ManagedDisplayWidget)
 
 // 前向声明 Qt 类 (根据用户要求，不添加)
 // class QOpenGLContext; // ScopeBase/ManagedDisplayWidget 可能使用
@@ -20,14 +20,14 @@ namespace olive {
  * 波形图可以帮助用户评估图像的曝光、对比度和色彩平衡。
  */
 class WaveformScope : public ScopeBase {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit WaveformScope(QWidget* parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit WaveformScope(QWidget* parent = nullptr);
 
   /**
    * @brief 使用宏定义的默认析构函数。

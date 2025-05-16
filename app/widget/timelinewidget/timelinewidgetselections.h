@@ -1,11 +1,11 @@
-#ifndef TIMELINEWIDGETSELECTIONS_H // 防止头文件被多次包含的宏定义
+#ifndef TIMELINEWIDGETSELECTIONS_H  // 防止头文件被多次包含的宏定义
 #define TIMELINEWIDGETSELECTIONS_H
 
-#include <QHash> // 引入 QHash 类，用于实现哈希表（一种键值对存储结构）
+#include <QHash>  // 引入 QHash 类，用于实现哈希表（一种键值对存储结构）
 
-#include "node/output/track/track.h" // 引入 Track 类及其嵌套类型 (如 Track::Reference 和 TimeRangeList) 的定义
+#include "node/output/track/track.h"  // 引入 Track 类及其嵌套类型 (如 Track::Reference 和 TimeRangeList) 的定义
 
-namespace olive { // olive 命名空间开始
+namespace olive {  // olive 命名空间开始
 
 /**
  * @brief TimelineWidgetSelections 类用于表示时间轴控件中的选择状态。
@@ -69,9 +69,9 @@ class TimelineWidgetSelections : public QHash<Track::Reference, TimeRangeList> {
    * @return 一个新的 TimelineWidgetSelections 对象，表示差集的结果。
    */
   [[nodiscard]] TimelineWidgetSelections Subtracted(const TimelineWidgetSelections& selections) const {
-    TimelineWidgetSelections copy = *this; // 创建当前对象的副本
-    copy.Subtract(selections);             // 在副本上执行减法操作
-    return copy;                           // 返回修改后的副本
+    TimelineWidgetSelections copy = *this;  // 创建当前对象的副本
+    copy.Subtract(selections);              // 在副本上执行减法操作
+    return copy;                            // 返回修改后的副本
   }
 };
 

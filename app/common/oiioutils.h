@@ -2,12 +2,12 @@
 #define OIIOUTILS_H
 
 #include <OpenImageIO/imagebuf.h>  // OpenImageIO 图像缓冲区类
-#include <OpenImageIO/typedesc.h> // OpenImageIO 类型描述符
-#include <OpenImageIO/imageio.h>  // 为了 OIIO::ImageSpec (虽然可能已通过 imagebuf.h 间接包含)
+#include <OpenImageIO/imageio.h>   // 为了 OIIO::ImageSpec (虽然可能已通过 imagebuf.h 间接包含)
+#include <OpenImageIO/typedesc.h>  // OpenImageIO 类型描述符
 
-#include "codec/frame.h"        // 包含 olive::Frame, olive::PixelFormat, olive::rational
-#include "render/videoparams.h" // 包含 olive::PixelFormat (如果 frame.h 未完全定义或为了VideoParams中的其他类型)
-#include "common/define.h"      // 包含 olive::PixelFormat (如果上述都未包含)
+#include "codec/frame.h"         // 包含 olive::Frame, olive::PixelFormat, olive::rational
+#include "common/define.h"       // 包含 olive::PixelFormat (如果上述都未包含)
+#include "render/videoparams.h"  // 包含 olive::PixelFormat (如果 frame.h 未完全定义或为了VideoParams中的其他类型)
 
 // 前向声明 (如果需要)
 // namespace OIIO {
@@ -19,7 +19,6 @@
 // enum class PixelFormat;
 // class rational;
 // }
-
 
 namespace olive {
 
@@ -41,21 +40,21 @@ class OIIOUtils {
    * 如果输入格式无效或没有直接映射，则返回 OIIO::TypeDesc::UNKNOWN。
    */
   static OIIO::TypeDesc::BASETYPE GetOIIOBaseTypeFromFormat(PixelFormat format) {
-    switch (static_cast<PixelFormat::Format>(format)) { // 强制转换为底层枚举类型以用于 switch
+    switch (static_cast<PixelFormat::Format>(format)) {  // 强制转换为底层枚举类型以用于 switch
       case PixelFormat::U8:
         return OIIO::TypeDesc::UINT8;
       case PixelFormat::U16:
         return OIIO::TypeDesc::UINT16;
       case PixelFormat::F16:
-        return OIIO::TypeDesc::HALF; // OIIO 中的半精度浮点
+        return OIIO::TypeDesc::HALF;  // OIIO 中的半精度浮点
       case PixelFormat::F32:
         return OIIO::TypeDesc::FLOAT;
-      case PixelFormat::INVALID: // 处理无效格式
-      case PixelFormat::COUNT:   // 处理计数器值 (通常不应作为实际格式传递)
-        break; // 跳出 switch，将返回 UNKNOWN
+      case PixelFormat::INVALID:  // 处理无效格式
+      case PixelFormat::COUNT:    // 处理计数器值 (通常不应作为实际格式传递)
+        break;                    // 跳出 switch，将返回 UNKNOWN
     }
 
-    return OIIO::TypeDesc::UNKNOWN; // 默认或错误情况
+    return OIIO::TypeDesc::UNKNOWN;  // 默认或错误情况
   }
 
   /**

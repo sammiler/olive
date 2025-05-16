@@ -1,18 +1,17 @@
 #ifndef PLAYBACKCONTROLS_H
 #define PLAYBACKCONTROLS_H
 
-#include <QLabel>         // Qt 标签控件
-#include <QPushButton>    // Qt 按钮控件
-#include <QStackedWidget> // Qt 堆叠控件，用于在播放/暂停按钮之间切换
-#include <QWidget>        // Qt 控件基类
-#include <QTimer>         // Qt 定时器类 (用于播放按钮闪烁)
-#include <QEvent>         // Qt 事件基类 (用于 changeEvent)
+#include <QEvent>          // Qt 事件基类 (用于 changeEvent)
+#include <QLabel>          // Qt 标签控件
+#include <QPushButton>     // Qt 按钮控件
+#include <QStackedWidget>  // Qt 堆叠控件，用于在播放/暂停按钮之间切换
+#include <QTimer>          // Qt 定时器类 (用于播放按钮闪烁)
+#include <QWidget>         // Qt 控件基类
 
-#include "dragbutton.h"                     // 自定义的拖拽按钮
-#include "widget/slider/rationalslider.h"   // 自定义的有理数滑块/显示控件 (用于时间码)
-#include "common/define.h"                  // 项目通用定义 (可能包含 rational 类型)
-#include "olive/core/core.h"                // Olive 核心库 (可能包含 rational 类型定义)
-
+#include "common/define.h"                 // 项目通用定义 (可能包含 rational 类型)
+#include "dragbutton.h"                    // 自定义的拖拽按钮
+#include "olive/core/core.h"               // Olive 核心库 (可能包含 rational 类型定义)
+#include "widget/slider/rationalslider.h"  // 自定义的有理数滑块/显示控件 (用于时间码)
 
 // 前向声明 Qt 类 (根据用户要求，不添加)
 // class QMouseEvent; // DragButton 可能使用，但此处不直接使用
@@ -31,14 +30,14 @@ namespace olive {
  * 以及可选的音频/视频拖拽按钮。
  */
 class PlaybackControls : public QWidget {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit PlaybackControls(QWidget* parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit PlaybackControls(QWidget* parent = nullptr);
 
   /**
    * @brief 设置是否显示时间码。
@@ -91,16 +90,16 @@ class PlaybackControls : public QWidget {
    * 通常在录制或某种特殊播放模式下使用。
    */
   void StartPlayBlink() {
-    play_blink_timer_->start();        // 启动闪烁定时器
-    SetButtonRecordingState(play_btn_, true); // 设置播放按钮为录制状态样式
+    play_blink_timer_->start();                // 启动闪烁定时器
+    SetButtonRecordingState(play_btn_, true);  // 设置播放按钮为录制状态样式
   }
 
   /**
    * @brief 停止播放按钮的闪烁效果。
    */
   void StopPlayBlink() {
-    play_blink_timer_->stop();         // 停止闪烁定时器
-    SetButtonRecordingState(play_btn_, false); // 清除播放按钮的录制状态样式
+    play_blink_timer_->stop();                  // 停止闪烁定时器
+    SetButtonRecordingState(play_btn_, false);  // 清除播放按钮的录制状态样式
   }
 
   /**
@@ -193,27 +192,27 @@ class PlaybackControls : public QWidget {
    */
   static void SetButtonRecordingState(QPushButton* btn, bool on);
 
-  QWidget* lower_left_container_;  ///< 左下方控件的容器 (可能用于时间码显示)。
-  QWidget* lower_right_container_; ///< 右下方控件的容器 (可能用于时间码显示)。
+  QWidget* lower_left_container_;   ///< 左下方控件的容器 (可能用于时间码显示)。
+  QWidget* lower_right_container_;  ///< 右下方控件的容器 (可能用于时间码显示)。
 
-  RationalSlider* cur_tc_lbl_; ///< 用于显示和编辑当前时间码的 RationalSlider 控件。
-  QLabel* end_tc_lbl_;         ///< 用于显示结束时间码的 QLabel。
+  RationalSlider* cur_tc_lbl_;  ///< 用于显示和编辑当前时间码的 RationalSlider 控件。
+  QLabel* end_tc_lbl_;          ///< 用于显示结束时间码的 QLabel。
 
-  rational end_time_;  ///< 存储当前的结束时间。
-  rational time_base_; ///< 存储当前的时间基准（帧率）。
+  rational end_time_;   ///< 存储当前的结束时间。
+  rational time_base_;  ///< 存储当前的时间基准（帧率）。
 
-  QPushButton* go_to_start_btn_; ///< “到开头”按钮。
-  QPushButton* prev_frame_btn_;  ///< “上一帧”按钮。
-  QPushButton* play_btn_;        ///< “播放”按钮。
-  QPushButton* pause_btn_;       ///< “暂停”按钮。
-  QPushButton* next_frame_btn_;  ///< “下一帧”按钮。
-  QPushButton* go_to_end_btn_;   ///< “到结尾”按钮。
-  DragButton* video_drag_btn_;   ///< 视频拖拽按钮。
-  DragButton* audio_drag_btn_;   ///< 音频拖拽按钮。
+  QPushButton* go_to_start_btn_;  ///< “到开头”按钮。
+  QPushButton* prev_frame_btn_;   ///< “上一帧”按钮。
+  QPushButton* play_btn_;         ///< “播放”按钮。
+  QPushButton* pause_btn_;        ///< “暂停”按钮。
+  QPushButton* next_frame_btn_;   ///< “下一帧”按钮。
+  QPushButton* go_to_end_btn_;    ///< “到结尾”按钮。
+  DragButton* video_drag_btn_;    ///< 视频拖拽按钮。
+  DragButton* audio_drag_btn_;    ///< 音频拖拽按钮。
 
-  QStackedWidget* playpause_stack_; ///< 用于在播放按钮和暂停按钮之间切换显示的堆叠控件。
+  QStackedWidget* playpause_stack_;  ///< 用于在播放按钮和暂停按钮之间切换显示的堆叠控件。
 
-  QTimer* play_blink_timer_; ///< 用于实现播放按钮闪烁效果的定时器。
+  QTimer* play_blink_timer_;  ///< 用于实现播放按钮闪烁效果的定时器。
 
  private slots:
   /**

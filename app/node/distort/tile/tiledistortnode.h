@@ -1,8 +1,8 @@
 #ifndef TILEDISTORTNODE_H
 #define TILEDISTORTNODE_H
 
-#include "node/gizmo/point.h" // 引入点 Gizmo (交互控件) 的定义，可能用于控制平铺的中心或锚点
-#include "node/node.h"        // 引入基类 Node 的定义
+#include "node/gizmo/point.h"  // 引入点 Gizmo (交互控件) 的定义，可能用于控制平铺的中心或锚点
+#include "node/node.h"         // 引入基类 Node 的定义
 
 namespace olive {
 
@@ -12,14 +12,14 @@ namespace olive {
  * 类似于万花筒效果或者背景纹理的重复。
  */
 class TileDistortNode : public Node {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief TileDistortNode 构造函数。
-   */
-  TileDistortNode();
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief TileDistortNode 构造函数。
+      */
+     TileDistortNode();
 
-  NODE_DEFAULT_FUNCTIONS(TileDistortNode) // 节点默认功能宏，可能包含克隆、类型信息等标准实现
+  NODE_DEFAULT_FUNCTIONS(TileDistortNode)  // 节点默认功能宏，可能包含克隆、类型信息等标准实现
 
   /**
    * @brief 获取此节点的名称。
@@ -70,12 +70,12 @@ class TileDistortNode : public Node {
   void UpdateGizmoPositions(const NodeValueRow &row, const NodeGlobals &globals) override;
 
   // --- 静态常量，用作节点输入参数的键名 ---
-  static const QString kTextureInput;  ///< "Texture" - 输入纹理（图像）的参数键名。
-  static const QString kScaleInput;    ///< "Scale" - 平铺单元的缩放比例参数键名。
-  static const QString kPositionInput; ///< "Position" - 平铺图案的中心位置或偏移参数键名。
-  static const QString kAnchorInput;   ///< "Anchor" - 平铺变换的锚点参数键名 (参照下面的 Anchor 枚举)。
-  static const QString kMirrorXInput;  ///< "MirrorX" - 是否在X轴方向镜像平铺的布尔参数键名。
-  static const QString kMirrorYInput;  ///< "MirrorY" - 是否在Y轴方向镜像平铺的布尔参数键名。
+  static const QString kTextureInput;   ///< "Texture" - 输入纹理（图像）的参数键名。
+  static const QString kScaleInput;     ///< "Scale" - 平铺单元的缩放比例参数键名。
+  static const QString kPositionInput;  ///< "Position" - 平铺图案的中心位置或偏移参数键名。
+  static const QString kAnchorInput;    ///< "Anchor" - 平铺变换的锚点参数键名 (参照下面的 Anchor 枚举)。
+  static const QString kMirrorXInput;   ///< "MirrorX" - 是否在X轴方向镜像平铺的布尔参数键名。
+  static const QString kMirrorYInput;   ///< "MirrorY" - 是否在Y轴方向镜像平铺的布尔参数键名。
 
  protected slots:
   /**
@@ -92,18 +92,18 @@ class TileDistortNode : public Node {
    * 锚点决定了缩放和定位变换的参考中心。
    */
   enum Anchor {
-    kTopLeft,      ///< 左上角锚点
-    kTopCenter,    ///< 顶部中心锚点
-    kTopRight,     ///< 右上角锚点
-    kMiddleLeft,   ///< 中部左侧锚点
-    kMiddleCenter, ///< 中心锚点
-    kMiddleRight,  ///< 中部右侧锚点
-    kBottomLeft,   ///< 左下角锚点
-    kBottomCenter, ///< 底部中心锚点
-    kBottomRight   ///< 右下角锚点
+    kTopLeft,       ///< 左上角锚点
+    kTopCenter,     ///< 顶部中心锚点
+    kTopRight,      ///< 右上角锚点
+    kMiddleLeft,    ///< 中部左侧锚点
+    kMiddleCenter,  ///< 中心锚点
+    kMiddleRight,   ///< 中部右侧锚点
+    kBottomLeft,    ///< 左下角锚点
+    kBottomCenter,  ///< 底部中心锚点
+    kBottomRight    ///< 右下角锚点
   };
 
-  PointGizmo *gizmo_; ///< 指向控制平铺效果某个关键点（如中心或锚点）的 PointGizmo 对象的指针。
+  PointGizmo *gizmo_;  ///< 指向控制平铺效果某个关键点（如中心或锚点）的 PointGizmo 对象的指针。
 };
 
 }  // namespace olive

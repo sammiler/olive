@@ -1,23 +1,23 @@
-#ifndef MOSAICFILTERNODE_H // 防止头文件被多次包含的宏定义开始
+#ifndef MOSAICFILTERNODE_H  // 防止头文件被多次包含的宏定义开始
 #define MOSAICFILTERNODE_H
 
-#include "node/node.h" // 引入基类 Node 的定义
+#include "node/node.h"  // 引入基类 Node 的定义
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
 /**
  * @brief 代表“马赛克”滤镜效果的节点。
  * 该节点可以将输入图像像素化，形成马赛克效果，可以通过控制水平和垂直方向的块大小来调整效果。
  */
 class MosaicFilterNode : public Node {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief MosaicFilterNode 构造函数。
-   */
-  MosaicFilterNode();
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief MosaicFilterNode 构造函数。
+      */
+     MosaicFilterNode();
 
-  NODE_DEFAULT_FUNCTIONS(MosaicFilterNode) // 节点默认功能宏，可能包含克隆、类型信息等标准实现
+  NODE_DEFAULT_FUNCTIONS(MosaicFilterNode)  // 节点默认功能宏，可能包含克隆、类型信息等标准实现
 
   /**
    * @brief 获取此节点的名称。
@@ -63,9 +63,9 @@ class MosaicFilterNode : public Node {
   [[nodiscard]] ShaderCode GetShaderCode(const ShaderRequest &request) const override;
 
   // --- 静态常量，用作节点输入参数的键名 ---
-  static const QString kTextureInput; ///< "Texture" - 输入纹理（图像）的参数键名。
-  static const QString kHorizInput;   ///< "HorizontalBlocks" - 水平方向马赛克块数量（或块大小）的参数键名。
-  static const QString kVertInput;    ///< "VerticalBlocks" - 垂直方向马赛克块数量（或块大小）的参数键名。
+  static const QString kTextureInput;  ///< "Texture" - 输入纹理（图像）的参数键名。
+  static const QString kHorizInput;    ///< "HorizontalBlocks" - 水平方向马赛克块数量（或块大小）的参数键名。
+  static const QString kVertInput;     ///< "VerticalBlocks" - 垂直方向马赛克块数量（或块大小）的参数键名。
 };
 
 }  // namespace olive

@@ -1,10 +1,10 @@
 #ifndef KD_DROP_AREA_P_H
 #define KD_DROP_AREA_P_H
 
-#include "kddockwidgets/docks_export.h"    // 导入导出宏定义
+#include "kddockwidgets/docks_export.h" // 导入导出宏定义
 #include "kddockwidgets/KDDockWidgets.h" // KDDockWidgets 公共头文件，包含枚举和基本类型
 
-#include "MultiSplitter_p.h"                  // MultiSplitter 私有头文件
+#include "MultiSplitter_p.h" // MultiSplitter 私有头文件
 #include "DropIndicatorOverlayInterface_p.h" // 拖放指示器覆盖层接口私有头文件
 
 // 前向声明，用于测试目的
@@ -13,9 +13,9 @@ class TestDocks;
 namespace KDDockWidgets {
 
 // 前向声明
-class Frame;                 // Frame 类，通常包装一个或多个 DockWidgetBase
-class Draggable;             // 可拖拽对象接口类
-struct WindowBeingDragged;   // 正在被拖拽的窗口结构体
+class Frame; // Frame 类，通常包装一个或多个 DockWidgetBase
+class Draggable; // 可拖拽对象接口类
+struct WindowBeingDragged; // 正在被拖拽的窗口结构体
 
 /**
  * @brief 一个带有悬停时拖放指示器支持的 MultiSplitter。
@@ -184,8 +184,8 @@ private:
     void updateFloatingActions() const;
 
     bool m_inDestructor = false; ///< 标记是否正在析构过程中，用于避免重复操作。
-    const bool m_isMDIWrapper;   ///< 标记此 DropArea 是否是为 MDI 嵌套停靠创建的包装器。
-    QString m_affinityName;      ///< 此 DropArea 的亲和性名称。
+    const bool m_isMDIWrapper; ///< 标记此 DropArea 是否是为 MDI 嵌套停靠创建的包装器。
+    QString m_affinityName; ///< 此 DropArea 的亲和性名称。
     DropIndicatorOverlayInterface *m_dropIndicatorOverlay = nullptr; ///< 指向拖放指示器覆盖层接口的指针。
 };
 } // namespace KDDockWidgets

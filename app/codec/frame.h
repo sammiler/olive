@@ -1,12 +1,12 @@
 #ifndef FRAME_H
 #define FRAME_H
 
-#include <olive/core/core.h> // 包含 olive::core::rational, olive::core::Color, olive::core::PixelFormat 等
-#include <QVector>         // 虽然包含但在此头文件中未直接使用
-#include <memory>          // 为了 std::shared_ptr
+#include <olive/core/core.h>  // 包含 olive::core::rational, olive::core::Color, olive::core::PixelFormat 等
+#include <QVector>            // 虽然包含但在此头文件中未直接使用
+#include <memory>             // 为了 std::shared_ptr
 
-#include "common/define.h"    // 可能包含 DISABLE_COPY_MOVE 宏和其他通用定义
-#include "render/videoparams.h" // 包含 VideoParams (其中可能也定义了 PixelFormat 和 Color)
+#include "common/define.h"       // 可能包含 DISABLE_COPY_MOVE 宏和其他通用定义
+#include "render/videoparams.h"  // 包含 VideoParams (其中可能也定义了 PixelFormat 和 Color)
 
 namespace olive {
 

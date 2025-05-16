@@ -40,8 +40,8 @@ public:
 private:
     // 声明友元类，允许它们访问此类的私有成员
     friend class MainWindowBase; // 主窗口基类
-    friend class Frame;          // 框架类
-    friend class ::TestDocks;    // 测试类
+    friend class Frame; // 框架类
+    friend class ::TestDocks; // 测试类
 
     Frame *const m_centralFrame = nullptr; ///< 指向中央框架的常量指针。一旦创建，此指针不应再指向其他框架。
 };

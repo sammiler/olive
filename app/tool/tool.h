@@ -1,10 +1,10 @@
 #ifndef TOOL_H
 #define TOOL_H
 
-#include <QCoreApplication> // 引入 QCoreApplication 类，主要用于国际化翻译 (translate)
-#include <QString>          // 引入 QString 类，用于字符串操作
+#include <QCoreApplication>  // 引入 QCoreApplication 类，主要用于国际化翻译 (translate)
+#include <QString>           // 引入 QString 类，用于字符串操作
 
-#include "common/define.h"   // 引入项目内通用的定义文件
+#include "common/define.h"  // 引入项目内通用的定义文件
 
 namespace olive {
 
@@ -44,7 +44,8 @@ class Tool {
     /// @brief 滑移工具。在保持片段在时间轴上时长和位置不变的情况下，改变片段内容的入点和出点。
     kSlip,
 
-    /// @brief 滑动工具。移动片段在时间轴上的位置，同时调整相邻片段的长度以填充空隙或腾出空间，而不改变被移动片段的长度。
+    /// @brief
+    /// 滑动工具。移动片段在时间轴上的位置，同时调整相邻片段的长度以填充空隙或腾出空间，而不改变被移动片段的长度。
     kSlide,
 
     /// @brief 手型工具。用于平移查看区域，例如在时间轴或节点编辑器中。
@@ -108,24 +109,24 @@ class Tool {
   static QString GetAddableObjectName(const AddableObject& a) {
     switch (a) {
       case kAddableEmpty:
-        return QCoreApplication::translate("Tool", "Empty"); // 空对象
+        return QCoreApplication::translate("Tool", "Empty");  // 空对象
       case kAddableBars:
         return QCoreApplication::translate("Tool", "Bars");  // 彩条
       case kAddableShape:
-        return QCoreApplication::translate("Tool", "Shape"); // 形状
+        return QCoreApplication::translate("Tool", "Shape");  // 形状
       case kAddableSolid:
-        return QCoreApplication::translate("Tool", "Solid"); // 纯色
+        return QCoreApplication::translate("Tool", "Solid");  // 纯色
       case kAddableTitle:
-        return QCoreApplication::translate("Tool", "Title"); // 标题
+        return QCoreApplication::translate("Tool", "Title");  // 标题
       case kAddableTone:
         return QCoreApplication::translate("Tool", "Tone");  // 音调
       case kAddableSubtitle:
-        return QCoreApplication::translate("Tool", "Subtitle"); // 字幕
-      case kAddableCount: // kAddableCount 通常不代表一个实际对象
+        return QCoreApplication::translate("Tool", "Subtitle");  // 字幕
+      case kAddableCount:                                        // kAddableCount 通常不代表一个实际对象
         break;
     }
 
-    return QCoreApplication::translate("Tool", "Unknown"); // 未知对象
+    return QCoreApplication::translate("Tool", "Unknown");  // 未知对象
   }
 
   /**
@@ -151,11 +152,11 @@ class Tool {
         return QStringLiteral("tone");
       case kAddableSubtitle:
         return QStringLiteral("subtitle");
-      case kAddableCount: // kAddableCount 通常不代表一个实际对象
+      case kAddableCount:  // kAddableCount 通常不代表一个实际对象
         break;
     }
 
-    return {}; // 返回一个空的 QString
+    return {};  // 返回一个空的 QString
   }
 };
 

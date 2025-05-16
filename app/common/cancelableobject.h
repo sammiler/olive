@@ -1,8 +1,8 @@
 #ifndef CANCELABLEOBJECT_H
 #define CANCELABLEOBJECT_H
 
-#include "common/define.h"     // 可能包含一些通用定义
-#include "render/cancelatom.h" // 包含 CancelAtom 类，用于原子性地标记取消状态
+#include "common/define.h"      // 可能包含一些通用定义
+#include "render/cancelatom.h"  // 包含 CancelAtom 类，用于原子性地标记取消状态
 
 namespace olive {
 
@@ -32,8 +32,8 @@ class CancelableObject {
    * 此方法会设置内部的 CancelAtom 为取消状态，并调用 CancelEvent() 虚函数。
    */
   void Cancel() {
-    cancel_.Cancel(); // 设置原子取消标记
-    CancelEvent();    // 调用虚方法，允许派生类响应取消事件
+    cancel_.Cancel();  // 设置原子取消标记
+    CancelEvent();     // 调用虚方法，允许派生类响应取消事件
   }
 
   /**

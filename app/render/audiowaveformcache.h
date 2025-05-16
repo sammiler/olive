@@ -1,13 +1,13 @@
-#ifndef AUDIOWAVEFORMCACHE_H // 防止头文件被重复包含的宏
-#define AUDIOWAVEFORMCACHE_H // 定义 AUDIOWAVEFORMCACHE_H 宏
+#ifndef AUDIOWAVEFORMCACHE_H  // 防止头文件被重复包含的宏
+#define AUDIOWAVEFORMCACHE_H  // 定义 AUDIOWAVEFORMCACHE_H 宏
 
-#include "audio/audiovisualwaveform.h" // 包含 AudioVisualWaveform 类的定义
-#include "playbackcache.h"             // 包含 PlaybackCache 基类的定义
+#include "audio/audiovisualwaveform.h"  // 包含 AudioVisualWaveform 类的定义
+#include "playbackcache.h"              // 包含 PlaybackCache 基类的定义
 
 // 假设 AudioParams, TimeRange, TimeRangeList, rational, QPainter, QRect
 // 已通过上述 include 或其他方式被间接包含。
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
 /**
  * @brief AudioWaveformCache 类用于缓存和管理音频波形数据。
@@ -19,15 +19,15 @@ namespace olive { // olive 项目的命名空间
  * 与 AudioPlaybackCache 存储实际PCM数据不同，这个缓存存储的是用于可视化的波形摘要信息。
  * 它也可能支持从其他缓存 (通过 SetPassthrough) 获取数据或与其同步。
  */
-class AudioWaveformCache : public PlaybackCache { // AudioWaveformCache 继承自 PlaybackCache
-  Q_OBJECT // 声明此类使用 Qt 的元对象系统
+class AudioWaveformCache : public PlaybackCache {  // AudioWaveformCache 继承自 PlaybackCache
+ Q_OBJECT                                          // 声明此类使用 Qt 的元对象系统
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父对象指针，默认为 nullptr。
-   */
-  explicit AudioWaveformCache(QObject *parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父对象指针，默认为 nullptr。
+      */
+     explicit AudioWaveformCache(QObject *parent = nullptr);
 
   /**
    * @brief 将计算好的音频波形数据写入到指定时间范围的缓存中。
@@ -47,10 +47,10 @@ class AudioWaveformCache : public PlaybackCache { // AudioWaveformCache 继承�
    * 同时会更新内部 `waveforms_` 对象的通道数。
    * @param p 要设置的 AudioParams 对象。 (如果原始代码是 `&params`，这里注释为 `p` 以匹配常见命名)
    */
-  void SetParameters(const AudioParams &p) { // 如果原始代码是 (const AudioParams &params)，则参数名应为 params 或类似
+  void SetParameters(const AudioParams &p) {  // 如果原始代码是 (const AudioParams &params)，则参数名应为 params 或类似
     params_ = p;
-    if (waveforms_) { // 确保 waveforms_ 已被初始化
-        waveforms_->set_channel_count(p.channel_count());
+    if (waveforms_) {  // 确保 waveforms_ 已被初始化
+      waveforms_->set_channel_count(p.channel_count());
     }
   }
 
@@ -97,20 +97,20 @@ class AudioWaveformCache : public PlaybackCache { // AudioWaveformCache 继承�
   // 类型别名：WaveformPtr 是一个指向 AudioVisualWaveform 对象的共享指针
   using WaveformPtr = std::shared_ptr<AudioVisualWaveform>;
 
-  WaveformPtr waveforms_; // 存储实际音频波形数据的对象 (可能是一个聚合了所有通道和段的波形对象)
+  WaveformPtr waveforms_;  // 存储实际音频波形数据的对象 (可能是一个聚合了所有通道和段的波形对象)
 
-  AudioParams params_; // 当前缓存使用的音频参数
+  AudioParams params_;  // 当前缓存使用的音频参数
 
   /**
    * @brief WaveformPassthrough 内部类，用于在处理透传缓存时，
    *        将一个时间范围与一个特定的波形数据片段关联起来。
    */
-  class WaveformPassthrough : public TimeRange { // 继承自 TimeRange
+  class WaveformPassthrough : public TimeRange {  // 继承自 TimeRange
    public:
     // 构造函数，初始化时间范围
     explicit WaveformPassthrough(const TimeRange &r) : TimeRange(r) {}
 
-    WaveformPtr waveform; // 指向与此时间范围关联的波形数据的共享指针
+    WaveformPtr waveform;  // 指向与此时间范围关联的波形数据的共享指针
   };
 
   // 存储从透传缓存中获取或生成的波形片段及其对应时间范围的列表

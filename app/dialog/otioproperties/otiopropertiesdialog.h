@@ -1,19 +1,19 @@
 #ifndef OTIOPROPERTIESDIALOG_H
 #define OTIOPROPERTIESDIALOG_H
 
-#include <QDialog>     // QDialog 基类
-#include <QTreeWidget> // 树形控件，用于显示 OTIO 文件中的序列列表
-#include <QList>       // 为了 QList<Sequence*>
-#include <QWidget>     // 为了 QWidget* parent 参数
+#include <QDialog>      // QDialog 基类
+#include <QList>        // 为了 QList<Sequence*>
+#include <QTreeWidget>  // 树形控件，用于显示 OTIO 文件中的序列列表
+#include <QWidget>      // 为了 QWidget* parent 参数
 
 // Olive 内部头文件
-#include "common/define.h" // 可能包含一些通用定义
+#include "common/define.h"  // 可能包含一些通用定义
 // 假设 project.h 声明了 Project 类
 #include "node/project.h"
 // 假设 sequence.h 声明了 Sequence 类
 #include "node/project/sequence/sequence.h"
 // OpenTimelineIO 核心头文件
-#include "opentimelineio/timeline.h" // 虽然包含，但在此头文件中未直接使用其类型，可能在 .cpp 中使用
+#include "opentimelineio/timeline.h"  // 虽然包含，但在此头文件中未直接使用其类型，可能在 .cpp 中使用
 
 namespace olive {
 
@@ -36,7 +36,7 @@ class OTIOPropertiesDialog : public QDialog {
 
   // ~OTIOPropertiesDialog() override; // 默认析构函数通常足够
 
-private:
+ private:
   /**
    * @brief 指向 QTreeWidget 对象的指针，用于显示从 OTIO 文件中解析出的序列列表。
    * 用户可以从中选择序列并可能为每个序列配置不同的设置。
@@ -48,15 +48,15 @@ private:
    * （注意：成员变量声明为 const QList<Sequence*> sequences_，这意味着列表本身在构造后不能被修改，
    * 但列表中的 Sequence 对象指针所指向的内容是否可修改取决于 Sequence 类的设计。）
    */
-  const QList<Sequence*> sequences_; // 通常，如果是列表的拷贝，不会声明为 const
+  const QList<Sequence*> sequences_;  // 通常，如果是列表的拷贝，不会声明为 const
 
-private slots:
- /**
-  * @brief 当用户选择在 `table_` 中的某个序列并希望配置其详细设置时调用的槽函数。
-  * 此函数通常会打开另一个对话框（例如标准的序列设置对话框或特定于OTIO导入的序列设置对话框），
-  * 以允许用户为选中的序列配置更详细的参数（如帧率、分辨率等，如果OTIO中未完全指定或允许覆盖）。
-  */
- void SetupSequence();
+ private slots:
+  /**
+   * @brief 当用户选择在 `table_` 中的某个序列并希望配置其详细设置时调用的槽函数。
+   * 此函数通常会打开另一个对话框（例如标准的序列设置对话框或特定于OTIO导入的序列设置对话框），
+   * 以允许用户为选中的序列配置更详细的参数（如帧率、分辨率等，如果OTIO中未完全指定或允许覆盖）。
+   */
+  void SetupSequence();
 };
 
 }  // namespace olive

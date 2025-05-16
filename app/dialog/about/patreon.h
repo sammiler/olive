@@ -1,7 +1,7 @@
 #ifndef PATREON_H
 #define PATREON_H
 
-#include <QStringList> // Qt 字符串列表类
+#include <QStringList>  // Qt 字符串列表类
 
 // namespace olive { // 如果此变量应属于特定命名空间
 
@@ -15,7 +15,7 @@
  * @note 作为全局变量，应谨慎处理其初始化和多线程访问（如果适用）。
  * 通常，此类数据会通过特定脚本或在构建过程中生成并填充。
  */
-inline QStringList patrons; // 使用 extern 声明，定义应在某个 .cpp 文件中
+inline QStringList patrons;  // 使用 extern 声明，定义应在某个 .cpp 文件中
 
 // } // namespace olive (如果适用)
 

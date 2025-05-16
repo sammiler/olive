@@ -4,8 +4,8 @@
 #include <QMenuBar>     // 引入 QMenuBar 类，用于访问主窗口的菜单栏
 #include <QTreeWidget>  // 引入 QTreeWidget 类，用于创建树形列表控件
 
-#include "../keysequenceeditor.h"               // 引入自定义的键盘序列编辑器控件
-#include "dialog/configbase/configdialogbase.h" // 引入配置对话框基类相关定义
+#include "../keysequenceeditor.h"                // 引入自定义的键盘序列编辑器控件
+#include "dialog/configbase/configdialogbase.h"  // 引入配置对话框基类相关定义
 
 namespace olive {
 
@@ -104,12 +104,14 @@ class PreferencesKeyboardTab : public ConfigDialogBaseTab {
   QVector<QAction*> key_shortcut_actions_;
 
   /**
-   * @brief keyboard_tree_ 中与现有动作对应的键盘快捷键项目列表 (与 key_shortcut_actions_ 和 key_shortcut_fields_ 相关联)。
+   * @brief keyboard_tree_ 中与现有动作对应的键盘快捷键项目列表 (与 key_shortcut_actions_ 和 key_shortcut_fields_
+   * 相关联)。
    */
   QVector<QTreeWidgetItem*> key_shortcut_items_;
 
   /**
-   * @brief keyboard_tree_ 中与现有动作对应的键盘快捷键编辑字段列表 (与 key_shortcut_actions_ 和 key_shortcut_items_ 相关联)。
+   * @brief keyboard_tree_ 中与现有动作对应的键盘快捷键编辑字段列表 (与 key_shortcut_actions_ 和 key_shortcut_items_
+   * 相关联)。
    */
   QVector<KeySequenceEditor*> key_shortcut_fields_;
 

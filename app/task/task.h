@@ -1,14 +1,14 @@
-#ifndef TASK_H // 防止头文件被重复包含的预处理器指令
-#define TASK_H // 定义 TASK_H 宏
+#ifndef TASK_H  // 防止头文件被重复包含的预处理器指令
+#define TASK_H  // 定义 TASK_H 宏
 
-#include <QDateTime> // 包含了 Qt 日期时间类，用于获取时间戳
-#include <QDebug>    // 包含了 Qt 调试输出类
-#include <QObject>   // 包含了 Qt 对象模型基类
-#include <memory>    // 包含了 C++ 标准库的智能指针等内存管理工具
+#include <QDateTime>  // 包含了 Qt 日期时间类，用于获取时间戳
+#include <QDebug>     // 包含了 Qt 调试输出类
+#include <QObject>    // 包含了 Qt 对象模型基类
+#include <memory>     // 包含了 C++ 标准库的智能指针等内存管理工具
 
-#include "common/cancelableobject.h" // 包含了可取消对象的基类定义
+#include "common/cancelableobject.h"  // 包含了可取消对象的基类定义
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
 /**
  * @brief Olive 中后台任务的基类。
@@ -27,14 +27,15 @@ namespace olive { // olive 项目的命名空间
  * 任务支持“依赖任务”，即一个任务应该在另一个任务开始之前完成。
  */
 class Task : public QObject, public CancelableObject {
-  Q_OBJECT // Qt 对象的宏，用于启用信号和槽机制等 Qt 特性
- public:
-  /**
-   * @brief Task 构造函数。
-   *
-   * 初始化任务的标题为 "Task"，错误信息为 "Unknown error"，开始时间为 0。
-   */
-  Task() : title_(tr("Task")), error_(tr("Unknown error")), start_time_(0) {}
+ Q_OBJECT  // Qt 对象的宏，用于启用信号和槽机制等 Qt 特性
+     public :
+     /**
+      * @brief Task 构造函数。
+      *
+      * 初始化任务的标题为 "Task"，错误信息为 "Unknown error"，开始时间为 0。
+      */
+     Task()
+     : title_(tr("Task")), error_(tr("Unknown error")), start_time_(0) {}
 
   /**
    * @brief 获取此任务的当前标题。
@@ -64,17 +65,17 @@ class Task : public QObject, public CancelableObject {
    * @see GetError() 如果此方法返回 false，请查看错误信息。
    */
   bool Start() {
-    start_time_ = QDateTime::currentMSecsSinceEpoch(); // 记录任务开始时间
-    emit Started(start_time_); // 发射任务开始信号
+    start_time_ = QDateTime::currentMSecsSinceEpoch();  // 记录任务开始时间
+    emit Started(start_time_);                          // 发射任务开始信号
 
-    bool ret = Run(); // 执行任务的核心逻辑
+    bool ret = Run();  // 执行任务的核心逻辑
 
     // 出于调试目的，打印此任务花费的时间
     qDebug() << this << "took" << (QDateTime::currentMSecsSinceEpoch() - start_time_);
 
-    emit Finished(this, ret); // 发射任务完成信号
+    emit Finished(this, ret);  // 发射任务完成信号
 
-    return ret; // 返回任务执行结果
+    return ret;  // 返回任务执行结果
   }
 
   /**
@@ -149,13 +150,13 @@ class Task : public QObject, public CancelableObject {
   void Finished(Task* task, bool succeeded);
 
  private:
-  QString title_; ///< @brief 任务的标题，用于在用户界面中显示和区分任务。
+  QString title_;  ///< @brief 任务的标题，用于在用户界面中显示和区分任务。
 
-  QString error_; ///< @brief 存储任务执行失败时的错误信息。
+  QString error_;  ///< @brief 存储任务执行失败时的错误信息。
 
-  qint64 start_time_; ///< @brief 任务开始执行的时间戳，以自纪元以来的毫秒数表示。
+  qint64 start_time_;  ///< @brief 任务开始执行的时间戳，以自纪元以来的毫秒数表示。
 };
 
-}  // namespace olive // 结束 olive 命名空间
+}  // namespace olive
 
 #endif  // TASK_H // 结束预处理器指令 #ifndef TASK_H

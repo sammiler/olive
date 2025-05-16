@@ -1,9 +1,9 @@
 #ifndef NODEPARAMVIEWARRAYWIDGET_H
 #define NODEPARAMVIEWARRAYWIDGET_H
 
-#include <QLabel>        // Qt 标签控件
-#include <QPushButton>   // Qt 按钮控件
-#include <QWidget>       // Qt 控件基类
+#include <QLabel>       // Qt 标签控件
+#include <QPushButton>  // Qt 按钮控件
+#include <QWidget>      // Qt 控件基类
 
 #include "node/param.h"  // 节点参数相关定义 (可能包含 NodeInput, NodeKeyframeTrackReference 等)
 
@@ -24,16 +24,16 @@ namespace olive {
  * 该按钮支持在应用程序语言更改时更新其显示文本。
  */
 class NodeParamViewArrayButton : public QPushButton {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief 定义按钮的类型，指示其功能是添加元素还是移除元素。
-   */
-  enum Type {
-    kAdd,    ///< 按钮用于向数组添加新元素。
-    kRemove  ///< 按钮用于从数组移除元素。
-  };
+     public :
+     /**
+      * @brief 定义按钮的类型，指示其功能是添加元素还是移除元素。
+      */
+     enum Type {
+       kAdd,    ///< 按钮用于向数组添加新元素。
+       kRemove  ///< 按钮用于从数组移除元素。
+     };
 
   /**
    * @brief 构造函数。
@@ -60,7 +60,7 @@ class NodeParamViewArrayButton : public QPushButton {
    */
   void Retranslate();
 
-  Type type_; ///< 存储按钮的类型 (kAdd 或 kRemove)。
+  Type type_;  ///< 存储按钮的类型 (kAdd 或 kRemove)。
 };
 
 /**
@@ -71,16 +71,16 @@ class NodeParamViewArrayButton : public QPushButton {
  * 此控件与特定的节点 (Node) 及其一个输入参数 (input) 相关联。
  */
 class NodeParamViewArrayWidget : public QWidget {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param node 指向与此数组参数关联的 Node 对象的指针。
-   * @param input 数组参数的名称 (QString)。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  NodeParamViewArrayWidget(Node* node, QString input, QWidget* parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param node 指向与此数组参数关联的 Node 对象的指针。
+      * @param input 数组参数的名称 (QString)。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     NodeParamViewArrayWidget(Node* node, QString input, QWidget* parent = nullptr);
 
  signals:
   /**
@@ -100,11 +100,11 @@ class NodeParamViewArrayWidget : public QWidget {
   void mouseDoubleClickEvent(QMouseEvent* event) override;
 
  private:
-  Node* node_; ///< 指向与此数组参数关联的节点对象的指针。
+  Node* node_;  ///< 指向与此数组参数关联的节点对象的指针。
 
-  QString input_; ///< 此控件管理的数组参数的名称。
+  QString input_;  ///< 此控件管理的数组参数的名称。
 
-  QLabel* count_lbl_; ///< 用于显示数组当前元素数量的标签。
+  QLabel* count_lbl_;  ///< 用于显示数组当前元素数量的标签。
 
  private slots:
   /**

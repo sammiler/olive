@@ -1,9 +1,9 @@
 #ifndef LOG_H
 #define LOG_H
 
-#include <iostream> // 引入 iostream 以使用 std::cerr 和 std::endl
+#include <iostream>  // 引入 iostream 以使用 std::cerr 和 std::endl
 
-namespace olive::core { // Olive 核心功能命名空间
+namespace olive::core {  // Olive 核心功能命名空间
 
 /**
  * @brief 一个简单的流式日志记录类。
@@ -17,7 +17,7 @@ namespace olive::core { // Olive 核心功能命名空间
  * olive::core::Log::Error() << "发生了一个错误，代码：" << error_code;
  */
 class Log {
-public:
+ public:
   /**
    * @brief 显式构造函数。
    *
@@ -47,8 +47,8 @@ public:
    */
   template <typename T>
   Log &operator<<(const T &t) {
-    std::cerr << " " << t; // 在数据前添加空格并输出到 std::cerr
-    return *this;          // 返回自身引用以支持链式调用
+    std::cerr << " " << t;  // 在数据前添加空格并输出到 std::cerr
+    return *this;           // 返回自身引用以支持链式调用
   }
 
   /**

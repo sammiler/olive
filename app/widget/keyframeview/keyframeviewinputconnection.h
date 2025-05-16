@@ -1,7 +1,7 @@
 #ifndef KEYFRAMEVIEWINPUTCONNECTION_H
 #define KEYFRAMEVIEWINPUTCONNECTION_H
 
-#include <QObject> // Qt 对象模型基类，用于支持信号和槽
+#include <QObject>  // Qt 对象模型基类，用于支持信号和槽
 
 #include "node/node.h"   // 节点基类定义 (间接通过 NodeKeyframeTrackReference 使用)
 #include "node/param.h"  // 节点参数相关定义 (包含 NodeKeyframeTrackReference)
@@ -13,7 +13,7 @@
 
 namespace olive {
 
-class KeyframeView; // 前向声明 KeyframeView 类，因为它是此类的父对象类型
+class KeyframeView;  // 前向声明 KeyframeView 类，因为它是此类的父对象类型
 
 /**
  * @brief KeyframeViewInputConnection 类代表关键帧视图 (KeyframeView) 中一个输入轨道（参数的关键帧序列）的连接。
@@ -23,15 +23,15 @@ class KeyframeView; // 前向声明 KeyframeView 类，因为它是此类的父�
  * 并与 KeyframeView 交互以更新显示并响应数据变化。
  */
 class KeyframeViewInputConnection : public QObject {
-  Q_OBJECT // Qt 元对象系统宏，用于支持信号和槽机制
+ Q_OBJECT  // Qt 元对象系统宏，用于支持信号和槽机制
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param input 对节点关键帧轨道的引用 (NodeKeyframeTrackReference)，指定了要连接的具体参数轨道。
-   * @param parent 指向父对象 KeyframeView 的指针。
-   */
-  explicit KeyframeViewInputConnection(const NodeKeyframeTrackReference &input, KeyframeView *parent);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param input 对节点关键帧轨道的引用 (NodeKeyframeTrackReference)，指定了要连接的具体参数轨道。
+      * @param parent 指向父对象 KeyframeView 的指针。
+      */
+     explicit KeyframeViewInputConnection(const NodeKeyframeTrackReference &input, KeyframeView *parent);
 
   /**
    * @brief 获取此轨道在视图中绘制关键帧的 Y 坐标。
@@ -102,15 +102,15 @@ class KeyframeViewInputConnection : public QObject {
   void TypeChanged();
 
  private:
-  KeyframeView *keyframe_view_; ///< 指向父 KeyframeView 对象的指针。
+  KeyframeView *keyframe_view_;  ///< 指向父 KeyframeView 对象的指针。
 
-  NodeKeyframeTrackReference input_; ///< 对实际节点关键帧轨道的引用，包含了节点、输入参数和轨道索引信息。
+  NodeKeyframeTrackReference input_;  ///< 对实际节点关键帧轨道的引用，包含了节点、输入参数和轨道索引信息。
 
-  int y_; ///< 此轨道在 KeyframeView 中绘制时的基准 Y 坐标（对于 kSingleRow 行为）。
+  int y_;  ///< 此轨道在 KeyframeView 中绘制时的基准 Y 坐标（对于 kSingleRow 行为）。
 
-  YBehavior y_behavior_; ///< 定义关键帧在 Y 轴上的显示行为。
+  YBehavior y_behavior_;  ///< 定义关键帧在 Y 轴上的显示行为。
 
-  QBrush brush_; ///< 用于绘制此轨道相关的图形元素（如关键帧、曲线）的画刷。
+  QBrush brush_;  ///< 用于绘制此轨道相关的图形元素（如关键帧、曲线）的画刷。
 
  private slots:
   /**

@@ -1,24 +1,24 @@
 #ifndef KD_DOCKWIDGETS_CONFIG_H
 #define KD_DOCKWIDGETS_CONFIG_H
 
-#include "docks_export.h"          // 导入导出宏定义
-#include "KDDockWidgets.h"         // KDDockWidgets 公共头文件，包含核心枚举和类型定义
+#include "docks_export.h" // 导入导出宏定义
+#include "KDDockWidgets.h" // KDDockWidgets 公共头文件，包含核心枚举和类型定义
 
 #include <qglobal.h> // Qt 全局定义，例如 Q_DECLARE_FLAGS
 
 QT_BEGIN_NAMESPACE
 // 前向声明 Qt 类
 class QQmlEngine; // Qt QML 引擎类 (用于 QtQuick 集成)
-class QSize;      // Qt 尺寸类
+class QSize; // Qt 尺寸类
 QT_END_NAMESPACE
 
 namespace KDDockWidgets {
 
 // 前向声明 KDDockWidgets 内部类
-class DockWidgetBase;         // 停靠小部件基类
-class MainWindowBase;         // 主窗口基类
+class DockWidgetBase; // 停靠小部件基类
+class MainWindowBase; // 主窗口基类
 class FrameworkWidgetFactory; // 框架小部件工厂类 (用于自定义UI组件)
-class DropArea;               // 放置区域类
+class DropArea; // 放置区域类
 
 /**
  * @brief 函数指针类型定义，用于创建 DockWidgetBase 实例的工厂函数。
@@ -118,14 +118,14 @@ public:
      * @brief 可自定义小部件的列表。
      */
     enum CustomizableWidget {
-        CustomizableWidget_None = 0,           ///< 无。
-        CustomizableWidget_TitleBar,           ///< 标题栏。
-        CustomizableWidget_DockWidget,         ///< 停靠小部件本身 (通常指其内容区域或外观)。
-        CustomizableWidget_Frame,              ///< 容纳一组（一个或多个）标签化停靠小部件的容器。
-        CustomizableWidget_TabBar,             ///< 标签栏，Frame 的子控件，包含一个或多个停靠小部件的标签。
-        CustomizableWidget_TabWidget,          ///< 与标签栏相关的标签页小部件。
-        CustomizableWidget_FloatingWindow,     ///< 顶层窗口，容纳一个或多个并排嵌套的 Frame。
-        CustomizableWidget_Separator           ///< 布局中停靠小部件之间的可拖拽分隔符。
+        CustomizableWidget_None = 0, ///< 无。
+        CustomizableWidget_TitleBar, ///< 标题栏。
+        CustomizableWidget_DockWidget, ///< 停靠小部件本身 (通常指其内容区域或外观)。
+        CustomizableWidget_Frame, ///< 容纳一组（一个或多个）标签化停靠小部件的容器。
+        CustomizableWidget_TabBar, ///< 标签栏，Frame 的子控件，包含一个或多个停靠小部件的标签。
+        CustomizableWidget_TabWidget, ///< 与标签栏相关的标签页小部件。
+        CustomizableWidget_FloatingWindow, ///< 顶层窗口，容纳一个或多个并排嵌套的 Frame。
+        CustomizableWidget_Separator ///< 布局中停靠小部件之间的可拖拽分隔符。
     };
     Q_DECLARE_FLAGS(CustomizableWidgets, CustomizableWidget) // 将 CustomizableWidget 枚举声明为可用于 QFlags 的类型。
 
@@ -135,14 +135,14 @@ public:
      * @warning 不供公众使用，支持将受到限制。
      */
     enum InternalFlag {
-        InternalFlag_None = 0,                            ///< 默认值。
-        InternalFlag_NoAeroSnap = 1,                      ///< 仅供开发使用。禁用 Aero-snap。
+        InternalFlag_None = 0, ///< 默认值。
+        InternalFlag_NoAeroSnap = 1, ///< 仅供开发使用。禁用 Aero-snap。
         InternalFlag_DontUseParentForFloatingWindows = 2, ///< 浮动窗口将没有顶层父窗口。
         InternalFlag_DontUseQtToolWindowsForFloatingWindows = 4, ///< 浮动窗口将使用 Qt::Window 而不是 Qt::Tool。
         InternalFlag_DontShowWhenUnfloatingHiddenWindow = 8, ///< 如果窗口已隐藏，DockWidget::setFloating(false) 将不执行任何操作。
-        InternalFlag_UseTransparentFloatingWindow = 16,   ///< 仅适用于 QtQuick。允许圆角。与原生 Windows 拖放阴影一起使用时不稳定。
-        InternalFlag_DisableTranslucency = 32,            ///< KDDW 尝试检测您的窗口管理器是否不支持透明窗口，但对于更奇特的设置，检测可能会失败。此标志可用于覆盖检测结果。
-        InternalFlag_TopLevelIndicatorRubberBand = 64     ///< 使经典拖放指示器的橡皮筋成为顶层窗口。有助于解决 MFC 的 BUG。
+        InternalFlag_UseTransparentFloatingWindow = 16, ///< 仅适用于 QtQuick。允许圆角。与原生 Windows 拖放阴影一起使用时不稳定。
+        InternalFlag_DisableTranslucency = 32, ///< KDDW 尝试检测您的窗口管理器是否不支持透明窗口，但对于更奇特的设置，检测可能会失败。此标志可用于覆盖检测结果。
+        InternalFlag_TopLevelIndicatorRubberBand = 64 ///< 使经典拖放指示器的橡皮筋成为顶层窗口。有助于解决 MFC 的 BUG。
     };
     Q_DECLARE_FLAGS(InternalFlags, InternalFlag) // 将 InternalFlag 枚举声明为可用于 QFlags 的类型。
 
@@ -411,7 +411,7 @@ private:
      * @brief 私有构造函数，确保单例模式。
      */
     Config();
-    class Private;   ///< PIMPL (Private Implementation) 设计模式的私有实现类前向声明。
+    class Private; ///< PIMPL (Private Implementation) 设计模式的私有实现类前向声明。
     Private *const d; ///< 指向私有实现类的常量指针。
 };
 

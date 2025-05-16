@@ -1,23 +1,24 @@
-#ifndef MEDIAPROPERTIESDIALOG_H // 宏名通常与文件名一致
+#ifndef MEDIAPROPERTIESDIALOG_H  // 宏名通常与文件名一致
 #define MEDIAPROPERTIESDIALOG_H
 
-#include <QCheckBox>       // 复选框控件 (虽然未直接在此头文件中作为成员，但可能在 .cpp 中使用或通过 StreamProperties 间接使用)
+#include <QCheckBox>  // 复选框控件 (虽然未直接在此头文件中作为成员，但可能在 .cpp 中使用或通过 StreamProperties 间接使用)
 #include <QComboBox>       // 下拉选择框控件 (同上)
 #include <QDialog>         // QDialog 基类
 #include <QDoubleSpinBox>  // 双精度浮点数输入框
 #include <QLineEdit>       // 单行文本输入框
 #include <QListWidget>     // 列表控件
 #include <QStackedWidget>  // 堆叠控件
-#include <QWidget>         // 为了 QWidget* parent 参数
 #include <QString>         // Qt 字符串类
+#include <QWidget>         // 为了 QWidget* parent 参数
 
 // Olive 内部头文件
 // 假设 footage.h 声明了 Footage 类和 Project 类 (或者 Project 在其他地方声明)
 #include "node/project/footage/footage.h"
-// 假设 undocommand.h 声明了 UndoCommand 基类和 MultiUndoCommand (后者在此处未使用，但 StreamEnableChangeCommand 继承自 UndoCommand)
+// 假设 undocommand.h 声明了 UndoCommand 基类和 MultiUndoCommand (后者在此处未使用，但 StreamEnableChangeCommand 继承自
+// UndoCommand)
 #include "undo/undocommand.h"
 // 假设 track.h (或其包含文件) 声明了 Track::Type 枚举
-#include "node/output/track/track.h" // 为了 Track::Type
+#include "node/output/track/track.h"  // 为了 Track::Type
 // #include "common/define.h" // 如果需要 common/define.h 中的内容
 
 // 前向声明 (如果 Project 类定义在别处且未通过 footage.h 包含)
@@ -118,7 +119,7 @@ class FootagePropertiesDialog : public QDialog {
    * @brief 用于列出媒体素材中包含的轨道/流 (例如视频流0, 音频流0, 音频流1) 的列表控件。
    * 用户可以从此列表中选择一个流来查看和编辑其特定属性。
    */
-  QListWidget* track_list; // 变量名通常用下划线后缀，如 track_list_
+  QListWidget* track_list;  // 变量名通常用下划线后缀，如 track_list_
 
   /**
    * @brief 用于设置素材（尤其是图像序列）的适配帧率的 QDoubleSpinBox。

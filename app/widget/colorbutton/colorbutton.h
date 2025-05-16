@@ -1,9 +1,9 @@
 #ifndef COLORBUTTON_H
 #define COLORBUTTON_H
 
-#include <QPushButton> // Qt 按钮控件基类
+#include <QPushButton>  // Qt 按钮控件基类
 
-#include "node/color/colormanager/colormanager.h" // 色彩管理器类
+#include "node/color/colormanager/colormanager.h"  // 色彩管理器类
 #include "render/managedcolor.h"                   // 带色彩空间管理的颜色类
 
 namespace olive {
@@ -16,16 +16,16 @@ namespace olive {
  * 它与 ColorManager 和 ManagedColor 类交互，以支持色彩管理。
  */
 class ColorButton : public QPushButton {
-  Q_OBJECT // Qt 元对象系统宏，用于支持信号和槽机制
+ Q_OBJECT  // Qt 元对象系统宏，用于支持信号和槽机制
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param color_manager 指向色彩管理器的指针。
-   * @param show_dialog_on_click 布尔值，指示单击按钮时是否显示颜色对话框。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  ColorButton(ColorManager* color_manager, bool show_dialog_on_click, QWidget* parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param color_manager 指向色彩管理器的指针。
+      * @param show_dialog_on_click 布尔值，指示单击按钮时是否显示颜色对话框。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     ColorButton(ColorManager* color_manager, bool show_dialog_on_click, QWidget* parent = nullptr);
 
   /**
    * @brief 构造函数的重载版本，默认在单击时显示颜色对话框。
@@ -33,7 +33,7 @@ class ColorButton : public QPushButton {
    * @param parent 父控件指针，默认为 nullptr。
    */
   explicit ColorButton(ColorManager* color_manager, QWidget* parent = nullptr)
-      : ColorButton(color_manager, true, parent) {} // 委托给主构造函数
+      : ColorButton(color_manager, true, parent) {}  // 委托给主构造函数
 
   /**
    * @brief 获取当前按钮表示的颜色。
@@ -81,13 +81,13 @@ class ColorButton : public QPushButton {
    */
   void UpdateColor();
 
-  ColorManager* color_manager_; ///< 指向色彩管理器的指针，用于处理颜色空间转换等。
+  ColorManager* color_manager_;  ///< 指向色彩管理器的指针，用于处理颜色空间转换等。
 
-  ManagedColor color_; ///< 当前按钮所表示的颜色，带有色彩空间信息。
+  ManagedColor color_;  ///< 当前按钮所表示的颜色，带有色彩空间信息。
 
-  ColorProcessorPtr color_processor_; ///< 指向色彩处理器的智能指针，可能用于将 ManagedColor 转换为可显示的颜色。
+  ColorProcessorPtr color_processor_;  ///< 指向色彩处理器的智能指针，可能用于将 ManagedColor 转换为可显示的颜色。
 
-  bool dialog_open_; ///< 标记颜色选择对话框当前是否已打开。
+  bool dialog_open_;  ///< 标记颜色选择对话框当前是否已打开。
 };
 
 }  // namespace olive

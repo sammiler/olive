@@ -1,11 +1,11 @@
 #ifndef NODEWIDGET_H
 #define NODEWIDGET_H
 
-#include <QWidget>     // Qt 控件基类
-#include <QVector>     // Qt 动态数组容器 (用于 SetContexts 参数)
+#include <QVector>  // Qt 动态数组容器 (用于 SetContexts 参数)
+#include <QWidget>  // Qt 控件基类
 
-#include "nodeview.h"        // 节点视图控件，用于显示和编辑节点图
-#include "nodeviewtoolbar.h" // 节点视图的工具栏控件
+#include "nodeview.h"         // 节点视图控件，用于显示和编辑节点图
+#include "nodeviewtoolbar.h"  // 节点视图的工具栏控件
 
 // 前向声明项目内部类 (根据用户要求，不添加)
 // class Node; // 已在 nodeview.h 中包含
@@ -19,14 +19,14 @@ namespace olive {
  * 当设置上下文（要显示的节点）时，它会同时更新节点视图和工具栏的状态。
  */
 class NodeWidget : public QWidget {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit NodeWidget(QWidget *parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit NodeWidget(QWidget *parent = nullptr);
 
   /**
    * @brief 获取内部的 NodeView 实例。
@@ -42,13 +42,13 @@ class NodeWidget : public QWidget {
    * @param nodes 包含要显示的 Node 指针的 QVector。
    */
   void SetContexts(const QVector<Node *> &nodes) {
-    node_view_->SetContexts(nodes);             // 将上下文设置到节点视图
-    toolbar_->setEnabled(!nodes.isEmpty());     // 如果节点列表不为空，则启用工具栏，否则禁用
+    node_view_->SetContexts(nodes);          // 将上下文设置到节点视图
+    toolbar_->setEnabled(!nodes.isEmpty());  // 如果节点列表不为空，则启用工具栏，否则禁用
   }
 
-private:
-  NodeView *node_view_;           ///< 指向内部的 NodeView 实例，用于显示和编辑节点图。
-  NodeViewToolBar *toolbar_;      ///< 指向内部的 NodeViewToolBar 实例，提供节点视图相关的操作按钮。
+ private:
+  NodeView *node_view_;       ///< 指向内部的 NodeView 实例，用于显示和编辑节点图。
+  NodeViewToolBar *toolbar_;  ///< 指向内部的 NodeViewToolBar 实例，提供节点视图相关的操作按钮。
 };
 
 }  // namespace olive

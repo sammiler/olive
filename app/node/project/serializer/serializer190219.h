@@ -1,7 +1,7 @@
-#ifndef PROJECTSERIALIZER190219_H // 防止头文件被多次包含的宏定义开始
+#ifndef PROJECTSERIALIZER190219_H  // 防止头文件被多次包含的宏定义开始
 #define PROJECTSERIALIZER190219_H
 
-#include "serializer.h" // 引入基类 ProjectSerializer 的定义 (文件名可能是 "projectserializer.h")
+#include "serializer.h"  // 引入基类 ProjectSerializer 的定义 (文件名可能是 "projectserializer.h")
 
 // 可能需要的前向声明
 // class Project; // 假设
@@ -9,7 +9,7 @@
 // enum class LoadType; // 假设 LoadType 枚举在 ProjectSerializer 中定义
 // class LoadData; // 假设 LoadData 类在 ProjectSerializer 中定义
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
 /**
  * @brief 特定版本的项目序列化器，版本号为 190219。
@@ -17,13 +17,13 @@ namespace olive { // Olive 编辑器的命名空间
  * 具体加载逻辑。版本号通常代表了项目文件格式发生变化的时间点或迭代。
  */
 class ProjectSerializer190219 : public ProjectSerializer {
-public:
+ public:
   /**
    * @brief ProjectSerializer190219 默认构造函数。
    */
   ProjectSerializer190219() = default;
 
-protected:
+ protected:
   /**
    * @brief 实现从 XML 流加载版本号为 190219 的项目数据的具体逻辑。
    *  重写自 ProjectSerializer 基类。
@@ -39,7 +39,7 @@ protected:
    * @brief 返回此序列化器支持的项目文件版本号。
    * @return uint 版本号，固定为 190219。
    */
-  [[nodiscard]] uint Version() const override { return 190219; } // 此序列化器处理版本 190219
+  [[nodiscard]] uint Version() const override { return 190219; }  // 此序列化器处理版本 190219
 };
 
 }  // namespace olive

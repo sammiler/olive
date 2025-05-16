@@ -1,9 +1,9 @@
 #ifndef KD_DOCKWIDGETS_MDI_LAYOUT_WIDGET_P_H
 #define KD_DOCKWIDGETS_MDI_LAYOUT_WIDGET_P_H
 
-#include "LayoutWidget_p.h"             // 包含父类 LayoutWidget 的私有头文件
+#include "LayoutWidget_p.h" // 包含父类 LayoutWidget 的私有头文件
 #include "kddockwidgets/KDDockWidgets.h" // KDDockWidgets 公共头文件，包含枚举和基本类型
-#include "kddockwidgets/docks_export.h"    // 导入导出宏定义
+#include "kddockwidgets/docks_export.h" // 导入导出宏定义
 
 // 前向声明内部布局引擎相关的类
 namespace Layouting {

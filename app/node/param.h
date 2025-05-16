@@ -1,24 +1,24 @@
-#ifndef NODEPARAM_H // 防止头文件被重复包含的宏
-#define NODEPARAM_H // 定义 NODEPARAM_H 宏
+#ifndef NODEPARAM_H  // 防止头文件被重复包含的宏
+#define NODEPARAM_H  // 定义 NODEPARAM_H 宏
 
-#include <QString> // Qt 字符串类
+#include <QString>  // Qt 字符串类
 
-#include "value.h" // 包含值类型定义 (可能包含 rational 等)
+#include "value.h"  // 包含值类型定义 (可能包含 rational 等)
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
-class Node;         // 向前声明 Node 类
-class NodeKeyframe; // 向前声明 NodeKeyframe 类
+class Node;          // 向前声明 Node 类
+class NodeKeyframe;  // 向前声明 NodeKeyframe 类
 
 // 输入端口标志位枚举，用于定义输入端口的各种属性和行为
-enum InputFlag : uint64_t { // 使用 uint64_t 作为底层类型
+enum InputFlag : uint64_t {  // 使用 uint64_t 作为底层类型
   /// 默认情况下，输入是可设置关键帧、可连接且非数组的
-  kInputFlagNormal = 0x0,             // 正常标志，默认状态
-  kInputFlagArray = 0x1,              // 标记此输入为数组类型
-  kInputFlagNotKeyframable = 0x2,     // 标记此输入不可设置关键帧
-  kInputFlagNotConnectable = 0x4,     // 标记此输入不可连接 (即不能从其他节点获取输入)
-  kInputFlagHidden = 0x8,             // 标记此输入在UI中隐藏
-  kInputFlagIgnoreInvalidations = 0x10, // 标记此输入忽略来自上游节点的缓存失效信号
+  kInputFlagNormal = 0x0,                // 正常标志，默认状态
+  kInputFlagArray = 0x1,                 // 标记此输入为数组类型
+  kInputFlagNotKeyframable = 0x2,        // 标记此输入不可设置关键帧
+  kInputFlagNotConnectable = 0x4,        // 标记此输入不可连接 (即不能从其他节点获取输入)
+  kInputFlagHidden = 0x8,                // 标记此输入在UI中隐藏
+  kInputFlagIgnoreInvalidations = 0x10,  // 标记此输入忽略来自上游节点的缓存失效信号
 
   // 组合标志：静态输入，既不可设置关键帧也不可连接
   kInputFlagStatic = kInputFlagNotKeyframable | kInputFlagNotConnectable
@@ -38,9 +38,9 @@ class InputFlags {
 
   // 重载按位或 (|) 运算符，用于组合两个 InputFlags 对象
   InputFlags operator|(const InputFlags &f) const {
-    InputFlags i = *this; // 创建副本
-    i |= f;              // 调用 |= 运算符
-    return i;            // 返回结果
+    InputFlags i = *this;  // 创建副本
+    i |= f;                // 调用 |= 运算符
+    return i;              // 返回结果
   }
 
   // 重载按位或 (|) 运算符，用于组合 InputFlags 对象和一个 InputFlag 枚举值
@@ -59,8 +59,8 @@ class InputFlags {
 
   // 重载按位或赋值 (|=) 运算符，用于将另一个 InputFlags 对象的标志合并到当前对象
   InputFlags &operator|=(const InputFlags &f) {
-    f_ |= f.f_; // 对底层 uint64_t 值进行按位或操作
-    return *this; // 返回当前对象的引用
+    f_ |= f.f_;    // 对底层 uint64_t 值进行按位或操作
+    return *this;  // 返回当前对象的引用
   }
 
   // 重载按位或赋值 (|=) 运算符，用于将一个 InputFlag 枚举值的标志合并到当前对象
@@ -117,7 +117,7 @@ class InputFlags {
   // 重载按位非 (~) 运算符，用于反转所有标志位
   InputFlags operator~() const {
     InputFlags i = *this;
-    i.f_ = ~i.f_; // 对底层 uint64_t 值进行按位非操作
+    i.f_ = ~i.f_;  // 对底层 uint64_t 值进行按位非操作
     return i;
   }
 
@@ -128,7 +128,7 @@ class InputFlags {
   [[nodiscard]] inline const uint64_t &value() const { return f_; }
 
  private:
-  uint64_t f_; // 存储组合标志的 uint64_t 值
+  uint64_t f_;  // 存储组合标志的 uint64_t 值
 };
 
 // 节点输入对结构体，用于唯一标识一个节点的特定输入端口 (不含元素索引)
@@ -136,7 +136,7 @@ struct NodeInputPair {
   // 重载等于 (==) 运算符，比较两个 NodeInputPair 是否相同
   bool operator==(const NodeInputPair &rhs) const { return node == rhs.node && input == rhs.input; }
 
-  Node *node{};    // 指向节点的指针
+  Node *node{};   // 指向节点的指针
   QString input;  // 输入端口的ID字符串
 };
 
@@ -149,8 +149,8 @@ class NodeInput {
  public:
   // 默认构造函数，创建一个无效的 NodeInput 对象
   NodeInput() {
-    node_ = nullptr;   // 节点指针初始化为空
-    element_ = -1;     // 元素索引初始化为-1 (表示非数组元素或整个数组)
+    node_ = nullptr;  // 节点指针初始化为空
+    element_ = -1;    // 元素索引初始化为-1 (表示非数组元素或整个数组)
   }
 
   /**
@@ -175,15 +175,15 @@ class NodeInput {
 
   // 重载小于 (<) 运算符，主要用于在STL容器 (如 std::map) 中排序
   bool operator<(const NodeInput &rhs) const {
-    if (node_ != rhs.node_) { // 首先比较节点指针
+    if (node_ != rhs.node_) {  // 首先比较节点指针
       return node_ < rhs.node_;
     }
 
-    if (input_ != rhs.input_) { // 然后比较输入ID字符串
+    if (input_ != rhs.input_) {  // 然后比较输入ID字符串
       return input_ < rhs.input_;
     }
 
-    return element_ < rhs.element_; // 最后比较元素索引
+    return element_ < rhs.element_;  // 最后比较元素索引
   }
 
   // 获取节点指针
@@ -272,15 +272,15 @@ class NodeInput {
 // 输入ID和元素索引的组合结构体，用于在节点内部唯一标识一个输入元素
 // (例如作为 QMap 的键)
 struct InputElementPair {
-  QString input; // 输入端口的ID字符串
-  int element;   // 元素索引
+  QString input;  // 输入端口的ID字符串
+  int element;    // 元素索引
 
   // 重载小于 (<) 运算符，用于排序
   bool operator<(const InputElementPair &rhs) const {
-    if (input != rhs.input) { // 先比较输入ID
+    if (input != rhs.input) {  // 先比较输入ID
       return input < rhs.input;
     }
-    return element < rhs.element; // 再比较元素索引
+    return element < rhs.element;  // 再比较元素索引
   }
 
   // 重载等于 (==) 运算符
@@ -297,7 +297,7 @@ struct InputElementPair {
 class NodeKeyframeTrackReference {
  public:
   // 默认构造函数，创建一个无效的引用
-  NodeKeyframeTrackReference() { track_ = -1; } // 轨道索引初始化为-1
+  NodeKeyframeTrackReference() { track_ = -1; }  // 轨道索引初始化为-1
 
   /**
    * @brief 构造函数。
@@ -325,8 +325,8 @@ class NodeKeyframeTrackReference {
   void Reset() { *this = NodeKeyframeTrackReference(); }
 
  private:
-  NodeInput input_; // 相关的 NodeInput (节点、输入ID、元素)
-  int track_;       // 关键帧轨道的索引
+  NodeInput input_;  // 相关的 NodeInput (节点、输入ID、元素)
+  int track_;        // 关键帧轨道的索引
 };
 
 // 为 NodeInputPair 提供 qHash 函数，使其能用作 QHash 的键

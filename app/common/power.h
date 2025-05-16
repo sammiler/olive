@@ -1,9 +1,9 @@
 #ifndef POWER_H
 #define POWER_H
 
-#include <stdint.h> // 为了 uint32_t
+#include <stdint.h>  // 为了 uint32_t
 
-#include "common/define.h" // 可能包含一些通用定义，虽然在此文件中未直接使用
+#include "common/define.h"  // 可能包含一些通用定义，虽然在此文件中未直接使用
 
 namespace olive {
 
@@ -26,15 +26,15 @@ namespace olive {
  * @return uint32_t 大于或等于 v 的最小的2的幂。
  */
 inline uint32_t ceil_to_power_of_2(uint32_t v) {
-  if (v == 0) return 0; // 处理输入为0的特殊情况
-  v--; // 先减1，确保如果v本身是2的幂，结果不变（例如v=8, v-1=7, 最后结果还是8）
-       // 如果v不是2的幂，例如v=7, v-1=6, 最后结果是8
-  v |= v >> 1;  // 将最高位的1向右传播，填满其右边的所有位
+  if (v == 0) return 0;  // 处理输入为0的特殊情况
+  v--;                   // 先减1，确保如果v本身是2的幂，结果不变（例如v=8, v-1=7, 最后结果还是8）
+                         // 如果v不是2的幂，例如v=7, v-1=6, 最后结果是8
+  v |= v >> 1;           // 将最高位的1向右传播，填满其右边的所有位
   v |= v >> 2;
   v |= v >> 4;
   v |= v >> 8;
   v |= v >> 16;
-  v++; // 最后加1，得到大于等于原v的最小的2的幂
+  v++;  // 最后加1，得到大于等于原v的最小的2的幂
 
   return v;
 }
@@ -58,7 +58,7 @@ inline uint32_t ceil_to_power_of_2(uint32_t v) {
  * @return uint32_t 小于或等于 x 的最大的2的幂。
  */
 inline uint32_t floor_to_power_of_2(uint32_t x) {
-  if (x == 0) return 0; // 处理输入为0的特殊情况
+  if (x == 0) return 0;  // 处理输入为0的特殊情况
   // 下面的位操作会将x中最高有效位（MSB）右边的所有位都设置为1
   x = x | (x >> 1);
   x = x | (x >> 2);

@@ -1,15 +1,14 @@
 #ifndef PROJECTEXPLORERICONVIEWITEMDELEGATE_H
 #define PROJECTEXPLORERICONVIEWITEMDELEGATE_H
 
-#include <QStyledItemDelegate> // Qt 风格化项委托基类，用于自定义项的绘制和编辑
-#include <QPainter>            // Qt 绘图类 (用于 paint 方法)
-#include <QStyleOptionViewItem> // Qt 视图项的样式选项类 (用于 paint 和 sizeHint 方法)
-#include <QModelIndex>         // Qt 模型索引类 (用于 paint 和 sizeHint 方法)
-#include <QSize>               // Qt 尺寸类 (用于 sizeHint 返回类型)
-#include <QObject>             // Qt 对象模型基类 (QStyledItemDelegate 的基类)
+#include <QModelIndex>           // Qt 模型索引类 (用于 paint 和 sizeHint 方法)
+#include <QObject>               // Qt 对象模型基类 (QStyledItemDelegate 的基类)
+#include <QPainter>              // Qt 绘图类 (用于 paint 方法)
+#include <QSize>                 // Qt 尺寸类 (用于 sizeHint 返回类型)
+#include <QStyleOptionViewItem>  // Qt 视图项的样式选项类 (用于 paint 和 sizeHint 方法)
+#include <QStyledItemDelegate>   // Qt 风格化项委托基类，用于自定义项的绘制和编辑
 
-
-#include "common/define.h" // 项目通用定义
+#include "common/define.h"  // 项目通用定义
 
 namespace olive {
 
@@ -20,8 +19,9 @@ namespace olive {
  * 在图标视图中的外观和尺寸。
  */
 class ProjectExplorerIconViewItemDelegate : public QStyledItemDelegate {
-  // Q_OBJECT // QStyledItemDelegate 继承自 QAbstractItemDelegate，后者继承自 QObject，因此 Q_OBJECT 宏通常是可选的，除非定义了新的信号或槽。遵循不修改原则。
-public:
+  // Q_OBJECT // QStyledItemDelegate 继承自 QAbstractItemDelegate，后者继承自 QObject，因此 Q_OBJECT
+  // 宏通常是可选的，除非定义了新的信号或槽。遵循不修改原则。
+ public:
   /**
    * @brief 构造函数。
    * @param parent 父 QObject 指针，默认为 nullptr。

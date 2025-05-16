@@ -1,10 +1,10 @@
 #ifndef CODECSECTION_H
 #define CODECSECTION_H
 
-#include <QWidget> // QWidget 基类
+#include <QWidget>  // QWidget 基类
 
 // 假设 encoder.h 声明了 EncodingParams 类
-#include "codec/encoder.h" // 包含 EncodingParams
+#include "codec/encoder.h"  // 包含 EncodingParams
 // #include "common/define.h" // 如果需要 common/define.h 中的内容
 
 namespace olive {

@@ -1,9 +1,9 @@
-#ifndef RENDERMODE_H // 防止头文件被重复包含的宏
-#define RENDERMODE_H // 定义 RENDERMODE_H 宏
+#ifndef RENDERMODE_H  // 防止头文件被重复包含的宏
+#define RENDERMODE_H  // 定义 RENDERMODE_H 宏
 
-#include "common/define.h" // 可能包含项目通用的定义或宏
+#include "common/define.h"  // 可能包含项目通用的定义或宏
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
 /**
  * @brief RenderMode 类 (更像是一个命名空间或仅包含枚举的类) 定义了渲染器可以运行的主要不同“模式”。
@@ -13,7 +13,7 @@ namespace olive { // olive 项目的命名空间
  * 或在最终导出时使用较高精度的算法以获得最佳质量。
  */
 class RenderMode {
-public:
+ public:
   /**
    * @brief Mode 枚举定义了渲染器可以工作的不同模式。
    */

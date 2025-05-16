@@ -1,22 +1,22 @@
 #ifndef NODEPARAMVIEWITEM_H
 #define NODEPARAMVIEWITEM_H
 
-#include <QCheckBox>     // Qt 复选框控件
-#include <QGridLayout>   // Qt 网格布局类
-#include <QLabel>        // Qt 标签控件
-#include <QPushButton>   // Qt 按钮控件
-#include <QVBoxLayout>   // Qt 垂直布局类
-#include <QWidget>       // Qt 控件基类
+#include <QCheckBox>    // Qt 复选框控件
+#include <QGridLayout>  // Qt 网格布局类
+#include <QLabel>       // Qt 标签控件
+#include <QPushButton>  // Qt 按钮控件
+#include <QVBoxLayout>  // Qt 垂直布局类
+#include <QWidget>      // Qt 控件基类
 
-#include "node/node.h"                                 // 节点基类定义
-#include "nodeparamviewarraywidget.h"                  // 节点参数视图中用于数组操作的控件
-#include "nodeparamviewconnectedlabel.h"               // 节点参数视图中显示连接信息的标签
-#include "nodeparamviewitembase.h"                     // 节点参数视图项的基类
-#include "nodeparamviewkeyframecontrol.h"              // 节点参数视图中关键帧控制按钮
-#include "nodeparamviewwidgetbridge.h"                 // 节点参数视图与具体参数编辑控件之间的桥梁
-#include "widget/clickablelabel/clickablelabel.h"      // 可点击标签控件
-#include "widget/collapsebutton/collapsebutton.h"      // 可折叠/展开按钮控件
-#include "widget/keyframeview/keyframeview.h"          // 关键帧视图控件
+#include "node/node.h"                             // 节点基类定义
+#include "nodeparamviewarraywidget.h"              // 节点参数视图中用于数组操作的控件
+#include "nodeparamviewconnectedlabel.h"           // 节点参数视图中显示连接信息的标签
+#include "nodeparamviewitembase.h"                 // 节点参数视图项的基类
+#include "nodeparamviewkeyframecontrol.h"          // 节点参数视图中关键帧控制按钮
+#include "nodeparamviewwidgetbridge.h"             // 节点参数视图与具体参数编辑控件之间的桥梁
+#include "widget/clickablelabel/clickablelabel.h"  // 可点击标签控件
+#include "widget/collapsebutton/collapsebutton.h"  // 可折叠/展开按钮控件
+#include "widget/keyframeview/keyframeview.h"      // 关键帧视图控件
 
 // 前向声明 Qt 类 (根据用户要求，不添加)
 // class QEvent;
@@ -49,16 +49,17 @@ enum NodeParamViewCheckBoxBehavior {
  * 包括参数标签、值编辑控件、关键帧按钮、连接指示器以及数组参数的控制按钮。
  */
 class NodeParamViewItemBody : public QWidget {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param node 要显示其参数的 Node 指针。
-   * @param create_checkboxes 复选框的显示行为策略。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit NodeParamViewItemBody(Node *node, NodeParamViewCheckBoxBehavior create_checkboxes, QWidget *parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param node 要显示其参数的 Node 指针。
+      * @param create_checkboxes 复选框的显示行为策略。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit NodeParamViewItemBody(Node *node, NodeParamViewCheckBoxBehavior create_checkboxes,
+                                    QWidget *parent = nullptr);
 
   /**
    * @brief 设置此参数体关联的时间目标（通常是查看器输出）。
@@ -154,30 +155,30 @@ class NodeParamViewItemBody : public QWidget {
    * @brief InputUI 结构体用于存储与单个输入参数UI元素相关的指针和信息。
    */
   struct InputUI {
-    InputUI(); ///< 默认构造函数。
+    InputUI();  ///< 默认构造函数。
 
-    QLabel *main_label;                             ///< 参数名称标签。
-    NodeParamViewWidgetBridge *widget_bridge;       ///< 连接参数实际编辑控件的桥梁。
-    NodeParamViewConnectedLabel *connected_label;   ///< 显示输入连接信息的标签。
-    NodeParamViewKeyframeControl *key_control;      ///< 关键帧控制按钮（例如，添加/删除关键帧）。
-    QGridLayout *layout{};                          ///< 此参数项使用的局部布局。
-    int row{};                                      ///< 此参数项在父布局中的行号。
-    QPushButton *extra_btn;                         ///< 额外的按钮（例如，用于颜色参数的颜色拾取器）。
-    QCheckBox *optional_checkbox;                   ///< 可选的复选框（例如，启用/禁用）。
+    QLabel *main_label;                            ///< 参数名称标签。
+    NodeParamViewWidgetBridge *widget_bridge;      ///< 连接参数实际编辑控件的桥梁。
+    NodeParamViewConnectedLabel *connected_label;  ///< 显示输入连接信息的标签。
+    NodeParamViewKeyframeControl *key_control;     ///< 关键帧控制按钮（例如，添加/删除关键帧）。
+    QGridLayout *layout{};                         ///< 此参数项使用的局部布局。
+    int row{};                                     ///< 此参数项在父布局中的行号。
+    QPushButton *extra_btn;                        ///< 额外的按钮（例如，用于颜色参数的颜色拾取器）。
+    QCheckBox *optional_checkbox;                  ///< 可选的复选框（例如，启用/禁用）。
 
-    NodeParamViewArrayButton *array_insert_btn;     ///< 用于在数组中插入元素的按钮。
-    NodeParamViewArrayButton *array_remove_btn;     ///< 用于从数组中移除元素的按钮。
+    NodeParamViewArrayButton *array_insert_btn;  ///< 用于在数组中插入元素的按钮。
+    NodeParamViewArrayButton *array_remove_btn;  ///< 用于从数组中移除元素的按钮。
   };
 
-  QHash<NodeInput, InputUI> input_ui_map_; ///< 存储每个 NodeInput 与其对应 InputUI 结构的映射。
+  QHash<NodeInput, InputUI> input_ui_map_;  ///< 存储每个 NodeInput 与其对应 InputUI 结构的映射。
 
   /**
    * @brief ArrayUI 结构体用于存储与数组参数整体UI相关的指针和信息。
    */
   struct ArrayUI {
-    QWidget *widget;                            ///< 包含数组控件的容器 QWidget。
-    int count;                                  ///< 数组当前的元素数量。
-    NodeParamViewArrayButton *append_btn;       ///< 用于在数组末尾追加元素的按钮。
+    QWidget *widget;                       ///< 包含数组控件的容器 QWidget。
+    int count;                             ///< 数组当前的元素数量。
+    NodeParamViewArrayButton *append_btn;  ///< 用于在数组末尾追加元素的按钮。
   };
 
   /**
@@ -191,36 +192,36 @@ class NodeParamViewItemBody : public QWidget {
    */
   void SetTimebaseOnInputUI(const InputUI &ui);
 
-  Node *node_; ///< 指向此参数体所关联的 Node 对象的指针。
+  Node *node_;  ///< 指向此参数体所关联的 Node 对象的指针。
 
-  QHash<NodeInputPair, ArrayUI> array_ui_; ///< 存储每个数组类型输入参数 (NodeInputPair) 与其对应 ArrayUI 结构的映射。
+  QHash<NodeInputPair, ArrayUI> array_ui_;  ///< 存储每个数组类型输入参数 (NodeInputPair) 与其对应 ArrayUI 结构的映射。
 
-  QHash<NodeInputPair, CollapseButton *> array_collapse_buttons_; ///< 存储每个数组参数的折叠/展开按钮。
+  QHash<NodeInputPair, CollapseButton *> array_collapse_buttons_;  ///< 存储每个数组参数的折叠/展开按钮。
 
-  rational timebase_; ///< 当前的时间基准。
+  rational timebase_;  ///< 当前的时间基准。
 
-  ViewerOutput *time_target_; ///< 当前的时间目标（通常是查看器）。
+  ViewerOutput *time_target_;  ///< 当前的时间目标（通常是查看器）。
 
-  NodeParamViewCheckBoxBehavior create_checkboxes_; ///< 创建复选框的行为策略。
+  NodeParamViewCheckBoxBehavior create_checkboxes_;  ///< 创建复选框的行为策略。
 
-  QHash<NodeInputPair, NodeInputPair> input_group_lookup_; ///< 可能用于查找输入参数所属的组。
+  QHash<NodeInputPair, NodeInputPair> input_group_lookup_;  ///< 可能用于查找输入参数所属的组。
 
   /**
    * @brief 关键帧控制按钮所在的列索引。
    *
    * 作为有效的“最大列”索引，因为关键帧按钮总是右对齐。
    */
-  static const int kKeyControlColumn; ///< 关键帧控制按钮的列号。
+  static const int kKeyControlColumn;  ///< 关键帧控制按钮的列号。
 
-  static const int kArrayInsertColumn;    ///< 数组插入按钮的列号。
-  static const int kArrayRemoveColumn;    ///< 数组移除按钮的列号。
-  static const int kExtraButtonColumn;    ///< 额外按钮（如颜色拾取器）的列号。
+  static const int kArrayInsertColumn;  ///< 数组插入按钮的列号。
+  static const int kArrayRemoveColumn;  ///< 数组移除按钮的列号。
+  static const int kExtraButtonColumn;  ///< 额外按钮（如颜色拾取器）的列号。
 
-  static const int kOptionalCheckBox;     ///< 可选复选框的列号。
-  static const int kArrayCollapseBtnColumn; ///< 数组折叠按钮的列号。
-  static const int kLabelColumn;          ///< 参数标签的列号。
-  static const int kWidgetStartColumn;    ///< 参数编辑控件开始的列号。
-  static const int kMaxWidgetColumn;      ///< 参数编辑控件结束的最大列号。
+  static const int kOptionalCheckBox;        ///< 可选复选框的列号。
+  static const int kArrayCollapseBtnColumn;  ///< 数组折叠按钮的列号。
+  static const int kLabelColumn;             ///< 参数标签的列号。
+  static const int kWidgetStartColumn;       ///< 参数编辑控件开始的列号。
+  static const int kMaxWidgetColumn;         ///< 参数编辑控件结束的最大列号。
 
  private slots:
   /**
@@ -289,25 +290,25 @@ class NodeParamViewItemBody : public QWidget {
  * 此类负责将节点数据与UI表示连接起来，并处理与时间轴和关键帧视图的同步。
  */
 class NodeParamViewItem : public NodeParamViewItemBase {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param node 要显示其参数的 Node 指针。
-   * @param create_checkboxes 复选框的显示行为策略。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  NodeParamViewItem(Node *node, NodeParamViewCheckBoxBehavior create_checkboxes, QWidget *parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param node 要显示其参数的 Node 指针。
+      * @param create_checkboxes 复选框的显示行为策略。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     NodeParamViewItem(Node *node, NodeParamViewCheckBoxBehavior create_checkboxes, QWidget *parent = nullptr);
 
   /**
    * @brief 设置此参数项关联的时间目标。
    * @param target 指向 ViewerOutput 对象的指针。
    */
   void SetTimeTarget(ViewerOutput *target) {
-    time_target_ = target; // 存储时间目标
+    time_target_ = target;  // 存储时间目标
 
-    body_->SetTimeTarget(target); // 将时间目标传递给内部的参数体控件
+    body_->SetTimeTarget(target);  // 将时间目标传递给内部的参数体控件
   }
 
   /**
@@ -315,9 +316,9 @@ class NodeParamViewItem : public NodeParamViewItemBase {
    * @param timebase 新的时间基准 (rational 类型)。
    */
   void SetTimebase(const rational &timebase) {
-    timebase_ = timebase; // 存储时间基准
+    timebase_ = timebase;  // 存储时间基准
 
-    body_->SetTimebase(timebase); // 将时间基准传递给内部的参数体控件
+    body_->SetTimebase(timebase);  // 将时间基准传递给内部的参数体控件
   }
 
   /**
@@ -407,19 +408,19 @@ class NodeParamViewItem : public NodeParamViewItemBase {
   void Retranslate() override;
 
  private:
-  NodeParamViewItemBody *body_; ///< 指向内部的参数体控件，实际显示参数UI。
+  NodeParamViewItemBody *body_;  ///< 指向内部的参数体控件，实际显示参数UI。
 
-  Node *node_; ///< 此参数项关联的节点。
+  Node *node_;  ///< 此参数项关联的节点。
 
-  NodeParamViewCheckBoxBehavior create_checkboxes_; ///< 创建复选框的行为策略。
+  NodeParamViewCheckBoxBehavior create_checkboxes_;  ///< 创建复选框的行为策略。
 
-  Node *ctx_; ///< 此参数项所属的上下文节点。
+  Node *ctx_;  ///< 此参数项所属的上下文节点。
 
-  ViewerOutput *time_target_; ///< 当前的时间目标。
+  ViewerOutput *time_target_;  ///< 当前的时间目标。
 
-  rational timebase_; ///< 当前的时间基准。
+  rational timebase_;  ///< 当前的时间基准。
 
-  KeyframeView::NodeConnections keyframe_connections_; ///< 存储此节点参数与关键帧视图中轨道的连接信息。
+  KeyframeView::NodeConnections keyframe_connections_;  ///< 存储此节点参数与关键帧视图中轨道的连接信息。
 
  private slots:
   /**

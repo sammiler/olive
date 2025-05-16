@@ -4,8 +4,8 @@
 #include <QObject>
 #include <QString>
 
-#include "common/define.h"       // 可能包含一些通用定义或类型
-#include "render/subtitleparams.h" // 可能包含字幕相关的参数定义 (虽然在此文件中未直接使用其成员)
+#include "common/define.h"          // 可能包含一些通用定义或类型
+#include "render/subtitleparams.h"  // 可能包含字幕相关的参数定义 (虽然在此文件中未直接使用其成员)
 
 namespace olive {
 
@@ -24,27 +24,27 @@ class ExportCodec : public QObject {
    * @warning 只能在此列表末尾追加新的编解码器，切勿在中间插入，因为索引值被用于序列化文件。
    */
   enum Codec {
-    kCodecDNxHD,            ///< @brief DNxHD 视频编解码器。
-    kCodecH264,             ///< @brief H.264 (AVC) 视频编解码器。
-    kCodecH264rgb,          ///< @brief H.264 RGB 视频编解码器 (通常用于无损或高质量场景)。
-    kCodecH265,             ///< @brief H.265 (HEVC) 视频编解码器。
-    kCodecOpenEXR,          ///< @brief OpenEXR 图像编解码器 (通常用于高动态范围图像序列)。
-    kCodecPNG,              ///< @brief PNG 图像编解码器 (无损)。
-    kCodecProRes,           ///< @brief Apple ProRes 视频编解码器。
-    kCodecCineform,         ///< @brief GoPro CineForm 视频编解码器。
-    kCodecTIFF,             ///< @brief TIFF 图像编解码器。
-    kCodecVP9,              ///< @brief VP9 视频编解码器。
-    kCodecMP2,              ///< @brief MPEG-1 Audio Layer II (MP2) 音频编解码器。
-    kCodecMP3,              ///< @brief MPEG-1 Audio Layer III (MP3) 音频编解码器。
-    kCodecAAC,              ///< @brief Advanced Audio Coding (AAC) 音频编解码器。
-    kCodecPCM,              ///< @brief Pulse-Code Modulation (PCM) 音频编解码器 (无损原始音频)。
-    kCodecOpus,             ///< @brief Opus 音频编解码器 (有损，但通常质量很高)。
-    kCodecVorbis,           ///< @brief Vorbis 音频编解码器 (有损)。
-    kCodecFLAC,             ///< @brief Free Lossless Audio Codec (FLAC) 音频编解码器 (无损)。
-    kCodecSRT,              ///< @brief SubRip Text (SRT) 字幕格式。
-    kCodecAV1,              ///< @brief AV1 视频编解码器。
+    kCodecDNxHD,     ///< @brief DNxHD 视频编解码器。
+    kCodecH264,      ///< @brief H.264 (AVC) 视频编解码器。
+    kCodecH264rgb,   ///< @brief H.264 RGB 视频编解码器 (通常用于无损或高质量场景)。
+    kCodecH265,      ///< @brief H.265 (HEVC) 视频编解码器。
+    kCodecOpenEXR,   ///< @brief OpenEXR 图像编解码器 (通常用于高动态范围图像序列)。
+    kCodecPNG,       ///< @brief PNG 图像编解码器 (无损)。
+    kCodecProRes,    ///< @brief Apple ProRes 视频编解码器。
+    kCodecCineform,  ///< @brief GoPro CineForm 视频编解码器。
+    kCodecTIFF,      ///< @brief TIFF 图像编解码器。
+    kCodecVP9,       ///< @brief VP9 视频编解码器。
+    kCodecMP2,       ///< @brief MPEG-1 Audio Layer II (MP2) 音频编解码器。
+    kCodecMP3,       ///< @brief MPEG-1 Audio Layer III (MP3) 音频编解码器。
+    kCodecAAC,       ///< @brief Advanced Audio Coding (AAC) 音频编解码器。
+    kCodecPCM,       ///< @brief Pulse-Code Modulation (PCM) 音频编解码器 (无损原始音频)。
+    kCodecOpus,      ///< @brief Opus 音频编解码器 (有损，但通常质量很高)。
+    kCodecVorbis,    ///< @brief Vorbis 音频编解码器 (有损)。
+    kCodecFLAC,      ///< @brief Free Lossless Audio Codec (FLAC) 音频编解码器 (无损)。
+    kCodecSRT,       ///< @brief SubRip Text (SRT) 字幕格式。
+    kCodecAV1,       ///< @brief AV1 视频编解码器。
 
-    kCodecCount             ///< @brief 编解码器总数，用于迭代或数组大小。必须始终是最后一个枚举值。
+    kCodecCount  ///< @brief 编解码器总数，用于迭代或数组大小。必须始终是最后一个枚举值。
   };
 
   /**

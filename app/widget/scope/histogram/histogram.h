@@ -1,12 +1,12 @@
 #ifndef HISTOGRAMSCOPE_H
 #define HISTOGRAMSCOPE_H
 
-#include "widget/scope/scopebase/scopebase.h" // 示波器基类 (可能继承自 ManagedDisplayWidget)
-#include "render/texture.h"                   // 纹理类 (TexturePtr)
-#include "render/shadercode.h"                // 着色器代码封装类
-#include "render/managedcolor.h"              // 色彩管理相关 (Color, ColorProcessorPtr - 虽然未直接用，但 ScopeBase 可能用)
-#include <QVariant>                           // Qt 通用数据类型 (用于 shader_ 和 pipeline_secondary_)
-#include <QWidget>                            // Qt 控件基类 (ScopeBase 的基类 ManagedDisplayWidget 的基类)
+#include <QVariant>               // Qt 通用数据类型 (用于 shader_ 和 pipeline_secondary_)
+#include <QWidget>                // Qt 控件基类 (ScopeBase 的基类 ManagedDisplayWidget 的基类)
+#include "render/managedcolor.h"  // 色彩管理相关 (Color, ColorProcessorPtr - 虽然未直接用，但 ScopeBase 可能用)
+#include "render/shadercode.h"    // 着色器代码封装类
+#include "render/texture.h"       // 纹理类 (TexturePtr)
+#include "widget/scope/scopebase/scopebase.h"  // 示波器基类 (可能继承自 ManagedDisplayWidget)
 
 // 前向声明 Qt 类 (根据用户要求，不添加)
 // class QOpenGLContext; // ScopeBase/ManagedDisplayWidget 可能使用
@@ -21,14 +21,14 @@ namespace olive {
  * 直方图通常分两步计算：首先计算每行像素值的总和，然后汇总这些行总和来生成最终的直方图。
  */
 class HistogramScope : public ScopeBase {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit HistogramScope(QWidget* parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit HistogramScope(QWidget* parent = nullptr);
 
   /**
    * @brief 使用宏定义的默认析构函数。
@@ -39,7 +39,7 @@ class HistogramScope : public ScopeBase {
    */
   MANAGEDDISPLAYWIDGET_DEFAULT_DESTRUCTOR(HistogramScope)
 
- protected slots: // 虽然标记为 protected slots，但它们是重写 ManagedDisplayWidget/ScopeBase 的虚函数槽
+ protected slots:  // 虽然标记为 protected slots，但它们是重写 ManagedDisplayWidget/ScopeBase 的虚函数槽
   /**
    * @brief 重写的 OpenGL 初始化槽函数。
    *
@@ -78,8 +78,8 @@ class HistogramScope : public ScopeBase {
   void DrawScope(TexturePtr managed_tex, QVariant pipeline) override;
 
  private:
-  QVariant pipeline_secondary_;   ///< 存储辅助（第二阶段）着色器管线的句柄或相关数据。
-  TexturePtr texture_row_sums_; ///< 指向用于存储每行像素值总和的中间结果的纹理的智能指针。
+  QVariant pipeline_secondary_;  ///< 存储辅助（第二阶段）着色器管线的句柄或相关数据。
+  TexturePtr texture_row_sums_;  ///< 指向用于存储每行像素值总和的中间结果的纹理的智能指针。
 };
 
 }  // namespace olive

@@ -1,26 +1,26 @@
-#ifndef RENDERBACKEND_H // 防止头文件被重复包含的宏
-#define RENDERBACKEND_H // 定义 RENDERBACKEND_H 宏
+#ifndef RENDERBACKEND_H  // 防止头文件被重复包含的宏
+#define RENDERBACKEND_H  // 定义 RENDERBACKEND_H 宏
 
-#include <QtConcurrent/QtConcurrent> // Qt 并发编程模块
+#include <QtConcurrent/QtConcurrent>  // Qt 并发编程模块
 
-#include "colorprocessorcache.h"   // 包含 ColorProcessorCache (颜色处理器缓存) 的定义
-#include "config/config.h"         // 应用程序配置相关
-#include "dialog/rendercancel/rendercancel.h" // 渲染取消对话框 (可能与进度显示或用户取消相关)
-#include "node/output/viewer/viewer.h"      // ViewerOutput 接口或基类定义
-#include "node/project.h"                   // Project 类定义
-#include "node/traverser.h"                 // NodeTraverser (节点遍历器) 定义
-#include "render/previewautocacher.h"       // PreviewAutoCacher (预览自动缓存器) 定义
-#include "render/renderer.h"                // Renderer (渲染器抽象基类) 定义
-#include "render/renderticket.h"            // RenderTicket (渲染票据) 定义
-#include "rendercache.h"                    // 包含 DecoderCache 和 ShaderCache 的定义
+#include "colorprocessorcache.h"               // 包含 ColorProcessorCache (颜色处理器缓存) 的定义
+#include "config/config.h"                     // 应用程序配置相关
+#include "dialog/rendercancel/rendercancel.h"  // 渲染取消对话框 (可能与进度显示或用户取消相关)
+#include "node/output/viewer/viewer.h"         // ViewerOutput 接口或基类定义
+#include "node/project.h"                      // Project 类定义
+#include "node/traverser.h"                    // NodeTraverser (节点遍历器) 定义
+#include "render/previewautocacher.h"          // PreviewAutoCacher (预览自动缓存器) 定义
+#include "render/renderer.h"                   // Renderer (渲染器抽象基类) 定义
+#include "render/renderticket.h"               // RenderTicket (渲染票据) 定义
+#include "rendercache.h"                       // 包含 DecoderCache 和 ShaderCache 的定义
 
 // 假设 QThread, QMutex, QWaitCondition, QTimer, std::list, std::vector,
 // VideoParams, AudioParams, rational, TimeRange, PixelFormat, ColorManager,
 // ColorProcessorPtr, FrameHashCache, MultiCamNode 等类型已通过其他方式被间接包含。
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
-class Renderer; // 向前声明 Renderer 类
+class Renderer;  // 向前声明 Renderer 类
 
 /**
  * @brief RenderThread 类是一个 QThread 的派生类，用于在单独的线程中执行渲染任务。
@@ -32,18 +32,19 @@ class Renderer; // 向前声明 Renderer 类
  * 使用单独的线程进行渲染可以避免阻塞主 UI 线程，从而保持应用程序的响应性。
  * 可以创建多个 RenderThread 实例来实现并行渲染。
  */
-class RenderThread : public QThread { // RenderThread 继承自 QThread
-  Q_OBJECT // 声明此类使用 Qt 的元对象系统
+class RenderThread : public QThread {  // RenderThread 继承自 QThread
+ Q_OBJECT                              // 声明此类使用 Qt 的元对象系统
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param renderer 此线程将使用的 Renderer 实例。
-   * @param decoder_cache 指向共享的解码器缓存的指针。
-   * @param shader_cache 指向共享的着色器缓存的指针。
-   * @param parent 父对象指针，默认为 nullptr。
-   */
-  RenderThread(Renderer *renderer, DecoderCache *decoder_cache, ShaderCache *shader_cache, QObject *parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param renderer 此线程将使用的 Renderer 实例。
+      * @param decoder_cache 指向共享的解码器缓存的指针。
+      * @param shader_cache 指向共享的着色器缓存的指针。
+      * @param parent 父对象指针，默认为 nullptr。
+      */
+     RenderThread(Renderer *renderer, DecoderCache *decoder_cache, ShaderCache *shader_cache,
+                  QObject *parent = nullptr);
 
   /**
    * @brief 向此线程的任务队列中添加一个新的渲染票据。
@@ -62,7 +63,7 @@ class RenderThread : public QThread { // RenderThread 继承自 QThread
    * @brief 请求线程退出。
    * 会设置取消标志并唤醒等待条件的线程。
    */
-  void quit(); // Qt 4 风格的退出方法名，通常 QThread::quit() 是一个槽
+  void quit();  // Qt 4 风格的退出方法名，通常 QThread::quit() 是一个槽
 
  protected:
   /**
@@ -72,18 +73,18 @@ class RenderThread : public QThread { // RenderThread 继承自 QThread
   void run() override;
 
  private:
-  QMutex mutex_; // 互斥锁，用于保护对任务队列 `queue_` 和 `cancelled_` 标志的并发访问
+  QMutex mutex_;  // 互斥锁，用于保护对任务队列 `queue_` 和 `cancelled_` 标志的并发访问
 
-  QWaitCondition wait_; // 等待条件变量，用于在队列为空时使线程休眠，并在新任务到达时唤醒
+  QWaitCondition wait_;  // 等待条件变量，用于在队列为空时使线程休眠，并在新任务到达时唤醒
 
-  std::list<RenderTicketPtr> queue_; // 存储待处理渲染任务的队列
+  std::list<RenderTicketPtr> queue_;  // 存储待处理渲染任务的队列
 
-  bool cancelled_; // 标记线程是否已被请求取消/退出
+  bool cancelled_;  // 标记线程是否已被请求取消/退出
 
-  Renderer *context_; // 此线程使用的 Renderer 实例 (例如 OpenGLRenderer)
+  Renderer *context_;  // 此线程使用的 Renderer 实例 (例如 OpenGLRenderer)
 
-  DecoderCache *decoder_cache_; // 指向共享的解码器缓存
-  ShaderCache *shader_cache_;   // 指向共享的着色器缓存
+  DecoderCache *decoder_cache_;  // 指向共享的解码器缓存
+  ShaderCache *shader_cache_;    // 指向共享的着色器缓存
 };
 
 /**
@@ -97,15 +98,15 @@ class RenderThread : public QThread { // RenderThread 继承自 QThread
  * - 与 PreviewAutoCacher 协作，处理自动缓存请求。
  * - 提供接口来控制渲染行为，如设置渲染后端、暂停渲染、垃圾回收策略等。
  */
-class RenderManager : public QObject { // RenderManager 继承自 QObject
-  Q_OBJECT // 声明此类使用 Qt 的元对象系统
+class RenderManager : public QObject {  // RenderManager 继承自 QObject
+ Q_OBJECT                               // 声明此类使用 Qt 的元对象系统
 
- public:
-  // 定义可用的渲染后端枚举
-  enum Backend {
-    kOpenGL, // 使用 OpenGL 提供图形加速
-    kDummy   // 无图形渲染 - 用于测试核心线程逻辑
-  };
+     public :
+     // 定义可用的渲染后端枚举
+     enum Backend {
+       kOpenGL,  // 使用 OpenGL 提供图形加速
+       kDummy    // 无图形渲染 - 用于测试核心线程逻辑
+     };
 
   // (静态) 创建 RenderManager 的单例实例
   static void CreateInstance() { instance_ = new RenderManager(); }
@@ -121,9 +122,9 @@ class RenderManager : public QObject { // RenderManager 继承自 QObject
 
   // 定义渲染结果的返回类型枚举
   enum ReturnType {
-    kTexture, // 返回 TexturePtr (通常是GPU纹理)
-    kFrame,   // 返回 FramePtr (通常是CPU内存中的帧数据)
-    kNull     // 不返回特定类型的结果 (例如，只写入缓存)
+    kTexture,  // 返回 TexturePtr (通常是GPU纹理)
+    kFrame,    // 返回 FramePtr (通常是CPU内存中的帧数据)
+    kNull      // 不返回特定类型的结果 (例如，只写入缓存)
   };
 
   // 视频渲染参数结构体，封装了渲染单帧视频所需的所有信息
@@ -144,14 +145,14 @@ class RenderManager : public QObject { // RenderManager 继承自 QObject
       audio_params = aparam;
       time = t;
       color_manager = colorman;
-      use_cache = false;         // 默认不强制使用缓存 (自动缓存逻辑会处理)
-      return_type = kFrame;      // 默认返回 FramePtr
-      force_format = PixelFormat(PixelFormat::INVALID); // 默认不强制像素格式
-      force_color_output = nullptr; // 默认不强制输出颜色转换
-      force_size = QSize(0, 0);   // 默认不强制输出尺寸
-      force_channel_count = 0;    // 默认不强制通道数
-      mode = m;                   // 设置渲染模式
-      multicam = nullptr;         // 默认无多机位节点
+      use_cache = false;                                 // 默认不强制使用缓存 (自动缓存逻辑会处理)
+      return_type = kFrame;                              // 默认返回 FramePtr
+      force_format = PixelFormat(PixelFormat::INVALID);  // 默认不强制像素格式
+      force_color_output = nullptr;                      // 默认不强制输出颜色转换
+      force_size = QSize(0, 0);                          // 默认不强制输出尺寸
+      force_channel_count = 0;                           // 默认不强制通道数
+      mode = m;                                          // 设置渲染模式
+      multicam = nullptr;                                // 默认无多机位节点
     }
 
     /**
@@ -159,7 +160,7 @@ class RenderManager : public QObject { // RenderManager 继承自 QObject
      * @param cache 用于此渲染的 FrameHashCache。
      */
     void AddCache(FrameHashCache *cache) {
-      cache_dir = cache->GetCacheDirectory();    // 获取缓存目录
+      cache_dir = cache->GetCacheDirectory();  // 获取缓存目录
       cache_timebase = cache->GetTimebase();   // 获取缓存的时间基准
       cache_id = cache->GetUuid().toString();  // 获取缓存的UUID
     }
@@ -175,16 +176,16 @@ class RenderManager : public QObject { // RenderManager 继承自 QObject
     MultiCamNode *multicam;       // (可选) 相关的多机位节点
 
     // 缓存相关信息
-    QString cache_dir;            // 缓存目录
-    rational cache_timebase;      // 缓存的时间基准
-    QString cache_id;             // 缓存的UUID
+    QString cache_dir;        // 缓存目录
+    rational cache_timebase;  // 缓存的时间基准
+    QString cache_id;         // 缓存的UUID
 
     // 强制覆盖参数 (用于特定情况，例如缩略图生成)
-    QSize force_size;             // 强制输出尺寸
-    int force_channel_count;      // 强制输出通道数
-    QMatrix4x4 force_matrix;      // 强制应用的变换矩阵
-    PixelFormat force_format;     // 强制输出像素格式
-    ColorProcessorPtr force_color_output; // 强制应用的输出颜色转换处理器
+    QSize force_size;                      // 强制输出尺寸
+    int force_channel_count;               // 强制输出通道数
+    QMatrix4x4 force_matrix;               // 强制应用的变换矩阵
+    PixelFormat force_format;              // 强制输出像素格式
+    ColorProcessorPtr force_color_output;  // 强制应用的输出颜色转换处理器
   };
 
   // 干运行 (dry run) 渲染的时间间隔常量 (可能用于探测性渲染或信息获取)
@@ -214,17 +215,17 @@ class RenderManager : public QObject { // RenderManager 继承自 QObject
       node = n;
       range = time;
       audio_params = aparam;
-      generate_waveforms = false; // 默认不生成波形
-      clamp = true;               // 默认对音频样本进行钳位处理
-      mode = m;                   // 设置渲染模式
+      generate_waveforms = false;  // 默认不生成波形
+      clamp = true;                // 默认对音频样本进行钳位处理
+      mode = m;                    // 设置渲染模式
     }
 
-    Node *node;                 // 要渲染的源节点
-    TimeRange range;            // 要渲染的时间范围
-    AudioParams audio_params;   // 目标音频参数
-    bool generate_waveforms;    // 是否同时生成波形数据
-    bool clamp;                 // 是否对输出样本进行钳位 (防止超出范围)
-    RenderMode::Mode mode;      // 渲染模式
+    Node *node;                // 要渲染的源节点
+    TimeRange range;           // 要渲染的时间范围
+    AudioParams audio_params;  // 目标音频参数
+    bool generate_waveforms;   // 是否同时生成波形数据
+    bool clamp;                // 是否对输出样本进行钳位 (防止超出范围)
+    RenderMode::Mode mode;     // 渲染模式
   };
 
   /**
@@ -266,7 +267,7 @@ class RenderManager : public QObject { // RenderManager 继承自 QObject
    */
   void SetProject(Project *p) { auto_cacher_->SetProject(p); }
 
- public slots: // Qt 公有槽函数
+ public slots:  // Qt 公有槽函数
   /**
    * @brief 设置是否启用激进的垃圾回收策略。
    * 激进策略可能会更频繁地清理未使用的资源 (如解码器)，以减少内存占用，
@@ -275,8 +276,8 @@ class RenderManager : public QObject { // RenderManager 继承自 QObject
    */
   void SetAggressiveGarbageCollection(bool enabled);
 
- signals: // Qt 信号声明
-  // (此处可以添加 RenderManager 可能发出的信号，例如渲染完成、错误等)
+ signals:  // Qt 信号声明
+           // (此处可以添加 RenderManager 可能发出的信号，例如渲染完成、错误等)
 
  private:
   // 私有构造函数 (用于单例模式)
@@ -292,36 +293,36 @@ class RenderManager : public QObject { // RenderManager 继承自 QObject
    */
   RenderThread *CreateThread(Renderer *renderer = nullptr);
 
-  static RenderManager *instance_; // RenderManager 的静态单例实例指针
+  static RenderManager *instance_;  // RenderManager 的静态单例实例指针
 
-  Renderer *context_; // 指向当前渲染后端 (如 OpenGLRenderer) 的实例指针
+  Renderer *context_;  // 指向当前渲染后端 (如 OpenGLRenderer) 的实例指针
 
-  Backend backend_; // 当前使用的渲染后端类型
+  Backend backend_;  // 当前使用的渲染后端类型
 
-  DecoderCache *decoder_cache_; // 指向共享的解码器缓存
-  ShaderCache *shader_cache_;   // 指向共享的着色器缓存
+  DecoderCache *decoder_cache_;  // 指向共享的解码器缓存
+  ShaderCache *shader_cache_;    // 指向共享的着色器缓存
 
   // 解码器最大不活动时间的阈值 (毫秒)，用于垃圾回收
-  static constexpr auto kDecoderMaximumInactivityAggressive = 1000; // 激进模式
-  static constexpr auto kDecoderMaximumInactivity = 5000;         // 普通模式
+  static constexpr auto kDecoderMaximumInactivityAggressive = 1000;  // 激进模式
+  static constexpr auto kDecoderMaximumInactivity = 5000;            // 普通模式
 
-  int aggressive_gc_; // 标记是否启用了激进的垃圾回收 (可能是计数或布尔值)
+  int aggressive_gc_;  // 标记是否启用了激进的垃圾回收 (可能是计数或布尔值)
 
-  QTimer *decoder_clear_timer_; // 用于定期清理旧解码器的定时器
+  QTimer *decoder_clear_timer_;  // 用于定期清理旧解码器的定时器
 
   // 不同类型的渲染任务可能使用不同的渲染线程池
   RenderThread *video_thread_;    // 用于常规视频帧渲染的线程
   RenderThread *dry_run_thread_;  // 用于干运行 (dry run) 任务的线程
   RenderThread *audio_thread_;    // 用于音频渲染的线程
 
-  std::vector<RenderThread *> waveform_threads_; // 用于生成波形数据的线程池
-  size_t last_waveform_thread_{}; // 上次分配波形任务的线程索引 (用于轮询)
+  std::vector<RenderThread *> waveform_threads_;  // 用于生成波形数据的线程池
+  size_t last_waveform_thread_{};                 // 上次分配波形任务的线程索引 (用于轮询)
 
-  std::list<RenderThread *> render_threads_; // 所有活动渲染线程的列表
+  std::list<RenderThread *> render_threads_;  // 所有活动渲染线程的列表
 
-  PreviewAutoCacher *auto_cacher_; // 预览自动缓存器实例
+  PreviewAutoCacher *auto_cacher_;  // 预览自动缓存器实例
 
- private slots: // Qt 私有槽函数
+ private slots:  // Qt 私有槽函数
   /**
    * @brief 定时器触发时调用的槽函数，用于清理长时间未使用的解码器。
    */

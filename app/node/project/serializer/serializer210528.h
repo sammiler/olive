@@ -1,7 +1,7 @@
-#ifndef SERIALIZER210528_H // 防止头文件被多次包含的宏定义开始 (文件名是 SERIALIZER210528_H)
+#ifndef SERIALIZER210528_H  // 防止头文件被多次包含的宏定义开始 (文件名是 SERIALIZER210528_H)
 #define SERIALIZER210528_H
 
-#include "serializer.h" // 引入基类 ProjectSerializer 的定义 (文件名可能是 "projectserializer.h")
+#include "serializer.h"  // 引入基类 ProjectSerializer 的定义 (文件名可能是 "projectserializer.h")
 
 // 可能需要的前向声明
 // class Project; // 假设
@@ -17,7 +17,7 @@
 // class TimelineMarkerList; // 假设
 // namespace Node { struct Position; struct ValueHint; } // 假设
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
 /**
  * @brief 特定版本的项目序列化器，版本号为 210528。
@@ -47,7 +47,7 @@ class ProjectSerializer210528 : public ProjectSerializer {
    * @brief 返回此序列化器支持的项目文件版本号。
    * @return uint 版本号，固定为 210528。
    */
-  [[nodiscard]] uint Version() const override { return 210528; } // 此序列化器处理版本 210528
+  [[nodiscard]] uint Version() const override { return 210528; }  // 此序列化器处理版本 210528
 
  private:
   /**
@@ -57,15 +57,15 @@ class ProjectSerializer210528 : public ProjectSerializer {
   struct XMLNodeData {
     /** @brief 存储一个待建立的节点连接的信息。 */
     struct SerializedConnection {
-      NodeInput input;        ///< 目标节点的输入参数。
-      quintptr output_node;   ///< 源节点的指针占位符（在XML中可能是ID，加载时转换为quintptr）。
-      QString output_param;   ///< 源节点的输出参数名称。
+      NodeInput input;       ///< 目标节点的输入参数。
+      quintptr output_node;  ///< 源节点的指针占位符（在XML中可能是ID，加载时转换为quintptr）。
+      QString output_param;  ///< 源节点的输出参数名称。
     };
 
     /** @brief 存储一个媒体块（Block）与其链接对象之间的链接信息。 */
     struct BlockLink {
-      Node *block;      ///< 指向媒体块的指针。
-      quintptr link;    ///< 指向链接对象的指针占位符。
+      Node *block;    ///< 指向媒体块的指针。
+      quintptr link;  ///< 指向链接对象的指针占位符。
     };
 
     /** @brief 存储节点组（NodeGroup）的输入与其内部节点输入之间的链接信息。 */
@@ -186,4 +186,5 @@ class ProjectSerializer210528 : public ProjectSerializer {
 
 }  // namespace olive
 
-#endif  // SERIALIZER211228_H // 头文件宏定义结束 (注意：此处的宏名称 SERIALIZER211228_H 与文件名 SERIALIZER210528_H 不匹配)
+#endif  // SERIALIZER211228_H // 头文件宏定义结束 (注意：此处的宏名称 SERIALIZER211228_H 与文件名 SERIALIZER210528_H
+        // 不匹配)

@@ -311,8 +311,8 @@ public:
  */
 class QAction : public QObject
 {
-    Q_OBJECT // Q_OBJECT 宏，用于元对象系统支持 (信号和槽等)
-public:
+Q_OBJECT // Q_OBJECT 宏，用于元对象系统支持 (信号和槽等)
+    public :
     /**
      * @brief 构造函数。
      * @param parent 父对象。

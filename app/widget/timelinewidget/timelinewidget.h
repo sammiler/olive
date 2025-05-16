@@ -1,4 +1,4 @@
-#ifndef TIMELINEWIDGET_H // 防止头文件被多次包含的宏定义
+#ifndef TIMELINEWIDGET_H  // 防止头文件被多次包含的宏定义
 #define TIMELINEWIDGET_H
 
 #include <QRubberBand>  // 引入 QRubberBand 类，用于橡皮筋选择框
@@ -6,21 +6,22 @@
 #include <QWidget>      // 引入 QWidget 类，是所有用户界面对象的基类
 #include <utility>      // 引入 std::move 等工具函数
 
-#include "core.h" // 引入核心定义，可能包含 rational 等类型
-#include "node/block/transition/transition.h" // 引入 TransitionBlock 类的定义
-#include "node/output/viewer/viewer.h"        // 引入 ViewerOutput 类的定义，通常代表一个可预览的节点输出
-#include "node/project/serializer/serializer.h" // 引入序列化相关的类 ProjectSerializer
-#include "timeline/timelinecommon.h"            // 引入时间轴相关的通用定义，如 Timeline::MovementMode, TimeRange
-#include "timelineandtrackview.h"               // 引入 TimelineAndTrackView 类的定义，组合了轨道头部和时间轴主体
-#include "widget/slider/rationalslider.h"       // 引入 RationalSlider 类的定义，用于显示和编辑 rational 类型数值的滑块
-#include "widget/timebased/timebasedwidget.h"   // 引入 TimeBasedWidget 类的定义，是 TimelineWidget 的基类
-#include "widget/timelinewidget/timelinewidgetselections.h" // 引入 TimelineWidgetSelections 类的定义，管理时间轴选择状态
-#include "widget/timelinewidget/tool/import.h"  // 引入 ImportTool 类的定义
-#include "widget/timelinewidget/tool/tool.h"    // 引入 TimelineTool 基类的定义
+#include "core.h"                                // 引入核心定义，可能包含 rational 等类型
+#include "node/block/transition/transition.h"    // 引入 TransitionBlock 类的定义
+#include "node/output/viewer/viewer.h"           // 引入 ViewerOutput 类的定义，通常代表一个可预览的节点输出
+#include "node/project/serializer/serializer.h"  // 引入序列化相关的类 ProjectSerializer
+#include "timeline/timelinecommon.h"             // 引入时间轴相关的通用定义，如 Timeline::MovementMode, TimeRange
+#include "timelineandtrackview.h"                // 引入 TimelineAndTrackView 类的定义，组合了轨道头部和时间轴主体
+#include "widget/slider/rationalslider.h"        // 引入 RationalSlider 类的定义，用于显示和编辑 rational 类型数值的滑块
+#include "widget/timebased/timebasedwidget.h"    // 引入 TimeBasedWidget 类的定义，是 TimelineWidget 的基类
+#include "widget/timelinewidget/timelinewidgetselections.h"  // 引入 TimelineWidgetSelections 类的定义，管理时间轴选择状态
+#include "widget/timelinewidget/tool/import.h"               // 引入 ImportTool 类的定义
+#include "widget/timelinewidget/tool/tool.h"                 // 引入 TimelineTool 基类的定义
 
 // 根据代码上下文，以下 Qt 类型应由已包含的头文件或其传递包含的头文件提供定义：
-// - QPoint, QByteArray, QVector, QHash, QList, QMap, QTimer, QAction, QSplitter, QResizeEvent, QMouseEvent, QDragLeaveEvent, QDragEnterEvent, QDragMoveEvent, QDropEvent: 标准Qt类型
-// 此处严格按照用户提供的代码，不添加额外的 #include 或前向声明。
+// - QPoint, QByteArray, QVector, QHash, QList, QMap, QTimer, QAction, QSplitter, QResizeEvent, QMouseEvent,
+// QDragLeaveEvent, QDragEnterEvent, QDragMoveEvent, QDropEvent: 标准Qt类型 此处严格按照用户提供的代码，不添加额外的
+// #include 或前向声明。
 
 namespace olive {
 
@@ -31,14 +32,14 @@ namespace olive {
  * 提供了一个完整的界面来操作时间轴上的内容。
  */
 class TimelineWidget : public TimeBasedWidget {
-  Q_OBJECT // Q_OBJECT 宏，用于启用 Qt 的元对象特性，如信号和槽
+ Q_OBJECT  // Q_OBJECT 宏，用于启用 Qt 的元对象特性，如信号和槽
 
- public:
-  /**
-   * @brief 构造一个 TimelineWidget 对象。
-   * @param parent 父 QWidget 对象，默认为 nullptr。
-   */
-  explicit TimelineWidget(QWidget* parent = nullptr);
+     public :
+     /**
+      * @brief 构造一个 TimelineWidget 对象。
+      * @param parent 父 QWidget 对象，默认为 nullptr。
+      */
+     explicit TimelineWidget(QWidget* parent = nullptr);
 
   /**
    * @brief 析构 TimelineWidget 对象。
@@ -422,7 +423,8 @@ class TimelineWidget : public TimeBasedWidget {
    *
    * TimelineWidget keeps track of which blocks are selected internally. Calling this function will
    * add to that list and emit a signal to other widgets that said blocks have been selected.
-   * (原始英文注释：TimelineWidget 内部跟踪哪些块被选中。调用此函数会将块添加到该列表，并向其他小部件发出信号，表明所述块已被选中。)
+   * (原始英文注释：TimelineWidget
+   * 内部跟踪哪些块被选中。调用此函数会将块添加到该列表，并向其他小部件发出信号，表明所述块已被选中。)
    *
    * @param input The list of blocks to add to the internal selection list and signal.
    * (原始英文注释：要添加到内部选择列表并发出信号的块列表。)
@@ -430,7 +432,9 @@ class TimelineWidget : public TimeBasedWidget {
    * @param filter TRUE to automatically filter blocks that are already selected from the list. In most cases,
    * this is preferable and should only be set to FALSE if the list is guaranteed not to contain
    * already selected blocks (and therefore filtering can be skipped to save time).
-   * (原始英文注释：TRUE 表示自动从列表中过滤掉已选择的块。在大多数情况下，这是可取的，并且只有在列表保证不包含已选择的块时才应设置为 FALSE（因此可以跳过过滤以节省时间）。)
+   * (原始英文注释：TRUE
+   * 表示自动从列表中过滤掉已选择的块。在大多数情况下，这是可取的，并且只有在列表保证不包含已选择的块时才应设置为
+   * FALSE（因此可以跳过过滤以节省时间）。)
    */
   void SignalSelectedBlocks(QVector<Block*> input, bool filter = true);
 
@@ -482,10 +486,10 @@ class TimelineWidget : public TimeBasedWidget {
      */
     SetSelectionsCommand(TimelineWidget* timeline, TimelineWidgetSelections now, TimelineWidgetSelections old,
                          bool process_block_changes = true)
-        : timeline_(timeline),                // 初始化时间轴控件指针
-          old_(std::move(old)),               // 初始化旧的选择状态 (使用移动语义)
-          now_(std::move(now)),               // 初始化新的选择状态 (使用移动语义)
-          process_block_changes_(process_block_changes) {} // 初始化是否处理块变化
+        : timeline_(timeline),                              // 初始化时间轴控件指针
+          old_(std::move(old)),                             // 初始化旧的选择状态 (使用移动语义)
+          now_(std::move(now)),                             // 初始化新的选择状态 (使用移动语义)
+          process_block_changes_(process_block_changes) {}  // 初始化是否处理块变化
 
     /**
      * @brief 获取与此命令相关的 Project 对象。对于此命令，可能不直接关联项目，返回 nullptr。
@@ -505,13 +509,13 @@ class TimelineWidget : public TimeBasedWidget {
     void undo() override { timeline_->SetSelections(old_, process_block_changes_); }
 
    private:
-    TimelineWidget* timeline_; ///< 指向关联的 TimelineWidget。
-    TimelineWidgetSelections old_; ///< 旧的选择状态。
-    TimelineWidgetSelections now_; ///< 新的选择状态。
-    bool process_block_changes_;   ///< 标记在设置选择时是否处理块相关的变化。
+    TimelineWidget* timeline_;      ///< 指向关联的 TimelineWidget。
+    TimelineWidgetSelections old_;  ///< 旧的选择状态。
+    TimelineWidgetSelections now_;  ///< 新的选择状态。
+    bool process_block_changes_;    ///< 标记在设置选择时是否处理块相关的变化。
   };
 
- public slots: // 公共槽函数
+ public slots:  // 公共槽函数
   /**
    * @brief 清除临时的字幕轨道。
    */
@@ -522,7 +526,7 @@ class TimelineWidget : public TimeBasedWidget {
    */
   void RenameSelectedBlocks();
 
- signals: // 信号
+ signals:  // 信号
   /**
    * @brief 当 Block 的选择状态发生变化时发出此信号。
    * @param selected_blocks 一个包含当前所有被选中 Block 指针的 QVector。
@@ -548,7 +552,7 @@ class TimelineWidget : public TimeBasedWidget {
    */
   void RevealViewerInProject(ViewerOutput* r);
 
- protected: // 受保护的重写方法
+ protected:  // 受保护的重写方法
   /**
    * @brief 重写 QWidget::resizeEvent()，处理控件大小调整事件。
    * @param event QResizeEvent 指针，包含事件参数。
@@ -588,13 +592,13 @@ class TimelineWidget : public TimeBasedWidget {
    */
   [[nodiscard]] const QVector<Block*>* GetSnapBlocks() const override { return &added_blocks_; }
 
- protected slots: // 受保护槽函数
+ protected slots:  // 受保护槽函数
   /**
    * @brief 发送“追赶”滚动事件的虚槽函数 (重写自 TimeBasedWidget)。
    */
   void SendCatchUpScrollEvent() override;
 
- private: // 私有方法
+ private:  // 私有方法
   /**
    * @brief 获取在涟漪/编辑到入点/出点操作中受影响的剪辑信息。
    * @param playhead_time 当前播放头时间。
@@ -643,14 +647,14 @@ class TimelineWidget : public TimeBasedWidget {
    */
   QHash<Node*, Node*> GenerateExistingPasteMap(const ProjectSerializer::Result& r);
 
-  QRubberBand rubberband_; ///< 用于橡皮筋选择的 QRubberBand 对象。
-  QVector<QPointF> rubberband_scene_pos_; ///< 存储橡皮筋选择过程中鼠标在场景中的位置点。
-  TimelineWidgetSelections rubberband_old_selections_; ///< 开始橡皮筋选择前的旧选择状态。
-  QVector<Block*> rubberband_now_selected_; ///< 当前通过橡皮筋选择的 Block 列表。
-  bool rubberband_enable_selecting_{}; ///< 标记橡皮筋选择是否实际更新选择集。
-  bool rubberband_select_links_{};   ///< 标记橡皮筋选择是否同时选择链接的项。
+  QRubberBand rubberband_;                              ///< 用于橡皮筋选择的 QRubberBand 对象。
+  QVector<QPointF> rubberband_scene_pos_;               ///< 存储橡皮筋选择过程中鼠标在场景中的位置点。
+  TimelineWidgetSelections rubberband_old_selections_;  ///< 开始橡皮筋选择前的旧选择状态。
+  QVector<Block*> rubberband_now_selected_;             ///< 当前通过橡皮筋选择的 Block 列表。
+  bool rubberband_enable_selecting_{};                  ///< 标记橡皮筋选择是否实际更新选择集。
+  bool rubberband_select_links_{};                      ///< 标记橡皮筋选择是否同时选择链接的项。
 
-  TimelineWidgetSelections selections_; ///< 当前时间轴的选择状态。
+  TimelineWidgetSelections selections_;  ///< 当前时间轴的选择状态。
 
   /**
    * @brief 获取当前激活的时间轴工具。
@@ -658,32 +662,32 @@ class TimelineWidget : public TimeBasedWidget {
    */
   TimelineTool* GetActiveTool();
 
-  QVector<TimelineTool*> tools_; ///< 存储所有可用时间轴工具的列表。
+  QVector<TimelineTool*> tools_;  ///< 存储所有可用时间轴工具的列表。
 
-  ImportTool* import_tool_; ///< 指向导入工具的特定指针。
+  ImportTool* import_tool_;  ///< 指向导入工具的特定指针。
 
-  TimelineTool* active_tool_; ///< 指向当前激活的时间轴工具的指针。
+  TimelineTool* active_tool_;  ///< 指向当前激活的时间轴工具的指针。
 
-  QVector<TimelineViewGhostItem*> ghost_items_; ///< 存储当前所有幽灵项（拖动预览）的列表。
+  QVector<TimelineViewGhostItem*> ghost_items_;  ///< 存储当前所有幽灵项（拖动预览）的列表。
 
-  QVector<TimelineAndTrackView*> views_; ///< 存储此 TimelineWidget 管理的所有 TimelineAndTrackView 实例。
+  QVector<TimelineAndTrackView*> views_;  ///< 存储此 TimelineWidget 管理的所有 TimelineAndTrackView 实例。
 
-  RationalSlider* timecode_label_; ///< 指向 RationalSlider 对象的指针，可能用于显示当前时间码或进行精确跳转。
+  RationalSlider* timecode_label_;  ///< 指向 RationalSlider 对象的指针，可能用于显示当前时间码或进行精确跳转。
 
-  QVector<Block*> selected_blocks_; ///< 存储当前所有被选中 Block 的列表。
+  QVector<Block*> selected_blocks_;  ///< 存储当前所有被选中 Block 的列表。
 
-  QVector<Block*> added_blocks_; ///< 存储已添加到时间轴上的 Block 列表（可能用于吸附等）。
+  QVector<Block*> added_blocks_;  ///< 存储已添加到时间轴上的 Block 列表（可能用于吸附等）。
 
-  int deferred_scroll_value_{}; ///< 延迟滚动的目标值。
+  int deferred_scroll_value_{};  ///< 延迟滚动的目标值。
 
-  bool use_audio_time_units_; ///< 标记当前是否使用音频时间单位（例如采样数）而非标准时间码。
+  bool use_audio_time_units_;  ///< 标记当前是否使用音频时间单位（例如采样数）而非标准时间码。
 
-  QSplitter* view_splitter_; ///< 指向 QSplitter 对象的指针，用于分隔不同的视图区域。
+  QSplitter* view_splitter_;  ///< 指向 QSplitter 对象的指针，用于分隔不同的视图区域。
 
-  MultiUndoCommand* subtitle_show_command_; ///< 指向与显示/隐藏字幕相关的聚合撤销命令。
-  Track* subtitle_tentative_track_; ///< 指向临时的字幕轨道。
+  MultiUndoCommand* subtitle_show_command_;  ///< 指向与显示/隐藏字幕相关的聚合撤销命令。
+  Track* subtitle_tentative_track_;          ///< 指向临时的字幕轨道。
 
-  QTimer* signal_block_change_timer_; ///< 用于延迟发送 Block选择变化信号的 QTimer。
+  QTimer* signal_block_change_timer_;  ///< 用于延迟发送 Block选择变化信号的 QTimer。
 
   /**
    * @brief SetSplitterSizesCommand 类是一个用于撤销/重做设置分割条大小的命令。
@@ -714,9 +718,9 @@ class TimelineWidget : public TimeBasedWidget {
     void undo() override;
 
    private:
-    QSplitter* splitter_;      ///< 指向被操作的 QSplitter。
-    QList<int> new_sizes_;     ///< 新的分割条大小列表。
-    QList<int> old_sizes_;     ///< 旧的分割条大小列表（在第一次 redo 时捕获）。
+    QSplitter* splitter_;   ///< 指向被操作的 QSplitter。
+    QList<int> new_sizes_;  ///< 新的分割条大小列表。
+    QList<int> old_sizes_;  ///< 旧的分割条大小列表（在第一次 redo 时捕获）。
   };
 
   /**
@@ -742,7 +746,7 @@ class TimelineWidget : public TimeBasedWidget {
    */
   void MoveToPlayheadInternal(bool out);
 
- private slots: // 私有槽函数
+ private slots:  // 私有槽函数
   /**
    * @brief 处理来自 TimelineView 的鼠标按下信号。
    * @param event 鼠标事件。
@@ -794,7 +798,7 @@ class TimelineWidget : public TimeBasedWidget {
    * @brief 当一个 Block 从序列中移除时调用的槽函数。
    * @param block 指向被移除的 Block 对象的指针。 // 参数名应为 block，与 QVector<Block*> GetSelectedBlocks() 等一致
    */
-  void RemoveBlock(Block* block); // 参数类型应为 Block*，不是 Block* blocks
+  void RemoveBlock(Block* block);  // 参数类型应为 Block*，不是 Block* blocks
 
   /**
    * @brief 当一个轨道被添加到序列时调用的槽函数。
@@ -885,7 +889,7 @@ class TimelineWidget : public TimeBasedWidget {
    * @param old_index 旧的轨道索引。
    * @param new_index 新的轨道索引。
    */
-  void TrackIndexChanged(int old_index, int new_index); // 参数名修正为 old_index, new_index
+  void TrackIndexChanged(int old_index, int new_index);  // 参数名修正为 old_index, new_index
 
   /**
    * @brief 发送 Block 选择状态变化的信号。

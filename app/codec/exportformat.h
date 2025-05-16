@@ -3,10 +3,10 @@
 
 #include <QList>
 #include <QString>
-#include <QStringList> // 为了 GetPixelFormatsForCodec
-#include <vector>      // 为了 GetSampleFormatsForCodec
+#include <QStringList>  // 为了 GetPixelFormatsForCodec
+#include <vector>       // 为了 GetSampleFormatsForCodec
 
-#include "common/define.h"    // 可能包含 SampleFormat 等定义
+#include "common/define.h"  // 可能包含 SampleFormat 等定义
 #include "exportcodec.h"    // 包含 ExportCodec::Codec 枚举
 
 namespace olive {
@@ -27,23 +27,23 @@ class ExportFormat : public QObject {
    * @warning 只能在此列表末尾追加新的格式，切勿在中间插入，因为索引值被用于序列化文件。
    */
   enum Format {
-    kFormatDNxHD,         ///< @brief DNxHD 封装格式 (通常是 MXF OP1a 或 QuickTime MOV，具体取决于实现)。
-    kFormatMatroska,      ///< @brief Matroska (MKV) 封装格式。
-    kFormatMPEG4Video,    ///< @brief MPEG-4 Part 14 (MP4) 视频封装格式。
-    kFormatOpenEXR,       ///< @brief OpenEXR 图像序列格式 (每帧一个 .exr 文件)。
-    kFormatQuickTime,     ///< @brief Apple QuickTime (MOV) 封装格式。
-    kFormatPNG,           ///< @brief PNG 图像序列格式 (每帧一个 .png 文件)。
-    kFormatTIFF,          ///< @brief TIFF 图像序列格式 (每帧一个 .tif 或 .tiff 文件)。
-    kFormatWAV,           ///< @brief Waveform Audio File Format (WAV) 音频封装格式。
-    kFormatAIFF,          ///< @brief Audio Interchange File Format (AIFF) 音频封装格式。
-    kFormatMP3,           ///< @brief MP3 音频文件格式 (通常指原始MP3流或封装在ID3标签的MP3文件中)。
-    kFormatFLAC,          ///< @brief Free Lossless Audio Codec (FLAC) 文件格式 (原始FLAC流或封装在FLAC文件中)。
-    kFormatOgg,           ///< @brief Ogg 封装格式 (可包含Vorbis音频, Theora视频等)。
-    kFormatWebM,          ///< @brief WebM 封装格式 (通常包含VP8/VP9视频和Vorbis/Opus音频)。
-    kFormatSRT,           ///< @brief SubRip Text (SRT) 字幕文件格式。
-    kFormatMPEG4Audio,    ///< @brief MPEG-4 Part 14 (MP4) 音频封装格式 (例如M4A)。
+    kFormatDNxHD,       ///< @brief DNxHD 封装格式 (通常是 MXF OP1a 或 QuickTime MOV，具体取决于实现)。
+    kFormatMatroska,    ///< @brief Matroska (MKV) 封装格式。
+    kFormatMPEG4Video,  ///< @brief MPEG-4 Part 14 (MP4) 视频封装格式。
+    kFormatOpenEXR,     ///< @brief OpenEXR 图像序列格式 (每帧一个 .exr 文件)。
+    kFormatQuickTime,   ///< @brief Apple QuickTime (MOV) 封装格式。
+    kFormatPNG,         ///< @brief PNG 图像序列格式 (每帧一个 .png 文件)。
+    kFormatTIFF,        ///< @brief TIFF 图像序列格式 (每帧一个 .tif 或 .tiff 文件)。
+    kFormatWAV,         ///< @brief Waveform Audio File Format (WAV) 音频封装格式。
+    kFormatAIFF,        ///< @brief Audio Interchange File Format (AIFF) 音频封装格式。
+    kFormatMP3,         ///< @brief MP3 音频文件格式 (通常指原始MP3流或封装在ID3标签的MP3文件中)。
+    kFormatFLAC,        ///< @brief Free Lossless Audio Codec (FLAC) 文件格式 (原始FLAC流或封装在FLAC文件中)。
+    kFormatOgg,         ///< @brief Ogg 封装格式 (可包含Vorbis音频, Theora视频等)。
+    kFormatWebM,        ///< @brief WebM 封装格式 (通常包含VP8/VP9视频和Vorbis/Opus音频)。
+    kFormatSRT,         ///< @brief SubRip Text (SRT) 字幕文件格式。
+    kFormatMPEG4Audio,  ///< @brief MPEG-4 Part 14 (MP4) 音频封装格式 (例如M4A)。
 
-    kFormatCount          ///< @brief 封装格式总数，用于迭代或数组大小。必须始终是最后一个枚举值。
+    kFormatCount  ///< @brief 封装格式总数，用于迭代或数组大小。必须始终是最后一个枚举值。
   };
 
   /**

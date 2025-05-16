@@ -1,8 +1,8 @@
 #ifndef NODETABLEWIDGET_H
 #define NODETABLEWIDGET_H
 
-#include "nodetableview.h"                    // 节点表格/树形视图控件
-#include "widget/timebased/timebasedwidget.h" // 基于时间的控件基类
+#include "nodetableview.h"                     // 节点表格/树形视图控件
+#include "widget/timebased/timebasedwidget.h"  // 基于时间的控件基类
 
 // 前向声明 Qt 类 (根据用户要求，不添加)
 // class QWidget;
@@ -23,7 +23,7 @@ namespace olive {
  */
 class NodeTableWidget : public TimeBasedWidget {
   // Q_OBJECT // 通常 QWidget 子类如果定义了自定义信号或槽才需要，此处遵循不修改原则。
-public:
+ public:
   /**
    * @brief 构造函数。
    * @param parent 父控件指针，默认为 nullptr。
@@ -42,7 +42,7 @@ public:
    */
   void DeselectNodes(const QVector<Node*>& nodes) { view_->DeselectNodes(nodes); }
 
-protected:
+ protected:
   /**
    * @brief 当关联的时间目标的时间发生改变时调用的事件处理函数。
    *
@@ -51,8 +51,8 @@ protected:
    */
   void TimeChangedEvent(const rational& time) override { view_->SetTime(time); }
 
-private:
-  NodeTableView* view_; ///< 指向内部 NodeTableView 实例的指针，用于实际显示和管理节点列表。
+ private:
+  NodeTableView* view_;  ///< 指向内部 NodeTableView 实例的指针，用于实际显示和管理节点列表。
 };
 
 }  // namespace olive

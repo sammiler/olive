@@ -30,8 +30,8 @@ namespace KDDockWidgets {
  */
 class DOCKS_EXPORT DockWidget : public DockWidgetBase
 {
-    Q_OBJECT // Q_OBJECT 宏，用于启用 Qt 元对象系统特性，如信号和槽
-public:
+Q_OBJECT // Q_OBJECT 宏，用于启用 Qt 元对象系统特性，如信号和槽
+    public :
     /**
      * @brief 构造一个新的 DockWidget。
      * @param uniqueName 强制性的名称，在所有 DockWidget 实例之间应该是唯一的。
@@ -66,7 +66,7 @@ protected:
     void closeEvent(QCloseEvent *event) override;
 
 private:
-    class Private;   ///< PIMPL (Private Implementation) 设计模式的私有实现类前向声明。
+    class Private; ///< PIMPL (Private Implementation) 设计模式的私有实现类前向声明。
     Private *const d; ///< 指向私有实现类的常量指针。
 };
 

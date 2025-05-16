@@ -1,18 +1,18 @@
 #ifndef COLORCODING_H
 #define COLORCODING_H
 
-#include <olive/core/core.h> // 引入 Olive 核心库的头文件，提供 Color 等核心类型
-#include <QObject>           // 引入 QObject 基类，ColorCoding 本身继承自 QObject
-#include <QVector>           // 引入 QVector，用于存储颜色列表
-#include <QString>           // 引入 QString，用于颜色名称
-#include <QColor>            // 引入 QColor，用于 GetUISelectorColor 的返回值 Qt::GlobalColor
+#include <olive/core/core.h>  // 引入 Olive 核心库的头文件，提供 Color 等核心类型
+#include <QColor>             // 引入 QColor，用于 GetUISelectorColor 的返回值 Qt::GlobalColor
+#include <QObject>            // 引入 QObject 基类，ColorCoding 本身继承自 QObject
+#include <QString>            // 引入 QString，用于颜色名称
+#include <QVector>            // 引入 QVector，用于存储颜色列表
 
 // 前向声明 core::Color，如果 olive/core/core.h 中已定义则无需再次声明
 // namespace olive { namespace core { class Color; } }
 
 namespace olive {
 
-using namespace core; // 使用 olive::core 命名空间，方便直接访问其成员如 Color
+using namespace core;  // 使用 olive::core 命名空间，方便直接访问其成员如 Color
 
 /**
  * @brief 提供一套标准的颜色编码及其相关操作。

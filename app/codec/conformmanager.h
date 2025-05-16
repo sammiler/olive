@@ -3,14 +3,14 @@
 
 #include <QMutex>
 #include <QObject>
-#include <QWaitCondition> // 包含 QWaitCondition
-#include <QVector>      // 包含 QVector
-#include <QString>      // 包含 QString
-#include <QStringList>  // 如果 GetConformedFilename 返回 QStringList (当前是 QVector<QString>)
+#include <QString>         // 包含 QString
+#include <QStringList>     // 如果 GetConformedFilename 返回 QStringList (当前是 QVector<QString>)
+#include <QVector>         // 包含 QVector
+#include <QWaitCondition>  // 包含 QWaitCondition
 
-#include "codec/decoder.h" // 包含 Decoder::CodecStream 和 AudioParams (假设 AudioParams 在此或其包含的文件中)
-#include "task/conform/conform.h" // 包含 ConformTask
-#include "task/task.h"           // 包含 Task (用于 ConformTaskFinished)
+#include "codec/decoder.h"         // 包含 Decoder::CodecStream 和 AudioParams (假设 AudioParams 在此或其包含的文件中)
+#include "task/conform/conform.h"  // 包含 ConformTask
+#include "task/task.h"             // 包含 Task (用于 ConformTaskFinished)
 
 // 前向声明 (如果 Decoder::CodecStream 或 AudioParams 未完全定义)
 // namespace olive {
@@ -69,9 +69,9 @@ class ConformManager : public QObject {
    * @brief 描述一个适配任务及其状态的结构体。
    */
   struct Conform {
-    ConformState state;              ///< @brief 当前的适配状态。
-    QVector<QString> filenames;      ///< @brief 适配后的文件名列表 (可能包含多个文件，例如多通道音频的每个通道一个文件)。
-    ConformTask *task;               ///< @brief 如果状态是 kConformGenerating，则指向关联的 ConformTask；否则为 nullptr。
+    ConformState state;          ///< @brief 当前的适配状态。
+    QVector<QString> filenames;  ///< @brief 适配后的文件名列表 (可能包含多个文件，例如多通道音频的每个通道一个文件)。
+    ConformTask *task;           ///< @brief 如果状态是 kConformGenerating，则指向关联的 ConformTask；否则为 nullptr。
   };
 
   /**
@@ -120,11 +120,11 @@ class ConformManager : public QObject {
    * @brief 存储正在进行的或已完成的适配任务数据的内部结构体。
    */
   struct ConformData {
-    Decoder::CodecStream stream;        ///< @brief 原始音频流信息。
-    AudioParams params;                 ///< @brief 目标音频参数。
-    ConformTask *task{};                ///< @brief 指向关联的 ConformTask 的指针，如果任务已完成或失败则可能为 nullptr。
-    QVector<QString> working_filename;  ///< @brief 适配过程中使用的临时工作文件名。
-    QVector<QString> finished_filename; ///< @brief 适配完成后最终生成的文件名。
+    Decoder::CodecStream stream;  ///< @brief 原始音频流信息。
+    AudioParams params;           ///< @brief 目标音频参数。
+    ConformTask *task{};          ///< @brief 指向关联的 ConformTask 的指针，如果任务已完成或失败则可能为 nullptr。
+    QVector<QString> working_filename;   ///< @brief 适配过程中使用的临时工作文件名。
+    QVector<QString> finished_filename;  ///< @brief 适配完成后最终生成的文件名。
   };
 
   /**

@@ -1,10 +1,10 @@
-#ifndef NODEINPUTIMMEDIATE_H // 防止头文件被多次包含的宏定义开始
+#ifndef NODEINPUTIMMEDIATE_H  // 防止头文件被多次包含的宏定义开始
 #define NODEINPUTIMMEDIATE_H
 
-#include "common/xmlutils.h" // 通用 XML 工具类 (在此头文件中似乎未直接使用，可能在 .cpp 中或间接依赖)
-#include "node/keyframe.h"   // 引入 NodeKeyframe 和 NodeKeyframeTrack 定义
-#include "node/value.h"      // 引入 NodeValue::Type 枚举定义
-#include "splitvalue.h"      // 引入 SplitValue 定义，用于存储和处理多通道参数值
+#include "common/xmlutils.h"  // 通用 XML 工具类 (在此头文件中似乎未直接使用，可能在 .cpp 中或间接依赖)
+#include "node/keyframe.h"    // 引入 NodeKeyframe 和 NodeKeyframeTrack 定义
+#include "node/value.h"       // 引入 NodeValue::Type 枚举定义
+#include "splitvalue.h"       // 引入 SplitValue 定义，用于存储和处理多通道参数值
 
 // 可能需要的前向声明
 // class NodeInput; // NodeInput 在此被前向声明
@@ -12,9 +12,9 @@
 // class rational; // 假设
 // class QVariant; // 假设
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
-class NodeInput; // 前向声明 NodeInput 类，NodeInputImmediate 是 NodeInput 的一个组成部分或实现细节
+class NodeInput;  // 前向声明 NodeInput 类，NodeInputImmediate 是 NodeInput 的一个组成部分或实现细节
 
 /**
  * @brief 管理节点输入参数的“立即值”和关键帧数据。

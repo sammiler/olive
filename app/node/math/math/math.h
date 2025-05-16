@@ -1,7 +1,7 @@
-#ifndef MATHNODE_H // 防止头文件被多次包含的宏定义开始
+#ifndef MATHNODE_H  // 防止头文件被多次包含的宏定义开始
 #define MATHNODE_H
 
-#include "mathbase.h" // 引入基类 MathNodeBase 的定义
+#include "mathbase.h"  // 引入基类 MathNodeBase 的定义
 
 // 可能需要的前向声明
 // struct ShaderRequest; // 假设
@@ -11,7 +11,7 @@
 // class NodeValueTable; // 假设
 // class SampleBuffer; // 假设
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
 /**
  * @brief 代表一个通用的“数学运算”节点。
@@ -20,15 +20,15 @@ namespace olive { // Olive 编辑器的命名空间
  * 它继承自 MathNodeBase，后者可能定义了操作类型枚举和通用的处理逻辑。
  */
 class MathNode : public MathNodeBase {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief MathNode 构造函数。
-   *  通常会在这里初始化数学运算相关的输入参数（如操作类型、操作数A、B、C）。
-   */
-  MathNode();
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief MathNode 构造函数。
+      *  通常会在这里初始化数学运算相关的输入参数（如操作类型、操作数A、B、C）。
+      */
+     MathNode();
 
-  NODE_DEFAULT_FUNCTIONS(MathNode) // 节点默认功能宏，可能包含克隆、类型信息等标准实现
+  NODE_DEFAULT_FUNCTIONS(MathNode)  // 节点默认功能宏，可能包含克隆、类型信息等标准实现
 
   /**
    * @brief 获取此数学节点的名称。
@@ -74,7 +74,7 @@ class MathNode : public MathNodeBase {
    * @brief 设置要执行的数学运算类型。
    * @param o新的 Operation 枚举值。
    */
-  void SetOperation(Operation o) { SetStandardValue(kMethodIn, static_cast<int>(o)); } // 假设 Operation 可以转为 int
+  void SetOperation(Operation o) { SetStandardValue(kMethodIn, static_cast<int>(o)); }  // 假设 Operation 可以转为 int
 
   /**
    * @brief 计算并输出节点在特定时间点的值（数学运算的结果）。
@@ -97,10 +97,10 @@ class MathNode : public MathNodeBase {
                       int index) const override;
 
   // --- 静态常量，用作节点输入参数的键名 ---
-  static const QString kMethodIn; ///< "Operation" 或 "Method" - 选择数学运算类型的参数键名。
-  static const QString kParamAIn; ///< "A" 或 "InputA" - 第一个操作数 (参数A) 的参数键名。
-  static const QString kParamBIn; ///< "B" 或 "InputB" - 第二个操作数 (参数B) 的参数键名。
-  static const QString kParamCIn; ///< "C" 或 "InputC" - 第三个操作数 (参数C) 的参数键名 (某些运算可能需要)。
+  static const QString kMethodIn;  ///< "Operation" 或 "Method" - 选择数学运算类型的参数键名。
+  static const QString kParamAIn;  ///< "A" 或 "InputA" - 第一个操作数 (参数A) 的参数键名。
+  static const QString kParamBIn;  ///< "B" 或 "InputB" - 第二个操作数 (参数B) 的参数键名。
+  static const QString kParamCIn;  ///< "C" 或 "InputC" - 第三个操作数 (参数C) 的参数键名 (某些运算可能需要)。
 };
 
 }  // namespace olive

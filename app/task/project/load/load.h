@@ -1,10 +1,10 @@
-#ifndef PROJECTLOADMANAGER_H // 防止头文件被重复包含的预处理器指令
-#define PROJECTLOADMANAGER_H // 定义 PROJECTLOADMANAGER_H 宏
+#ifndef PROJECTLOADMANAGER_H  // 防止头文件被重复包含的预处理器指令
+#define PROJECTLOADMANAGER_H  // 定义 PROJECTLOADMANAGER_H 宏
 
-#include "loadbasetask.h"                         // 包含了项目加载任务基类的定义
-#include "window/mainwindow/mainwindowlayoutinfo.h" // 包含了主窗口布局信息的定义，加载项目时可能需要恢复布局
+#include "loadbasetask.h"                            // 包含了项目加载任务基类的定义
+#include "window/mainwindow/mainwindowlayoutinfo.h"  // 包含了主窗口布局信息的定义，加载项目时可能需要恢复布局
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
 /**
  * @brief ProjectLoadTask 类定义，继承自 ProjectLoadBaseTask 类。
@@ -14,15 +14,15 @@ namespace olive { // olive 项目的命名空间
  * 并可能恢复用户界面的布局信息。
  */
 class ProjectLoadTask : public ProjectLoadBaseTask {
-  Q_OBJECT // Qt 对象的宏，用于启用信号和槽机制等 Qt 特性
- public:
-  /**
-   * @brief ProjectLoadTask 的构造函数。
-   * @param filename 要加载的项目文件的完整路径。
-   */
-  explicit ProjectLoadTask(const QString& filename);
+ Q_OBJECT  // Qt 对象的宏，用于启用信号和槽机制等 Qt 特性
+     public :
+     /**
+      * @brief ProjectLoadTask 的构造函数。
+      * @param filename 要加载的项目文件的完整路径。
+      */
+     explicit ProjectLoadTask(const QString& filename);
 
-protected:
+ protected:
   /**
    * @brief 执行项目加载任务的核心逻辑。
    *
@@ -35,6 +35,6 @@ protected:
   bool Run() override;
 };
 
-}  // namespace olive // 结束 olive 命名空间
+}  // namespace olive
 
 #endif  // PROJECTLOADMANAGER_H // 结束预处理器指令 #ifndef PROJECTLOADMANAGER_H

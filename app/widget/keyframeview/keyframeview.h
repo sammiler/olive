@@ -1,14 +1,14 @@
-#ifndef KEYFRAMEVIEWBASE_H // 文件名可能是 KEYFRAMEVIEWBASE_H，但类通常命名为 KeyframeView
+#ifndef KEYFRAMEVIEWBASE_H  // 文件名可能是 KEYFRAMEVIEWBASE_H，但类通常命名为 KeyframeView
 #define KEYFRAMEVIEWBASE_H
 
-#include <functional> // C++ 标准库，提供函数对象等功能
+#include <functional>  // C++ 标准库，提供函数对象等功能
 
-#include "keyframeviewinputconnection.h"             // 关键帧视图输入连接类
-#include "node/keyframe.h"                           // 关键帧数据结构定义
-#include "widget/menu/menu.h"                        // 自定义菜单基类
-#include "widget/timebased/timebasedview.h"          // 基于时间的视图基类
-#include "widget/timebased/timebasedviewselectionmanager.h" // 基于时间的视图选择管理器
-#include "widget/timetarget/timetarget.h"            // 时间目标对象接口
+#include "keyframeviewinputconnection.h"                     // 关键帧视图输入连接类
+#include "node/keyframe.h"                                   // 关键帧数据结构定义
+#include "widget/menu/menu.h"                                // 自定义菜单基类
+#include "widget/timebased/timebasedview.h"                  // 基于时间的视图基类
+#include "widget/timebased/timebasedviewselectionmanager.h"  // 基于时间的视图选择管理器
+#include "widget/timetarget/timetarget.h"                    // 时间目标对象接口
 
 // Qt 类的前向声明 (根据用户要求，不添加)
 // class QWidget;
@@ -40,14 +40,14 @@ namespace olive {
  * 复制/粘贴以及上下文菜单等交互。它是曲线编辑器等更高级控件的基础。
  */
 class KeyframeView : public TimeBasedView, public TimeTargetObject {
-  Q_OBJECT // Qt 元对象系统宏，用于支持信号和槽机制
+ Q_OBJECT  // Qt 元对象系统宏，用于支持信号和槽机制
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit KeyframeView(QWidget *parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit KeyframeView(QWidget *parent = nullptr);
 
   /**
    * @brief 删除当前选中的所有关键帧。
@@ -55,9 +55,11 @@ class KeyframeView : public TimeBasedView, public TimeTargetObject {
   void DeleteSelected();
 
   // 类型定义，用于组织关键帧轨道的连接信息
-  using ElementConnections = QVector<KeyframeViewInputConnection *>; ///< 表示单个元素（如向量的 x, y, z 分量之一）的所有关键帧轨道连接。
-  using InputConnections = QVector<ElementConnections>;             ///< 表示单个输入参数（可能包含多个元素）的所有轨道连接。
-  using NodeConnections = QMap<QString, InputConnections>;          ///< 表示单个节点的所有输入参数及其轨道连接。键为输入参数名。
+  using ElementConnections =
+      QVector<KeyframeViewInputConnection *>;  ///< 表示单个元素（如向量的 x, y, z 分量之一）的所有关键帧轨道连接。
+  using InputConnections = QVector<ElementConnections>;  ///< 表示单个输入参数（可能包含多个元素）的所有轨道连接。
+  using NodeConnections =
+      QMap<QString, InputConnections>;  ///< 表示单个节点的所有输入参数及其轨道连接。键为输入参数名。
 
   /**
    * @brief 添加指定节点的所有可动画参数的关键帧轨道到视图中。
@@ -142,7 +144,7 @@ class KeyframeView : public TimeBasedView, public TimeTargetObject {
    */
   void SetMaxScroll(int i) {
     max_scroll_ = i;
-    UpdateSceneRect(); // 更新场景矩形以反映新的滚动范围
+    UpdateSceneRect();  // 更新场景矩形以反映新的滚动范围
   }
 
   /**
@@ -367,15 +369,15 @@ class KeyframeView : public TimeBasedView, public TimeTargetObject {
    */
   static rational CalculateNewTimeFromScreen(const rational &old_time, double cursor_diff);
 
-  QVector<KeyframeViewInputConnection *> tracks_; ///< 存储当前视图中所有关键帧轨道连接的列表。
+  QVector<KeyframeViewInputConnection *> tracks_;  ///< 存储当前视图中所有关键帧轨道连接的列表。
 
-  TimeBasedViewSelectionManager<NodeKeyframe> selection_manager_; ///< 用于管理关键帧选择的模板类实例。
+  TimeBasedViewSelectionManager<NodeKeyframe> selection_manager_;  ///< 用于管理关键帧选择的模板类实例。
 
-  bool autoselect_siblings_; ///< 标记是否启用自动选择兄弟关键帧的功能。
+  bool autoselect_siblings_;  ///< 标记是否启用自动选择兄弟关键帧的功能。
 
-  int max_scroll_; ///< 视图的最大滚动范围（通常是垂直方向）。
+  int max_scroll_;  ///< 视图的最大滚动范围（通常是垂直方向）。
 
-  bool first_chance_mouse_event_; ///< 标记是否应由派生类优先处理鼠标事件。
+  bool first_chance_mouse_event_;  ///< 标记是否应由派生类优先处理鼠标事件。
 
  private slots:
   /**

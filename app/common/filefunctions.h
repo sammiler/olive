@@ -2,11 +2,11 @@
 #define FILEFUNCTIONS_H
 
 #include <QDir>
+#include <QFileInfo>  // 为了 QFileInfo::exists()，虽然未直接在头文件中使用但相关
+#include <QIODevice>  // 虽然未直接在头文件中使用，但ReadFileAsString等函数会涉及
 #include <QString>
-#include <QFileInfo> // 为了 QFileInfo::exists()，虽然未直接在头文件中使用但相关
-#include <QIODevice> // 虽然未直接在头文件中使用，但ReadFileAsString等函数会涉及
 
-#include "common/define.h" // 可能包含一些通用定义
+#include "common/define.h"  // 可能包含一些通用定义
 
 namespace olive {
 

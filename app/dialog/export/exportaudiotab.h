@@ -1,15 +1,15 @@
 #ifndef EXPORTAUDIOTAB_H
 #define EXPORTAUDIOTAB_H
 
-#include <QComboBox> // 下拉选择框控件
-#include <QWidget>   // QWidget 基类
-#include <QVariant>  // 为了 currentData().toInt()
+#include <QComboBox>  // 下拉选择框控件
+#include <QVariant>   // 为了 currentData().toInt()
+#include <QWidget>    // QWidget 基类
 
 // Olive 内部头文件
-#include "codec/exportformat.h" // 包含 ExportFormat::Format 和 ExportCodec::Codec (假设 ExportCodec 也在此或其包含文件)
-#include "common/define.h"      // 可能包含 SampleRateComboBox, SampleFormatComboBox, ChannelLayoutComboBox, IntegerSlider 的基类或相关定义
-#include "widget/slider/integerslider.h"     // 整数滑块控件，用于码率
-#include "widget/standardcombos/standardcombos.h" // 包含标准化的下拉框，如 SampleRateComboBox 等
+#include "codec/exportformat.h"  // 包含 ExportFormat::Format 和 ExportCodec::Codec (假设 ExportCodec 也在此或其包含文件)
+#include "common/define.h"  // 可能包含 SampleRateComboBox, SampleFormatComboBox, ChannelLayoutComboBox, IntegerSlider 的基类或相关定义
+#include "widget/slider/integerslider.h"           // 整数滑块控件，用于码率
+#include "widget/standardcombos/standardcombos.h"  // 包含标准化的下拉框，如 SampleRateComboBox 等
 
 // 前向声明 (如果需要)
 // namespace olive {
@@ -58,7 +58,7 @@ class ExportAudioTab : public QWidget {
    */
   void SetCodec(ExportCodec::Codec c) {
     for (int i = 0; i < codec_combobox_->count(); i++) {
-      if (static_cast<ExportCodec::Codec>(codec_combobox_->itemData(i).toInt()) == c) { // 确保比较时也进行类型转换
+      if (static_cast<ExportCodec::Codec>(codec_combobox_->itemData(i).toInt()) == c) {  // 确保比较时也进行类型转换
         codec_combobox_->setCurrentIndex(i);
         break;
       }
@@ -131,7 +131,7 @@ class ExportAudioTab : public QWidget {
   /**
    * @brief 音频编码的默认码率值 (单位可能需要参考 .cpp 实现，例如 kbps)。
    */
-  static const int kDefaultBitRate; // 具体值在 .cpp 文件中定义
+  static const int kDefaultBitRate;  // 具体值在 .cpp 文件中定义
 
  private slots:
   /**

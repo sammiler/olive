@@ -1,9 +1,9 @@
-#ifndef NODEGROUP_H // 防止头文件被多次包含的宏定义开始
+#ifndef NODEGROUP_H  // 防止头文件被多次包含的宏定义开始
 #define NODEGROUP_H
 
-#include <utility> // 引入 std::move 等工具，可能用于 NodeInput 对象的传递
+#include <utility>  // 引入 std::move 等工具，可能用于 NodeInput 对象的传递
 
-#include "node/node.h" // 引入基类 Node 的定义
+#include "node/node.h"  // 引入基类 Node 的定义
 
 // 可能需要的前向声明 (如果 QXmlStreamReader 等在此未完全定义)
 // class QXmlStreamReader;
@@ -13,7 +13,7 @@
 // class UndoCommand; // 假设 UndoCommand 是一个基类
 // class Project; // 假设
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
 /**
  * @brief 代表一个“节点组”。
@@ -22,14 +22,14 @@ namespace olive { // Olive 编辑器的命名空间
  * 将内部节点的输入和输出暴露给外部。
  */
 class NodeGroup : public Node {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief NodeGroup 构造函数。
-   */
-  NodeGroup();
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief NodeGroup 构造函数。
+      */
+     NodeGroup();
 
-  NODE_DEFAULT_FUNCTIONS(NodeGroup) // 节点默认功能宏，可能包含克隆、类型信息等标准实现
+  NODE_DEFAULT_FUNCTIONS(NodeGroup)  // 节点默认功能宏，可能包含克隆、类型信息等标准实现
 
   /**
    * @brief 获取此节点组的名称。
@@ -147,12 +147,12 @@ class NodeGroup : public Node {
    * @return QString 如果找到对应的直通，则返回其外部 ID；否则返回空 QString。
    */
   [[nodiscard]] QString GetIDOfPassthrough(const NodeInput &input) const {
-    for (const auto &input_passthrough : input_passthroughs_) { // 遍历所有输入直通
-      if (input_passthrough.second == input) { // 如果内部节点输入匹配
-        return input_passthrough.first; // 返回外部 ID
+    for (const auto &input_passthrough : input_passthroughs_) {  // 遍历所有输入直通
+      if (input_passthrough.second == input) {                   // 如果内部节点输入匹配
+        return input_passthrough.first;                          // 返回外部 ID
       }
     }
-    return {}; // 未找到则返回空
+    return {};  // 未找到则返回空
   }
 
   /**
@@ -161,15 +161,15 @@ class NodeGroup : public Node {
    * @return NodeInput 如果找到对应的内部输入，则返回它；否则返回一个无效的 NodeInput 对象。
    */
   [[nodiscard]] NodeInput GetInputFromID(const QString &id) const {
-    for (const auto &input_passthrough : input_passthroughs_) { // 遍历所有输入直通
-      if (input_passthrough.first == id) { // 如果外部 ID 匹配
-        return input_passthrough.second; // 返回内部节点输入
+    for (const auto &input_passthrough : input_passthroughs_) {  // 遍历所有输入直通
+      if (input_passthrough.first == id) {                       // 如果外部 ID 匹配
+        return input_passthrough.second;                         // 返回内部节点输入
       }
     }
-    return {}; // 未找到则返回空（或默认构造的 NodeInput）
+    return {};  // 未找到则返回空（或默认构造的 NodeInput）
   }
 
- signals: // Qt 信号声明区域
+ signals:  // Qt 信号声明区域
   /**
    * @brief 当节点组成功添加一个新的输入直通时发射此信号。
    * @param group 发生改变的 NodeGroup 对象。
@@ -192,9 +192,9 @@ class NodeGroup : public Node {
   void OutputPassthroughChanged(olive::NodeGroup *group, olive::Node *output);
 
  private:
-  InputPassthroughs input_passthroughs_; ///< 存储所有输入直通的列表。
+  InputPassthroughs input_passthroughs_;  ///< 存储所有输入直通的列表。
 
-  Node *output_passthrough_; ///< 指向当前作为输出直通的内部节点的指针。
+  Node *output_passthrough_;  ///< 指向当前作为输出直通的内部节点的指针。
 };
 
 /**
@@ -209,7 +209,7 @@ class NodeGroupAddInputPassthrough : public UndoCommand {
    * @param force_id (可选) 强制指定的外部 ID。
    */
   NodeGroupAddInputPassthrough(NodeGroup *group, NodeInput input, const QString &force_id = QString())
-      : group_(group), input_(std::move(input)), force_id_(force_id), actually_added_(false) {} // 成员初始化列表
+      : group_(group), input_(std::move(input)), force_id_(force_id), actually_added_(false) {}  // 成员初始化列表
 
   /**
    * @brief 获取与此撤销命令相关的项目。
@@ -229,10 +229,10 @@ class NodeGroupAddInputPassthrough : public UndoCommand {
   void undo() override;
 
  private:
-  NodeGroup *group_; ///< 指向目标 NodeGroup 对象的指针。
-  NodeInput input_;  ///< 要添加/移除的内部节点输入。
-  QString force_id_; ///< (可选) 强制指定的外部 ID。
-  bool actually_added_; ///< 标记在 redo 操作中是否真的添加了新的直通（用于 undo 的正确性）。
+  NodeGroup *group_;     ///< 指向目标 NodeGroup 对象的指针。
+  NodeInput input_;      ///< 要添加/移除的内部节点输入。
+  QString force_id_;     ///< (可选) 强制指定的外部 ID。
+  bool actually_added_;  ///< 标记在 redo 操作中是否真的添加了新的直通（用于 undo 的正确性）。
 };
 
 /**
@@ -265,9 +265,9 @@ class NodeGroupSetOutputPassthrough : public UndoCommand {
   void undo() override;
 
  private:
-  NodeGroup *group_;      ///< 指向目标 NodeGroup 对象的指针。
-  Node *new_output_;      ///< 新的输出直通节点。
-  Node *old_output_{};   ///< 旧的输出直通节点，在 redo 时保存，用于 undo。
+  NodeGroup *group_;    ///< 指向目标 NodeGroup 对象的指针。
+  Node *new_output_;    ///< 新的输出直通节点。
+  Node *old_output_{};  ///< 旧的输出直通节点，在 redo 时保存，用于 undo。
 };
 
 }  // namespace olive

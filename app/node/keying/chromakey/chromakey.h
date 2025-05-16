@@ -1,7 +1,7 @@
-#ifndef CHROMAKEYNODE_H // 防止头文件被多次包含的宏定义开始
+#ifndef CHROMAKEYNODE_H  // 防止头文件被多次包含的宏定义开始
 #define CHROMAKEYNODE_H
 
-#include "node/color/ociobase/ociobase.h" // 引入基类 OCIOBaseNode 的定义，表明此节点与 OCIO 色彩管理相关
+#include "node/color/ociobase/ociobase.h"  // 引入基类 OCIOBaseNode 的定义，表明此节点与 OCIO 色彩管理相关
 
 // 可能需要的前向声明
 // struct ShaderRequest; // 假设
@@ -9,7 +9,7 @@
 // struct NodeGlobals; // 假设
 // class NodeValueTable; // 假设
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
 /**
  * @brief 代表“色度键控”（Chroma Key）效果的节点。
@@ -18,15 +18,15 @@ namespace olive { // Olive 编辑器的命名空间
  * 可能意味着键控过程中的颜色处理会考虑色彩空间。
  */
 class ChromaKeyNode : public OCIOBaseNode {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief ChromaKeyNode 构造函数。
-   *  通常会在这里初始化色度键控相关的输入参数。
-   */
-  ChromaKeyNode();
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief ChromaKeyNode 构造函数。
+      *  通常会在这里初始化色度键控相关的输入参数。
+      */
+     ChromaKeyNode();
 
-  NODE_DEFAULT_FUNCTIONS(ChromaKeyNode) // 节点默认功能宏，可能包含克隆、类型信息等标准实现
+  NODE_DEFAULT_FUNCTIONS(ChromaKeyNode)  // 节点默认功能宏，可能包含克隆、类型信息等标准实现
 
   /**
    * @brief 获取此色度键控节点的名称。
@@ -84,15 +84,19 @@ class ChromaKeyNode : public OCIOBaseNode {
   void ConfigChanged() override;
 
   // --- 静态常量，用作节点输入参数的键名 ---
-  static const QString kColorInput;          ///< "KeyColor" - 要移除的键控颜色（例如，绿色屏幕的绿色）的参数键名。
-  static const QString kInvertInput;         ///< "Invert" - 是否反转键控结果（即保留键控颜色，移除其他部分）的布尔参数键名。
-  static const QString kMaskOnlyInput;       ///< "MaskOnly" - 是否仅输出生成的蒙版（灰度图）而不是应用键控后的图像的布尔参数键名。
-  static const QString kUpperToleranceInput; ///< "UpperTolerance" - 上容差（或相似颜色范围的上限）参数键名，用于控制键控的敏感度。
-  static const QString kLowerToleranceInput; ///< "LowerTolerance" - 下容差（或相似颜色范围的下限）参数键名。
-  static const QString kGarbageMatteInput;   ///< "GarbageMatte" - 垃圾蒙版输入参数键名，用于手动指定需要强制保留或移除的区域。
-  static const QString kCoreMatteInput;      ///< "CoreMatte" - 核心蒙版输入参数键名，用于手动指定需要强制设为不透明的区域。
-  static const QString kShadowsInput;        ///< "Shadows" - 阴影处理相关的参数键名，可能用于调整从背景拾取的阴影。
-  static const QString kHighlightsInput;     ///< "Highlights" - 高光处理相关的参数键名，可能用于调整从背景拾取的高光或溢色。
+  static const QString kColorInput;   ///< "KeyColor" - 要移除的键控颜色（例如，绿色屏幕的绿色）的参数键名。
+  static const QString kInvertInput;  ///< "Invert" - 是否反转键控结果（即保留键控颜色，移除其他部分）的布尔参数键名。
+  static const QString
+      kMaskOnlyInput;  ///< "MaskOnly" - 是否仅输出生成的蒙版（灰度图）而不是应用键控后的图像的布尔参数键名。
+  static const QString
+      kUpperToleranceInput;  ///< "UpperTolerance" - 上容差（或相似颜色范围的上限）参数键名，用于控制键控的敏感度。
+  static const QString kLowerToleranceInput;  ///< "LowerTolerance" - 下容差（或相似颜色范围的下限）参数键名。
+  static const QString
+      kGarbageMatteInput;  ///< "GarbageMatte" - 垃圾蒙版输入参数键名，用于手动指定需要强制保留或移除的区域。
+  static const QString kCoreMatteInput;  ///< "CoreMatte" - 核心蒙版输入参数键名，用于手动指定需要强制设为不透明的区域。
+  static const QString kShadowsInput;    ///< "Shadows" - 阴影处理相关的参数键名，可能用于调整从背景拾取的阴影。
+  static const QString
+      kHighlightsInput;  ///< "Highlights" - 高光处理相关的参数键名，可能用于调整从背景拾取的高光或溢色。
 
  private:
   /**

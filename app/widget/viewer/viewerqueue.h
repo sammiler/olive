@@ -1,7 +1,7 @@
 #ifndef VIEWERQUEUE_H
 #define VIEWERQUEUE_H
 
-#include "codec/frame.h" // 包含帧相关的定义
+#include "codec/frame.h"  // 包含帧相关的定义
 
 namespace olive {
 
@@ -50,14 +50,14 @@ class ViewerQueue : public std::list<ViewerPlaybackFrame> {
   void AppendTimewise(const ViewerPlaybackFrame& f, int playback_speed) {
     // 如果队列为空，或者根据播放方向，新帧的时间戳应该在队尾
     if (this->empty() || (this->back().timestamp < f.timestamp) == (playback_speed > 0)) {
-      this->push_back(f); // 直接添加到队尾
+      this->push_back(f);  // 直接添加到队尾
     } else {
       // 遍历队列寻找正确的插入位置
       for (auto i = this->begin(); i != this->end(); i++) {
         // 根据播放方向，如果当前迭代到的帧的时间戳在新帧之后
         if ((i->timestamp > f.timestamp) == (playback_speed > 0)) {
-          this->insert(i, f); // 在当前位置之前插入新帧
-          break; // 插入完成，跳出循环
+          this->insert(i, f);  // 在当前位置之前插入新帧
+          break;               // 插入完成，跳出循环
         }
       }
     }
@@ -77,7 +77,7 @@ class ViewerQueue : public std::list<ViewerPlaybackFrame> {
     // 当队列不为空，并且队首的帧根据播放方向判断为过期时，循环移除
     while (!this->empty() && ((playback_speed > 0 && this->front().timestamp < time) ||
                               (playback_speed < 0 && this->front().timestamp > time))) {
-      this->pop_front(); // 移除队首帧
+      this->pop_front();  // 移除队首帧
     }
   }
 };

@@ -1,15 +1,15 @@
-#ifndef DISKMANAGER_H // 防止头文件被重复包含的宏
-#define DISKMANAGER_H // 定义 DISKMANAGER_H 宏
+#ifndef DISKMANAGER_H  // 防止头文件被重复包含的宏
+#define DISKMANAGER_H  // 定义 DISKMANAGER_H 宏
 
-#include <QMap>    // Qt 映射容器 (有序哈希表)
-#include <QMutex>  // Qt 互斥锁 (虽然在此头文件中未直接使用，但具体实现中可能需要)
-#include <QObject> // Qt 对象模型基类
-#include <QTimer>  // Qt 定时器类
+#include <QMap>     // Qt 映射容器 (有序哈希表)
+#include <QMutex>   // Qt 互斥锁 (虽然在此头文件中未直接使用，但具体实现中可能需要)
+#include <QObject>  // Qt 对象模型基类
+#include <QTimer>   // Qt 定时器类
 
-#include "common/define.h" // 可能包含项目通用的定义或宏
-#include "node/project.h"  // 包含 Project 类的定义 (DiskManager 可能需要与项目交互)
+#include "common/define.h"  // 可能包含项目通用的定义或宏
+#include "node/project.h"   // 包含 Project 类的定义 (DiskManager 可能需要与项目交互)
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
 /**
  * @brief DiskCacheFolder 类负责管理一个特定的磁盘缓存文件夹。
@@ -18,16 +18,16 @@ namespace olive { // olive 项目的命名空间
  * 来管理缓存的清理。当缓存大小超过限制时，它会删除最近最少使用的文件。
  * 它还会定期将缓存索引（文件列表及其元数据）保存到磁盘。
  */
-class DiskCacheFolder : public QObject { // DiskCacheFolder 继承自 QObject
-  Q_OBJECT // 声明此类使用 Qt 的元对象系统
+class DiskCacheFolder : public QObject {  // DiskCacheFolder 继承自 QObject
+ Q_OBJECT                                 // 声明此类使用 Qt 的元对象系统
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param path 此缓存文件夹在磁盘上的路径。
-   * @param parent 父对象指针，默认为 nullptr。
-   */
-  explicit DiskCacheFolder(const QString& path, QObject* parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param path 此缓存文件夹在磁盘上的路径。
+      * @param parent 父对象指针，默认为 nullptr。
+      */
+     explicit DiskCacheFolder(const QString& path, QObject* parent = nullptr);
 
   // 析构函数，在对象销毁时可能会执行清理操作 (例如保存索引、根据设置清除缓存)。
   ~DiskCacheFolder() override;
@@ -96,7 +96,7 @@ class DiskCacheFolder : public QObject { // DiskCacheFolder 继承自 QObject
    */
   bool DeleteSpecificFile(const QString& f);
 
- signals: // Qt 信号声明
+ signals:  // Qt 信号声明
   /**
    * @brief 当一个缓存帧文件被删除时发出的信号。
    * @param path 缓存文件夹的路径。
@@ -107,8 +107,8 @@ class DiskCacheFolder : public QObject { // DiskCacheFolder 继承自 QObject
  private:
   // 内部结构体，用于存储缓存文件的元数据
   struct HashTime {
-    qint64 file_size;   // 文件大小 (字节)
-    qint64 access_time; // 文件的最后访问时间戳
+    qint64 file_size;    // 文件大小 (字节)
+    qint64 access_time;  // 文件的最后访问时间戳
   };
 
   // 内部辅助函数：删除指定的缓存文件 (通过迭代器指向的文件)
@@ -120,20 +120,20 @@ class DiskCacheFolder : public QObject { // DiskCacheFolder 继承自 QObject
   // 关闭缓存文件夹时调用的清理函数 (例如保存索引)
   void CloseCacheFolder();
 
-  QString path_;       // 缓存文件夹的完整路径
-  QString index_path_; // 缓存索引文件的路径
+  QString path_;        // 缓存文件夹的完整路径
+  QString index_path_;  // 缓存索引文件的路径
 
   // 存储磁盘上缓存文件及其元数据 (文件名 -> HashTime) 的映射
   QMap<QString, HashTime> disk_data_;
 
-  qint64 consumption_{}; // 当前缓存已占用的磁盘空间 (字节)
-  qint64 limit_{};       // 缓存大小限制 (字节)
+  qint64 consumption_{};  // 当前缓存已占用的磁盘空间 (字节)
+  qint64 limit_{};        // 缓存大小限制 (字节)
 
-  bool clear_on_close_{}; // 是否在关闭时清除此缓存的标志
+  bool clear_on_close_{};  // 是否在关闭时清除此缓存的标志
 
-  QTimer save_timer_; // 用于定期保存缓存索引的定时器
+  QTimer save_timer_;  // 用于定期保存缓存索引的定时器
 
- private slots: // Qt 私有槽函数
+ private slots:  // Qt 私有槽函数
   // 定时器触发时调用的槽函数，用于保存磁盘缓存索引文件
   void SaveDiskCacheIndex();
 };
@@ -144,12 +144,13 @@ class DiskCacheFolder : public QObject { // DiskCacheFolder 继承自 QObject
  * 它提供了创建、获取和操作这些缓存文件夹的接口，并可以全局地处理缓存相关的设置和事件。
  * 用户通常通过这个单例来访问默认的缓存文件夹或特定的缓存位置。
  */
-class DiskManager : public QObject { // DiskManager 继承自 QObject
-  Q_OBJECT // 声明此类使用 Qt 的元对象系统
+class DiskManager : public QObject {  // DiskManager 继承自 QObject
+ Q_OBJECT                             // 声明此类使用 Qt 的元对象系统
 
- public:
-  // (静态) 创建 DiskManager 的单例实例
-  static void CreateInstance();
+     public :
+     // (静态) 创建 DiskManager 的单例实例
+     static void
+     CreateInstance();
 
   // (静态) 销毁 DiskManager 的单例实例
   static void DestroyInstance();
@@ -210,7 +211,7 @@ class DiskManager : public QObject { // DiskManager 继承自 QObject
   // 显示指定路径的磁盘缓存设置对话框 (内部会先获取或创建对应的 DiskCacheFolder)
   void ShowDiskCacheSettingsDialog(const QString& path, QWidget* parent);
 
- public slots: // Qt 公有槽函数
+ public slots:  // Qt 公有槽函数
   /**
    * @brief 当指定缓存文件夹中的某个文件被访问时调用的槽函数。
    * 通常由 DiskCacheFolder 对象发出信号，DiskManager 在此接收并可能执行全局逻辑。
@@ -232,7 +233,7 @@ class DiskManager : public QObject { // DiskManager 继承自 QObject
    */
   void DeleteSpecificFile(const QString& filename);
 
- signals: // Qt 信号声明
+ signals:  // Qt 信号声明
   /**
    * @brief 当一个缓存帧文件被删除时发出的信号 (可能是从任何一个 DiskCacheFolder 发出的)。
    * @param path 缓存文件夹的路径。
@@ -254,7 +255,7 @@ class DiskManager : public QObject { // DiskManager 继承自 QObject
   // 私有析构函数 (用于单例模式)
   ~DiskManager() override;
 
-  static DiskManager* instance_; // DiskManager 的静态单例实例指针
+  static DiskManager* instance_;  // DiskManager 的静态单例实例指针
 
   // 存储所有当前打开并被管理的 DiskCacheFolder 对象的列表
   QVector<DiskCacheFolder*> open_folders_;

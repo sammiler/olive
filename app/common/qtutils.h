@@ -1,19 +1,19 @@
 #ifndef QTVERSIONABSTRACTION_H
 #define QTVERSIONABSTRACTION_H
 
-#include <olive/core/core.h> // 包含 olive::core 命名空间的基础定义，如 rational, Color, TimeRange, Bezier, AudioParams, SampleBuffer
+#include <olive/core/core.h>  // 包含 olive::core 命名空间的基础定义，如 rational, Color, TimeRange, Bezier, AudioParams, SampleBuffer
+#include <QColor>  // 为了 toQColor
 #include <QComboBox>
 #include <QDateTime>
 #include <QFileInfo>
 #include <QFontMetrics>
 #include <QFrame>
+#include <QHash>  // 为了 qHash 函数的 seed 参数
 #include <QMessageBox>
-#include <QStringList>      // 为了 WordWrapString 和其他可能的 QStringList 使用
-#include <QWidget>          // 为了 MsgBox 的 parent 参数和 GetParentOfType
-#include <QVariant>         // 为了 PtrToValue 和 ValueToPtr
-#include <QColor>           // 为了 toQColor
-#include <QHash>            // 为了 qHash 函数的 seed 参数
-#include <QMetaType>        // 为了 Q_DECLARE_METATYPE
+#include <QMetaType>    // 为了 Q_DECLARE_METATYPE
+#include <QStringList>  // 为了 WordWrapString 和其他可能的 QStringList 使用
+#include <QVariant>     // 为了 PtrToValue 和 ValueToPtr
+#include <QWidget>      // 为了 MsgBox 的 parent 参数和 GetParentOfType
 
 // Qt::KeyboardModifiers 在 <Qt> 模块中，通常通过 <QInputEvent> 或 <QEvent> 包含，
 // 如果没有，可能需要 #include <QtGui/qevent.h> 或类似头文件，
@@ -61,7 +61,8 @@ class QtUtils {
    * @param icon 消息框的图标类型 (例如 QMessageBox::Information, QMessageBox::Warning)。
    * @param title 消息框的标题。
    * @param message 要在消息框中显示的消息文本。
-   * @param buttons 消息框中显示的按钮组合 (例如 QMessageBox::Ok, QMessageBox::Save | QMessageBox::Cancel)。默认为 QMessageBox::Ok。
+   * @param buttons 消息框中显示的按钮组合 (例如 QMessageBox::Ok, QMessageBox::Save | QMessageBox::Cancel)。默认为
+   * QMessageBox::Ok。
    * @return int 用户点击的按钮的 QMessageBox::StandardButton 枚举值。
    */
   static int MsgBox(QWidget *parent, QMessageBox::Icon icon, const QString &title, const QString &message,
@@ -126,16 +127,16 @@ class QtUtils {
    */
   template <typename T>
   static T *GetParentOfType(const QObject *child) {
-    QObject *t = child->parent(); // 获取父对象
+    QObject *t = child->parent();  // 获取父对象
 
-    while (t) { // 当父对象存在时循环
-      if (T *p = dynamic_cast<T *>(t)) { // 尝试将父对象动态转换为类型 T
-        return p; // 如果转换成功，则返回该父对象指针
+    while (t) {                           // 当父对象存在时循环
+      if (T *p = dynamic_cast<T *>(t)) {  // 尝试将父对象动态转换为类型 T
+        return p;                         // 如果转换成功，则返回该父对象指针
       }
-      t = t->parent(); // 继续向上查找下一级父对象
+      t = t->parent();  // 继续向上查找下一级父对象
     }
 
-    return nullptr; // 如果未找到指定类型的父对象，则返回 nullptr
+    return nullptr;  // 如果未找到指定类型的父对象，则返回 nullptr
   }
 
   /**
@@ -166,7 +167,7 @@ class QtUtils {
   }
 };
 
-namespace core { // 这个命名空间似乎是为了给 olive::core 中的类型提供 Qt 哈希函数
+namespace core {  // 这个命名空间似乎是为了给 olive::core 中的类型提供 Qt 哈希函数
 
 /**
  * @brief 为 olive::core::rational 类型重载 qHash 函数。

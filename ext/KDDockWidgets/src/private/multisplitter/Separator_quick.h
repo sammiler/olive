@@ -4,8 +4,8 @@
 #ifdef KDDOCKWIDGETS_QTQUICK // 仅当定义了 KDDOCKWIDGETS_QTQUICK 宏时才编译以下内容 (表示在 Qt Quick 环境下)
 
 #include "kddockwidgets/docks_export.h" // 包含导出宏定义，用于库的导出和导入
-#include "Separator_p.h"             // 包含 Separator 私有头文件 (SeparatorQuick 的基类之一)
-#include "Widget_quick.h"            // 包含 Widget_quick.h (SeparatorQuick 的基类之一，用于 Qt Quick 的 Widget 适配)
+#include "Separator_p.h" // 包含 Separator 私有头文件 (SeparatorQuick 的基类之一)
+#include "Widget_quick.h" // 包含 Widget_quick.h (SeparatorQuick 的基类之一，用于 Qt Quick 的 Widget 适配)
 
 #include <QQuickItem> // 包含 QQuickItem 类，这是 Qt Quick 中所有可视化项的基类
 
@@ -22,20 +22,19 @@ namespace Layouting { // 布局相关的命名空间
  * 通过 Q_INVOKABLE 方法，QML 中的鼠标事件可以被转发到 C++ 基类的处理函数中。
  */
 class DOCKS_EXPORT SeparatorQuick
-    : public QQuickItem,          // 继承自 QQuickItem，使其成为一个 Qt Quick 可视化项
+    : public QQuickItem, // 继承自 QQuickItem，使其成为一个 Qt Quick 可视化项
       public Layouting::Separator, // 继承自 Layouting::Separator，获取分隔条的核心逻辑
-      public Layouting::Widget_quick  // 继承自 Layouting::Widget_quick，作为 Qt Quick 的 Widget 适配器
+      public Layouting::Widget_quick // 继承自 Layouting::Widget_quick，作为 Qt Quick 的 Widget 适配器
 {
-    Q_OBJECT // 启用 Qt 元对象系统特性，如信号和槽
+Q_OBJECT // 启用 Qt 元对象系统特性，如信号和槽
 
-    /**
-     * @qproperty bool isVertical
-     * @brief 表示分隔条是否为垂直方向。
-     * 此属性绑定到 Layouting::Separator::isVertical() 方法。
-     * @see isVerticalChanged()
-     */
-    Q_PROPERTY(bool isVertical READ isVertical NOTIFY isVerticalChanged)
-public:
+/**
+ * @qproperty bool isVertical
+ * @brief 表示分隔条是否为垂直方向。
+ * 此属性绑定到 Layouting::Separator::isVertical() 方法。
+ * @see isVerticalChanged()
+ */
+Q_PROPERTY(bool isVertical READ isVertical NOTIFY isVerticalChanged) public :
     /**
      * @brief 构造一个 SeparatorQuick 对象。
      * @param parent 指向父 Layouting::Widget 对象的指针，默认为 nullptr。

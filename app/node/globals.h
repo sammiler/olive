@@ -1,18 +1,18 @@
-#ifndef NODEGLOBALS_H // 防止头文件被多次包含的宏定义开始
+#ifndef NODEGLOBALS_H  // 防止头文件被多次包含的宏定义开始
 #define NODEGLOBALS_H
 
-#include <QVector2D> // Qt 二维向量类，用于表示分辨率
-#include <utility>   // 引入 std::move 等工具
+#include <QVector2D>  // Qt 二维向量类，用于表示分辨率
+#include <utility>    // 引入 std::move 等工具
 
-#include "render/loopmode.h"    // 引入 LoopMode 枚举定义
-#include "render/videoparams.h" // 引入 VideoParams 定义 (AudioParams 可能也在此或类似文件中)
+#include "render/loopmode.h"     // 引入 LoopMode 枚举定义
+#include "render/videoparams.h"  // 引入 VideoParams 定义 (AudioParams 可能也在此或类似文件中)
 
 // 可能需要的前向声明
 // class TimeRange; // 假设
 // class rational; // 假设
 // class AudioParams; // 假设 (如果 videoparams.h 未包含)
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
 /**
  * @brief 封装了在节点求值 (Node::Value) 过程中传递的全局参数和状态信息。
@@ -36,10 +36,10 @@ class NodeGlobals {
    * @param loop_mode 当前的循环播放模式。
    */
   NodeGlobals(VideoParams vparam, AudioParams aparam, const TimeRange &time, LoopMode loop_mode)
-      : video_params_(std::move(vparam)),   // 使用移动语义初始化视频参数
-        audio_params_(std::move(aparam)),   // 使用移动语义初始化音频参数
-        time_(time),                        // 初始化时间范围
-        loop_mode_(loop_mode) {}            // 初始化循环模式
+      : video_params_(std::move(vparam)),  // 使用移动语义初始化视频参数
+        audio_params_(std::move(aparam)),  // 使用移动语义初始化音频参数
+        time_(time),                       // 初始化时间范围
+        loop_mode_(loop_mode) {}           // 初始化循环模式
 
   /**
    * @brief NodeGlobals 构造函数，使用单个时间点。
@@ -51,7 +51,7 @@ class NodeGlobals {
    */
   NodeGlobals(const VideoParams &vparam, const AudioParams &aparam, const rational &time, LoopMode loop_mode)
       : NodeGlobals(vparam, aparam, TimeRange(time, time + vparam.frame_rate_as_time_base()), loop_mode) {}
-      // 委托给上一个构造函数，将单个时间点转换为时间范围
+  // 委托给上一个构造函数，将单个时间点转换为时间范围
 
   /**
    * @brief 获取校正像素宽高比后的方形像素分辨率。
@@ -85,10 +85,10 @@ class NodeGlobals {
   [[nodiscard]] LoopMode loop_mode() const { return loop_mode_; }
 
  private:
-  VideoParams video_params_; ///< 存储当前处理上下文的视频参数。
-  AudioParams audio_params_; ///< 存储当前处理上下文的音频参数。
-  TimeRange time_;           ///< 存储当前处理的时间范围或时间点。
-  LoopMode loop_mode_;       ///< 存储当前的循环播放模式。
+  VideoParams video_params_;  ///< 存储当前处理上下文的视频参数。
+  AudioParams audio_params_;  ///< 存储当前处理上下文的音频参数。
+  TimeRange time_;            ///< 存储当前处理的时间范围或时间点。
+  LoopMode loop_mode_;        ///< 存储当前的循环播放模式。
 };
 
 }  // namespace olive

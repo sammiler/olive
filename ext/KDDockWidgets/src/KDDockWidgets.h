@@ -8,11 +8,11 @@
 #ifndef KD_KDDOCKWIDGETS_H
 #define KD_KDDOCKWIDGETS_H
 
-#include "docks_export.h"         // 导入导出宏定义，用于库的符号可见性
-#include "Qt5Qt6Compat_p.h"       // Qt5/Qt6 兼容性相关的私有助手宏或类型定义
+#include "docks_export.h" // 导入导出宏定义，用于库的符号可见性
+#include "Qt5Qt6Compat_p.h" // Qt5/Qt6 兼容性相关的私有助手宏或类型定义
 
 #include <QObject> // Qt 对象模型基类
-#include <QDebug>  // Qt 调试输出类
+#include <QDebug> // Qt 调试输出类
 
 #ifdef Q_OS_WIN // 条件编译：仅在 Windows 操作系统下
 // 仅在 Windows 上，此功能较为流行。在 Linux 上，Qt::Tool 窗口需要重新设置父窗口。在 macOS 上未经测试。
@@ -21,27 +21,27 @@
 
 // 前向声明内部布局引擎相关的类
 namespace Layouting {
-class Item;             // 布局中的一个基本项
+class Item; // 布局中的一个基本项
 class ItemBoxContainer; // 布局中可以包含其他项的盒式容器
 }
 
 namespace KDDockWidgets {
 DOCKS_EXPORT // 导出 KDDockWidgets 命名空间 (如果需要)
-Q_NAMESPACE  // 将此命名空间注册到 Qt 元对象系统，允许在 QML 和属性系统中使用其枚举
+    Q_NAMESPACE // 将此命名空间注册到 Qt 元对象系统，允许在 QML 和属性系统中使用其枚举
 
-// 前向声明 KDDockWidgets 内部或公共类
-class MultiSplitter; // 多重分割器类
-class DropArea;      // 放置区域类
+    // 前向声明 KDDockWidgets 内部或公共类
+    class MultiSplitter; // 多重分割器类
+class DropArea; // 放置区域类
 
 /**
  * @brief 定义停靠小部件可以停靠到的位置。
  */
 enum Location {
-    Location_None,      ///< 无特定位置，或表示无效位置。
-    Location_OnLeft,    ///< 左侧停靠位置。
-    Location_OnTop,     ///< 顶部停靠位置。
-    Location_OnRight,   ///< 右侧停靠位置。
-    Location_OnBottom   ///< 底部停靠位置。
+    Location_None, ///< 无特定位置，或表示无效位置。
+    Location_OnLeft, ///< 左侧停靠位置。
+    Location_OnTop, ///< 顶部停靠位置。
+    Location_OnRight, ///< 右侧停靠位置。
+    Location_OnBottom ///< 底部停靠位置。
 };
 Q_ENUM_NS(Location) // 将 Location 枚举注册到 Qt 元对象系统 (在 KDDockWidgets 命名空间内)。
 
@@ -53,8 +53,8 @@ enum MainWindowOption {
     MainWindowOption_HasCentralFrame = 1, ///< 使主窗口总是拥有一个中央框架，用于以标签页形式组织文档或视图。
     MainWindowOption_MDI = 2, ///< 布局将是 MDI (多文档界面) 风格。停靠小部件可以拥有任意位置，不受传统分割布局的限制。
     MainWindowOption_HasCentralWidget = 4 | MainWindowOption_HasCentralFrame, ///< 类似于 MainWindowOption_HasCentralFrame，
-                                                                            ///< 但您将拥有一个不能被分离的中央小部件（类似于常规的 QMainWindow）。
-                                                                            ///< @sa MainWindowBase::setPersistentCentralWidget()
+                                                                              ///< 但您将拥有一个不能被分离的中央小部件（类似于常规的 QMainWindow）。
+                                                                              ///< @sa MainWindowBase::setPersistentCentralWidget()
 };
 Q_DECLARE_FLAGS(MainWindowOptions, MainWindowOption) // 将 MainWindowOption 枚举声明为可用于 QFlags 的类型。
 Q_ENUM_NS(MainWindowOptions) // 将 MainWindowOptions 枚举注册到 Qt 元对象系统。
@@ -66,8 +66,8 @@ Q_ENUM_NS(MainWindowOptions) // 将 MainWindowOptions 枚举注册到 Qt 元对�
  * @sa InitialOption
  */
 enum class DefaultSizeMode {
-    ItemSize,     ///< 简单地使用被添加项的 Item::size()。如果窗口不够大，实际使用的尺寸可能会更小。
-    Fair,         ///< 给予与布局中已存在项相等的相对尺寸。
+    ItemSize, ///< 简单地使用被添加项的 Item::size()。如果窗口不够大，实际使用的尺寸可能会更小。
+    Fair, ///< 给予与布局中已存在项相等的相对尺寸。
     FairButFloor, ///< 等同于 Fair，但如果正在添加的项小于 Fair 建议的尺寸，则使用该较小尺寸。
     NoDefaultSizeMode, ///< 不执行任何默认的尺寸调整。
 };
@@ -78,8 +78,8 @@ Q_ENUM_NS(DefaultSizeMode) // 将 DefaultSizeMode 枚举注册到 Qt 元对象�
  * 请改用 InitialVisibilityOption。
  */
 enum AddingOption {
-    AddingOption_None = 0,        ///< 无选项。
-    AddingOption_StartHidden      ///< 添加时初始状态为隐藏。
+    AddingOption_None = 0, ///< 无选项。
+    AddingOption_StartHidden ///< 添加时初始状态为隐藏。
 };
 Q_ENUM_NS(AddingOption) // 将 AddingOption 枚举注册到 Qt 元对象系统。
 
@@ -87,9 +87,9 @@ Q_ENUM_NS(AddingOption) // 将 AddingOption 枚举注册到 Qt 元对象系统�
  * @brief 定义停靠小部件添加到布局时的初始可见性选项。
  */
 enum class InitialVisibilityOption {
-    StartVisible = 0,       ///< 停靠小部件在停靠时立即使其可见。
-    StartHidden,            ///< 添加停靠小部件时不显示它（例如，仅创建占位符）。
-    PreserveCurrentTab      ///< 当作为标签页添加时，不改变当前激活的标签页索引。
+    StartVisible = 0, ///< 停靠小部件在停靠时立即使其可见。
+    StartHidden, ///< 添加停靠小部件时不显示它（例如，仅创建占位符）。
+    PreserveCurrentTab ///< 当作为标签页添加时，不改变当前激活的标签页索引。
 };
 Q_ENUM_NS(InitialVisibilityOption) // 将 InitialVisibilityOption 枚举注册到 Qt 元对象系统。
 
@@ -234,9 +234,9 @@ private:
  * @brief 定义恢复布局时的选项。
  */
 enum RestoreOption {
-    RestoreOption_None = 0,                            ///< 无特殊选项。
-    RestoreOption_RelativeToMainWindow = 1 << 0,       ///< 跳过恢复主窗口的几何形状，恢复的停靠小部件将使用相对尺寸。
-                                                       ///< 加载布局不会改变主窗口的几何形状，而只使用用户当前的设置。
+    RestoreOption_None = 0, ///< 无特殊选项。
+    RestoreOption_RelativeToMainWindow = 1 << 0, ///< 跳过恢复主窗口的几何形状，恢复的停靠小部件将使用相对尺寸。
+                                                 ///< 加载布局不会改变主窗口的几何形状，而只使用用户当前的设置。
     RestoreOption_AbsoluteFloatingDockWindows = 1 << 1, ///< 跳过相对于主窗口缩放浮动停靠窗口的步骤。
 };
 Q_DECLARE_FLAGS(RestoreOptions, RestoreOption) // 将 RestoreOption 枚举声明为可用于 QFlags 的类型。
@@ -246,9 +246,9 @@ Q_ENUM_NS(RestoreOptions) // 将 RestoreOptions 枚举注册到 Qt 元对象系�
  * @brief 定义拖放指示器的类型。
  */
 enum class DropIndicatorType {
-    Classic,   ///< 默认类型，通常是箭头形状的指示器。
+    Classic, ///< 默认类型，通常是箭头形状的指示器。
     Segmented, ///< 分段式指示器。
-    None       ///< 拖拽时不显示任何拖放指示器。
+    None ///< 拖拽时不显示任何拖放指示器。
 };
 Q_ENUM_NS(DropIndicatorType) // 将 DropIndicatorType 枚举注册到 Qt 元对象系统。
 
@@ -257,9 +257,9 @@ Q_ENUM_NS(DropIndicatorType) // 将 DropIndicatorType 枚举注册到 Qt 元对�
  * @brief 建议几何形状时的提示。
  */
 enum SuggestedGeometryHint {
-    SuggestedGeometryHint_None = 0,                 ///< 无提示。
-    SuggestedGeometryHint_PreserveCenter = 1,       ///< 在调整大小时尽量保持中心点不变。
-    SuggestedGeometryHint_GeometryIsFromDocked = 2  ///< 几何形状是从停靠状态转换而来的（例如，浮动时）。
+    SuggestedGeometryHint_None = 0, ///< 无提示。
+    SuggestedGeometryHint_PreserveCenter = 1, ///< 在调整大小时尽量保持中心点不变。
+    SuggestedGeometryHint_GeometryIsFromDocked = 2 ///< 几何形状是从停靠状态转换而来的（例如，浮动时）。
 };
 Q_DECLARE_FLAGS(SuggestedGeometryHints, SuggestedGeometryHint) // 将 SuggestedGeometryHint 枚举声明为可用于 QFlags 的类型。
 Q_ENUM_NS(SuggestedGeometryHint) // 将 SuggestedGeometryHint 枚举注册到 Qt 元对象系统。
@@ -268,11 +268,11 @@ Q_ENUM_NS(SuggestedGeometryHint) // 将 SuggestedGeometryHint 枚举注册到 Qt
  * @brief 每个主窗口支持四个侧边栏位置。
  */
 enum class SideBarLocation {
-    None,  ///< 无侧边栏位置，或表示不在侧边栏中。
+    None, ///< 无侧边栏位置，或表示不在侧边栏中。
     North, ///< 北侧（顶部）侧边栏。
-    East,  ///< 东侧（右侧）侧边栏。
-    West,  ///< 西侧（左侧）侧边栏。
-    South  ///< 南侧（底部）侧边栏。
+    East, ///< 东侧（右侧）侧边栏。
+    West, ///< 西侧（左侧）侧边栏。
+    South ///< 南侧（底部）侧边栏。
 };
 // Q_ENUM_NS(SideBarLocation) // 注意：此枚举似乎未在此处使用 Q_ENUM_NS 注册，可能在其他地方或有意为之。
 
@@ -280,13 +280,13 @@ enum class SideBarLocation {
  * @brief 描述了标题栏上可以拥有的按钮类型。
  */
 enum class TitleBarButtonType {
-    Close,      ///< 关闭按钮。
-    Float,      ///< 浮动/停靠切换按钮。
-    Minimize,   ///< 最小化按钮。
-    Maximize,   ///< 最大化按钮。
-    Normal,     ///< 从最大化状态恢复到正常大小的按钮。
-    AutoHide,   ///< 自动隐藏（最小化到侧边栏）按钮。
-    UnautoHide  ///< 从自动隐藏状态恢复的按钮。
+    Close, ///< 关闭按钮。
+    Float, ///< 浮动/停靠切换按钮。
+    Minimize, ///< 最小化按钮。
+    Maximize, ///< 最大化按钮。
+    Normal, ///< 从最大化状态恢复到正常大小的按钮。
+    AutoHide, ///< 自动隐藏（最小化到侧边栏）按钮。
+    UnautoHide ///< 从自动隐藏状态恢复的按钮。
 };
 Q_ENUM_NS(TitleBarButtonType) // 将 TitleBarButtonType 枚举注册到 Qt 元对象系统。
 
@@ -296,16 +296,16 @@ Q_ENUM_NS(TitleBarButtonType) // 将 TitleBarButtonType 枚举注册到 Qt 元�
  * 这些值可以组合使用（位操作），表示多个可能的放置区域。
  */
 enum DropLocation {
-    DropLocation_None = 0,         ///< 无放置位置。
-    DropLocation_Left = 1,         ///< 内部左侧。
-    DropLocation_Top = 2,          ///< 内部顶部。
-    DropLocation_Right = 4,        ///< 内部右侧。
-    DropLocation_Bottom = 8,       ///< 内部底部。
-    DropLocation_Center = 16,      ///< 中心区域（通常用于标签化停靠）。
-    DropLocation_OutterLeft = 32,  ///< 外部左侧。
-    DropLocation_OutterTop = 64,   ///< 外部顶部。
-    DropLocation_OutterRight = 128,///< 外部右侧。
-    DropLocation_OutterBottom = 256,///< 外部底部。
+    DropLocation_None = 0, ///< 无放置位置。
+    DropLocation_Left = 1, ///< 内部左侧。
+    DropLocation_Top = 2, ///< 内部顶部。
+    DropLocation_Right = 4, ///< 内部右侧。
+    DropLocation_Bottom = 8, ///< 内部底部。
+    DropLocation_Center = 16, ///< 中心区域（通常用于标签化停靠）。
+    DropLocation_OutterLeft = 32, ///< 外部左侧。
+    DropLocation_OutterTop = 64, ///< 外部顶部。
+    DropLocation_OutterRight = 128, ///< 外部右侧。
+    DropLocation_OutterBottom = 256, ///< 外部底部。
     // 组合值
     DropLocation_Inner = DropLocation_Left | DropLocation_Right | DropLocation_Top | DropLocation_Bottom, ///< 所有内部位置。
     DropLocation_Outter = DropLocation_OutterLeft | DropLocation_OutterRight | DropLocation_OutterTop | DropLocation_OutterBottom, ///< 所有外部位置。
@@ -331,17 +331,17 @@ inline Qt5Qt6Compat::qhashtype qHash(SideBarLocation loc, Qt5Qt6Compat::qhashtyp
  * @brief 定义鼠标光标在小部件边缘或角落时的位置，用于调整大小。
  */
 enum CursorPosition {
-    CursorPosition_Undefined = 0,      ///< 未定义或不在调整大小区域。
-    CursorPosition_Left = 1,           ///< 左边缘。
-    CursorPosition_Right = 2,          ///< 右边缘。
-    CursorPosition_Top = 4,            ///< 上边缘。
-    CursorPosition_Bottom = 8,         ///< 下边缘。
-    CursorPosition_TopLeft = CursorPosition_Top | CursorPosition_Left,     ///< 左上角。
-    CursorPosition_TopRight = CursorPosition_Top | CursorPosition_Right,   ///< 右上角。
+    CursorPosition_Undefined = 0, ///< 未定义或不在调整大小区域。
+    CursorPosition_Left = 1, ///< 左边缘。
+    CursorPosition_Right = 2, ///< 右边缘。
+    CursorPosition_Top = 4, ///< 上边缘。
+    CursorPosition_Bottom = 8, ///< 下边缘。
+    CursorPosition_TopLeft = CursorPosition_Top | CursorPosition_Left, ///< 左上角。
+    CursorPosition_TopRight = CursorPosition_Top | CursorPosition_Right, ///< 右上角。
     CursorPosition_BottomRight = CursorPosition_Bottom | CursorPosition_Right, ///< 右下角。
-    CursorPosition_BottomLeft = CursorPosition_Bottom | CursorPosition_Left,   ///< 左下角。
-    CursorPosition_Horizontal = CursorPosition_Right | CursorPosition_Left,   ///< 水平调整（左右边缘）。
-    CursorPosition_Vertical = CursorPosition_Top | CursorPosition_Bottom,     ///< 垂直调整（上下边缘）。
+    CursorPosition_BottomLeft = CursorPosition_Bottom | CursorPosition_Left, ///< 左下角。
+    CursorPosition_Horizontal = CursorPosition_Right | CursorPosition_Left, ///< 水平调整（左右边缘）。
+    CursorPosition_Vertical = CursorPosition_Top | CursorPosition_Bottom, ///< 垂直调整（上下边缘）。
     CursorPosition_All = CursorPosition_Left | CursorPosition_Right | CursorPosition_Top | CursorPosition_Bottom ///< 所有边缘（通常不直接使用，而是组合）。
 };
 Q_DECLARE_FLAGS(CursorPositions, CursorPosition) // 将 CursorPosition 枚举声明为可用于 QFlags 的类型。
@@ -353,11 +353,11 @@ Q_ENUM_NS(CursorPosition) // 将 CursorPosition 枚举注册到 Qt 元对象系�
  * @brief Frame (框架) 的选项。
  */
 enum FrameOption {
-    FrameOption_None = 0,             ///< 无选项。
-    FrameOption_AlwaysShowsTabs = 1,  ///< 即使只有一个停靠小部件，也总是显示标签栏。
-    FrameOption_IsCentralFrame = 2,   ///< 标记此框架是主窗口的中央框架。
-    FrameOption_IsOverlayed = 4,      ///< 标记此框架是作为覆盖层显示的（例如，自动隐藏的侧边栏面板）。
-    FrameOption_NonDockable = 8       ///< 不能通过拖放将其他东西停靠或标签化到此框架中。
+    FrameOption_None = 0, ///< 无选项。
+    FrameOption_AlwaysShowsTabs = 1, ///< 即使只有一个停靠小部件，也总是显示标签栏。
+    FrameOption_IsCentralFrame = 2, ///< 标记此框架是主窗口的中央框架。
+    FrameOption_IsOverlayed = 4, ///< 标记此框架是作为覆盖层显示的（例如，自动隐藏的侧边栏面板）。
+    FrameOption_NonDockable = 8 ///< 不能通过拖放将其他东西停靠或标签化到此框架中。
 };
 Q_DECLARE_FLAGS(FrameOptions, FrameOption) // 将 FrameOption 枚举声明为可用于 QFlags 的类型。
 Q_ENUM_NS(FrameOptions) // 将 FrameOptions 枚举注册到 Qt 元对象系统。
@@ -367,8 +367,8 @@ Q_ENUM_NS(FrameOptions) // 将 FrameOptions 枚举注册到 Qt 元对象系统�
  * @brief TabWidget (标签页小部件) 的选项。
  */
 enum TabWidgetOption {
-    TabWidgetOption_None = 0,         ///< 无选项。
-    TabWidgetOption_DocumentMode = 1  ///< 启用 QTabWidget::documentMode() 样式。
+    TabWidgetOption_None = 0, ///< 无选项。
+    TabWidgetOption_DocumentMode = 1 ///< 启用 QTabWidget::documentMode() 样式。
 };
 Q_DECLARE_FLAGS(TabWidgetOptions, TabWidgetOption) // 将 TabWidgetOption 枚举声明为可用于 QFlags 的类型。
 Q_ENUM_NS(TabWidgetOptions) // 将 TabWidgetOptions 枚举注册到 Qt 元对象系统。
@@ -378,17 +378,17 @@ Q_ENUM_NS(TabWidgetOptions) // 将 TabWidgetOptions 枚举注册到 Qt 元对象
  * @brief FloatingWindow (浮动窗口) 的标志。
  */
 enum class FloatingWindowFlag {
-    None = 0,                                 ///< 无标志。
-    FromGlobalConfig = 1,                     ///< 使用 KDDockWidgets::Config 中的全局配置。
-    TitleBarHasMinimizeButton = 2,            ///< 标题栏带有最小化按钮。
-    TitleBarHasMaximizeButton = 4,            ///< 标题栏带有最大化按钮。
-    KeepAboveIfNotUtilityWindow = 8,          ///< 如果不是工具窗口 (Qt::Tool)，则保持在最前端。
-    NativeTitleBar = 16,                      ///< 使用原生操作系统标题栏。
-    HideTitleBarWhenTabsVisible = 32,         ///< 当标签页可见时隐藏标题栏。
-    AlwaysTitleBarWhenFloating = 64,          ///< 浮动时总是显示标题栏（即使设置了 HideTitleBarWhenTabsVisible）。
-    DontUseParentForFloatingWindows = 128,    ///< 浮动窗口不设置父顶层窗口。
-    UseQtWindow = 256,                        ///< 浮动窗口使用 Qt::Window 标志（而不是 Qt::Tool）。
-    UseQtTool = 512,                          ///< 浮动窗口使用 Qt::Tool 标志。
+    None = 0, ///< 无标志。
+    FromGlobalConfig = 1, ///< 使用 KDDockWidgets::Config 中的全局配置。
+    TitleBarHasMinimizeButton = 2, ///< 标题栏带有最小化按钮。
+    TitleBarHasMaximizeButton = 4, ///< 标题栏带有最大化按钮。
+    KeepAboveIfNotUtilityWindow = 8, ///< 如果不是工具窗口 (Qt::Tool)，则保持在最前端。
+    NativeTitleBar = 16, ///< 使用原生操作系统标题栏。
+    HideTitleBarWhenTabsVisible = 32, ///< 当标签页可见时隐藏标题栏。
+    AlwaysTitleBarWhenFloating = 64, ///< 浮动时总是显示标题栏（即使设置了 HideTitleBarWhenTabsVisible）。
+    DontUseParentForFloatingWindows = 128, ///< 浮动窗口不设置父顶层窗口。
+    UseQtWindow = 256, ///< 浮动窗口使用 Qt::Window 标志（而不是 Qt::Tool）。
+    UseQtTool = 512, ///< 浮动窗口使用 Qt::Tool 标志。
 };
 Q_DECLARE_FLAGS(FloatingWindowFlags, FloatingWindowFlag) // 将 FloatingWindowFlag 枚举声明为可用于 QFlags 的类型。
 

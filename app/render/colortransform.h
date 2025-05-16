@@ -1,13 +1,13 @@
-#ifndef COLORTRANSFORM_H // 防止头文件被重复包含的宏
-#define COLORTRANSFORM_H // 定义 COLORTRANSFORM_H 宏
+#ifndef COLORTRANSFORM_H  // 防止头文件被重复包含的宏
+#define COLORTRANSFORM_H  // 定义 COLORTRANSFORM_H 宏
 
-#include <QString> // Qt 字符串类
+#include <QString>  // Qt 字符串类
 
-#include "common/define.h"    // 可能包含项目通用的定义或宏
-#include "common/ocioutils.h" // 包含 OpenColorIO (OCIO) 工具类或相关定义的头文件
-                              // (虽然在此文件中未直接使用 OCIO 类型，但逻辑上相关)
+#include "common/define.h"     // 可能包含项目通用的定义或宏
+#include "common/ocioutils.h"  // 包含 OpenColorIO (OCIO) 工具类或相关定义的头文件
+                               // (虽然在此文件中未直接使用 OCIO 类型，但逻辑上相关)
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
 /**
  * @brief ColorTransform 类用于描述一个具体的颜色转换操作。
@@ -38,9 +38,9 @@ class ColorTransform {
    * @param output 目标输出色彩空间的名称。
    */
   explicit ColorTransform(const QString& output) {
-    is_display_ = false; // 标记为非显示变换
-    output_ = output;   // 设置输出色彩空间
-                         // view_ 和 look_ 保持默认 (空字符串)
+    is_display_ = false;  // 标记为非显示变换
+    output_ = output;     // 设置输出色彩空间
+                          // view_ 和 look_ 保持默认 (空字符串)
   }
 
   /**
@@ -50,10 +50,10 @@ class ColorTransform {
    * @param look (可选) 应用的外观/风格的名称 (例如 "Gritty", "Cool")。
    */
   ColorTransform(const QString& display, const QString& view, const QString& look) {
-    is_display_ = true;   // 标记为显示变换
-    output_ = display;    // 显示设备名称存储在 output_ 中
-    view_ = view;         // 设置视图变换
-    look_ = look;         // 设置外观
+    is_display_ = true;  // 标记为显示变换
+    output_ = display;   // 显示设备名称存储在 output_ 中
+    view_ = view;        // 设置视图变换
+    look_ = look;        // 设置外观
   }
 
   /**
@@ -90,11 +90,11 @@ class ColorTransform {
   [[nodiscard]] const QString& look() const { return look_; }
 
  private:
-  QString output_; // 存储目标输出色彩空间名称或显示设备名称
+  QString output_;  // 存储目标输出色彩空间名称或显示设备名称
 
-  bool is_display_; // 标记是否为显示变换
-  QString view_;    // 存储视图变换的名称 (用于显示变换)
-  QString look_;    // 存储外观/风格的名称 (用于显示变换)
+  bool is_display_;  // 标记是否为显示变换
+  QString view_;     // 存储视图变换的名称 (用于显示变换)
+  QString look_;     // 存储外观/风格的名称 (用于显示变换)
 };
 
 }  // namespace olive

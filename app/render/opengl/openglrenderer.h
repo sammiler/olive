@@ -1,21 +1,21 @@
-#ifndef OPENGLCONTEXT_H // 防止头文件被重复包含的宏
-#define OPENGLCONTEXT_H // 定义 OPENGLCONTEXT_H 宏
+#ifndef OPENGLCONTEXT_H  // 防止头文件被重复包含的宏
+#define OPENGLCONTEXT_H  // 定义 OPENGLCONTEXT_H 宏
 
-#include <QOffscreenSurface>      // Qt 离屏表面类，用于在没有可见窗口的情况下进行OpenGL渲染
-#include <QOpenGLBuffer>          // Qt OpenGL 缓冲区对象类 (VBO, EBO)
-#include <QOpenGLFunctions>       // Qt 封装的 OpenGL 函数访问基类
-#include <QOpenGLShader>          // Qt OpenGL 着色器程序和着色器对象类
-#include <QOpenGLVertexArrayObject> // Qt OpenGL 顶点数组对象 (VAO) 类
-#include <QThread>                // Qt 线程类 (可能用于在单独的线程中运行渲染)
-#include <QTimer>                 // Qt 定时器类
+#include <QOffscreenSurface>         // Qt 离屏表面类，用于在没有可见窗口的情况下进行OpenGL渲染
+#include <QOpenGLBuffer>             // Qt OpenGL 缓冲区对象类 (VBO, EBO)
+#include <QOpenGLFunctions>          // Qt 封装的 OpenGL 函数访问基类
+#include <QOpenGLShader>             // Qt OpenGL 着色器程序和着色器对象类
+#include <QOpenGLVertexArrayObject>  // Qt OpenGL 顶点数组对象 (VAO) 类
+#include <QThread>                   // Qt 线程类 (可能用于在单独的线程中运行渲染)
+#include <QTimer>                    // Qt 定时器类
 
-#include "render/renderer.h"      // 包含 Renderer 抽象基类的定义
+#include "render/renderer.h"  // 包含 Renderer 抽象基类的定义
 
 // 假设 olive::Texture, olive::ShaderJob, olive::ShaderCode, olive::VideoParams,
 // olive::PixelFormat, olive::Color 等类型的定义已通过 "render/renderer.h"
 // 或其他方式被间接包含。
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
 /**
  * @brief OpenGLRenderer 类是 Renderer 接口的一个具体实现，使用 OpenGL API 进行渲染。
@@ -27,15 +27,15 @@ namespace olive { // olive 项目的命名空间
  * 它可能在单独的渲染线程中运行，以避免阻塞主 UI 线程。
  * (注意：文件名是 OpenGLContext.h，而类名是 OpenGLRenderer，这可能是一个历史遗留问题或特定命名约定)
  */
-class OpenGLRenderer : public Renderer { // OpenGLRenderer 继承自 Renderer 抽象基类
-  Q_OBJECT // 声明此类使用 Qt 的元对象系统
+class OpenGLRenderer : public Renderer {  // OpenGLRenderer 继承自 Renderer 抽象基类
+ Q_OBJECT                                 // 声明此类使用 Qt 的元对象系统
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父对象指针，默认为 nullptr。
-   */
-  explicit OpenGLRenderer(QObject *parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父对象指针，默认为 nullptr。
+      */
+     explicit OpenGLRenderer(QObject *parent = nullptr);
 
   // 析构函数
   ~OpenGLRenderer() override;
@@ -201,28 +201,30 @@ class OpenGLRenderer : public Renderer { // OpenGLRenderer 继承自 Renderer �
 
   // --- 成员变量 ---
 
-  QOpenGLContext *context_; // 指向当前OpenGL上下文的指针
+  QOpenGLContext *context_;  // 指向当前OpenGL上下文的指针
 
-  QOpenGLFunctions *functions_{}; // 指向封装了OpenGL核心函数 (特定版本) 的对象的指针，
-                                 // 通过 context_->functions() 或 context_->versionFunctions<QOpenGLFunctions_x_y_Core>() 获取。
-                                 // 初始化为 nullptr 或使用 Qt 6 的 QOpenGLVersionFunctions。
+  QOpenGLFunctions
+      *functions_{};  // 指向封装了OpenGL核心函数 (特定版本) 的对象的指针，
+                      // 通过 context_->functions() 或 context_->versionFunctions<QOpenGLFunctions_x_y_Core>() 获取。
+                      // 初始化为 nullptr 或使用 Qt 6 的 QOpenGLVersionFunctions。
 
-  QOffscreenSurface surface_; // 离屏表面，用于无窗口渲染
+  QOffscreenSurface surface_;  // 离屏表面，用于无窗口渲染
 
-  GLuint framebuffer_; // 帧缓冲对象 (FBO) 的句柄，用于离屏渲染到纹理
+  GLuint framebuffer_;  // 帧缓冲对象 (FBO) 的句柄，用于离屏渲染到纹理
 
   // 用于纹理缓存的键结构体，通过纹理参数来唯一标识一个纹理
   struct TextureCacheKey {
-    int width{};         // 宽度
-    int height{};        // 高度
-    int depth{};         // 深度 (用于3D纹理)
-    PixelFormat format;  // 像素格式
-    int channel_count{}; // 通道数量
+    int width{};          // 宽度
+    int height{};         // 高度
+    int depth{};          // 深度 (用于3D纹理)
+    PixelFormat format;   // 像素格式
+    int channel_count{};  // 通道数量
 
     // 重载等于运算符，用于 QMap/QHash
     bool operator==(const TextureCacheKey &rhs) const {
       return width == rhs.width && height == rhs.height && depth == rhs.depth &&
-             static_cast<PixelFormat::Format>(format) == static_cast<PixelFormat::Format>(rhs.format) && // 确保比较的是枚举的底层值或特定成员
+             static_cast<PixelFormat::Format>(format) ==
+                 static_cast<PixelFormat::Format>(rhs.format) &&  // 确保比较的是枚举的底层值或特定成员
              channel_count == rhs.channel_count;
     }
   };
@@ -230,7 +232,7 @@ class OpenGLRenderer : public Renderer { // OpenGLRenderer 继承自 Renderer �
   // 存储已创建纹理的参数信息，键是纹理句柄 (GLuint)，值是 TextureCacheKey
   QMap<GLuint, TextureCacheKey> texture_params_;
 
-  static const int kTextureCacheMaxSize; // 纹理缓存的最大尺寸 (可能未使用或在.cpp中定义)
+  static const int kTextureCacheMaxSize;  // 纹理缓存的最大尺寸 (可能未使用或在.cpp中定义)
 };
 
 }  // namespace olive

@@ -1,28 +1,28 @@
 #ifndef KD_FLOATING_WINDOW_P_H
 #define KD_FLOATING_WINDOW_P_H
 
-#include "kddockwidgets/docks_export.h"      // 导入导出宏定义
-#include "kddockwidgets/QWidgetAdapter.h"  // QWidget 和 QQuickItem 的适配器类
-#include "kddockwidgets/LayoutSaver.h"     // 布局保存与恢复相关的类
-#include "kddockwidgets/Qt5Qt6Compat_p.h"  // Qt5/Qt6 兼容性私有头文件
-#include "Frame_p.h"                       // Frame 私有头文件
-#include "Draggable_p.h"                   // Draggable 私有头文件 (可拖拽对象接口)
-#include "DropArea_p.h"                    // DropArea 私有头文件 (放置区域)
+#include "kddockwidgets/docks_export.h" // 导入导出宏定义
+#include "kddockwidgets/QWidgetAdapter.h" // QWidget 和 QQuickItem 的适配器类
+#include "kddockwidgets/LayoutSaver.h" // 布局保存与恢复相关的类
+#include "kddockwidgets/Qt5Qt6Compat_p.h" // Qt5/Qt6 兼容性私有头文件
+#include "Frame_p.h" // Frame 私有头文件
+#include "Draggable_p.h" // Draggable 私有头文件 (可拖拽对象接口)
+#include "DropArea_p.h" // DropArea 私有头文件 (放置区域)
 
 QT_BEGIN_NAMESPACE
 // 前向声明 Qt 类
 class QAbstractNativeEventFilter; // Qt 抽象原生事件过滤器
-class QWindowStateChangeEvent;    // Qt 窗口状态改变事件
+class QWindowStateChangeEvent; // Qt 窗口状态改变事件
 QT_END_NAMESPACE
 
 namespace KDDockWidgets {
 
 // 前向声明 KDDockWidgets 内部类
 class MainWindowBase; // 主窗口基类
-class DropArea;       // 放置区域类
-class Frame;          // 框架类 (容纳 DockWidgetBase)
-class MultiSplitter;  // 多重分割器类
-class LayoutWidget;   // 布局小部件类
+class DropArea; // 放置区域类
+class Frame; // 框架类 (容纳 DockWidgetBase)
+class MultiSplitter; // 多重分割器类
+class LayoutWidget; // 布局小部件类
 
 /**
  * @brief 代表一个浮动窗口。
@@ -32,7 +32,7 @@ class LayoutWidget;   // 布局小部件类
  */
 class DOCKS_EXPORT FloatingWindow
     : public QWidgetAdapter, // 继承自 QWidgetAdapter 以支持 QWidget 和 QQuickItem
-      public Draggable      // 继承自 Draggable 以支持被拖拽
+      public Draggable // 继承自 Draggable 以支持被拖拽
 {
     Q_OBJECT
     /// @brief Q_PROPERTY 宏，暴露 titleBar 属性给 Qt 元对象系统，表示此浮动窗口的标题栏。
@@ -430,9 +430,9 @@ protected:
      */
     void onCloseEvent(QCloseEvent *event) override;
 
-    const FloatingWindowFlags m_flags;     ///< 此浮动窗口的标志。
-    QPointer<DropArea> m_dropArea;         ///< 指向内部 DropArea 的 QPointer，用于自动跟踪其生命周期。
-    TitleBar *const m_titleBar;            ///< 指向内部标题栏的常量指针。
+    const FloatingWindowFlags m_flags; ///< 此浮动窗口的标志。
+    QPointer<DropArea> m_dropArea; ///< 指向内部 DropArea 的 QPointer，用于自动跟踪其生命周期。
+    TitleBar *const m_titleBar; ///< 指向内部标题栏的常量指针。
     Qt::WindowState m_lastWindowManagerState = Qt::WindowNoState; ///< 窗口管理器报告的最后窗口状态。
 
 private:
@@ -457,9 +457,9 @@ private:
      */
     void onVisibleFrameCountChanged(int count);
 
-    bool m_disableSetVisible = false;      ///< 标记是否禁用 setVisible 调用，用于内部逻辑控制。
-    bool m_deleteScheduled = false;        ///< 标记是否已计划删除此窗口。
-    bool m_inDtor = false;                 ///< 标记是否正在析构过程中。
+    bool m_disableSetVisible = false; ///< 标记是否禁用 setVisible 调用，用于内部逻辑控制。
+    bool m_deleteScheduled = false; ///< 标记是否已计划删除此窗口。
+    bool m_inDtor = false; ///< 标记是否正在析构过程中。
     bool m_updatingTitleBarVisibility = false; ///< 标记是否正在更新标题栏可见性，防止重入。
     QMetaObject::Connection m_layoutDestroyedConnection; ///< 用于连接布局销毁信号的连接对象。
     QAbstractNativeEventFilter *m_nchittestFilter = nullptr; ///< (仅 Windows) 用于非客户区命中测试的原生事件过滤器。

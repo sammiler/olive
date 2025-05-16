@@ -1,7 +1,7 @@
-#ifndef MATHNODEBASE_H // 防止头文件被多次包含的宏定义开始
+#ifndef MATHNODEBASE_H  // 防止头文件被多次包含的宏定义开始
 #define MATHNODEBASE_H
 
-#include "node/node.h" // 引入基类 Node 的定义
+#include "node/node.h"  // 引入基类 Node 的定义
 
 // 可能需要的前向声明
 // class NodeValueTable; // 假设
@@ -13,7 +13,7 @@
 // struct ShaderCode; // 假设
 // namespace NodeValue { enum class Type; } // 假设
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
 /**
  * @brief 所有执行数学运算节点的基类。
@@ -21,7 +21,7 @@ namespace olive { // Olive 编辑器的命名空间
  * 它还包含用于在 CPU 和 GPU (通过着色器代码) 上执行这些运算的辅助方法。
  */
 class MathNodeBase : public Node {
- public: // Q_OBJECT 宏通常在此，但如果 MathNodeBase 自身不需要信号槽，则可以省略
+ public:  // Q_OBJECT 宏通常在此，但如果 MathNodeBase 自身不需要信号槽，则可以省略
   /**
    * @brief MathNodeBase 默认构造函数。
    */
@@ -31,11 +31,11 @@ class MathNodeBase : public Node {
    * @brief 定义支持的数学运算类型。
    */
   enum Operation {
-    kOpAdd,      ///< 加法运算
-    kOpSubtract, ///< 减法运算
-    kOpMultiply, ///< 乘法运算
-    kOpDivide,   ///< 除法运算
-    kOpPower     ///< 幂运算
+    kOpAdd,       ///< 加法运算
+    kOpSubtract,  ///< 减法运算
+    kOpMultiply,  ///< 乘法运算
+    kOpDivide,    ///< 除法运算
+    kOpPower      ///< 幂运算
   };
 
   /**
@@ -51,24 +51,24 @@ class MathNodeBase : public Node {
    *  用于确定两个输入值应如何进行数学运算。
    */
   enum Pairing {
-    kPairNone = -1, ///< 无效或未确定的配对
+    kPairNone = -1,  ///< 无效或未确定的配对
 
-    kPairNumberNumber,   ///< 数字 - 数字
-    kPairVecVec,         ///< 向量 - 向量
-    kPairMatrixMatrix,   ///< 矩阵 - 矩阵
-    kPairColorColor,     ///< 颜色 - 颜色
-    kPairTextureTexture, ///< 纹理 - 纹理 (通常是逐像素运算)
+    kPairNumberNumber,    ///< 数字 - 数字
+    kPairVecVec,          ///< 向量 - 向量
+    kPairMatrixMatrix,    ///< 矩阵 - 矩阵
+    kPairColorColor,      ///< 颜色 - 颜色
+    kPairTextureTexture,  ///< 纹理 - 纹理 (通常是逐像素运算)
 
-    kPairVecNumber,       ///< 向量 - 数字 (数字通常会广播到向量的每个分量)
-    kPairMatrixVec,       ///< 矩阵 - 向量 (矩阵乘法)
-    kPairNumberColor,     ///< 数字 - 颜色
-    kPairTextureNumber,   ///< 纹理 - 数字
-    kPairTextureColor,    ///< 纹理 - 颜色
-    kPairTextureMatrix,   ///< 纹理 - 矩阵 (可能用于变换纹理坐标)
-    kPairSampleSample,    ///< 音频采样 - 音频采样
-    kPairSampleNumber,    ///< 音频采样 - 数字
+    kPairVecNumber,      ///< 向量 - 数字 (数字通常会广播到向量的每个分量)
+    kPairMatrixVec,      ///< 矩阵 - 向量 (矩阵乘法)
+    kPairNumberColor,    ///< 数字 - 颜色
+    kPairTextureNumber,  ///< 纹理 - 数字
+    kPairTextureColor,   ///< 纹理 - 颜色
+    kPairTextureMatrix,  ///< 纹理 - 矩阵 (可能用于变换纹理坐标)
+    kPairSampleSample,   ///< 音频采样 - 音频采样
+    kPairSampleNumber,   ///< 音频采样 - 数字
 
-    kPairCount ///< 配对类型的总数，用于迭代或数组大小
+    kPairCount  ///< 配对类型的总数，用于迭代或数组大小
   };
 
   /**
@@ -97,9 +97,9 @@ class MathNodeBase : public Node {
     /** @brief (静态工具函数) 根据输入值表获取各种配对类型的可能性（或权重）。 */
     static QVector<int> GetPairLikelihood(const NodeValueTable& table);
 
-    Pairing most_likely_pairing_; ///< 存储推断出的最可能的配对类型。
-    NodeValue most_likely_value_a_; ///< 存储与最可能配对对应的第一个输入值。
-    NodeValue most_likely_value_b_; ///< 存储与最可能配对对应的第二个输入值。
+    Pairing most_likely_pairing_;    ///< 存储推断出的最可能的配对类型。
+    NodeValue most_likely_value_a_;  ///< 存储与最可能配对对应的第一个输入值。
+    NodeValue most_likely_value_b_;  ///< 存储与最可能配对对应的第二个输入值。
   };
 
   // --- 以下是一系列模板函数，用于在不同数据类型和不同操作组合下执行数学运算 ---
@@ -139,7 +139,7 @@ class MathNodeBase : public Node {
    */
   static void PerformAllOnFloatBuffer(Operation operation, float* a, float b, int start, int end);
 
-#if defined(Q_PROCESSOR_X86) || defined(Q_PROCESSOR_ARM) // 针对特定处理器架构的 SSE 优化版本
+#if defined(Q_PROCESSOR_X86) || defined(Q_PROCESSOR_ARM)  // 针对特定处理器架构的 SSE 优化版本
   /**
    * @brief (SSE优化版) 对浮点数缓冲区中的一段数据执行所有支持的数学运算。
    */

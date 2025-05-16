@@ -1,11 +1,11 @@
 #ifndef ABOUTDIALOG_H
 #define ABOUTDIALOG_H
 
-#include <QCheckBox> // 复选框控件
-#include <QDialog>   // QDialog 基类
-#include <QWidget>   // 为了 QWidget* parent 参数
+#include <QCheckBox>  // 复选框控件
+#include <QDialog>    // QDialog 基类
+#include <QWidget>    // 为了 QWidget* parent 参数
 
-#include "common/define.h" // 可能包含一些通用定义
+#include "common/define.h"  // 可能包含一些通用定义
 
 namespace olive {
 
@@ -33,15 +33,15 @@ class AboutDialog : public QDialog {
   // 默认析构函数通常足够，因为 dont_show_again_checkbox_ 如果有父对象会被自动清理。
   // ~AboutDialog() override;
 
-public slots:
- /**
-  * @brief 重写 QDialog::accept() 槽函数。
-  * 当对话框被接受时（例如用户点击“确定”按钮）调用。
-  * 如果 `dont_show_again_checkbox_` 被选中，可能会将此偏好设置保存到配置中。
-  */
- void accept() override;
+ public slots:
+  /**
+   * @brief 重写 QDialog::accept() 槽函数。
+   * 当对话框被接受时（例如用户点击“确定”按钮）调用。
+   * 如果 `dont_show_again_checkbox_` 被选中，可能会将此偏好设置保存到配置中。
+   */
+  void accept() override;
 
-private:
+ private:
   /**
    * @brief 指向“不再显示此消息”复选框的指针。
    * 仅当对话框作为欢迎对话框 (welcome_dialog 为 true) 时，此复选框才可能被创建和使用。

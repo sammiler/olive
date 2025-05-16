@@ -1,13 +1,13 @@
 #ifndef PREFERENCESDIALOG_H
 #define PREFERENCESDIALOG_H
 
-#include <QCheckBox>      // 复选框控件 (虽然未直接在此头文件中作为成员，但可能在ConfigDialogBase或其选项卡中使用)
-#include <QDialog>        // QDialog 基类
-#include <QListWidget>    // 列表控件 (同上)
-#include <QMenuBar>       // 菜单栏 (同上)
-#include <QStackedWidget> // 堆叠控件 (同上)
-#include <QTabWidget>     // 选项卡控件 (同上)
-#include <QWidget>        // 为了 QWidget* parent 参数
+#include <QCheckBox>       // 复选框控件 (虽然未直接在此头文件中作为成员，但可能在ConfigDialogBase或其选项卡中使用)
+#include <QDialog>         // QDialog 基类
+#include <QListWidget>     // 列表控件 (同上)
+#include <QMenuBar>        // 菜单栏 (同上)
+#include <QStackedWidget>  // 堆叠控件 (同上)
+#include <QTabWidget>      // 选项卡控件 (同上)
+#include <QWidget>         // 为了 QWidget* parent 参数
 
 // Olive 内部头文件
 // 假设 configdialogbase.h 声明了 ConfigDialogBase 基类
@@ -40,10 +40,10 @@ class PreferencesDialog : public ConfigDialogBase {
    * @param parent 父 QWidget 对象指针，默认为 nullptr。
    * (注意：构造函数的实现通常会将 `main_window` 或 `main_window` 的某个子widget作为实际的 `parent`)
    */
-  explicit PreferencesDialog(MainWindow *main_window); // 将 main_window 添加到参数列表并提供parent
-  // ~PreferencesDialog() override; // 默认析构函数通常足够
+  explicit PreferencesDialog(MainWindow *main_window);  // 将 main_window 添加到参数列表并提供parent
+                                                        // ~PreferencesDialog() override; // 默认析构函数通常足够
 
-protected:
+ protected:
   /**
    * @brief 重写 ConfigDialogBase::AcceptEvent() 虚函数。
    *

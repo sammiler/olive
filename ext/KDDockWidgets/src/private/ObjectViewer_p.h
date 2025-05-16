@@ -3,12 +3,12 @@
 
 #ifdef KDDOCKWIDGETS_QTWIDGETS // 条件编译：仅当定义了 KDDOCKWIDGETS_QTWIDGETS 时才编译以下内容 (表示使用 Qt Widgets)
 
-#include <QWidget>             // Qt Widget 基类
-#include <QStandardItemModel>  // Qt 标准项模型，用于树视图或列表视图
-#include <QTreeView>           // Qt 树视图控件
-#include <QPointer>            // Qt QObject 指针的弱引用，用于安全地跟踪对象生命周期
-#include <QObject>             // Qt 对象模型基类
-#include <QMenu>               // Qt 菜单类
+#include <QWidget> // Qt Widget 基类
+#include <QStandardItemModel> // Qt 标准项模型，用于树视图或列表视图
+#include <QTreeView> // Qt 树视图控件
+#include <QPointer> // Qt QObject 指针的弱引用，用于安全地跟踪对象生命周期
+#include <QObject> // Qt 对象模型基类
+#include <QMenu> // Qt 菜单类
 
 QT_BEGIN_NAMESPACE
 // 前向声明 Qt 类
@@ -120,14 +120,14 @@ private:
     void sendHitTest();
 #endif
 
-    QTreeView m_treeView;             ///< 用于显示对象层级结构的树视图控件。
-    QStandardItemModel m_model;       ///< 树视图使用的数据模型。
+    QTreeView m_treeView; ///< 用于显示对象层级结构的树视图控件。
+    QStandardItemModel m_model; ///< 树视图使用的数据模型。
     QPointer<QObject> m_selectedObject; ///< 指向当前选中的 QObject 的弱指针，用于安全访问。
-    QMenu m_menu;                     ///< 右键上下文菜单。
-    bool m_highlightsWidget = true;   ///< 标记是否高亮显示选中的小部件。
-    bool m_ignoreMenus = true;        ///< 标记在构建对象树时是否忽略 QMenu 对象。
-    bool m_ignoreShortcuts = true;    ///< 标记在构建对象树时是否忽略 QShortcut 对象。
-    bool m_ignoreToolBars = true;     ///< 标记在构建对象树时是否忽略 QToolBar 对象。
+    QMenu m_menu; ///< 右键上下文菜单。
+    bool m_highlightsWidget = true; ///< 标记是否高亮显示选中的小部件。
+    bool m_ignoreMenus = true; ///< 标记在构建对象树时是否忽略 QMenu 对象。
+    bool m_ignoreShortcuts = true; ///< 标记在构建对象树时是否忽略 QShortcut 对象。
+    bool m_ignoreToolBars = true; ///< 标记在构建对象树时是否忽略 QToolBar 对象。
     QHash<QObject *, QStandardItem *> m_itemMap; ///< QObject 指针到其在模型中对应 QStandardItem 的映射，用于快速查找。
 
 protected:

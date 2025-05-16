@@ -1,14 +1,15 @@
 #ifndef AV1SECTION_H
 #define AV1SECTION_H
 
-#include <QComboBox>     // 下拉选择框控件
-#include <QSlider>       // 滑块控件
-#include <QStackedWidget> // 堆叠控件，用于根据压缩方法显示不同UI
-#include <QWidget>       // QWidget 基类
+#include <QComboBox>       // 下拉选择框控件
+#include <QSlider>         // 滑块控件
+#include <QStackedWidget>  // 堆叠控件，用于根据压缩方法显示不同UI
+#include <QWidget>         // QWidget 基类
 
 // 假设 codecsection.h 声明了 CodecSection 基类和 EncodingParams 类
 #include "codecsection.h"
-// 假设 floatslider.h 声明了 FloatSlider 类 (虽然在此头文件中未直接使用 FloatSlider，但在 AV1CRFSection 的 .cpp 中可能使用)
+// 假设 floatslider.h 声明了 FloatSlider 类 (虽然在此头文件中未直接使用 FloatSlider，但在 AV1CRFSection 的 .cpp
+// 中可能使用)
 #include "widget/slider/floatslider.h"
 // #include "common/define.h" // 如果需要 common/define.h 中的内容
 
@@ -74,7 +75,7 @@ class AV1Section : public CodecSection {
    * @brief AV1 编码的压缩方法枚举。
    */
   enum CompressionMethod {
-    kConstantRateFactor, ///< @brief 固定码率因子 (CRF) 模式。这是 AV1 常用的高质量可变码率模式。
+    kConstantRateFactor,  ///< @brief 固定码率因子 (CRF) 模式。这是 AV1 常用的高质量可变码率模式。
     // kConstantQuantizer, // 例如：恒定QP模式 (如果未来支持)
     // kAverageBitrate,    // 例如：平均码率模式 (如果未来支持)
   };

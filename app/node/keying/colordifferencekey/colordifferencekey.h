@@ -1,7 +1,7 @@
-#ifndef COLORDIFFERENCEKEYNODE_H // 防止头文件被多次包含的宏定义开始
+#ifndef COLORDIFFERENCEKEYNODE_H  // 防止头文件被多次包含的宏定义开始
 #define COLORDIFFERENCEKEYNODE_H
 
-#include "node/node.h" // 引入基类 Node 的定义
+#include "node/node.h"  // 引入基类 Node 的定义
 
 // 可能需要的前向声明
 // struct ShaderRequest; // 假设
@@ -9,7 +9,7 @@
 // struct NodeGlobals; // 假设
 // class NodeValueTable; // 假设
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
 /**
  * @brief 代表“色彩差异键控”（Color Difference Key）效果的节点。
@@ -18,14 +18,14 @@ namespace olive { // Olive 编辑器的命名空间
  * 它对于处理那些前景与背景颜色非常接近，或者背景颜色不均匀的情况可能比简单色度键更有效。
  */
 class ColorDifferenceKeyNode : public Node {
- public: // Q_OBJECT 宏通常放在 public 访问修饰符之后的第一行，但保持原样
+ public:  // Q_OBJECT 宏通常放在 public 访问修饰符之后的第一行，但保持原样
   /**
    * @brief ColorDifferenceKeyNode 构造函数。
    *  通常会在这里初始化色彩差异键控相关的输入参数。
    */
   ColorDifferenceKeyNode();
 
-  NODE_DEFAULT_FUNCTIONS(ColorDifferenceKeyNode) // 节点默认功能宏，可能包含克隆、类型信息等标准实现
+  NODE_DEFAULT_FUNCTIONS(ColorDifferenceKeyNode)  // 节点默认功能宏，可能包含克隆、类型信息等标准实现
 
   /**
    * @brief 获取此色彩差异键控节点的名称。
@@ -68,13 +68,15 @@ class ColorDifferenceKeyNode : public Node {
   void Value(const NodeValueRow& value, const NodeGlobals& globals, NodeValueTable* table) const override;
 
   // --- 静态常量，用作节点输入参数的键名 ---
-  static const QString kTextureInput;      ///< "Texture" - 主输入纹理（要进行键控的图像）的参数键名。
-  static const QString kGarbageMatteInput; ///< "GarbageMatte" - 垃圾蒙版输入参数键名，用于手动指定需要强制保留或移除的区域。
-  static const QString kCoreMatteInput;    ///< "CoreMatte" - 核心蒙版输入参数键名，用于手动指定需要强制设为不透明的区域。
-  static const QString kColorInput;        ///< "CleanPlate" 或 "ReferenceColor" - 参考背景板（干净的背景图像）或参考颜色的参数键名，用于计算颜色差异。
-  static const QString kShadowsInput;      ///< "Shadows" - 阴影处理相关的参数键名。
-  static const QString kHighlightsInput;   ///< "Highlights" - 高光处理相关的参数键名。
-  static const QString kMaskOnlyInput;     ///< "MaskOnly" - 是否仅输出生成的蒙版而不是应用键控后的图像的布尔参数键名。
+  static const QString kTextureInput;  ///< "Texture" - 主输入纹理（要进行键控的图像）的参数键名。
+  static const QString
+      kGarbageMatteInput;  ///< "GarbageMatte" - 垃圾蒙版输入参数键名，用于手动指定需要强制保留或移除的区域。
+  static const QString kCoreMatteInput;  ///< "CoreMatte" - 核心蒙版输入参数键名，用于手动指定需要强制设为不透明的区域。
+  static const QString kColorInput;      ///< "CleanPlate" 或 "ReferenceColor" -
+                                         ///< 参考背景板（干净的背景图像）或参考颜色的参数键名，用于计算颜色差异。
+  static const QString kShadowsInput;    ///< "Shadows" - 阴影处理相关的参数键名。
+  static const QString kHighlightsInput;  ///< "Highlights" - 高光处理相关的参数键名。
+  static const QString kMaskOnlyInput;    ///< "MaskOnly" - 是否仅输出生成的蒙版而不是应用键控后的图像的布尔参数键名。
 };
 // Q_OBJECT 宏应该在类定义内部，但此处保持原样
 }  // namespace olive

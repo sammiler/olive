@@ -141,7 +141,7 @@ bool WidgetResizeHandler::eventFilter(QObject *o, QEvent *e)
 
         m_resizingInProgress = true;
         if (isMDI())
-            Q_EMIT DockRegistry::self() -> frameInMDIResizeChanged();
+            Q_EMIT DockRegistry::self()->frameInMDIResizeChanged();
         mNewPosition = Qt5Qt6Compat::eventGlobalPos(mouseEvent);
         mCursorPos = cursorPos;
 
@@ -150,7 +150,7 @@ bool WidgetResizeHandler::eventFilter(QObject *o, QEvent *e)
     case QEvent::MouseButtonRelease: {
         m_resizingInProgress = false;
         if (isMDI()) {
-            Q_EMIT DockRegistry::self() -> frameInMDIResizeChanged();
+            Q_EMIT DockRegistry::self()->frameInMDIResizeChanged();
             auto frame = dynamic_cast<Frame *>(mTarget);
             // Usually in KDDW all geometry changes are done in the layout items, which propagate to the widgets
             // When resizing a MDI however, we're resizing the widget directly. So update the corresponding layout

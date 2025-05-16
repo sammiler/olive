@@ -1,12 +1,12 @@
-#ifndef POLYGONGIZMO_H // 防止头文件被多次包含的宏定义开始
+#ifndef POLYGONGIZMO_H  // 防止头文件被多次包含的宏定义开始
 #define POLYGONGIZMO_H
 
-#include <QPolygonF> // Qt 的浮点数多边形类，由一系列顶点定义
+#include <QPolygonF>  // Qt 的浮点数多边形类，由一系列顶点定义
 
-#include "draggable.h" // 引入基类 DraggableGizmo (或类似可拖动 Gizmo 基类) 的定义
-                       // 假设 "draggable.h" 是正确的基类头文件名
+#include "draggable.h"  // 引入基类 DraggableGizmo (或类似可拖动 Gizmo 基类) 的定义
+                        // 假设 "draggable.h" 是正确的基类头文件名
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
 /**
  * @brief 代表一个多边形 Gizmo (图形交互控件)。
@@ -15,13 +15,13 @@ namespace olive { // Olive 编辑器的命名空间
  * 它继承自 DraggableGizmo，意味着整个多边形本身可能支持拖动操作。
  */
 class PolygonGizmo : public DraggableGizmo {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief PolygonGizmo 构造函数。
-   * @param parent 父 QObject 对象，默认为 nullptr。
-   */
-  explicit PolygonGizmo(QObject *parent = nullptr);
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief PolygonGizmo 构造函数。
+      * @param parent 父 QObject 对象，默认为 nullptr。
+      */
+     explicit PolygonGizmo(QObject *parent = nullptr);
 
   /**
    * @brief 获取此多边形 Gizmo 代表的多边形几何信息。
@@ -41,8 +41,8 @@ class PolygonGizmo : public DraggableGizmo {
    */
   void Draw(QPainter *p) const override;
 
-private:
-  QPolygonF polygon_; ///< 存储多边形的顶点数据。
+ private:
+  QPolygonF polygon_;  ///< 存储多边形的顶点数据。
 };
 
 }  // namespace olive

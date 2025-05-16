@@ -1,9 +1,9 @@
 #ifndef PROJECTEXPLORERTREEVIEW_H
 #define PROJECTEXPLORERTREEVIEW_H
 
-#include <QTreeView> // 包含 QTreeView 类的头文件，用于树形视图显示
+#include <QTreeView>  // 包含 QTreeView 类的头文件，用于树形视图显示
 
-#include "common/define.h" // 包含项目通用定义
+#include "common/define.h"  // 包含项目通用定义
 
 namespace olive {
 
@@ -15,16 +15,16 @@ namespace olive {
  * 但它仅在索引有效时发出）。
  */
 class ProjectExplorerTreeView : public QTreeView {
-  Q_OBJECT // Q_OBJECT宏，用于支持 Qt 的元对象系统（信号、槽等）
+ Q_OBJECT  // Q_OBJECT宏，用于支持 Qt 的元对象系统（信号、槽等）
 
- public:
-  /**
-   * @brief ProjectExplorerTreeView 的显式构造函数。
-   * @param parent 父 QWidget 指针。
-   */
-  explicit ProjectExplorerTreeView(QWidget* parent);
+     public :
+     /**
+      * @brief ProjectExplorerTreeView 的显式构造函数。
+      * @param parent 父 QWidget 指针。
+      */
+     explicit ProjectExplorerTreeView(QWidget* parent);
 
-protected:
+ protected:
   /**
    * @brief 重写鼠标双击事件处理函数。
    *
@@ -36,15 +36,15 @@ protected:
    */
   void mouseDoubleClickEvent(QMouseEvent* event) override;
 
-  signals:
-   /**
-    * @brief 无条件双击信号。
-    *
-    * 当视图被双击但未在任何特定项目上时发出此信号。
-    * 这与标准的 QAbstractItemView::doubleClicked(const QModelIndex &index) 信号不同，
-    * 后者仅在双击有效项目时发出。
-    */
-   void DoubleClickedEmptyArea();
+ signals:
+  /**
+   * @brief 无条件双击信号。
+   *
+   * 当视图被双击但未在任何特定项目上时发出此信号。
+   * 这与标准的 QAbstractItemView::doubleClicked(const QModelIndex &index) 信号不同，
+   * 后者仅在双击有效项目时发出。
+   */
+  void DoubleClickedEmptyArea();
 };
 
 }  // namespace olive

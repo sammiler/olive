@@ -1,7 +1,7 @@
-#ifndef TIMEOFFSETNODE_H // 防止头文件被多次包含的宏定义开始
+#ifndef TIMEOFFSETNODE_H  // 防止头文件被多次包含的宏定义开始
 #define TIMEOFFSETNODE_H
 
-#include "node/node.h" // 引入基类 Node 的定义
+#include "node/node.h"  // 引入基类 Node 的定义
 
 // 可能需要的前向声明
 // class TimeRange; // 假设
@@ -10,7 +10,7 @@
 // struct NodeGlobals; // 假设
 // class NodeValueTable; // 假设
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
 /**
  * @brief 代表一个“时间偏移”节点。
@@ -20,14 +20,16 @@ namespace olive { // Olive 编辑器的命名空间
  * 这常用于制作慢动作、快动作（通过时间重映射）、或者简单的同步调整。
  */
 class TimeOffsetNode : public Node {
- public: // Q_OBJECT 宏通常在此，但如果此类不需要信号槽，则可以省略（但这里没写，可能是由NODE_DEFAULT_FUNCTIONS宏处理，或不需要）
+ public
+     :  // Q_OBJECT
+        // 宏通常在此，但如果此类不需要信号槽，则可以省略（但这里没写，可能是由NODE_DEFAULT_FUNCTIONS宏处理，或不需要）
   /**
    * @brief TimeOffsetNode 构造函数。
    *  通常会在这里初始化时间偏移相关的输入参数。
    */
   TimeOffsetNode();
 
-  NODE_DEFAULT_FUNCTIONS(TimeOffsetNode) // 节点默认功能宏，可能包含克隆、类型信息等标准实现
+  NODE_DEFAULT_FUNCTIONS(TimeOffsetNode)  // 节点默认功能宏，可能包含克隆、类型信息等标准实现
 
   /**
    * @brief 获取此时间偏移节点的名称。
@@ -90,8 +92,8 @@ class TimeOffsetNode : public Node {
   void Value(const NodeValueRow& value, const NodeGlobals& globals, NodeValueTable* table) const override;
 
   // --- 静态常量，用作节点输入参数的键名 ---
-  static const QString kTimeInput;  ///< "Offset" 或 "TimeShift" - 时间偏移量的参数键名。
-  static const QString kInputInput; ///< "Input" - 连接上游数据源的输入端口键名。
+  static const QString kTimeInput;   ///< "Offset" 或 "TimeShift" - 时间偏移量的参数键名。
+  static const QString kInputInput;  ///< "Input" - 连接上游数据源的输入端口键名。
 
  private:
   /**

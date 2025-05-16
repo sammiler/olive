@@ -10,10 +10,10 @@
 namespace KDDockWidgets {
 
 // 前向声明
-class DockWidgetBase;       // 停靠小部件基类
-class FloatingWindow;       // 浮动窗口类
-class WidgetResizeHandler;  // 小部件大小调整处理器类
-struct WindowBeingDragged;  // 正在被拖拽的窗口结构体
+class DockWidgetBase; // 停靠小部件基类
+class FloatingWindow; // 浮动窗口类
+class WidgetResizeHandler; // 小部件大小调整处理器类
+struct WindowBeingDragged; // 正在被拖拽的窗口结构体
 
 /**
  * @brief 代表一个可以被拖拽的对象。
@@ -118,8 +118,8 @@ public:
     }
 
 private:
-    class Private;         ///< PIMPL (Private Implementation) 设计模式的私有实现类前向声明。
-    Private *const d;     ///< 指向私有实现类的指针。
+    class Private; ///< PIMPL (Private Implementation) 设计模式的私有实现类前向声明。
+    Private *const d; ///< 指向私有实现类的指针。
     Q_DISABLE_COPY(Draggable) ///< 禁止拷贝构造函数和拷贝赋值操作符。
 };
 } // namespace KDDockWidgets

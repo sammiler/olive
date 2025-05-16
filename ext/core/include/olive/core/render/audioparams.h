@@ -8,13 +8,13 @@ extern "C" {
 #include <libavutil/channel_layout.h>
 }
 
-#include <assert.h> // 引入 assert.h 用于断言调试
-#include <vector>   // 引入 std::vector 用于存储支持的声道布局和采样率列表
+#include <assert.h>  // 引入 assert.h 用于断言调试
+#include <vector>    // 引入 std::vector 用于存储支持的声道布局和采样率列表
 
-#include "../util/rational.h" // 引入 rational 类，用于精确表示时间基准和时间相关的计算
-#include "sampleformat.h"     // 引入 SampleFormat 枚举的定义，表示音频采样格式
+#include "../util/rational.h"  // 引入 rational 类，用于精确表示时间基准和时间相关的计算
+#include "sampleformat.h"      // 引入 SampleFormat 枚举的定义，表示音频采样格式
 
-namespace olive::core { // Olive 核心功能命名空间
+namespace olive::core {  // Olive 核心功能命名空间
 
 /**
  * @brief 封装音频流的各种参数和相关计算。
@@ -33,7 +33,7 @@ class AudioParams {
    * 并计算声道数量。
    */
   AudioParams() : sample_rate_(0), channel_layout_(0), format_(SampleFormat::INVALID) {
-    set_default_footage_parameters(); // 设置素材相关的默认参数
+    set_default_footage_parameters();  // 设置素材相关的默认参数
 
     // 缓存声道数量
     calculate_channel_count();
@@ -47,8 +47,8 @@ class AudioParams {
    */
   AudioParams(const int& sample_rate, const uint64_t& channel_layout, const SampleFormat& format)
       : sample_rate_(sample_rate), channel_layout_(channel_layout), format_(format) {
-    set_default_footage_parameters();         // 设置素材相关的默认参数
-    timebase_ = sample_rate_as_time_base(); // 根据采样率设置时间基准
+    set_default_footage_parameters();        // 设置素材相关的默认参数
+    timebase_ = sample_rate_as_time_base();  // 根据采样率设置时间基准
 
     // 缓存声道数量
     calculate_channel_count();
@@ -82,7 +82,7 @@ class AudioParams {
    */
   void set_channel_layout(uint64_t channel_layout) {
     channel_layout_ = channel_layout;
-    calculate_channel_count(); // 更新声道数量缓存
+    calculate_channel_count();  // 更新声道数量缓存
   }
 
   /**
@@ -318,9 +318,9 @@ class AudioParams {
    * 将 enabled_ 设为 true，stream_index_ 设为 0，duration_ 设为 0。
    */
   void set_default_footage_parameters() {
-    enabled_ = true;      // 默认启用
-    stream_index_ = 0;    // 默认流索引为0
-    duration_ = 0;        // 默认时长为0
+    enabled_ = true;    // 默认启用
+    stream_index_ = 0;  // 默认流索引为0
+    duration_ = 0;      // 默认时长为0
   }
 
   /**
@@ -328,10 +328,10 @@ class AudioParams {
    */
   void calculate_channel_count();
 
-  int sample_rate_; ///< 音频采样率 (单位: Hz)。
-  uint64_t channel_layout_; ///< 声道布局的位掩码 (例如使用 FFmpeg 的 AV_CH_LAYOUT_* 定义)。
-  int channel_count_{}; ///< 缓存的声道数量，根据 channel_layout_ 计算得出。
-  SampleFormat format_; ///< 音频采样格式 (例如，16位整数，32位浮点数等)。
+  int sample_rate_;          ///< 音频采样率 (单位: Hz)。
+  uint64_t channel_layout_;  ///< 声道布局的位掩码 (例如使用 FFmpeg 的 AV_CH_LAYOUT_* 定义)。
+  int channel_count_{};      ///< 缓存的声道数量，根据 channel_layout_ 计算得出。
+  SampleFormat format_;      ///< 音频采样格式 (例如，16位整数，32位浮点数等)。
 
   // Footage-specific / 素材特定的参数
   // 注意：enabled_ 改为 int 类型是为了修复 GCC 11 的 stringop-overflow 问题，推测是字节对齐问题。

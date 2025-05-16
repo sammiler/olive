@@ -1,7 +1,7 @@
 #ifndef LIBOLIVECORE_PIXELFORMAT_H
 #define LIBOLIVECORE_PIXELFORMAT_H
 
-namespace olive::core { // Olive 核心功能命名空间
+namespace olive::core {  // Olive 核心功能命名空间
 
 /**
  * @brief 封装了像素格式及其相关信息的类。
@@ -18,12 +18,12 @@ class PixelFormat {
    * 这些枚举值代表了图像数据中单个像素颜色分量的存储方式和精度。
    */
   enum Format {
-    INVALID = -1, ///< 无效或未指定的像素格式。
-    U8,           ///< 无符号8位整数格式 (例如，每个颜色分量用一个字节表示，范围0-255)。
-    U16,          ///< 无符号16位整数格式 (例如，每个颜色分量用两个字节表示，范围0-65535)。
-    F16,          ///< 半精度浮点数格式 (16位浮点数)。
-    F32,          ///< 单精度浮点数格式 (32位浮点数)。
-    COUNT         ///< 有效像素格式的总数，也可用作迭代或数组大小的边界。
+    INVALID = -1,  ///< 无效或未指定的像素格式。
+    U8,            ///< 无符号8位整数格式 (例如，每个颜色分量用一个字节表示，范围0-255)。
+    U16,           ///< 无符号16位整数格式 (例如，每个颜色分量用两个字节表示，范围0-65535)。
+    F16,           ///< 半精度浮点数格式 (16位浮点数)。
+    F32,           ///< 单精度浮点数格式 (32位浮点数)。
+    COUNT          ///< 有效像素格式的总数，也可用作迭代或数组大小的边界。
   };
 
   /**
@@ -45,18 +45,18 @@ class PixelFormat {
    */
   static int byte_count(Format f) {
     switch (f) {
-      case INVALID: // 无效格式
-      case COUNT:   // COUNT 不是一个实际的格式
+      case INVALID:  // 无效格式
+      case COUNT:    // COUNT 不是一个实际的格式
         break;
-      case U8: // 无符号8位整数
+      case U8:  // 无符号8位整数
         return 1;
-      case U16: // 无符号16位整数
-      case F16: // 半精度浮点数 (16位)
+      case U16:  // 无符号16位整数
+      case F16:  // 半精度浮点数 (16位)
         return 2;
-      case F32: // 单精度浮点数 (32位)
+      case F32:  // 单精度浮点数 (32位)
         return 4;
     }
-    return 0; // 对于未处理或无效的格式返回0
+    return 0;  // 对于未处理或无效的格式返回0
   }
 
   /**
@@ -73,16 +73,16 @@ class PixelFormat {
    */
   static bool is_float(Format f) {
     switch (f) {
-      case INVALID: // 无效格式
-      case COUNT:   // COUNT 不是一个实际的格式
-      case U8:      // 无符号8位整数
-      case U16:     // 无符号16位整数
+      case INVALID:  // 无效格式
+      case COUNT:    // COUNT 不是一个实际的格式
+      case U8:       // 无符号8位整数
+      case U16:      // 无符号16位整数
         break;
-      case F16: // 半精度浮点数
-      case F32: // 单精度浮点数
+      case F16:  // 半精度浮点数
+      case F32:  // 单精度浮点数
         return true;
     }
-    return false; // 默认为非浮点类型
+    return false;  // 默认为非浮点类型
   }
 
   /**
@@ -93,7 +93,7 @@ class PixelFormat {
   [[nodiscard]] bool is_float() const { return is_float(f_); }
 
  private:
-  Format f_; ///< 内部存储的像素格式枚举值。
+  Format f_;  ///< 内部存储的像素格式枚举值。
 };
 
 }  // namespace olive::core

@@ -1,8 +1,8 @@
 #ifndef OCIOGRADINGTRANSFORMLINEARNODE_H
 #define OCIOGRADINGTRANSFORMLINEARNODE_H
 
-#include "node/color/ociobase/ociobase.h" // 引入基类 OCIOBaseNode 的定义
-#include "render/colorprocessor.h"       // 引入 ColorProcessor 的定义
+#include "node/color/ociobase/ociobase.h"  // 引入基类 OCIOBaseNode 的定义
+#include "render/colorprocessor.h"         // 引入 ColorProcessor 的定义
 
 namespace olive {
 
@@ -12,14 +12,14 @@ namespace olive {
  * 这些操作通常在特定的色彩空间（通常是线性空间或场景参考空间）中进行。
  */
 class OCIOGradingTransformLinearNode : public OCIOBaseNode {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief OCIOGradingTransformLinearNode 构造函数。
-   */
-  OCIOGradingTransformLinearNode();
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief OCIOGradingTransformLinearNode 构造函数。
+      */
+     OCIOGradingTransformLinearNode();
 
-  NODE_DEFAULT_FUNCTIONS(OCIOGradingTransformLinearNode) // 节点默认功能宏，可能包含克隆、类型信息等标准实现
+  NODE_DEFAULT_FUNCTIONS(OCIOGradingTransformLinearNode)  // 节点默认功能宏，可能包含克隆、类型信息等标准实现
 
   /**
    * @brief 获取此节点的名称。
@@ -68,15 +68,15 @@ class OCIOGradingTransformLinearNode : public OCIOBaseNode {
   void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
 
   // --- 静态常量，用作节点输入参数的键名 ---
-  static const QString kContrastInput;         ///< "Contrast" - 对比度参数的键名。
-  static const QString kOffsetInput;           ///< "Offset" - 偏移（通常指 RGB 颜色偏移或亮度偏移）参数的键名。
-  static const QString kExposureInput;         ///< "Exposure" - 曝光参数的键名。
-  static const QString kSaturationInput;       ///< "Saturation" - 饱和度参数的键名。
-  static const QString kPivotInput;            ///< "Pivot" - 对比度调整的轴心点参数的键名。
-  static const QString kClampBlackEnableInput; ///< "ClampBlackEnable" - 是否启用暗部裁切的参数键名。
-  static const QString kClampBlackInput;       ///< "ClampBlack" - 暗部裁切值的参数键名。
-  static const QString kClampWhiteEnableInput; ///< "ClampWhiteEnable" - 是否启用亮部裁切的参数键名。
-  static const QString kClampWhiteInput;       ///< "ClampWhite" - 亮部裁切值的参数键名。
+  static const QString kContrastInput;          ///< "Contrast" - 对比度参数的键名。
+  static const QString kOffsetInput;            ///< "Offset" - 偏移（通常指 RGB 颜色偏移或亮度偏移）参数的键名。
+  static const QString kExposureInput;          ///< "Exposure" - 曝光参数的键名。
+  static const QString kSaturationInput;        ///< "Saturation" - 饱和度参数的键名。
+  static const QString kPivotInput;             ///< "Pivot" - 对比度调整的轴心点参数的键名。
+  static const QString kClampBlackEnableInput;  ///< "ClampBlackEnable" - 是否启用暗部裁切的参数键名。
+  static const QString kClampBlackInput;        ///< "ClampBlack" - 暗部裁切值的参数键名。
+  static const QString kClampWhiteEnableInput;  ///< "ClampWhiteEnable" - 是否启用亮部裁切的参数键名。
+  static const QString kClampWhiteInput;        ///< "ClampWhite" - 亮部裁切值的参数键名。
 
  protected slots:
   /**
@@ -96,4 +96,4 @@ class OCIOGradingTransformLinearNode : public OCIOBaseNode {
 
 }  // namespace olive
 
-#endif // OCIOGRADINGTRANSFORMLINEARNODE_H
+#endif  // OCIOGRADINGTRANSFORMLINEARNODE_H

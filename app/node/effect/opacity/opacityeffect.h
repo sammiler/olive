@@ -1,8 +1,8 @@
 #ifndef OPACITYEFFECT_H
 #define OPACITYEFFECT_H
 
-#include "node/group/group.h" // 尽管包含了 group.h，但 OpacityEffect 直接继承自 Node
-                              // 可能是为了某些类型定义或项目结构需要
+#include "node/group/group.h"  // 尽管包含了 group.h，但 OpacityEffect 直接继承自 Node
+                               // 可能是为了某些类型定义或项目结构需要
 
 namespace olive {
 
@@ -10,14 +10,14 @@ namespace olive {
  * @brief 代表“不透明度”效果的节点。
  * 该节点用于改变输入图像（纹理）的整体不透明度。
  */
-class OpacityEffect : public Node { // 直接继承自 Node，而不是 Group
+class OpacityEffect : public Node {  // 直接继承自 Node，而不是 Group
  public:
   /**
    * @brief OpacityEffect 构造函数。
    */
   OpacityEffect();
 
-  NODE_DEFAULT_FUNCTIONS(OpacityEffect) // 节点默认功能宏，可能包含克隆、类型信息等标准实现
+  NODE_DEFAULT_FUNCTIONS(OpacityEffect)  // 节点默认功能宏，可能包含克隆、类型信息等标准实现
 
   /**
    * @brief 获取此节点的名称。
@@ -39,7 +39,8 @@ class OpacityEffect : public Node { // 直接继承自 Node，而不是 Group
 
   /**
    * @brief 获取此节点的描述信息。
-   * @return QString 类型的节点描述 (例如 "改变视频的不透明度。\n\n这等效于将视频乘以一个介于0.0和1.0之间的数字。")，支持国际化翻译。
+   * @return QString 类型的节点描述 (例如
+   * "改变视频的不透明度。\n\n这等效于将视频乘以一个介于0.0和1.0之间的数字。")，支持国际化翻译。
    */
   [[nodiscard]] QString Description() const override {
     return tr("Alter a video's opacity.\n\nThis is equivalent to multiplying a video by a number between 0.0 and 1.0.");
@@ -65,8 +66,8 @@ class OpacityEffect : public Node { // 直接继承自 Node，而不是 Group
   void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
 
   // --- 静态常量，用作节点输入参数的键名 ---
-  static const QString kTextureInput; ///< "Texture" - 输入纹理（图像）的参数键名。
-  static const QString kValueInput;   ///< "Value" - 不透明度值（通常为 0.0 到 1.0）的参数键名。
+  static const QString kTextureInput;  ///< "Texture" - 输入纹理（图像）的参数键名。
+  static const QString kValueInput;    ///< "Value" - 不透明度值（通常为 0.0 到 1.0）的参数键名。
 };
 
 }  // namespace olive

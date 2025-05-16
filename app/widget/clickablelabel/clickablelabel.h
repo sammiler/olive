@@ -1,9 +1,9 @@
 #ifndef CLICKABLELABEL_H
 #define CLICKABLELABEL_H
 
-#include <QLabel> // Qt 标签控件基类
+#include <QLabel>  // Qt 标签控件基类
 
-#include "common/define.h" // 项目通用定义
+#include "common/define.h"  // 项目通用定义
 
 namespace olive {
 
@@ -14,15 +14,15 @@ namespace olive {
  * 以便在用户单击或双击标签时发出相应的信号。
  */
 class ClickableLabel : public QLabel {
-  Q_OBJECT // Qt 元对象系统宏，用于支持信号和槽机制
+ Q_OBJECT  // Qt 元对象系统宏，用于支持信号和槽机制
 
- public:
-  /**
-   * @brief 构造函数，使用指定的文本和父控件。
-   * @param text 标签上显示的文本。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit ClickableLabel(const QString& text, QWidget* parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数，使用指定的文本和父控件。
+      * @param text 标签上显示的文本。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit ClickableLabel(const QString& text, QWidget* parent = nullptr);
 
   /**
    * @brief 构造函数，仅使用父控件。
@@ -30,7 +30,7 @@ class ClickableLabel : public QLabel {
    */
   explicit ClickableLabel(QWidget* parent = nullptr);
 
-protected:
+ protected:
   /**
    * @brief 鼠标释放事件处理函数。
    *
@@ -49,11 +49,11 @@ protected:
    */
   void mouseDoubleClickEvent(QMouseEvent* event) override;
 
-  signals:
-   /**
-    * @brief 当标签被单击（鼠标释放）时发出此信号。
-    */
-   void MouseClicked();
+ signals:
+  /**
+   * @brief 当标签被单击（鼠标释放）时发出此信号。
+   */
+  void MouseClicked();
 
   /**
    * @brief 当标签被双击时发出此信号。

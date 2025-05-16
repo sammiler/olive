@@ -1,10 +1,10 @@
 #ifndef NUMERICSLIDERBASE_H
 #define NUMERICSLIDERBASE_H
 
-#include "sliderbase.h" // 滑块基类
-#include <QVariant>     // Qt 通用数据类型类 (用于存储不同类型的数值)
-#include <QWidget>      // Qt 控件基类 (SliderBase 的基类)
-#include <QObject>      // Qt 对象模型基类 (SliderBase 的基类)
+#include <QObject>       // Qt 对象模型基类 (SliderBase 的基类)
+#include <QVariant>      // Qt 通用数据类型类 (用于存储不同类型的数值)
+#include <QWidget>       // Qt 控件基类 (SliderBase 的基类)
+#include "sliderbase.h"  // 滑块基类
 
 // 前向声明项目内部类 (根据用户要求，不添加)
 // class SliderLadder; // 在 sliderladder.h 中定义，此处作为成员指针类型
@@ -19,14 +19,14 @@ namespace olive {
  * 以便进行更精细的数值调整。
  */
 class NumericSliderBase : public SliderBase {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit NumericSliderBase(QWidget* parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit NumericSliderBase(QWidget* parent = nullptr);
 
   /**
    * @brief 设置梯形调整器 (SliderLadder) 中元素的数量。
@@ -134,27 +134,27 @@ class NumericSliderBase : public SliderBase {
    */
   [[nodiscard]] QVariant AdjustValue(const QVariant& value) const override;
 
-  SliderLadder* drag_ladder_; ///< 指向梯形调整器控件的指针，用于精细调整数值。
+  SliderLadder* drag_ladder_;  ///< 指向梯形调整器控件的指针，用于精细调整数值。
 
-  int ladder_element_count_; ///< 梯形调整器中显示的元素数量。
+  int ladder_element_count_;  ///< 梯形调整器中显示的元素数量。
 
-  bool dragged_; ///< 标记滑块当前是否被用户拖拽（通过标签）。
+  bool dragged_;  ///< 标记滑块当前是否被用户拖拽（通过标签）。
 
-  bool has_min_;      ///< 标记是否设置了最小值。
-  QVariant min_value_; ///< 存储滑块的最小值。
+  bool has_min_;        ///< 标记是否设置了最小值。
+  QVariant min_value_;  ///< 存储滑块的最小值。
 
-  bool has_max_;      ///< 标记是否设置了最大值。
-  QVariant max_value_; ///< 存储滑块的最大值。
+  bool has_max_;        ///< 标记是否设置了最大值。
+  QVariant max_value_;  ///< 存储滑块的最大值。
 
-  double dragged_diff_; ///< 存储拖拽过程中鼠标位置与起始位置的差值。
+  double dragged_diff_;  ///< 存储拖拽过程中鼠标位置与起始位置的差值。
 
-  QVariant drag_start_value_; ///< 存储开始拖拽（通过标签）时的滑块值。
+  QVariant drag_start_value_;  ///< 存储开始拖拽（通过标签）时的滑块值。
 
-  QVariant offset_; ///< 存储滑块的偏移量。
+  QVariant offset_;  ///< 存储滑块的偏移量。
 
-  double drag_multiplier_; ///< 拖拽乘数，影响拖拽灵敏度。
+  double drag_multiplier_;  ///< 拖拽乘数，影响拖拽灵敏度。
 
-  bool setting_drag_value_; ///< 标记当前是否正在通过拖拽设置值，以避免信号的递归触发。
+  bool setting_drag_value_;  ///< 标记当前是否正在通过拖拽设置值，以避免信号的递归触发。
 
   /**
    * @brief 一个静态标志，指示应用程序中是否有任何效果相关的滑块正在被拖动。

@@ -2,17 +2,17 @@
 #define KD_INDICATORS_CLASSICINDICATORS_WINDOW_P_H
 
 #include "../DropIndicatorOverlayInterface_p.h" // 包含拖放指示器覆盖界面的私有头文件
-#include "ClassicIndicators_p.h"             // 包含 ClassicIndicators 的私有头文件
+#include "ClassicIndicators_p.h" // 包含 ClassicIndicators 的私有头文件
 
 #ifdef KDDOCKWIDGETS_QTWIDGETS // 仅当使用 Qt Widgets 时编译以下部分
 
-#include <QImage>       // 包含 QImage 类，用于图像处理
-#include <QWidget>      // 包含 QWidget 类，作为窗口和小部件的基类
+#include <QImage> // 包含 QImage 类，用于图像处理
+#include <QWidget> // 包含 QWidget 类，作为窗口和小部件的基类
 #include <QResizeEvent> // 包含 QResizeEvent 类，用于处理大小调整事件
 
 namespace KDDockWidgets {
 
-class Indicator;         // 前向声明 Indicator 类
+class Indicator; // 前向声明 Indicator 类
 class ClassicIndicators; // 前向声明 ClassicIndicators 类
 
 /**
@@ -83,16 +83,16 @@ private:
     [[nodiscard]] Indicator *indicatorForLocation(DropLocation loc) const;
 
     ClassicIndicators *const classicIndicators; ///< 指向关联的 ClassicIndicators 对象的指针。
-    Indicator *const m_center;                  ///< 中心停靠指示器。
-    Indicator *const m_left;                    ///< 左侧停靠指示器。
-    Indicator *const m_right;                   ///< 右侧停靠指示器。
-    Indicator *const m_bottom;                  ///< 底部停靠指示器。
-    Indicator *const m_top;                     ///< 顶部停靠指示器。
-    Indicator *const m_outterLeft;              ///< 外部左侧停靠指示器。
-    Indicator *const m_outterRight;             ///< 外部右侧停靠指示器。
-    Indicator *const m_outterBottom;            ///< 外部底部停靠指示器。
-    Indicator *const m_outterTop;               ///< 外部顶部停靠指示器。
-    QVector<Indicator *> m_indicators;          ///< 存储所有指示器对象的向量。
+    Indicator *const m_center; ///< 中心停靠指示器。
+    Indicator *const m_left; ///< 左侧停靠指示器。
+    Indicator *const m_right; ///< 右侧停靠指示器。
+    Indicator *const m_bottom; ///< 底部停靠指示器。
+    Indicator *const m_top; ///< 顶部停靠指示器。
+    Indicator *const m_outterLeft; ///< 外部左侧停靠指示器。
+    Indicator *const m_outterRight; ///< 外部右侧停靠指示器。
+    Indicator *const m_outterBottom; ///< 外部底部停靠指示器。
+    Indicator *const m_outterTop; ///< 外部顶部停靠指示器。
+    QVector<Indicator *> m_indicators; ///< 存储所有指示器对象的向量。
 };
 
 /**
@@ -141,11 +141,11 @@ public:
      */
     [[nodiscard]] QString iconFileName(bool active) const;
 
-    QImage m_image;                     ///< 非活动状态下的指示器图像。
-    QImage m_imageActive;               ///< 活动状态下的指示器图像。
-    ClassicIndicators *const q;         ///< 指向关联的 ClassicIndicators 对象的指针（通常用于访问共享数据或配置）。
-    bool m_hovered = false;             ///< 指示器当前是否处于悬停状态。
-    const DropLocation m_dropLocation;  ///< 此指示器代表的停靠位置。
+    QImage m_image; ///< 非活动状态下的指示器图像。
+    QImage m_imageActive; ///< 活动状态下的指示器图像。
+    ClassicIndicators *const q; ///< 指向关联的 ClassicIndicators 对象的指针（通常用于访问共享数据或配置）。
+    bool m_hovered = false; ///< 指示器当前是否处于悬停状态。
+    const DropLocation m_dropLocation; ///< 此指示器代表的停靠位置。
 };
 } // namespace KDDockWidgets
 

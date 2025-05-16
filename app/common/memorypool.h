@@ -1,18 +1,18 @@
 #ifndef MEMORYPOOL_H
 #define MEMORYPOOL_H
 
-#include <stdint.h>     // 为了 uint8_t, int64_t, size_t, quintptr
-#include <QApplication> // 为了 qApp (通常是 QApplication::instance())
-#include <QDateTime>    // 为了 QDateTime::currentMSecsSinceEpoch()
-#include <QDebug>       // 为了 qDebug, qCritical
-#include <QMutex>       // 为了 QMutex, QMutexLocker
-#include <QTimer>       // 为了 QTimer
-#include <QMetaObject>  // 为了 QMetaObject::invokeMethod (虽然 QTimer::start() 更直接)
-#include <QVector>      // 为了 QVector
-#include <list>         // 为了 std::list
-#include <memory>       // 为了 std::shared_ptr, std::make_shared
+#include <stdint.h>      // 为了 uint8_t, int64_t, size_t, quintptr
+#include <QApplication>  // 为了 qApp (通常是 QApplication::instance())
+#include <QDateTime>     // 为了 QDateTime::currentMSecsSinceEpoch()
+#include <QDebug>        // 为了 qDebug, qCritical
+#include <QMetaObject>   // 为了 QMetaObject::invokeMethod (虽然 QTimer::start() 更直接)
+#include <QMutex>        // 为了 QMutex, QMutexLocker
+#include <QTimer>        // 为了 QTimer
+#include <QVector>       // 为了 QVector
+#include <list>          // 为了 std::list
+#include <memory>        // 为了 std::shared_ptr, std::make_shared
 
-#include "common/define.h" // 包含 DISABLE_COPY_MOVE 宏
+#include "common/define.h"  // 包含 DISABLE_COPY_MOVE 宏
 
 namespace olive {
 
@@ -41,11 +41,12 @@ class MemoryPool : public QObject {
   MemoryPool(int element_count) {
     element_count_ = element_count;
 
-    clear_timer_ = new QTimer(this); // 指定父对象，便于自动清理
+    clear_timer_ = new QTimer(this);  // 指定父对象，便于自动清理
     clear_timer_->setInterval(kMaxEmptyArenaLife);
     // clear_timer_->moveToThread(qApp->thread()); // QTimer 通常应在其创建的线程中启动和运行，除非有特殊需求
-    connect(clear_timer_, &QTimer::timeout, this, &MemoryPool::ClearEmptyArenas); // Qt::DirectConnection 可能不必要，除非跨线程且有严格要求
-    clear_timer_->start(); // 直接调用 start() 通常更好
+    connect(clear_timer_, &QTimer::timeout, this,
+            &MemoryPool::ClearEmptyArenas);  // Qt::DirectConnection 可能不必要，除非跨线程且有严格要求
+    clear_timer_->start();                   // 直接调用 start() 通常更好
   }
 
   /**
@@ -72,8 +73,8 @@ class MemoryPool : public QObject {
    * 您需要确保在调用此函数之前，所有已借出的元素都已被归还或不再使用。
    */
   void Clear() {
-    QMutexLocker locker(&lock_); // 保护对 arenas_ 的访问
-    qDeleteAll(arenas_); // qDeleteAll 会删除容器中所有指针指向的对象
+    QMutexLocker locker(&lock_);  // 保护对 arenas_ 的访问
+    qDeleteAll(arenas_);          // qDeleteAll 会删除容器中所有指针指向的对象
     arenas_.clear();
   }
 
@@ -82,7 +83,7 @@ class MemoryPool : public QObject {
    * @return bool 如果 arenas_ 列表不为空则返回 true，否则返回 false。
    */
   inline bool IsAllocated() const {
-    QMutexLocker locker(const_cast<QMutex*>(&lock_)); // 在 const 方法中获取锁需要 const_cast
+    QMutexLocker locker(const_cast<QMutex*>(&lock_));  // 在 const 方法中获取锁需要 const_cast
     return !arenas_.empty();
   }
 
@@ -95,7 +96,7 @@ class MemoryPool : public QObject {
     return arenas_.size();
   }
 
-  class Arena; // 前向声明嵌套类 Arena
+  class Arena;  // 前向声明嵌套类 Arena
 
   /**
    * @brief Arena 中一块内存的句柄（代表）。
@@ -117,7 +118,7 @@ class MemoryPool : public QObject {
       parent_ = parent;
       data_ = data;
       accessed_ = QDateTime::currentMSecsSinceEpoch();
-      timestamp_ = 0; // 初始化时间戳
+      timestamp_ = 0;  // 初始化时间戳
     }
 
     /**
@@ -223,7 +224,7 @@ class MemoryPool : public QObject {
       parent_ = parent;
       data_ = nullptr;
       allocated_sz_ = 0;
-      element_sz_ = 0; // 初始化 element_sz_
+      element_sz_ = 0;  // 初始化 element_sz_
       empty_time_ = QDateTime::currentMSecsSinceEpoch();
     }
 
@@ -235,7 +236,7 @@ class MemoryPool : public QObject {
       // QMutexLocker locker(&lock_); // 析构函数中加锁需谨慎，确保无死锁风险
       // 复制列表以避免在迭代时修改
       std::list<Element*> copy = lent_elements_;
-      for (Element* e : copy) { // 使用范围for循环更现代
+      for (Element* e : copy) {  // 使用范围for循环更现代
         // 通常 Element 的析构函数会调用 release()，但如果 Element 对象本身可能未被正确销毁，
         // 或者为了确保，可以在这里显式调用。但更好的做法是依赖 ElementPtr 的 RAII。
         // 此处假设如果 lent_elements_ 仍有元素，则这些Element对象可能还存在。
@@ -244,9 +245,9 @@ class MemoryPool : public QObject {
         // 根据 Element 的析构函数，它会调用 parent_->Release(this)。
         // 所以这里可能只需要清理 Arena 自身的数据。
       }
-      lent_elements_.clear(); // 清空列表
+      lent_elements_.clear();  // 清空列表
 
-      delete[] data_; // 释放 Arena 的主内存块
+      delete[] data_;  // 释放 Arena 的主内存块
       data_ = nullptr;
     }
 
@@ -265,17 +266,17 @@ class MemoryPool : public QObject {
       for (int i = 0; i < available_.size(); i++) {
         if (available_.at(i)) {
           // 此缓冲区可用
-          available_.replace(i, false); // 标记为不可用
+          available_.replace(i, false);  // 标记为不可用
 
           // 计算元素在 data_ 块中的实际地址
           ElementPtr e = std::make_shared<Element>(this, reinterpret_cast<uint8_t*>(data_ + i * element_sz_));
-          lent_elements_.push_back(e.get()); // 存储裸指针用于追踪，但生命周期由 ElementPtr 管理
+          lent_elements_.push_back(e.get());  // 存储裸指针用于追踪，但生命周期由 ElementPtr 管理
 
           return e;
         }
       }
 
-      return nullptr; // 没有可用的元素
+      return nullptr;  // 没有可用的元素
     }
 
     /**
@@ -288,19 +289,18 @@ class MemoryPool : public QObject {
       quintptr diff = reinterpret_cast<quintptr>(e->data()) - reinterpret_cast<quintptr>(data_);
       int index = diff / element_sz_;
 
-      if (index >= 0 && index < available_.size()) { // 边界检查
-          available_.replace(index, true); // 标记为可用
+      if (index >= 0 && index < available_.size()) {  // 边界检查
+        available_.replace(index, true);              // 标记为可用
       } else {
-          // 索引无效，可能是一个错误，记录日志
-          qWarning() << "MemoryPool::Arena::Release: Invalid element index calculated.";
-          return;
+        // 索引无效，可能是一个错误，记录日志
+        qWarning() << "MemoryPool::Arena::Release: Invalid element index calculated.";
+        return;
       }
 
-
-      lent_elements_.remove(e); // 从借出列表中移除
+      lent_elements_.remove(e);  // 从借出列表中移除
 
       if (lent_elements_.empty()) {
-        empty_time_ = QDateTime::currentMSecsSinceEpoch(); // 更新 Arena 变空的时间
+        empty_time_ = QDateTime::currentMSecsSinceEpoch();  // 更新 Arena 变空的时间
       }
     }
 
@@ -320,25 +320,25 @@ class MemoryPool : public QObject {
      * @return bool 如果内存分配成功则返回 true，否则返回 false。
      */
     bool Allocate(size_t ele_sz, size_t nb_elements) {
-      QMutexLocker locker(&lock_); // 分配操作也应受保护
-      if (IsAllocated()) { // 如果已分配，则直接返回true
+      QMutexLocker locker(&lock_);  // 分配操作也应受保护
+      if (IsAllocated()) {          // 如果已分配，则直接返回true
         return true;
       }
 
       element_sz_ = ele_sz;
       allocated_sz_ = element_sz_ * nb_elements;
 
-      if (allocated_sz_ == 0) { // 避免分配0字节
-          qWarning() << "MemoryPool::Arena::Allocate: Attempt to allocate 0 bytes.";
-          return false;
+      if (allocated_sz_ == 0) {  // 避免分配0字节
+        qWarning() << "MemoryPool::Arena::Allocate: Attempt to allocate 0 bytes.";
+        return false;
       }
 
-      data_ = new (std::nothrow) uint8_t[allocated_sz_]; // 使用 nothrow 避免异常
+      data_ = new (std::nothrow) uint8_t[allocated_sz_];  // 使用 nothrow 避免异常
 
       if (data_) {
         available_.resize(nb_elements);
-        available_.fill(true); // 所有元素初始时都可用
-        empty_time_ = QDateTime::currentMSecsSinceEpoch(); // 新分配的Arena是空的
+        available_.fill(true);                              // 所有元素初始时都可用
+        empty_time_ = QDateTime::currentMSecsSinceEpoch();  // 新分配的Arena是空的
         return true;
       } else {
         available_.clear();
@@ -352,8 +352,8 @@ class MemoryPool : public QObject {
      * @return int 元素总数。
      */
     inline int GetElementCount() const {
-        // QMutexLocker locker(&lock_); // available_ 的大小在Allocate后固定，读取size()通常线程安全
-        return available_.size();
+      // QMutexLocker locker(&lock_); // available_ 的大小在Allocate后固定，读取size()通常线程安全
+      return available_.size();
     }
 
     /**
@@ -361,10 +361,9 @@ class MemoryPool : public QObject {
      * @return bool 如果 data_ 非空则返回 true，否则返回 false。
      */
     inline bool IsAllocated() const {
-        // QMutexLocker locker(&lock_); // 读取指针通常线程安全，但取决于编译器和架构
-        return data_ != nullptr;
+      // QMutexLocker locker(&lock_); // 读取指针通常线程安全，但取决于编译器和架构
+      return data_ != nullptr;
     }
-
 
     /**
      * @brief 获取此 Arena 最后一次变为空（所有元素都可用）的时间戳。
@@ -429,10 +428,10 @@ class MemoryPool : public QObject {
     QMutexLocker locker(&lock_);
 
     // 尝试从现有 arena 获取元素
-    for (Arena* a : arenas_) { // 使用范围for循环
+    for (Arena* a : arenas_) {  // 使用范围for循环
       ElementPtr e = a->Get();
       if (e) {
-        return e; // 成功获取
+        return e;  // 成功获取
       }
     }
 
@@ -443,9 +442,9 @@ class MemoryPool : public QObject {
       qDebug() << "内存池：所有 Arena 已满，正在创建新的...";
     }
 
-    size_t ele_sz = GetElementSize(); // 获取元素大小
+    size_t ele_sz = GetElementSize();  // 获取元素大小
 
-    if (!ele_sz) { // GetElementSize() 可能返回0，需要检查
+    if (!ele_sz) {  // GetElementSize() 可能返回0，需要检查
       qCritical() << "内存池：创建 Arena 失败，元素大小为 0。";
       return nullptr;
     }
@@ -455,20 +454,20 @@ class MemoryPool : public QObject {
       return nullptr;
     }
 
-    Arena* a = new (std::nothrow) Arena(this); // 使用 nothrow 避免构造函数抛出异常
+    Arena* a = new (std::nothrow) Arena(this);  // 使用 nothrow 避免构造函数抛出异常
     if (!a) {
-        qCritical() << "内存池：创建 Arena 对象失败 (内存不足？)。";
-        return nullptr;
+      qCritical() << "内存池：创建 Arena 对象失败 (内存不足？)。";
+      return nullptr;
     }
 
     if (!a->Allocate(ele_sz, element_count_)) {
       qCritical() << "内存池：Arena 分配内存失败 (内存不足？)。";
-      delete a; // 清理失败创建的 Arena 对象
+      delete a;  // 清理失败创建的 Arena 对象
       return nullptr;
     }
 
     arenas_.push_back(a);
-    return a->Get(); // 从新创建的 Arena 获取元素
+    return a->Get();  // 从新创建的 Arena 获取元素
   }
 
  protected:
@@ -479,10 +478,11 @@ class MemoryPool : public QObject {
    * 大小实际上大于1时，如用于存储固定大小的字符数组）。
    * 默认实现返回 `sizeof(uint8_t)` (1字节)，这可能不适用于所有情况，
    * 除非内存池被特化为管理单字节元素。
-   * @warning 默认实现返回 `sizeof(uint8_t)`，派生类通常需要重写此方法以返回其实际管理的元素类型T的大小 `sizeof(T)` 或自定义大小。
+   * @warning 默认实现返回 `sizeof(uint8_t)`，派生类通常需要重写此方法以返回其实际管理的元素类型T的大小 `sizeof(T)`
+   * 或自定义大小。
    * @return size_t 每个元素的大小（字节）。
    */
-  virtual size_t GetElementSize() { return sizeof(uint8_t); } // 注意：这通常应为 sizeof(T) 或具体类型大小
+  virtual size_t GetElementSize() { return sizeof(uint8_t); }  // 注意：这通常应为 sizeof(T) 或具体类型大小
 
  private:
   /**
@@ -517,7 +517,7 @@ class MemoryPool : public QObject {
    * 此槽函数由 clear_timer_ 定期触发。
    */
   void ClearEmptyArenas() {
-    QMutexLocker locker(&lock_); // 保护对 arenas_ 列表的修改
+    QMutexLocker locker(&lock_);  // 保护对 arenas_ 列表的修改
 
     const qint64 min_time = QDateTime::currentMSecsSinceEpoch() - kMaxEmptyArenaLife;
 
@@ -526,10 +526,10 @@ class MemoryPool : public QObject {
       // 检查 Arena 是否为空闲且空闲时间超过了 kMaxEmptyArenaLife
       if (arena->GetUsageCount() == 0 && arena->GetTimeArenaWasMadeEmpty() <= min_time) {
         qDebug() << "内存池：移除一个空闲的 Arena。";
-        delete arena;       // 删除 Arena 对象，会触发其析构函数释放内存
-        it = arenas_.erase(it); // 从列表中移除指针，并更新迭代器
+        delete arena;            // 删除 Arena 对象，会触发其析构函数释放内存
+        it = arenas_.erase(it);  // 从列表中移除指针，并更新迭代器
       } else {
-        ++it; // 继续下一个
+        ++it;  // 继续下一个
       }
     }
   }

@@ -1,7 +1,7 @@
 #ifndef OCIOBASENODE_H
 #define OCIOBASENODE_H
 
-#include <utility> // 引入 std::move 等工具
+#include <utility>  // 引入 std::move 等工具
 
 #include "node/node.h"                     // 引入基类 Node 的定义
 #include "render/job/colortransformjob.h"  // 引入 ColorTransformJob，可能与颜色处理相关
@@ -10,10 +10,9 @@
 // 这些通常在其他头文件中定义
 namespace olive {
 class ColorManager;
-class ColorProcessor; // 假设 ColorProcessor 类的声明
-using ColorProcessorPtr = std::shared_ptr<ColorProcessor>; // 假设 ColorProcessorPtr 是 ColorProcessor 的智能指针
-}
-
+class ColorProcessor;                                       // 假设 ColorProcessor 类的声明
+using ColorProcessorPtr = std::shared_ptr<ColorProcessor>;  // 假设 ColorProcessorPtr 是 ColorProcessor 的智能指针
+}  // namespace olive
 
 namespace olive {
 
@@ -22,12 +21,12 @@ namespace olive {
  * 提供了与 ColorManager 交互以及管理 ColorProcessor 的通用功能。
  */
 class OCIOBaseNode : public Node {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief OCIOBaseNode 构造函数。
-   */
-  OCIOBaseNode();
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief OCIOBaseNode 构造函数。
+      */
+     OCIOBaseNode();
 
   /**
    * @brief 当此节点被添加到项目图中时调用的事件处理函数。
@@ -51,7 +50,7 @@ class OCIOBaseNode : public Node {
    */
   void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
 
-  static const QString kTextureInput; ///< "TextureIn" - 默认的纹理输入端口的键名。
+  static const QString kTextureInput;  ///< "TextureIn" - 默认的纹理输入端口的键名。
 
  protected slots:
   /**
@@ -79,9 +78,9 @@ class OCIOBaseNode : public Node {
   void set_processor(ColorProcessorPtr p) { processor_ = std::move(p); }
 
  private:
-  ColorManager *manager_; ///< 指向项目中 ColorManager 实例的指针。通过它获取 OCIO 配置等信息。
+  ColorManager *manager_;  ///< 指向项目中 ColorManager 实例的指针。通过它获取 OCIO 配置等信息。
 
-  ColorProcessorPtr processor_; ///< 智能指针，持有实际执行颜色变换的 ColorProcessor 对象。
+  ColorProcessorPtr processor_;  ///< 智能指针，持有实际执行颜色变换的 ColorProcessor 对象。
 };
 
 }  // namespace olive

@@ -1,17 +1,17 @@
-#ifndef PROJECTIMPORTMANAGER_H // 防止头文件被重复包含的预处理器指令
-#define PROJECTIMPORTMANAGER_H // 定义 PROJECTIMPORTMANAGER_H 宏
+#ifndef PROJECTIMPORTMANAGER_H  // 防止头文件被重复包含的预处理器指令
+#define PROJECTIMPORTMANAGER_H  // 定义 PROJECTIMPORTMANAGER_H 宏
 
-#include <QFileInfoList> // 包含了 Qt 文件信息列表类，用于处理文件和目录信息
-#include <QUndoCommand>  // 包含了 Qt 撤销命令基类，用于实现撤销/重做功能
+#include <QFileInfoList>  // 包含了 Qt 文件信息列表类，用于处理文件和目录信息
+#include <QUndoCommand>   // 包含了 Qt 撤销命令基类，用于实现撤销/重做功能
 
-#include "codec/decoder.h"                     // 包含了编解码器相关的定义，可能用于获取导入文件的信息
-#include "task/task.h"                         // 包含了任务基类的定义，ProjectImportTask 是一个后台任务
-#include "widget/projectexplorer/projectviewmodel.h" // 包含了项目浏览器视图模型相关的定义，可能与项目结构和节点操作有关
+#include "codec/decoder.h"                            // 包含了编解码器相关的定义，可能用于获取导入文件的信息
+#include "task/task.h"                                // 包含了任务基类的定义，ProjectImportTask 是一个后台任务
+#include "widget/projectexplorer/projectviewmodel.h"  // 包含了项目浏览器视图模型相关的定义，可能与项目结构和节点操作有关
 
 // 在 olive 命名空间内声明的类，其完整定义依赖于包含的头文件
 // 例如 Folder, Node, Footage, MultiUndoCommand 等类型预期从上述 #include 中获得
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
 /**
  * @brief ProjectImportTask 类定义，继承自 Task 类。
@@ -22,14 +22,14 @@ namespace olive { // olive 项目的命名空间
  * 此外，该任务还会生成一个 MultiUndoCommand，以便用户可以撤销整个导入操作。
  */
 class ProjectImportTask : public Task {
-  Q_OBJECT // Qt 对象的宏，用于启用信号和槽机制等 Qt 特性
- public:
-  /**
-   * @brief ProjectImportTask 的构造函数。
-   * @param folder 指向目标文件夹 (Folder 类型) 的指针，新导入的素材将被添加到这个文件夹下。
-   * @param filenames 一个字符串列表，包含所有待导入文件的完整路径。
-   */
-  ProjectImportTask(Folder* folder, const QStringList& filenames);
+ Q_OBJECT  // Qt 对象的宏，用于启用信号和槽机制等 Qt 特性
+     public :
+     /**
+      * @brief ProjectImportTask 的构造函数。
+      * @param folder 指向目标文件夹 (Folder 类型) 的指针，新导入的素材将被添加到这个文件夹下。
+      * @param filenames 一个字符串列表，包含所有待导入文件的完整路径。
+      */
+     ProjectImportTask(Folder* folder, const QStringList& filenames);
 
   /**
    * @brief 获取计划导入的文件总数。
@@ -138,22 +138,22 @@ class ProjectImportTask : public Task {
    */
   static int64_t GetImageSequenceLimit(const QString& start_fn, int64_t start, bool up);
 
-  MultiUndoCommand* command_; ///< @brief 指向 MultiUndoCommand 对象的指针，用于聚合所有导入操作的撤销命令。
+  MultiUndoCommand* command_;  ///< @brief 指向 MultiUndoCommand 对象的指针，用于聚合所有导入操作的撤销命令。
 
-  Folder* folder_; ///< @brief 指向目标文件夹的指针，所有成功导入的素材都将添加到此文件夹中。
+  Folder* folder_;  ///< @brief 指向目标文件夹的指针，所有成功导入的素材都将添加到此文件夹中。
 
-  QFileInfoList filenames_; ///< @brief 存储了所有待导入文件的 QFileInfo 对象列表。
+  QFileInfoList filenames_;  ///< @brief 存储了所有待导入文件的 QFileInfo 对象列表。
 
-  int file_count_; ///< @brief 记录了初始请求导入的文件总数。
+  int file_count_;  ///< @brief 记录了初始请求导入的文件总数。
 
-  QStringList invalid_files_; ///< @brief 存储导入失败或被识别为无效的文件路径列表。
+  QStringList invalid_files_;  ///< @brief 存储导入失败或被识别为无效的文件路径列表。
 
-  QList<QString> image_sequence_ignore_files_; ///< @brief 在图像序列检测过程中，需要忽略的文件名列表。
-                                              ///< 这可以防止将不相关的、但名称相似的文件错误地识别为序列的一部分。
+  QList<QString> image_sequence_ignore_files_;  ///< @brief 在图像序列检测过程中，需要忽略的文件名列表。
+                                                ///< 这可以防止将不相关的、但名称相似的文件错误地识别为序列的一部分。
 
-  QVector<Footage*> imported_footage_; ///< @brief 存储成功导入并创建的 Footage 对象指针的向量。
+  QVector<Footage*> imported_footage_;  ///< @brief 存储成功导入并创建的 Footage 对象指针的向量。
 };
 
-}  // namespace olive // 结束 olive 命名空间
+}  // namespace olive
 
 #endif  // PROJECTIMPORTMANAGER_H // 结束预处理器指令 #ifndef PROJECTIMPORTMANAGER_H

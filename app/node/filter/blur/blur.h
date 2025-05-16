@@ -1,8 +1,8 @@
 #ifndef BLURFILTERNODE_H
 #define BLURFILTERNODE_H
 
-#include "node/gizmo/point.h" // 引入点 Gizmo (交互控件) 的定义，用于径向模糊的中心点
-#include "node/node.h"        // 引入基类 Node 的定义
+#include "node/gizmo/point.h"  // 引入点 Gizmo (交互控件) 的定义，用于径向模糊的中心点
+#include "node/node.h"         // 引入基类 Node 的定义
 
 namespace olive {
 
@@ -11,24 +11,24 @@ namespace olive {
  * 该节点可以对输入图像应用多种类型的模糊，如盒状模糊、高斯模糊、定向模糊和径向模糊。
  */
 class BlurFilterNode : public Node {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief BlurFilterNode 构造函数。
-   */
-  BlurFilterNode();
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief BlurFilterNode 构造函数。
+      */
+     BlurFilterNode();
 
   /**
    * @brief 定义模糊算法的类型。
    */
   enum Method {
-    kBox,         ///< 盒状模糊 (Box Blur)
-    kGaussian,    ///< 高斯模糊 (Gaussian Blur)
-    kDirectional, ///< 定向模糊 (Directional Blur)
-    kRadial       ///< 径向模糊 (Radial Blur)
+    kBox,          ///< 盒状模糊 (Box Blur)
+    kGaussian,     ///< 高斯模糊 (Gaussian Blur)
+    kDirectional,  ///< 定向模糊 (Directional Blur)
+    kRadial        ///< 径向模糊 (Radial Blur)
   };
 
-  NODE_DEFAULT_FUNCTIONS(BlurFilterNode) // 节点默认功能宏，可能包含克隆、类型信息等标准实现
+  NODE_DEFAULT_FUNCTIONS(BlurFilterNode)  // 节点默认功能宏，可能包含克隆、类型信息等标准实现
 
   /**
    * @brief 获取此节点的名称。
@@ -85,16 +85,17 @@ class BlurFilterNode : public Node {
   void UpdateGizmoPositions(const NodeValueRow &row, const NodeGlobals &globals) override;
 
   // --- 静态常量，用作节点输入参数的键名 ---
-  static const QString kTextureInput;          ///< "Texture" - 输入纹理（图像）的参数键名。
-  static const QString kMethodInput;           ///< "Method" - 选择模糊方法（类型）的参数键名。
-  static const QString kRadiusInput;           ///< "Radius" - 模糊半径（通用）的参数键名。
-  static const QString kHorizInput;            ///< "HorizontalRadius" - 水平模糊半径的参数键名 (某些模糊类型如盒状可能分别控制)。
-  static const QString kVertInput;             ///< "VerticalRadius" - 垂直模糊半径的参数键名 (某些模糊类型如盒状可能分别控制)。
-  static const QString kRepeatEdgePixelsInput; ///< "RepeatEdgePixels" - 是否重复边缘像素以避免模糊边缘变暗的布尔参数键名。
+  static const QString kTextureInput;  ///< "Texture" - 输入纹理（图像）的参数键名。
+  static const QString kMethodInput;   ///< "Method" - 选择模糊方法（类型）的参数键名。
+  static const QString kRadiusInput;   ///< "Radius" - 模糊半径（通用）的参数键名。
+  static const QString kHorizInput;  ///< "HorizontalRadius" - 水平模糊半径的参数键名 (某些模糊类型如盒状可能分别控制)。
+  static const QString kVertInput;   ///< "VerticalRadius" - 垂直模糊半径的参数键名 (某些模糊类型如盒状可能分别控制)。
+  static const QString
+      kRepeatEdgePixelsInput;  ///< "RepeatEdgePixels" - 是否重复边缘像素以避免模糊边缘变暗的布尔参数键名。
 
-  static const QString kDirectionalDegreesInput; ///< "DirectionalDegrees" - 定向模糊的角度参数键名。
+  static const QString kDirectionalDegreesInput;  ///< "DirectionalDegrees" - 定向模糊的角度参数键名。
 
-  static const QString kRadialCenterInput;       ///< "RadialCenter" - 径向模糊的中心点位置参数键名。
+  static const QString kRadialCenterInput;  ///< "RadialCenter" - 径向模糊的中心点位置参数键名。
 
  protected slots:
   /**
@@ -121,7 +122,7 @@ class BlurFilterNode : public Node {
    */
   void UpdateInputs(Method method);
 
-  PointGizmo *radial_center_gizmo_; ///< 指向控制径向模糊中心点的 PointGizmo 对象的指针。
+  PointGizmo *radial_center_gizmo_;  ///< 指向控制径向模糊中心点的 PointGizmo 对象的指针。
 };
 
 }  // namespace olive

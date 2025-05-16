@@ -8,11 +8,11 @@
 #ifndef KDDOCKWIDGETS_FRAMEWORKWIDGETFACTORY_H
 #define KDDOCKWIDGETS_FRAMEWORKWIDGETFACTORY_H
 
-#include "docks_export.h"          // 导入导出宏定义
-#include "KDDockWidgets.h"         // KDDockWidgets 公共头文件，包含核心枚举和类型定义
-#include "QWidgetAdapter.h"       // QWidget 和 QQuickItem 的适配器类
+#include "docks_export.h" // 导入导出宏定义
+#include "KDDockWidgets.h" // KDDockWidgets 公共头文件，包含核心枚举和类型定义
+#include "QWidgetAdapter.h" // QWidget 和 QQuickItem 的适配器类
 
-#include <QMap>    // Qt 映射容器 (用于缓存图标等)
+#include <QMap> // Qt 映射容器 (用于缓存图标等)
 #include <utility> // C++ 标准库，包含 std::pair (用于 QMap 的键)
 
 // clazy:excludeall=ctor-missing-parent-argument // clazy 静态分析器指令：排除所有关于构造函数缺少父参数的警告
@@ -25,22 +25,22 @@ QT_END_NAMESPACE
 // 前向声明内部布局引擎相关的类
 namespace Layouting {
 class Separator; // 分隔符类
-class Widget;    // 布局引擎中小部件的基类包装器
+class Widget; // 布局引擎中小部件的基类包装器
 }
 
 namespace KDDockWidgets {
 
 // 前向声明 KDDockWidgets 内部类
-class MainWindowBase;                 // 主窗口基类
-class DropIndicatorOverlayInterface;  // 拖放指示器覆盖层接口类
-class FloatingWindow;               // 浮动窗口类
-class TabWidget;                    // 标签页小部件类
-class TitleBar;                     // 标题栏类
-class Frame;                        // 框架类 (容纳 DockWidgetBase)
-class DropArea;                     // 放置区域类
-class SideBar;                      // 侧边栏类
-class TabBar;                       // 标签栏类
-class TabWidgetQuick;               // QtQuick 版本的 TabWidget (如果适用)
+class MainWindowBase; // 主窗口基类
+class DropIndicatorOverlayInterface; // 拖放指示器覆盖层接口类
+class FloatingWindow; // 浮动窗口类
+class TabWidget; // 标签页小部件类
+class TitleBar; // 标题栏类
+class Frame; // 框架类 (容纳 DockWidgetBase)
+class DropArea; // 放置区域类
+class SideBar; // 侧边栏类
+class TabBar; // 标签栏类
+class TabWidgetQuick; // QtQuick 版本的 TabWidget (如果适用)
 
 /**
  * @brief 一个工厂类，允许用户自定义一些内部小部件。
@@ -59,8 +59,8 @@ class TabWidgetQuick;               // QtQuick 版本的 TabWidget (如果适用
  */
 class DOCKS_EXPORT FrameworkWidgetFactory : public QObject
 {
-    Q_OBJECT // Q_OBJECT 宏，用于启用 Qt 元对象系统特性
-public:
+Q_OBJECT // Q_OBJECT 宏，用于启用 Qt 元对象系统特性
+    public :
     /**
      * @brief 默认构造函数。
      */

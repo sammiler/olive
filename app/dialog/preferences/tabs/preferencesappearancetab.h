@@ -5,9 +5,9 @@
 #include <QLineEdit>
 #include <QPushButton>
 
-#include "dialog/configbase/configdialogbase.h" // 引入配置对话框基类相关定义
-#include "ui/style/style.h"                     // 引入界面样式相关定义
-#include "widget/colorlabelmenu/colorcodingcombobox.h" // 引入颜色编码组合框控件
+#include "dialog/configbase/configdialogbase.h"         // 引入配置对话框基类相关定义
+#include "ui/style/style.h"                             // 引入界面样式相关定义
+#include "widget/colorlabelmenu/colorcodingcombobox.h"  // 引入颜色编码组合框控件
 
 namespace olive {
 
@@ -35,7 +35,7 @@ class PreferencesAppearanceTab : public ConfigDialogBaseTab {
    */
   void Accept(MultiUndoCommand* command) override;
 
-private:
+ private:
   /**
    * @brief 用于选择当前用户界面样式的下拉选择框控件。
    */

@@ -1,7 +1,7 @@
-#ifndef SERIALIZER211228_H // 防止头文件被多次包含的宏定义开始 (文件名是 SERIALIZER211228_H)
+#ifndef SERIALIZER211228_H  // 防止头文件被多次包含的宏定义开始 (文件名是 SERIALIZER211228_H)
 #define SERIALIZER211228_H
 
-#include "serializer.h" // 引入基类 ProjectSerializer 的定义 (文件名可能是 "projectserializer.h")
+#include "serializer.h"  // 引入基类 ProjectSerializer 的定义 (文件名可能是 "projectserializer.h")
 
 // 可能需要的前向声明 (与 ProjectSerializer210907.h 和 ProjectSerializer210528.h 类似)
 // class Project;
@@ -18,7 +18,7 @@
 // namespace Node { struct Position; struct ValueHint; }
 // class QUuid; // 新增的可能需要的声明
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
 /**
  * @brief 特定版本的项目序列化器，版本号为 211228。
@@ -49,7 +49,7 @@ class ProjectSerializer211228 : public ProjectSerializer {
    * @brief 返回此序列化器支持的项目文件版本号。
    * @return uint 版本号，固定为 211228。
    */
-  [[nodiscard]] uint Version() const override { return 211228; } // 此序列化器处理版本 211228
+  [[nodiscard]] uint Version() const override { return 211228; }  // 此序列化器处理版本 211228
 
  private:
   /**
@@ -59,8 +59,8 @@ class ProjectSerializer211228 : public ProjectSerializer {
   struct XMLNodeData {
     /** @brief 存储一个待建立的节点连接的信息。 */
     struct SerializedConnection {
-      NodeInput input;      ///< 目标节点的输入参数。
-      quintptr output_node{}; ///< 源节点的指针占位符。
+      NodeInput input;         ///< 目标节点的输入参数。
+      quintptr output_node{};  ///< 源节点的指针占位符。
     };
 
     /** @brief 存储一个媒体块（Block）与其链接对象之间的链接信息。 */
@@ -71,18 +71,18 @@ class ProjectSerializer211228 : public ProjectSerializer {
 
     /** @brief 存储节点组（NodeGroup）的输入与其内部节点输入之间的链接信息。 */
     struct GroupLink {
-      NodeGroup *group{};   ///< 指向节点组的指针。
-      quintptr input_node{};///< 节点组内部目标节点的指针占位符。
-      QString input_id;     ///< 节点组内部目标节点输入参数的ID。
-      int input_element{};  ///< 节点组内部目标节点输入参数的元素索引。
+      NodeGroup *group{};     ///< 指向节点组的指针。
+      quintptr input_node{};  ///< 节点组内部目标节点的指针占位符。
+      QString input_id;       ///< 节点组内部目标节点输入参数的ID。
+      int input_element{};    ///< 节点组内部目标节点输入参数的元素索引。
     };
 
-    QHash<quintptr, Node *> node_ptrs;              ///< 节点指针占位符到实际 Node 指针的映射。
-    QList<SerializedConnection> desired_connections;///< 待建立的节点连接列表。
-    QList<BlockLink> block_links;                   ///< 待建立的媒体块链接列表。
-    QVector<GroupLink> group_input_links;           ///< 待建立的节点组输入链接列表。
-    QHash<NodeGroup *, quintptr> group_output_links;///< 节点组输出链接信息。
-    QHash<Node *, QUuid> node_uuids;                ///< 新增：存储已加载节点的 Node 指针到其 UUID 的映射。
+    QHash<quintptr, Node *> node_ptrs;                ///< 节点指针占位符到实际 Node 指针的映射。
+    QList<SerializedConnection> desired_connections;  ///< 待建立的节点连接列表。
+    QList<BlockLink> block_links;                     ///< 待建立的媒体块链接列表。
+    QVector<GroupLink> group_input_links;             ///< 待建立的节点组输入链接列表。
+    QHash<NodeGroup *, quintptr> group_output_links;  ///< 节点组输出链接信息。
+    QHash<Node *, QUuid> node_uuids;                  ///< 新增：存储已加载节点的 Node 指针到其 UUID 的映射。
   };
 
   /**

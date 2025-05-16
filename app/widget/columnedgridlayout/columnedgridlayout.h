@@ -1,10 +1,10 @@
 #ifndef COLUMNEDGRIDLAYOUT_H
 #define COLUMNEDGRIDLAYOUT_H
 
-#include <QGridLayout> // Qt 网格布局基类
-#include <QWidget>     // Qt 控件基类 (用于构造函数和 Add 方法的参数类型)
+#include <QGridLayout>  // Qt 网格布局基类
+#include <QWidget>      // Qt 控件基类 (用于构造函数和 Add 方法的参数类型)
 
-#include "common/define.h" // 项目通用定义
+#include "common/define.h"  // 项目通用定义
 
 namespace olive {
 
@@ -16,15 +16,15 @@ namespace olive {
  * 当达到最大列数时会自动换行。
  */
 class ColumnedGridLayout : public QGridLayout {
-  Q_OBJECT // Qt 元对象系统宏，用于支持信号和槽机制
+ Q_OBJECT  // Qt 元对象系统宏，用于支持信号和槽机制
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父控件指针，默认为 nullptr。
-   * @param maximum_columns 布局中允许的最大列数。如果为 0 或负数，则可能表示没有限制或由其他逻辑处理。
-   */
-  explicit ColumnedGridLayout(QWidget* parent = nullptr, int maximum_columns = 0);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父控件指针，默认为 nullptr。
+      * @param maximum_columns 布局中允许的最大列数。如果为 0 或负数，则可能表示没有限制或由其他逻辑处理。
+      */
+     explicit ColumnedGridLayout(QWidget* parent = nullptr, int maximum_columns = 0);
 
   /**
    * @brief 向布局中添加一个控件。
@@ -51,8 +51,8 @@ class ColumnedGridLayout : public QGridLayout {
    */
   void SetMaximumColumns(int maximum_columns);
 
-private:
-  int maximum_columns_; ///< 存储布局允许的最大列数。
+ private:
+  int maximum_columns_;  ///< 存储布局允许的最大列数。
 };
 
 }  // namespace olive

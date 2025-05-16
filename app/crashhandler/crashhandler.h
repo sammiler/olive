@@ -1,20 +1,19 @@
 #ifndef CRASHHANDLERDIALOG_H
 #define CRASHHANDLERDIALOG_H
 
-#include <client/crash_report_database.h> // Crashpad 客户端库：崩溃报告数据库 (虽然在头文件中未直接使用其类型)
-#include <QDialog>          // QDialog 基类
-#include <QDialogButtonBox> // 标准对话框按钮盒 (可能在 .cpp 中用于按钮)
-#include <QNetworkReply>    // 用于处理网络回复 (发送报告)
-#include <QPushButton>      // 按钮控件
-#include <QTextEdit>        // 文本编辑控件，用于显示摘要和报告
-#include <QList>            // 为了 QList<QSslError>
-#include <QSslError>        // SSL 错误信息类 (如果需要)
-#include <QString>          // Qt 字符串类
-#include <QByteArray>       // Qt 字节数组类
-#include <QCloseEvent>      // Qt 关闭事件类
+#include <client/crash_report_database.h>  // Crashpad 客户端库：崩溃报告数据库 (虽然在头文件中未直接使用其类型)
+#include <QByteArray>                      // Qt 字节数组类
+#include <QCloseEvent>                     // Qt 关闭事件类
+#include <QDialog>                         // QDialog 基类
+#include <QDialogButtonBox>                // 标准对话框按钮盒 (可能在 .cpp 中用于按钮)
+#include <QList>                           // 为了 QList<QSslError>
+#include <QNetworkReply>                   // 用于处理网络回复 (发送报告)
+#include <QPushButton>                     // 按钮控件
+#include <QSslError>                       // SSL 错误信息类 (如果需要)
+#include <QString>                         // Qt 字符串类
+#include <QTextEdit>                       // 文本编辑控件，用于显示摘要和报告
 
-
-#include "common/define.h" // 可能包含一些通用定义
+#include "common/define.h"  // 可能包含一些通用定义
 
 namespace olive {
 
@@ -56,7 +55,7 @@ class CrashHandlerDialog : public QDialog {
    * @brief 获取用于符号化崩溃报告的符号文件的路径。
    * @return QString 符号文件的路径。
    */
-  static QString GetSymbolPath(); // 通常需要依赖于构建和部署配置
+  static QString GetSymbolPath();  // 通常需要依赖于构建和部署配置
 
   /**
    * @brief 用于显示崩溃摘要信息的文本编辑框。
@@ -126,12 +125,12 @@ class CrashHandlerDialog : public QDialog {
    * @brief 当外部进程（例如符号化工具）有数据输出到标准输出或标准错误时调用的槽函数。
    * 用于捕获和显示符号化过程的输出。
    */
-  void ReadProcessHasData(); // 通常连接到 QProcess::readyReadStandardOutput/Error
+  void ReadProcessHasData();  // 通常连接到 QProcess::readyReadStandardOutput/Error
 
   /**
    * @brief 当外部进程（例如符号化工具）完成时调用的槽函数。
    */
-  void ReadProcessFinished(); // 通常连接到 QProcess::finished
+  void ReadProcessFinished();  // 通常连接到 QProcess::finished
 
   /**
    * @brief 发送错误报告到指定的服务器。

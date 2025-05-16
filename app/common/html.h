@@ -1,17 +1,17 @@
 #ifndef HTML_H
 #define HTML_H
 
+#include <QMap>              // 用于CSS属性映射
+#include <QStringList>       // 字符串列表
+#include <QTextBlock>        // QTextDocument 的组成部分
+#include <QTextBlockFormat>  // 块格式
+#include <QTextCharFormat>   // 字符格式
 #include <QTextDocument>
 #include <QTextFragment>
-#include <QXmlStreamReader> // 用于解析HTML (作为XML处理)
-#include <QXmlStreamWriter> // 用于生成HTML (作为XML处理)
-#include <QTextBlock>       // QTextDocument 的组成部分
-#include <QTextCharFormat>  // 字符格式
-#include <QTextBlockFormat> // 块格式
-#include <QXmlStreamAttributes> // XML属性
-#include <QStringList>      // 字符串列表
-#include <QMap>             // 用于CSS属性映射
-#include <QVector>          // 用于 kBlockTags
+#include <QVector>               // 用于 kBlockTags
+#include <QXmlStreamAttributes>  // XML属性
+#include <QXmlStreamReader>      // 用于解析HTML (作为XML处理)
+#include <QXmlStreamWriter>      // 用于生成HTML (作为XML处理)
 
 namespace olive {
 

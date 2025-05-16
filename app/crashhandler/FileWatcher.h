@@ -1,11 +1,11 @@
 // FileWatcher.h (假设这是文件名)
-#ifndef FILEWATCHER_H_OLIVE // 通常会加上项目名或特定后缀避免冲突
+#ifndef FILEWATCHER_H_OLIVE  // 通常会加上项目名或特定后缀避免冲突
 #define FILEWATCHER_H_OLIVE
 
-#include <QFileSystemWatcher> // Qt 文件系统监控类
-#include <QObject>            // QObject 基类
-#include <QString>            // Qt 字符串类
-#include <QDebug>             // Qt 调试输出 (如果需要在槽函数中打印日志)
+#include <QDebug>              // Qt 调试输出 (如果需要在槽函数中打印日志)
+#include <QFileSystemWatcher>  // Qt 文件系统监控类
+#include <QObject>             // QObject 基类
+#include <QString>             // Qt 字符串类
 
 // 假设 crashhandler.h 声明了 CrashHandlerDialog 类
 #include "crashhandler.h"
@@ -37,9 +37,9 @@ class FileWatcher : public QObject {
    * QFileSystemWatcher 和 CrashHandlerDialog 都会将此作为父对象。
    */
   explicit FileWatcher(const QString &path, QObject *parent = nullptr) : QObject(parent) {
-    m_watcher = new QFileSystemWatcher(this); // 以 this 为父对象，确保随 FileWatcher 销毁
-    m_dialog = new CrashHandlerDialog(this, path); // 以 this 为父对象
-    m_watcher->addPath(path);                     // 添加要监控的路径
+    m_watcher = new QFileSystemWatcher(this);       // 以 this 为父对象，确保随 FileWatcher 销毁
+    m_dialog = new CrashHandlerDialog(this, path);  // 以 this 为父对象
+    m_watcher->addPath(path);                       // 添加要监控的路径
 
     // 连接信号和槽
     connect(m_watcher, &QFileSystemWatcher::fileChanged, this, &FileWatcher::onFileChanged);
@@ -53,8 +53,7 @@ class FileWatcher : public QObject {
    * 它们会在 FileWatcher 析构时由 Qt 的父子对象机制自动删除，
    * 通常不需要在此显式 delete。
    */
-  ~FileWatcher() override = default; // 默认析构即可，或根据需要添加清理逻辑
-
+  ~FileWatcher() override = default;  // 默认析构即可，或根据需要添加清理逻辑
 
  private slots:
   /**
@@ -64,9 +63,9 @@ class FileWatcher : public QObject {
    * 但由 QFileSystemWatcher::fileChanged 信号提供。
    */
   void onFileChanged(const QString &path) {
-    Q_UNUSED(path); // 标记 path 参数为未使用，避免编译器警告
-    if (m_dialog) { // 确保对话框指针有效
-        m_dialog->open();
+    Q_UNUSED(path);  // 标记 path 参数为未使用，避免编译器警告
+    if (m_dialog) {  // 确保对话框指针有效
+      m_dialog->open();
     }
   }
 

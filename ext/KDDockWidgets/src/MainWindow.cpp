@@ -112,7 +112,7 @@ MainWindow::MainWindow(const QString &name, MainWindowOptions options,
         connect(windowHandle(), &QWindow::screenChanged, DockRegistry::self(),
                 [this] {
                     d->updateMargins();
-                    Q_EMIT DockRegistry::self() -> windowChangedScreen(windowHandle());
+                    Q_EMIT DockRegistry::self()->windowChangedScreen(windowHandle());
                 });
     }
 }

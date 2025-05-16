@@ -1,11 +1,11 @@
-#ifndef GENERATEJOB_H // 防止头文件被重复包含的宏
-#define GENERATEJOB_H // 定义 GENERATEJOB_H 宏
+#ifndef GENERATEJOB_H  // 防止头文件被重复包含的宏
+#define GENERATEJOB_H  // 定义 GENERATEJOB_H 宏
 
-#include "acceleratedjob.h" // 包含 AcceleratedJob 基类的定义
-#include "codec/frame.h"    // 包含 Frame (或 FramePtr) 相关的定义，
-                            // 虽然在此类中未直接使用 Frame 成员，但生成器节点通常会产生帧数据。
+#include "acceleratedjob.h"  // 包含 AcceleratedJob 基类的定义
+#include "codec/frame.h"     // 包含 Frame (或 FramePtr) 相关的定义，
+                             // 虽然在此类中未直接使用 Frame 成员，但生成器节点通常会产生帧数据。
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
 /**
  * @brief GenerateJob 类代表一个“生成”类型的加速任务。
@@ -25,8 +25,8 @@ namespace olive { // olive 项目的命名空间
  *
  * 这个类本身结构比较简单，其主要功能和数据承载通过继承自 AcceleratedJob 实现。
  */
-class GenerateJob : public AcceleratedJob { // GenerateJob 继承自 AcceleratedJob
-public:
+class GenerateJob : public AcceleratedJob {  // GenerateJob 继承自 AcceleratedJob
+ public:
   // 默认构造函数
   GenerateJob() = default;
 
@@ -35,7 +35,7 @@ public:
    * NodeValueRow 中包含了执行生成操作所需的参数值。
    * @param row 包含任务参数的 NodeValueRow。
    */
-  explicit GenerateJob(const NodeValueRow &row) : GenerateJob() { Insert(row); } // 调用默认构造函数后，插入参数
+  explicit GenerateJob(const NodeValueRow &row) : GenerateJob() { Insert(row); }  // 调用默认构造函数后，插入参数
   // 这里的 : GenerateJob() 是委托构造函数 (C++11)
   // 它会先调用默认构造函数 GenerateJob()，
   // 然后再执行当前构造函数体内的 Insert(row)。

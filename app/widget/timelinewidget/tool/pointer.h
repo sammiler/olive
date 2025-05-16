@@ -1,9 +1,9 @@
-#ifndef POINTERTIMELINETOOL_H // 防止头文件被多次包含的宏定义
+#ifndef POINTERTIMELINETOOL_H  // 防止头文件被多次包含的宏定义
 #define POINTERTIMELINETOOL_H
 
-#include "tool.h" // 引入 Tool 类的定义，PointerTool 是 TimelineTool 的派生类
+#include "tool.h"  // 引入 Tool 类的定义，PointerTool 是 TimelineTool 的派生类
 
-namespace olive { // olive 命名空间开始
+namespace olive {  // olive 命名空间开始
 
 /**
  * @brief PointerTool 类是时间轴上的指针/选择工具。
@@ -51,7 +51,7 @@ class PointerTool : public TimelineTool {
    */
   void HoverMove(TimelineViewMouseEvent* event) override;
 
- protected: // 受保护成员
+ protected:  // 受保护成员
   /**
    * @brief 完成拖动操作的虚函数。
    *
@@ -101,7 +101,8 @@ class PointerTool : public TimelineTool {
    *
    * Assumes ghost->data() is a Block. Ensures no Ghost's in point becomes a negative timecode. Also ensures no
    * Ghost's length becomes 0 or negative.
-   * (原始英文注释：假设 ghost->data() 是一个 Block。确保没有幽灵项的入点变为负时间码。同时确保没有幽灵项的长度变为0或负数。)
+   * (原始英文注释：假设 ghost->data() 是一个
+   * Block。确保没有幽灵项的入点变为负时间码。同时确保没有幽灵项的长度变为0或负数。)
    * @param movement 提议的入点移动量 (rational)。
    * @return 经过验证和调整后的实际允许移动量 (rational)。
    */
@@ -113,7 +114,8 @@ class PointerTool : public TimelineTool {
    *
    * Assumes ghost->data() is a Block. Ensures no Ghost's in point becomes a negative timecode. Also ensures no
    * Ghost's length becomes 0 or negative.
-   * (原始英文注释：假设 ghost->data() 是一个 Block。确保没有幽灵项的入点变为负时间码。同时确保没有幽灵项的长度变为0或负数。)
+   * (原始英文注释：假设 ghost->data() 是一个
+   * Block。确保没有幽灵项的入点变为负时间码。同时确保没有幽灵项的长度变为0或负数。)
    * @param movement 提议的出点移动量 (rational)。
    * @return 经过验证和调整后的实际允许移动量 (rational)。
    */
@@ -188,7 +190,7 @@ class PointerTool : public TimelineTool {
    */
   void SetClickedItem(Block* b) { clicked_item_ = b; }
 
- private: // 私有方法
+ private:  // 私有方法
   /**
    * @brief 判断光标是否在给定 Block 的修剪手柄区域内。
    * @param block 指向要检查的 Block 对象的指针。
@@ -223,19 +225,19 @@ class PointerTool : public TimelineTool {
    */
   void ProcessGhostsForRolling();
 
-  bool movement_allowed_;         ///< 标记是否允许对象移动。
-  bool trimming_allowed_;         ///< 标记是否允许修剪操作。
-  bool track_movement_allowed_;   ///< 标记是否允许跨轨道移动。
-  bool gap_trimming_allowed_;     ///< 标记是否允许修剪间隙。
-  bool can_rubberband_select_;    ///< 标记是否可以开始橡皮筋选择。
-  bool rubberband_selecting_;     ///< 标记当前是否正在进行橡皮筋选择。
+  bool movement_allowed_;        ///< 标记是否允许对象移动。
+  bool trimming_allowed_;        ///< 标记是否允许修剪操作。
+  bool track_movement_allowed_;  ///< 标记是否允许跨轨道移动。
+  bool gap_trimming_allowed_;    ///< 标记是否允许修剪间隙。
+  bool can_rubberband_select_;   ///< 标记是否可以开始橡皮筋选择。
+  bool rubberband_selecting_;    ///< 标记当前是否正在进行橡皮筋选择。
 
-  Track::Type drag_track_type_;   ///< 拖动操作涉及的轨道类型。
-  Timeline::MovementMode drag_movement_mode_; ///< 当前拖动操作的移动/修剪模式。
+  Track::Type drag_track_type_;                ///< 拖动操作涉及的轨道类型。
+  Timeline::MovementMode drag_movement_mode_;  ///< 当前拖动操作的移动/修剪模式。
 
-  Block* clicked_item_{};         ///< 指向当前鼠标按下的 Block 对象的指针，默认为 nullptr。
+  Block* clicked_item_{};  ///< 指向当前鼠标按下的 Block 对象的指针，默认为 nullptr。
 
-  QPoint drag_global_start_;      ///< 拖动开始时的全局鼠标坐标。
+  QPoint drag_global_start_;  ///< 拖动开始时的全局鼠标坐标。
 };
 
 }  // namespace olive

@@ -8,13 +8,13 @@
 
 // 前向声明，避免不必要的头文件包含
 QT_BEGIN_NAMESPACE
-class QLabel; // Qt的标签控件，用于显示文本或图片
+class QLabel;  // Qt的标签控件，用于显示文本或图片
 QT_END_NAMESPACE
 
-#include "node/project/sequence/sequence.h"     // 引入序列类定义
-#include "sequencepreset.h"                     // 引入序列预设类定义
-#include "widget/slider/integerslider.h"        // 引入整数滑块控件
-#include "widget/standardcombos/standardcombos.h" // 引入标准组合框集合，如帧率、像素宽高比等
+#include "node/project/sequence/sequence.h"        // 引入序列类定义
+#include "sequencepreset.h"                        // 引入序列预设类定义
+#include "widget/slider/integerslider.h"           // 引入整数滑块控件
+#include "widget/standardcombos/standardcombos.h"  // 引入标准组合框集合，如帧率、像素宽高比等
 
 namespace olive {
 

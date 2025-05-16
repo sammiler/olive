@@ -1,5 +1,5 @@
-#ifndef VIDEORENDERFRAMECACHE_H // 防止头文件被重复包含的宏
-#define VIDEORENDERFRAMECACHE_H // 定义 VIDEORENDERFRAMECACHE_H 宏
+#ifndef VIDEORENDERFRAMECACHE_H  // 防止头文件被重复包含的宏
+#define VIDEORENDERFRAMECACHE_H  // 定义 VIDEORENDERFRAMECACHE_H 宏
 
 #include "codec/frame.h"           // 包含 Frame (或 FramePtr) 相关的定义
 #include "render/playbackcache.h"  // 包含 PlaybackCache 基类的定义
@@ -9,9 +9,9 @@
 // 已通过上述 include 或其他方式被间接包含。
 // Project 类定义也可能需要被包含，因为 ProjectInvalidated 槽函数使用了它。
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
-class Project; // 向前声明 Project 类
+class Project;  // 向前声明 Project 类
 
 /**
  * @brief FrameHashCache 类是一个用于缓存视频渲染帧的系统。
@@ -24,15 +24,15 @@ class Project; // 向前声明 Project 类
  *
  * “Hash”在类名中可能指的是使用某种哈希算法来生成文件名或索引，或者仅仅是按时间戳/帧号来索引。
  */
-class FrameHashCache : public PlaybackCache { // FrameHashCache 继承自 PlaybackCache
-  Q_OBJECT // 声明此类使用 Qt 的元对象系统
+class FrameHashCache : public PlaybackCache {  // FrameHashCache 继承自 PlaybackCache
+ Q_OBJECT                                      // 声明此类使用 Qt 的元对象系统
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父对象指针，默认为 nullptr。
-   */
-  explicit FrameHashCache(QObject *parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父对象指针，默认为 nullptr。
+      */
+     explicit FrameHashCache(QObject *parent = nullptr);
 
   /**
    * @brief 获取此帧缓存使用的时间基准 (例如帧率)。
@@ -175,9 +175,9 @@ class FrameHashCache : public PlaybackCache { // FrameHashCache 继承自 Playba
   static QString CachePathName(const QString &cache_path, const QUuid &cache_id, const rational &time,
                                const rational &tb);
 
-  rational timebase_; // 此帧缓存使用的时间基准 (例如，25/1 表示25fps)
+  rational timebase_;  // 此帧缓存使用的时间基准 (例如，25/1 表示25fps)
 
- private slots: // Qt 私有槽函数
+ private slots:  // Qt 私有槽函数
   /**
    * @brief 当磁盘管理器删除了一个缓存文件时调用的槽函数。
    * FrameHashCache 需要更新其内部状态以反映此删除。
@@ -202,16 +202,19 @@ class FrameHashCache : public PlaybackCache { // FrameHashCache 继承自 Playba
  * 因为缩略图不需要像全帧率回放那样密集。
  * 构造函数中默认设置了一个较低的时间基准 (1/10)。
  */
-class ThumbnailCache : public FrameHashCache { // ThumbnailCache 继承自 FrameHashCache
-  Q_OBJECT // 声明此类使用 Qt 的元对象系统
+class ThumbnailCache : public FrameHashCache {  // ThumbnailCache 继承自 FrameHashCache
+ Q_OBJECT                                       // 声明此类使用 Qt 的元对象系统
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父对象指针，默认为 nullptr。
-   * 构造函数中将时间基准默认设置为 10fps (rational(1, 10))。
-   */
-  explicit ThumbnailCache(QObject *parent = nullptr) : FrameHashCache(parent) { SetTimebase(rational(1, 10)); }
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父对象指针，默认为 nullptr。
+      * 构造函数中将时间基准默认设置为 10fps (rational(1, 10))。
+      */
+     explicit ThumbnailCache(QObject *parent = nullptr)
+     : FrameHashCache(parent) {
+    SetTimebase(rational(1, 10));
+  }
 };
 
 }  // namespace olive

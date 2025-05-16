@@ -1,20 +1,20 @@
-#ifndef RENDERTASK_H // 防止头文件被重复包含的预处理器指令
-#define RENDERTASK_H // 定义 RENDERTASK_H 宏
+#ifndef RENDERTASK_H  // 防止头文件被重复包含的预处理器指令
+#define RENDERTASK_H  // 定义 RENDERTASK_H 宏
 
-#include <QtConcurrent/QtConcurrent> // 包含了 Qt 并发编程相关的头文件，用于异步执行任务
+#include <QtConcurrent/QtConcurrent>  // 包含了 Qt 并发编程相关的头文件，用于异步执行任务
 
-#include "node/block/subtitle/subtitle.h"     // 包含了字幕块 (SubtitleBlock) 的定义
-#include "node/color/colormanager/colormanager.h" // 包含了色彩管理器 (ColorManager) 的定义
-#include "node/output/viewer/viewer.h"        // 包含了查看器输出节点 (ViewerOutput) 的定义
-#include "render/renderticket.h"              // 包含了渲染票据 (RenderTicket) 相关的定义
-#include "task/task.h"                        // 包含了任务基类 (Task) 的定义
+#include "node/block/subtitle/subtitle.h"          // 包含了字幕块 (SubtitleBlock) 的定义
+#include "node/color/colormanager/colormanager.h"  // 包含了色彩管理器 (ColorManager) 的定义
+#include "node/output/viewer/viewer.h"             // 包含了查看器输出节点 (ViewerOutput) 的定义
+#include "render/renderticket.h"                   // 包含了渲染票据 (RenderTicket) 相关的定义
+#include "task/task.h"                             // 包含了任务基类 (Task) 的定义
 
 // olive 命名空间前向声明 (如果 RenderTask 中使用了其他 olive 命名空间下的类型作为指针或引用，
 // 且这些类型的完整定义不需要在此头文件中，则可以在此进行前向声明。
 // 根据当前代码，大部分类型预期从上述 #include 中获得。)
-class QThread; // 前向声明 Qt 线程类
+class QThread;  // 前向声明 Qt 线程类
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
 /**
  * @brief RenderTask 类定义，继承自 Task 类。
@@ -24,12 +24,12 @@ namespace olive { // olive 项目的命名空间
  * 来异步跟踪渲染进度，并提供了回调接口供派生类处理渲染完成的数据。
  */
 class RenderTask : public Task {
-  Q_OBJECT // Qt 对象的宏，用于启用信号和槽机制等 Qt 特性
- public:
-  /**
-   * @brief RenderTask 的默认构造函数。
-   */
-  RenderTask();
+ Q_OBJECT  // Qt 对象的宏，用于启用信号和槽机制等 Qt 特性
+     public :
+     /**
+      * @brief RenderTask 的默认构造函数。
+      */
+     RenderTask();
 
   /**
    * @brief RenderTask 的虚析构函数。
@@ -146,9 +146,9 @@ class RenderTask : public Task {
    * 此函数会被调用。它负责唤醒所有可能因等待条件而阻塞的线程。
    */
   void CancelEvent() override {
-    finished_watcher_mutex_.lock(); // 加锁以保护共享的等待条件
-    finished_watcher_wait_cond_.wakeAll(); // 唤醒所有等待此条件的线程
-    finished_watcher_mutex_.unlock(); // 解锁
+    finished_watcher_mutex_.lock();         // 加锁以保护共享的等待条件
+    finished_watcher_wait_cond_.wakeAll();  // 唤醒所有等待此条件的线程
+    finished_watcher_mutex_.unlock();       // 解锁
   }
 
   /**
@@ -209,21 +209,22 @@ class RenderTask : public Task {
                    FrameHashCache *cache, const QSize &force_size, const QMatrix4x4 &force_matrix,
                    PixelFormat force_format, int force_channel_count, ColorProcessorPtr force_color_output);
 
-  ViewerOutput *viewer_{}; ///< @brief 指向 ViewerOutput 节点的指针，作为渲染的源。初始化为 nullptr。
+  ViewerOutput *viewer_{};  ///< @brief 指向 ViewerOutput 节点的指针，作为渲染的源。初始化为 nullptr。
 
-  VideoParams video_params_; ///< @brief 存储当前渲染任务的视频参数。
+  VideoParams video_params_;  ///< @brief 存储当前渲染任务的视频参数。
 
-  AudioParams audio_params_; ///< @brief 存储当前渲染任务的音频参数。
+  AudioParams audio_params_;  ///< @brief 存储当前渲染任务的音频参数。
 
-  QVector<RenderTicketWatcher *> running_watchers_; ///< @brief 存储当前正在运行的渲染票据观察者列表。
-  std::list<RenderTicketWatcher *> finished_watchers_; ///< @brief 存储已完成的渲染票据观察者列表。
-  int running_tickets_;                             ///< @brief 当前正在运行的渲染票据数量。
-  QMutex finished_watcher_mutex_;                   ///< @brief 用于同步访问 `finished_watchers_` 和 `finished_watcher_wait_cond_` 的互斥锁。
-  QWaitCondition finished_watcher_wait_cond_;       ///< @brief 用于在所有渲染票据完成时发出信号的等待条件。
+  QVector<RenderTicketWatcher *> running_watchers_;     ///< @brief 存储当前正在运行的渲染票据观察者列表。
+  std::list<RenderTicketWatcher *> finished_watchers_;  ///< @brief 存储已完成的渲染票据观察者列表。
+  int running_tickets_;                                 ///< @brief 当前正在运行的渲染票据数量。
+  QMutex finished_watcher_mutex_;  ///< @brief 用于同步访问 `finished_watchers_` 和 `finished_watcher_wait_cond_`
+                                   ///< 的互斥锁。
+  QWaitCondition finished_watcher_wait_cond_;  ///< @brief 用于在所有渲染票据完成时发出信号的等待条件。
 
-  bool native_progress_signalling_; ///< @brief 标志位，指示是否启用原生进度信号发送机制。
+  bool native_progress_signalling_;  ///< @brief 标志位，指示是否启用原生进度信号发送机制。
 
-  int64_t total_number_of_frames_{}; ///< @brief 渲染任务预计生成的总帧数。在 Render() 调用后有效。初始化为0。
+  int64_t total_number_of_frames_{};  ///< @brief 渲染任务预计生成的总帧数。在 Render() 调用后有效。初始化为0。
 
  private slots:
   /**
@@ -236,6 +237,6 @@ class RenderTask : public Task {
   void TicketDone(RenderTicketWatcher *watcher);
 };
 
-}  // namespace olive // 结束 olive 命名空间
+}  // namespace olive
 
 #endif  // RENDERTASK_H // 结束预处理器指令 #ifndef RENDERTASK_H

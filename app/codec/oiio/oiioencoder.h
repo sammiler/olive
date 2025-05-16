@@ -1,8 +1,8 @@
 #ifndef OIIOENCODER_H
 #define OIIOENCODER_H
 
-#include "codec/encoder.h" // 基类 Encoder
-#include "common/define.h" // 包含 olive::FramePtr, olive::SampleBuffer, EncodingParams 等
+#include "codec/encoder.h"  // 基类 Encoder
+#include "common/define.h"  // 包含 olive::FramePtr, olive::SampleBuffer, EncodingParams 等
 
 // OpenImageIO 的头文件通常在 .cpp 文件中包含，这里仅作示意
 // #include <OpenImageIO/imageio.h>

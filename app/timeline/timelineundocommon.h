@@ -1,8 +1,8 @@
 #ifndef TIMELINEUNDOCOMMON_H
 #define TIMELINEUNDOCOMMON_H
 
-#include "node/node.h"         // 引入节点类的定义 (Node)
-#include "node/nodeundo.h"     // 引入节点撤销/重做命令类的定义 (例如 NodeRemoveWithExclusiveDependenciesAndDisconnect)
+#include "node/node.h"      // 引入节点类的定义 (Node)
+#include "node/nodeundo.h"  // 引入节点撤销/重做命令类的定义 (例如 NodeRemoveWithExclusiveDependenciesAndDisconnect)
 
 namespace olive {
 
@@ -36,9 +36,9 @@ inline UndoCommand* CreateRemoveCommand(Node* n) { return new NodeRemoveWithExcl
  * 调用者通常会将此命令添加到撤销栈中。
  */
 inline UndoCommand* CreateAndRunRemoveCommand(Node* n) {
-  UndoCommand* command = CreateRemoveCommand(n); // 创建移除命令
-  command->redo_now();                           // 立即执行（重做）该命令
-  return command;                                // 返回命令对象
+  UndoCommand* command = CreateRemoveCommand(n);  // 创建移除命令
+  command->redo_now();                            // 立即执行（重做）该命令
+  return command;                                 // 返回命令对象
 }
 
 }  // namespace olive

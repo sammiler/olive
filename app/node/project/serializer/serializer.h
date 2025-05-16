@@ -1,11 +1,11 @@
-#ifndef PROJECTSERIALIZER_H // 防止头文件被多次包含的宏定义开始
+#ifndef PROJECTSERIALIZER_H  // 防止头文件被多次包含的宏定义开始
 #define PROJECTSERIALIZER_H
 
-#include <vector> // C++ 标准库向量容器
+#include <vector>  // C++ 标准库向量容器
 
-#include "common/define.h"      // 通用定义，可能包含 DISABLE_COPY_MOVE 等宏
-#include "node/project.h"       // 项目类定义，序列化器与项目紧密相关
-#include "typeserializer.h"     // 类型序列化器定义，用于处理特定数据类型的序列化/反序列化
+#include "common/define.h"   // 通用定义，可能包含 DISABLE_COPY_MOVE 等宏
+#include "node/project.h"    // 项目类定义，序列化器与项目紧密相关
+#include "typeserializer.h"  // 类型序列化器定义，用于处理特定数据类型的序列化/反序列化
 
 // 可能需要的前向声明
 // class QHash; // 假设
@@ -19,7 +19,7 @@
 // class QXmlStreamWriter; // 假设
 // class QFile; // 假设
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
 /**
  * @brief 一个用于序列化/反序列化项目数据的抽象基类。
@@ -32,11 +32,11 @@ class ProjectSerializer {
    * @brief 定义加载项目数据时的加载类型/范围。
    */
   enum LoadType {
-    kProject,        ///< 加载整个项目
-    kOnlyNodes,      ///< 仅加载节点
-    kOnlyClips,      ///< 仅加载剪辑 (媒体块)
-    kOnlyMarkers,    ///< 仅加载标记
-    kOnlyKeyframes   ///< 仅加载关键帧
+    kProject,       ///< 加载整个项目
+    kOnlyNodes,     ///< 仅加载节点
+    kOnlyClips,     ///< 仅加载剪辑 (媒体块)
+    kOnlyMarkers,   ///< 仅加载标记
+    kOnlyKeyframes  ///< 仅加载关键帧
   };
 
   /** @brief 默认构造函数。 */
@@ -44,7 +44,7 @@ class ProjectSerializer {
   /** @brief 默认虚析构函数，允许派生类正确销毁。 */
   virtual ~ProjectSerializer() = default;
 
-  DISABLE_COPY_MOVE(ProjectSerializer) // 禁用拷贝构造和移动构造/赋值操作
+  DISABLE_COPY_MOVE(ProjectSerializer)  // 禁用拷贝构造和移动构造/赋值操作
 
   /**
    * @brief 定义加载/保存操作的结果代码。
@@ -75,12 +75,12 @@ class ProjectSerializer {
     /** @brief LoadData 默认构造函数。 */
     LoadData() = default;
 
-    SerializedProperties properties; ///< 加载的节点属性。
-    std::vector<TimelineMarker *> markers; ///< 加载的时间线标记。
-    SerializedKeyframes keyframes;  ///< 加载的关键帧。
-    MainWindowLayoutInfo layout;    ///< 加载的主窗口布局信息。
-    QVector<Node *> nodes;          ///< 加载的节点对象列表。
-    Node::OutputConnections promised_connections; ///< 加载时“承诺”的节点间连接，可能在 PostLoadEvent 中实际建立。
+    SerializedProperties properties;               ///< 加载的节点属性。
+    std::vector<TimelineMarker *> markers;         ///< 加载的时间线标记。
+    SerializedKeyframes keyframes;                 ///< 加载的关键帧。
+    MainWindowLayoutInfo layout;                   ///< 加载的主窗口布局信息。
+    QVector<Node *> nodes;                         ///< 加载的节点对象列表。
+    Node::OutputConnections promised_connections;  ///< 加载时“承诺”的节点间连接，可能在 PostLoadEvent 中实际建立。
   };
 
   /**
@@ -111,9 +111,9 @@ class ProjectSerializer {
     void SetLoadData(const LoadData &p) { load_data_ = p; }
 
    private:
-    ResultCode code_;      ///< 存储结果代码。
-    QString details_;      ///< 存储详细信息或错误描述。
-    LoadData load_data_;   ///< 存储加载的数据。
+    ResultCode code_;     ///< 存储结果代码。
+    QString details_;     ///< 存储详细信息或错误描述。
+    LoadData load_data_;  ///< 存储加载的数据。
   };
 
   /**
@@ -171,14 +171,14 @@ class ProjectSerializer {
     void SetProperties(const SerializedProperties &p) { properties_ = p; }
 
    private:
-    LoadType type_;        ///< 保存类型/范围。
-    Project *project_;     ///< 要保存的项目对象。
-    QString filename_;     ///< 目标文件名。
-    MainWindowLayoutInfo layout_; ///< 主窗口布局信息。
-    QVector<Node *> only_serialize_nodes_; ///< 仅序列化的节点列表。
-    SerializedProperties properties_;      ///< 节点属性。
-    std::vector<TimelineMarker *> only_serialize_markers_; ///< 仅序列化的标记列表。
-    std::vector<NodeKeyframe *> only_serialize_keyframes_; ///< 仅序列化的关键帧列表。
+    LoadType type_;                                         ///< 保存类型/范围。
+    Project *project_;                                      ///< 要保存的项目对象。
+    QString filename_;                                      ///< 目标文件名。
+    MainWindowLayoutInfo layout_;                           ///< 主窗口布局信息。
+    QVector<Node *> only_serialize_nodes_;                  ///< 仅序列化的节点列表。
+    SerializedProperties properties_;                       ///< 节点属性。
+    std::vector<TimelineMarker *> only_serialize_markers_;  ///< 仅序列化的标记列表。
+    std::vector<NodeKeyframe *> only_serialize_keyframes_;  ///< 仅序列化的关键帧列表。
   };
 
   /** @brief (静态方法) 初始化项目序列化器系统 (例如，注册所有可用的序列化器版本)。 */
@@ -280,7 +280,7 @@ class ProjectSerializer {
   static Result LoadWithSerializerVersion(uint version, Project *project, QXmlStreamReader *reader, LoadType load_type);
 
   // 存储所有已注册的项目序列化器实例 (不同版本对应不同实例)。
-  static QVector<ProjectSerializer *> instances_; ///< 所有序列化器实例的列表。
+  static QVector<ProjectSerializer *> instances_;  ///< 所有序列化器实例的列表。
 };
 
 }  // namespace olive

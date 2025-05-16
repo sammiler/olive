@@ -1,9 +1,9 @@
 #ifndef IMAGESECTION_H
 #define IMAGESECTION_H
 
-#include <QCheckBox> // 复选框控件
-#include <QWidget>   // QWidget 基类
-#include <QString>   // (可能在 .cpp 中使用)
+#include <QCheckBox>  // 复选框控件
+#include <QString>    // (可能在 .cpp 中使用)
+#include <QWidget>    // QWidget 基类
 
 // 假设 codecsection.h 声明了 CodecSection 基类
 #include "codecsection.h"

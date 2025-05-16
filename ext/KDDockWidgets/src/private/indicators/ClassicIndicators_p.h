@@ -6,7 +6,7 @@
 namespace KDDockWidgets {
 
 class IndicatorWindow; // 前向声明 IndicatorWindow 类
-class Indicator;       // 前向声明 Indicator 类
+class Indicator; // 前向声明 Indicator 类
 
 /**
  * @brief ClassicIndicators 类提供了传统样式的拖放指示器。
@@ -192,7 +192,7 @@ Q_SIGNALS:
     void indicatorsVisibleChanged();
 
 private:
-    friend class KDDockWidgets::Indicator;       // 友元类，允许 Indicator 访问私有成员
+    friend class KDDockWidgets::Indicator; // 友元类，允许 Indicator 访问私有成员
     friend class KDDockWidgets::IndicatorWindow; // 友元类，允许 IndicatorWindow 访问私有成员
 
     /**
@@ -226,7 +226,7 @@ private:
      */
     void updateWindowPosition();
 
-    QWidgetOrQuick *const m_rubberBand;       ///< 指向橡皮筋预览部件（可以是 QWidget 或 QQuickItem）的指针。
+    QWidgetOrQuick *const m_rubberBand; ///< 指向橡皮筋预览部件（可以是 QWidget 或 QQuickItem）的指针。
     IndicatorWindow *const m_indicatorWindow; ///< 指向管理所有指示器显示的窗口的指针。
 };
 

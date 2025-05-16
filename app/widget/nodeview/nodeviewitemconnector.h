@@ -1,11 +1,11 @@
 #ifndef NODEVIEWITEMCONNECTOR_H
 #define NODEVIEWITEMCONNECTOR_H
 
-#include <QGraphicsPolygonItem> // Qt 图形多边形项基类，用于绘制自定义形状
-#include <QPainterPath>         // Qt 绘制路径类 (用于 shape() 方法)
-#include <QRectF>               // Qt 浮点数矩形类 (用于 boundingRect() 方法)
+#include <QGraphicsPolygonItem>  // Qt 图形多边形项基类，用于绘制自定义形状
+#include <QPainterPath>          // Qt 绘制路径类 (用于 shape() 方法)
+#include <QRectF>                // Qt 浮点数矩形类 (用于 boundingRect() 方法)
 
-#include "nodeviewcommon.h"     // 节点视图通用定义 (例如 FlowDirection)
+#include "nodeviewcommon.h"  // 节点视图通用定义 (例如 FlowDirection)
 
 // 前向声明 Qt 类 (根据用户要求，不添加)
 // class QGraphicsItem; // QGraphicsPolygonItem 的基类
@@ -21,7 +21,7 @@ namespace olive {
 class NodeViewItemConnector : public QGraphicsPolygonItem {
   // Q_OBJECT // QGraphicsPolygonItem 默认不是 QObject 的子类，除非需要信号/槽。遵循不修改原则。
 
-public:
+ public:
   /**
    * @brief 构造函数。
    * @param is_output 布尔值，指示此连接器是输出端口 (true) 还是输入端口 (false)。
@@ -61,8 +61,8 @@ public:
    */
   [[nodiscard]] QRectF boundingRect() const override;
 
-private:
-  bool output_; ///< 标记此连接器是输出端口 (true) 还是输入端口 (false)。
+ private:
+  bool output_;  ///< 标记此连接器是输出端口 (true) 还是输入端口 (false)。
 };
 
 }  // namespace olive

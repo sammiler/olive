@@ -1,11 +1,11 @@
 #ifndef UNDOCOMMAND_H
 #define UNDOCOMMAND_H
 
-#include <QString> // 引入 QString 类，虽然在此文件中未直接使用，但派生类可能会用到
-#include <list>    // 引入 std::list，虽然在此文件中未直接使用，但可能是项目中其他部分undo/redo栈的选择之一
-#include <vector>  // 引入 std::vector，用于 MultiUndoCommand 存储子命令
+#include <QString>  // 引入 QString 类，虽然在此文件中未直接使用，但派生类可能会用到
+#include <list>     // 引入 std::list，虽然在此文件中未直接使用，但可能是项目中其他部分undo/redo栈的选择之一
+#include <vector>   // 引入 std::vector，用于 MultiUndoCommand 存储子命令
 
-#include "common/define.h" // 引入项目内通用的定义文件，例如 DISABLE_COPY_MOVE 宏
+#include "common/define.h"  // 引入项目内通用的定义文件，例如 DISABLE_COPY_MOVE 宏
 
 namespace olive {
 
@@ -55,7 +55,9 @@ class UndoCommand {
    * 通常在 prepare() 方法成功执行后调用。
    * @param e 新的准备状态，通常为 true。
    */
-  void set_prepared(bool e) { prepared_ = true; } // 注意：参数 e 在这里没有使用，直接设置为 true。这可能是一个小笔误，或者设计如此。
+  void set_prepared(bool e) {
+    prepared_ = true;
+  }  // 注意：参数 e 在这里没有使用，直接设置为 true。这可能是一个小笔误，或者设计如此。
 
   /**
    * @brief 立即执行（或重做）此命令。
@@ -115,13 +117,13 @@ class UndoCommand {
   virtual void undo() = 0;
 
  private:
-  bool modified_{}; ///< 标记此命令执行后是否修改了项目内容。
+  bool modified_{};  ///< 标记此命令执行后是否修改了项目内容。
 
-  Project* project_{}; ///< 指向与此命令相关的项目对象，通常在 GetRelevantProject() 中设置或使用。
+  Project* project_{};  ///< 指向与此命令相关的项目对象，通常在 GetRelevantProject() 中设置或使用。
 
-  bool prepared_; ///< 标记命令是否已准备好执行（即 prepare() 是否已调用）。
+  bool prepared_;  ///< 标记命令是否已准备好执行（即 prepare() 是否已调用）。
 
-  bool done_; ///< 标记 redo() 操作是否已经被执行过。
+  bool done_;  ///< 标记 redo() 操作是否已经被执行过。
 };
 
 /**

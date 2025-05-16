@@ -1,8 +1,8 @@
 #ifndef MAINWINDOWUNDO_H
 #define MAINWINDOWUNDO_H
 
-#include "node/project/sequence/sequence.h" // 引入 Sequence 类的定义，这些命令与序列的打开/关闭相关
-#include "undo/undocommand.h"               // 引入 UndoCommand 基类的定义
+#include "node/project/sequence/sequence.h"  // 引入 Sequence 类的定义，这些命令与序列的打开/关闭相关
+#include "undo/undocommand.h"                // 引入 UndoCommand 基类的定义
 
 namespace olive {
 
@@ -50,7 +50,7 @@ class OpenSequenceCommand : public UndoCommand {
   void undo() override;
 
  private:
-  Sequence* sequence_; ///< 指向要打开或已打开的序列对象的指针。
+  Sequence* sequence_;  ///< 指向要打开或已打开的序列对象的指针。
 };
 
 /**
@@ -92,7 +92,7 @@ class CloseSequenceCommand : public UndoCommand {
   void undo() override;
 
  private:
-  Sequence* sequence_; ///< 指向要关闭或已关闭的序列对象的指针。
+  Sequence* sequence_;  ///< 指向要关闭或已关闭的序列对象的指针。
 };
 
 }  // namespace olive

@@ -1,12 +1,11 @@
 #ifndef UNDOSTACK_H
 #define UNDOSTACK_H
 
-#include <QAbstractItemModel> // 引入 QAbstractItemModel 基类，用于将撤销栈暴露给 Qt 的模型/视图框架
-#include <QAction>            // 引入 QAction 类，用于创建撤销/重做操作的菜单项或工具栏按钮
-#include <QString>            // 引入 QString，用于命令名称
-#include <list>               // 引入 std::list，用作存储命令的容器
-#include <vector>             // 引入 std::vector (虽然在此文件中未直接使用，但 undo/undocommand.h 中可能使用)
-
+#include <QAbstractItemModel>  // 引入 QAbstractItemModel 基类，用于将撤销栈暴露给 Qt 的模型/视图框架
+#include <QAction>             // 引入 QAction 类，用于创建撤销/重做操作的菜单项或工具栏按钮
+#include <QString>             // 引入 QString，用于命令名称
+#include <list>                // 引入 std::list，用作存储命令的容器
+#include <vector>              // 引入 std::vector (虽然在此文件中未直接使用，但 undo/undocommand.h 中可能使用)
 
 #include "common/define.h"     // 引入项目内通用的定义文件
 #include "undo/undocommand.h"  // 引入 UndoCommand 基类的定义
@@ -195,8 +194,8 @@ class UndoStack : public QAbstractItemModel {
    * @brief 内部结构体，用于存储命令及其用户可读的名称。
    */
   struct CommandEntry {
-    UndoCommand *command; ///< 指向 UndoCommand 对象的指针。
-    QString name;         ///< 命令的名称，用于在UI中显示。
+    UndoCommand *command;  ///< 指向 UndoCommand 对象的指针。
+    QString name;          ///< 命令的名称，用于在UI中显示。
   };
 
   /**

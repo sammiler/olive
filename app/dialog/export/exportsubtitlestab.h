@@ -1,16 +1,16 @@
 #ifndef EXPORTSUBTITLESTAB_H
 #define EXPORTSUBTITLESTAB_H
 
-#include <QCheckBox> // 复选框控件
-#include <QComboBox> // 下拉选择框控件
-#include <QLabel>    // 标签控件 (用于显示文本)
-#include <QWidget>   // QWidget 基类
-#include <QVariant>  // 为了 currentData().toInt()
+#include <QCheckBox>  // 复选框控件
+#include <QComboBox>  // 下拉选择框控件
+#include <QLabel>     // 标签控件 (用于显示文本)
+#include <QVariant>   // 为了 currentData().toInt()
+#include <QWidget>    // QWidget 基类
 
 // Olive 内部头文件
-#include "codec/exportformat.h" // 包含 ExportFormat::Format 和 ExportCodec::Codec
-#include "common/qtutils.h"     // 包含 QtUtils::SetComboBoxData (用于设置 QComboBox 数据)
-#include "dialog/export/exportformatcombobox.h" // 包含自定义的 ExportFormatComboBox
+#include "codec/exportformat.h"                  // 包含 ExportFormat::Format 和 ExportCodec::Codec
+#include "common/qtutils.h"                      // 包含 QtUtils::SetComboBoxData (用于设置 QComboBox 数据)
+#include "dialog/export/exportformatcombobox.h"  // 包含自定义的 ExportFormatComboBox
 // #include "common/define.h" // 如果需要 common/define.h 中的内容
 
 namespace olive {
@@ -46,7 +46,9 @@ class ExportSubtitlesTab : public QWidget {
    * 注意：此函数设置的是控件本身的可用性 (enabled/disabled)，而不是其选中状态 (checked/unchecked)。
    * @param e 如果为 true，则启用复选框；如果为 false，则禁用。
    */
-  void SetSidecarEnabled(bool e) { sidecar_checkbox_->setEnabled(e); } // 方法名可能是笔误，通常是 setChecked 或 setEnabled
+  void SetSidecarEnabled(bool e) {
+    sidecar_checkbox_->setEnabled(e);
+  }  // 方法名可能是笔误，通常是 setChecked 或 setEnabled
 
   /**
    * @brief 获取用户在边车字幕格式下拉框中当前选中的格式。
@@ -83,7 +85,9 @@ class ExportSubtitlesTab : public QWidget {
    * 使用 QtUtils::SetComboBoxData 辅助函数来根据数据查找并设置索引。
    * @param c 要选中的 ExportCodec::Codec 枚举值。
    */
-  void SetSubtitleCodec(ExportCodec::Codec c) { QtUtils::SetComboBoxData(codec_combobox_, static_cast<int>(c)); } // 确保传入int类型数据
+  void SetSubtitleCodec(ExportCodec::Codec c) {
+    QtUtils::SetComboBoxData(codec_combobox_, static_cast<int>(c));
+  }  // 确保传入int类型数据
 
  private:
   /**

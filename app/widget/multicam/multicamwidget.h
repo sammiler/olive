@@ -1,10 +1,10 @@
 #ifndef MULTICAMWIDGET_H
 #define MULTICAMWIDGET_H
 
-#include "multicamdisplay.h"                  // 多机位显示控件
-#include "node/input/multicam/multicamnode.h" // 多机位数据节点
-#include "widget/viewer/viewer.h"             // 查看器相关类 (可能包含 ViewerOutput, ViewerSizer)
-#include "widget/timebased/timebasedwidget.h" // 基于时间的控件基类 (MulticamWidget 的父类)
+#include "multicamdisplay.h"                   // 多机位显示控件
+#include "node/input/multicam/multicamnode.h"  // 多机位数据节点
+#include "widget/timebased/timebasedwidget.h"  // 基于时间的控件基类 (MulticamWidget 的父类)
+#include "widget/viewer/viewer.h"              // 查看器相关类 (可能包含 ViewerOutput, ViewerSizer)
 
 // Qt 类的前向声明 (根据用户要求，不添加)
 // class QWidget;
@@ -24,14 +24,14 @@ namespace olive {
  * 该控件还处理与播放时间同步的机位切换逻辑。
  */
 class MulticamWidget : public TimeBasedWidget {
-  Q_OBJECT // Qt 元对象系统宏，用于支持信号和槽机制
+ Q_OBJECT  // Qt 元对象系统宏，用于支持信号和槽机制
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit MulticamWidget(QWidget *parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit MulticamWidget(QWidget *parent = nullptr);
 
   /**
    * @brief 获取内部的 MulticamDisplay 显示控件。
@@ -90,13 +90,13 @@ class MulticamWidget : public TimeBasedWidget {
    */
   void Switch(int source, bool split_clip);
 
-  ViewerSizer *sizer_; ///< 用于管理 MulticamDisplay 尺寸和布局的辅助对象。
+  ViewerSizer *sizer_;  ///< 用于管理 MulticamDisplay 尺寸和布局的辅助对象。
 
-  MulticamDisplay *display_; ///< 内部的 MulticamDisplay 控件实例，用于实际显示多机位画面。
+  MulticamDisplay *display_;  ///< 内部的 MulticamDisplay 控件实例，用于实际显示多机位画面。
 
-  MultiCamNode *node_; ///< 指向当前活动的多机位数据节点 (MultiCamNode) 的指针。
+  MultiCamNode *node_;  ///< 指向当前活动的多机位数据节点 (MultiCamNode) 的指针。
 
-  ClipBlock *clip_; ///< 指向当前正在进行多机位编辑的目标剪辑块 (ClipBlock) 的指针。
+  ClipBlock *clip_;  ///< 指向当前正在进行多机位编辑的目标剪辑块 (ClipBlock) 的指针。
 
   /**
    * @brief MulticamNodeQueue 结构体用于在播放队列中存储待处理的多机位节点设置请求。
@@ -104,13 +104,13 @@ class MulticamWidget : public TimeBasedWidget {
    * 这允许在播放过程中，当播放头到达特定时间点时，自动切换到相应的多机位设置。
    */
   struct MulticamNodeQueue {
-    rational time;          ///< 此设置生效的时间点。
-    ViewerOutput *viewer;   ///< 关联的查看器输出。
-    MultiCamNode *node;     ///< 要切换到的多机位节点。
-    ClipBlock *clip;        ///< 关联的剪辑块。
+    rational time;         ///< 此设置生效的时间点。
+    ViewerOutput *viewer;  ///< 关联的查看器输出。
+    MultiCamNode *node;    ///< 要切换到的多机位节点。
+    ClipBlock *clip;       ///< 关联的剪辑块。
   };
 
-  std::list<MulticamNodeQueue> play_queue_; ///< 存储待处理的多机位节点设置请求的队列。
+  std::list<MulticamNodeQueue> play_queue_;  ///< 存储待处理的多机位节点设置请求的队列。
 
  private slots:
   /**

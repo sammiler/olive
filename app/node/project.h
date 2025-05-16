@@ -1,16 +1,16 @@
-#ifndef PROJECT_H // 防止头文件被重复包含的宏
-#define PROJECT_H // 定义 PROJECT_H 宏
+#ifndef PROJECT_H  // 防止头文件被重复包含的宏
+#define PROJECT_H  // 定义 PROJECT_H 宏
 
-#include <QObject>   // Qt 对象模型基类
-#include <QUuid>     // Qt 通用唯一标识符类
-#include <memory>    // 标准库内存管理头文件 (例如 std::unique_ptr, std::shared_ptr)
+#include <QObject>  // Qt 对象模型基类
+#include <QUuid>    // Qt 通用唯一标识符类
+#include <memory>   // 标准库内存管理头文件 (例如 std::unique_ptr, std::shared_ptr)
 
-#include "node/color/colormanager/colormanager.h" // 色彩管理器类
-#include "node/output/viewer/viewer.h"           // 查看器节点类 (可能用于预览)
-#include "node/project/footage/footage.h"         // 素材/片段节点类
-#include "window/mainwindow/mainwindowlayoutinfo.h" // 主窗口布局信息 (可能用于保存/加载窗口状态)
+#include "node/color/colormanager/colormanager.h"    // 色彩管理器类
+#include "node/output/viewer/viewer.h"               // 查看器节点类 (可能用于预览)
+#include "node/project/footage/footage.h"            // 素材/片段节点类
+#include "window/mainwindow/mainwindowlayoutinfo.h"  // 主窗口布局信息 (可能用于保存/加载窗口状态)
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
 /**
  * @brief Project 类代表一个项目实例，包含与用户项目相关的所有数据。
@@ -23,16 +23,16 @@ namespace olive { // olive 项目的命名空间
  * * 项目设置 (Project Settings)
  * * 窗口布局 (Window Layout)
  */
-class Project : public QObject { // Project 类继承自 QObject 以使用 Qt 的元对象系统
-  Q_OBJECT // 声明此类使用 Qt 的元对象系统
+class Project : public QObject {  // Project 类继承自 QObject 以使用 Qt 的元对象系统
+ Q_OBJECT                         // 声明此类使用 Qt 的元对象系统
 
- public:
-  // 缓存设置的枚举类型
-  enum CacheSetting {
-    kCacheUseDefaultLocation,    // 使用默认缓存位置
-    kCacheStoreAlongsideProject, // 缓存存储在项目文件旁边
-    kCacheCustomPath             // 使用自定义缓存路径
-  };
+     public :
+     // 缓存设置的枚举类型
+     enum CacheSetting {
+       kCacheUseDefaultLocation,     // 使用默认缓存位置
+       kCacheStoreAlongsideProject,  // 缓存存储在项目文件旁边
+       kCacheCustomPath              // 使用自定义缓存路径
+     };
 
   // 构造函数
   Project();
@@ -134,15 +134,15 @@ class Project : public QObject { // Project 类继承自 QObject 以使用 Qt �
   // 静态方法：从一个项目复制设置到另一个项目
   static void CopySettings(Project *from, Project *to) { to->settings_ = from->settings_; }
 
-  static const QString kItemMimeType; // 用于拖放操作的 Item 的 MIME 类型字符串常量
+  static const QString kItemMimeType;  // 用于拖放操作的 Item 的 MIME 类型字符串常量
 
   // 项目设置相关的键名常量
-  static const QString kCacheLocationSettingKey; // 缓存位置设置的键
-  static const QString kCachePathKey;            // 自定义缓存路径设置的键
-  static const QString kColorConfigFilename;     // OCIO 颜色配置文件名的键
-  static const QString kColorReferenceSpace;     // 颜色参考空间的键 (例如场景线性)
-  static const QString kDefaultInputColorSpaceKey; // 默认输入颜色空间的键
-  static const QString kRootKey;                 // XML 中根元素或项目根节点的键 (可能)
+  static const QString kCacheLocationSettingKey;    // 缓存位置设置的键
+  static const QString kCachePathKey;               // 自定义缓存路径设置的键
+  static const QString kColorConfigFilename;        // OCIO 颜色配置文件名的键
+  static const QString kColorReferenceSpace;        // 颜色参考空间的键 (例如场景线性)
+  static const QString kDefaultInputColorSpaceKey;  // 默认输入颜色空间的键
+  static const QString kRootKey;                    // XML 中根元素或项目根节点的键 (可能)
 
   // 获取指定键的项目设置值
   [[nodiscard]] QString GetSetting(const QString &key) const { return settings_.value(key); }
@@ -176,7 +176,7 @@ class Project : public QObject { // Project 类继承自 QObject 以使用 Qt �
   // 设置颜色参考空间
   void SetColorReferenceSpace(const QString &s) { SetSetting(kColorReferenceSpace, s); }
 
- signals: // Qt 信号声明
+ signals:  // Qt 信号声明
   // 项目名称改变时发出的信号
   void NameChanged();
 
@@ -224,24 +224,24 @@ class Project : public QObject { // Project 类继承自 QObject 以使用 Qt �
   void childEvent(QChildEvent *event) override;
 
  private:
-  QUuid uuid_; // 项目的通用唯一标识符
+  QUuid uuid_;  // 项目的通用唯一标识符
 
-  Folder *root_; // 项目的根文件夹，所有项目内容都组织在其下
+  Folder *root_;  // 项目的根文件夹，所有项目内容都组织在其下
 
-  QString filename_; // 当前项目文件的完整路径和名称
+  QString filename_;  // 当前项目文件的完整路径和名称
 
-  QString saved_url_; // 项目上次保存时的 URL/路径
+  QString saved_url_;  // 项目上次保存时的 URL/路径
 
-  bool is_modified_; // 标记项目是否自上次保存后被修改
+  bool is_modified_;  // 标记项目是否自上次保存后被修改
 
-  bool autorecovery_saved_; // 标记自动恢复信息是否已保存
+  bool autorecovery_saved_;  // 标记自动恢复信息是否已保存
 
-  ColorManager *color_manager_; // 项目的色彩管理器实例
+  ColorManager *color_manager_;  // 项目的色彩管理器实例
 
-  QVector<Node *> node_children_; // 直接属于项目 (不在特定文件夹或序列中) 的节点列表，
-                                 // 或者所有节点的扁平列表 (取决于具体实现)
+  QVector<Node *> node_children_;  // 直接属于项目 (不在特定文件夹或序列中) 的节点列表，
+                                   // 或者所有节点的扁平列表 (取决于具体实现)
 
-  QMap<QString, QString> settings_; // 存储项目级别的各种设置 (键值对)
+  QMap<QString, QString> settings_;  // 存储项目级别的各种设置 (键值对)
 };
 
 }  // namespace olive

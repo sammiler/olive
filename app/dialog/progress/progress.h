@@ -1,11 +1,11 @@
 #ifndef PROGRESSDIALOG_H
 #define PROGRESSDIALOG_H
 
-#include <QDialog>      // 引入 QDialog 类，对话框窗口的基类
-#include <QProgressBar> // 引入 QProgressBar 类，用于显示进度条
+#include <QDialog>       // 引入 QDialog 类，对话框窗口的基类
+#include <QProgressBar>  // 引入 QProgressBar 类，用于显示进度条
 
-#include "common/debug.h"                        // 引入调试相关的宏和函数
-#include "widget/taskview/elapsedcounterwidget.h" // 引入显示已用时间的控件
+#include "common/debug.h"                          // 引入调试相关的宏和函数
+#include "widget/taskview/elapsedcounterwidget.h"  // 引入显示已用时间的控件
 
 namespace olive {
 

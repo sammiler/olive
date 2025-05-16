@@ -1,9 +1,9 @@
-#ifndef RIPPLETIMELINETOOL_H // 防止头文件被多次包含的宏定义
+#ifndef RIPPLETIMELINETOOL_H  // 防止头文件被多次包含的宏定义
 #define RIPPLETIMELINETOOL_H
 
-#include "pointer.h" // 引入 PointerTool 类的定义，RippleTool 是 PointerTool 的派生类
+#include "pointer.h"  // 引入 PointerTool 类的定义，RippleTool 是 PointerTool 的派生类
 
-namespace olive { // olive 命名空间开始
+namespace olive {  // olive 命名空间开始
 
 /**
  * @brief RippleTool 类是时间轴上的涟漪编辑工具。
@@ -13,14 +13,14 @@ namespace olive { // olive 命名空间开始
  * 以保持它们之间的时间间隔或填充/删除产生的间隙。
  */
 class RippleTool : public PointerTool {
-public:
+ public:
   /**
    * @brief 构造一个 RippleTool 对象。
    * @param parent 指向其所属的 TimelineWidget 的指针。
    */
   explicit RippleTool(TimelineWidget* parent);
 
-protected: // 受保护成员
+ protected:  // 受保护成员
   /**
    * @brief 完成拖动操作的虚函数（重写自 PointerTool）。
    *

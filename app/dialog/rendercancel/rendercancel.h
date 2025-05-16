@@ -1,7 +1,7 @@
 #ifndef RENDERCANCELDIALOG_H
 #define RENDERCANCELDIALOG_H
 
-#include "dialog/progress/progress.h" // 引入基础进度对话框类
+#include "dialog/progress/progress.h"  // 引入基础进度对话框类
 
 namespace olive {
 
@@ -41,15 +41,15 @@ class RenderCancelDialog : public ProgressDialog {
    */
   void WorkerStarted();
 
-public slots:
- /**
-  * @brief 公有槽函数：当一个工作线程完成时调用。
-  *
-  * 用于更新内部计数器和进度显示。如果所有工作线程都已完成，则关闭对话框。
-  */
- void WorkerDone();
+ public slots:
+  /**
+   * @brief 公有槽函数：当一个工作线程完成时调用。
+   *
+   * 用于更新内部计数器和进度显示。如果所有工作线程都已完成，则关闭对话框。
+   */
+  void WorkerDone();
 
-protected:
+ protected:
   /**
    * @brief 重写 QDialog 的 showEvent 事件处理函数。
    *
@@ -57,7 +57,7 @@ protected:
    */
   void showEvent(QShowEvent* event) override;
 
-private:
+ private:
   /**
    * @brief 私有方法：根据当前工作线程的状态更新进度条。
    */
@@ -76,7 +76,7 @@ private:
   /**
    * @brief 等待开始的工作线程数量。
    */
-  int waiting_workers_{}; // C++11风格的成员初始化
+  int waiting_workers_{};  // C++11风格的成员初始化
 };
 
 }  // namespace olive

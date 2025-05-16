@@ -1,7 +1,7 @@
-#ifndef LOOPMODE_H // 防止头文件被重复包含的宏
-#define LOOPMODE_H // 定义 LOOPMODE_H 宏
+#ifndef LOOPMODE_H  // 防止头文件被重复包含的宏
+#define LOOPMODE_H  // 定义 LOOPMODE_H 宏
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
 /**
  * @brief LoopMode 枚举类定义了不同的循环播放模式。
@@ -14,12 +14,12 @@ namespace olive { // olive 项目的命名空间
  *
  * 这个模式通常应用于时间轴上的片段 (Block)、序列 (Sequence) 或素材查看器中的播放行为。
  */
-enum class LoopMode { // 使用 enum class 以提供更强的类型安全和作用域
-  kLoopModeOff,   // 关闭循环模式，播放到末尾停止
-  kLoopModeLoop,  // 循环播放模式，到达末尾后从头开始
-  kLoopModeClamp  // 钳位模式，到达末尾后停留在最后一帧
+enum class LoopMode {  // 使用 enum class 以提供更强的类型安全和作用域
+  kLoopModeOff,        // 关闭循环模式，播放到末尾停止
+  kLoopModeLoop,       // 循环播放模式，到达末尾后从头开始
+  kLoopModeClamp       // 钳位模式，到达末尾后停留在最后一帧
 };
 
-} // namespace olive
+}  // namespace olive
 
 #endif  // LOOPMODE_H

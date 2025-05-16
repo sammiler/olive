@@ -31,24 +31,24 @@ class ElapsedCounterWidget : public QWidget {
    */
   void SetProgress(double d);
 
-public slots:
- /**
-  * @brief 开始计时器，并使用指定的开始时间。
-  * @param start_time 计时器开始的时间戳 (qint64)。
-  */
- void Start(qint64 start_time);
+ public slots:
+  /**
+   * @brief 开始计时器，并使用指定的开始时间。
+   * @param start_time 计时器开始的时间戳 (qint64)。
+   */
+  void Start(qint64 start_time);
   /**
    * @brief 开始计时器，使用当前时间作为开始时间。
    */
   void Start();
 
-public slots:
- /**
-  * @brief 停止计时器。
-  */
- void Stop();
+ public slots:
+  /**
+   * @brief 停止计时器。
+   */
+  void Stop();
 
-private:
+ private:
   /**
    * @brief 用于显示已用时间的 QLabel 指针。
    */
@@ -74,13 +74,13 @@ private:
    */
   qint64 start_time_;
 
-private slots:
- /**
-  * @brief 更新计时器显示。
-  *
-  * 此槽函数连接到 elapsed_timer_ 的 timeout() 信号。
-  */
- void UpdateTimers();
+ private slots:
+  /**
+   * @brief 更新计时器显示。
+   *
+   * 此槽函数连接到 elapsed_timer_ 的 timeout() 信号。
+   */
+  void UpdateTimers();
 };
 
 }  // namespace olive

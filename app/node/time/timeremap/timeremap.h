@@ -1,7 +1,7 @@
-#ifndef TIMEREMAPNODE_H // 防止头文件被多次包含的宏定义开始
+#ifndef TIMEREMAPNODE_H  // 防止头文件被多次包含的宏定义开始
 #define TIMEREMAPNODE_H
 
-#include "node/node.h" // 引入基类 Node 的定义
+#include "node/node.h"  // 引入基类 Node 的定义
 
 // 可能需要的前向声明
 // class TimeRange; // 假设
@@ -10,7 +10,7 @@
 // struct NodeGlobals; // 假设
 // class NodeValueTable; // 假设
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
 /**
  * @brief 代表一个“时间重映射”节点。
@@ -21,15 +21,15 @@ namespace olive { // Olive 编辑器的命名空间
  * "kTimeInput" 参数可能不再是一个简单的偏移量，而是一个更复杂的数据结构或曲线输入。
  */
 class TimeRemapNode : public Node {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief TimeRemapNode 构造函数。
-   *  通常会在这里初始化时间重映射相关的输入参数。
-   */
-  TimeRemapNode();
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief TimeRemapNode 构造函数。
+      *  通常会在这里初始化时间重映射相关的输入参数。
+      */
+     TimeRemapNode();
 
-  NODE_DEFAULT_FUNCTIONS(TimeRemapNode) // 节点默认功能宏，可能包含克隆、类型信息等标准实现
+  NODE_DEFAULT_FUNCTIONS(TimeRemapNode)  // 节点默认功能宏，可能包含克隆、类型信息等标准实现
 
   /**
    * @brief 获取此时间重映射节点的名称。
@@ -89,8 +89,9 @@ class TimeRemapNode : public Node {
   void Value(const NodeValueRow& value, const NodeGlobals& globals, NodeValueTable* table) const override;
 
   // --- 静态常量，用作节点输入参数的键名 ---
-  static const QString kTimeInput;  ///< "TimeMap" 或 "RemapCurve" - 定义时间映射关系的参数键名 (可能是一个曲线或关键帧序列)。
-  static const QString kInputInput; ///< "Input" - 连接上游数据源的输入端口键名。
+  static const QString
+      kTimeInput;  ///< "TimeMap" 或 "RemapCurve" - 定义时间映射关系的参数键名 (可能是一个曲线或关键帧序列)。
+  static const QString kInputInput;  ///< "Input" - 连接上游数据源的输入端口键名。
 
  private:
   /**

@@ -1,11 +1,11 @@
 #ifndef VIDEOSTREAMPROPERTIES_H
 #define VIDEOSTREAMPROPERTIES_H
 
-#include <QCheckBox> // 复选框控件
-#include <QComboBox> // 下拉选择框控件
-#include <QWidget>   // QWidget 基类, 为了 parent 参数
-#include <QString>   // Qt 字符串类
-#include <cstdint>   // 为了 int64_t
+#include <QCheckBox>  // 复选框控件
+#include <QComboBox>  // 下拉选择框控件
+#include <QString>    // Qt 字符串类
+#include <QWidget>    // QWidget 基类, 为了 parent 参数
+#include <cstdint>    // 为了 int64_t
 
 // Olive 内部头文件
 // 假设 footage.h 声明了 Footage 类和 Project 类 (或者 Project 在其他地方声明)
@@ -90,13 +90,13 @@ class VideoStreamProperties : public StreamProperties {
    * @brief 用于设置此媒体颜色空间的下拉框。
    * (例如，选择 OCIO 颜色空间)
    */
-  QComboBox* video_color_space_; // 具体类型可能是自定义的 ColorSpaceComboBox
+  QComboBox* video_color_space_;  // 具体类型可能是自定义的 ColorSpaceComboBox
 
   /**
    * @brief 用于设置此流颜色范围的下拉框。
    * (例如，TV/Limited Range vs PC/Full Range)
    */
-  QComboBox* color_range_combo_; // 具体类型可能是自定义的 ColorRangeComboBox
+  QComboBox* color_range_combo_;  // 具体类型可能是自定义的 ColorRangeComboBox
 
   /**
    * @brief 用于设置视频隔行扫描方式的下拉框 (自定义控件)。
@@ -113,7 +113,7 @@ class VideoStreamProperties : public StreamProperties {
    * (注意：变量名是 imgseq_end_time_，但通常图像序列定义是 起始+时长 或 起始+结束。
    * 如果这里确实是“结束时间”，其与“时长”的关系需要在实现中明确。)
    */
-  IntegerSlider* imgseq_end_time_; // 或者可能是 imgseq_duration_slider_
+  IntegerSlider* imgseq_end_time_;  // 或者可能是 imgseq_duration_slider_
 
   /**
    * @brief 用于设置图像序列帧率的下拉框 (自定义控件)。
@@ -182,11 +182,11 @@ class VideoStreamProperties : public StreamProperties {
     /** @brief 旧的颜色空间名称。 */
     QString old_colorspace_;
     /** @brief 旧的隔行扫描方式。 */
-    VideoParams::Interlacing old_interlacing_{VideoParams::kInterlaceNone}; // 假设默认值
+    VideoParams::Interlacing old_interlacing_{VideoParams::kInterlaceNone};  // 假设默认值
     /** @brief 旧的像素宽高比。 */
     rational old_pixel_ar_;
     /** @brief 旧的颜色范围。 */
-    VideoParams::ColorRange old_range_; // 假设默认值
+    VideoParams::ColorRange old_range_;  // 假设默认值
   };
 
   /**

@@ -1,8 +1,8 @@
-#ifndef TEXTGENERATORV3_H // 防止头文件被多次包含的宏定义开始
+#ifndef TEXTGENERATORV3_H  // 防止头文件被多次包含的宏定义开始
 #define TEXTGENERATORV3_H
 
-#include "node/generator/shape/shapenodebase.h" // 引入基类 ShapeNodeBase 的定义
-#include "node/gizmo/text.h"                   // 引入文本 Gizmo (TextGizmo) 的定义
+#include "node/generator/shape/shapenodebase.h"  // 引入基类 ShapeNodeBase 的定义
+#include "node/gizmo/text.h"                     // 引入文本 Gizmo (TextGizmo) 的定义
 
 // 可能需要的前向声明 (如果 FramePtr 和 GenerateJob 在此未完全定义)
 // namespace olive {
@@ -12,7 +12,7 @@
 // }
 // Qt::Alignment 可能需要 <Qt> 或 <QFlags> 等头文件，但这里仅注释，不添加
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
 /**
  * @brief 代表“文本生成器”（版本3）的节点。
@@ -20,15 +20,15 @@ namespace olive { // Olive 编辑器的命名空间
  * "V3" 可能表示在文本编辑、布局、对齐以及与参数化字符串交互方面有更高级的功能。
  */
 class TextGeneratorV3 : public ShapeNodeBase {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief TextGeneratorV3 构造函数。
-   *  可能会初始化更复杂的文本参数和 TextGizmo。
-   */
-  TextGeneratorV3();
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief TextGeneratorV3 构造函数。
+      *  可能会初始化更复杂的文本参数和 TextGizmo。
+      */
+     TextGeneratorV3();
 
-  NODE_DEFAULT_FUNCTIONS(TextGeneratorV3) // 节点默认功能宏，可能包含克隆、类型信息等标准实现
+  NODE_DEFAULT_FUNCTIONS(TextGeneratorV3)  // 节点默认功能宏，可能包含克隆、类型信息等标准实现
 
   /**
    * @brief 获取此节点的名称。
@@ -82,9 +82,9 @@ class TextGeneratorV3 : public ShapeNodeBase {
    * @brief 定义文本的垂直对齐方式。
    */
   enum VerticalAlignment {
-    kVAlignTop,    ///< 顶端对齐
-    kVAlignMiddle, ///< 垂直居中对齐
-    kVAlignBottom  ///< 底端对齐
+    kVAlignTop,     ///< 顶端对齐
+    kVAlignMiddle,  ///< 垂直居中对齐
+    kVAlignBottom   ///< 底端对齐
   };
 
   /**
@@ -109,10 +109,10 @@ class TextGeneratorV3 : public ShapeNodeBase {
   static VerticalAlignment GetOurAlignmentFromQts(Qt::Alignment v);
 
   // --- 静态常量，用作节点输入参数的键名 ---
-  static const QString kTextInput;              ///< "Text" - 文本内容的参数键名 (可能支持格式化占位符)。
-  static const QString kVerticalAlignmentInput; ///< "VerticalAlignment" - 垂直对齐方式的参数键名。
-  static const QString kUseArgsInput;           ///< "UseArgs" - 是否使用参数化字符串的布尔参数键名。
-  static const QString kArgsInput;              ///< "Args" - 用于格式化字符串的参数列表的键名。
+  static const QString kTextInput;               ///< "Text" - 文本内容的参数键名 (可能支持格式化占位符)。
+  static const QString kVerticalAlignmentInput;  ///< "VerticalAlignment" - 垂直对齐方式的参数键名。
+  static const QString kUseArgsInput;            ///< "UseArgs" - 是否使用参数化字符串的布尔参数键名。
+  static const QString kArgsInput;               ///< "Args" - 用于格式化字符串的参数列表的键名。
 
   /**
    * @brief (静态工具函数) 使用给定的参数列表格式化输入字符串。
@@ -132,9 +132,9 @@ class TextGeneratorV3 : public ShapeNodeBase {
   void InputValueChangedEvent(const QString &input, int element) override;
 
  private:
-  TextGizmo *text_gizmo_; ///< 指向文本交互 Gizmo (TextGizmo) 对象的指针。
+  TextGizmo *text_gizmo_;  ///< 指向文本交互 Gizmo (TextGizmo) 对象的指针。
 
-  bool dont_emit_valign_; ///< 一个标志，可能用于在某些情况下阻止发射垂直对齐相关的信号，以避免循环更新。
+  bool dont_emit_valign_;  ///< 一个标志，可能用于在某些情况下阻止发射垂直对齐相关的信号，以避免循环更新。
 
  private slots:
   /**

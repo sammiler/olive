@@ -1,12 +1,12 @@
-#ifndef TIMELINE_PANEL_H // 防止头文件被重复包含的宏
-#define TIMELINE_PANEL_H // 定义 TIMELINE_PANEL_H 宏
+#ifndef TIMELINE_PANEL_H  // 防止头文件被重复包含的宏
+#define TIMELINE_PANEL_H  // 定义 TIMELINE_PANEL_H 宏
 
-#include "panel/timebased/timebased.h"     // 包含 TimeBasedPanel 基类的定义
-#include "widget/timelinewidget/timelinewidget.h" // 包含 TimelineWidget 控件的定义
+#include "panel/timebased/timebased.h"             // 包含 TimeBasedPanel 基类的定义
+#include "widget/timelinewidget/timelinewidget.h"  // 包含 TimelineWidget 控件的定义
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
-class Sequence; // 向前声明 Sequence 类
+class Sequence;  // 向前声明 Sequence 类
 
 /**
  * @brief TimelinePanel 类是一个用于容纳和管理时间轴控件 (TimelineWidget) 的面板。
@@ -18,15 +18,15 @@ class Sequence; // 向前声明 Sequence 类
  * TimelinePanel 负责将用户的操作意图传递给内部的 TimelineWidget，并可能
  * 发出信号以通知其他模块 (如序列查看器、参数面板) 进行相应的更新。
  */
-class TimelinePanel : public TimeBasedPanel { // TimelinePanel 继承自 TimeBasedPanel
-  Q_OBJECT // 声明此类使用 Qt 的元对象系统
+class TimelinePanel : public TimeBasedPanel {  // TimelinePanel 继承自 TimeBasedPanel
+ Q_OBJECT                                      // 声明此类使用 Qt 的元对象系统
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param name 面板的名称 (通常是 Qt 对象名称)。
-   */
-  explicit TimelinePanel(const QString &name);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param name 面板的名称 (通常是 Qt 对象名称)。
+      */
+     explicit TimelinePanel(const QString &name);
 
   /**
    * @brief 获取内部封装的 TimelineWidget 控件的指针。
@@ -64,30 +64,30 @@ class TimelinePanel : public TimeBasedPanel { // TimelinePanel 继承自 TimeBas
   void EditToIn() override;     // (标准) 编辑到入点 (不影响后续片段位置)
   void EditToOut() override;    // (标准) 编辑到出点
 
-  void DeleteSelected() override; // 删除选中的片段
-  void RippleDelete() override;   // 波纹删除选中的片段 (后续片段会前移以填充空隙)
+  void DeleteSelected() override;  // 删除选中的片段
+  void RippleDelete() override;    // 波纹删除选中的片段 (后续片段会前移以填充空隙)
 
-  void IncreaseTrackHeight() override; // 增加时间轴轨道的显示高度
-  void DecreaseTrackHeight() override; // 减少时间轴轨道的显示高度
+  void IncreaseTrackHeight() override;  // 增加时间轴轨道的显示高度
+  void DecreaseTrackHeight() override;  // 减少时间轴轨道的显示高度
 
-  void ToggleLinks() override; // 切换选中片段的链接状态 (例如，音视频链接)
+  void ToggleLinks() override;  // 切换选中片段的链接状态 (例如，音视频链接)
 
-  void PasteInsert() override; // 粘贴并插入 (可能会推后后续片段)
+  void PasteInsert() override;  // 粘贴并插入 (可能会推后后续片段)
 
-  void DeleteInToOut() override; // 删除入点和出点之间的内容 (标准删除)
-  void RippleDeleteInToOut() override; // 波纹删除入点和出点之间的内容
+  void DeleteInToOut() override;        // 删除入点和出点之间的内容 (标准删除)
+  void RippleDeleteInToOut() override;  // 波纹删除入点和出点之间的内容
 
-  void ToggleSelectedEnabled() override; // 切换选中片段的启用/禁用状态
+  void ToggleSelectedEnabled() override;  // 切换选中片段的启用/禁用状态
 
-  void SetColorLabel(int index) override; // 为选中的片段设置颜色标签
+  void SetColorLabel(int index) override;  // 为选中的片段设置颜色标签
 
-  void NudgeLeft() override;  // 将选中的片段向左微移一小段距离 (通常是一帧)
-  void NudgeRight() override; // 将选中的片段向右微移
+  void NudgeLeft() override;   // 将选中的片段向左微移一小段距离 (通常是一帧)
+  void NudgeRight() override;  // 将选中的片段向右微移
 
-  void MoveInToPlayhead() override;  // 将选中片段的入点移动到播放头位置
-  void MoveOutToPlayhead() override; // 将选中片段的出点移动到播放头位置
+  void MoveInToPlayhead() override;   // 将选中片段的入点移动到播放头位置
+  void MoveOutToPlayhead() override;  // 将选中片段的出点移动到播放头位置
 
-  void RenameSelected() override; // 重命名选中的片段 (通常是修改其标签)
+  void RenameSelected() override;  // 重命名选中的片段 (通常是修改其标签)
 
   /**
    * @brief 为选中的片段添加默认的过渡效果。
@@ -135,7 +135,7 @@ class TimelinePanel : public TimeBasedPanel { // TimelinePanel 继承自 TimeBas
    */
   void Retranslate() override;
 
- signals: // Qt 信号声明
+ signals:  // Qt 信号声明
   /**
    * @brief 当时间轴上的 Block (片段) 选择状态发生改变时发出的信号。
    * @param selected_blocks 当前所有被选中的 Block 指针列表。

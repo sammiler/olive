@@ -1,22 +1,22 @@
 #ifndef CORE_H
 #define CORE_H
 
-#include <olive/core/core.h> // 引入 Olive 核心库的基础定义 (例如 olive::core::rational, Timecode, SampleFormat)
-#include <QFileInfoList>     // 引入 QFileInfoList，用于处理文件和目录列表
-#include <QList>             // 引入 QList 容器
-#include <QTimer>            // 引入 QTimer，用于定时任务，如自动恢复
-#include <QTranslator>       // 引入 QTranslator，用于国际化和语言切换
-#include <QObject>           // 引入 QObject 基类
-#include <QStringList>       // 引入 QStringList
-#include <QUuid>             // 引入 QUuid，用于唯一标识符
+#include <olive/core/core.h>  // 引入 Olive 核心库的基础定义 (例如 olive::core::rational, Timecode, SampleFormat)
+#include <QFileInfoList>      // 引入 QFileInfoList，用于处理文件和目录列表
+#include <QList>              // 引入 QList 容器
+#include <QObject>            // 引入 QObject 基类
+#include <QStringList>        // 引入 QStringList
+#include <QTimer>             // 引入 QTimer，用于定时任务，如自动恢复
+#include <QTranslator>        // 引入 QTranslator，用于国际化和语言切换
+#include <QUuid>              // 引入 QUuid，用于唯一标识符
 
-#include "node/project.h"                       // 引入项目类的定义
-#include "node/project/footage/footage.h"       // 引入素材类的定义
-#include "node/project/sequence/sequence.h"     // 引入序列类的定义
-#include "task/task.h"                          // 引入任务基类的定义 (虽然在此文件中未直接使用，但可能是上下文依赖)
-#include "tool/tool.h"                          // 引入工具枚举和相关定义
-#include "undo/undostack.h"                     // 引入撤销栈类的定义
-#include "widget/projectexplorer/projectviewmodel.h" // 引入项目浏览器模型的定义 (虽然在此文件中未直接使用，但可能是上下文依赖)
+#include "node/project.h"                    // 引入项目类的定义
+#include "node/project/footage/footage.h"    // 引入素材类的定义
+#include "node/project/sequence/sequence.h"  // 引入序列类的定义
+#include "task/task.h"                       // 引入任务基类的定义 (虽然在此文件中未直接使用，但可能是上下文依赖)
+#include "tool/tool.h"                       // 引入工具枚举和相关定义
+#include "undo/undostack.h"                  // 引入撤销栈类的定义
+#include "widget/projectexplorer/projectviewmodel.h"  // 引入项目浏览器模型的定义 (虽然在此文件中未直接使用，但可能是上下文依赖)
 
 // 前向声明 MainWindow, Folder, ViewerOutput, Node, MultiUndoCommand
 // 如果它们的完整定义已在上述头文件中，则可能非必需。
@@ -26,7 +26,7 @@ class MainWindow;
 // class ViewerOutput; // 通常是 Node 的派生类
 // class Node; // 已在 node/project.h 中包含
 // class MultiUndoCommand; // 已在 undo/undostack.h 中通过 undocommand.h 包含
-}
+}  // namespace olive
 
 namespace olive {
 
@@ -42,12 +42,12 @@ namespace olive {
  * "public slots" 通常是用户触发的动作，可以连接到 UI 元素（例如创建文件夹、打开导入对话框等）。
  */
 class Core : public QObject {
-  Q_OBJECT // 声明此类使用 Qt 的元对象系统（信号和槽）
- public:
-  /**
-   * @brief 存储 Core 对象初始化参数的类。
-   */
-  class CoreParams {
+ Q_OBJECT  // 声明此类使用 Qt 的元对象系统（信号和槽）
+     public :
+     /**
+      * @brief 存储 Core 对象初始化参数的类。
+      */
+     class CoreParams {
    public:
     /**
      * @brief CoreParams 构造函数。
@@ -128,14 +128,16 @@ class Core : public QObject {
      * @brief 设置是否在启动时触发崩溃。
      * @param e 如果为 true，则会在启动时故意触发崩溃。
      */
-    void set_crash_on_startup(bool e) { crash_ = true; } // 注意：这里无论 e 为何值，crash_ 都被设为 true。这可能是一个笔误，或者是有意为之的设计。
+    void set_crash_on_startup(bool e) {
+      crash_ = true;
+    }  // 注意：这里无论 e 为何值，crash_ 都被设为 true。这可能是一个笔误，或者是有意为之的设计。
 
    private:
-    RunMode mode_;                ///< 应用程序的运行模式。
-    QString startup_project_;     ///< 启动时加载的项目路径。
-    QString startup_language_;    ///< 启动时使用的语言。
-    bool run_fullscreen_;         ///< 是否以全屏模式启动。
-    bool crash_;                  ///< 是否在启动时故意崩溃（用于测试）。
+    RunMode mode_;              ///< 应用程序的运行模式。
+    QString startup_project_;   ///< 启动时加载的项目路径。
+    QString startup_language_;  ///< 启动时使用的语言。
+    bool run_fullscreen_;       ///< 是否以全屏模式启动。
+    bool crash_;                ///< 是否在启动时故意崩溃（用于测试）。
   };
 
   /**
@@ -305,7 +307,7 @@ class Core : public QObject {
    * @return 返回新创建的 Sequence 指针。
    */
   static Sequence* CreateNewSequenceForProject(Project* project) {
-    return CreateNewSequenceForProject(tr("Sequence %1"), project); // 使用本地化的默认名称格式
+    return CreateNewSequenceForProject(tr("Sequence %1"), project);  // 使用本地化的默认名称格式
   }
 
   /**
@@ -443,7 +445,7 @@ class Core : public QObject {
    */
   void DialogExportShow();
 
-#ifdef USE_OTIO // 仅当启用了 OpenTimelineIO 支持时编译
+#ifdef USE_OTIO  // 仅当启用了 OpenTimelineIO 支持时编译
   /**
    * @brief 显示 OTIO (OpenTimelineIO) 导入对话框。
    * @param sequences 一个 QList，用于接收导入的序列。
@@ -654,31 +656,31 @@ class Core : public QObject {
    */
   void SetActiveProject(Project* p);
 
-  MainWindow* main_window_; ///< 指向主窗口对象的指针。
+  MainWindow* main_window_;  ///< 指向主窗口对象的指针。
 
-  Project* open_project_; ///< 指向当前打开的唯一项目对象的指针 (Olive 可能设计为单项目实例)。
+  Project* open_project_;  ///< 指向当前打开的唯一项目对象的指针 (Olive 可能设计为单项目实例)。
 
-  Tool::Item tool_; ///< 当前激活的编辑工具。
-  Tool::AddableObject addable_object_; ///< 当前“添加工具”选中的可添加对象类型。
-  QString selected_transition_; ///< 当前“转场工具”选中的转场类型ID。
-  bool snapping_; ///< 当前的吸附启用状态。
+  Tool::Item tool_;                     ///< 当前激活的编辑工具。
+  Tool::AddableObject addable_object_;  ///< 当前“添加工具”选中的可添加对象类型。
+  QString selected_transition_;         ///< 当前“转场工具”选中的转场类型ID。
+  bool snapping_;                       ///< 当前的吸附启用状态。
 
-  QTimer autorecovery_timer_; ///< 用于触发自动保存恢复文件的定时器。
-  UndoStack undo_stack_;      ///< 应用程序范围内的撤销/重做栈实例。
-  QStringList recent_projects_; ///< 最近打开/保存的项目文件路径列表。
+  QTimer autorecovery_timer_;    ///< 用于触发自动保存恢复文件的定时器。
+  UndoStack undo_stack_;         ///< 应用程序范围内的撤销/重做栈实例。
+  QStringList recent_projects_;  ///< 最近打开/保存的项目文件路径列表。
 
-  CoreParams core_params_; ///< 存储应用程序启动时设置的参数。
+  CoreParams core_params_;  ///< 存储应用程序启动时设置的参数。
 
-  static Core* instance_; ///< Core 类的静态单例实例指针。
+  static Core* instance_;  ///< Core 类的静态单例实例指针。
 
-  QTranslator* translator_; ///< 用于处理应用程序界面翻译的 QTranslator 对象。
+  QTranslator* translator_;  ///< 用于处理应用程序界面翻译的 QTranslator 对象。
 
-  QVector<QUuid> autorecovered_projects_; ///< 存储已创建自动恢复文件但尚未被用户处理（恢复或丢弃）的项目ID列表。
+  QVector<QUuid> autorecovered_projects_;  ///< 存储已创建自动恢复文件但尚未被用户处理（恢复或丢弃）的项目ID列表。
 
-  bool magic_; ///< 一个“魔法”调试标志。
+  bool magic_;  ///< 一个“魔法”调试标志。
 
-  int pixel_sampling_users_; ///< 当前请求像素采样（颜色拾取）功能的部件数量。
-  bool shown_cache_full_warning_; ///< 标记是否已经显示过缓存已满的警告。
+  int pixel_sampling_users_;       ///< 当前请求像素采样（颜色拾取）功能的部件数量。
+  bool shown_cache_full_warning_;  ///< 标记是否已经显示过缓存已满的警告。
 
  private slots:
   /**

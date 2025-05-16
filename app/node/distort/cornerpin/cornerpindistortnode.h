@@ -1,7 +1,7 @@
 #ifndef CORNERPINDISTORTNODE_H
 #define CORNERPINDISTORTNODE_H
 
-#include <QVector2D> // Qt 二维向量类
+#include <QVector2D>  // Qt 二维向量类
 
 #include "node/gizmo/point.h"    // 引入点 Gizmo (交互控件) 的定义
 #include "node/gizmo/polygon.h"  // 引入多边形 Gizmo 的定义
@@ -14,14 +14,14 @@ namespace olive {
  * 用户可以通过拖动图像的四个角点来扭曲图像，常用于将图像贴合到场景中的四边形表面。
  */
 class CornerPinDistortNode : public Node {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief CornerPinDistortNode 构造函数。
-   */
-  CornerPinDistortNode();
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief CornerPinDistortNode 构造函数。
+      */
+     CornerPinDistortNode();
 
-  NODE_DEFAULT_FUNCTIONS(CornerPinDistortNode) // 节点默认功能宏，可能包含克隆、类型信息等标准实现
+  NODE_DEFAULT_FUNCTIONS(CornerPinDistortNode)  // 节点默认功能宏，可能包含克隆、类型信息等标准实现
 
   /**
    * @brief 获取此节点的名称。
@@ -85,12 +85,12 @@ class CornerPinDistortNode : public Node {
   [[nodiscard]] static QPointF ValueToPixel(int value, const NodeValueRow &row, const QVector2D &resolution);
 
   // --- 静态常量，用作节点输入参数的键名 ---
-  static const QString kTextureInput;     ///< "Texture" - 输入纹理（图像）的参数键名。
-  static const QString kPerspectiveInput; ///< "Perspective" - 是否启用透视校正的参数键名。
-  static const QString kTopLeftInput;     ///< "TopLeft" - 左上角控制点的参数键名。
-  static const QString kTopRightInput;    ///< "TopRight" - 右上角控制点的参数键名。
-  static const QString kBottomRightInput; ///< "BottomRight" - 右下角控制点的参数键名。
-  static const QString kBottomLeftInput;  ///< "BottomLeft" - 左下角控制点的参数键名。
+  static const QString kTextureInput;      ///< "Texture" - 输入纹理（图像）的参数键名。
+  static const QString kPerspectiveInput;  ///< "Perspective" - 是否启用透视校正的参数键名。
+  static const QString kTopLeftInput;      ///< "TopLeft" - 左上角控制点的参数键名。
+  static const QString kTopRightInput;     ///< "TopRight" - 右上角控制点的参数键名。
+  static const QString kBottomRightInput;  ///< "BottomRight" - 右下角控制点的参数键名。
+  static const QString kBottomLeftInput;   ///< "BottomLeft" - 左下角控制点的参数键名。
 
  protected slots:
   /**
@@ -103,9 +103,9 @@ class CornerPinDistortNode : public Node {
 
  private:
   // --- Gizmo 相关私有成员变量 ---
-  static const int kGizmoCornerCount = 4;                         ///< Gizmo 角点数量，固定为4。
-  PointGizmo *gizmo_resize_handle_[kGizmoCornerCount]{};          ///< 指向四个角点 Gizmo (PointGizmo) 的指针数组。
-  PolygonGizmo *gizmo_whole_rect_;                                ///< 指向代表整个可拖动四边形区域的 Gizmo (PolygonGizmo) 的指针。
+  static const int kGizmoCornerCount = 4;                 ///< Gizmo 角点数量，固定为4。
+  PointGizmo *gizmo_resize_handle_[kGizmoCornerCount]{};  ///< 指向四个角点 Gizmo (PointGizmo) 的指针数组。
+  PolygonGizmo *gizmo_whole_rect_;  ///< 指向代表整个可拖动四边形区域的 Gizmo (PolygonGizmo) 的指针。
 };
 
 }  // namespace olive

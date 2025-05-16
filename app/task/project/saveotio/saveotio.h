@@ -1,19 +1,19 @@
-#ifndef PROJECTSAVEASOTIOTASK_H // 防止头文件被重复包含的预处理器指令
-#define PROJECTSAVEASOTIOTASK_H // 定义 PROJECTSAVEASOTIOTASK_H 宏
+#ifndef PROJECTSAVEASOTIOTASK_H  // 防止头文件被重复包含的预处理器指令
+#define PROJECTSAVEASOTIOTASK_H  // 定义 PROJECTSAVEASOTIOTASK_H 宏
 
-#include <opentimelineio/timeline.h> // 包含了 OpenTimelineIO (OTIO) 的时间线定义
-#include <opentimelineio/track.h>    // 包含了 OpenTimelineIO (OTIO) 的轨道定义
+#include <opentimelineio/timeline.h>  // 包含了 OpenTimelineIO (OTIO) 的时间线定义
+#include <opentimelineio/track.h>     // 包含了 OpenTimelineIO (OTIO) 的轨道定义
 
-#include "common/otioutils.h" // 包含了项目中与 OTIO 相关的实用工具函数或类
-#include "node/project.h"     // 包含了项目数据结构 (Project 类) 的定义
-#include "task/task.h"        // 包含了任务基类 (Task 类) 的定义
+#include "common/otioutils.h"  // 包含了项目中与 OTIO 相关的实用工具函数或类
+#include "node/project.h"      // 包含了项目数据结构 (Project 类) 的定义
+#include "task/task.h"         // 包含了任务基类 (Task 类) 的定义
 
 // 前向声明 (如果 SaveOTIOTask 中使用了其他 olive 命名空间下的类型作为指针或引用，
 // 且这些类型的完整定义不需要在此头文件中，则可以在此进行前向声明。
 // 例如，Sequence, Track, TrackList 等类型预期从 "node/project.h" 或其他相关头文件中获得。)
 // 注意：OTIO 命名空间下的类型已通过上面的 #include 引入。
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
 /**
  * @brief SaveOTIOTask 类定义，继承自 Task 类。
@@ -23,13 +23,13 @@ namespace olive { // olive 项目的命名空间
  * 时间线等信息的开放标准格式，便于在不同的视频编辑软件之间进行互操作。
  */
 class SaveOTIOTask : public Task {
-  Q_OBJECT // Qt 对象的宏，用于启用信号和槽机制等 Qt 特性
- public:
-  /**
-   * @brief SaveOTIOTask 的构造函数。
-   * @param project 指向要保存为 OTIO 格式的 Project 对象的指针。
-   */
-  explicit SaveOTIOTask(Project* project);
+ Q_OBJECT  // Qt 对象的宏，用于启用信号和槽机制等 Qt 特性
+     public :
+     /**
+      * @brief SaveOTIOTask 的构造函数。
+      * @param project 指向要保存为 OTIO 格式的 Project 对象的指针。
+      */
+     explicit SaveOTIOTask(Project* project);
 
  protected:
   /**
@@ -71,9 +71,9 @@ class SaveOTIOTask : public Task {
    */
   static bool SerializeTrackList(TrackList* list, OTIO::Timeline* otio_timeline, double sequence_rate);
 
-  Project* project_; ///< @brief 指向需要被保存为 OTIO 格式的 Project 对象的指针。
+  Project* project_;  ///< @brief 指向需要被保存为 OTIO 格式的 Project 对象的指针。
 };
 
-}  // namespace olive // 结束 olive 命名空间
+}  // namespace olive
 
-#endif // OTIODECODER_H (注意：此处的宏定义 PROJECTSAVEASOTIOTASK_H 与 #ifndef 不完全匹配，但按用户要求不修改代码)
+#endif  // OTIODECODER_H (注意：此处的宏定义 PROJECTSAVEASOTIOTASK_H 与 #ifndef 不完全匹配，但按用户要求不修改代码)

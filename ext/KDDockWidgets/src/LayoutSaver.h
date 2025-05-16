@@ -124,20 +124,20 @@ public:
 
     // 以下是用于序列化/反序列化的嵌套数据结构声明。
     // 它们的定义通常在 LayoutSaver_p.h 中。
-    struct Layout;         ///< 代表整个应用程序布局的结构体。
-    struct MainWindow;     ///< 代表单个主窗口状态的结构体。
+    struct Layout; ///< 代表整个应用程序布局的结构体。
+    struct MainWindow; ///< 代表单个主窗口状态的结构体。
     struct FloatingWindow; ///< 代表单个浮动窗口状态的结构体。
-    struct DockWidget;     ///< 代表单个停靠小部件状态的结构体。
-    struct Position;       ///< 代表停靠小部件位置信息的结构体。
-    struct MultiSplitter;  ///< 代表多重分割器布局状态的结构体。
-    struct Frame;          ///< 代表框架（停靠小部件容器）状态的结构体。
-    struct Placeholder;    ///< 代表布局中占位符信息的结构体。
-    struct ScalingInfo;    ///< 代表窗口缩放信息的结构体。
-    struct ScreenInfo;     ///< 代表屏幕信息的结构体。
+    struct DockWidget; ///< 代表单个停靠小部件状态的结构体。
+    struct Position; ///< 代表停靠小部件位置信息的结构体。
+    struct MultiSplitter; ///< 代表多重分割器布局状态的结构体。
+    struct Frame; ///< 代表框架（停靠小部件容器）状态的结构体。
+    struct Placeholder; ///< 代表布局中占位符信息的结构体。
+    struct ScalingInfo; ///< 代表窗口缩放信息的结构体。
+    struct ScreenInfo; ///< 代表屏幕信息的结构体。
 
 private:
     Q_DISABLE_COPY(LayoutSaver) ///< 禁止拷贝构造函数和拷贝赋值操作符。
-    friend class ::TestDocks;   ///< 声明测试类为友元，允许访问私有成员。
+    friend class ::TestDocks; ///< 声明测试类为友元，允许访问私有成员。
 
     Private *const d; ///< 指向私有实现类的常量指针。
 };

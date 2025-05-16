@@ -16,16 +16,16 @@ namespace olive {
  * 用户通过在这些元素上垂直拖动鼠标来进行精细的数值调整。
  */
 class SliderLadderElement : public QWidget {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param multiplier 此梯级元素的调整乘数。
-   * @param width_hint 用于计算元素宽度的提示字符串（例如，一个包含多个数字的字符串以确定最大宽度）。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit SliderLadderElement(const double& multiplier, const QString& width_hint, QWidget* parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param multiplier 此梯级元素的调整乘数。
+      * @param width_hint 用于计算元素宽度的提示字符串（例如，一个包含多个数字的字符串以确定最大宽度）。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit SliderLadderElement(const double& multiplier, const QString& width_hint, QWidget* parent = nullptr);
 
   /**
    * @brief 设置此元素的高亮状态。
@@ -58,12 +58,12 @@ class SliderLadderElement : public QWidget {
    */
   void UpdateLabel();
 
-  QLabel* label_; ///< 用于显示数值和可选乘数的标签。
+  QLabel* label_;  ///< 用于显示数值和可选乘数的标签。
 
-  double multiplier_;       ///< 此梯级元素的调整乘数。
-  QString value_;           ///< 此梯级元素当前显示的数值的字符串形式。
-  bool highlighted_;        ///< 标记此元素当前是否高亮显示。
-  bool multiplier_visible_; ///< 标记乘数部分是否应在标签中显示。
+  double multiplier_;        ///< 此梯级元素的调整乘数。
+  QString value_;            ///< 此梯级元素当前显示的数值的字符串形式。
+  bool highlighted_;         ///< 标记此元素当前是否高亮显示。
+  bool multiplier_visible_;  ///< 标记乘数部分是否应在标签中显示。
 };
 
 /**
@@ -74,17 +74,17 @@ class SliderLadderElement : public QWidget {
  * 精度（由元素的乘数决定）调整关联滑块的值。
  */
 class SliderLadder : public QFrame {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param drag_multiplier 基础的拖拽乘数，与每个梯级元素的乘数结合使用。
-   * @param nb_outer_values 梯形调整器外部（通常是精度较低的）层级的数量。
-   * @param width_hint 用于计算梯级元素宽度的提示字符串。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  SliderLadder(double drag_multiplier, int nb_outer_values, const QString& width_hint, QWidget* parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param drag_multiplier 基础的拖拽乘数，与每个梯级元素的乘数结合使用。
+      * @param nb_outer_values 梯形调整器外部（通常是精度较低的）层级的数量。
+      * @param width_hint 用于计算梯级元素宽度的提示字符串。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     SliderLadder(double drag_multiplier, int nb_outer_values, const QString& width_hint, QWidget* parent = nullptr);
 
   /**
    * @brief 析构函数。
@@ -142,17 +142,17 @@ class SliderLadder : public QFrame {
    */
   [[nodiscard]] bool UsingLadders() const;
 
-  int drag_start_x_; ///< 开始拖拽时鼠标的全局 X 坐标。
-  int drag_start_y_; ///< 开始拖拽时鼠标的全局 Y 坐标。
-  int wrap_count_;   ///< 鼠标在屏幕边缘环绕的次数，用于处理大幅度拖拽。
+  int drag_start_x_;  ///< 开始拖拽时鼠标的全局 X 坐标。
+  int drag_start_y_;  ///< 开始拖拽时鼠标的全局 Y 坐标。
+  int wrap_count_;    ///< 鼠标在屏幕边缘环绕的次数，用于处理大幅度拖拽。
 
-  QList<SliderLadderElement*> elements_; ///< 存储构成梯形调整器的所有 SliderLadderElement 的列表。
+  QList<SliderLadderElement*> elements_;  ///< 存储构成梯形调整器的所有 SliderLadderElement 的列表。
 
-  int active_element_; ///< 当前鼠标悬停或拖拽在其上的梯级元素的索引。
+  int active_element_;  ///< 当前鼠标悬停或拖拽在其上的梯级元素的索引。
 
-  QTimer drag_timer_; ///< 用于在拖拽过程中定时更新和发出信号的定时器。
+  QTimer drag_timer_;  ///< 用于在拖拽过程中定时更新和发出信号的定时器。
 
-  QScreen* screen_; ///< 指向当前屏幕的指针，用于获取鼠标位置和屏幕几何信息。
+  QScreen* screen_;  ///< 指向当前屏幕的指针，用于获取鼠标位置和屏幕几何信息。
 
  private slots:
   /**

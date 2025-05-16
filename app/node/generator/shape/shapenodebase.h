@@ -1,13 +1,13 @@
-#ifndef SHAPENODEBASE_H // 防止头文件被多次包含的宏定义开始
+#ifndef SHAPENODEBASE_H  // 防止头文件被多次包含的宏定义开始
 #define SHAPENODEBASE_H
 
-#include "generatorwithmerge.h" // 引入基类 GeneratorWithMerge，表明形状可以与基础输入合并
-#include "node/gizmo/point.h"   // 引入点 Gizmo (交互控件) 的定义
-#include "node/gizmo/polygon.h" // 引入多边形 Gizmo 的定义，通常用于表示形状的边界框
-#include "node/inputdragger.h"  // 引入输入拖动器相关定义，用于 Gizmo 交互
-#include "node/node.h"          // 引入基类 Node 的定义 (虽然 GeneratorWithMerge 已继承 Node，但显式包含无害)
+#include "generatorwithmerge.h"  // 引入基类 GeneratorWithMerge，表明形状可以与基础输入合并
+#include "node/gizmo/point.h"    // 引入点 Gizmo (交互控件) 的定义
+#include "node/gizmo/polygon.h"  // 引入多边形 Gizmo 的定义，通常用于表示形状的边界框
+#include "node/inputdragger.h"   // 引入输入拖动器相关定义，用于 Gizmo 交互
+#include "node/node.h"           // 引入基类 Node 的定义 (虽然 GeneratorWithMerge 已继承 Node，但显式包含无害)
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
 /**
  * @brief 代表所有基本形状生成器节点的基类。
@@ -15,13 +15,13 @@ namespace olive { // Olive 编辑器的命名空间
  * 它继承自 GeneratorWithMerge，意味着生成的形状可以与一个“基础”输入（如背景图像）合并。
  */
 class ShapeNodeBase : public GeneratorWithMerge {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief ShapeNodeBase 构造函数。
-   * @param create_color_input 是否为此形状节点创建颜色输入参数，默认为 true。
-   */
-  explicit ShapeNodeBase(bool create_color_input = true);
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief ShapeNodeBase 构造函数。
+      * @param create_color_input 是否为此形状节点创建颜色输入参数，默认为 true。
+      */
+     explicit ShapeNodeBase(bool create_color_input = true);
 
   /**
    * @brief 当界面语言等需要重新翻译时调用，用于更新本地化文本 (如名称、描述、参数名)。
@@ -45,9 +45,9 @@ class ShapeNodeBase : public GeneratorWithMerge {
   void SetRect(QRectF rect, const VideoParams &sequence_res, MultiUndoCommand *command);
 
   // --- 静态常量，用作节点输入参数的键名 ---
-  static const QString kPositionInput; ///< "Position" - 形状位置（通常是中心点或左上角）的参数键名。
-  static const QString kSizeInput;     ///< "Size" - 形状尺寸（宽度和高度）的参数键名。
-  static const QString kColorInput;    ///< "Color" - 形状填充颜色的参数键名 (如果构造时 create_color_input 为 true)。
+  static const QString kPositionInput;  ///< "Position" - 形状位置（通常是中心点或左上角）的参数键名。
+  static const QString kSizeInput;      ///< "Size" - 形状尺寸（宽度和高度）的参数键名。
+  static const QString kColorInput;     ///< "Color" - 形状填充颜色的参数键名 (如果构造时 create_color_input 为 true)。
 
  protected:
   /**
@@ -96,9 +96,11 @@ class ShapeNodeBase : public GeneratorWithMerge {
 
   // --- Gizmo 相关私有成员变量 ---
   // static const int kGizmoScaleCount = 8; // 假设 kGizmoScaleCount 在 .cpp 文件中定义，通常为8个边框控制点
-  static const int kGizmoWholeRect = /*kGizmoScaleCount*/8; ///< 用于标识代表整个矩形区域的 Gizmo 的索引，通常是控制点数组后的一个。
-  PointGizmo *point_gizmo_[/*kGizmoScaleCount*/8]{};     ///< 指向各个边界控制点 Gizmo (PointGizmo) 的指针数组。大小通常为8（四角+四边中点）。
-  PolygonGizmo *poly_gizmo_;                             ///< 指向代表整个形状可交互边界框的 Gizmo (PolygonGizmo) 的指针。
+  static const int kGizmoWholeRect =
+      /*kGizmoScaleCount*/ 8;  ///< 用于标识代表整个矩形区域的 Gizmo 的索引，通常是控制点数组后的一个。
+  PointGizmo *point_gizmo_[/*kGizmoScaleCount*/ 8]{};  ///< 指向各个边界控制点 Gizmo (PointGizmo)
+                                                       ///< 的指针数组。大小通常为8（四角+四边中点）。
+  PolygonGizmo *poly_gizmo_;                           ///< 指向代表整个形状可交互边界框的 Gizmo (PolygonGizmo) 的指针。
 };
 
 }  // namespace olive

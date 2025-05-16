@@ -1,9 +1,9 @@
-#ifndef RAZORTIMELINETOOL_H // 防止头文件被多次包含的宏定义
+#ifndef RAZORTIMELINETOOL_H  // 防止头文件被多次包含的宏定义
 #define RAZORTIMELINETOOL_H
 
-#include "beam.h" // 引入 BeamTool 类的定义，RazorTool 是 BeamTool 的派生类
+#include "beam.h"  // 引入 BeamTool 类的定义，RazorTool 是 BeamTool 的派生类
 
-namespace olive { // olive 命名空间开始
+namespace olive {  // olive 命名空间开始
 
 /**
  * @brief RazorTool 类是时间轴上的剃刀工具，用于在时间轴上切割剪辑。
@@ -12,7 +12,7 @@ namespace olive { // olive 命名空间开始
  * RazorTool 主要通过处理鼠标事件来实现点击位置的剪辑分割功能。
  */
 class RazorTool : public BeamTool {
-public:
+ public:
   /**
    * @brief 构造一个 RazorTool 对象。
    * @param parent 指向其所属的 TimelineWidget 的指针。
@@ -44,8 +44,8 @@ public:
    */
   void MouseRelease(TimelineViewMouseEvent *event) override;
 
-private: // 私有成员
-  QVector<Track::Reference> split_tracks_; ///< 存储在切割操作中涉及的轨道引用。
+ private:                                   // 私有成员
+  QVector<Track::Reference> split_tracks_;  ///< 存储在切割操作中涉及的轨道引用。
 };
 
 }  // namespace olive

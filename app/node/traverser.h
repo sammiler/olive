@@ -1,20 +1,20 @@
-#ifndef NODETRAVERSER_H // 防止头文件被重复包含的宏
-#define NODETRAVERSER_H // 定义 NODETRAVERSER_H 宏
+#ifndef NODETRAVERSER_H  // 防止头文件被重复包含的宏
+#define NODETRAVERSER_H  // 定义 NODETRAVERSER_H 宏
 
-#include <QVector2D> // Qt 二维向量类
+#include <QVector2D>  // Qt 二维向量类
 
-#include "codec/decoder.h"         // 解码器相关定义 (可能包含 VideoParams, AudioParams)
-#include "common/cancelableobject.h" // 可取消对象基类 (NodeTraverser 可能间接使用)
-#include "node/output/track/track.h" // 轨道节点类 (可能为了 LoopMode 枚举)
-#include "render/cancelatom.h"       // 取消原子操作类，用于控制渲染过程的取消
-#include "render/job/cachejob.h"       // 缓存任务定义
-#include "render/job/colortransformjob.h" // 颜色转换任务定义
-#include "render/job/footagejob.h"     // 素材处理任务定义
-#include "value.h"                   // 值类型定义 (可能包含 NodeValue, NodeValueTable, NodeValueDatabase, TimeRange 等)
+#include "codec/decoder.h"                 // 解码器相关定义 (可能包含 VideoParams, AudioParams)
+#include "common/cancelableobject.h"       // 可取消对象基类 (NodeTraverser 可能间接使用)
+#include "node/output/track/track.h"       // 轨道节点类 (可能为了 LoopMode 枚举)
+#include "render/cancelatom.h"             // 取消原子操作类，用于控制渲染过程的取消
+#include "render/job/cachejob.h"           // 缓存任务定义
+#include "render/job/colortransformjob.h"  // 颜色转换任务定义
+#include "render/job/footagejob.h"         // 素材处理任务定义
+#include "value.h"  // 值类型定义 (可能包含 NodeValue, NodeValueTable, NodeValueDatabase, TimeRange 等)
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
-class Node; // 向前声明 Node 类，避免循环依赖
+class Node;  // 向前声明 Node 类，避免循环依赖
 
 /**
  * @brief NodeTraverser 类负责遍历节点图并计算节点在特定时间或时间范围内的值。
@@ -247,10 +247,10 @@ class NodeTraverser {
    * @return 返回创建的 SampleBuffer。
    */
   SampleBuffer CreateSampleBuffer(const AudioParams &params, const rational &length) {
-    if (params.is_valid()) { // 确保音频参数有效
-      return CreateSampleBuffer(params, params.time_to_samples(length)); // 调用另一个重载版本
+    if (params.is_valid()) {                                              // 确保音频参数有效
+      return CreateSampleBuffer(params, params.time_to_samples(length));  // 调用另一个重载版本
     } else {
-      return {}; // 无效参数则返回空缓冲区
+      return {};  // 无效参数则返回空缓冲区
     }
   }
 
@@ -290,26 +290,26 @@ class NodeTraverser {
   [[nodiscard]] LoopMode loop_mode() const { return loop_mode_; }
 
   // (虚) 检查当前遍历是否应该使用缓存
-  [[nodiscard]] virtual bool UseCache() const { return false; } // 默认不使用缓存
+  [[nodiscard]] virtual bool UseCache() const { return false; }  // 默认不使用缓存
 
  private:
   // (静态) 创建一个虚拟/占位纹理 (用于默认实现或错误情况)
   static TexturePtr CreateDummyTexture(const VideoParams &p);
 
-  VideoParams video_params_; // 当前遍历上下文的视频参数 (分辨率、帧率等)
-  AudioParams audio_params_; // 当前遍历上下文的音频参数 (采样率、通道等)
+  VideoParams video_params_;  // 当前遍历上下文的视频参数 (分辨率、帧率等)
+  AudioParams audio_params_;  // 当前遍历上下文的音频参数 (采样率、通道等)
 
-  CancelAtom *cancel_; // 指向取消原子对象的指针，用于中断渲染
+  CancelAtom *cancel_;  // 指向取消原子对象的指针，用于中断渲染
 
   // 用于计算累积变换的成员变量
-  const Node *transform_start_{}; // 变换路径的起始节点
-  const Node *transform_now_{};   // 变换路径的当前节点
-  QTransform *transform_;         // 指向外部传入的 QTransform 对象，用于累积结果
+  const Node *transform_start_{};  // 变换路径的起始节点
+  const Node *transform_now_{};    // 变换路径的当前节点
+  QTransform *transform_;          // 指向外部传入的 QTransform 对象，用于累积结果
 
   // Block 节点栈，用于处理嵌套的 Block 上下文
   std::list<Block *> block_stack_;
 
-  LoopMode loop_mode_; // 当前的循环模式
+  LoopMode loop_mode_;  // 当前的循环模式
 
   // 内部缓存，用于存储已计算的节点值表，避免重复计算
   // 外层 QHash: 节点指针 -> 内层 QHash

@@ -1,16 +1,16 @@
 #ifndef VIEWMODEL_H
 #define VIEWMODEL_H
 
-#include <QAbstractItemModel> // Qt 抽象项目模型基类
-#include <QModelIndex>      // Qt 模型索引类
-#include <QVariant>         // Qt 通用数据类型类
-#include <QStringList>      // Qt 字符串列表类
-#include <QMimeData>        // Qt MIME 数据类 (用于拖放)
-#include <QObject>          // Qt 对象模型基类 (ProjectViewModel 的基类)
+#include <QAbstractItemModel>  // Qt 抽象项目模型基类
+#include <QMimeData>           // Qt MIME 数据类 (用于拖放)
+#include <QModelIndex>         // Qt 模型索引类
+#include <QObject>             // Qt 对象模型基类 (ProjectViewModel 的基类)
+#include <QStringList>         // Qt 字符串列表类
+#include <QVariant>            // Qt 通用数据类型类
 
-#include "node/block/block.h" // Block 类定义 (可能在数据角色中使用)
-#include "node/project.h"     // Project 类定义 (包含 Project, Folder, Node)
-#include "undo/undocommand.h" // 撤销命令基类 (虽然未直接使用，但模型修改通常与撤销栈关联)
+#include "node/block/block.h"  // Block 类定义 (可能在数据角色中使用)
+#include "node/project.h"      // Project 类定义 (包含 Project, Folder, Node)
+#include "undo/undocommand.h"  // 撤销命令基类 (虽然未直接使用，但模型修改通常与撤销栈关联)
 
 // 前向声明 Qt 类 (根据用户要求，不添加)
 // class QWidget; // ProjectViewModel 构造函数参数 parent 的基类
@@ -30,20 +30,20 @@ namespace olive {
  * ProjectViewModel 包含几个 Project 和 Item 函数的“包装器”函数，这些函数也会通知任何连接的视图相应地更新。
  */
 class ProjectViewModel : public QAbstractItemModel {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief ColumnType 枚举定义了模型中支持的列类型。
-   */
-  enum ColumnType {
-    kName,         ///< 媒体名称列。
-    kDuration,     ///< 媒体持续时间列。
-    kRate,         ///< 媒体速率（视频为帧率，音频为采样率）列。
-    kLastModified, ///< （素材/文件的）最后修改时间列。
-    kCreatedTime,  ///< （素材/文件的）创建时间列。
-    kColumnCount   ///< 列的总数，用作枚举结束标记和计数。
-  };
+     public :
+     /**
+      * @brief ColumnType 枚举定义了模型中支持的列类型。
+      */
+     enum ColumnType {
+       kName,          ///< 媒体名称列。
+       kDuration,      ///< 媒体持续时间列。
+       kRate,          ///< 媒体速率（视频为帧率，音频为采样率）列。
+       kLastModified,  ///< （素材/文件的）最后修改时间列。
+       kCreatedTime,   ///< （素材/文件的）创建时间列。
+       kColumnCount    ///< 列的总数，用作枚举结束标记和计数。
+     };
 
   /**
    * @brief 自定义数据角色，可能用于获取项的内部文本或其他特定数据。
@@ -240,7 +240,7 @@ class ProjectViewModel : public QAbstractItemModel {
    */
   void DisconnectItem(Node *n);
 
-  Project *project_; ///< 指向当前适配的项目 (Project) 对象的指针。
+  Project *project_;  ///< 指向当前适配的项目 (Project) 对象的指针。
 
  private slots:
   /**

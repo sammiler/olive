@@ -1,29 +1,29 @@
 #ifndef CURVEWIDGET_H
 #define CURVEWIDGET_H
 
-#include <QCheckBox>     // Qt 复选框控件
-#include <QHBoxLayout>   // Qt 水平布局类
-#include <QPushButton>   // Qt 按钮控件
-#include <QWidget>       // Qt 控件基类
+#include <QCheckBox>    // Qt 复选框控件
+#include <QHBoxLayout>  // Qt 水平布局类
+#include <QPushButton>  // Qt 按钮控件
+#include <QWidget>      // Qt 控件基类
 
-#include "curveview.h"                                 // 自定义的曲线视图控件
-#include "widget/nodeparamview/nodeparamviewkeyframecontrol.h" // 节点参数视图中的关键帧控制相关
-#include "widget/nodeparamview/nodeparamviewwidgetbridge.h"  // 节点参数视图与控件之间的桥接
-#include "widget/nodetreeview/nodetreeview.h"          // 节点树视图控件
-#include "widget/timebased/timebasedwidget.h"        // 基于时间的控件基类
+#include "curveview.h"                                          // 自定义的曲线视图控件
+#include "widget/nodeparamview/nodeparamviewkeyframecontrol.h"  // 节点参数视图中的关键帧控制相关
+#include "widget/nodeparamview/nodeparamviewwidgetbridge.h"     // 节点参数视图与控件之间的桥接
+#include "widget/nodetreeview/nodetreeview.h"                   // 节点树视图控件
+#include "widget/timebased/timebasedwidget.h"                   // 基于时间的控件基类
 
 // 前向声明 Qt 类
 class QColor;
-class QPointF; // 已在 curveview.h 中间接包含或使用
-class QRectF;  // 已在 curveview.h 中间接包含或使用
-class QVariant; // 已在 curveview.h 中间接包含或使用
+class QPointF;   // 已在 curveview.h 中间接包含或使用
+class QRectF;    // 已在 curveview.h 中间接包含或使用
+class QVariant;  // 已在 curveview.h 中间接包含或使用
 
 namespace olive {
 
 // 前向声明项目内部类
-class Node;             // 节点基类
-class ViewerOutput;     // 查看器输出类
-class MultiUndoCommand; // 复合撤销命令类
+class Node;              // 节点基类
+class ViewerOutput;      // 查看器输出类
+class MultiUndoCommand;  // 复合撤销命令类
 // 结构体 NodeKeyframeTrackReference 和 KeyframeViewInputConnection 已在 curveview.h 中定义
 
 /**
@@ -34,14 +34,14 @@ class MultiUndoCommand; // 复合撤销命令类
  * CurveWidget 继承自 TimeBasedWidget 和 TimeTargetObject，表明它与时间轴和播放目标相关联。
  */
 class CurveWidget : public TimeBasedWidget, public TimeTargetObject {
-  Q_OBJECT // Qt 元对象系统宏，用于支持信号和槽机制
+ Q_OBJECT  // Qt 元对象系统宏，用于支持信号和槽机制
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit CurveWidget(QWidget *parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit CurveWidget(QWidget *parent = nullptr);
 
   /**
    * @brief 获取垂直方向的缩放比例。
@@ -184,21 +184,21 @@ class CurveWidget : public TimeBasedWidget, public TimeTargetObject {
    */
   void ConnectInputInternal(Node *node, const QString &input, int element);
 
-  QHash<NodeKeyframeTrackReference, QColor> keyframe_colors_; ///< 存储每个已连接轨道的显示颜色。
+  QHash<NodeKeyframeTrackReference, QColor> keyframe_colors_;  ///< 存储每个已连接轨道的显示颜色。
 
-  NodeTreeView *tree_view_; ///< 用于显示可动画化节点和参数的树形视图控件。
+  NodeTreeView *tree_view_;  ///< 用于显示可动画化节点和参数的树形视图控件。
 
-  QPushButton *linear_button_; ///< 用于将选中关键帧设置为线性插值的按钮。
-  QPushButton *bezier_button_; ///< 用于将选中关键帧设置为贝塞尔插值的按钮。
-  QPushButton *hold_button_;   ///< 用于将选中关键帧设置为保持（阶梯）插值的按钮。
+  QPushButton *linear_button_;  ///< 用于将选中关键帧设置为线性插值的按钮。
+  QPushButton *bezier_button_;  ///< 用于将选中关键帧设置为贝塞尔插值的按钮。
+  QPushButton *hold_button_;    ///< 用于将选中关键帧设置为保持（阶梯）插值的按钮。
 
-  CurveView *view_; ///< 内部的 CurveView 实例，实际显示和编辑曲线。
+  CurveView *view_;  ///< 内部的 CurveView 实例，实际显示和编辑曲线。
 
-  NodeParamViewKeyframeControl *key_control_; ///< 可能用于控制关键帧添加/删除等操作的辅助控件。
+  NodeParamViewKeyframeControl *key_control_;  ///< 可能用于控制关键帧添加/删除等操作的辅助控件。
 
-  QVector<Node *> nodes_; ///< 当前在此曲线编辑器中加载的节点列表。
+  QVector<Node *> nodes_;  ///< 当前在此曲线编辑器中加载的节点列表。
 
-  QVector<NodeKeyframeTrackReference> selected_tracks_; ///< 当前在 NodeTreeView 中选中的轨道列表。
+  QVector<NodeKeyframeTrackReference> selected_tracks_;  ///< 当前在 NodeTreeView 中选中的轨道列表。
 
  private slots:
   /**

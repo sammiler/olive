@@ -1,10 +1,9 @@
-#ifndef ADDTIMELINETOOL_H // 防止头文件被多次包含的宏定义
+#ifndef ADDTIMELINETOOL_H  // 防止头文件被多次包含的宏定义
 #define ADDTIMELINETOOL_H
 
-#include "beam.h" // 引入 BeamTool 类的定义，AddTool 是 BeamTool 的派生类
+#include "beam.h"  // 引入 BeamTool 类的定义，AddTool 是 BeamTool 的派生类
 
-namespace olive { // olive 命名空间开始
-
+namespace olive {  // olive 命名空间开始
 
 /**
  * @brief AddTool 类是时间轴上的一个工具，用于通过拖动操作添加新的剪辑。
@@ -60,7 +59,7 @@ class AddTool : public BeamTool {
   static Node *CreateAddableClip(MultiUndoCommand *command, Sequence *sequence, const Track::Reference &track,
                                  const rational &in, const rational &length, const QRectF &rect = QRectF());
 
- protected: // 受保护成员
+ protected:  // 受保护成员
   /**
    * @brief 内部处理鼠标移动的逻辑。
    *
@@ -70,9 +69,9 @@ class AddTool : public BeamTool {
    */
   void MouseMoveInternal(const rational &cursor_frame, bool outwards);
 
-  TimelineViewGhostItem *ghost_; ///< 指向时间轴视图中的幽灵项 (ghost item) 的指针，用于在拖动时提供视觉反馈。
+  TimelineViewGhostItem *ghost_;  ///< 指向时间轴视图中的幽灵项 (ghost item) 的指针，用于在拖动时提供视觉反馈。
 
-  rational drag_start_point_; ///< 记录拖动操作开始时的时间点 (rational)。
+  rational drag_start_point_;  ///< 记录拖动操作开始时的时间点 (rational)。
 };
 
 }  // namespace olive

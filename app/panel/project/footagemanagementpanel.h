@@ -1,11 +1,11 @@
-#ifndef FOOTAGEMANAGEMENTPANEL_H // 防止头文件被重复包含的宏
-#define FOOTAGEMANAGEMENTPANEL_H // 定义 FOOTAGEMANAGEMENTPANEL_H 宏
+#ifndef FOOTAGEMANAGEMENTPANEL_H  // 防止头文件被重复包含的宏
+#define FOOTAGEMANAGEMENTPANEL_H  // 定义 FOOTAGEMANAGEMENTPANEL_H 宏
 
-#include <QList> // Qt 列表容器 (虽然在此文件中未直接使用 QList 实例，但可能是相关的间接依赖或编码风格)
+#include <QList>  // Qt 列表容器 (虽然在此文件中未直接使用 QList 实例，但可能是相关的间接依赖或编码风格)
 
-#include "node/project/footage/footage.h" // 包含 Footage 节点和 ViewerOutput (可能作为 Footage 的基类或接口) 的定义
+#include "node/project/footage/footage.h"  // 包含 Footage 节点和 ViewerOutput (可能作为 Footage 的基类或接口) 的定义
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
 /**
  * @brief FootageManagementPanel 类是一个纯虚基类 (接口)。
@@ -18,7 +18,7 @@ namespace olive { // olive 项目的命名空间
  * 可能都会实现这个接口，以便其他模块可以从中获取用户当前操作的素材信息。
  */
 class FootageManagementPanel {
-public:
+ public:
   /**
    * @brief (纯虚函数) 获取当前在此面板中被选定或管理的素材。
    *

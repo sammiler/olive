@@ -1,17 +1,17 @@
 #ifndef NODEVIEW_H
 #define NODEVIEW_H
 
-#include <QGraphicsView> // Qt 图形视图基类
-#include <QTimer>        // Qt 定时器类 (用途待确认，可能用于延迟更新等)
+#include <QGraphicsView>  // Qt 图形视图基类
+#include <QTimer>         // Qt 定时器类 (用途待确认，可能用于延迟更新等)
 
-#include "core.h"                                      // 项目核心定义 (可能包含 Project, Node::ContextPair 等)
-#include "node/group/group.h"                          // 节点组类
-#include "nodeviewcontext.h"                           // 节点视图上下文项 (可能代表一个显示的节点或组)
-#include "nodeviewedge.h"                              // 节点视图中的连接线项
-#include "nodeviewminimap.h"                           // 节点视图的迷你地图控件
-#include "nodeviewscene.h"                             // 节点视图的自定义 QGraphicsScene
-#include "widget/handmovableview/handmovableview.h"    // 可手型工具平移的视图基类 (NodeView 的父类)
-#include "widget/menu/menu.h"                          // 自定义菜单类
+#include "core.h"                                    // 项目核心定义 (可能包含 Project, Node::ContextPair 等)
+#include "node/group/group.h"                        // 节点组类
+#include "nodeviewcontext.h"                         // 节点视图上下文项 (可能代表一个显示的节点或组)
+#include "nodeviewedge.h"                            // 节点视图中的连接线项
+#include "nodeviewminimap.h"                         // 节点视图的迷你地图控件
+#include "nodeviewscene.h"                           // 节点视图的自定义 QGraphicsScene
+#include "widget/handmovableview/handmovableview.h"  // 可手型工具平移的视图基类 (NodeView 的父类)
+#include "widget/menu/menu.h"                        // 自定义菜单类
 
 // Qt 类的前向声明 (根据用户要求，不添加)
 // class QWidget;
@@ -51,14 +51,14 @@ namespace olive {
  * 拖放操作以及上下文菜单等功能。
  */
 class NodeView : public HandMovableView {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit NodeView(QWidget *parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit NodeView(QWidget *parent = nullptr);
 
   /**
    * @brief 析构函数。
@@ -79,10 +79,10 @@ class NodeView : public HandMovableView {
    * @note [[nodiscard]] 属性提示调用者应使用此函数的返回值。
    */
   [[nodiscard]] const QVector<Node *> &GetContexts() const {
-    if (overlay_view_) { // 如果存在覆盖视图
-      return overlay_view_->GetContexts(); // 返回覆盖视图的上下文
+    if (overlay_view_) {                    // 如果存在覆盖视图
+      return overlay_view_->GetContexts();  // 返回覆盖视图的上下文
     } else {
-      return contexts_; // 否则返回主视图的上下文
+      return contexts_;  // 否则返回主视图的上下文
     }
   }
 
@@ -178,9 +178,9 @@ class NodeView : public HandMovableView {
    * 菜单会显示在当前鼠标光标位置。
    */
   void ShowAddMenu() {
-    Menu *m = CreateAddMenu(nullptr); // 创建添加菜单
-    m->exec(QCursor::pos());          // 在鼠标位置执行菜单
-    delete m;                         // 删除菜单对象
+    Menu *m = CreateAddMenu(nullptr);  // 创建添加菜单
+    m->exec(QCursor::pos());           // 在鼠标位置执行菜单
+    delete m;                          // 删除菜单对象
   }
 
   /**
@@ -467,7 +467,7 @@ class NodeView : public HandMovableView {
    */
   void ResizeOverlay();
 
-  NodeViewMiniMap *minimap_; ///< 指向迷你地图控件的指针。
+  NodeViewMiniMap *minimap_;  ///< 指向迷你地图控件的指针。
 
   /**
    * @brief 静态辅助函数，从 NodeViewItem 获取其所属的 NodeViewContext。
@@ -480,9 +480,9 @@ class NodeView : public HandMovableView {
    * @brief AttachedItem 结构体用于存储附着到鼠标光标的节点项及其相关信息。
    */
   struct AttachedItem {
-    NodeViewItem *item{}; ///< 指向附着的 NodeViewItem。
-    Node *node{};         ///< 指向附着的实际 Node 对象。
-    QPointF original_pos; ///< 附着前节点的原始位置。
+    NodeViewItem *item{};  ///< 指向附着的 NodeViewItem。
+    Node *node{};          ///< 指向附着的实际 Node 对象。
+    QPointF original_pos;  ///< 附着前节点的原始位置。
   };
 
   /**
@@ -490,39 +490,39 @@ class NodeView : public HandMovableView {
    * @param items 包含 AttachedItem 的 QVector。
    */
   void SetAttachedItems(const QVector<AttachedItem> &items);
-  QVector<AttachedItem> attached_items_; ///< 当前附着到鼠标光标的项列表。
+  QVector<AttachedItem> attached_items_;  ///< 当前附着到鼠标光标的项列表。
 
-  NodeViewEdge *drop_edge_; ///< 在拖拽创建连接时，表示正在拖拽的边的图形项。
-  NodeInput drop_input_;    ///< 在拖拽创建连接到输入端点时，存储目标输入端点的信息。
+  NodeViewEdge *drop_edge_;  ///< 在拖拽创建连接时，表示正在拖拽的边的图形项。
+  NodeInput drop_input_;     ///< 在拖拽创建连接到输入端点时，存储目标输入端点的信息。
 
-  NodeViewEdge *create_edge_;                 ///< 用户当前正在拖拽以创建的连接线。
-  NodeViewItem *create_edge_output_item_;     ///< 创建连接线时，其输出端所连接的节点项。
-  NodeViewItem *create_edge_input_item_;      ///< 创建连接线时，其输入端所连接的节点项。
-  NodeInput create_edge_input_;               ///< 创建连接线时，其目标输入端点。
-  bool create_edge_already_exists_{};         ///< 标记正在尝试创建的连接是否已存在。
-  bool create_edge_from_output_{};            ///< 标记创建连接的操作是否从输出端点开始。
+  NodeViewEdge *create_edge_;              ///< 用户当前正在拖拽以创建的连接线。
+  NodeViewItem *create_edge_output_item_;  ///< 创建连接线时，其输出端所连接的节点项。
+  NodeViewItem *create_edge_input_item_;   ///< 创建连接线时，其输入端所连接的节点项。
+  NodeInput create_edge_input_;            ///< 创建连接线时，其目标输入端点。
+  bool create_edge_already_exists_{};      ///< 标记正在尝试创建的连接是否已存在。
+  bool create_edge_from_output_{};         ///< 标记创建连接的操作是否从输出端点开始。
 
-  QVector<NodeViewItem *> create_edge_expanded_items_; ///< 在创建连接过程中，临时展开的节点组列表。
+  QVector<NodeViewItem *> create_edge_expanded_items_;  ///< 在创建连接过程中，临时展开的节点组列表。
 
-  NodeViewScene scene_; ///< 此视图关联的自定义 QGraphicsScene 实例。
+  NodeViewScene scene_;  ///< 此视图关联的自定义 QGraphicsScene 实例。
 
-  QVector<Node *> selected_nodes_; ///< 缓存当前选中的节点列表。
+  QVector<Node *> selected_nodes_;  ///< 缓存当前选中的节点列表。
 
-  QVector<Node *> contexts_;              ///< 当前视图显示的主要上下文（节点图或节点组）列表。
-  QVector<Node *> last_set_filter_nodes_; ///< 上一次设置的用于过滤显示的节点列表。
-  QMap<Node *, QPointF> context_offsets_; ///< 存储每个上下文在视图中的偏移量。
+  QVector<Node *> contexts_;               ///< 当前视图显示的主要上下文（节点图或节点组）列表。
+  QVector<Node *> last_set_filter_nodes_;  ///< 上一次设置的用于过滤显示的节点列表。
+  QMap<Node *, QPointF> context_offsets_;  ///< 存储每个上下文在视图中的偏移量。
 
-  QMap<NodeViewItem *, QPointF> dragging_items_; ///< 存储当前正在被用户拖动的节点项及其起始拖动位置的映射。
+  QMap<NodeViewItem *, QPointF> dragging_items_;  ///< 存储当前正在被用户拖动的节点项及其起始拖动位置的映射。
 
-  NodeView *overlay_view_; ///< 指向覆盖视图的指针，用于显示节点组内部等。
+  NodeView *overlay_view_;  ///< 指向覆盖视图的指针，用于显示节点组内部等。
 
-  double scale_; ///< 当前视图的缩放级别。
+  double scale_;  ///< 当前视图的缩放级别。
 
-  bool dont_emit_selection_signals_; ///< 标记是否应临时禁止发出选择改变信号（例如，在内部批量操作时）。
+  bool dont_emit_selection_signals_;  ///< 标记是否应临时禁止发出选择改变信号（例如，在内部批量操作时）。
 
-  static const double kMinimumScale; ///< 视图允许的最小缩放级别。
+  static const double kMinimumScale;  ///< 视图允许的最小缩放级别。
 
-  static const int kMaximumContexts; ///< 视图允许同时显示的最大上下文数量。
+  static const int kMaximumContexts;  ///< 视图允许同时显示的最大上下文数量。
 
  private slots:
   /**

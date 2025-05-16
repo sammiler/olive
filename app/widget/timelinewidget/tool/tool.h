@@ -1,10 +1,10 @@
-#ifndef TIMELINETOOL_H // 防止头文件被多次包含的宏定义
+#ifndef TIMELINETOOL_H  // 防止头文件被多次包含的宏定义
 #define TIMELINETOOL_H
 
-#include <QDragLeaveEvent> // 引入 QDragLeaveEvent 类，用于处理拖动离开事件
+#include <QDragLeaveEvent>  // 引入 QDragLeaveEvent 类，用于处理拖动离开事件
 
-#include "widget/timelinewidget/view/timelineviewghostitem.h" // 引入 TimelineViewGhostItem 类，用于在时间轴视图中显示拖动预览的“幽灵”项
-#include "widget/timelinewidget/view/timelineviewmouseevent.h" // 引入 TimelineViewMouseEvent 类，封装了时间轴视图中的鼠标事件信息
+#include "widget/timelinewidget/view/timelineviewghostitem.h"  // 引入 TimelineViewGhostItem 类，用于在时间轴视图中显示拖动预览的“幽灵”项
+#include "widget/timelinewidget/view/timelineviewmouseevent.h"  // 引入 TimelineViewMouseEvent 类，封装了时间轴视图中的鼠标事件信息
 
 // 根据代码上下文，以下类型应由已包含的头文件或其传递包含的头文件提供定义：
 // - olive::TimelineWidget: 用于构造函数参数和成员变量
@@ -16,11 +16,11 @@
 // - QVector: Qt 容器类，用于 ValidateTrackMovement 方法参数
 // 此处严格按照用户提供的代码，不添加额外的 #include 或前向声明。
 
-namespace olive { // olive 命名空间开始
+namespace olive {  // olive 命名空间开始
 
-class TimelineWidget; // 前向声明 TimelineWidget 类，表示时间轴主控件
-class Sequence;       // 前向声明 Sequence 类，表示一个序列
-class MultiUndoCommand; // 前向声明 MultiUndoCommand 类，用于聚合多个撤销命令
+class TimelineWidget;    // 前向声明 TimelineWidget 类，表示时间轴主控件
+class Sequence;          // 前向声明 Sequence 类，表示一个序列
+class MultiUndoCommand;  // 前向声明 MultiUndoCommand 类，用于聚合多个撤销命令
 
 /**
  * @brief TimelineTool 类是所有时间轴工具的抽象基类。
@@ -118,7 +118,7 @@ class TimelineTool {
    */
   static rational SnapMovementToTimebase(const rational &start, rational movement, const rational &timebase);
 
- protected: // 受保护成员
+ protected:  // 受保护成员
   /**
    * @brief Validates Ghosts that are moving horizontally (time-based)
    * (原始英文注释：验证水平（基于时间）移动的幽灵项)
@@ -158,16 +158,16 @@ class TimelineTool {
    */
   void InsertGapsAtGhostDestination(MultiUndoCommand *command);
 
-  std::vector<rational> snap_points_; ///< 存储用于吸附操作的时间点列表。
+  std::vector<rational> snap_points_;  ///< 存储用于吸附操作的时间点列表。
 
-  bool dragging_; ///< 标记当前是否正在进行拖动操作。
+  bool dragging_;  ///< 标记当前是否正在进行拖动操作。
 
-  TimelineCoordinate drag_start_; ///< 记录拖动操作开始时的时间轴坐标。
+  TimelineCoordinate drag_start_;  ///< 记录拖动操作开始时的时间轴坐标。
 
-  static const int kDefaultDistanceFromOutput; ///< 可能是一个默认距离常量，用于某些输出相关的计算。
+  static const int kDefaultDistanceFromOutput;  ///< 可能是一个默认距离常量，用于某些输出相关的计算。
 
- private: // 私有成员
-  TimelineWidget *parent_; ///< 指向此工具所属的 TimelineWidget 父控件的指针。
+ private:                   // 私有成员
+  TimelineWidget *parent_;  ///< 指向此工具所属的 TimelineWidget 父控件的指针。
 };
 
 }  // namespace olive

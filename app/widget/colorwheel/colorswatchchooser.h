@@ -1,8 +1,8 @@
 #ifndef COLORSWATCHCHOOSER_H
 #define COLORSWATCHCHOOSER_H
 
-#include "node/color/colormanager/colormanager.h" // 色彩管理器类
-#include "widget/colorbutton/colorbutton.h"       // 自定义颜色按钮控件
+#include "node/color/colormanager/colormanager.h"  // 色彩管理器类
+#include "widget/colorbutton/colorbutton.h"        // 自定义颜色按钮控件
 
 // 前向声明 Qt 类
 class QWidget;
@@ -17,15 +17,15 @@ namespace olive {
  * 它还可能提供加载/保存颜色样本集、通过上下文菜单管理单个样本等功能。
  */
 class ColorSwatchChooser : public QWidget {
-  Q_OBJECT // Qt 元对象系统宏，用于支持信号和槽机制
+ Q_OBJECT  // Qt 元对象系统宏，用于支持信号和槽机制
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param manager 指向色彩管理器的指针，用于处理颜色相关的操作。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit ColorSwatchChooser(ColorManager *manager, QWidget *parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param manager 指向色彩管理器的指针，用于处理颜色相关的操作。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit ColorSwatchChooser(ColorManager *manager, QWidget *parent = nullptr);
 
  public slots:
   /**
@@ -70,13 +70,13 @@ class ColorSwatchChooser : public QWidget {
    */
   void SaveSwatches();
 
-  static const int kRowCount = 4; ///< 定义颜色样本按钮网格的行数。
-  static const int kColCount = 8; ///< 定义颜色样本按钮网格的列数。
-  static const int kBtnCount = kRowCount * kColCount; ///< 颜色样本按钮的总数。
-  ColorButton *buttons_[kBtnCount]{}; ///< 存储指向网格中所有 ColorButton 实例的指针数组。初始化为 nullptr。
+  static const int kRowCount = 4;                      ///< 定义颜色样本按钮网格的行数。
+  static const int kColCount = 8;                      ///< 定义颜色样本按钮网格的列数。
+  static const int kBtnCount = kRowCount * kColCount;  ///< 颜色样本按钮的总数。
+  ColorButton *buttons_[kBtnCount]{};  ///< 存储指向网格中所有 ColorButton 实例的指针数组。初始化为 nullptr。
 
-  ManagedColor current_;  ///< 当前选中的或活动的颜色。
-  ColorButton *menu_btn_{}; ///< 可能用于触发上下文菜单的按钮，或者在上下文菜单中被操作的按钮。初始化为 nullptr。
+  ManagedColor current_;     ///< 当前选中的或活动的颜色。
+  ColorButton *menu_btn_{};  ///< 可能用于触发上下文菜单的按钮，或者在上下文菜单中被操作的按钮。初始化为 nullptr。
 
  private slots:
   /**

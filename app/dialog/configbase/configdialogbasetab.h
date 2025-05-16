@@ -1,7 +1,7 @@
-#ifndef PREFERENCESTAB_H // 文件名可能是 PREFERENCESTAB_H 或 CONFIGDIALOGBASETAB_H
-#define PREFERENCESTAB_H // 保持与 #ifndef 一致
+#ifndef PREFERENCESTAB_H  // 文件名可能是 PREFERENCESTAB_H 或 CONFIGDIALOGBASETAB_H
+#define PREFERENCESTAB_H  // 保持与 #ifndef 一致
 
-#include <QWidget> // QWidget 基类
+#include <QWidget>  // QWidget 基类
 
 // 假设 config.h 声明了 Config 类 (虽然在此头文件中未直接使用)
 #include "config/config.h"
@@ -20,13 +20,13 @@ namespace olive {
  */
 class ConfigDialogBaseTab : public QWidget {
   // Q_OBJECT // 如果此类需要信号槽机制，则应添加此宏
-public:
+ public:
   /**
    * @brief 默认构造函数。
    * 创建一个 ConfigDialogBaseTab 实例。
    * @param parent 父 QWidget 对象指针，默认为 nullptr。
    */
-  explicit ConfigDialogBaseTab(QWidget* parent = nullptr) : QWidget(parent) {} // 添加了显式构造函数定义
+  explicit ConfigDialogBaseTab(QWidget* parent = nullptr) : QWidget(parent) {}  // 添加了显式构造函数定义
 
   // 如果基类 QWidget 的析构函数不是虚的，或者 ConfigDialogBaseTab 需要管理特定资源，
   // 则应提供一个虚析构函数。对于 QWidget 派生类，通常其析构函数已是虚的。
@@ -34,7 +34,7 @@ public:
    * @brief 虚析构函数。
    * 确保派生类对象能够被正确销毁。
    */
-  ~ConfigDialogBaseTab() override = default; // 使用 C++11 的 override 和 default
+  ~ConfigDialogBaseTab() override = default;  // 使用 C++11 的 override 和 default
 
   /**
    * @brief 验证当前选项卡上的用户输入或设置是否有效。
@@ -60,7 +60,7 @@ public:
    * @param parent 指向 MultiUndoCommand 对象的指针，用于聚合此选项卡产生的撤销命令。
    * 如果此选项卡的更改不需要撤销/重做，或者由外部统一处理，则此参数可能未使用。
    */
-  virtual void Accept(MultiUndoCommand *parent) = 0;
+  virtual void Accept(MultiUndoCommand* parent) = 0;
 };
 
 }  // namespace olive

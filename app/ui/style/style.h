@@ -1,13 +1,13 @@
 #ifndef STYLEMANAGER_H
 #define STYLEMANAGER_H
 
-#include <QSettings> // 引入 QSettings 类，用于读取 .ini 格式的配置文件（例如调色板设置）
-#include <QWidget>   // 引入 QWidget 类，虽然在此头文件中未直接使用其成员，但样式管理通常应用于 QWidget 及其派生类
-#include <QMap>      // 引入 QMap 类，用于存储可用主题的映射
-#include <QString>   // 引入 QString 类
-#include <QPalette>  // 引入 QPalette 类，用于管理颜色调色板
+#include <QMap>       // 引入 QMap 类，用于存储可用主题的映射
+#include <QPalette>   // 引入 QPalette 类，用于管理颜色调色板
+#include <QSettings>  // 引入 QSettings 类，用于读取 .ini 格式的配置文件（例如调色板设置）
+#include <QString>    // 引入 QString 类
+#include <QWidget>    // 引入 QWidget 类，虽然在此头文件中未直接使用其成员，但样式管理通常应用于 QWidget 及其派生类
 
-#include "common/define.h" // 引入项目内通用的定义文件
+#include "common/define.h"  // 引入项目内通用的定义文件
 
 namespace olive {
 
@@ -17,7 +17,7 @@ namespace olive {
  * StyleManager 类提供了一组静态方法来初始化、获取和设置应用程序的样式表和调色板。
  * 它能够解析存储在 .ini 文件中的调色板信息，并管理可用的主题列表。
  */
-class StyleManager : public QObject { // 继承自 QObject 以支持 Qt 的元对象系统，尽管在此静态类中可能不直接使用信号/槽
+class StyleManager : public QObject {  // 继承自 QObject 以支持 Qt 的元对象系统，尽管在此静态类中可能不直接使用信号/槽
  public:
   /**
    * @brief 初始化样式管理器。

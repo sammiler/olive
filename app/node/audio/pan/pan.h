@@ -1,7 +1,7 @@
 #ifndef PANNODE_H
 #define PANNODE_H
 
-#include "node/node.h" // 引入节点基类定义
+#include "node/node.h"  // 引入节点基类定义
 
 namespace olive {
 
@@ -13,14 +13,14 @@ namespace olive {
  * 即控制音频在立体声或多声道输出中的左右平衡或位置。
  */
 class PanNode : public Node {
-  Q_OBJECT // Qt对象的元对象系统宏，用于信号和槽等特性
- public:
-  /**
-   * @brief PanNode 构造函数。
-   *
-   * 初始化声像节点，设置其输入端口等。
-   */
-  PanNode();
+ Q_OBJECT  // Qt对象的元对象系统宏，用于信号和槽等特性
+     public :
+     /**
+      * @brief PanNode 构造函数。
+      *
+      * 初始化声像节点，设置其输入端口等。
+      */
+     PanNode();
 
   /**
    * @brief 宏，可能用于生成节点类常用的默认函数，例如克隆、序列化等。

@@ -1,14 +1,14 @@
-#ifndef SLIDERLINEEDIT_H // 文件名可能是 SLIDERLINEEDIT_H，但类名是 FocusableLineEdit
+#ifndef SLIDERLINEEDIT_H  // 文件名可能是 SLIDERLINEEDIT_H，但类名是 FocusableLineEdit
 #define SLIDERLINEEDIT_H
 
-#include <QLineEdit> // Qt 单行文本输入框控件基类
+#include <QLineEdit>  // Qt 单行文本输入框控件基类
 
-#include "common/define.h" // 项目通用定义
+#include "common/define.h"  // 项目通用定义
 
 // 前向声明 Qt 类
-class QKeyEvent;     // Qt 键盘事件类
-class QFocusEvent;   // Qt 焦点事件类
-class QWidget;       // Qt 控件基类 (已通过 QLineEdit 间接包含)
+class QKeyEvent;    // Qt 键盘事件类
+class QFocusEvent;  // Qt 焦点事件类
+class QWidget;      // Qt 控件基类 (已通过 QLineEdit 间接包含)
 
 namespace olive {
 
@@ -21,27 +21,27 @@ namespace olive {
  * 这个控件常用于需要用户输入文本并明确确认或取消的场景，例如在滑块控件旁边的数值输入框。
  */
 class FocusableLineEdit : public QLineEdit {
-  Q_OBJECT // Qt 元对象系统宏，用于支持信号和槽机制
+ Q_OBJECT  // Qt 元对象系统宏，用于支持信号和槽机制
 
- public:
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit FocusableLineEdit(QWidget *parent = nullptr);
+
+ signals:
   /**
-   * @brief 构造函数。
-   * @param parent 父控件指针，默认为 nullptr。
+   * @brief 当用户确认输入时（例如按下回车键或焦点移出）发出此信号。
    */
-  explicit FocusableLineEdit(QWidget *parent = nullptr);
-
-  signals:
-   /**
-    * @brief 当用户确认输入时（例如按下回车键或焦点移出）发出此信号。
-    */
-   void Confirmed();
+  void Confirmed();
 
   /**
    * @brief 当用户取消输入时（例如按下 Esc 键）发出此信号。
    */
   void Cancelled();
 
-protected:
+ protected:
   /**
    * @brief 键盘按下事件处理函数。
    *

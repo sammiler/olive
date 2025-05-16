@@ -1,12 +1,12 @@
 #ifndef NODEVALUETREE_H
 #define NODEVALUETREE_H
 
-#include <QRadioButton> // Qt 单选按钮控件 (可能用于树中的项)
-#include <QTreeWidget>  // Qt 树形控件基类
+#include <QRadioButton>  // Qt 单选按钮控件 (可能用于树中的项)
+#include <QTreeWidget>   // Qt 树形控件基类
 
-#include "node/node.h"   // 节点基类定义 (NodeInput 依赖于此)
-#include "node/param.h"  // 节点参数相关定义 (包含 NodeInput)
-#include "olive/core/core.h" // 包含 rational 等核心类型
+#include "node/node.h"        // 节点基类定义 (NodeInput 依赖于此)
+#include "node/param.h"       // 节点参数相关定义 (包含 NodeInput)
+#include "olive/core/core.h"  // 包含 rational 等核心类型
 
 // 前向声明 Qt 类 (根据用户要求，不添加)
 // class QWidget;
@@ -28,14 +28,14 @@ namespace olive {
  * 可能包含交互元素，如单选按钮，用于选择或切换某些值的表示方式。
  */
 class NodeValueTree : public QTreeWidget {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit NodeValueTree(QWidget *parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit NodeValueTree(QWidget *parent = nullptr);
 
   /**
    * @brief 设置要在树中显示的节点输入参数及其在特定时间的值。
@@ -46,7 +46,7 @@ class NodeValueTree : public QTreeWidget {
    */
   void SetNode(const NodeInput &input, const rational &time);
 
-protected:
+ protected:
   /**
    * @brief 处理 Qt 的 changeEvent 事件。
    *
@@ -56,7 +56,7 @@ protected:
    */
   void changeEvent(QEvent *event) override;
 
-private:
+ private:
   /**
    * @brief 重新翻译树视图中所有项的文本。
    *
@@ -64,12 +64,12 @@ private:
    */
   void Retranslate();
 
-private slots:
- /**
-  * @brief 当树中的某个单选按钮 (QRadioButton) 的选中状态改变时调用的槽函数。
-  * @param e 单选按钮新的选中状态 (true 表示被选中)。
-  */
- void RadioButtonChecked(bool e);
+ private slots:
+  /**
+   * @brief 当树中的某个单选按钮 (QRadioButton) 的选中状态改变时调用的槽函数。
+   * @param e 单选按钮新的选中状态 (true 表示被选中)。
+   */
+  void RadioButtonChecked(bool e);
 };
 
 }  // namespace olive

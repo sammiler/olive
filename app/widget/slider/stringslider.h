@@ -1,7 +1,7 @@
 #ifndef STRINGSLIDER_H
 #define STRINGSLIDER_H
 
-#include "base/sliderbase.h" // 滑块基类
+#include "base/sliderbase.h"  // 滑块基类
 
 namespace olive {
 
@@ -13,14 +13,14 @@ namespace olive {
  * 字符串滑块通常不涉及数值拖拽调整，因此删除了 SetDragMultiplier 方法。
  */
 class StringSlider : public SliderBase {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit StringSlider(QWidget* parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit StringSlider(QWidget* parent = nullptr);
 
   /**
    * @brief 删除基类中的 SetDragMultiplier 方法。

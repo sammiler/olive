@@ -1,9 +1,9 @@
-#ifndef MULTICAMPANEL_H // 防止头文件被重复包含的宏
-#define MULTICAMPANEL_H // 定义 MULTICAMPANEL_H 宏
+#ifndef MULTICAMPANEL_H  // 防止头文件被重复包含的宏
+#define MULTICAMPANEL_H  // 定义 MULTICAMPANEL_H 宏
 
-#include "panel/viewer/viewerbase.h"      // 包含查看器面板基类 (或相关时间轴面板基类 TimeBasedPanel) 的定义
-                                          // 根据实际继承关系，这里可能是 TimeBasedPanel 而非 ViewerPanelBase
-#include "widget/multicam/multicamwidget.h" // 包含 MulticamWidget 控件的定义
+#include "panel/viewer/viewerbase.h"         // 包含查看器面板基类 (或相关时间轴面板基类 TimeBasedPanel) 的定义
+                                             // 根据实际继承关系，这里可能是 TimeBasedPanel 而非 ViewerPanelBase
+#include "widget/multicam/multicamwidget.h"  // 包含 MulticamWidget 控件的定义
 
 // 修正 include 以匹配类声明中的继承
 // 如果 MulticamPanel 继承自 TimeBasedPanel，那么应该包含 "panel/timebased/timebased.h"
@@ -12,7 +12,7 @@
 // 根据代码是 TimeBasedPanel:
 #include "panel/timebased/timebased.h"
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
 /**
  * @brief MulticamPanel 类代表一个用于多机位编辑的面板。
@@ -21,12 +21,12 @@ namespace olive { // olive 项目的命名空间
  * 这个面板内部会包含一个 MulticamWidget 控件，该控件负责同时显示多个视频源 (机位)，
  * 并允许用户在播放过程中通过点击不同的机位来切换活动机位，从而快速完成多机位剪辑。
  */
-class MulticamPanel : public TimeBasedPanel { // MulticamPanel 继承自 TimeBasedPanel
-  Q_OBJECT // 声明此类使用 Qt 的元对象系统
+class MulticamPanel : public TimeBasedPanel {  // MulticamPanel 继承自 TimeBasedPanel
+ Q_OBJECT                                      // 声明此类使用 Qt 的元对象系统
 
- public:
-  // 构造函数
-  MulticamPanel();
+     public :
+     // 构造函数
+     MulticamPanel();
 
   /**
    * @brief 获取内部封装的 MulticamWidget 控件的指针。
@@ -38,7 +38,7 @@ class MulticamPanel : public TimeBasedPanel { // MulticamPanel 继承自 TimeBas
     return dynamic_cast<MulticamWidget *>(GetTimeBasedWidget());
   }
 
-protected:
+ protected:
   /**
    * @brief 重写基类的 Retranslate 方法，用于在语言更改时更新此面板内UI元素的文本。
    * 例如，可能会更新面板标题或内部控件的标签。

@@ -1,9 +1,9 @@
 #ifndef VIEWERWINDOW_H
 #define VIEWERWINDOW_H
 
-#include <QWidget> // 包含 QWidget 类的头文件
+#include <QWidget>  // 包含 QWidget 类的头文件
 
-#include "viewerdisplay.h" // 包含 ViewerDisplayWidget 类的头文件
+#include "viewerdisplay.h"  // 包含 ViewerDisplayWidget 类的头文件
 
 namespace olive {
 
@@ -16,13 +16,13 @@ namespace olive {
  * 它还处理键盘事件和关闭事件。
  */
 class ViewerWindow : public QWidget {
-  Q_OBJECT // Q_OBJECT宏，用于支持 Qt 的元对象系统
- public:
-  /**
-   * @brief ViewerWindow 的显式构造函数。
-   * @param parent 父 QWidget 指针，默认为 nullptr。
-   */
-  explicit ViewerWindow(QWidget* parent = nullptr);
+ Q_OBJECT  // Q_OBJECT宏，用于支持 Qt 的元对象系统
+     public :
+     /**
+      * @brief ViewerWindow 的显式构造函数。
+      * @param parent 父 QWidget 指针，默认为 nullptr。
+      */
+     explicit ViewerWindow(QWidget* parent = nullptr);
 
   /**
    * @brief 获取内部的 ViewerDisplayWidget 指针。
@@ -52,7 +52,7 @@ class ViewerWindow : public QWidget {
    */
   void SetPixelAspectRatio(const rational& pixel_aspect);
 
-protected:
+ protected:
   /**
    * @brief 处理键盘按下事件。
    * @param e 键盘事件指针。
@@ -65,7 +65,7 @@ protected:
    */
   void closeEvent(QCloseEvent* e) override;
 
-private:
+ private:
   /**
    * @brief 更新内部的变换矩阵。
    * 此函数可能会根据当前的宽度、高度和像素宽高比来更新显示小部件的变换。

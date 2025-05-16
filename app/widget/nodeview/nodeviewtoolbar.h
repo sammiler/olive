@@ -1,8 +1,8 @@
 #ifndef NODEVIEWTOOLBAR_H
 #define NODEVIEWTOOLBAR_H
 
-#include <QPushButton> // Qt 按钮控件基类
-#include <QWidget>     // Qt 控件基类
+#include <QPushButton>  // Qt 按钮控件基类
+#include <QWidget>      // Qt 控件基类
 
 // 前向声明 Qt 类 (根据用户要求，不添加)
 // class QEvent;
@@ -16,30 +16,30 @@ namespace olive {
  * 例如添加新节点到图中，以及切换小地图的显示/隐藏状态。
  */
 class NodeViewToolBar : public QWidget {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit NodeViewToolBar(QWidget *parent = nullptr);
+
+ public slots:
   /**
-   * @brief 构造函数。
-   * @param parent 父控件指针，默认为 nullptr。
+   * @brief 设置小地图按钮的勾选状态。
+   *
+   * 当外部逻辑（例如 NodeView 本身）改变小地图的可见性时，
+   * 可以调用此槽来同步工具栏上按钮的状态。
+   * @param e 如果为 true，则小地图按钮应显示为已勾选（表示小地图已启用）；否则为未勾选。
    */
-  explicit NodeViewToolBar(QWidget *parent = nullptr);
+  void SetMiniMapEnabled(bool e) { minimap_btn_->setChecked(e); }
 
-public slots:
- /**
-  * @brief 设置小地图按钮的勾选状态。
-  *
-  * 当外部逻辑（例如 NodeView 本身）改变小地图的可见性时，
-  * 可以调用此槽来同步工具栏上按钮的状态。
-  * @param e 如果为 true，则小地图按钮应显示为已勾选（表示小地图已启用）；否则为未勾选。
-  */
- void SetMiniMapEnabled(bool e) { minimap_btn_->setChecked(e); }
-
-  signals:
-   /**
-    * @brief 当“添加节点”按钮被点击时发出此信号。
-    */
-   void AddNodeClicked();
+ signals:
+  /**
+   * @brief 当“添加节点”按钮被点击时发出此信号。
+   */
+  void AddNodeClicked();
 
   /**
    * @brief 当小地图启用/禁用按钮的状态被切换时发出此信号。
@@ -47,7 +47,7 @@ public slots:
    */
   void MiniMapEnabledToggled(bool e);
 
-protected:
+ protected:
   /**
    * @brief 处理 Qt 的 changeEvent 事件。
    *
@@ -57,7 +57,7 @@ protected:
    */
   void changeEvent(QEvent *e) override;
 
-private:
+ private:
   /**
    * @brief 重新翻译工具栏中所有按钮的文本和工具提示。
    *
@@ -72,8 +72,8 @@ private:
    */
   void UpdateIcons();
 
-  QPushButton *add_node_btn_; ///< “添加节点”按钮。
-  QPushButton *minimap_btn_;  ///< 用于切换小地图显示/隐藏状态的按钮（通常是可勾选的）。
+  QPushButton *add_node_btn_;  ///< “添加节点”按钮。
+  QPushButton *minimap_btn_;   ///< 用于切换小地图显示/隐藏状态的按钮（通常是可勾选的）。
 };
 
 }  // namespace olive

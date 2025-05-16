@@ -1,31 +1,31 @@
-#ifndef NODE_H // 防止头文件被重复包含的宏
-#define NODE_H // 定义 NODE_H 宏
+#ifndef NODE_H  // 防止头文件被重复包含的宏
+#define NODE_H  // 定义 NODE_H 宏
 
-#include <QMutex>         // Qt 互斥锁类
-#include <QObject>        // Qt 对象模型基类
-#include <QPainter>       // Qt 绘图类
-#include <QPointF>        // Qt 二维浮点坐标点类
-#include <QXmlStreamWriter> // Qt XML流写入类
-#include <map>            // 标准库 map 容器
-#include <utility>        // 标准库 utility 头文件，提供 pair 等
+#include <QMutex>            // Qt 互斥锁类
+#include <QObject>           // Qt 对象模型基类
+#include <QPainter>          // Qt 绘图类
+#include <QPointF>           // Qt 二维浮点坐标点类
+#include <QXmlStreamWriter>  // Qt XML流写入类
+#include <map>               // 标准库 map 容器
+#include <utility>           // 标准库 utility 头文件，提供 pair 等
 
-#include "codec/frame.h"               // 视频帧数据结构
-#include "common/xmlutils.h"           // XML 工具类
-#include "node/gizmo/draggable.h"      // 可拖拽 Gizmo 相关
-#include "node/globals.h"              // 节点相关的全局定义
-#include "node/inputimmediate.h"       // 节点立即输入相关
-#include "node/keyframe.h"             // 关键帧数据结构
-#include "node/param.h"                // 参数相关
-#include "render/audioplaybackcache.h" // 音频播放缓存
-#include "render/audiowaveformcache.h" // 音频波形缓存
-#include "render/framehashcache.h"     // 帧哈希缓存
-#include "render/job/generatejob.h"    // 生成任务
-#include "render/job/samplejob.h"      // 采样任务
-#include "render/job/shaderjob.h"      //着色器任务
-#include "render/shadercode.h"         //着色器代码封装
-#include "splitvalue.h"                // 分离值类型，用于处理多通道数据
+#include "codec/frame.h"                // 视频帧数据结构
+#include "common/xmlutils.h"            // XML 工具类
+#include "node/gizmo/draggable.h"       // 可拖拽 Gizmo 相关
+#include "node/globals.h"               // 节点相关的全局定义
+#include "node/inputimmediate.h"        // 节点立即输入相关
+#include "node/keyframe.h"              // 关键帧数据结构
+#include "node/param.h"                 // 参数相关
+#include "render/audioplaybackcache.h"  // 音频播放缓存
+#include "render/audiowaveformcache.h"  // 音频波形缓存
+#include "render/framehashcache.h"      // 帧哈希缓存
+#include "render/job/generatejob.h"     // 生成任务
+#include "render/job/samplejob.h"       // 采样任务
+#include "render/job/shaderjob.h"       //着色器任务
+#include "render/shadercode.h"          //着色器代码封装
+#include "splitvalue.h"                 // 分离值类型，用于处理多通道数据
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
 // 宏：为节点类 x 定义默认的析构函数和拷贝函数
 #define NODE_DEFAULT_FUNCTIONS(x) \
@@ -40,9 +40,9 @@ namespace olive { // olive 项目的命名空间
 #define NODE_COPY_FUNCTION(x) \
   virtual Node* copy() const override { return new x(); }
 
-class Folder;         // 向前声明 Folder 类
-class Project;        // 向前声明 Project 类
-struct SerializedData; // 向前声明 SerializedData 结构体
+class Folder;           // 向前声明 Folder 类
+class Project;          // 向前声明 Project 类
+struct SerializedData;  // 向前声明 SerializedData 结构体
 
 /**
  * @brief Node 类是处理单元的基础，可以与其他节点连接以创建复杂的处理系统。
@@ -58,42 +58,42 @@ struct SerializedData; // 向前声明 SerializedData 结构体
  * 这是一个简单的基类，旨在包含此类处理连接单元的所有功能。
  * 它是一个抽象类，旨在被子类化以创建具有实际功能的节点。
  */
-class Node : public QObject { // Node 类继承自 QObject 以使用 Qt 的元对象系统（例如信号和槽）
-  Q_OBJECT // 声明此类使用 Qt 的元对象系统
- public:
-  // 节点分类ID枚举
-  enum CategoryID {
-    kCategoryUnknown = -1, // 未知分类
+class Node : public QObject {  // Node 类继承自 QObject 以使用 Qt 的元对象系统（例如信号和槽）
+ Q_OBJECT                      // 声明此类使用 Qt 的元对象系统
+     public :
+     // 节点分类ID枚举
+     enum CategoryID {
+       kCategoryUnknown = -1,  // 未知分类
 
-    kCategoryOutput,     // 输出类节点
-    kCategoryGenerator,  // 生成器类节点 (例如：纯色、噪点)
-    kCategoryMath,       // 数学运算类节点
-    kCategoryKeying,     // 抠像类节点 (例如：绿幕抠像)
-    kCategoryFilter,     // 滤镜类节点 (例如：模糊、锐化)
-    kCategoryColor,      // 颜色处理类节点 (例如：色彩校正、色相饱和度)
-    kCategoryTime,       // 时间处理类节点 (例如：时间重映射)
-    kCategoryTimeline,   // 时间轴相关节点 (例如：序列、片段)
-    kCategoryTransition, // 转场效果类节点
-    kCategoryDistort,    // 扭曲变形类节点
-    kCategoryProject,    // 项目相关节点
+       kCategoryOutput,      // 输出类节点
+       kCategoryGenerator,   // 生成器类节点 (例如：纯色、噪点)
+       kCategoryMath,        // 数学运算类节点
+       kCategoryKeying,      // 抠像类节点 (例如：绿幕抠像)
+       kCategoryFilter,      // 滤镜类节点 (例如：模糊、锐化)
+       kCategoryColor,       // 颜色处理类节点 (例如：色彩校正、色相饱和度)
+       kCategoryTime,        // 时间处理类节点 (例如：时间重映射)
+       kCategoryTimeline,    // 时间轴相关节点 (例如：序列、片段)
+       kCategoryTransition,  // 转场效果类节点
+       kCategoryDistort,     // 扭曲变形类节点
+       kCategoryProject,     // 项目相关节点
 
-    kCategoryCount // 分类总数，用于迭代或数组大小
-  };
+       kCategoryCount  // 分类总数，用于迭代或数组大小
+     };
 
   // 节点标志位枚举，用于定义节点的特定行为或属性
   enum Flag {
-    kNone = 0,                      // 无标志
-    kDontShowInParamView = 0x1,     // 不在参数视图中显示
-    kVideoEffect = 0x2,             // 标记为视频效果
-    kAudioEffect = 0x4,             // 标记为音频效果
-    kDontShowInCreateMenu = 0x8,    // 不在创建菜单中显示
-    kIsItem = 0x10                  // 标记为时间轴上的一个项目/片段 (Item)
+    kNone = 0,                    // 无标志
+    kDontShowInParamView = 0x1,   // 不在参数视图中显示
+    kVideoEffect = 0x2,           // 标记为视频效果
+    kAudioEffect = 0x4,           // 标记为音频效果
+    kDontShowInCreateMenu = 0x8,  // 不在创建菜单中显示
+    kIsItem = 0x10                // 标记为时间轴上的一个项目/片段 (Item)
   };
 
   // 上下文节点对结构体，通常用于表示一个节点和它所在的上下文环境中的另一个节点
   struct ContextPair {
-    Node* node;    // 节点指针
-    Node* context; // 上下文节点指针
+    Node* node;     // 节点指针
+    Node* context;  // 上下文节点指针
   };
 
   // 构造函数
@@ -220,7 +220,7 @@ class Node : public QObject { // Node 类继承自 QObject 以使用 Qt 的元�
   class ActiveElements {
    public:
     // 活动元素的模式枚举
-    enum Mode { kAllElements, kSpecified, kNoElements }; // 所有元素、指定元素、无元素
+    enum Mode { kAllElements, kSpecified, kNoElements };  // 所有元素、指定元素、无元素
 
     // 构造函数
     explicit ActiveElements(Mode m = kAllElements) { mode_ = m; }
@@ -232,13 +232,13 @@ class Node : public QObject { // Node 类继承自 QObject 以使用 Qt 的元�
 
     // 添加一个指定的活动元素
     void add(int e) {
-      elements_.push_back(e); // 将元素添加到列表
-      mode_ = kSpecified;     // 将模式设置为指定元素
+      elements_.push_back(e);  // 将元素添加到列表
+      mode_ = kSpecified;      // 将模式设置为指定元素
     }
 
    private:
     Mode mode_;                // 当前的活动模式
-    std::list<int> elements_; // 活动的元素索引列表
+    std::list<int> elements_;  // 活动的元素索引列表
   };
 
   /**
@@ -248,7 +248,7 @@ class Node : public QObject { // Node 类继承自 QObject 以使用 Qt 的元�
    * @return 返回 ActiveElements 对象。
    */
   [[nodiscard]] virtual ActiveElements GetActiveElementsAtTime(const QString& input, const TimeRange& r) const {
-    return ActiveElements(ActiveElements::kAllElements); // 默认返回所有元素都活动
+    return ActiveElements(ActiveElements::kAllElements);  // 默认返回所有元素都活动
   }
 
   /**
@@ -283,8 +283,8 @@ class Node : public QObject { // Node 类继承自 QObject 以使用 Qt 的元�
   struct Position {
     // 构造函数
     explicit Position(const QPointF& p = QPointF(0, 0), bool e = false) {
-      position = p;    // 位置坐标
-      expanded = e;    // 是否展开
+      position = p;  // 位置坐标
+      expanded = e;  // 是否展开
     }
 
     // 从 XML 流中加载位置数据
@@ -292,8 +292,8 @@ class Node : public QObject { // Node 类继承自 QObject 以使用 Qt 的元�
     // 将位置数据保存到 XML 流
     void save(QXmlStreamWriter* writer) const;
 
-    QPointF position; // 节点在编辑器中的位置
-    bool expanded;    // 节点在编辑器中是否展开显示更多信息
+    QPointF position;  // 节点在编辑器中的位置
+    bool expanded;     // 节点在编辑器中是否展开显示更多信息
 
     // 重载 += 运算符，用于位置相加
     inline Position& operator+=(const Position& p) {
@@ -320,7 +320,7 @@ class Node : public QObject { // Node 类继承自 QObject 以使用 Qt 的元�
     }
   };
 
-  using PositionMap = QHash<Node*, Position>; // 节点指针到其位置信息的哈希表类型定义
+  using PositionMap = QHash<Node*, Position>;  // 节点指针到其位置信息的哈希表类型定义
   // 获取所有上下文节点的位置信息
   [[nodiscard]] const PositionMap& GetContextPositions() const { return context_positions_; }
 
@@ -383,7 +383,7 @@ class Node : public QObject { // Node 类继承自 QObject 以使用 Qt 的元�
   void SetOverrideColor(int index) {
     if (override_color_ != index) {
       override_color_ = index;
-      emit ColorChanged(); // 发出颜色已改变信号
+      emit ColorChanged();  // 发出颜色已改变信号
     }
   }
 
@@ -742,9 +742,9 @@ class Node : public QObject { // Node 类继承自 QObject 以使用 Qt 的元�
     void save(QXmlStreamWriter* writer) const;
 
    private:
-    QVector<NodeValue::Type> type_; // 允许的数据类型
-    int index_;                     // 索引提示，例如用于数组或向量分量
-    QString tag_;                   // 标签字符串，用于特定用途的标识
+    QVector<NodeValue::Type> type_;  // 允许的数据类型
+    int index_;                      // 索引提示，例如用于数组或向量分量
+    QString tag_;                    // 标签字符串，用于特定用途的标识
   };
 
   // 获取所有输入元素对 (InputElementPair) 到其值提示 (ValueHint) 的映射
@@ -816,8 +816,8 @@ class Node : public QObject { // Node 类继承自 QObject 以使用 Qt 的元�
       stub = shader_stub;
     }
 
-    QString id;   // 着色器的唯一ID
-    QString stub; // 着色器代码片段 (可选)
+    QString id;    // 着色器的唯一ID
+    QString stub;  // 着色器代码片段 (可选)
   };
 
   /**
@@ -883,7 +883,7 @@ class Node : public QObject { // Node 类继承自 QObject 以使用 Qt 的元�
   static QString GetCategoryName(const CategoryID& c);
 
   // 时间变换方向枚举
-  enum TransformTimeDirection { kTransformTowardsInput, kTransformTowardsOutput }; // 朝输入方向变换，朝输出方向变换
+  enum TransformTimeDirection { kTransformTowardsInput, kTransformTowardsOutput };  // 朝输入方向变换，朝输出方向变换
 
   /**
    * @brief 将时间从此节点通过其连接转换到指定目标节点。
@@ -1032,7 +1032,7 @@ class Node : public QObject { // Node 类继承自 QObject 以使用 Qt 的元�
    * @return 返回 QTransform 变换矩阵。
    */
   [[nodiscard]] virtual QTransform GizmoTransformation(const NodeValueRow& row, const NodeGlobals& globals) const {
-    return {}; // 默认返回单位变换
+    return {};  // 默认返回单位变换
   }
 
   // 更新 Gizmo 的位置 (通常在节点参数改变后调用)
@@ -1125,7 +1125,7 @@ class Node : public QObject { // Node 类继承自 QObject 以使用 Qt 的元�
   // 静态方法：获取断开连接操作的命令字符串
   static QString GetDisconnectCommandString(Node* output, const NodeInput& input);
 
-  static const QString kEnabledInput; // "enabled" 输入端口的常量ID
+  static const QString kEnabledInput;  // "enabled" 输入端口的常量ID
 
  protected:
   // 在指定索引处插入一个新的输入端口
@@ -1202,9 +1202,9 @@ class Node : public QObject { // Node 类继承自 QObject 以使用 Qt 的元�
   // 设置节点的某个标志位 (受保护，供子类使用)
   void SetFlag(Flag f, bool on = true) {
     if (on) {
-      flags_ |= f; // 设置标志位
+      flags_ |= f;  // 设置标志位
     } else {
-      flags_ &= ~f; // 清除标志位
+      flags_ &= ~f;  // 清除标志位
     }
   }
 
@@ -1218,10 +1218,10 @@ class Node : public QObject { // Node 类继承自 QObject 以使用 Qt 的元�
   template <typename T>
   T* AddDraggableGizmo(const QVector<NodeKeyframeTrackReference>& inputs = QVector<NodeKeyframeTrackReference>(),
                        DraggableGizmo::DragValueBehavior behavior = DraggableGizmo::kDeltaFromStart) {
-    T* gizmo = new T(this); // 创建 Gizmo 实例，父对象为当前节点
-    gizmo->SetDragValueBehavior(behavior); // 设置拖拽行为
-    foreach (const NodeKeyframeTrackReference& input, inputs) { // 遍历所有关联的输入
-      gizmo->AddInput(input); // 将输入添加到 Gizmo
+    T* gizmo = new T(this);                                      // 创建 Gizmo 实例，父对象为当前节点
+    gizmo->SetDragValueBehavior(behavior);                       // 设置拖拽行为
+    foreach (const NodeKeyframeTrackReference& input, inputs) {  // 遍历所有关联的输入
+      gizmo->AddInput(input);                                    // 将输入添加到 Gizmo
     }
     // 连接 Gizmo 的信号到节点的槽函数
     connect(gizmo, &DraggableGizmo::HandleStart, this, &Node::GizmoDragStart);
@@ -1239,11 +1239,11 @@ class Node : public QObject { // Node 类继承自 QObject 以使用 Qt 的元�
   template <typename T>
   T* AddDraggableGizmo(const QStringList& inputs,
                        DraggableGizmo::DragValueBehavior behavior = DraggableGizmo::kDeltaFromStart) {
-    QVector<NodeKeyframeTrackReference> refs(inputs.size()); // 创建引用列表
+    QVector<NodeKeyframeTrackReference> refs(inputs.size());  // 创建引用列表
     for (int i = 0; i < refs.size(); i++) {
-      refs[i] = NodeKeyframeTrackReference(NodeInput(this, inputs[i])); // 将输入ID转换为引用
+      refs[i] = NodeKeyframeTrackReference(NodeInput(this, inputs[i]));  // 将输入ID转换为引用
     }
-    return AddDraggableGizmo<T>(refs, behavior); // 调用另一个重载版本
+    return AddDraggableGizmo<T>(refs, behavior);  // 调用另一个重载版本
   }
 
  protected slots:
@@ -1253,7 +1253,7 @@ class Node : public QObject { // Node 类继承自 QObject 以使用 Qt 的元�
   // Gizmo 拖拽过程中的槽函数 (虚函数，子类可重写)
   virtual void GizmoDragMove(double x, double y, const Qt::KeyboardModifiers& modifiers) {}
 
- signals: // Qt 信号声明
+ signals:  // Qt 信号声明
   /**
    * @brief 当 SetLabel() 被调用时发出的信号。
    * @param s 新的标签字符串。
@@ -1341,12 +1341,12 @@ class Node : public QObject { // Node 类继承自 QObject 以使用 Qt 的元�
  private:
   // 内部结构体，用于存储每个输入的详细信息
   struct Input {
-    NodeValue::Type type;             // 输入的数据类型
-    InputFlags flags;                 // 输入的标志位
-    SplitValue default_value;         // 输入的默认值 (分离形式)
-    QHash<QString, QVariant> properties; // 输入的额外属性 (例如下拉框选项)
-    QString human_name;               // 用户可读的输入名称
-    int array_size{};                 // 如果是数组类型，表示数组大小
+    NodeValue::Type type;                 // 输入的数据类型
+    InputFlags flags;                     // 输入的标志位
+    SplitValue default_value;             // 输入的默认值 (分离形式)
+    QHash<QString, QVariant> properties;  // 输入的额外属性 (例如下拉框选项)
+    QString human_name;                   // 用户可读的输入名称
+    int array_size{};                     // 如果是数组类型，表示数组大小
   };
 
   // 为指定输入创建 NodeInputImmediate 对象 (用于管理未连接时的值和关键帧)
@@ -1360,9 +1360,9 @@ class Node : public QObject { // Node 类继承自 QObject 以使用 Qt 的元�
     int i = GetInternalInputIndex(input);
 
     if (i == -1) {
-      return nullptr; // 未找到
+      return nullptr;  // 未找到
     } else {
-      return &input_data_[i]; // 返回数据的可修改引用
+      return &input_data_[i];  // 返回数据的可修改引用
     }
   }
   // const 版本
@@ -1370,9 +1370,9 @@ class Node : public QObject { // Node 类继承自 QObject 以使用 Qt 的元�
     int i = GetInternalInputIndex(input);
 
     if (i == -1) {
-      return nullptr; // 未找到
+      return nullptr;  // 未找到
     } else {
-      return &input_data_.at(i); // 返回数据的常量引用
+      return &input_data_.at(i);  // 返回数据的常量引用
     }
   }
 
@@ -1447,8 +1447,8 @@ class Node : public QObject { // Node 类继承自 QObject 以使用 Qt 的元�
    */
   QVector<Node*> links_;
 
-  QVector<QString> input_ids_; // 存储所有输入端口ID的列表 (有序)
-  QVector<Input> input_data_;  // 存储每个输入端口详细信息的列表 (与 input_ids_ 对应)
+  QVector<QString> input_ids_;  // 存储所有输入端口ID的列表 (有序)
+  QVector<Input> input_data_;   // 存储每个输入端口详细信息的列表 (与 input_ids_ 对应)
 
   // 标准 (非数组) 输入的立即值对象映射 (输入ID -> NodeInputImmediate*)
   QMap<QString, NodeInputImmediate*> standard_immediates_;
@@ -1456,32 +1456,32 @@ class Node : public QObject { // Node 类继承自 QObject 以使用 Qt 的元�
   // 数组输入的立即值对象映射 (输入ID -> QVector<NodeInputImmediate*>)
   QMap<QString, QVector<NodeInputImmediate*> > array_immediates_;
 
-  InputConnections input_connections_; // 存储此节点的输入连接
+  InputConnections input_connections_;  // 存储此节点的输入连接
 
-  OutputConnections output_connections_; // 存储从此节点出去的输出连接
+  OutputConnections output_connections_;  // 存储从此节点出去的输出连接
 
-  Folder* folder_; // 此节点所属的文件夹指针，可能为 nullptr
+  Folder* folder_;  // 此节点所属的文件夹指针，可能为 nullptr
 
   // 输入元素对到其值提示的映射
   QMap<InputElementPair, ValueHint> value_hints_;
 
-  PositionMap context_positions_; // 存储此节点作为上下文时，其内部节点的位置信息
+  PositionMap context_positions_;  // 存储此节点作为上下文时，其内部节点的位置信息
 
-  uint64_t flags_; // 节点的标志位 (使用 Flag 枚举按位组合)
+  uint64_t flags_;  // 节点的标志位 (使用 Flag 枚举按位组合)
 
-  QVector<NodeGizmo*> gizmos_; // 此节点拥有的 Gizmo 列表
+  QVector<NodeGizmo*> gizmos_;  // 此节点拥有的 Gizmo 列表
 
-  QString effect_input_; // 特殊输入端口的ID，标记为“效果输入”
+  QString effect_input_;  // 特殊输入端口的ID，标记为“效果输入”
 
-  FrameHashCache* video_cache_;     // 视频帧缓存指针
-  ThumbnailCache* thumbnail_cache_; // 缩略图缓存指针
+  FrameHashCache* video_cache_;      // 视频帧缓存指针
+  ThumbnailCache* thumbnail_cache_;  // 缩略图缓存指针
 
-  AudioPlaybackCache* audio_cache_;   // 音频播放缓存指针
-  AudioWaveformCache* waveform_cache_; // 音频波形缓存指针
+  AudioPlaybackCache* audio_cache_;     // 音频播放缓存指针
+  AudioWaveformCache* waveform_cache_;  // 音频波形缓存指针
 
-  bool caches_enabled_; // 缓存是否启用标志
+  bool caches_enabled_;  // 缓存是否启用标志
 
- private slots: // Qt 私有槽函数
+ private slots:  // Qt 私有槽函数
   /**
    * @brief 当关键帧时间改变时的槽函数，用于保持关键帧按时间正确排序并使缓存失效。
    */
@@ -1511,31 +1511,31 @@ class Node : public QObject { // Node 类继承自 QObject 以使用 Qt 的元�
 // 模板函数实现：递归查找连接到特定输入端口的特定类型的上游节点 (内部辅助)
 template <class T>
 void Node::FindInputNodesConnectedToInputInternal(const NodeInput& input, QVector<T*>& list, int maximum) {
-  Node* edge = input.GetConnectedOutput(); // 获取连接到此输入的上游节点
-  if (!edge) { // 如果没有连接，则返回
+  Node* edge = input.GetConnectedOutput();  // 获取连接到此输入的上游节点
+  if (!edge) {                              // 如果没有连接，则返回
     return;
   }
 
-  T* cast_test = dynamic_cast<T*>(edge); // 尝试将上游节点动态转换为类型 T
+  T* cast_test = dynamic_cast<T*>(edge);  // 尝试将上游节点动态转换为类型 T
 
-  if (cast_test) { // 如果转换成功
-    list.append(cast_test); // 将其添加到列表中
-    if (maximum != 0 && list.size() == maximum) { // 如果达到了最大查找数量
-      return; // 则返回
+  if (cast_test) {                                 // 如果转换成功
+    list.append(cast_test);                        // 将其添加到列表中
+    if (maximum != 0 && list.size() == maximum) {  // 如果达到了最大查找数量
+      return;                                      // 则返回
     }
   }
 
-  FindInputNodeInternal<T>(edge, list, maximum); // 递归查找更上游的节点
+  FindInputNodeInternal<T>(edge, list, maximum);  // 递归查找更上游的节点
 }
 
 // 模板函数实现：查找连接到特定输入端口的特定类型的上游节点 (公共接口)
 template <class T>
 QVector<T*> Node::FindInputNodesConnectedToInput(const NodeInput& input, int maximum) {
-  QVector<T*> list; // 创建结果列表
+  QVector<T*> list;  // 创建结果列表
 
-  FindInputNodesConnectedToInputInternal<T>(input, list, maximum); // 调用内部辅助函数
+  FindInputNodesConnectedToInputInternal<T>(input, list, maximum);  // 调用内部辅助函数
 
-  return list; // 返回结果
+  return list;  // 返回结果
 }
 
 // 模板函数实现：递归查找从节点 n 开始的特定类型的上游节点 (内部辅助)
@@ -1546,8 +1546,8 @@ void Node::FindInputNodeInternal(const Node* n, QVector<T*>& list, int maximum) 
     // 对每个输入连接递归调用 FindInputNodesConnectedToInputInternal
     // input_connection.first 是 NodeInput 对象
     FindInputNodesConnectedToInputInternal(input_connection.first, list, maximum);
-    if (maximum != 0 && list.size() == maximum) { // 如果达到了最大查找数量
-        return; // 则返回
+    if (maximum != 0 && list.size() == maximum) {  // 如果达到了最大查找数量
+      return;                                      // 则返回
     }
   }
 }
@@ -1555,11 +1555,11 @@ void Node::FindInputNodeInternal(const Node* n, QVector<T*>& list, int maximum) 
 // 模板函数实现：查找此节点从其获取输入的特定类型的节点 (公共接口)
 template <class T>
 QVector<T*> Node::FindInputNodes(int maximum) const {
-  QVector<T*> list; // 创建结果列表
+  QVector<T*> list;  // 创建结果列表
 
-  FindInputNodeInternal<T>(this, list, maximum); // 从当前节点开始查找
+  FindInputNodeInternal<T>(this, list, maximum);  // 从当前节点开始查找
 
-  return list; // 返回结果
+  return list;  // 返回结果
 }
 
 }  // namespace olive

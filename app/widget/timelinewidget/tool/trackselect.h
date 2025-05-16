@@ -1,9 +1,9 @@
-#ifndef TRACKSELECTTOOL_H // 防止头文件被多次包含的宏定义
+#ifndef TRACKSELECTTOOL_H  // 防止头文件被多次包含的宏定义
 #define TRACKSELECTTOOL_H
 
-#include "pointer.h" // 引入 PointerTool 类的定义，TrackSelectTool 是 PointerTool 的派生类
+#include "pointer.h"  // 引入 PointerTool 类的定义，TrackSelectTool 是 PointerTool 的派生类
 
-namespace olive { // olive 命名空间开始
+namespace olive {  // olive 命名空间开始
 
 /**
  * @brief TrackSelectTool 类是时间轴上的轨道选择工具。
@@ -12,7 +12,7 @@ namespace olive { // olive 命名空间开始
  * 同一轨道上的所有剪辑（Blocks）。
  */
 class TrackSelectTool : public PointerTool {
-public:
+ public:
   /**
    * @brief 构造一个 TrackSelectTool 对象。
    * @param parent 指向其所属的 TimelineWidget 的指针。
@@ -28,7 +28,7 @@ public:
    */
   void MousePress(TimelineViewMouseEvent *event) override;
 
-private: // 私有方法
+ private:  // 私有方法
   /**
    * @brief 在指定轨道上选择从某个点开始向前或向后的所有剪辑。
    * @param track 指向目标 Track 对象的指针。

@@ -1,10 +1,10 @@
-#ifndef NODEVALUEDATABASE_H // 防止头文件被重复包含的宏
-#define NODEVALUEDATABASE_H // 定义 NODEVALUEDATABASE_H 宏
+#ifndef NODEVALUEDATABASE_H  // 防止头文件被重复包含的宏
+#define NODEVALUEDATABASE_H  // 定义 NODEVALUEDATABASE_H 宏
 
-#include "param.h" // 可能包含 NodeInput 或其他参数相关定义 (虽然在此文件中不明显直接使用)
-#include "value.h" // 包含 NodeValueTable 等核心值类型的定义
+#include "param.h"  // 可能包含 NodeInput 或其他参数相关定义 (虽然在此文件中不明显直接使用)
+#include "value.h"  // 包含 NodeValueTable 等核心值类型的定义
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
 /**
  * @brief NodeValueDatabase 类是一个容器，用于存储和管理多个 NodeValueTable。
@@ -76,7 +76,7 @@ class NodeValueDatabase {
   [[nodiscard]] inline bool contains(const QString& s) const { return tables_.contains(s); }
 
  private:
-  Tables tables_; // 内部存储，使用 QHash 将输入ID映射到 NodeValueTable
+  Tables tables_;  // 内部存储，使用 QHash 将输入ID映射到 NodeValueTable
 };
 
 }  // namespace olive

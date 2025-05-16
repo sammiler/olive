@@ -1,8 +1,8 @@
 #ifndef RIPPLEDISTORTNODE_H
 #define RIPPLEDISTORTNODE_H
 
-#include "node/gizmo/point.h" // 引入点 Gizmo (交互控件) 的定义，用于控制波纹中心
-#include "node/node.h"        // 引入基类 Node 的定义
+#include "node/gizmo/point.h"  // 引入点 Gizmo (交互控件) 的定义，用于控制波纹中心
+#include "node/node.h"         // 引入基类 Node 的定义
 
 namespace olive {
 
@@ -11,14 +11,14 @@ namespace olive {
  * 该节点可以在图像上模拟水面波纹或类似的涟漪效果。
  */
 class RippleDistortNode : public Node {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief RippleDistortNode 构造函数。
-   */
-  RippleDistortNode();
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief RippleDistortNode 构造函数。
+      */
+     RippleDistortNode();
 
-  NODE_DEFAULT_FUNCTIONS(RippleDistortNode) // 节点默认功能宏，可能包含克隆、类型信息等标准实现
+  NODE_DEFAULT_FUNCTIONS(RippleDistortNode)  // 节点默认功能宏，可能包含克隆、类型信息等标准实现
 
   /**
    * @brief 获取此节点的名称。
@@ -69,12 +69,12 @@ class RippleDistortNode : public Node {
   void UpdateGizmoPositions(const NodeValueRow &row, const NodeGlobals &globals) override;
 
   // --- 静态常量，用作节点输入参数的键名 ---
-  static const QString kTextureInput;   ///< "Texture" - 输入纹理（图像）的参数键名。
-  static const QString kEvolutionInput; ///< "Evolution" - 波纹随时间演化（动画）的参数键名。
-  static const QString kIntensityInput; ///< "Intensity" - 波纹强度的参数键名。
-  static const QString kFrequencyInput; ///< "Frequency" - 波纹频率（疏密程度）的参数键名。
-  static const QString kPositionInput;  ///< "Position" - 波纹中心位置的参数键名。
-  static const QString kStretchInput;   ///< "Stretch" - 波纹在水平或垂直方向上的拉伸参数键名。
+  static const QString kTextureInput;    ///< "Texture" - 输入纹理（图像）的参数键名。
+  static const QString kEvolutionInput;  ///< "Evolution" - 波纹随时间演化（动画）的参数键名。
+  static const QString kIntensityInput;  ///< "Intensity" - 波纹强度的参数键名。
+  static const QString kFrequencyInput;  ///< "Frequency" - 波纹频率（疏密程度）的参数键名。
+  static const QString kPositionInput;   ///< "Position" - 波纹中心位置的参数键名。
+  static const QString kStretchInput;    ///< "Stretch" - 波纹在水平或垂直方向上的拉伸参数键名。
 
  protected slots:
   /**
@@ -86,7 +86,7 @@ class RippleDistortNode : public Node {
   void GizmoDragMove(double x, double y, const Qt::KeyboardModifiers &modifiers) override;
 
  private:
-  PointGizmo *gizmo_; ///< 指向控制波纹中心位置的 PointGizmo 对象的指针。
+  PointGizmo *gizmo_;  ///< 指向控制波纹中心位置的 PointGizmo 对象的指针。
 };
 
 }  // namespace olive

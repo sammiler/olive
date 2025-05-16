@@ -4,7 +4,7 @@
 #ifdef KDDOCKWIDGETS_QTQUICK // 仅当定义了 KDDOCKWIDGETS_QTQUICK 宏时才编译以下内容 (表示在 Qt Quick 环境下)
 
 #include "kddockwidgets/docks_export.h" // 包含导出宏定义，用于库的导出和导入
-#include "Widget_quick.h"             // 包含 Widget_quick.h，可能是 RubberBand 的基类或相关类
+#include "Widget_quick.h" // 包含 Widget_quick.h，可能是 RubberBand 的基类或相关类
 
 #include <QQuickItem> // 包含 QQuickItem 类，这是 Qt Quick 中所有可视化项的基类
 
@@ -23,11 +23,11 @@ namespace Layouting { // 布局相关的命名空间
  * 这个特定实现是为 KDDockWidgets 库的 Qt Quick 版本设计的。
  */
 class DOCKS_EXPORT_FOR_UNIT_TESTS RubberBand
-    : public QQuickItem,      // 继承自 QQuickItem，使其成为一个 Qt Quick 可视化项
+    : public QQuickItem, // 继承自 QQuickItem，使其成为一个 Qt Quick 可视化项
       public Layouting::Widget_quick // 继承自 Layouting::Widget_quick，可能用于集成到布局系统中
 {
-    Q_OBJECT // 启用 Qt 元对象系统特性，如信号和槽
-public:
+Q_OBJECT // 启用 Qt 元对象系统特性，如信号和槽
+    public :
     /**
      * @brief 构造一个 RubberBand 对象。
      * @param parent 指向父 Layouting::Widget 对象的指针。

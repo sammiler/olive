@@ -1,12 +1,12 @@
-#ifndef LINEGIZMO_H // 防止头文件被多次包含的宏定义开始
+#ifndef LINEGIZMO_H  // 防止头文件被多次包含的宏定义开始
 #define LINEGIZMO_H
 
-#include <QLineF> // Qt 的浮点数线段类
+#include <QLineF>  // Qt 的浮点数线段类
 
-#include "gizmo.h" // 引入基类 NodeGizmo (或类似 Gizmo 基类，这里可能是笔误，应为 "node/gizmo/gizmo.h" 或 "nodegizmo.h")
-                   // 假设 "gizmo.h" 是正确的基类头文件
+#include "gizmo.h"  // 引入基类 NodeGizmo (或类似 Gizmo 基类，这里可能是笔误，应为 "node/gizmo/gizmo.h" 或 "nodegizmo.h")
+                    // 假设 "gizmo.h" 是正确的基类头文件
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
 /**
  * @brief 代表一个线段 Gizmo (图形交互控件)。
@@ -14,13 +14,13 @@ namespace olive { // Olive 编辑器的命名空间
  * 或者表示方向、轴线等。
  */
 class LineGizmo : public NodeGizmo {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief LineGizmo 构造函数。
-   * @param parent 父 QObject 对象，默认为 nullptr。
-   */
-  explicit LineGizmo(QObject *parent = nullptr);
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief LineGizmo 构造函数。
+      * @param parent 父 QObject 对象，默认为 nullptr。
+      */
+     explicit LineGizmo(QObject *parent = nullptr);
 
   /**
    * @brief 获取此线段 Gizmo 代表的线段几何信息。
@@ -40,8 +40,8 @@ class LineGizmo : public NodeGizmo {
    */
   void Draw(QPainter *p) const override;
 
-private:
-  QLineF line_; ///< 存储线段的几何数据 (起点和终点坐标)。
+ private:
+  QLineF line_;  ///< 存储线段的几何数据 (起点和终点坐标)。
 };
 
 }  // namespace olive

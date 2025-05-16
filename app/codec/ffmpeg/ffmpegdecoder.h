@@ -14,11 +14,11 @@ extern "C" {
 
 #include <QTimer>
 #include <QVector>
-#include <QWaitCondition> // 虽然包含但在此头文件中未直接使用
-#include <list>           // 为了 std::list
+#include <QWaitCondition>  // 虽然包含但在此头文件中未直接使用
+#include <list>            // 为了 std::list
 
 #include "codec/decoder.h"
-#include "common/ffmpegutils.h" // 包含 FFmpeg 相关的工具函数和类型定义，如 AVFramePtr
+#include "common/ffmpegutils.h"  // 包含 FFmpeg 相关的工具函数和类型定义，如 AVFramePtr
 
 namespace olive {
 

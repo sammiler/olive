@@ -1,23 +1,23 @@
 #ifndef TRANSITIONBLOCK_H
 #define TRANSITIONBLOCK_H
 
-#include "node/block/block.h" // 引入基类 Block 的定义
+#include "node/block/block.h"  // 引入基类 Block 的定义
 
 namespace olive {
 
-class ClipBlock; // 前向声明 ClipBlock 类，转场通常发生在 ClipBlock 之间
+class ClipBlock;  // 前向声明 ClipBlock 类，转场通常发生在 ClipBlock 之间
 
 /**
  * @brief 转场效果的基类节点。
  * 定义了在两个媒体片段 (Block，通常是 ClipBlock) 之间进行过渡所需的核心功能。
  */
 class TransitionBlock : public Block {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief TransitionBlock 构造函数。
-   */
-  TransitionBlock();
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief TransitionBlock 构造函数。
+      */
+     TransitionBlock();
 
   /**
    * @brief 当界面语言等需要重新翻译时调用，用于更新本地化文本。
@@ -115,10 +115,10 @@ class TransitionBlock : public Block {
                        InvalidateCacheOptions options = InvalidateCacheOptions()) override;
 
   // --- 静态常量，用作节点输入参数的键名 ---
-  static const QString kOutBlockInput; ///< "OutBlock" - 连接前一个（淡出）片段的输入端口键名。
-  static const QString kInBlockInput;  ///< "InBlock" - 连接后一个（淡入）片段的输入端口键名。
-  static const QString kCurveInput;    ///< "Curve" - 转场缓动曲线类型参数的键名。
-  static const QString kCenterInput;   ///< "Center" - 转场中心偏移参数的键名。
+  static const QString kOutBlockInput;  ///< "OutBlock" - 连接前一个（淡出）片段的输入端口键名。
+  static const QString kInBlockInput;   ///< "InBlock" - 连接后一个（淡入）片段的输入端口键名。
+  static const QString kCurveInput;     ///< "Curve" - 转场缓动曲线类型参数的键名。
+  static const QString kCenterInput;    ///< "Center" - 转场中心偏移参数的键名。
 
  protected:
   /**
@@ -189,9 +189,9 @@ class TransitionBlock : public Block {
    * @brief 定义转场缓动曲线的类型。
    */
   enum CurveType {
-    kLinear,      ///< 线性曲线 (匀速变化)。
-    kExponential, ///< 指数曲线 (先慢后快或先快后慢，取决于具体实现)。
-    kLogarithmic  ///< 对数曲线 (与指数相反的效果)。
+    kLinear,       ///< 线性曲线 (匀速变化)。
+    kExponential,  ///< 指数曲线 (先慢后快或先快后慢，取决于具体实现)。
+    kLogarithmic   ///< 对数曲线 (与指数相反的效果)。
   };
 
   /**
@@ -209,8 +209,8 @@ class TransitionBlock : public Block {
   void InsertTransitionTimes(AcceleratedJob *job, const double &time) const;
 
   // --- 私有成员变量 ---
-  ClipBlock *connected_out_block_; ///< 指向连接的“出点”片段 (前一个片段) 的指针。
-                                   ///< 注意: 公共接口返回 Block*, 这里是 ClipBlock*，可能是内部优化或特定假设。
+  ClipBlock *connected_out_block_;  ///< 指向连接的“出点”片段 (前一个片段) 的指针。
+                                    ///< 注意: 公共接口返回 Block*, 这里是 ClipBlock*，可能是内部优化或特定假设。
 
   ClipBlock *connected_in_block_;  ///< 指向连接的“入点”片段 (后一个片段) 的指针。
                                    ///< 注意: 公共接口返回 Block*, 这里是 ClipBlock*。

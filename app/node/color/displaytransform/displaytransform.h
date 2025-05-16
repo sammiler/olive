@@ -1,8 +1,8 @@
 #ifndef DISPLAYTRANSFORMNODE_H
 #define DISPLAYTRANSFORMNODE_H
 
-#include "node/color/ociobase/ociobase.h" // 引入基类 OCIOBaseNode 的定义
-#include "render/colorprocessor.h"       // 引入 ColorProcessor 的定义，用于实际执行颜色变换
+#include "node/color/ociobase/ociobase.h"  // 引入基类 OCIOBaseNode 的定义
+#include "render/colorprocessor.h"         // 引入 ColorProcessor 的定义，用于实际执行颜色变换
 
 namespace olive {
 
@@ -12,14 +12,14 @@ namespace olive {
  * 例如，从场景线性的 ACEScg 转换到 sRGB 显示器的 Rec.709 视图。
  */
 class DisplayTransformNode : public OCIOBaseNode {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief DisplayTransformNode 构造函数。
-   */
-  DisplayTransformNode();
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief DisplayTransformNode 构造函数。
+      */
+     DisplayTransformNode();
 
-  NODE_DEFAULT_FUNCTIONS(DisplayTransformNode) // 节点默认功能宏，可能包含克隆、类型信息等标准实现
+  NODE_DEFAULT_FUNCTIONS(DisplayTransformNode)  // 节点默认功能宏，可能包含克隆、类型信息等标准实现
 
   /**
    * @brief 获取此显示变换节点的名称。
@@ -71,9 +71,9 @@ class DisplayTransformNode : public OCIOBaseNode {
   [[nodiscard]] ColorProcessor::Direction GetDirection() const;
 
   // --- 静态常量，用作节点输入参数的键名 ---
-  static const QString kDisplayInput;   ///< "Display" - 选择显示设备的输入参数键名。
-  static const QString kViewInput;      ///< "View" - 选择视图的输入参数键名。
-  static const QString kDirectionInput; ///< "Direction" - 选择变换方向的输入参数键名。
+  static const QString kDisplayInput;    ///< "Display" - 选择显示设备的输入参数键名。
+  static const QString kViewInput;       ///< "View" - 选择视图的输入参数键名。
+  static const QString kDirectionInput;  ///< "Direction" - 选择变换方向的输入参数键名。
 
  protected slots:
   /**

@@ -1,12 +1,12 @@
-#ifndef FOOTAGEJOB_H // 防止头文件被重复包含的宏
-#define FOOTAGEJOB_H // 定义 FOOTAGEJOB_H 宏
+#ifndef FOOTAGEJOB_H  // 防止头文件被重复包含的宏
+#define FOOTAGEJOB_H  // 定义 FOOTAGEJOB_H 宏
 
-#include <utility> // 标准库 utility 头文件，提供 std::move
+#include <utility>  // 标准库 utility 头文件，提供 std::move
 
-#include "node/project/footage/footage.h" // 包含 Footage 节点相关的定义，
-                                          // 也可能间接包含 AcceleratedJob (如果 Footage 继承自它或相关类)
-                                          // 或者直接包含 Track::Type, VideoParams, AudioParams, LoopMode, TimeRange, rational
-                                          // 以及 AcceleratedJob (因为 FootageJob 继承自它)
+#include "node/project/footage/footage.h"  // 包含 Footage 节点相关的定义，
+                                           // 也可能间接包含 AcceleratedJob (如果 Footage 继承自它或相关类)
+// 或者直接包含 Track::Type, VideoParams, AudioParams, LoopMode, TimeRange, rational
+// 以及 AcceleratedJob (因为 FootageJob 继承自它)
 // 为了明确，FootageJob 继承自 AcceleratedJob，所以 AcceleratedJob 的定义是必需的。
 // "node/project/footage/footage.h" 可能包含了这些类型定义，或者它们来自更基础的头文件。
 // 假设 AcceleratedJob 的定义已通过其他方式包含或在此文件中被间接包含。
@@ -16,7 +16,7 @@
 // #include "render/job/acceleratedjob.h"
 // 但我将严格按照您提供的代码进行注释。
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
 /**
  * @brief FootageJob 类代表一个处理素材 (Footage) 的加速任务。
@@ -37,7 +37,7 @@ namespace olive { // olive 项目的命名空间
  * 然后，渲染器 (例如，NodeTraverser 的 ProcessVideoFootage/ProcessAudioFootage 方法)
  * 会使用这个 Job 中的信息来获取特定时间的帧数据或音频样本。
  */
-class FootageJob : public AcceleratedJob { // FootageJob 继承自 AcceleratedJob
+class FootageJob : public AcceleratedJob {  // FootageJob 继承自 AcceleratedJob
  public:
   // 默认构造函数，初始化素材类型为 Track::kNone
   FootageJob() : type_(Track::kNone) {}
@@ -53,13 +53,13 @@ class FootageJob : public AcceleratedJob { // FootageJob 继承自 AcceleratedJo
    */
   FootageJob(const TimeRange& time, QString decoder, QString filename, Track::Type type, const rational& length,
              LoopMode loop_mode)
-      : time_(time), // 初始化时间范围
-        decoder_(std::move(decoder)),   // 初始化解码器名称 (使用 std::move)
-        filename_(std::move(filename)), // 初始化文件名 (使用 std::move)
-        type_(type),     // 初始化素材类型
-        length_(length), // 初始化素材长度
-        loop_mode_(loop_mode) // 初始化循环模式
-        // video_params_, audio_params_, cache_path_ 会进行默认初始化
+      : time_(time),                     // 初始化时间范围
+        decoder_(std::move(decoder)),    // 初始化解码器名称 (使用 std::move)
+        filename_(std::move(filename)),  // 初始化文件名 (使用 std::move)
+        type_(type),                     // 初始化素材类型
+        length_(length),                 // 初始化素材长度
+        loop_mode_(loop_mode)            // 初始化循环模式
+                                         // video_params_, audio_params_, cache_path_ 会进行默认初始化
   {}
 
   /**
@@ -147,21 +147,21 @@ class FootageJob : public AcceleratedJob { // FootageJob 继承自 AcceleratedJo
   void set_loop_mode(LoopMode m) { loop_mode_ = m; }
 
  private:
-  TimeRange time_; // 要处理的素材内部时间范围
+  TimeRange time_;  // 要处理的素材内部时间范围
 
-  QString decoder_;  // 解码器名称
-  QString filename_; // 素材文件路径
+  QString decoder_;   // 解码器名称
+  QString filename_;  // 素材文件路径
 
-  Track::Type type_; // 素材类型 (视频、音频等)
+  Track::Type type_;  // 素材类型 (视频、音频等)
 
-  VideoParams video_params_; // 视频参数
-  AudioParams audio_params_; // 音频参数
+  VideoParams video_params_;  // 视频参数
+  AudioParams audio_params_;  // 音频参数
 
-  QString cache_path_; // 素材的缓存文件路径 (可选)
+  QString cache_path_;  // 素材的缓存文件路径 (可选)
 
-  rational length_; // 素材的原始总长度
+  rational length_;  // 素材的原始总长度
 
-  LoopMode loop_mode_; // 循环播放模式
+  LoopMode loop_mode_;  // 循环播放模式
 };
 
 }  // namespace olive

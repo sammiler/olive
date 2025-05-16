@@ -1,9 +1,9 @@
-#ifndef SLIDETIMELINETOOL_H // 防止头文件被多次包含的宏定义
+#ifndef SLIDETIMELINETOOL_H  // 防止头文件被多次包含的宏定义
 #define SLIDETIMELINETOOL_H
 
-#include "pointer.h" // 引入 PointerTool 类的定义，SlideTool 是 PointerTool 的派生类
+#include "pointer.h"  // 引入 PointerTool 类的定义，SlideTool 是 PointerTool 的派生类
 
-namespace olive { // olive 命名空间开始
+namespace olive {  // olive 命名空间开始
 
 /**
  * @brief SlideTool 类是时间轴上的滑动编辑工具（Slide Edit Tool）。
@@ -14,14 +14,14 @@ namespace olive { // olive 命名空间开始
  * 位置变化而产生的间隙或被覆盖的部分。整个序列的总时长通常保持不变。
  */
 class SlideTool : public PointerTool {
-public:
+ public:
   /**
    * @brief 构造一个 SlideTool 对象。
    * @param parent 指向其所属的 TimelineWidget 的指针。
    */
   explicit SlideTool(TimelineWidget* parent);
 
-protected: // 受保护成员
+ protected:  // 受保护成员
   /**
    * @brief 初始化拖动操作的虚函数（重写自 PointerTool）。
    *

@@ -3,19 +3,19 @@
 
 #pragma once // 保证此头文件在一次编译中仅被包含一次
 
-#include "kddockwidgets/docks_export.h"    // 导入导出宏定义
+#include "kddockwidgets/docks_export.h" // 导入导出宏定义
 #include "kddockwidgets/KDDockWidgets.h" // KDDockWidgets 公共头文件，包含枚举和基本类型
-#include "kddockwidgets/LayoutSaver.h"     // 布局保存与恢复相关的类
-#include "kddockwidgets/QWidgetAdapter.h"  // QWidget 和 QQuickItem 的适配器类
+#include "kddockwidgets/LayoutSaver.h" // 布局保存与恢复相关的类
+#include "kddockwidgets/QWidgetAdapter.h" // QWidget 和 QQuickItem 的适配器类
 
 #include <QList> // Qt 列表容器
 
 // 前向声明内部布局引擎相关的类
 namespace Layouting {
-class Item;             // 布局中的一个基本项
-class ItemContainer;    // 布局中可以包含其他项的容器
-class Separator;        // 分隔符类 (用于调整相邻项的大小)
-class Widget_qwidget;   // QWidget 在布局引擎中的包装类 (如果使用 QWidget)
+class Item; // 布局中的一个基本项
+class ItemContainer; // 布局中可以包含其他项的容器
+class Separator; // 分隔符类 (用于调整相邻项的大小)
+class Widget_qwidget; // QWidget 在布局引擎中的包装类 (如果使用 QWidget)
 }
 
 namespace KDDockWidgets {
@@ -23,7 +23,7 @@ namespace KDDockWidgets {
 // 前向声明 KDDockWidgets 内部类
 class MainWindowBase; // 主窗口基类
 class FloatingWindow; // 浮动窗口类
-class Frame;          // 框架类 (容纳 DockWidgetBase)
+class Frame; // 框架类 (容纳 DockWidgetBase)
 class DockWidgetBase; // 停靠小部件基类
 
 /**

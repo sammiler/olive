@@ -1,11 +1,11 @@
-#ifndef NODEKEYFRAME_H // 防止头文件被多次包含的宏定义开始
+#ifndef NODEKEYFRAME_H  // 防止头文件被多次包含的宏定义开始
 #define NODEKEYFRAME_H
 
 #include <QPointF>   // Qt 浮点数点类，用于贝塞尔控制点
 #include <QVariant>  // Qt 通用数据类型，用于存储关键帧的值
 #include <memory>    // C++ 智能指针库 (在此文件中似乎未直接使用，但包含无害)
 
-#include "node/param.h" // 引入 NodeInput 和 NodeKeyframeTrackReference 定义
+#include "node/param.h"  // 引入 NodeInput 和 NodeKeyframeTrackReference 定义
 
 // 可能需要的前向声明
 // class Node; // Node 在此被前向声明
@@ -17,9 +17,9 @@
 // Qt 元类型声明，需要在命名空间之外
 // Q_DECLARE_METATYPE(olive::NodeKeyframe::Type)
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
-class Node; // 前向声明 Node 类，关键帧属于某个节点的某个参数
+class Node;  // 前向声明 Node 类，关键帧属于某个节点的某个参数
 
 /**
  * @brief 代表一个关键帧，即在特定时间点的一个数据点，用于与其他数据点进行插值形成动画。
@@ -27,17 +27,17 @@ class Node; // 前向声明 Node 类，关键帧属于某个节点的某个参�
  * 它还知道自己属于哪个节点的哪个输入参数的哪个通道/元素。
  */
 class NodeKeyframe : public QObject {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief 定义关键帧之间的插值方法。
-   */
-  enum Type {
-    kInvalid = -1, ///< 无效类型
-    kLinear,       ///< 线性插值 (两关键帧之间值呈直线变化)
-    kHold,         ///< 保持插值 (值保持不变直到下一个关键帧)
-    kBezier        ///< 贝塞尔曲线插值 (通过控制点定义平滑曲线变化)
-  };
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief 定义关键帧之间的插值方法。
+      */
+     enum Type {
+       kInvalid = -1,  ///< 无效类型
+       kLinear,        ///< 线性插值 (两关键帧之间值呈直线变化)
+       kHold,          ///< 保持插值 (值保持不变直到下一个关键帧)
+       kBezier         ///< 贝塞尔曲线插值 (通过控制点定义平滑曲线变化)
+     };
 
   /**
    * @brief 定义贝塞尔关键帧的两种控制柄类型。
@@ -47,7 +47,7 @@ class NodeKeyframe : public QObject {
     kOutHandle  ///< 出控制柄 (控制曲线离开此关键帧的形状)
   };
 
-  static const Type kDefaultType; ///< 默认的关键帧插值类型 (例如 kLinear)。
+  static const Type kDefaultType;  ///< 默认的关键帧插值类型 (例如 kLinear)。
 
   /**
    * @brief NodeKeyframe 构造函数。
@@ -217,7 +217,7 @@ class NodeKeyframe : public QObject {
    */
   void save(QXmlStreamWriter* writer, NodeValue::Type data_type) const;
 
- signals: // Qt 信号声明区域
+ signals:  // Qt 信号声明区域
   /**
    * @brief 当此关键帧的时间点发生改变时发射此信号。
    * @param time 新的时间点。
@@ -249,22 +249,22 @@ class NodeKeyframe : public QObject {
   void BezierControlOutChanged(const QPointF& d);
 
  private:
-  rational time_; ///< 关键帧的时间点。
-  QVariant value_; ///< 关键帧的值。
-  Type type_; ///< 关键帧的插值类型。
-  QPointF bezier_control_in_;  ///< 贝塞尔入控制点。
-  QPointF bezier_control_out_; ///< 贝塞尔出控制点。
-  QString input_; ///< 所属输入参数的名称。
-  int track_{};   ///< 所属参数通道/轨道的索引。
-  int element_{}; ///< 所属节点输入参数的元素索引。
+  rational time_;               ///< 关键帧的时间点。
+  QVariant value_;              ///< 关键帧的值。
+  Type type_;                   ///< 关键帧的插值类型。
+  QPointF bezier_control_in_;   ///< 贝塞尔入控制点。
+  QPointF bezier_control_out_;  ///< 贝塞尔出控制点。
+  QString input_;               ///< 所属输入参数的名称。
+  int track_{};                 ///< 所属参数通道/轨道的索引。
+  int element_{};               ///< 所属节点输入参数的元素索引。
 
-  NodeKeyframe* previous_{}; ///< 指向同一轨道上前一个关键帧的指针 (形成链表)。
-  NodeKeyframe* next_{};     ///< 指向同一轨道上后一个关键帧的指针。
+  NodeKeyframe* previous_{};  ///< 指向同一轨道上前一个关键帧的指针 (形成链表)。
+  NodeKeyframe* next_{};      ///< 指向同一轨道上后一个关键帧的指针。
 };
 
 // 类型别名，表示一个关键帧轨道，即存储特定参数通道/分量的所有关键帧指针的向量。
 // 关键帧在轨道内通常按时间排序。
-using NodeKeyframeTrack = QVector<NodeKeyframe*>; ///< 关键帧轨道类型别名。
+using NodeKeyframeTrack = QVector<NodeKeyframe*>;  ///< 关键帧轨道类型别名。
 
 }  // namespace olive
 

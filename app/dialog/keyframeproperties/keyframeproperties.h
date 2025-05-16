@@ -1,14 +1,14 @@
 #ifndef KEYFRAMEPROPERTIESDIALOG_H
 #define KEYFRAMEPROPERTIESDIALOG_H
 
-#include <QComboBox>   // 下拉选择框控件 (用于关键帧类型)
-#include <QDialog>     // QDialog 基类
-#include <QGroupBox>   // 分组框控件 (用于贝塞尔控制柄)
-#include <QWidget>     // 为了 QWidget* parent 参数
-#include <vector>      // 为了 std::vector<NodeKeyframe*>
+#include <QComboBox>  // 下拉选择框控件 (用于关键帧类型)
+#include <QDialog>    // QDialog 基类
+#include <QGroupBox>  // 分组框控件 (用于贝塞尔控制柄)
+#include <QWidget>    // 为了 QWidget* parent 参数
+#include <vector>     // 为了 std::vector<NodeKeyframe*>
 
 // Olive 内部头文件
-#include "node/keyframe.h" // 包含 NodeKeyframe 类和 NodeKeyframe::Type 枚举
+#include "node/keyframe.h"  // 包含 NodeKeyframe 类和 NodeKeyframe::Type 枚举
 // 假设 floatslider.h 声明了 FloatSlider 类
 #include "widget/slider/floatslider.h"
 // 假设 rationalslider.h 声明了 RationalSlider 类，并且 rational 类型已定义

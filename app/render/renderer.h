@@ -1,10 +1,10 @@
-#ifndef RENDERCONTEXT_H // 防止头文件被重复包含的宏
-#define RENDERCONTEXT_H // 定义 RENDERCONTEXT_H 宏
+#ifndef RENDERCONTEXT_H  // 防止头文件被重复包含的宏
+#define RENDERCONTEXT_H  // 定义 RENDERCONTEXT_H 宏
 
-#include <QMutex>   // Qt 互斥锁类
-#include <QObject>  // Qt 对象模型基类
-#include <QVariant> // Qt 通用数据类型 QVariant
-#include <utility>  // 标准库 utility 头文件，提供 std::move
+#include <QMutex>    // Qt 互斥锁类
+#include <QObject>   // Qt 对象模型基类
+#include <QVariant>  // Qt 通用数据类型 QVariant
+#include <utility>   // 标准库 utility 头文件，提供 std::move
 
 #include "common/define.h"                 // 可能包含项目通用的定义或宏
 #include "node/node.h"                     // 可能包含 Node 类的定义 (虽然未直接使用，但逻辑上相关)
@@ -16,9 +16,9 @@
 // 假设 ShaderJob, ShaderCode, Color 等类型已通过其他方式被间接包含。
 // std::list, QHash, QVector 也假设已包含。
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
-class ShaderJob; // 向前声明 ShaderJob 类
+class ShaderJob;  // 向前声明 ShaderJob 类
 
 /**
  * @brief Renderer 类是一个抽象基类，定义了渲染操作的通用接口。
@@ -32,15 +32,15 @@ class ShaderJob; // 向前声明 ShaderJob 类
  *
  * (注意：文件名是 RenderContext.h，而类名是 Renderer，这可能是一个历史遗留问题或特定命名约定)
  */
-class Renderer : public QObject { // Renderer 继承自 QObject
-  Q_OBJECT // 声明此类使用 Qt 的元对象系统
+class Renderer : public QObject {  // Renderer 继承自 QObject
+ Q_OBJECT                          // 声明此类使用 Qt 的元对象系统
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父对象指针，默认为 nullptr。
-   */
-  explicit Renderer(QObject *parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父对象指针，默认为 nullptr。
+      */
+     explicit Renderer(QObject *parent = nullptr);
 
   /**
    * @brief (纯虚函数) 初始化渲染器。
@@ -151,7 +151,7 @@ class Renderer : public QObject { // Renderer 继承自 QObject
    * @param r, g, b, a 清除操作使用的颜色值 (0.0 到 1.0)。
    */
   virtual void ClearDestination(olive::Texture *texture = nullptr, double r = 0.0, double g = 0.0, double b = 0.0,
-                                double a = 1.0) = 0; // 注意：原始代码中 a 默认为 1.0
+                                double a = 1.0) = 0;  // 注意：原始代码中 a 默认为 1.0
 
   /**
    * @brief (纯虚函数) 根据 ShaderCode 创建一个原生图形API着色器程序。
@@ -239,9 +239,9 @@ class Renderer : public QObject { // Renderer 继承自 QObject
   struct ColorContext {
     // 内部结构体，用于描述一个查找表 (LUT) 纹理
     struct LUT {
-      TexturePtr texture;             // 指向LUT纹理的 TexturePtr
-      Texture::Interpolation interpolation; // LUT纹理采样时使用的插值模式
-      QString name;                   // LUT的名称 (可能用于在着色器中绑定)
+      TexturePtr texture;                    // 指向LUT纹理的 TexturePtr
+      Texture::Interpolation interpolation;  // LUT纹理采样时使用的插值模式
+      QString name;                          // LUT的名称 (可能用于在着色器中绑定)
     };
 
     QVariant compiled_shader;     // 预编译的用于此颜色转换的着色器句柄
@@ -283,17 +283,17 @@ class Renderer : public QObject { // Renderer 继承自 QObject
     qint64 accessed;     // 上次访问时间戳 (用于LRU淘汰)
   };
 
-  static const int MAX_TEXTURE_LIFE = 5000; // 纹理在缓存中保持的最长生命周期 (毫秒)
-  static const bool USE_TEXTURE_CACHE = true; // 是否启用纹理缓存的全局开关
-  std::list<CachedTexture> texture_cache_; // 纹理缓存列表 (使用 std::list 可能便于移除中间元素)
+  static const int MAX_TEXTURE_LIFE = 5000;    // 纹理在缓存中保持的最长生命周期 (毫秒)
+  static const bool USE_TEXTURE_CACHE = true;  // 是否启用纹理缓存的全局开关
+  std::list<CachedTexture> texture_cache_;     // 纹理缓存列表 (使用 std::list 可能便于移除中间元素)
 
-  QMutex color_cache_mutex_; // 用于保护 `color_cache_` 访问的互斥锁
+  QMutex color_cache_mutex_;  // 用于保护 `color_cache_` 访问的互斥锁
 
-  QVariant default_shader_; // 缓存的默认着色器句柄
+  QVariant default_shader_;  // 缓存的默认着色器句柄
 
-  QVariant interlace_texture_; // (可能) 用于交错操作的特定着色器或纹理句柄
+  QVariant interlace_texture_;  // (可能) 用于交错操作的特定着色器或纹理句柄
 
-  QMutex texture_cache_lock_; // 用于保护 `texture_cache_` 访问的互斥锁
+  QMutex texture_cache_lock_;  // 用于保护 `texture_cache_` 访问的互斥锁
 };
 
 }  // namespace olive

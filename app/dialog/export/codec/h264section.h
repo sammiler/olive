@@ -1,11 +1,11 @@
 #ifndef H264SECTION_H
 #define H264SECTION_H
 
-#include <QComboBox>     // 下拉选择框控件
-#include <QSlider>       // 滑块控件
-#include <QStackedWidget> // 堆叠控件，用于根据压缩方法显示不同UI
-#include <QWidget>       // QWidget 基类
-#include <cstdint>       // 为了 int64_t
+#include <QComboBox>       // 下拉选择框控件
+#include <QSlider>         // 滑块控件
+#include <QStackedWidget>  // 堆叠控件，用于根据压缩方法显示不同UI
+#include <QWidget>         // QWidget 基类
+#include <cstdint>         // 为了 int64_t
 
 // 假设 codecsection.h 声明了 CodecSection 基类和 EncodingParams 类
 #include "codecsection.h"
@@ -173,9 +173,9 @@ class H264Section : public CodecSection {
    * @brief H.264 编码的压缩方法枚举。
    */
   enum CompressionMethod {
-    kConstantRateFactor, ///< @brief 固定码率因子 (CRF) 模式：追求特定质量水平，码率可变。
-    kTargetBitRate,      ///< @brief 目标码率模式：尝试达到指定的目标平均码率，可能还需设置最大码率。
-    kTargetFileSize      ///< @brief 目标文件大小模式：尝试使输出文件达到指定的大小。
+    kConstantRateFactor,  ///< @brief 固定码率因子 (CRF) 模式：追求特定质量水平，码率可变。
+    kTargetBitRate,       ///< @brief 目标码率模式：尝试达到指定的目标平均码率，可能还需设置最大码率。
+    kTargetFileSize       ///< @brief 目标文件大小模式：尝试使输出文件达到指定的大小。
   };
 
   /**

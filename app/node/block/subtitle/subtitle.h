@@ -1,7 +1,7 @@
 #ifndef SUBTITLEBLOCK_H
 #define SUBTITLEBLOCK_H
 
-#include "node/block/clip/clip.h" // 应该是 "node/block/clipblock.h" 或者类似 ClipBlock 的头文件路径
+#include "node/block/clip/clip.h"  // 应该是 "node/block/clipblock.h" 或者类似 ClipBlock 的头文件路径
                                    // "node/block/clip/clip.h" 看起来可能是笔误或项目结构中的特定路径
                                    // 但根据类继承 `SubtitleBlock : public ClipBlock`，它需要 ClipBlock 的定义
 
@@ -12,14 +12,14 @@ namespace olive {
  * 继承自 ClipBlock，用于在时间线上显示文本字幕。
  */
 class SubtitleBlock : public ClipBlock {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief SubtitleBlock 构造函数。
-   */
-  SubtitleBlock();
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief SubtitleBlock 构造函数。
+      */
+     SubtitleBlock();
 
-  NODE_DEFAULT_FUNCTIONS(SubtitleBlock) // 节点默认功能宏，可能包含克隆、类型信息等标准实现
+  NODE_DEFAULT_FUNCTIONS(SubtitleBlock)  // 节点默认功能宏，可能包含克隆、类型信息等标准实现
 
   /**
    * @brief 获取此 SubtitleBlock 的名称。
@@ -43,7 +43,7 @@ class SubtitleBlock : public ClipBlock {
    */
   void Retranslate() override;
 
-  static const QString kTextIn; ///< "TextIn" - 用于存储字幕文本内容的输入参数的键名。
+  static const QString kTextIn;  ///< "TextIn" - 用于存储字幕文本内容的输入参数的键名。
 
   /**
    * @brief 获取当前字幕块的文本内容。

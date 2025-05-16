@@ -1,16 +1,15 @@
-#ifndef TRACK_H // 防止头文件被多次包含的宏定义开始
+#ifndef TRACK_H  // 防止头文件被多次包含的宏定义开始
 #define TRACK_H
 
-#include "node/block/block.h" // 引入 Block 类的定义，轨道是 Block 的容器
-
+#include "node/block/block.h"  // 引入 Block 类的定义，轨道是 Block 的容器
 
 // 定义 RATIONAL_MAX 和 RATIONAL_MIN (如果它们是宏)
 // #define RATIONAL_MAX some_value
 // #define RATIONAL_MIN some_other_value
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
-class Sequence; // 前向声明 Sequence 类，轨道通常属于某个序列
+class Sequence;  // 前向声明 Sequence 类，轨道通常属于某个序列
 
 /**
  * @brief 代表时间线上的一个轨道（或通道）的节点。
@@ -18,25 +17,25 @@ class Sequence; // 前向声明 Sequence 类，轨道通常属于某个序列
  * 它负责管理这些块的时间顺序和处理它们的输出。
  */
 class Track : public Node {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief 定义轨道的类型。
-   */
-  enum Type {
-    kNone = -1, ///< 未指定或无效类型
-    kVideo,     ///< 视频轨道
-    kAudio,     ///< 音频轨道
-    kSubtitle,  ///< 字幕轨道
-    kCount      ///< 轨道类型的总数（用于迭代或数组大小）
-  };
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief 定义轨道的类型。
+      */
+     enum Type {
+       kNone = -1,  ///< 未指定或无效类型
+       kVideo,      ///< 视频轨道
+       kAudio,      ///< 音频轨道
+       kSubtitle,   ///< 字幕轨道
+       kCount       ///< 轨道类型的总数（用于迭代或数组大小）
+     };
 
   /**
    * @brief Track 构造函数。
    */
   Track();
 
-  NODE_DEFAULT_FUNCTIONS(Track) // 节点默认功能宏，可能包含克隆、类型信息等标准实现
+  NODE_DEFAULT_FUNCTIONS(Track)  // 节点默认功能宏，可能包含克隆、类型信息等标准实现
 
   /**
    * @brief 获取此轨道的类型。
@@ -113,10 +112,10 @@ class Track : public Node {
    * @return rational 块内部的相对时间 (时间 - 块的入点)。
    */
   static rational TransformTimeForBlock(const Block* block, const rational& time) {
-    if (time == RATIONAL_MAX || time == RATIONAL_MIN) { // 处理特殊时间值
+    if (time == RATIONAL_MAX || time == RATIONAL_MIN) {  // 处理特殊时间值
       return time;
     }
-    return time - block->in(); // 时间减去块的入点
+    return time - block->in();  // 时间减去块的入点
   }
 
   /**
@@ -136,10 +135,10 @@ class Track : public Node {
    * @return rational 轨道上的绝对时间 (时间 + 块的入点)。
    */
   static rational TransformTimeFromBlock(const Block* block, const rational& time) {
-    if (time == RATIONAL_MAX || time == RATIONAL_MIN) { // 处理特殊时间值
+    if (time == RATIONAL_MAX || time == RATIONAL_MIN) {  // 处理特殊时间值
       return time;
     }
-    return time + block->in(); // 时间加上块的入点
+    return time + block->in();  // 时间加上块的入点
   }
 
   /**
@@ -248,11 +247,11 @@ class Track : public Node {
      * @return QString 字符串表示，如果类型无效则为空字符串。
      */
     [[nodiscard]] QString ToString() const {
-      QString type_string = TypeToString(type_); // 获取类型字符串
+      QString type_string = TypeToString(type_);  // 获取类型字符串
       if (type_string.isEmpty()) {
         return {};
       } else {
-        return QStringLiteral("%1:%2").arg(type_string, QString::number(index_)); // 格式化为 "类型:索引"
+        return QStringLiteral("%1:%2").arg(type_string, QString::number(index_));  // 格式化为 "类型:索引"
       }
     }
 
@@ -263,10 +262,15 @@ class Track : public Node {
      */
     static QString TypeToString(Type type) {
       switch (type) {
-        case kVideo: return QStringLiteral("v");
-        case kAudio: return QStringLiteral("a");
-        case kSubtitle: return QStringLiteral("s");
-        case kCount: case kNone: break;
+        case kVideo:
+          return QStringLiteral("v");
+        case kAudio:
+          return QStringLiteral("a");
+        case kSubtitle:
+          return QStringLiteral("s");
+        case kCount:
+        case kNone:
+          break;
       }
       return {};
     }
@@ -278,10 +282,15 @@ class Track : public Node {
      */
     static QString TypeToTranslatedString(Type type) {
       switch (type) {
-        case kVideo: return tr("V"); // 支持翻译
-        case kAudio: return tr("A");
-        case kSubtitle: return tr("S");
-        case kCount: case kNone: break;
+        case kVideo:
+          return tr("V");  // 支持翻译
+        case kAudio:
+          return tr("A");
+        case kSubtitle:
+          return tr("S");
+        case kCount:
+        case kNone:
+          break;
       }
       return {};
     }
@@ -293,11 +302,14 @@ class Track : public Node {
      * @return Type 解析出的轨道类型，如果无法解析则为 Track::kNone。
      */
     static Type TypeFromString(const QString& s) {
-      if (s.size() >= 3) { // 至少需要 "x:y" 格式
+      if (s.size() >= 3) {  // 至少需要 "x:y" 格式
         if (s.at(1) == ':') {
-          if (s.at(0) == 'v') return Track::kVideo;
-          else if (s.at(0) == 'a') return Track::kAudio;
-          else if (s.at(0) == 's') return Track::kSubtitle;
+          if (s.at(0) == 'v')
+            return Track::kVideo;
+          else if (s.at(0) == 'a')
+            return Track::kAudio;
+          else if (s.at(0) == 's')
+            return Track::kSubtitle;
         }
       }
       return Track::kNone;
@@ -310,10 +322,10 @@ class Track : public Node {
      */
     static Reference FromString(const QString& s) {
       Reference ref;
-      Type parse_type = TypeFromString(s); // 先解析类型
+      Type parse_type = TypeFromString(s);  // 先解析类型
       if (parse_type != Track::kNone) {
         bool ok;
-        int parse_index = s.mid(2).toInt(&ok); // 解析索引部分
+        int parse_index = s.mid(2).toInt(&ok);  // 解析索引部分
         if (ok) {
           ref.type_ = parse_type;
           ref.index_ = parse_index;
@@ -326,8 +338,8 @@ class Track : public Node {
     [[nodiscard]] bool IsValid() const { return type_ > kNone && type_ < kCount && index_ >= 0; }
 
    private:
-    Track::Type type_; ///< 轨道类型。
-    int index_;        ///< 轨道在该类型中的索引。
+    Track::Type type_;  ///< 轨道类型。
+    int index_;         ///< 轨道在该类型中的索引。
   };
 
   /**
@@ -417,8 +429,8 @@ class Track : public Node {
    * @return Block* 活动的块，如果没有则为 nullptr。
    */
   [[nodiscard]] Block* VisibleBlockAtTime(const rational& t) const {
-    int index = GetBlockIndexAtTime(t); // 获取该时间点的块索引
-    return (index == -1) ? nullptr : blocks_.at(index); // 返回对应块或nullptr
+    int index = GetBlockIndexAtTime(t);                  // 获取该时间点的块索引
+    return (index == -1) ? nullptr : blocks_.at(index);  // 返回对应块或nullptr
   }
 
   /**
@@ -508,14 +520,14 @@ class Track : public Node {
   void set_sequence(Sequence* sequence) { sequence_ = sequence; }
 
   // --- 静态常量，定义轨道高度相关的默认值 ---
-  static const double kTrackHeightDefault;  ///< 默认轨道高度（内部单位）。
-  static const double kTrackHeightMinimum;  ///< 最小轨道高度（内部单位）。
-  static const double kTrackHeightInterval; ///< 轨道高度调整的步进间隔（内部单位）。
+  static const double kTrackHeightDefault;   ///< 默认轨道高度（内部单位）。
+  static const double kTrackHeightMinimum;   ///< 最小轨道高度（内部单位）。
+  static const double kTrackHeightInterval;  ///< 轨道高度调整的步进间隔（内部单位）。
 
   // --- 静态常量，用作节点输入参数的键名 ---
-  static const QString kBlockInput;    ///< "Blocks" - 连接媒体块的输入端口（可能是一个数组输入）的键名。
-  static const QString kMutedInput;    ///< "Muted" - 轨道静音状态的参数键名。
-  static const QString kArrayMapInput; ///< "ArrayMap" - 块索引映射（用于优化或特定处理）的参数键名。
+  static const QString kBlockInput;     ///< "Blocks" - 连接媒体块的输入端口（可能是一个数组输入）的键名。
+  static const QString kMutedInput;     ///< "Muted" - 轨道静音状态的参数键名。
+  static const QString kArrayMapInput;  ///< "ArrayMap" - 块索引映射（用于优化或特定处理）的参数键名。
 
  public slots:
   /**
@@ -530,7 +542,7 @@ class Track : public Node {
    */
   void SetLocked(bool e);
 
- signals: // Qt 信号声明区域
+ signals:  // Qt 信号声明区域
   /**
    * @brief 当有媒体块被添加到此轨道时发射此信号。
    * @param block 被添加的媒体块。
@@ -629,23 +641,23 @@ class Track : public Node {
    */
   void UpdateArrayMap();
 
-  TimeRangeList block_length_pending_invalidations_; ///< 存储因块长度改变而待处理的缓存失效请求。
+  TimeRangeList block_length_pending_invalidations_;  ///< 存储因块长度改变而待处理的缓存失效请求。
 
-  QVector<Block*> blocks_;                         ///< 存储轨道上所有媒体块指针的向量。
-  QVector<uint32_t> block_array_indexes_;          ///< 存储每个块在某种全局数组或缓存中的索引。
+  QVector<Block*> blocks_;                 ///< 存储轨道上所有媒体块指针的向量。
+  QVector<uint32_t> block_array_indexes_;  ///< 存储每个块在某种全局数组或缓存中的索引。
 
-  std::list<int> empty_inputs_; ///< 存储当前轨道上可用的（未被块占用的）输入端口索引列表。
+  std::list<int> empty_inputs_;  ///< 存储当前轨道上可用的（未被块占用的）输入端口索引列表。
 
-  Track::Type track_type_; ///< 轨道的类型 (视频, 音频, 字幕)。
-  double track_height_;    ///< 轨道的显示高度 (内部单位)。
-  int index_;              ///< 此轨道在其所属序列中同类型轨道里的索引。
-  bool locked_;            ///< 轨道是否被锁定。
-  Sequence* sequence_;     ///< 指向此轨道所属的序列对象的指针。
+  Track::Type track_type_;  ///< 轨道的类型 (视频, 音频, 字幕)。
+  double track_height_;     ///< 轨道的显示高度 (内部单位)。
+  int index_;               ///< 此轨道在其所属序列中同类型轨道里的索引。
+  bool locked_;             ///< 轨道是否被锁定。
+  Sequence* sequence_;      ///< 指向此轨道所属的序列对象的指针。
 
   // --- ArrayMap 相关状态变量 ---
-  int ignore_arraymap_;      ///< 一个计数器或标志，用于临时忽略 ArrayMap 的更新。
-  bool arraymap_invalid_;    ///< 标记 ArrayMap 当前是否失效，需要重建。
-  bool ignore_arraymap_set_; ///< 标记 ignore_arraymap_ 是否被主动设置过。
+  int ignore_arraymap_;       ///< 一个计数器或标志，用于临时忽略 ArrayMap 的更新。
+  bool arraymap_invalid_;     ///< 标记 ArrayMap 当前是否失效，需要重建。
+  bool ignore_arraymap_set_;  ///< 标记 ignore_arraymap_ 是否被主动设置过。
 
  private slots:
   /**

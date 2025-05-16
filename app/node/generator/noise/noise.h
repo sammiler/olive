@@ -1,9 +1,9 @@
-#ifndef NOISEGENERATORNODE_H // 防止头文件被多次包含的宏定义开始
+#ifndef NOISEGENERATORNODE_H  // 防止头文件被多次包含的宏定义开始
 #define NOISEGENERATORNODE_H
 
-#include "node/node.h" // 引入基类 Node 的定义
+#include "node/node.h"  // 引入基类 Node 的定义
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
 /**
  * @brief 代表“噪点生成器”的节点。
@@ -11,14 +11,14 @@ namespace olive { // Olive 编辑器的命名空间
  * 用户通常可以控制噪点的颜色和强度。
  */
 class NoiseGeneratorNode : public Node {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief NoiseGeneratorNode 构造函数。
-   */
-  NoiseGeneratorNode();
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief NoiseGeneratorNode 构造函数。
+      */
+     NoiseGeneratorNode();
 
-  NODE_DEFAULT_FUNCTIONS(NoiseGeneratorNode) // 节点默认功能宏，可能包含克隆、类型信息等标准实现
+  NODE_DEFAULT_FUNCTIONS(NoiseGeneratorNode)  // 节点默认功能宏，可能包含克隆、类型信息等标准实现
 
   /**
    * @brief 获取此节点的名称。
@@ -61,9 +61,9 @@ class NoiseGeneratorNode : public Node {
   void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
 
   // --- 静态常量，用作节点输入参数的键名 ---
-  static const QString kBaseIn;        ///< "Base" - 基础输入纹理（图像）的参数键名，噪点可以叠加在此图像上。
-  static const QString kColorInput;    ///< "Color" - 噪点颜色的参数键名（如果噪点是彩色的）。
-  static const QString kStrengthInput; ///< "Strength" - 噪点强度或不透明度的参数键名。
+  static const QString kBaseIn;         ///< "Base" - 基础输入纹理（图像）的参数键名，噪点可以叠加在此图像上。
+  static const QString kColorInput;     ///< "Color" - 噪点颜色的参数键名（如果噪点是彩色的）。
+  static const QString kStrengthInput;  ///< "Strength" - 噪点强度或不透明度的参数键名。
 };
 
 }  // namespace olive

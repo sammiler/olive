@@ -1,9 +1,9 @@
-#ifndef ROLLINGTIMELINETOOL_H // 防止头文件被多次包含的宏定义
+#ifndef ROLLINGTIMELINETOOL_H  // 防止头文件被多次包含的宏定义
 #define ROLLINGTIMELINETOOL_H
 
-#include "pointer.h" // 引入 PointerTool 类的定义，RollingTool 是 PointerTool 的派生类
+#include "pointer.h"  // 引入 PointerTool 类的定义，RollingTool 是 PointerTool 的派生类
 
-namespace olive { // olive 命名空间开始
+namespace olive {  // olive 命名空间开始
 
 /**
  * @brief RollingTool 类是时间轴上的滚动编辑工具（Rolling Edit Tool）。
@@ -14,14 +14,14 @@ namespace olive { // olive 命名空间开始
  * 但保持它们组合的总时长不变，并且不影响时间轴上其他剪辑的位置。
  */
 class RollingTool : public PointerTool {
-public:
+ public:
   /**
    * @brief 构造一个 RollingTool 对象。
    * @param parent 指向其所属的 TimelineWidget 的指针。
    */
   explicit RollingTool(TimelineWidget* parent);
 
-protected: // 受保护成员
+ protected:  // 受保护成员
   /**
    * @brief 初始化拖动操作的虚函数（重写自 PointerTool）。
    *

@@ -1,14 +1,14 @@
-#ifndef SERIALIZEDDATA_H // 防止头文件被重复包含的宏
-#define SERIALIZEDDATA_H // 定义 SERIALIZEDDATA_H 宏
+#ifndef SERIALIZEDDATA_H  // 防止头文件被重复包含的宏
+#define SERIALIZEDDATA_H  // 定义 SERIALIZEDDATA_H 宏
 
-#include <QHash>    // Qt 哈希表容器
-#include <QVariant> // Qt 通用数据类型 QVariant
+#include <QHash>     // Qt 哈希表容器
+#include <QVariant>  // Qt 通用数据类型 QVariant
 
-#include "node.h"   // 包含 Node 类的定义 (可能为了 Node::Position 等)
+#include "node.h"  // 包含 Node 类的定义 (可能为了 Node::Position 等)
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
-class NodeGroup; // 向前声明 NodeGroup 类
+class NodeGroup;  // 向前声明 NodeGroup 类
 
 /**
  * @brief SerializedData 结构体用于在项目加载和保存过程中临时存储和传递反序列化或待序列化的数据。
@@ -21,15 +21,15 @@ class NodeGroup; // 向前声明 NodeGroup 类
 struct SerializedData {
   // 用于存储序列化连接信息的结构体
   struct SerializedConnection {
-    NodeInput input;      // 目标输入端口 (包含下游节点指针、输入ID和元素索引)
-    quintptr output_node{}; // 连接到此输入的上游输出节点的临时标识符 (例如，在XML中读取的ID)
+    NodeInput input;         // 目标输入端口 (包含下游节点指针、输入ID和元素索引)
+    quintptr output_node{};  // 连接到此输入的上游输出节点的临时标识符 (例如，在XML中读取的ID)
   };
 
   // 用于存储“块链接”(Block Link)信息的结构体
   // "块链接"可能是指一种特定类型的节点间关系，不同于标准的输入输出数据流连接
   struct BlockLink {
-    Node *block;   // 发起链接的节点 (块)
-    quintptr link; // 被链接的目标节点的临时标识符
+    Node *block;    // 发起链接的节点 (块)
+    quintptr link;  // 被链接的目标节点的临时标识符
   };
 
   // 用于存储节点组 (NodeGroup) 的透传链接 (Passthrough Link) 信息的结构体
@@ -46,7 +46,7 @@ struct SerializedData {
     InputFlags custom_flags;    // 透传端口的自定义标志
     NodeValue::Type data_type;  // 透传端口的数据类型
     QVariant default_val;       // 透传端口的默认值
-    QHash<QString, QVariant> custom_properties; // 透传端口的自定义属性
+    QHash<QString, QVariant> custom_properties;  // 透传端口的自定义属性
   };
 
   // 存储节点在不同上下文中的位置信息

@@ -1,7 +1,7 @@
 #ifndef TIMELINEUNDOTRACK_H
 #define TIMELINEUNDOTRACK_H
 
-#include "node/output/track/track.h" // 引入 Track 类的定义，此类中的命令主要操作轨道及其内容
+#include "node/output/track/track.h"  // 引入 Track 类的定义，此类中的命令主要操作轨道及其内容
 
 namespace olive {
 
@@ -45,9 +45,9 @@ class TrackRippleRemoveBlockCommand : public UndoCommand {
   void undo() override { track_->InsertBlockAfter(block_, before_); }
 
  private:
-  Track* track_;    // 指向目标轨道
-  Block* block_;    // 指向要被移除的区块
-  Block* before_{}; // 指向被移除区块之前的一个区块，用于撤销时定位
+  Track* track_;     // 指向目标轨道
+  Block* block_;     // 指向要被移除的区块
+  Block* before_{};  // 指向被移除区块之前的一个区块，用于撤销时定位
 };
 
 /**
@@ -83,8 +83,8 @@ class TrackPrependBlockCommand : public UndoCommand {
   void undo() override { track_->RippleRemoveBlock(block_); }
 
  private:
-  Track* track_; // 指向目标轨道
-  Block* block_; // 指向要前置的区块
+  Track* track_;  // 指向目标轨道
+  Block* block_;  // 指向要前置的区块
 };
 
 /**

@@ -1,11 +1,11 @@
 #ifndef NODEPARAMVIEWTEXTEDIT_H
 #define NODEPARAMVIEWTEXTEDIT_H
 
-#include <QPlainTextEdit> // Qt 纯文本编辑控件
-#include <QPushButton>    // Qt 按钮控件
-#include <QWidget>        // Qt 控件基类
+#include <QPlainTextEdit>  // Qt 纯文本编辑控件
+#include <QPushButton>     // Qt 按钮控件
+#include <QWidget>         // Qt 控件基类
 
-#include "common/define.h" // 项目通用定义
+#include "common/define.h"  // 项目通用定义
 
 // 前向声明 Qt 类 (根据用户要求，不添加)
 // class QString;
@@ -21,14 +21,14 @@ namespace olive {
  * 控件可以配置为“仅在查看器中编辑”模式，此时内部的文本框变为只读。
  */
 class NodeParamViewTextEdit : public QWidget {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit NodeParamViewTextEdit(QWidget *parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit NodeParamViewTextEdit(QWidget *parent = nullptr);
 
   /**
    * @brief 获取当前编辑框中的文本。
@@ -54,9 +54,9 @@ class NodeParamViewTextEdit : public QWidget {
    * @param s 要设置的文本字符串。
    */
   void setText(const QString &s) {
-    line_edit_->blockSignals(true);    // 阻塞信号，防止 setText 触发 textChanged
-    line_edit_->setPlainText(s);       // 设置纯文本内容
-    line_edit_->blockSignals(false);   // 解除信号阻塞
+    line_edit_->blockSignals(true);   // 阻塞信号，防止 setText 触发 textChanged
+    line_edit_->setPlainText(s);      // 设置纯文本内容
+    line_edit_->blockSignals(false);  // 解除信号阻塞
   }
 
   /**
@@ -72,8 +72,8 @@ class NodeParamViewTextEdit : public QWidget {
 
     // 获取新的文本光标对象
     QTextCursor c = line_edit_->textCursor();
-    c.setPosition(cursor_pos); // 将光标位置设置回保存的位置 (如果新文本长度允许)
-    line_edit_->setTextCursor(c); // 应用新的光标
+    c.setPosition(cursor_pos);     // 将光标位置设置回保存的位置 (如果新文本长度允许)
+    line_edit_->setTextCursor(c);  // 应用新的光标
   }
 
  signals:
@@ -91,11 +91,11 @@ class NodeParamViewTextEdit : public QWidget {
   void RequestEditInViewer();
 
  private:
-  QPlainTextEdit *line_edit_; ///< 用于实际文本输入的纯文本编辑控件。
+  QPlainTextEdit *line_edit_;  ///< 用于实际文本输入的纯文本编辑控件。
 
-  QPushButton *edit_btn_; ///< “编辑”按钮，通常用于打开一个更大的文本编辑对话框。
+  QPushButton *edit_btn_;  ///< “编辑”按钮，通常用于打开一个更大的文本编辑对话框。
 
-  QPushButton *edit_in_viewer_btn_; ///< “在查看器中编辑”按钮。
+  QPushButton *edit_in_viewer_btn_;  ///< “在查看器中编辑”按钮。
 
  private slots:
   /**

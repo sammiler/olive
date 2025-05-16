@@ -1,10 +1,9 @@
-#ifndef BEAMTIMELINETOOL_H // 防止头文件被多次包含的宏定义
+#ifndef BEAMTIMELINETOOL_H  // 防止头文件被多次包含的宏定义
 #define BEAMTIMELINETOOL_H
 
-#include "tool.h" // 引入 Tool 类的定义，BeamTool 是 TimelineTool (通过类声明推断) 的派生类
+#include "tool.h"  // 引入 Tool 类的定义，BeamTool 是 TimelineTool (通过类声明推断) 的派生类
 
-namespace olive { // olive 命名空间开始
-
+namespace olive {  // olive 命名空间开始
 
 /**
  * @brief BeamTool 类是时间轴工具的基类之一，可能代表一种与“光束”或范围指示相关的工具。
@@ -13,7 +12,7 @@ namespace olive { // olive 命名空间开始
  * 以及一个用于验证时间轴坐标的方法。
  */
 class BeamTool : public TimelineTool {
-public:
+ public:
   /**
    * @brief 构造一个 BeamTool 对象。
    * @param parent 指向其所属的 TimelineWidget 的指针。
@@ -29,7 +28,7 @@ public:
    */
   void HoverMove(TimelineViewMouseEvent *event) override;
 
-protected: // 受保护成员
+ protected:  // 受保护成员
   /**
    * @brief 验证并可能调整给定的时间轴坐标。
    *

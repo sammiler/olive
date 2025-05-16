@@ -1,4 +1,4 @@
-#ifndef VIEWER_WIDGET_H // 防止头文件被多次包含的宏定义
+#ifndef VIEWER_WIDGET_H  // 防止头文件被多次包含的宏定义
 #define VIEWER_WIDGET_H
 
 #include <QFile>
@@ -31,18 +31,18 @@ class MulticamWidget;
  * Gizmo（交互辅助图形）显示、全屏功能以及与其他组件（如时间轴、节点编辑器）的交互。
  */
 class ViewerWidget : public TimeBasedWidget {
-  Q_OBJECT // Q_OBJECT 宏，用于启用 Qt 的元对象特性，如信号和槽
+ Q_OBJECT  // Q_OBJECT 宏，用于启用 Qt 的元对象特性，如信号和槽
 
- public:
-  /**
-   * @brief WaveformMode 枚举定义了音频波形的显示模式。
-   */
-  enum WaveformMode {
-    kWFAutomatic,         ///< 自动模式：根据上下文决定是否显示波形（例如，如果视频轨道不可见，则显示波形）。
-    kWFViewerOnly,        ///< 仅查看器模式：只显示视频，不显示波形。
-    kWFWaveformOnly,      ///< 仅波形模式：只显示音频波形，不显示视频。
-    kWFViewerAndWaveform  ///< 查看器和波形模式：同时显示视频和音频波形。
-  };
+     public :
+     /**
+      * @brief WaveformMode 枚举定义了音频波形的显示模式。
+      */
+     enum WaveformMode {
+       kWFAutomatic,         ///< 自动模式：根据上下文决定是否显示波形（例如，如果视频轨道不可见，则显示波形）。
+       kWFViewerOnly,        ///< 仅查看器模式：只显示视频，不显示波形。
+       kWFWaveformOnly,      ///< 仅波形模式：只显示音频波形，不显示视频。
+       kWFViewerAndWaveform  ///< 查看器和波形模式：同时显示视频和音频波形。
+     };
 
   /**
    * @brief 构造一个 ViewerWidget 对象。
@@ -146,11 +146,11 @@ class ViewerWidget : public TimeBasedWidget {
    * @param b 包含选中 Block 指针的 QVector。
    */
   void SetTimelineSelectedBlocks(const QVector<Block*>& b) {
-    timeline_selected_blocks_ = b; // 更新内部选中的 Block 列表
+    timeline_selected_blocks_ = b;  // 更新内部选中的 Block 列表
 
-    if (!IsPlaying()) { // 如果当前未播放
+    if (!IsPlaying()) {  // 如果当前未播放
       // 如果正在播放，这将在下一帧自动发生
-      DetectMulticamNodeNow();    // 立即检测多机位节点
+      DetectMulticamNodeNow();  // 立即检测多机位节点
       UpdateTextureFromNode();  // 从节点更新纹理
     }
   }
@@ -162,11 +162,11 @@ class ViewerWidget : public TimeBasedWidget {
    * @param n 包含选中 Node 指针的 QVector。
    */
   void SetNodeViewSelections(const QVector<Node*>& n) {
-    node_view_selected_ = n; // 更新内部选中的 Node 列表
+    node_view_selected_ = n;  // 更新内部选中的 Node 列表
 
-    if (!IsPlaying()) { // 如果当前未播放
+    if (!IsPlaying()) {  // 如果当前未播放
       // 如果正在播放，这将在下一帧自动发生
-      DetectMulticamNodeNow();    // 立即检测多机位节点
+      DetectMulticamNodeNow();  // 立即检测多机位节点
       UpdateTextureFromNode();  // 从节点更新纹理
     }
   }
@@ -177,7 +177,7 @@ class ViewerWidget : public TimeBasedWidget {
    */
   void ConnectMulticamWidget(MulticamWidget* p);
 
- public slots: // 公共槽函数
+ public slots:  // 公共槽函数
   /**
    * @brief 开始播放。
    * @param in_to_out_only 如果为 true，则仅播放入点到出点之间的范围。
@@ -258,7 +258,7 @@ class ViewerWidget : public TimeBasedWidget {
    */
   void RequestStartEditingText() { display_widget_->RequestStartEditingText(); }
 
- signals: // 信号
+ signals:  // 信号
   /**
    * @brief ViewerGLWidget::CursorColor() 的包装器。
    *
@@ -290,7 +290,7 @@ class ViewerWidget : public TimeBasedWidget {
    */
   void ColorManagerChanged(ColorManager* color_manager);
 
- protected: // 受保护的构造函数和重写方法
+ protected:  // 受保护的构造函数和重写方法
   /**
    * @brief 构造一个 ViewerWidget 对象，并使用一个外部提供的 ViewerDisplayWidget。
    * @param display 指向 ViewerDisplayWidget 对象的指针，作为显示核心。
@@ -347,7 +347,7 @@ class ViewerWidget : public TimeBasedWidget {
    */
   void resizeEvent(QResizeEvent* event) override;
 
-  PlaybackControls* controls_; ///< 指向播放控制条 (PlaybackControls) 对象的指针。
+  PlaybackControls* controls_;  ///< 指向播放控制条 (PlaybackControls) 对象的指针。
 
   /**
    * @brief 获取内部的 ViewerDisplayWidget 显示控件。
@@ -376,7 +376,7 @@ class ViewerWidget : public TimeBasedWidget {
    */
   void SetWaveformMode(WaveformMode wf);
 
- private: // 私有方法
+ private:  // 私有方法
   /**
    * @brief 获取当前播放头时间的 Unix 时间戳表示（毫秒）。
    * @return 时间戳 (int64_t)。
@@ -538,78 +538,78 @@ class ViewerWidget : public TimeBasedWidget {
    */
   [[nodiscard]] bool IsVideoVisible() const;
 
-  ViewerSizer* sizer_; ///< 指向 ViewerSizer 对象的指针，用于管理查看器的大小和缩放。
+  ViewerSizer* sizer_;  ///< 指向 ViewerSizer 对象的指针，用于管理查看器的大小和缩放。
 
-  int playback_speed_; ///< 当前的播放速度（例如 1 表示正常，2 表示两倍速，-1 表示反向播放）。
+  int playback_speed_;  ///< 当前的播放速度（例如 1 表示正常，2 表示两倍速，-1 表示反向播放）。
 
-  rational last_time_; ///< 上一次记录的播放头时间。
+  rational last_time_;  ///< 上一次记录的播放头时间。
 
-  bool color_menu_enabled_; ///< 标记色彩管理菜单是否启用。
+  bool color_menu_enabled_;  ///< 标记色彩管理菜单是否启用。
 
-  bool time_changed_from_timer_; ///< 标记时间变化是否由播放定时器触发。
+  bool time_changed_from_timer_;  ///< 标记时间变化是否由播放定时器触发。
 
-  bool play_in_to_out_only_{}; ///< 标记是否仅播放入点到出点范围，默认为 false。
+  bool play_in_to_out_only_{};  ///< 标记是否仅播放入点到出点范围，默认为 false。
 
-  AudioWaveformView* waveform_view_; ///< 指向音频波形显示控件的指针。
+  AudioWaveformView* waveform_view_;  ///< 指向音频波形显示控件的指针。
 
-  QHash<QScreen*, ViewerWindow*> windows_; ///< 存储在不同屏幕上打开的全屏查看器窗口。
+  QHash<QScreen*, ViewerWindow*> windows_;  ///< 存储在不同屏幕上打开的全屏查看器窗口。
 
-  ViewerDisplayWidget* display_widget_; ///< 指向主要的 ViewerDisplayWidget 显示控件的指针。
+  ViewerDisplayWidget* display_widget_;  ///< 指向主要的 ViewerDisplayWidget 显示控件的指针。
 
-  ViewerDisplayWidget* context_menu_widget_{}; ///< 指向触发上下文菜单的显示控件的指针，默认为 nullptr。
+  ViewerDisplayWidget* context_menu_widget_{};  ///< 指向触发上下文菜单的显示控件的指针，默认为 nullptr。
 
-  QTimer playback_backup_timer_; ///< 播放备用定时器，可能用于在主播放机制失效时提供回退。
+  QTimer playback_backup_timer_;  ///< 播放备用定时器，可能用于在主播放机制失效时提供回退。
 
-  int64_t playback_queue_next_frame_{}; ///< 播放队列中下一帧的时间戳。
-  int64_t dry_run_next_frame_{};      ///< “空运行”模式下下一帧的时间戳。
-  QVector<ViewerDisplayWidget*> playback_devices_; ///< 存储所有播放设备（显示控件）的列表。
+  int64_t playback_queue_next_frame_{};             ///< 播放队列中下一帧的时间戳。
+  int64_t dry_run_next_frame_{};                    ///< “空运行”模式下下一帧的时间戳。
+  QVector<ViewerDisplayWidget*> playback_devices_;  ///< 存储所有播放设备（显示控件）的列表。
 
-  bool prequeuing_video_; ///< 标记当前是否正在预排队视频帧。
-  int prequeuing_audio_;  ///< 当前预排队的音频缓冲区数量。
+  bool prequeuing_video_;  ///< 标记当前是否正在预排队视频帧。
+  int prequeuing_audio_;   ///< 当前预排队的音频缓冲区数量。
 
-  QList<RenderTicketWatcher*> nonqueue_watchers_; ///< 存储非播放队列的渲染监视器列表。
+  QList<RenderTicketWatcher*> nonqueue_watchers_;  ///< 存储非播放队列的渲染监视器列表。
 
-  rational last_length_; ///< 上一次记录的序列长度。
+  rational last_length_;  ///< 上一次记录的序列长度。
 
-  int prequeue_length_{}; ///< 预排队队列的长度。
-  int prequeue_count_{};  ///< 当前预排队队列中的帧数。
+  int prequeue_length_{};  ///< 预排队队列的长度。
+  int prequeue_count_{};   ///< 当前预排队队列中的帧数。
 
-  QVector<RenderTicketWatcher*> queue_watchers_; ///< 存储播放队列的渲染监视器列表。
+  QVector<RenderTicketWatcher*> queue_watchers_;  ///< 存储播放队列的渲染监视器列表。
 
-  std::list<RenderTicketWatcher*> audio_playback_queue_; ///< 音频播放队列，存储音频帧的渲染监视器。
-  rational audio_playback_queue_time_; ///< 音频播放队列的当前时间。
-  AudioProcessor audio_processor_;     ///< 音频处理器实例。
-  QByteArray prequeued_audio_;         ///< 预排队的原始音频数据。
-  static const rational kAudioPlaybackInterval; ///< 音频播放的固定间隔时间。
+  std::list<RenderTicketWatcher*> audio_playback_queue_;  ///< 音频播放队列，存储音频帧的渲染监视器。
+  rational audio_playback_queue_time_;                    ///< 音频播放队列的当前时间。
+  AudioProcessor audio_processor_;                        ///< 音频处理器实例。
+  QByteArray prequeued_audio_;                            ///< 预排队的原始音频数据。
+  static const rational kAudioPlaybackInterval;           ///< 音频播放的固定间隔时间。
 
-  static QVector<ViewerWidget*> instances_; ///< 存储所有 ViewerWidget 实例的静态列表（可能用于全局操作）。
+  static QVector<ViewerWidget*> instances_;  ///< 存储所有 ViewerWidget 实例的静态列表（可能用于全局操作）。
 
-  std::list<RenderTicketWatcher*> audio_scrub_watchers_; ///< 音频拖拽播放的渲染监视器列表。
+  std::list<RenderTicketWatcher*> audio_scrub_watchers_;  ///< 音频拖拽播放的渲染监视器列表。
 
-  bool record_armed_;          ///< 标记是否已准备好录制。
-  bool recording_;             ///< 标记当前是否正在录制。
-  TimelineWidget* recording_callback_{}; ///< 指向录制回调目标的 TimelineWidget 指针，默认为 nullptr。
-  TimeRange recording_range_;  ///< 当前录制的时间范围。
-  Track::Reference recording_track_; ///< 当前录制的目标轨道。
-  QString recording_filename_; ///< 录制输出的文件名。
+  bool record_armed_;                     ///< 标记是否已准备好录制。
+  bool recording_;                        ///< 标记当前是否正在录制。
+  TimelineWidget* recording_callback_{};  ///< 指向录制回调目标的 TimelineWidget 指针，默认为 nullptr。
+  TimeRange recording_range_;             ///< 当前录制的时间范围。
+  Track::Reference recording_track_;      ///< 当前录制的目标轨道。
+  QString recording_filename_;            ///< 录制输出的文件名。
 
-  qint64 queue_starved_start_{}; ///< 播放队列饥饿状态开始的时间戳，默认为0。
-  RenderTicketWatcher* first_requeue_watcher_; ///< 第一个需要重新排队的渲染监视器。
+  qint64 queue_starved_start_{};                ///< 播放队列饥饿状态开始的时间戳，默认为0。
+  RenderTicketWatcher* first_requeue_watcher_;  ///< 第一个需要重新排队的渲染监视器。
 
-  bool enable_audio_scrubbing_; ///< 标记是否启用音频拖拽播放。
+  bool enable_audio_scrubbing_;  ///< 标记是否启用音频拖拽播放。
 
-  WaveformMode waveform_mode_; ///< 当前的音频波形显示模式。
+  WaveformMode waveform_mode_;  ///< 当前的音频波形显示模式。
 
-  QVector<RenderTicketWatcher*> dry_run_watchers_; ///< “空运行”模式的渲染监视器列表。
+  QVector<RenderTicketWatcher*> dry_run_watchers_;  ///< “空运行”模式的渲染监视器列表。
 
-  int ignore_scrub_; ///< 计数器，用于忽略后续的几次音频拖拽播放事件。
+  int ignore_scrub_;  ///< 计数器，用于忽略后续的几次音频拖拽播放事件。
 
-  QVector<Block*> timeline_selected_blocks_; ///< 从时间轴传递过来的选中 Block 列表。
-  QVector<Node*> node_view_selected_;     ///< 从节点视图传递过来的选中 Node 列表。
+  QVector<Block*> timeline_selected_blocks_;  ///< 从时间轴传递过来的选中 Block 列表。
+  QVector<Node*> node_view_selected_;         ///< 从节点视图传递过来的选中 Node 列表。
 
-  MulticamWidget* multicam_panel_; ///< 指向关联的多机位编辑面板的指针。
+  MulticamWidget* multicam_panel_;  ///< 指向关联的多机位编辑面板的指针。
 
- private slots: // 私有槽函数
+ private slots:  // 私有槽函数
   /**
    * @brief 播放定时器更新时调用的槽函数。
    *

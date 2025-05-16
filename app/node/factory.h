@@ -1,16 +1,16 @@
-#ifndef NODEFACTORY_H // 防止头文件被多次包含的宏定义开始
+#ifndef NODEFACTORY_H  // 防止头文件被多次包含的宏定义开始
 #define NODEFACTORY_H
 
-#include <QList> // Qt 列表容器
+#include <QList>  // Qt 列表容器
 
-#include "node.h"           // 引入 Node 基类的定义，工厂用于创建 Node 对象
-#include "widget/menu/menu.h" // 引入 Menu 类的定义，工厂可能用于创建包含节点类型的菜单
+#include "node.h"              // 引入 Node 基类的定义，工厂用于创建 Node 对象
+#include "widget/menu/menu.h"  // 引入 Menu 类的定义，工厂可能用于创建包含节点类型的菜单
 
 // 可能需要的前向声明
 // class QWidget; // 假设
 // class QAction; // 假设
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
 /**
  * @brief 节点工厂类，负责创建项目中所有不同类型的节点实例。
@@ -75,7 +75,7 @@ class NodeFactory {
     kMulticamNode,                ///< 多机位编辑节点 (MultiCamNode)
 
     // Count value
-    kInternalNodeCount            ///< 内部节点类型的总数，用作计数或数组边界
+    kInternalNodeCount  ///< 内部节点类型的总数，用作计数或数组边界
   };
 
   /**
@@ -145,7 +145,7 @@ class NodeFactory {
  private:
   // 存储所有已知节点类型的原型实例的列表。
   // 当需要创建某个类型的节点时，会从这个库中找到对应的原型，然后克隆它。
-  static QList<Node*> library_; ///< 节点原型库。
+  static QList<Node*> library_;  ///< 节点原型库。
 };
 
 }  // namespace olive

@@ -1,11 +1,11 @@
-#ifndef OTIODECODER_H // 防止头文件被重复包含的预处理器指令
-#define OTIODECODER_H // 定义 OTIODECODER_H 宏
+#ifndef OTIODECODER_H  // 防止头文件被重复包含的预处理器指令
+#define OTIODECODER_H  // 定义 OTIODECODER_H 宏
 
-#include "common/otioutils.h"                 // 包含了 OpenTimelineIO (OTIO) 相关的实用工具函数或类
-#include "node/project.h"                     // 包含了项目数据结构 (Project 类) 的定义
-#include "task/project/load/loadbasetask.h"   // 包含了项目加载任务基类 (ProjectLoadBaseTask) 的定义
+#include "common/otioutils.h"                // 包含了 OpenTimelineIO (OTIO) 相关的实用工具函数或类
+#include "node/project.h"                    // 包含了项目数据结构 (Project 类) 的定义
+#include "task/project/load/loadbasetask.h"  // 包含了项目加载任务基类 (ProjectLoadBaseTask) 的定义
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
 /**
  * @brief LoadOTIOTask 类定义，继承自 ProjectLoadBaseTask 类。
@@ -15,15 +15,15 @@ namespace olive { // olive 项目的命名空间
  * 并将其内容转换为 Olive 项目内部的数据结构。
  */
 class LoadOTIOTask : public ProjectLoadBaseTask {
-  Q_OBJECT // Qt 对象的宏，用于启用信号和槽机制等 Qt 特性
- public:
-  /**
-   * @brief LoadOTIOTask 的构造函数。
-   * @param s 要加载的 OTIO 文件的完整路径字符串。
-   */
-  explicit LoadOTIOTask(const QString& s);
+ Q_OBJECT  // Qt 对象的宏，用于启用信号和槽机制等 Qt 特性
+     public :
+     /**
+      * @brief LoadOTIOTask 的构造函数。
+      * @param s 要加载的 OTIO 文件的完整路径字符串。
+      */
+     explicit LoadOTIOTask(const QString& s);
 
-protected:
+ protected:
   /**
    * @brief 执行从 OTIO 文件加载项目任务的核心逻辑。
    *
@@ -36,6 +36,6 @@ protected:
   bool Run() override;
 };
 
-}  // namespace olive // 结束 olive 命名空间
+}  // namespace olive
 
 #endif  // OTIODECODER_H // 结束预处理器指令 #ifndef OTIODECODER_H

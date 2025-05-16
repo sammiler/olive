@@ -1,7 +1,7 @@
-#ifndef MERGENODE_H // 防止头文件被多次包含的宏定义开始
+#ifndef MERGENODE_H  // 防止头文件被多次包含的宏定义开始
 #define MERGENODE_H
 
-#include "node/node.h" // 引入基类 Node 的定义
+#include "node/node.h"  // 引入基类 Node 的定义
 
 // 可能需要的前向声明
 // struct ShaderRequest; // 假设
@@ -10,7 +10,7 @@
 // class NodeValueTable; // 假设
 // class NodeInput; // 假设
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
 /**
  * @brief 代表一个“合并”或“混合”节点。
@@ -18,15 +18,15 @@ namespace olive { // Olive 编辑器的命名空间
  * 这个类定义比较基础，具体的混合模式逻辑可能在着色器代码中或通过参数控制。
  */
 class MergeNode : public Node {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief MergeNode 构造函数。
-   *  通常会在这里初始化两个输入端口（基础层和混合层）。
-   */
-  MergeNode();
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief MergeNode 构造函数。
+      *  通常会在这里初始化两个输入端口（基础层和混合层）。
+      */
+     MergeNode();
 
-  NODE_DEFAULT_FUNCTIONS(MergeNode) // 节点默认功能宏，可能包含克隆、类型信息等标准实现
+  NODE_DEFAULT_FUNCTIONS(MergeNode)  // 节点默认功能宏，可能包含克隆、类型信息等标准实现
 
   /**
    * @brief 获取此合并节点的名称。
@@ -69,12 +69,12 @@ class MergeNode : public Node {
   void Value(const NodeValueRow& value, const NodeGlobals& globals, NodeValueTable* table) const override;
 
   // --- 静态常量，用作节点输入参数的键名 ---
-  static const QString kBaseIn;  ///< "Base" - 基础层输入纹理（图像）的参数键名。
-  static const QString kBlendIn; ///< "Blend" 或 "Top" - 混合层（要叠加在基础层之上）输入纹理的参数键名。
+  static const QString kBaseIn;   ///< "Base" - 基础层输入纹理（图像）的参数键名。
+  static const QString kBlendIn;  ///< "Blend" 或 "Top" - 混合层（要叠加在基础层之上）输入纹理的参数键名。
 
  private:
-  NodeInput* base_in_{};  ///< 指向基础层输入端口的 NodeInput 对象的指针 (初始化为 nullptr)。
-  NodeInput* blend_in_{}; ///< 指向混合层输入端口的 NodeInput 对象的指针 (初始化为 nullptr)。
+  NodeInput* base_in_{};   ///< 指向基础层输入端口的 NodeInput 对象的指针 (初始化为 nullptr)。
+  NodeInput* blend_in_{};  ///< 指向混合层输入端口的 NodeInput 对象的指针 (初始化为 nullptr)。
 };
 
 }  // namespace olive

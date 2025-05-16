@@ -1,19 +1,18 @@
 #ifndef RATIONALSLIDER_H
 #define RATIONALSLIDER_H
 
-#include <olive/core/core.h> // Olive 核心库，包含 rational 类型定义
-#include <QMouseEvent>       // Qt 鼠标事件类 (虽然未直接使用，但基类可能使用)
-#include <QWidget>           // Qt 控件基类 (DecimalSliderBase 的基类 NumericSliderBase 的基类 SliderBase 的基类)
-#include <QVariant>          // Qt 通用数据类型类 (用于重写基类方法)
-#include <QString>           // Qt 字符串类 (用于重写基类方法)
-#include <QVector>           // Qt 动态数组容器 (用于 disabled_ 成员)
+#include <olive/core/core.h>  // Olive 核心库，包含 rational 类型定义
+#include <QMouseEvent>        // Qt 鼠标事件类 (虽然未直接使用，但基类可能使用)
+#include <QString>            // Qt 字符串类 (用于重写基类方法)
+#include <QVariant>           // Qt 通用数据类型类 (用于重写基类方法)
+#include <QVector>            // Qt 动态数组容器 (用于 disabled_ 成员)
+#include <QWidget>            // Qt 控件基类 (DecimalSliderBase 的基类 NumericSliderBase 的基类 SliderBase 的基类)
 
-
-#include "base/decimalsliderbase.h" // 带小数的数值滑块基类
+#include "base/decimalsliderbase.h"  // 带小数的数值滑块基类
 
 namespace olive {
 
-using namespace core; // 使用 olive::core 命名空间，方便直接使用 rational 等类型
+using namespace core;  // 使用 olive::core 命名空间，方便直接使用 rational 等类型
 
 /**
  * @brief RationalSlider 类是一个基于 olive::rational 类型的滑块控件。
@@ -22,17 +21,17 @@ using namespace core; // 使用 olive::core 命名空间，方便直接使用 ra
  * 或浮点数（秒）。它支持设置时间基准，并允许用户（如果未锁定）在不同的显示类型之间切换。
  */
 class RationalSlider : public DecimalSliderBase {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief DisplayType 枚举定义了 rational 值可以如何被解释和显示。
-   */
-  enum DisplayType {
-    kTime,     ///< 以时间码形式显示 (例如 HH:MM:SS:FF 或 HH:MM:SS;FF)。
-    kFloat,    ///< 以浮点数形式显示 (通常代表秒)。
-    kRational  ///< 以原始分数形式显示 (例如 num/den)。
-  };
+     public :
+     /**
+      * @brief DisplayType 枚举定义了 rational 值可以如何被解释和显示。
+      */
+     enum DisplayType {
+       kTime,     ///< 以时间码形式显示 (例如 HH:MM:SS:FF 或 HH:MM:SS;FF)。
+       kFloat,    ///< 以浮点数形式显示 (通常代表秒)。
+       kRational  ///< 以原始分数形式显示 (例如 num/den)。
+     };
 
   /**
    * @brief 构造函数。
@@ -44,7 +43,7 @@ class RationalSlider : public DecimalSliderBase {
    * @brief 获取滑块当前的 rational 类型的值。
    * @return 返回 rational 类型的值。
    */
-  rational GetValue(); // 注意：通常 getter 会声明为 const，但此处遵循原始代码
+  rational GetValue();  // 注意：通常 getter 会声明为 const，但此处遵循原始代码
 
   /**
    * @brief 设置滑块的默认 rational 类型的值。
@@ -183,13 +182,13 @@ class RationalSlider : public DecimalSliderBase {
   void SetDisplayTypeFromMenu();
 
  private:
-  DisplayType display_type_; ///< 存储当前滑块值的显示类型。
+  DisplayType display_type_;  ///< 存储当前滑块值的显示类型。
 
-  rational timebase_; ///< 存储当前滑块使用的时间基准（例如帧率）。
+  rational timebase_;  ///< 存储当前滑块使用的时间基准（例如帧率）。
 
-  bool lock_display_type_; ///< 标记用户是否可以更改显示类型。
+  bool lock_display_type_;  ///< 标记用户是否可以更改显示类型。
 
-  QVector<DisplayType> disabled_; ///< 存储在菜单中被禁用的显示类型列表。
+  QVector<DisplayType> disabled_;  ///< 存储在菜单中被禁用的显示类型列表。
 };
 
 }  // namespace olive

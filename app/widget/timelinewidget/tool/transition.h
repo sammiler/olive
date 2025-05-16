@@ -1,9 +1,9 @@
-#ifndef TRANSITIONTIMELINETOOL_H // 防止头文件被多次包含的宏定义
+#ifndef TRANSITIONTIMELINETOOL_H  // 防止头文件被多次包含的宏定义
 #define TRANSITIONTIMELINETOOL_H
 
-#include "add.h" // 引入 AddTool 类的定义，TransitionTool 是 AddTool 的派生类
+#include "add.h"  // 引入 AddTool 类的定义，TransitionTool 是 AddTool 的派生类
 
-namespace olive { // olive 命名空间开始
+namespace olive {  // olive 命名空间开始
 
 /**
  * @brief TransitionTool 类是时间轴上用于创建和编辑转场效果的工具。
@@ -53,7 +53,7 @@ class TransitionTool : public AddTool {
    */
   void MouseRelease(TimelineViewMouseEvent *event) override;
 
- private: // 私有方法
+ private:  // 私有方法
   /**
    * @brief 获取指定时间轴坐标处的剪辑块信息，用于确定转场应用的目标。
    *
@@ -68,7 +68,7 @@ class TransitionTool : public AddTool {
   bool GetBlocksAtCoord(const TimelineCoordinate &coord, ClipBlock **primary, ClipBlock **secondary,
                         Timeline::MovementMode *trim_mode, rational *start_point);
 
-  bool dual_transition_{}; ///< 标记当前操作是否涉及双边转场（例如，同时影响入点和出点的转场或跨越两个剪辑的转场）。
+  bool dual_transition_{};  ///< 标记当前操作是否涉及双边转场（例如，同时影响入点和出点的转场或跨越两个剪辑的转场）。
 };
 
 }  // namespace olive

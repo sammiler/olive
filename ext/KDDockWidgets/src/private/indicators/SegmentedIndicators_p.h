@@ -5,7 +5,7 @@
 
 #include "../DropIndicatorOverlayInterface_p.h" // 包含拖放指示器覆盖界面的私有头文件
 
-#include <QHash>   // 包含 QHash 类，用于哈希表
+#include <QHash> // 包含 QHash 类，用于哈希表
 #include <QPolygon> // 包含 QPolygon 类，用于表示多边形
 
 namespace KDDockWidgets {
@@ -50,14 +50,14 @@ public:
     [[nodiscard]] DropLocation dropLocationForPos(QPoint pos) const;
 
 
-    static int s_segmentGirth;                    ///< 静态成员，定义指示器段的厚度（宽度或高度）。
-    static int s_segmentPenWidth;                 ///< 静态成员，定义绘制指示器段边框的画笔宽度。
-    static int s_centralIndicatorMaxWidth;        ///< 静态成员，定义中心指示器的最大宽度。
-    static int s_centralIndicatorMaxHeight;       ///< 静态成员，定义中心指示器的最大高度。
-    static qreal s_draggedWindowOpacity;          ///< 静态成员，定义拖动窗口时的不透明度。
-    static QColor s_segmentPenColor;              ///< 静态成员，定义指示器段边框的颜色。
-    static QColor s_segmentBrushColor;            ///< 静态成员，定义指示器段填充的默认颜色。
-    static QColor s_hoveredSegmentBrushColor;     ///< 静态成员，定义鼠标悬停时指示器段填充的颜色。
+    static int s_segmentGirth; ///< 静态成员，定义指示器段的厚度（宽度或高度）。
+    static int s_segmentPenWidth; ///< 静态成员，定义绘制指示器段边框的画笔宽度。
+    static int s_centralIndicatorMaxWidth; ///< 静态成员，定义中心指示器的最大宽度。
+    static int s_centralIndicatorMaxHeight; ///< 静态成员，定义中心指示器的最大高度。
+    static qreal s_draggedWindowOpacity; ///< 静态成员，定义拖动窗口时的不透明度。
+    static QColor s_segmentPenColor; ///< 静态成员，定义指示器段边框的颜色。
+    static QColor s_segmentBrushColor; ///< 静态成员，定义指示器段填充的默认颜色。
+    static QColor s_hoveredSegmentBrushColor; ///< 静态成员，定义鼠标悬停时指示器段填充的颜色。
 
 protected:
     /**
@@ -106,8 +106,8 @@ private:
      */
     void drawSegment(QPainter *p, const QPolygon &segment);
 
-    QPoint m_hoveredPt = {};                            ///< 当前鼠标悬停的坐标点。
-    QHash<DropLocation, QPolygon> m_segments;           ///< 存储所有指示器段的多边形表示，键为 DropLocation。
+    QPoint m_hoveredPt = {}; ///< 当前鼠标悬停的坐标点。
+    QHash<DropLocation, QPolygon> m_segments; ///< 存储所有指示器段的多边形表示，键为 DropLocation。
 };
 
 } // namespace KDDockWidgets

@@ -1,13 +1,13 @@
-#ifndef SHADERCODE_H // 防止头文件被重复包含的宏
-#define SHADERCODE_H // 定义 SHADERCODE_H 宏
+#ifndef SHADERCODE_H  // 防止头文件被重复包含的宏
+#define SHADERCODE_H  // 定义 SHADERCODE_H 宏
 
-#include <utility> // 标准库 utility 头文件，提供 std::move
+#include <utility>  // 标准库 utility 头文件，提供 std::move
 
-#include "common/filefunctions.h" // 包含文件功能相关的定义 (可能用于从文件加载着色器代码，
-                                  // 虽然在此类中未直接使用，但逻辑上可能相关)
+#include "common/filefunctions.h"  // 包含文件功能相关的定义 (可能用于从文件加载着色器代码，
+                                   // 虽然在此类中未直接使用，但逻辑上可能相关)
 // 假设 QString 已通过其他方式被间接包含 (通常来自 <QString>)。
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
 /**
  * @brief ShaderCode 类用于封装顶点着色器 (Vertex Shader) 和片段着色器 (Fragment Shader) 的源代码。
@@ -20,14 +20,15 @@ namespace olive { // olive 项目的命名空间
  * 一个完整的着色器程序。
  */
 class ShaderCode {
-public:
+ public:
   /**
    * @brief 构造函数。
    * @param frag_code (可选) 片段着色器的源代码字符串。默认为空字符串。
    * @param vert_code (可选) 顶点着色器的源代码字符串。默认为空字符串。
    */
   explicit ShaderCode(QString frag_code = QString(), QString vert_code = QString())
-      : frag_code_(std::move(frag_code)), vert_code_(std::move(vert_code)) // 使用 std::move 提高效率 (对于QString可能效果有限，但好习惯)
+      : frag_code_(std::move(frag_code)),
+        vert_code_(std::move(vert_code))  // 使用 std::move 提高效率 (对于QString可能效果有限，但好习惯)
   {}
 
   /**
@@ -52,9 +53,9 @@ public:
    */
   void set_vert_code(const QString& v) { vert_code_ = v; }
 
-private:
-  QString frag_code_; // 存储片段着色器的源代码
-  QString vert_code_; // 存储顶点着色器的源代码
+ private:
+  QString frag_code_;  // 存储片段着色器的源代码
+  QString vert_code_;  // 存储顶点着色器的源代码
 };
 
 }  // namespace olive

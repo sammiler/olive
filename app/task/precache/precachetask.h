@@ -1,11 +1,11 @@
-#ifndef PRECACHETASK_H // 防止头文件被重复包含的预处理器指令
-#define PRECACHETASK_H // 定义 PRECACHETASK_H 宏
+#ifndef PRECACHETASK_H  // 防止头文件被重复包含的预处理器指令
+#define PRECACHETASK_H  // 定义 PRECACHETASK_H 宏
 
-#include "node/project/footage/footage.h" // 包含了项目素材相关的定义
-#include "node/project/sequence/sequence.h" // 包含了序列相关的定义
-#include "task/render/render.h"             // 包含了渲染任务基类的定义
+#include "node/project/footage/footage.h"    // 包含了项目素材相关的定义
+#include "node/project/sequence/sequence.h"  // 包含了序列相关的定义
+#include "task/render/render.h"              // 包含了渲染任务基类的定义
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
 /**
  * @brief PreCacheTask 类定义，继承自 RenderTask 类。
@@ -15,15 +15,15 @@ namespace olive { // olive 项目的命名空间
  * 它通常针对特定的素材片段或序列中的一部分进行操作。
  */
 class PreCacheTask : public RenderTask {
-  Q_OBJECT // Qt 对象的宏，用于启用信号和槽机制等 Qt 特性
- public:
-  /**
-   * @brief PreCacheTask 的构造函数。
-   * @param footage 指向要进行预缓存的 Footage 对象的指针。
-   * @param index 一个索引值，可能用于标识素材中的特定流或部分（例如，视频流索引或音频轨道索引）。
-   * @param sequence 指向当前操作的 Sequence 对象的指针，预缓存通常在特定序列的上下文中进行。
-   */
-  PreCacheTask(Footage* footage, int index, Sequence* sequence);
+ Q_OBJECT  // Qt 对象的宏，用于启用信号和槽机制等 Qt 特性
+     public :
+     /**
+      * @brief PreCacheTask 的构造函数。
+      * @param footage 指向要进行预缓存的 Footage 对象的指针。
+      * @param index 一个索引值，可能用于标识素材中的特定流或部分（例如，视频流索引或音频轨道索引）。
+      * @param sequence 指向当前操作的 Sequence 对象的指针，预缓存通常在特定序列的上下文中进行。
+      */
+     PreCacheTask(Footage* footage, int index, Sequence* sequence);
 
   /**
    * @brief PreCacheTask 的析构函数。
@@ -63,12 +63,12 @@ class PreCacheTask : public RenderTask {
   bool AudioDownloaded(const TimeRange& range, const SampleBuffer& samples) override;
 
  private:
-  Project* project_; ///< @brief 指向当前项目对象的指针。预缓存操作通常与整个项目相关联。
-                     ///< 注意：此成员未在构造函数中初始化，可能由基类或后续设置。
+  Project* project_;  ///< @brief 指向当前项目对象的指针。预缓存操作通常与整个项目相关联。
+                      ///< 注意：此成员未在构造函数中初始化，可能由基类或后续设置。
 
-  Footage* footage_; ///< @brief 指向当前正在进行预缓存操作的 Footage (素材) 对象的指针。
+  Footage* footage_;  ///< @brief 指向当前正在进行预缓存操作的 Footage (素材) 对象的指针。
 };
 
-}  // namespace olive // 结束 olive 命名空间
+}  // namespace olive
 
 #endif  // PRECACHETASK_H // 结束预处理器指令 #ifndef PRECACHETASK_H

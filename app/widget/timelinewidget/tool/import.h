@@ -1,13 +1,14 @@
-#ifndef IMPORTTIMELINETOOL_H // 防止头文件被多次包含的宏定义
+#ifndef IMPORTTIMELINETOOL_H  // 防止头文件被多次包含的宏定义
 #define IMPORTTIMELINETOOL_H
 
-#include "tool.h" // 引入 Tool 类的定义，ImportTool 是 TimelineTool 的派生类
+#include "tool.h"  // 引入 Tool 类的定义，ImportTool 是 TimelineTool 的派生类
 
-// Qt类 (如 QVector, QPair, QDragLeaveEvent) 和项目特定类型 (如 ViewerOutput, rational, Track::Reference, MultiUndoCommand, TimelineViewGhostItem, TimeRange)
-// 的定义应由 "tool.h" 或其传递包含的头文件提供，或者在使用这些类型的 .cpp 文件中包含。
-// 此处严格按照用户提供的代码，不添加额外的 #include 或前向声明。
+// Qt类 (如 QVector, QPair, QDragLeaveEvent) 和项目特定类型 (如 ViewerOutput, rational, Track::Reference,
+// MultiUndoCommand, TimelineViewGhostItem, TimeRange) 的定义应由 "tool.h"
+// 或其传递包含的头文件提供，或者在使用这些类型的 .cpp 文件中包含。 此处严格按照用户提供的代码，不添加额外的 #include
+// 或前向声明。
 
-namespace olive { // olive 命名空间开始
+namespace olive {  // olive 命名空间开始
 
 /**
  * @brief ImportTool 类是时间轴上的一个工具，专门用于处理素材的导入和拖放操作。
@@ -94,7 +95,7 @@ class ImportTool : public TimelineTool {
     kDWSDisable  ///< 禁止在没有序列的情况下拖放
   };
 
- private: // 私有方法
+ private:  // 私有方法
   /**
    * @brief 根据拖拽的素材数据创建幽灵项（预览项）。
    * @param ghost_start 幽灵项在时间轴上的起始时间 (rational)。
@@ -128,11 +129,11 @@ class ImportTool : public TimelineTool {
    */
   TimelineViewGhostItem *CreateGhost(const TimeRange &range, const rational &media_in, const Track::Reference &track);
 
-  DraggedFootageData dragged_footage_; ///< 存储当前正在拖拽的素材数据。
+  DraggedFootageData dragged_footage_;  ///< 存储当前正在拖拽的素材数据。
 
-  int import_pre_buffer_; ///< 导入素材时的预缓冲大小或相关设置。
+  int import_pre_buffer_;  ///< 导入素材时的预缓冲大小或相关设置。
 
-  rational ghost_offset_; ///< 幽灵项（预览项）的时间偏移量。
+  rational ghost_offset_;  ///< 幽灵项（预览项）的时间偏移量。
 };
 
 }  // namespace olive

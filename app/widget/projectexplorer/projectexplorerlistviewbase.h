@@ -1,10 +1,10 @@
 #ifndef PROJECTEXPLORERLISTVIEWBASE_H
 #define PROJECTEXPLORERLISTVIEWBASE_H
 
-#include <QListView>     // Qt 列表视图控件基类
-#include <QMouseEvent>   // Qt 鼠标事件类 (用于 mouseDoubleClickEvent)
+#include <QListView>    // Qt 列表视图控件基类
+#include <QMouseEvent>  // Qt 鼠标事件类 (用于 mouseDoubleClickEvent)
 
-#include "common/define.h" // 项目通用定义
+#include "common/define.h"  // 项目通用定义
 
 // 前向声明 Qt 类 (根据用户要求，不添加)
 // class QWidget; // QListView 的基类 QAbstractItemView 的基类 QAbstractScrollArea 的基类 QFrame 的基类 QWidget
@@ -17,16 +17,16 @@ namespace olive {
  * 包含了列表视图 (List view) 和图标视图 (Icon view) （两者都基于 QListView）所共用的功能。
  */
 class ProjectExplorerListViewBase : public QListView {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父控件指针。
-   */
-  explicit ProjectExplorerListViewBase(QWidget* parent);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父控件指针。
+      */
+     explicit ProjectExplorerListViewBase(QWidget* parent);
 
-protected:
+ protected:
   /**
    * @brief 重写鼠标双击事件处理函数。
    *
@@ -37,13 +37,13 @@ protected:
    */
   void mouseDoubleClickEvent(QMouseEvent* event) override;
 
-  signals:
-   /**
-    * @brief 无条件双击信号。
-    *
-    * 当视图被双击但未在任何特定项目上时发出此信号。
-    */
-   void DoubleClickedEmptyArea();
+ signals:
+  /**
+   * @brief 无条件双击信号。
+   *
+   * 当视图被双击但未在任何特定项目上时发出此信号。
+   */
+  void DoubleClickedEmptyArea();
 };
 
 }  // namespace olive

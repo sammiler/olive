@@ -1,11 +1,11 @@
 #ifndef FOOTAGERELINKDIALOG_H
 #define FOOTAGERELINKDIALOG_H
 
-#include <QDialog>     // QDialog 基类
-#include <QTreeWidget> // 树形控件，用于显示需要重新链接的素材列表
-#include <QVector>     // 为了 QVector<Footage*>
-#include <QWidget>     // 为了 QWidget* parent 参数
-#include <QString>     // (可能在 .cpp 中使用)
+#include <QDialog>      // QDialog 基类
+#include <QString>      // (可能在 .cpp 中使用)
+#include <QTreeWidget>  // 树形控件，用于显示需要重新链接的素材列表
+#include <QVector>      // 为了 QVector<Footage*>
+#include <QWidget>      // 为了 QWidget* parent 参数
 
 // Olive 内部头文件
 // 假设 footage.h 声明了 Footage 类
@@ -33,7 +33,7 @@ class FootageRelinkDialog : public QDialog {
 
   // ~FootageRelinkDialog() override; // 默认析构函数通常足够，因为 Qt 的父子对象机制会处理 table_
 
-private:
+ private:
   /**
    * @brief 更新树形控件 (`table_`) 中指定索引处的素材项的显示信息。
    * 这通常在用户为该素材选择了新的文件路径后调用，以反映新的路径和状态。
@@ -53,13 +53,13 @@ private:
    */
   QVector<Footage*> footage_;
 
-private slots:
- /**
-  * @brief 当用户点击“浏览”按钮为某个选中的离线素材选择新文件路径时调用的槽函数。
-  * 此函数通常会打开一个文件选择对话框，让用户定位到新的媒体文件。
-  * 成功选择后，会更新对应素材的路径并可能调用 `UpdateFootageItem` 来刷新UI。
-  */
- void BrowseForFootage();
+ private slots:
+  /**
+   * @brief 当用户点击“浏览”按钮为某个选中的离线素材选择新文件路径时调用的槽函数。
+   * 此函数通常会打开一个文件选择对话框，让用户定位到新的媒体文件。
+   * 成功选择后，会更新对应素材的路径并可能调用 `UpdateFootageItem` 来刷新UI。
+   */
+  void BrowseForFootage();
 };
 
 }  // namespace olive

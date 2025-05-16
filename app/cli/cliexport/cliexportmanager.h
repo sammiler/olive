@@ -1,7 +1,7 @@
 #ifndef CLIEXPORTMANAGER_H
 #define CLIEXPORTMANAGER_H
 
-#include "task/export/export.h" // 假设 Export 类定义在此
+#include "task/export/export.h"  // 假设 Export 类定义在此
 
 namespace olive {
 
@@ -13,12 +13,12 @@ namespace olive {
  * 作为 QObject 的子类，它可以利用 Qt 的信号和槽机制。
  */
 class CLIExportManager : public QObject {
-  Q_OBJECT // Qt元对象系统宏，如果需要信号槽等特性
- public:
-  /**
-   * @brief 构造一个新的 CLIExportManager 对象。
-   */
-  CLIExportManager();
+ Q_OBJECT  // Qt元对象系统宏，如果需要信号槽等特性
+     public :
+     /**
+      * @brief 构造一个新的 CLIExportManager 对象。
+      */
+     CLIExportManager();
 
   // 根据实际的功能，这里可能会有更多的方法，例如：
   // - 初始化导出参数的方法

@@ -1,10 +1,10 @@
-#ifndef AUDIOVISUALWAVEFORM_H // 假设宏名称与类名对应
+#ifndef AUDIOVISUALWAVEFORM_H  // 假设宏名称与类名对应
 #define AUDIOVISUALWAVEFORM_H
 
 #include <olive/core/core.h>
 #include <QPainter>
-#include <vector>
 #include <map>
+#include <vector>
 
 namespace olive {
 
@@ -31,8 +31,8 @@ class AudioVisualWaveform {
    * @brief 每个通道的样本数据结构，包含最小值和最大值。
    */
   struct SamplePerChannel {
-    float min; ///< @brief 当前样本区间的最小值。
-    float max; ///< @brief 当前样本区间的最大值。
+    float min;  ///< @brief 当前样本区间的最小值。
+    float max;  ///< @brief 当前样本区间的最大值。
   };
 
   /**

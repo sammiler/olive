@@ -8,13 +8,13 @@
 #ifndef KD_DOCKWIDGET_BASE_H
 #define KD_DOCKWIDGET_BASE_H
 
-#include "docks_export.h"          // 导入导出宏定义
-#include "KDDockWidgets.h"         // KDDockWidgets 公共头文件，包含核心枚举和类型定义
-#include "QWidgetAdapter.h"        // QWidget 和 QQuickItem 的适配器类
-#include "LayoutSaver.h"           // 布局保存与恢复相关的类
+#include "docks_export.h" // 导入导出宏定义
+#include "KDDockWidgets.h" // KDDockWidgets 公共头文件，包含核心枚举和类型定义
+#include "QWidgetAdapter.h" // QWidget 和 QQuickItem 的适配器类
+#include "LayoutSaver.h" // 布局保存与恢复相关的类
 
-#include <QVector>  // Qt 动态数组容器
-#include <memory>   // C++ 标准库智能指针 (例如 std::shared_ptr)
+#include <QVector> // Qt 动态数组容器
+#include <memory> // C++ 标准库智能指针 (例如 std::shared_ptr)
 
 // clazy:excludeall=ctor-missing-parent-argument // clazy 静态分析器指令：排除所有关于构造函数缺少父参数的警告
 
@@ -24,18 +24,18 @@ class TestDocks;
 namespace KDDockWidgets {
 
 // 前向声明 KDDockWidgets 内部类
-class Frame;              // 框架类 (容纳 DockWidgetBase)
-class FloatingWindow;     // 浮动窗口类
-class DragController;     // 拖拽控制器类
-class DockRegistry;       // 停靠小部件注册表类
-class LayoutSaver;        // 布局保存器类 (已包含头文件，此处为冗余但无害的前向声明)
-class TabWidget;          // 标签页小部件类
-class TitleBar;           // 标题栏类
-class MainWindowBase;     // 主窗口基类
-class StateDragging;      // 拖拽状态类 (来自 DragController)
-class FrameQuick;         // QtQuick 版本的 Frame (如果适用)
-class DockWidgetQuick;    // QtQuick 版本的 DockWidget
-class LayoutWidget;       // 布局小部件基类
+class Frame; // 框架类 (容纳 DockWidgetBase)
+class FloatingWindow; // 浮动窗口类
+class DragController; // 拖拽控制器类
+class DockRegistry; // 停靠小部件注册表类
+class LayoutSaver; // 布局保存器类 (已包含头文件，此处为冗余但无害的前向声明)
+class TabWidget; // 标签页小部件类
+class TitleBar; // 标题栏类
+class MainWindowBase; // 主窗口基类
+class StateDragging; // 拖拽状态类 (来自 DragController)
+class FrameQuick; // QtQuick 版本的 Frame (如果适用)
+class DockWidgetQuick; // QtQuick 版本的 DockWidget
+class LayoutWidget; // 布局小部件基类
 
 /**
  * @brief DockWidget 的基类。DockWidget 和 DockWidgetBase 被拆分为两个类，
@@ -49,11 +49,11 @@ class DOCKS_EXPORT DockWidgetBase : public QWidgetAdapter // 继承自 QWidgetAd
 class DOCKS_EXPORT DockWidgetBase : public QWidget // Pyside bug 解决方法：直接继承自 QWidget
 #endif
 {
-    Q_OBJECT // Q_OBJECT 宏，用于启用 Qt 元对象系统特性，如信号和槽
+Q_OBJECT // Q_OBJECT 宏，用于启用 Qt 元对象系统特性，如信号和槽
 
-    // Q_PROPERTY 宏，向 Qt 元对象系统暴露属性，使其可以在 QML 中访问或通过属性系统操作
-    /// @brief Q_PROPERTY，表示此停靠小部件或其内容是否拥有焦点。
-    Q_PROPERTY(bool isFocused READ isFocused NOTIFY isFocusedChanged)
+// Q_PROPERTY 宏，向 Qt 元对象系统暴露属性，使其可以在 QML 中访问或通过属性系统操作
+/// @brief Q_PROPERTY，表示此停靠小部件或其内容是否拥有焦点。
+Q_PROPERTY(bool isFocused READ isFocused NOTIFY isFocusedChanged)
     /// @brief Q_PROPERTY，表示此停靠小部件是否处于浮动状态。可读写。
     Q_PROPERTY(bool isFloating READ isFloating WRITE setFloating NOTIFY isFloatingChanged)
     /// @brief Q_PROPERTY，表示此停靠小部件的唯一名称 (只读)。
@@ -65,7 +65,7 @@ class DOCKS_EXPORT DockWidgetBase : public QWidget // Pyside bug 解决方法：
     /// @brief Q_PROPERTY，表示此停靠小部件的选项。可读写。
     Q_PROPERTY(KDDockWidgets::DockWidgetBase::Options options READ options WRITE setOptions NOTIFY optionsChanged)
 
-public:
+        public :
     /// @brief DockWidgetBase 指针的 QVector 类型定义，方便使用。
     typedef QVector<DockWidgetBase *> List;
 
@@ -77,9 +77,9 @@ public:
         Option_NotClosable = 1, ///< DockWidget 不能通过界面上的[x]按钮关闭，只能通过编程方式关闭。
         Option_NotDockable = 2, ///< DockWidget 不能被停靠，它总是处于浮动状态。
         Option_DeleteOnClose = 4, ///< 关闭时删除 DockWidget 对象。
-        Option_MDINestable = 8  ///< 实验性功能。当此停靠小部件显示在 MDI 区域时，它也允许其他停靠小部件停靠到其侧边或组合成标签页。
-                                ///< 通常每个 MDI "窗口"对应一个 DockWidget，使用此选项后，每个 "窗口" 将拥有一个包含一个或多个停靠小部件的布局。
-                                ///< 运行 "kddockwidgets_mdi_with_docking_example -n" 查看实际效果。
+        Option_MDINestable = 8 ///< 实验性功能。当此停靠小部件显示在 MDI 区域时，它也允许其他停靠小部件停靠到其侧边或组合成标签页。
+                               ///< 通常每个 MDI "窗口"对应一个 DockWidget，使用此选项后，每个 "窗口" 将拥有一个包含一个或多个停靠小部件的布局。
+                               ///< 运行 "kddockwidgets_mdi_with_docking_example -n" 查看实际效果。
     };
     Q_DECLARE_FLAGS(Options, Option) // 将 Option 枚举声明为可用于 QFlags 的类型。
     Q_ENUM(Options) // 将 Options 枚举注册到 Qt 元对象系统。
@@ -97,8 +97,8 @@ public:
      * @brief 定义图标可以显示的位置。
      */
     enum class IconPlace {
-        TitleBar = 1,     ///< 图标显示在标题栏。
-        TabBar = 2,       ///< 图标显示在标签栏。
+        TitleBar = 1, ///< 图标显示在标题栏。
+        TabBar = 2, ///< 图标显示在标签栏。
         ToggleAction = 4, ///< 图标用于切换可见性的 QAction。
         All = ToggleAction | TitleBar | TabBar ///< 图标显示在所有这些位置。
     };
@@ -692,7 +692,7 @@ private:
     static DockWidgetBase *deserialize(const std::shared_ptr<LayoutSaver::DockWidget> &data);
 
 
-    class Private;   ///< PIMPL (Private Implementation) 设计模式的私有实现类前向声明。
+    class Private; ///< PIMPL (Private Implementation) 设计模式的私有实现类前向声明。
     Private *const d; ///< 指向私有实现类的常量指针。
 
     /**

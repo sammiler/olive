@@ -8,9 +8,9 @@
 #ifndef KDDOCKWIDGETS_MDI_AREA_H
 #define KDDOCKWIDGETS_MDI_AREA_H
 
-#include "kddockwidgets/docks_export.h"    // 导入导出宏定义，用于库的符号可见性
-#include "KDDockWidgets.h"                 // KDDockWidgets 公共头文件，包含核心枚举和类型定义
-#include "QWidgetAdapter.h"                // QWidget 和 QQuickItem 的适配器类
+#include "kddockwidgets/docks_export.h" // 导入导出宏定义，用于库的符号可见性
+#include "KDDockWidgets.h" // KDDockWidgets 公共头文件，包含核心枚举和类型定义
+#include "QWidgetAdapter.h" // QWidget 和 QQuickItem 的适配器类
 
 #include <QWidget> // 包含 QWidget 基类 (MDIArea 本身可以是一个 QWidget)
 
@@ -18,8 +18,8 @@ namespace KDDockWidgets {
 
 // 前向声明 KDDockWidgets 内部或公共类
 class MDILayoutWidget; // MDI 布局小部件类，MDIArea 内部会使用它
-class DockWidgetBase;  // 停靠小部件基类
-class Frame;           // 框架类 (容纳 DockWidgetBase)
+class DockWidgetBase; // 停靠小部件基类
+class Frame; // 框架类 (容纳 DockWidgetBase)
 
 /**
  * @brief MDIArea 类允许以 MDI (多文档界面) 模式托管停靠小部件。
@@ -34,8 +34,8 @@ class Frame;           // 框架类 (容纳 DockWidgetBase)
  */
 class DOCKS_EXPORT MDIArea : public QWidgetAdapter
 {
-    Q_OBJECT // Q_OBJECT 宏，用于启用 Qt 元对象系统特性，如信号和槽
-public:
+Q_OBJECT // Q_OBJECT 宏，用于启用 Qt 元对象系统特性，如信号和槽
+    public :
     /**
      * @brief 构造函数。
      * @param parent 父 QWidgetOrQuick 对象，默认为 nullptr。MDIArea 将作为此父对象的子控件。
@@ -84,7 +84,7 @@ public:
     void onCloseEvent(QCloseEvent *event) override;
 
 private:
-    class Private;   ///< PIMPL (Private Implementation) 设计模式的私有实现类前向声明。
+    class Private; ///< PIMPL (Private Implementation) 设计模式的私有实现类前向声明。
     Private *const d; ///< 指向私有实现类的常量指针。
 };
 

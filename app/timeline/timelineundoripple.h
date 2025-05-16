@@ -1,15 +1,15 @@
 #ifndef TIMELINEUNDORIPPLE_H
 #define TIMELINEUNDORIPPLE_H
 
-#include <utility> // 引入 C++ 标准库工具，例如 std::move
+#include <utility>  // 引入 C++ 标准库工具，例如 std::move
 
-#include "node/block/gap/gap.h"                // 引入 GapBlock 类的定义，用于处理空白区块
-#include "node/output/track/track.h"           // 引入 Track 类的定义
-#include "node/output/track/tracklist.h"       // 引入 TrackList 类的定义
-#include "node/project/sequence/sequence.h"    // 引入 Sequence 类的定义
-#include "timelineundogeneral.h"               // 引入通用的时间轴撤销命令定义
-#include "timelineundosplit.h"                 // 引入时间轴分割相关的撤销命令定义
-#include "timelineundotrack.h"                 // 引入轨道操作相关的撤销命令定义 (虽然在此文件中未直接使用，但可能是上下文依赖)
+#include "node/block/gap/gap.h"              // 引入 GapBlock 类的定义，用于处理空白区块
+#include "node/output/track/track.h"         // 引入 Track 类的定义
+#include "node/output/track/tracklist.h"     // 引入 TrackList 类的定义
+#include "node/project/sequence/sequence.h"  // 引入 Sequence 类的定义
+#include "timelineundogeneral.h"             // 引入通用的时间轴撤销命令定义
+#include "timelineundosplit.h"               // 引入时间轴分割相关的撤销命令定义
+#include "timelineundotrack.h"  // 引入轨道操作相关的撤销命令定义 (虽然在此文件中未直接使用，但可能是上下文依赖)
 
 namespace olive {
 
@@ -88,30 +88,30 @@ class TrackRippleRemoveAreaCommand : public UndoCommand {
    * @brief 描述一个裁切操作的内部结构体。
    */
   struct TrimOperation {
-    Block* block{};        ///< 指向被裁切的区块。
-    rational old_length;   ///< 区块的原始长度。
-    rational new_length;   ///< 区块的新长度。
+    Block* block{};       ///< 指向被裁切的区块。
+    rational old_length;  ///< 区块的原始长度。
+    rational new_length;  ///< 区块的新长度。
   };
 
   /**
    * @brief 描述一个移除操作的内部结构体。
    */
   struct RemoveOperation {
-    Block* block;  ///< 指向被移除的区块。
-    Block* before; ///< 被移除区块之前的一个区块，用于恢复时的定位。
+    Block* block;   ///< 指向被移除的区块。
+    Block* before;  ///< 被移除区块之前的一个区块，用于恢复时的定位。
   };
 
-  Track* track_;          // 目标轨道
-  TimeRange range_;       // 要移除的时间范围
+  Track* track_;     // 目标轨道
+  TimeRange range_;  // 要移除的时间范围
 
-  TrimOperation trim_out_; // 对范围右侧区块的裁切操作信息
-  QVector<RemoveOperation> removals_; // 在范围内被完整移除的区块列表
-  TrimOperation trim_in_;  // 对范围左侧区块的裁切操作信息
-  Block* insert_previous_{}; // 标记插入点的前一个区块
-  bool allow_splitting_gaps_; // 是否允许分割空白区块
+  TrimOperation trim_out_;             // 对范围右侧区块的裁切操作信息
+  QVector<RemoveOperation> removals_;  // 在范围内被完整移除的区块列表
+  TrimOperation trim_in_;              // 对范围左侧区块的裁切操作信息
+  Block* insert_previous_{};           // 标记插入点的前一个区块
+  bool allow_splitting_gaps_;          // 是否允许分割空白区块
 
-  BlockSplitCommand* splice_split_command_; // 如果需要分割区块，则存储分割命令
-  QVector<UndoCommand*> remove_block_commands_; // 存储移除区块的子命令
+  BlockSplitCommand* splice_split_command_;      // 如果需要分割区块，则存储分割命令
+  QVector<UndoCommand*> remove_block_commands_;  // 存储移除区块的子命令
 };
 
 /**
@@ -158,13 +158,13 @@ class TrackListRippleRemoveAreaCommand : public UndoCommand {
   void undo() override;
 
  private:
-  TrackList* list_; // 目标轨道列表
+  TrackList* list_;  // 目标轨道列表
 
-  QList<Track*> working_tracks_; // 实际执行操作的轨道列表
+  QList<Track*> working_tracks_;  // 实际执行操作的轨道列表
 
-  TimeRange range_; // 要移除的时间范围
+  TimeRange range_;  // 要移除的时间范围
 
-  QVector<TrackRippleRemoveAreaCommand*> commands_; // 为每个受影响轨道创建的子命令
+  QVector<TrackRippleRemoveAreaCommand*> commands_;  // 为每个受影响轨道创建的子命令
 };
 
 /**
@@ -190,7 +190,7 @@ class TimelineRippleRemoveAreaCommand : public MultiUndoCommand {
   [[nodiscard]] Project* GetRelevantProject() const override { return timeline_->project(); }
 
  private:
-  Sequence* timeline_; // 目标序列
+  Sequence* timeline_;  // 目标序列
 };
 
 /**
@@ -204,8 +204,8 @@ class TrackListRippleToolCommand : public UndoCommand {
    * @brief 存储涟漪操作相关信息的结构体。
    */
   struct RippleInfo {
-    Block* block;      ///< 指向被操作的区块。
-    bool append_gap;   ///< 是否需要在区块后附加一个空白区块。
+    Block* block;     ///< 指向被操作的区块。
+    bool append_gap;  ///< 是否需要在区块后附加一个空白区块。
   };
 
   /**
@@ -243,11 +243,11 @@ class TrackListRippleToolCommand : public UndoCommand {
    */
   void ripple(bool redo);
 
-  TrackList* track_list_; // 目标轨道列表
+  TrackList* track_list_;  // 目标轨道列表
 
-  QHash<Track*, RippleInfo> info_; // 每个轨道的涟漪操作信息
-  rational ripple_movement_;       // 涟漪移动的总量
-  Timeline::MovementMode movement_mode_; // 当前的编辑模式
+  QHash<Track*, RippleInfo> info_;        // 每个轨道的涟漪操作信息
+  rational ripple_movement_;              // 涟漪移动的总量
+  Timeline::MovementMode movement_mode_;  // 当前的编辑模式
 
   /**
    * @brief 存储每个轨道在操作过程中的工作数据。
@@ -259,9 +259,9 @@ class TrackListRippleToolCommand : public UndoCommand {
     rational earliest_point_of_change;  ///< 此轨道上发生改变的最早时间点。
   };
 
-  QHash<Track*, WorkingData> working_data_; // 每个轨道对应的工作数据
+  QHash<Track*, WorkingData> working_data_;  // 每个轨道对应的工作数据
 
-  QObject memory_manager_; // 用于管理动态创建的 GapBlock 的生命周期
+  QObject memory_manager_;  // 用于管理动态创建的 GapBlock 的生命周期
 };
 
 /**
@@ -322,10 +322,10 @@ class TimelineRippleDeleteGapsAtRegionsCommand : public UndoCommand {
   void undo() override;
 
  private:
-  Sequence* timeline_; // 目标序列
-  RangeList regions_;  // 要处理的区域列表
+  Sequence* timeline_;  // 目标序列
+  RangeList regions_;   // 要处理的区域列表
 
-  QVector<UndoCommand*> commands_; // 存储实际执行删除操作的子命令
+  QVector<UndoCommand*> commands_;  // 存储实际执行删除操作的子命令
 
   /**
    * @brief 存储待移除空白区块请求的内部结构体。

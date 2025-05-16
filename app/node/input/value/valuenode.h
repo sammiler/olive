@@ -1,7 +1,7 @@
-#ifndef VALUENODE_H // 防止头文件被多次包含的宏定义开始
+#ifndef VALUENODE_H  // 防止头文件被多次包含的宏定义开始
 #define VALUENODE_H
 
-#include "node/node.h" // 引入基类 Node 的定义
+#include "node/node.h"  // 引入基类 Node 的定义
 
 // 可能需要的前向声明
 // struct NodeValueRow; // 假设
@@ -9,7 +9,7 @@
 // class NodeValueTable; // 假设
 // namespace NodeValue { enum class Type; } // 假设 NodeValue::Type 枚举
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
 /**
  * @brief 代表一个“值节点”或“常量节点”。
@@ -17,15 +17,15 @@ namespace olive { // Olive 编辑器的命名空间
  * 生成的值可以连接到其他节点的输入参数，方便统一控制或创建可复用的常量。
  */
 class ValueNode : public Node {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief ValueNode 构造函数。
-   *  通常会在这里初始化值的类型和默认值等参数。
-   */
-  ValueNode();
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief ValueNode 构造函数。
+      *  通常会在这里初始化值的类型和默认值等参数。
+      */
+     ValueNode();
 
-  NODE_DEFAULT_FUNCTIONS(ValueNode) // 节点默认功能宏，可能包含克隆、类型信息等标准实现
+  NODE_DEFAULT_FUNCTIONS(ValueNode)  // 节点默认功能宏，可能包含克隆、类型信息等标准实现
 
   /**
    * @brief 获取此值节点的名称。
@@ -55,7 +55,8 @@ class ValueNode : public Node {
 
   // --- 静态常量，用作节点输入参数的键名 ---
   static const QString kTypeInput;  ///< "Type" - 选择生成值的类型的参数键名 (例如，整数、浮点数、颜色等)。
-  static const QString kValueInput; ///< "Value" - 实际存储用户定义的值的参数键名。其具体数据类型取决于 kTypeInput 的设置。
+  static const QString
+      kValueInput;  ///< "Value" - 实际存储用户定义的值的参数键名。其具体数据类型取决于 kTypeInput 的设置。
 
   /**
    * @brief 当界面语言等需要重新翻译时调用，用于更新本地化文本 (如名称、描述、参数名)。
@@ -82,7 +83,7 @@ class ValueNode : public Node {
  private:
   // 存储此值节点支持的数据类型的列表。
   // NodeValue::Type 可能是定义在 NodeValue 类或命名空间下的一个枚举，表示节点可以处理的各种数据类型。
-  static const QVector<NodeValue::Type> kSupportedTypes; ///< 支持的值类型列表。
+  static const QVector<NodeValue::Type> kSupportedTypes;  ///< 支持的值类型列表。
 };
 
 }  // namespace olive

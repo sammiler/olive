@@ -1,11 +1,11 @@
 #ifndef MAINSTATUSBAR_H
 #define MAINSTATUSBAR_H
 
-#include <QProgressBar> // 引入 QProgressBar 类，用于在状态栏中显示进度
-#include <QStatusBar>   // 引入 QStatusBar 基类，MainStatusBar 继承自它
-#include <QMouseEvent>  // 引入 QMouseEvent，用于处理鼠标事件
+#include <QMouseEvent>   // 引入 QMouseEvent，用于处理鼠标事件
+#include <QProgressBar>  // 引入 QProgressBar 类，用于在状态栏中显示进度
+#include <QStatusBar>    // 引入 QStatusBar 基类，MainStatusBar 继承自它
 
-#include "task/taskmanager.h" // 引入 TaskManager 类的定义，状态栏会显示其信息
+#include "task/taskmanager.h"  // 引入 TaskManager 类的定义，状态栏会显示其信息
 
 namespace olive {
 
@@ -20,13 +20,13 @@ namespace olive {
  * 后台任务的简要状态，例如当前活动任务的名称和进度。
  */
 class MainStatusBar : public QStatusBar {
-  Q_OBJECT // 声明此类使用 Qt 的元对象系统（信号和槽）
- public:
-  /**
-   * @brief 显式构造函数。
-   * @param parent 父 QWidget 对象，默认为 nullptr。
-   */
-  explicit MainStatusBar(QWidget* parent = nullptr);
+ Q_OBJECT  // 声明此类使用 Qt 的元对象系统（信号和槽）
+     public :
+     /**
+      * @brief 显式构造函数。
+      * @param parent 父 QWidget 对象，默认为 nullptr。
+      */
+     explicit MainStatusBar(QWidget* parent = nullptr);
 
   /**
    * @brief 连接状态栏到一个 TaskManager 实例。
@@ -36,15 +36,15 @@ class MainStatusBar : public QStatusBar {
    */
   void ConnectTaskManager(TaskManager* manager);
 
-  signals:
-   /**
-    * @brief 当状态栏被双击时发出的信号。
-    *
-    * 通常用于触发打开更详细的任务视图的操作。
-    */
-   void DoubleClicked();
+ signals:
+  /**
+   * @brief 当状态栏被双击时发出的信号。
+   *
+   * 通常用于触发打开更详细的任务视图的操作。
+   */
+  void DoubleClicked();
 
-protected:
+ protected:
   /**
    * @brief 重写鼠标双击事件处理函数。
    *
@@ -53,14 +53,14 @@ protected:
    */
   void mouseDoubleClickEvent(QMouseEvent* e) override;
 
-private slots:
- /**
-  * @brief 更新状态栏显示的槽函数。
-  *
-  * 当 TaskManager 的状态发生变化时（例如，任务列表改变、任务失败），
-  * 此槽函数会被调用以刷新状态栏上的文本和进度条。
-  */
- void UpdateStatus();
+ private slots:
+  /**
+   * @brief 更新状态栏显示的槽函数。
+   *
+   * 当 TaskManager 的状态发生变化时（例如，任务列表改变、任务失败），
+   * 此槽函数会被调用以刷新状态栏上的文本和进度条。
+   */
+  void UpdateStatus();
 
   /**
    * @brief 设置进度条值的槽函数。
@@ -78,12 +78,12 @@ private slots:
    */
   void ConnectedTaskDeleted();
 
-private:
-  TaskManager* manager_; ///< 指向已连接的 TaskManager 实例的指针。
+ private:
+  TaskManager* manager_;  ///< 指向已连接的 TaskManager 实例的指针。
 
-  QProgressBar* bar_; ///< 指向状态栏中用于显示任务进度的 QProgressBar 对象的指针。
+  QProgressBar* bar_;  ///< 指向状态栏中用于显示任务进度的 QProgressBar 对象的指针。
 
-  Task* connected_task_; ///< 指向当前状态栏正在显示其进度的 Task 对象的指针，可能为 nullptr。
+  Task* connected_task_;  ///< 指向当前状态栏正在显示其进度的 Task 对象的指针，可能为 nullptr。
 };
 
 }  // namespace olive

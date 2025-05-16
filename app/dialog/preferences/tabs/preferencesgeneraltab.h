@@ -5,10 +5,10 @@
 #include <QComboBox>  // 引入 QComboBox 类，用于创建下拉列表框控件
 #include <QSpinBox>   // 引入 QSpinBox 类，用于创建整数输入框控件
 
-#include "dialog/configbase/configdialogbase.h" // 引入配置对话框基类相关定义
-#include "node/project/sequence/sequence.h"     // 引入序列相关的定义，可能用于某些默认设置
-#include "widget/slider/integerslider.h"        // 引入整数滑块控件
-#include "widget/slider/rationalslider.h"       // 引入有理数滑块控件
+#include "dialog/configbase/configdialogbase.h"  // 引入配置对话框基类相关定义
+#include "node/project/sequence/sequence.h"      // 引入序列相关的定义，可能用于某些默认设置
+#include "widget/slider/integerslider.h"         // 引入整数滑块控件
+#include "widget/slider/rationalslider.h"        // 引入有理数滑块控件
 
 namespace olive {
 
@@ -37,7 +37,7 @@ class PreferencesGeneralTab : public ConfigDialogBaseTab {
    */
   void Accept(MultiUndoCommand* command) override;
 
-private:
+ private:
   /**
    * @brief 向语言选择下拉框中添加一个语言选项。
    *

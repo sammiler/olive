@@ -1,13 +1,13 @@
 #ifndef EXPORTADVANCEDVIDEODIALOG_H
 #define EXPORTADVANCEDVIDEODIALOG_H
 
-#include <QComboBox> // 下拉选择框控件
-#include <QDialog>   // QDialog 基类
-#include <QStringList> // 为了构造函数参数 pix_fmts
-#include <QWidget>   // 为了 QWidget* parent 参数
+#include <QComboBox>    // 下拉选择框控件
+#include <QDialog>      // QDialog 基类
+#include <QStringList>  // 为了构造函数参数 pix_fmts
+#include <QWidget>      // 为了 QWidget* parent 参数
 
 // 假设 encoder.h 声明了 EncodingParams 类 (其中可能定义了 VideoParams::ColorRange)
-#include "codec/encoder.h" // 包含 EncodingParams, VideoParams::ColorRange
+#include "codec/encoder.h"  // 包含 EncodingParams, VideoParams::ColorRange
 // 假设 integerslider.h 声明了 IntegerSlider 类
 #include "widget/slider/integerslider.h"
 // #include "common/define.h" // 如果需要 common/define.h 中的内容

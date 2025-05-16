@@ -1,9 +1,9 @@
-#ifndef SOLIDGENERATOR_H // 防止头文件被多次包含的宏定义开始
+#ifndef SOLIDGENERATOR_H  // 防止头文件被多次包含的宏定义开始
 #define SOLIDGENERATOR_H
 
-#include "node/node.h" // 引入基类 Node 的定义
+#include "node/node.h"  // 引入基类 Node 的定义
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
 /**
  * @brief 代表“纯色生成器”的节点。
@@ -11,15 +11,15 @@ namespace olive { // Olive 编辑器的命名空间
  * 它通常用于创建背景、颜色遮罩或作为其他效果的基础。
  */
 class SolidGenerator : public Node {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief SolidGenerator 构造函数。
-   *  通常会在这里初始化颜色输入参数。
-   */
-  SolidGenerator();
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief SolidGenerator 构造函数。
+      *  通常会在这里初始化颜色输入参数。
+      */
+     SolidGenerator();
 
-  NODE_DEFAULT_FUNCTIONS(SolidGenerator) // 节点默认功能宏，可能包含克隆、类型信息等标准实现
+  NODE_DEFAULT_FUNCTIONS(SolidGenerator)  // 节点默认功能宏，可能包含克隆、类型信息等标准实现
 
   /**
    * @brief 获取此节点的名称。
@@ -62,7 +62,7 @@ class SolidGenerator : public Node {
   [[nodiscard]] ShaderCode GetShaderCode(const ShaderRequest &request) const override;
 
   // --- 静态常量，用作节点输入参数的键名 ---
-  static const QString kColorInput; ///< "Color" - 选择纯色颜色的参数键名。
+  static const QString kColorInput;  ///< "Color" - 选择纯色颜色的参数键名。
 };
 
 }  // namespace olive

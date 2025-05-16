@@ -1,13 +1,13 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#include <QMap>     // 用于存储配置项的映射
-#include <QString>  // 用于配置键和值
-#include <QVariant> // 用于存储不同类型的配置数据
-#include <QDir>     // 为了 GetConfigFilePath 中可能用到的 QDir
+#include <QDir>      // 为了 GetConfigFilePath 中可能用到的 QDir
+#include <QMap>      // 用于存储配置项的映射
+#include <QString>   // 用于配置键和值
+#include <QVariant>  // 用于存储不同类型的配置数据
 
-#include "node/value.h"    // 包含 NodeValue::Type，用于定义配置项的类型
-#include "common/define.h" // 可能包含 QStringLiteral 等宏或通用定义
+#include "common/define.h"  // 可能包含 QStringLiteral 等宏或通用定义
+#include "node/value.h"     // 包含 NodeValue::Type，用于定义配置项的类型
 
 namespace olive {
 
@@ -98,8 +98,8 @@ class Config {
    * @brief 存储单个配置项及其类型和数据的内部结构体。
    */
   struct ConfigEntry {
-    NodeValue::Type type; ///< @brief 配置项的数据类型 (例如整数、字符串、布尔等)。
-    QVariant data;        ///< @brief 配置项的实际数据，使用 QVariant 存储以支持多种类型。
+    NodeValue::Type type;  ///< @brief 配置项的数据类型 (例如整数、字符串、布尔等)。
+    QVariant data;         ///< @brief 配置项的实际数据，使用 QVariant 存储以支持多种类型。
   };
 
   /**

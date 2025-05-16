@@ -1,7 +1,7 @@
 #ifndef DIPTOCOLORTRANSITION_H
 #define DIPTOCOLORTRANSITION_H
 
-#include "node/block/transition/transition.h" // 引入基类 TransitionBlock 的定义
+#include "node/block/transition/transition.h"  // 引入基类 TransitionBlock 的定义
 
 namespace olive {
 
@@ -10,14 +10,14 @@ namespace olive {
  * 效果通常是：第一个片段淡化至指定颜色，然后从该颜色淡化至第二个片段。
  */
 class DipToColorTransition : public TransitionBlock {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief DipToColorTransition 构造函数。
-   */
-  DipToColorTransition();
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief DipToColorTransition 构造函数。
+      */
+     DipToColorTransition();
 
-  NODE_DEFAULT_FUNCTIONS(DipToColorTransition) // 节点默认功能宏，可能包含克隆、类型信息等标准实现
+  NODE_DEFAULT_FUNCTIONS(DipToColorTransition)  // 节点默认功能宏，可能包含克隆、类型信息等标准实现
 
   /**
    * @brief 获取此“浸入颜色”转场的名称。
@@ -53,9 +53,9 @@ class DipToColorTransition : public TransitionBlock {
    */
   void Retranslate() override;
 
-  static const QString kColorInput; ///< "Color" - 用于指定浸入颜色的输入参数的键名。
+  static const QString kColorInput;  ///< "Color" - 用于指定浸入颜色的输入参数的键名。
 
-protected:
+ protected:
   /**
    * @brief 在着色器作业执行前设置相关的参数（例如浸入的颜色）。
    * 此方法会在渲染转场效果的每一帧（或需要时）被调用，以更新着色器的 uniform 变量。

@@ -1,12 +1,12 @@
-#ifndef MATRIXGENERATOR_H // 防止头文件被多次包含的宏定义开始
+#ifndef MATRIXGENERATOR_H  // 防止头文件被多次包含的宏定义开始
 #define MATRIXGENERATOR_H
 
-#include <QVector2D> // Qt 二维向量类，用于表示位置、缩放、锚点等
+#include <QVector2D>  // Qt 二维向量类，用于表示位置、缩放、锚点等
 
-#include "node/inputdragger.h" // 引入输入拖动器相关定义，可能用于 Gizmo 交互
-#include "node/node.h"         // 引入基类 Node 的定义
+#include "node/inputdragger.h"  // 引入输入拖动器相关定义，可能用于 Gizmo 交互
+#include "node/node.h"          // 引入基类 Node 的定义
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
 /**
  * @brief 代表一个生成变换矩阵的节点的基类。
@@ -14,15 +14,15 @@ namespace olive { // Olive 编辑器的命名空间
  * 具体的变换节点（如 TransformDistortNode）会继承此类。
  */
 class MatrixGenerator : public Node {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief MatrixGenerator 构造函数。
-   *  通常会在这里初始化节点的输入参数（如位置、旋转、缩放等）。
-   */
-  MatrixGenerator();
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief MatrixGenerator 构造函数。
+      *  通常会在这里初始化节点的输入参数（如位置、旋转、缩放等）。
+      */
+     MatrixGenerator();
 
-  NODE_DEFAULT_FUNCTIONS(MatrixGenerator) // 节点默认功能宏，可能包含克隆、类型信息等标准实现
+  NODE_DEFAULT_FUNCTIONS(MatrixGenerator)  // 节点默认功能宏，可能包含克隆、类型信息等标准实现
 
   /**
    * @brief 获取此节点的名称。
@@ -65,11 +65,12 @@ class MatrixGenerator : public Node {
   void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
 
   // --- 静态常量，用作节点输入参数的键名 ---
-  static const QString kPositionInput;     ///< "Position" - 位置 (平移) 参数的键名 (通常是 QVector2D 或类似类型)。
-  static const QString kRotationInput;     ///< "Rotation" - 旋转角度参数的键名 (通常是 float 或 double)。
-  static const QString kScaleInput;        ///< "Scale" - 缩放比例参数的键名 (通常是 QVector2D，表示 X 和 Y 轴的缩放)。
-  static const QString kUniformScaleInput; ///< "UniformScale" - 是否启用等比缩放的布尔参数键名。如果为 true，kScaleInput 的 Y 分量可能被忽略，X 分量用于双轴。
-  static const QString kAnchorInput;       ///< "Anchor" - 变换锚点（旋转和缩放的中心点）参数的键名 (通常是 QVector2D)。
+  static const QString kPositionInput;      ///< "Position" - 位置 (平移) 参数的键名 (通常是 QVector2D 或类似类型)。
+  static const QString kRotationInput;      ///< "Rotation" - 旋转角度参数的键名 (通常是 float 或 double)。
+  static const QString kScaleInput;         ///< "Scale" - 缩放比例参数的键名 (通常是 QVector2D，表示 X 和 Y 轴的缩放)。
+  static const QString kUniformScaleInput;  ///< "UniformScale" - 是否启用等比缩放的布尔参数键名。如果为
+                                            ///< true，kScaleInput 的 Y 分量可能被忽略，X 分量用于双轴。
+  static const QString kAnchorInput;  ///< "Anchor" - 变换锚点（旋转和缩放的中心点）参数的键名 (通常是 QVector2D)。
 
  protected:
   /**
@@ -107,4 +108,5 @@ class MatrixGenerator : public Node {
 
 }  // namespace olive
 
-#endif  // TRANSFORMDISTORT_H // 头文件宏定义结束, 注意：此处的宏名称 TRANSFORMDISTORT_H 与文件名 MATRIXGENERATOR_H 不匹配，可能是笔误。
+#endif  // TRANSFORMDISTORT_H // 头文件宏定义结束, 注意：此处的宏名称 TRANSFORMDISTORT_H 与文件名 MATRIXGENERATOR_H
+        // 不匹配，可能是笔误。

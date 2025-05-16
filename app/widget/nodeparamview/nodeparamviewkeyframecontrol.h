@@ -1,11 +1,11 @@
 #ifndef NODEPARAMVIEWKEYFRAMECONTROL_H
 #define NODEPARAMVIEWKEYFRAMECONTROL_H
 
-#include <QPushButton> // Qt 按钮控件基类
-#include <QWidget>     // Qt 控件基类
+#include <QPushButton>  // Qt 按钮控件基类
+#include <QWidget>      // Qt 控件基类
 
-#include "node/param.h"                   // 节点参数相关定义 (包含 NodeInput)
-#include "widget/timetarget/timetarget.h" // 时间目标对象接口
+#include "node/param.h"                    // 节点参数相关定义 (包含 NodeInput)
+#include "widget/timetarget/timetarget.h"  // 时间目标对象接口
 
 // 前向声明 Qt 类 (根据用户要求，不添加)
 // class QIcon;
@@ -24,15 +24,15 @@ namespace olive {
  * 此控件也作为 TimeTargetObject，因此可以响应并同步到播放时间。
  */
 class NodeParamViewKeyframeControl : public QWidget, public TimeTargetObject {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param right_align 布尔值，指示按钮是否应右对齐。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit NodeParamViewKeyframeControl(bool right_align, QWidget* parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param right_align 布尔值，指示按钮是否应右对齐。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit NodeParamViewKeyframeControl(bool right_align, QWidget* parent = nullptr);
   /**
    * @brief 构造函数重载，默认按钮右对齐。
    * @param parent 父控件指针，默认为 nullptr。
@@ -95,12 +95,12 @@ class NodeParamViewKeyframeControl : public QWidget, public TimeTargetObject {
    */
   [[nodiscard]] rational ConvertToViewerTime(const rational& r) const;
 
-  QPushButton* prev_key_btn_;   ///< “跳转到上一个关键帧”按钮。
-  QPushButton* toggle_key_btn_; ///< “在当前时间添加/删除关键帧”按钮。
-  QPushButton* next_key_btn_;   ///< “跳转到下一个关键帧”按钮。
-  QPushButton* enable_key_btn_; ///< “启用/禁用参数动画（关键帧）”按钮。
+  QPushButton* prev_key_btn_;    ///< “跳转到上一个关键帧”按钮。
+  QPushButton* toggle_key_btn_;  ///< “在当前时间添加/删除关键帧”按钮。
+  QPushButton* next_key_btn_;    ///< “跳转到下一个关键帧”按钮。
+  QPushButton* enable_key_btn_;  ///< “启用/禁用参数动画（关键帧）”按钮。
 
-  NodeInput input_; ///< 此控件当前关联的节点输入参数。
+  NodeInput input_;  ///< 此控件当前关联的节点输入参数。
 
  private slots:
   /**

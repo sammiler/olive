@@ -1,11 +1,12 @@
 #ifndef PROJECTEXPLORERLISTVIEW_H
 #define PROJECTEXPLORERLISTVIEW_H
 
-#include "projectexplorerlistviewbase.h"         // 项目浏览器列表视图的基类
-#include "projectexplorerlistviewitemdelegate.h" // 项目浏览器列表视图的项委托类
+#include "projectexplorerlistviewbase.h"          // 项目浏览器列表视图的基类
+#include "projectexplorerlistviewitemdelegate.h"  // 项目浏览器列表视图的项委托类
 
 // 前向声明 Qt 类 (根据用户要求，不添加)
-// class QWidget; // ProjectExplorerListViewBase 的基类 QAbstractItemView 的基类 QAbstractScrollArea 的基类 QFrame 的基类 QWidget
+// class QWidget; // ProjectExplorerListViewBase 的基类 QAbstractItemView 的基类 QAbstractScrollArea 的基类 QFrame
+// 的基类 QWidget
 
 namespace olive {
 
@@ -16,17 +17,17 @@ namespace olive {
  * 并使用 ProjectExplorerListViewItemDelegate 来定制项目项在列表中的显示方式（例如，每行显示哪些信息，如何绘制）。
  */
 class ProjectExplorerListView : public ProjectExplorerListViewBase {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父控件指针。
-   */
-  explicit ProjectExplorerListView(QWidget* parent);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父控件指针。
+      */
+     explicit ProjectExplorerListView(QWidget* parent);
 
-private:
-  ProjectExplorerListViewItemDelegate delegate_; ///< 用于自定义此视图中项目项（列表中的每一行）绘制方式的委托。
+ private:
+  ProjectExplorerListViewItemDelegate delegate_;  ///< 用于自定义此视图中项目项（列表中的每一行）绘制方式的委托。
   ///< 委托负责渲染每个列表项，包括其文本、图标以及可能的列数据。
 };
 

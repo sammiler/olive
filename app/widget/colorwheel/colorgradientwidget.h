@@ -1,7 +1,7 @@
 #ifndef COLORGRADIENTGLWIDGET_H
 #define COLORGRADIENTGLWIDGET_H
 
-#include "colorswatchwidget.h" // 引入颜色样本控件基类
+#include "colorswatchwidget.h"  // 引入颜色样本控件基类
 
 // 前向声明 Qt 类，如果 ColorSwatchWidget.h 中没有包含的话
 class QPaintEvent;
@@ -18,17 +18,17 @@ namespace olive {
  * 都可以被设置和获取。
  */
 class ColorGradientWidget : public ColorSwatchWidget {
-  Q_OBJECT // Qt 元对象系统宏，用于支持信号和槽机制
+ Q_OBJECT  // Qt 元对象系统宏，用于支持信号和槽机制
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param orientation 渐变的方向 (水平 Qt::Horizontal 或垂直 Qt::Vertical)。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit ColorGradientWidget(Qt::Orientation orientation, QWidget* parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param orientation 渐变的方向 (水平 Qt::Horizontal 或垂直 Qt::Vertical)。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit ColorGradientWidget(Qt::Orientation orientation, QWidget* parent = nullptr);
 
-protected:
+ protected:
   /**
    * @brief 根据屏幕上的点坐标获取对应的颜色。
    *
@@ -56,7 +56,7 @@ protected:
    */
   void SelectedColorChangedEvent(const Color& c, bool external) override;
 
-private:
+ private:
   /**
    * @brief 在两个颜色之间进行线性插值。
    * @param a 起始颜色。
@@ -67,14 +67,14 @@ private:
    */
   static Color LerpColor(const Color& a, const Color& b, int i, int max);
 
-  QPixmap cached_gradient_; ///< 缓存的渐变图像，用于提高重绘效率。
+  QPixmap cached_gradient_;  ///< 缓存的渐变图像，用于提高重绘效率。
 
-  Qt::Orientation orientation_; ///< 渐变的方向 (水平或垂直)。
+  Qt::Orientation orientation_;  ///< 渐变的方向 (水平或垂直)。
 
-  Color start_; ///< 渐变的起始颜色。
-  Color end_;   ///< 渐变的结束颜色。
+  Color start_;  ///< 渐变的起始颜色。
+  Color end_;    ///< 渐变的结束颜色。
 
-  float val_; ///< 当前在渐变中选定的值 (通常在 0.0 到 1.0 之间)。
+  float val_;  ///< 当前在渐变中选定的值 (通常在 0.0 到 1.0 之间)。
 };
 
 }  // namespace olive

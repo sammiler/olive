@@ -1,16 +1,16 @@
-#ifndef FOOTAGE_H // 防止头文件被多次包含的宏定义开始
+#ifndef FOOTAGE_H  // 防止头文件被多次包含的宏定义开始
 #define FOOTAGE_H
 
-#include <olive/core/core.h> // Olive 核心库的包含，可能定义了 rational 等基础类型
-#include <QDateTime>         // Qt 日期时间类，用于时间戳
-#include <QList>             // Qt 列表容器
+#include <olive/core/core.h>  // Olive 核心库的包含，可能定义了 rational 等基础类型
+#include <QDateTime>          // Qt 日期时间类，用于时间戳
+#include <QList>              // Qt 列表容器
 
-#include "codec/decoder.h"                // 解码器相关定义，用于探测和解码媒体文件
-#include "footagedescription.h"           // 素材描述相关定义 (可能是一个结构体或类)
-#include "node/output/viewer/viewer.h"    // 引入基类 ViewerOutput 的定义
-#include "render/cancelatom.h"            // 用于取消操作的原子类
-#include "render/videoparams.h"           // 视频参数定义 (AudioParams 和 SubtitleParams 可能也在此或类似文件中)
-                                          // (实际上 VideoParams, AudioParams, SubtitleParams 分别在自己的头文件中，但这里遵循原文)
+#include "codec/decoder.h"              // 解码器相关定义，用于探测和解码媒体文件
+#include "footagedescription.h"         // 素材描述相关定义 (可能是一个结构体或类)
+#include "node/output/viewer/viewer.h"  // 引入基类 ViewerOutput 的定义
+#include "render/cancelatom.h"          // 用于取消操作的原子类
+#include "render/videoparams.h"         // 视频参数定义 (AudioParams 和 SubtitleParams 可能也在此或类似文件中)
+// (实际上 VideoParams, AudioParams, SubtitleParams 分别在自己的头文件中，但这里遵循原文)
 
 // 可能需要的前向声明
 // class QVariant;
@@ -24,7 +24,7 @@
 // class NodeValueTable;
 // class Project;
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
 /**
  * @brief 代表项目中对外部媒体文件的引用及其元数据。
@@ -34,15 +34,15 @@ namespace olive { // Olive 编辑器的命名空间
  * Footage 继承自 ViewerOutput，意味着它可以被直接连接到查看器或用作其他节点的输入源。
  */
 class Footage : public ViewerOutput {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief Footage 构造函数。
-   * @param filename (可选) 要引用的媒体文件的路径。如果为空，则创建一个空的 Footage 对象。
-   */
-  explicit Footage(const QString &filename = QString());
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief Footage 构造函数。
+      * @param filename (可选) 要引用的媒体文件的路径。如果为空，则创建一个空的 Footage 对象。
+      */
+     explicit Footage(const QString &filename = QString());
 
-  NODE_DEFAULT_FUNCTIONS(Footage) // 节点默认功能宏，可能包含克隆、类型信息等标准实现
+  NODE_DEFAULT_FUNCTIONS(Footage)  // 节点默认功能宏，可能包含克隆、类型信息等标准实现
 
   /** @brief 获取此素材节点的名称 (例如 "媒体")，支持国际化。 */
   [[nodiscard]] QString Name() const override { return tr("Media"); }
@@ -169,8 +169,9 @@ class Footage : public ViewerOutput {
    * @param timebase 时间基准。
    * @return rational 调整后的时间。
    */
-  static rational AdjustTimeByLoopMode(rational time, LoopMode loop_mode, const rational &length,
-                                       VideoParams::Type type, const rational &timebase); // VideoParams::Type 可能是笔误，应为 Track::Type 或类似
+  static rational AdjustTimeByLoopMode(
+      rational time, LoopMode loop_mode, const rational &length, VideoParams::Type type,
+      const rational &timebase);  // VideoParams::Type 可能是笔误，应为 Track::Type 或类似
 
   /** @brief 获取特定类型的数据。 */
   [[nodiscard]] QVariant data(const DataType &d) const override;
@@ -183,7 +184,7 @@ class Footage : public ViewerOutput {
   /** @brief 将素材节点的自定义数据保存到 XML 流。 */
   void SaveCustom(QXmlStreamWriter *writer) const override;
 
-  static const QString kFilenameInput; ///< "Filename" - 存储文件路径的输入参数键名。
+  static const QString kFilenameInput;  ///< "Filename" - 存储文件路径的输入参数键名。
 
   /** @brief 当此节点添加到项目图时调用。 */
   void AddedToGraphEvent(Project *p) override;
@@ -207,11 +208,11 @@ class Footage : public ViewerOutput {
   /** @brief (静态工具函数) 合并两个视频流的参数 (例如，基础参数和覆盖参数)。 */
   static VideoParams MergeVideoStream(const VideoParams &base, const VideoParams &over);
 
-  qint64 timestamp_; ///< 文件的最后修改时间戳。
-  QString decoder_;  ///< 用于此素材的解码器的 ID。
-  bool valid_;       ///< 标记此素材是否有效。
-  CancelAtom *cancelled_; ///< 指向取消原子的指针，用于中断操作。
-  int total_stream_count_; ///< 此素材包含的总流数量。
+  qint64 timestamp_;        ///< 文件的最后修改时间戳。
+  QString decoder_;         ///< 用于此素材的解码器的 ID。
+  bool valid_;              ///< 标记此素材是否有效。
+  CancelAtom *cancelled_;   ///< 指向取消原子的指针，用于中断操作。
+  int total_stream_count_;  ///< 此素材包含的总流数量。
 
  private slots:
   /** @brief 检查素材文件状态的槽函数 (例如，文件是否存在或已更改)。 */

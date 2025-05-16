@@ -31,10 +31,11 @@ class SideBar; // 侧边栏类
  */
 class DOCKS_EXPORT MainWindow : public MainWindowBase
 {
-    Q_OBJECT // Q_OBJECT 宏，用于启用 Qt 元对象系统特性，如信号和槽
-public:
+Q_OBJECT // Q_OBJECT 宏，用于启用 Qt 元对象系统特性，如信号和槽
+    public :
     /// @brief MainWindow 指针的 QVector 类型定义，方便使用。
-    typedef QVector<MainWindow *> List;
+    typedef QVector<MainWindow *>
+        List;
 
     /**
      * @brief 构造函数。像使用 QMainWindow 一样使用它。
@@ -105,7 +106,7 @@ private:
      */
     void setCentralWidget(QWidget *widget); // 重写只是为了将其设为私有
 
-    class Private;   ///< PIMPL (Private Implementation) 设计模式的私有实现类前向声明。
+    class Private; ///< PIMPL (Private Implementation) 设计模式的私有实现类前向声明。
     Private *const d; ///< 指向私有实现类的常量指针。
 };
 

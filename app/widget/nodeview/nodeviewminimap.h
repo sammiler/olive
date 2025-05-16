@@ -1,13 +1,13 @@
 #ifndef NODEVIEWMINIMAP_H
 #define NODEVIEWMINIMAP_H
 
-#include <QGraphicsView> // Qt 图形视图基类
-#include <QPolygonF>     // Qt 浮点数多边形类 (用于表示视口矩形)
-#include <QRectF>        // Qt 浮点数矩形类 (用于绘制和场景边界)
-#include <QPoint>        // Qt 整数二维点类
-#include <QPointF>       // Qt 浮点数二维点类
+#include <QGraphicsView>  // Qt 图形视图基类
+#include <QPoint>         // Qt 整数二维点类
+#include <QPointF>        // Qt 浮点数二维点类
+#include <QPolygonF>      // Qt 浮点数多边形类 (用于表示视口矩形)
+#include <QRectF>         // Qt 浮点数矩形类 (用于绘制和场景边界)
 
-#include "nodeviewscene.h" // 节点视图的自定义 QGraphicsScene
+#include "nodeviewscene.h"  // 节点视图的自定义 QGraphicsScene
 
 // 前向声明 Qt 类 (根据用户要求，不添加)
 // class QWidget;
@@ -26,15 +26,15 @@ namespace olive {
  * 小地图本身可以通过拖动其右下角的调整大小手柄来改变尺寸。
  */
 class NodeViewMiniMap : public QGraphicsView {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param scene 指向与此小地图共享的 NodeViewScene 对象的指针。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit NodeViewMiniMap(NodeViewScene *scene, QWidget *parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param scene 指向与此小地图共享的 NodeViewScene 对象的指针。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit NodeViewMiniMap(NodeViewScene *scene, QWidget *parent = nullptr);
 
  public slots:
   /**
@@ -129,13 +129,13 @@ class NodeViewMiniMap : public QGraphicsView {
    */
   void EmitMoveSignal(QMouseEvent *event);
 
-  int resize_triangle_sz_; ///< 右下角用于调整大小的三角形手柄的尺寸（像素）。
+  int resize_triangle_sz_;  ///< 右下角用于调整大小的三角形手柄的尺寸（像素）。
 
-  QPolygonF viewport_rect_; ///< 存储当前主视图在场景坐标系中的视口矩形。
+  QPolygonF viewport_rect_;  ///< 存储当前主视图在场景坐标系中的视口矩形。
 
-  bool resizing_; ///< 标记当前是否正在通过拖动调整小地图的大小。
+  bool resizing_;  ///< 标记当前是否正在通过拖动调整小地图的大小。
 
-  QPoint resize_anchor_; ///< 在开始调整小地图大小时，鼠标按下的锚点位置（通常是小地图的左上角或一个固定点）。
+  QPoint resize_anchor_;  ///< 在开始调整小地图大小时，鼠标按下的锚点位置（通常是小地图的左上角或一个固定点）。
 };
 
 }  // namespace olive

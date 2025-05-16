@@ -1,13 +1,13 @@
 #ifndef SCROLLINGLABEL_H
 #define SCROLLINGLABEL_H
 
-#include <QTimer>    // 用于动画定时器
-#include <QWidget>   // QWidget 基类
-#include <QStringList> // 用于存储多行文本
-#include <QPaintEvent> // 为了 paintEvent 参数
-#include <QPainter>  // 如果在 paintEvent 中直接使用 (通常是的)
+#include <QPaintEvent>  // 为了 paintEvent 参数
+#include <QPainter>     // 如果在 paintEvent 中直接使用 (通常是的)
+#include <QStringList>  // 用于存储多行文本
+#include <QTimer>       // 用于动画定时器
+#include <QWidget>      // QWidget 基类
 
-#include "common/define.h" // 可能包含一些通用定义
+#include "common/define.h"  // 可能包含一些通用定义
 
 namespace olive {
 
@@ -87,7 +87,7 @@ class ScrollingLabel : public QWidget {
   /**
    * @brief 根据当前字体和文本内容计算得到的总文本高度（像素）。
    */
-  int text_height_{0}; // 使用花括号进行值初始化
+  int text_height_{0};  // 使用花括号进行值初始化
 
   /**
    * @brief 用于驱动滚动动画的 QTimer 对象。
@@ -99,7 +99,7 @@ class ScrollingLabel : public QWidget {
    * 其具体含义取决于 `paintEvent` 和 `AnimationUpdate` 中的实现逻辑。
    * 通常表示文本垂直滚动的像素量。
    */
-  int animate_{0}; // 使用花括号进行值初始化
+  int animate_{0};  // 使用花括号进行值初始化
 
  private slots:
   /**

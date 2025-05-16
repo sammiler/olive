@@ -1,18 +1,18 @@
-#ifndef TYPESERIALIZER_H // 防止头文件被多次包含的宏定义开始
+#ifndef TYPESERIALIZER_H  // 防止头文件被多次包含的宏定义开始
 #define TYPESERIALIZER_H
 
-#include <olive/core/core.h> // Olive 核心库的包含，可能定义了 AudioParams 等类型或其依赖的基础类型
-#include <QXmlStreamReader>  // Qt XML 流读取器
-#include <QXmlStreamWriter>  // Qt XML 流写入器
+#include <olive/core/core.h>  // Olive 核心库的包含，可能定义了 AudioParams 等类型或其依赖的基础类型
+#include <QXmlStreamReader>   // Qt XML 流读取器
+#include <QXmlStreamWriter>   // Qt XML 流写入器
 
-#include "common/xmlutils.h" // 通用 XML 工具类，可能包含读写 XML 属性或元素的辅助函数
+#include "common/xmlutils.h"  // 通用 XML 工具类，可能包含读写 XML 属性或元素的辅助函数
 
 // 可能需要的前向声明
 // class AudioParams; // 假设 AudioParams 在 olive/core/core.h 或其他地方定义
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
-using namespace core; // 将 core 命名空间的内容引入到当前的 olive 命名空间中，
+using namespace core;  // 将 core 命名空间的内容引入到当前的 olive 命名空间中，
 // 使得可以直接使用 core 中定义的类型（如 AudioParams），而无需 core:: 前缀。
 
 /**
@@ -23,7 +23,7 @@ using namespace core; // 将 core 命名空间的内容引入到当前的 olive 
  * 使得代码更模块化，易于管理和扩展。
  */
 class TypeSerializer {
-public:
+ public:
   /**
    * @brief TypeSerializer 默认构造函数。
    *  由于所有方法都是静态的，通常不会创建此类的实例。

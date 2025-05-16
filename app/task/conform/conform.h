@@ -27,7 +27,7 @@ class ConformTask : public Task {
   ConformTask(QString decoder_id, const Decoder::CodecStream &stream, AudioParams params,
               const QVector<QString> &output_filenames);
 
-protected:
+ protected:
   /**
    * @brief 执行整合任务的核心逻辑。
    *
@@ -37,14 +37,14 @@ protected:
    */
   bool Run() override;
 
-private:
-  QString decoder_id_; ///< @brief 存储解码器的唯一标识符。
+ private:
+  QString decoder_id_;  ///< @brief 存储解码器的唯一标识符。
 
-  Decoder::CodecStream stream_; ///< @brief 存储编解码器流信息，包含了要被整合处理的原始媒体数据。
+  Decoder::CodecStream stream_;  ///< @brief 存储编解码器流信息，包含了要被整合处理的原始媒体数据。
 
-  AudioParams params_; ///< @brief 存储音频参数，用于配置输出音频的格式和特性。
+  AudioParams params_;  ///< @brief 存储音频参数，用于配置输出音频的格式和特性。
 
-  QVector<QString> output_filenames_; ///< @brief 存储输出文件的名称列表。整合后的结果将写入这些文件。
+  QVector<QString> output_filenames_;  ///< @brief 存储输出文件的名称列表。整合后的结果将写入这些文件。
 };
 
 }  // namespace olive

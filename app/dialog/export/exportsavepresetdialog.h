@@ -1,14 +1,14 @@
 #ifndef EXPORTSAVEPRESETDIALOG_H
 #define EXPORTSAVEPRESETDIALOG_H
 
-#include <QDialog>     // QDialog 基类
-#include <QLineEdit>   // 单行文本输入框，用于预设名称
-#include <QListWidget> // 列表控件 (虽然包含，但在此类声明中未直接作为成员使用，可能用于显示现有预设以避免重名)
-#include <QWidget>     // 为了 QWidget* parent 参数
-#include <QString>     // 为了 GetSelectedPresetName() 返回值
+#include <QDialog>      // QDialog 基类
+#include <QLineEdit>    // 单行文本输入框，用于预设名称
+#include <QListWidget>  // 列表控件 (虽然包含，但在此类声明中未直接作为成员使用，可能用于显示现有预设以避免重名)
+#include <QString>      // 为了 GetSelectedPresetName() 返回值
+#include <QWidget>      // 为了 QWidget* parent 参数
 
 // 假设 encoder.h 声明了 EncodingParams 类
-#include "codec/encoder.h" // 包含 EncodingParams
+#include "codec/encoder.h"  // 包含 EncodingParams
 
 namespace olive {
 
@@ -37,16 +37,16 @@ class ExportSavePresetDialog : public QDialog {
    */
   [[nodiscard]] QString GetSelectedPresetName() const { return name_edit_->text(); }
 
-public slots:
- /**
-  * @brief 重写 QDialog::accept() 槽函数。
-  * 当用户点击“确定”或等效按钮以确认保存预设时调用。
-  * 此函数通常会获取用户输入的预设名称，并使用 `params_` 成员中存储的
-  * 编码参数来实际保存预设文件。
-  */
- void accept() override;
+ public slots:
+  /**
+   * @brief 重写 QDialog::accept() 槽函数。
+   * 当用户点击“确定”或等效按钮以确认保存预设时调用。
+   * 此函数通常会获取用户输入的预设名称，并使用 `params_` 成员中存储的
+   * 编码参数来实际保存预设文件。
+   */
+  void accept() override;
 
-private:
+ private:
   /**
    * @brief 指向 QLineEdit 对象的指针，用于让用户输入预设的名称。
    */

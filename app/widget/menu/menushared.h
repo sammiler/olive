@@ -1,9 +1,9 @@
 #ifndef MENUSHARED_H
 #define MENUSHARED_H
 
-#include <olive/core/core.h> // 引入 Olive 核心库，可能包含 rational 等类型
-#include "widget/colorlabelmenu/colorlabelmenu.h" // 自定义颜色标签菜单类
-#include "widget/menu/menu.h"                    // 自定义的 Menu 基类
+#include <olive/core/core.h>                       // 引入 Olive 核心库，可能包含 rational 等类型
+#include "widget/colorlabelmenu/colorlabelmenu.h"  // 自定义颜色标签菜单类
+#include "widget/menu/menu.h"                      // 自定义的 Menu 基类
 
 // Qt 类的前向声明 (根据用户要求，不添加)
 // class QObject;
@@ -16,7 +16,7 @@
 
 namespace olive {
 
-using namespace core; // 使用 olive::core 命名空间
+using namespace core;  // 使用 olive::core 命名空间
 
 /**
  * @brief MenuShared 类是一个静态对象，提供在整个应用程序中使用的各种“标准”菜单和菜单项。
@@ -25,15 +25,15 @@ using namespace core; // 使用 olive::core 命名空间
  * 方便在不同地方复用这些菜单项，并统一处理其行为和快捷键。
  */
 class MenuShared : public QObject {
-  Q_OBJECT // Qt 元对象系统宏，用于支持信号和槽机制
+ Q_OBJECT  // Qt 元对象系统宏，用于支持信号和槽机制
 
- public:
-  /**
-   * @brief 构造函数。
-   *
-   * 通常在 CreateInstance() 中被调用。
-   */
-  MenuShared();
+     public :
+     /**
+      * @brief 构造函数。
+      *
+      * 通常在 CreateInstance() 中被调用。
+      */
+     MenuShared();
   /**
    * @brief 析构函数。
    */
@@ -122,9 +122,9 @@ class MenuShared : public QObject {
 
  private:
   // "新建" 菜单的共享项
-  QAction* new_project_item_;  ///< “新建项目”菜单项。
-  QAction* new_sequence_item_; ///< “新建序列”菜单项。
-  QAction* new_folder_item_;   ///< “新建文件夹”菜单项。
+  QAction* new_project_item_;   ///< “新建项目”菜单项。
+  QAction* new_sequence_item_;  ///< “新建序列”菜单项。
+  QAction* new_folder_item_;    ///< “新建文件夹”菜单项。
 
   // "编辑" 菜单的共享项
   QAction* edit_cut_item_;            ///< “剪切”菜单项。
@@ -139,33 +139,33 @@ class MenuShared : public QObject {
   QAction* edit_speedduration_item_;  ///< “速度/持续时间”菜单项。
 
   // 可添加对象的列表
-  QVector<QAction*> addable_items_; ///< 存储代表可添加对象（如各种节点类型）的 QAction 列表。
+  QVector<QAction*> addable_items_;  ///< 存储代表可添加对象（如各种节点类型）的 QAction 列表。
 
   // "入点/出点" 菜单的共享项
-  QAction* inout_set_in_item_;      ///< “设置入点”菜单项。
-  QAction* inout_set_out_item_;     ///< “设置出点”菜单项。
-  QAction* inout_reset_in_item_;    ///< “重置入点”或“跳转到入点”菜单项。
-  QAction* inout_reset_out_item_;   ///< “重置出点”或“跳转到出点”菜单项。
-  QAction* inout_clear_inout_item_; ///< “清除入点和出点”菜单项。
+  QAction* inout_set_in_item_;       ///< “设置入点”菜单项。
+  QAction* inout_set_out_item_;      ///< “设置出点”菜单项。
+  QAction* inout_reset_in_item_;     ///< “重置入点”或“跳转到入点”菜单项。
+  QAction* inout_reset_out_item_;    ///< “重置出点”或“跳转到出点”菜单项。
+  QAction* inout_clear_inout_item_;  ///< “清除入点和出点”菜单项。
 
   // "剪辑编辑" 菜单的共享项
-  QAction* clip_add_default_transition_item_; ///< “添加默认转场”菜单项。
-  QAction* clip_link_unlink_item_;            ///< “链接/取消链接音视频”菜单项。
-  QAction* clip_enable_disable_item_;         ///< “启用/禁用剪辑”菜单项。
-  QAction* clip_nest_item_;                   ///< “嵌套剪辑”（创建子序列）菜单项。
+  QAction* clip_add_default_transition_item_;  ///< “添加默认转场”菜单项。
+  QAction* clip_link_unlink_item_;             ///< “链接/取消链接音视频”菜单项。
+  QAction* clip_enable_disable_item_;          ///< “启用/禁用剪辑”菜单项。
+  QAction* clip_nest_item_;                    ///< “嵌套剪辑”（创建子序列）菜单项。
 
   // 时间标尺菜单的共享项
-  QActionGroup* frame_view_mode_group_;             ///< 用于时间码显示模式的动作组（确保互斥选择）。
-  QAction* view_timecode_view_dropframe_item_;      ///< 以“掉帧时间码”模式显示。
-  QAction* view_timecode_view_nondropframe_item_;   ///< 以“不掉帧时间码”模式显示。
-  QAction* view_timecode_view_seconds_item_;        ///< 以“秒”模式显示。
-  QAction* view_timecode_view_frames_item_;         ///< 以“帧”模式显示。
-  QAction* view_timecode_view_milliseconds_item_;   ///< 以“毫秒”模式显示。
+  QActionGroup* frame_view_mode_group_;            ///< 用于时间码显示模式的动作组（确保互斥选择）。
+  QAction* view_timecode_view_dropframe_item_;     ///< 以“掉帧时间码”模式显示。
+  QAction* view_timecode_view_nondropframe_item_;  ///< 以“不掉帧时间码”模式显示。
+  QAction* view_timecode_view_seconds_item_;       ///< 以“秒”模式显示。
+  QAction* view_timecode_view_frames_item_;        ///< 以“帧”模式显示。
+  QAction* view_timecode_view_milliseconds_item_;  ///< 以“毫秒”模式显示。
 
   // 颜色编码菜单项
-  ColorLabelMenu* color_coding_menu_; ///< 指向颜色标签子菜单的指针。
+  ColorLabelMenu* color_coding_menu_;  ///< 指向颜色标签子菜单的指针。
 
-  static MenuShared* instance_; ///< MenuShared 的静态单例实例指针。
+  static MenuShared* instance_;  ///< MenuShared 的静态单例实例指针。
 
  private slots:
   /**

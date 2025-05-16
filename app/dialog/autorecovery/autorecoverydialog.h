@@ -1,13 +1,13 @@
 #ifndef AUTORECOVERYDIALOG_H
 #define AUTORECOVERYDIALOG_H
 
-#include <QDialog>        // QDialog 基类
-#include <QTreeWidget>    // 树形控件，用于显示可恢复的文件
-#include <QTreeWidgetItem> // 树形控件项 (如果 PopulateTree 中使用了)
-#include <QStringList>    // Qt 字符串列表
-#include <QWidget>        // 为了 QWidget* parent 参数
+#include <QDialog>          // QDialog 基类
+#include <QStringList>      // Qt 字符串列表
+#include <QTreeWidget>      // 树形控件，用于显示可恢复的文件
+#include <QTreeWidgetItem>  // 树形控件项 (如果 PopulateTree 中使用了)
+#include <QWidget>          // 为了 QWidget* parent 参数
 
-#include "common/define.h" // 可能包含一些通用定义
+#include "common/define.h"  // 可能包含一些通用定义
 
 namespace olive {
 
@@ -72,7 +72,8 @@ class AutoRecoveryDialog : public QDialog {
    * 此处定义了 kFilenameRole，可能用于在树项中存储对应的完整文件名。
    */
   enum DataRole {
-    kFilenameRole = Qt::UserRole + 1 ///< @brief 用于存储恢复文件名的自定义数据角色。Qt::UserRole 之后的值确保不与内置角色冲突。
+    kFilenameRole =
+        Qt::UserRole + 1  ///< @brief 用于存储恢复文件名的自定义数据角色。Qt::UserRole 之后的值确保不与内置角色冲突。
   };
 };
 

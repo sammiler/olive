@@ -1,16 +1,16 @@
 #ifndef PLANARFILEDEVICE_H
 #define PLANARFILEDEVICE_H
 
-#include <olive/core/core.h> // 包含了 olive::core 命名空间的基础定义
-#include <QFile>             // 用于文件操作
-#include <QObject>           // QObject 基类
-#include <QIODevice>         // 包含 QIODevice::OpenMode
-#include <QVector>           // 用于存储 QFile 指针的 QVector
-#include <QString>           // 用于文件名
+#include <olive/core/core.h>  // 包含了 olive::core 命名空间的基础定义
+#include <QFile>              // 用于文件操作
+#include <QIODevice>          // 包含 QIODevice::OpenMode
+#include <QObject>            // QObject 基类
+#include <QString>            // 用于文件名
+#include <QVector>            // 用于存储 QFile 指针的 QVector
 
 namespace olive {
 
-using namespace core; // 使用 olive::core 命名空间
+using namespace core;  // 使用 olive::core 命名空间
 
 /**
  * @brief 管理一组平面文件作为单个逻辑设备的类。

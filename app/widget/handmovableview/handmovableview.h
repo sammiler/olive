@@ -1,11 +1,11 @@
 #ifndef HANDMOVABLEVIEW_H
 #define HANDMOVABLEVIEW_H
 
-#include <QGraphicsView> // Qt 图形视图基类
-#include <QMenu>         // Qt 菜单类 (虽然在此头文件中未直接使用 QMenu 对象，但可能在 .cpp 文件中使用或为派生类提供上下文)
-#include <QWidget>       // Qt 控件基类 (作为 HandMovableView 的基类 QGraphicsView 的父类)
+#include <QGraphicsView>  // Qt 图形视图基类
+#include <QMenu>    // Qt 菜单类 (虽然在此头文件中未直接使用 QMenu 对象，但可能在 .cpp 文件中使用或为派生类提供上下文)
+#include <QWidget>  // Qt 控件基类 (作为 HandMovableView 的基类 QGraphicsView 的父类)
 
-#include "tool/tool.h"   // 项目中定义的工具枚举和相关类
+#include "tool/tool.h"  // 项目中定义的工具枚举和相关类
 
 // 前向声明 Qt 类 (根据用户要求，不添加)
 // class QWheelEvent;
@@ -22,14 +22,14 @@ namespace olive {
  * 该类还能够响应应用程序全局工具的切换，以相应地改变其行为。
  */
 class HandMovableView : public QGraphicsView {
-  Q_OBJECT // Qt 元对象系统宏，用于支持信号和槽机制
+ Q_OBJECT  // Qt 元对象系统宏，用于支持信号和槽机制
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit HandMovableView(QWidget* parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit HandMovableView(QWidget* parent = nullptr);
 
   /**
    * @brief 静态方法，判断一个鼠标滚轮事件是否应被解释为缩放事件。
@@ -64,7 +64,7 @@ class HandMovableView : public QGraphicsView {
    * 派生类可以重写此函数以响应工具的切换，例如改变视图的拖拽模式或光标样式。
    * @param tool 新激活的工具项 (Tool::Item 枚举值)。
    */
-  virtual void ToolChangedEvent(Tool::Item tool) { Q_UNUSED(tool) } // Q_UNUSED 用于避免未使用参数的编译器警告
+  virtual void ToolChangedEvent(Tool::Item tool) { Q_UNUSED(tool) }  // Q_UNUSED 用于避免未使用参数的编译器警告
 
   /**
    * @brief 处理手型工具的鼠标按下事件。
@@ -131,14 +131,14 @@ class HandMovableView : public QGraphicsView {
   void SetIsTimelineAxes(bool e) { is_timeline_axes_ = e; }
 
  private:
-  bool dragging_hand_;            ///< 标记当前是否正在通过手型工具进行拖拽平移。
-  DragMode pre_hand_drag_mode_; ///< 在开始手型工具拖拽之前视图的原始拖拽模式。
+  bool dragging_hand_;           ///< 标记当前是否正在通过手型工具进行拖拽平移。
+  DragMode pre_hand_drag_mode_;  ///< 在开始手型工具拖拽之前视图的原始拖拽模式。
 
-  DragMode default_drag_mode_;    ///< 视图的默认拖拽模式。
+  DragMode default_drag_mode_;  ///< 视图的默认拖拽模式。
 
-  QPointF transformed_pos_; ///< 在手型工具拖拽开始时，鼠标在场景坐标系中的转换后位置。
+  QPointF transformed_pos_;  ///< 在手型工具拖拽开始时，鼠标在场景坐标系中的转换后位置。
 
-  bool is_timeline_axes_; ///< 标记此视图是否作为时间轴的坐标轴部分使用。
+  bool is_timeline_axes_;  ///< 标记此视图是否作为时间轴的坐标轴部分使用。
 
  private slots:
   /**

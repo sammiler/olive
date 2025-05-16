@@ -1,20 +1,20 @@
 #ifndef KD_TITLEBAR_P_H
 #define KD_TITLEBAR_P_H
 
-#include "kddockwidgets/docks_export.h"    // 导入导出宏定义
+#include "kddockwidgets/docks_export.h" // 导入导出宏定义
 
-#include "kddockwidgets/QWidgetAdapter.h"  // QWidget 和 QQuickItem 的适配器类
-#include "kddockwidgets/DockWidgetBase.h"  // 停靠小部件基类
-#include "Draggable_p.h"                   // Draggable 私有头文件 (可拖拽对象接口)
-#include "Frame_p.h"                       // Frame 私有头文件 (停靠小部件的容器)
+#include "kddockwidgets/QWidgetAdapter.h" // QWidget 和 QQuickItem 的适配器类
+#include "kddockwidgets/DockWidgetBase.h" // 停靠小部件基类
+#include "Draggable_p.h" // Draggable 私有头文件 (可拖拽对象接口)
+#include "Frame_p.h" // Frame 私有头文件 (停靠小部件的容器)
 
 #include <QVector> // Qt 动态数组容器
-#include <QIcon>   // Qt 图标类
+#include <QIcon> // Qt 图标类
 
 QT_BEGIN_NAMESPACE
 // 前向声明 Qt 类
 class QHBoxLayout; // Qt 水平布局类
-class QLabel;      // Qt 标签控件类
+class QLabel; // Qt 标签控件类
 QT_END_NAMESPACE
 
 // 前向声明，用于测试目的
@@ -24,9 +24,9 @@ namespace KDDockWidgets {
 
 // 前向声明 KDDockWidgets 内部类
 class DockWidgetBase; // 停靠小部件基类
-class Frame;          // 框架类 (容纳 DockWidgetBase)
-class Button;         // KDDockWidgets 内部按钮类 (可能用于标题栏按钮)
-class TabBar;         // 标签栏类
+class Frame; // 框架类 (容纳 DockWidgetBase)
+class Button; // KDDockWidgets 内部按钮类 (可能用于标题栏按钮)
+class TabBar; // 标签栏类
 
 /**
  * @brief TitleBar 类代表停靠小部件或浮动窗口的标题栏。
@@ -348,9 +348,9 @@ protected:
 
 private:
     // 声明友元类，允许它们访问此类的私有成员
-    friend class ::TestDocks;          // 测试类
+    friend class ::TestDocks; // 测试类
     friend class FloatingWindowWidget; // Qt Widgets 版本的 FloatingWindow 实现
-    friend class TabWidgetWidget;      // Qt Widgets 版本的 TabWidget 实现
+    friend class TabWidgetWidget; // Qt Widgets 版本的 TabWidget 实现
 
     /**
      * @brief 更新浮动/停靠按钮的状态和工具提示。
@@ -387,16 +387,16 @@ private:
     void init();
 
     QPoint m_pressPos; ///< 鼠标按下的初始位置（用于拖拽判断）。
-    QString m_title;   ///< 标题栏显示的文本。
-    QIcon m_icon;      ///< 标题栏显示的图标。
+    QString m_title; ///< 标题栏显示的文本。
+    QIcon m_icon; ///< 标题栏显示的图标。
 
-    Frame *const m_frame;                   ///< 指向此标题栏所属的 Frame 的常量指针 (如果适用)。
+    Frame *const m_frame; ///< 指向此标题栏所属的 Frame 的常量指针 (如果适用)。
     FloatingWindow *const m_floatingWindow; ///< 指向此标题栏所属的 FloatingWindow 的常量指针 (如果适用)。
-    WidgetType *const m_genericWidget;      ///< 指向通用父 WidgetType 的常量指针 (用于非 Frame/FloatingWindow 的情况)。
-    const bool m_supportsAutoHide;          ///< 标记此标题栏是否支持自动隐藏按钮 (基于其父对象类型)。
-    bool m_closeButtonEnabled = true;       ///< 关闭按钮的启用状态。
-    bool m_floatButtonVisible = true;       ///< 浮动/停靠按钮的可见状态。
-    QString m_floatButtonToolTip;           ///< 浮动/停靠按钮的工具提示文本。
+    WidgetType *const m_genericWidget; ///< 指向通用父 WidgetType 的常量指针 (用于非 Frame/FloatingWindow 的情况)。
+    const bool m_supportsAutoHide; ///< 标记此标题栏是否支持自动隐藏按钮 (基于其父对象类型)。
+    bool m_closeButtonEnabled = true; ///< 关闭按钮的启用状态。
+    bool m_floatButtonVisible = true; ///< 浮动/停靠按钮的可见状态。
+    QString m_floatButtonToolTip; ///< 浮动/停靠按钮的工具提示文本。
 };
 
 

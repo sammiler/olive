@@ -1,15 +1,15 @@
 #pragma once // 确保该头文件在一次编译中仅被包含一次
 
-#include "kddockwidgets/docks_export.h"      // 包含导出宏定义，用于库的导出和导入
+#include "kddockwidgets/docks_export.h" // 包含导出宏定义，用于库的导出和导入
 #include "kddockwidgets/KDDockWidgets.h" // 包含 KDDockWidgets 库的主头文件
-#include "Item_p.h"                          // 包含 Item 私有头文件 (Config 类可能与之有交互或作为友元)
+#include "Item_p.h" // 包含 Item 私有头文件 (Config 类可能与之有交互或作为友元)
 
 #include <qglobal.h> // 包含 Qt 全局定义，例如 Q_DISABLE_COPY
 
 namespace Layouting { // 布局相关的命名空间
 
 class Separator; // 前向声明 Separator 类
-class Widget;    // 前向声明 Widget 类 (可能是 KDDockWidgets::Widget 的别名或特定于布局的 Widget)
+class Widget; // 前向声明 Widget 类 (可能是 KDDockWidgets::Widget 的别名或特定于布局的 Widget)
 
 /**
  * @brief 定义一个函数指针类型 SeparatorFactoryFunc。
@@ -35,8 +35,8 @@ public:
      * 这些标志可以用来控制布局系统的某些行为。
      */
     enum class Flag {
-        None = 0,       ///< 无标志。
-        LazyResize = 1  ///< 延迟调整大小标志。当设置时，某些调整大小的操作可能会被延迟执行以优化性能。
+        None = 0, ///< 无标志。
+        LazyResize = 1 ///< 延迟调整大小标志。当设置时，某些调整大小的操作可能会被延迟执行以优化性能。
     };
     Q_DECLARE_FLAGS(Flags, Flag) // 为 Config::Flag 声明一个 Qt 标志类型 Config::Flags
 
@@ -103,7 +103,7 @@ public:
     void setFlags(Flags);
 
 private:
-    friend class Item;             // Item 类是友元类，可以访问 Config 的私有成员
+    friend class Item; // Item 类是友元类，可以访问 Config 的私有成员
     friend class ItemBoxContainer; // ItemBoxContainer 类是友元类
 
     /**
@@ -127,7 +127,7 @@ private:
     void registerQmlTypes();
 
     SeparatorFactoryFunc m_separatorFactoryFunc = nullptr; ///< 存储分隔条工厂函数的指针。
-    Flags m_flags = Flag::None;                          ///< 存储当前的配置标志。
+    Flags m_flags = Flag::None; ///< 存储当前的配置标志。
 
     Q_DISABLE_COPY(Config) // 禁止拷贝构造函数和赋值操作符，以强制单例模式
 };

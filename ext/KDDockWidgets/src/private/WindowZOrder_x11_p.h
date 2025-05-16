@@ -9,8 +9,8 @@
 #include <QtGui/qpa/qplatformnativeinterface.h> // Qt 平台原生接口，用于访问底层平台资源
 
 #include <X11/Xlib.h> // Xlib 库头文件，用于与 X Window 系统交互
-#include <algorithm>  // C++ 标准库算法头文件 (例如 std::find_if)
-#include <QVector>    // Qt 动态数组容器
+#include <algorithm> // C++ 标准库算法头文件 (例如 std::find_if)
+#include <QVector> // Qt 动态数组容器
 
 namespace KDDockWidgets {
 
@@ -33,7 +33,7 @@ static void travelTree(WId current, Display *disp, QVector<QWindow *> &remaining
         return;
 
     Window parent_return, root_return, *children_return; // 用于 XQueryTree 的输出参数
-    unsigned int nchildren_return;                      // 子窗口的数量
+    unsigned int nchildren_return; // 子窗口的数量
 
     // 查询当前窗口的子窗口信息
     if (!XQueryTree(disp, current, &root_return, &parent_return,
@@ -54,8 +54,8 @@ static void travelTree(WId current, Display *disp, QVector<QWindow *> &remaining
         });
 
         if (it != remaining.end()) { // 如果找到了匹配的 KDDW 窗口
-            result << *it;           // 将其添加到结果列表
-            remaining.erase(it);     // 从待处理列表中移除
+            result << *it; // 将其添加到结果列表
+            remaining.erase(it); // 从待处理列表中移除
         }
 
         // 递归地遍历当前子窗口的子树
@@ -96,7 +96,7 @@ static QVector<QWindow *> orderedWindows(bool &ok)
         return {};
 
     QVector<QWindow *> orderedResult; // 用于存储排序后的结果
-    Display *disp = x11Display();     // 获取 X11 Display 指针
+    Display *disp = x11Display(); // 获取 X11 Display 指针
     if (!disp) { // 如果获取 Display 失败
         ok = false;
         return {};
@@ -124,9 +124,9 @@ namespace KDDockWidgets {
  */
 static QVector<QWindow *> orderedWindows(bool &ok)
 {
-    Q_UNUSED(ok);      // 标记参数 ok 未被使用
-    Q_UNREACHABLE();   // 标记此代码路径不应被执行
-    return {};         // 返回空列表
+    Q_UNUSED(ok); // 标记参数 ok 未被使用
+    Q_UNREACHABLE(); // 标记此代码路径不应被执行
+    return {}; // 返回空列表
 }
 } // namespace KDDockWidgets
 

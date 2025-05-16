@@ -1,8 +1,8 @@
 #ifndef CLITASKDIALOG_H
 #define CLITASKDIALOG_H
 
-#include "cli/cliprogress/cliprogressdialog.h" // 基类
-#include "task/task.h"                         // 关联的任务类
+#include "cli/cliprogress/cliprogressdialog.h"  // 基类
+#include "task/task.h"                          // 关联的任务类
 
 namespace olive {
 
@@ -30,7 +30,7 @@ class CLITaskDialog : public CLIProgressDialog {
    */
   bool Run();
 
-private:
+ private:
   /**
    * @brief 指向与此命令行进度对话框关联的 Task 对象的指针。
    */

@@ -1,8 +1,8 @@
 #ifndef TASKDIALOG_H
 #define TASKDIALOG_H
 
-#include "dialog/progress/progress.h" // 引入基础进度对话框类
-#include "task/task.h"                // 引入任务基类定义
+#include "dialog/progress/progress.h"  // 引入基础进度对话框类
+#include "task/task.h"                 // 引入任务基类定义
 
 namespace olive {
 

@@ -6,23 +6,23 @@
 #include <utility>  // 为了 std::move
 
 extern "C" {
-#include <libswresample/swresample.h> // SwrContext 通常与音频重采样相关
+#include <libswresample/swresample.h>  // SwrContext 通常与音频重采样相关
 }
 
 #include <stdint.h>
 #include <QFileInfo>
 #include <QMutex>
 #include <QObject>
-#include <QWaitCondition>
 #include <QString>      // 为了 QString
-#include <QVector>      // 为了 QVector
 #include <QStringList>  // 如果需要 (当前未使用)
+#include <QVector>      // 为了 QVector
+#include <QWaitCondition>
 
-#include "node/block/block.h"                        // 包含 Block
-#include "node/project/footage/footagedescription.h" // 包含 FootageDescription
-#include "render/cancelatom.h"                       // 包含 CancelAtom
-#include "render/rendermodes.h"                      // 包含 RenderMode::Mode 和 LoopMode
-#include "common/define.h"                           // 包含 olive::rational, olive::PixelFormat, olive::AudioParams, olive::SampleBuffer, olive::TimeRange, olive::TexturePtr 等核心类型
+#include "common/define.h"  // 包含 olive::rational, olive::PixelFormat, olive::AudioParams, olive::SampleBuffer, olive::TimeRange, olive::TexturePtr 等核心类型
+#include "node/block/block.h"                         // 包含 Block
+#include "node/project/footage/footagedescription.h"  // 包含 FootageDescription
+#include "render/cancelatom.h"                        // 包含 CancelAtom
+#include "render/rendermodes.h"                       // 包含 RenderMode::Mode 和 LoopMode
 
 namespace olive {
 
@@ -63,9 +63,9 @@ class Decoder : public QObject {
    * @brief 表示解码器检索状态的枚举。
    */
   enum RetrieveState {
-    kReady,           ///< @brief 解码器已准备就绪，可以进行检索。
-    kFailedToOpen,    ///< @brief 解码器打开媒体文件失败。
-    kIndexUnavailable ///< @brief 媒体索引不可用或正在生成，暂时无法检索。
+    kReady,            ///< @brief 解码器已准备就绪，可以进行检索。
+    kFailedToOpen,     ///< @brief 解码器打开媒体文件失败。
+    kIndexUnavailable  ///< @brief 媒体索引不可用或正在生成，暂时无法检索。
   };
 
   /**
@@ -199,11 +199,13 @@ class Decoder : public QObject {
   struct RetrieveVideoParams {
     Renderer* renderer = nullptr;  ///< @brief 指向渲染器的指针，可能用于特定渲染上下文。
     rational time;                 ///< @brief 请求的视频帧的时间戳。
-    int divider = 1;               ///< @brief 视频分辨率的除数，用于请求较低分辨率的预览 (例如，1 表示完整分辨率，2 表示一半分辨率)。
-    PixelFormat maximum_format = PixelFormat(PixelFormat::INVALID); ///< @brief 请求的最大像素格式，用于限制解码输出的格式。
-    CancelAtom* cancelled = nullptr; ///< @brief 指向 CancelAtom 的指针，用于在操作过程中检查是否已请求取消。
-    VideoParams::ColorRange force_range = VideoParams::kColorRangeDefault; ///< @brief 强制使用的颜色范围。
-    VideoParams::Interlacing src_interlacing = VideoParams::kInterlaceNone; ///< @brief 源视频的隔行扫描模式。
+    int divider =
+        1;  ///< @brief 视频分辨率的除数，用于请求较低分辨率的预览 (例如，1 表示完整分辨率，2 表示一半分辨率)。
+    PixelFormat maximum_format =
+        PixelFormat(PixelFormat::INVALID);  ///< @brief 请求的最大像素格式，用于限制解码输出的格式。
+    CancelAtom* cancelled = nullptr;        ///< @brief 指向 CancelAtom 的指针，用于在操作过程中检查是否已请求取消。
+    VideoParams::ColorRange force_range = VideoParams::kColorRangeDefault;   ///< @brief 强制使用的颜色范围。
+    VideoParams::Interlacing src_interlacing = VideoParams::kInterlaceNone;  ///< @brief 源视频的隔行扫描模式。
   };
 
   /**
@@ -223,10 +225,10 @@ class Decoder : public QObject {
    * @brief 表示检索音频数据状态的枚举。
    */
   enum RetrieveAudioStatus {
-    kInvalid = -1,        ///< @brief 无效状态或发生错误。
-    kOK,                  ///< @brief 音频数据成功检索。
-    kWaitingForConform,   ///< @brief 正在等待音频适配完成。
-    kUnknownError         ///< @brief 发生未知错误。
+    kInvalid = -1,       ///< @brief 无效状态或发生错误。
+    kOK,                 ///< @brief 音频数据成功检索。
+    kWaitingForConform,  ///< @brief 正在等待音频适配完成。
+    kUnknownError        ///< @brief 发生未知错误。
   };
 
   /**

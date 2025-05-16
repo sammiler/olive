@@ -1,13 +1,13 @@
 #ifndef OCIOUTILS_H
 #define OCIOUTILS_H
 
-#include <OpenColorIO/OpenColorIO.h> // 包含 OpenColorIO 核心头文件
+#include <OpenColorIO/OpenColorIO.h>  // 包含 OpenColorIO 核心头文件
 // 为 OpenColorIO 的命名空间 OCIO_NAMESPACE 定义一个更短的别名 OCIO
 // OCIO_NAMESPACE 通常是 OpenColorIO_v2_x (x是版本号)
 namespace OCIO = OCIO_NAMESPACE;
 
-#include "render/videoparams.h" // 包含 olive::PixelFormat 定义 (假设在此文件中或其包含的文件中)
-#include "common/define.h"      // 可能包含 olive::PixelFormat (如果 VideoParams 未包含所有PixelFormat相关定义)
+#include "common/define.h"       // 可能包含 olive::PixelFormat (如果 VideoParams 未包含所有PixelFormat相关定义)
+#include "render/videoparams.h"  // 包含 olive::PixelFormat 定义 (假设在此文件中或其包含的文件中)
 
 namespace olive {
 
@@ -18,7 +18,7 @@ namespace olive {
  * 例如将 Olive 内部的像素格式转换为 OCIO 使用的位深度表示。
  */
 class OCIOUtils {
-public:
+ public:
   /**
    * @brief 将 Olive 的 PixelFormat 枚举值转换为对应的 OpenColorIO (OCIO) BitDepth 枚举值。
    *

@@ -1,12 +1,12 @@
-#ifndef PANELFOCUSMANAGER_H // 防止头文件被重复包含的宏
-#define PANELFOCUSMANAGER_H // 定义 PANELFOCUSMANAGER_H 宏
+#ifndef PANELFOCUSMANAGER_H  // 防止头文件被重复包含的宏
+#define PANELFOCUSMANAGER_H  // 定义 PANELFOCUSMANAGER_H 宏
 
-#include <QList>   // Qt 列表容器
-#include <QObject> // Qt 对象模型基类
+#include <QList>    // Qt 列表容器
+#include <QObject>  // Qt 对象模型基类
 
-#include "panel/panel.h" // 包含 PanelWidget 基类的定义
+#include "panel/panel.h"  // 包含 PanelWidget 基类的定义
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
 /**
  * @brief PanelManager 类 (文件名 PanelFocusManager.h 可能暗示其早期或特定用途)
@@ -23,15 +23,15 @@ namespace olive { // olive 项目的命名空间
  *
  * (注意：类名是 PanelManager，而文件名是 PanelFocusManager.h，这可能是一个历史遗留问题或特定命名约定)
  */
-class PanelManager : public QObject { // PanelManager 继承自 QObject
-  Q_OBJECT // 声明此类使用 Qt 的元对象系统
+class PanelManager : public QObject {  // PanelManager 继承自 QObject
+ Q_OBJECT                              // 声明此类使用 Qt 的元对象系统
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父对象指针，默认为 nullptr。
-   */
-  explicit PanelManager(QObject* parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父对象指针，默认为 nullptr。
+      */
+     explicit PanelManager(QObject* parent = nullptr);
 
   /**
    * @brief销毁所有面板。
@@ -124,7 +124,7 @@ class PanelManager : public QObject { // PanelManager 继承自 QObject
    */
   void SetSuppressChangedSignal(bool e) { suppress_changed_signal_ = e; }
 
- public slots: // Qt 公有槽函数
+ public slots:  // Qt 公有槽函数
   /**
    * @brief 将此槽连接到 QApplication 的 SIGNAL(focusChanged(QWidget*, QWidget*))。
    *
@@ -134,7 +134,7 @@ class PanelManager : public QObject { // PanelManager 继承自 QObject
    */
   void FocusChanged(QWidget* old, QWidget* now);
 
- signals: // Qt 信号声明
+ signals:  // Qt 信号声明
   /**
    * @brief 当当前拥有“焦点”的面板发生改变时发出的信号。
    * @param panel 新获得“焦点”的 PanelWidget 指针，如果无面板聚焦则为 nullptr。
@@ -153,42 +153,42 @@ class PanelManager : public QObject { // PanelManager 继承自 QObject
    */
   static PanelManager* instance_;
 
-  bool suppress_changed_signal_; // 标记是否抑制 FocusedPanelChanged 信号的发出
+  bool suppress_changed_signal_;  // 标记是否抑制 FocusedPanelChanged 信号的发出
 };
 
 // --- 模板成员函数的实现 ---
 
 template <class T>
 T* PanelManager::MostRecentlyFocused() {
-  T* cast_test; // 用于动态类型转换的临时指针
+  T* cast_test;  // 用于动态类型转换的临时指针
 
   // 从最近获得焦点的开始遍历 focus_history_
-  for (auto i : focus_history_) { // Qt 的 foreach 循环
-    cast_test = dynamic_cast<T*>(i); // 尝试将 PanelWidget 指针转换为 T 类型指针
+  for (auto i : focus_history_) {     // Qt 的 foreach 循环
+    cast_test = dynamic_cast<T*>(i);  // 尝试将 PanelWidget 指针转换为 T 类型指针
 
-    if (cast_test != nullptr) { // 如果转换成功 (即 i 是 T 类型或其派生类型)
-      return cast_test; // 返回第一个找到的匹配类型的面板
+    if (cast_test != nullptr) {  // 如果转换成功 (即 i 是 T 类型或其派生类型)
+      return cast_test;          // 返回第一个找到的匹配类型的面板
     }
   }
 
-  return nullptr; // 如果没有找到指定类型的面板，则返回 nullptr
+  return nullptr;  // 如果没有找到指定类型的面板，则返回 nullptr
 }
 
 template <class T>
 QList<T*> PanelManager::GetPanelsOfType() {
-  QList<T*> panels; // 用于存储结果的列表
-  T* cast_test;     // 用于动态类型转换的临时指针
+  QList<T*> panels;  // 用于存储结果的列表
+  T* cast_test;      // 用于动态类型转换的临时指针
 
   // 遍历所有已注册的面板 (focus_history_ 包含了所有面板，并按焦点顺序排列)
-  foreach (PanelWidget* panel, focus_history_) { // Qt 的 foreach 宏
-    cast_test = dynamic_cast<T*>(panel); // 尝试转换
+  foreach (PanelWidget* panel, focus_history_) {  // Qt 的 foreach 宏
+    cast_test = dynamic_cast<T*>(panel);          // 尝试转换
 
-    if (cast_test) { // 如果转换成功
-      panels.append(cast_test); // 将其添加到结果列表中
+    if (cast_test) {             // 如果转换成功
+      panels.append(cast_test);  // 将其添加到结果列表中
     }
   }
 
-  return panels; // 返回包含所有 T 类型面板的列表
+  return panels;  // 返回包含所有 T 类型面板的列表
 }
 
 }  // namespace olive

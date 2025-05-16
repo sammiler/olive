@@ -1,19 +1,19 @@
-#ifndef TRACKLIST_H // 防止头文件被多次包含的宏定义开始
+#ifndef TRACKLIST_H  // 防止头文件被多次包含的宏定义开始
 #define TRACKLIST_H
 
-#include <QObject> // Qt 对象模型基类
+#include <QObject>  // Qt 对象模型基类
 
-#include "node/output/track/track.h" // 引入 Track 类的定义，TrackList 是 Track 的容器
-#include "timeline/timelinecommon.h" // 引入时间线相关的通用定义，可能包含 rational 等
+#include "node/output/track/track.h"  // 引入 Track 类的定义，TrackList 是 Track 的容器
+#include "timeline/timelinecommon.h"  // 引入时间线相关的通用定义，可能包含 rational 等
 
 // 可能需要的前向声明
 // class Project; // 假设
 // class NodeInput; // 假设
 // class Node; // 假设
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
-class Sequence; // 前向声明 Sequence 类，TrackList 通常属于某个序列
+class Sequence;  // 前向声明 Sequence 类，TrackList 通常属于某个序列
 
 /**
  * @brief 代表一个特定类型轨道的列表（集合）。
@@ -22,15 +22,15 @@ class Sequence; // 前向声明 Sequence 类，TrackList 通常属于某个序�
  * 此类负责管理这些轨道的添加、移除、索引以及获取列表的总长度等。
  */
 class TrackList : public QObject {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief TrackList 构造函数。
-   * @param parent 指向其所属的 Sequence 对象的指针。
-   * @param type 此轨道列表管理的轨道类型 (例如 Track::kVideo)。
-   * @param track_input 关联到序列节点上代表此类轨道的输入端口名称（例如 "VideoTracks"）。
-   */
-  TrackList(Sequence* parent, const Track::Type& type, QString track_input);
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief TrackList 构造函数。
+      * @param parent 指向其所属的 Sequence 对象的指针。
+      * @param type 此轨道列表管理的轨道类型 (例如 Track::kVideo)。
+      * @param track_input 关联到序列节点上代表此类轨道的输入端口名称（例如 "VideoTracks"）。
+      */
+     TrackList(Sequence* parent, const Track::Type& type, QString track_input);
 
   /**
    * @brief 获取此轨道列表管理的轨道类型。
@@ -134,7 +134,7 @@ class TrackList : public QObject {
    */
   void TrackDisconnected(Node* node, int element);
 
- signals: // Qt 信号声明区域
+ signals:  // Qt 信号声明区域
   /**
    * @brief 当轨道列表内容发生改变（例如添加、移除轨道，或轨道顺序改变）时发射此信号。
    */
@@ -183,11 +183,11 @@ class TrackList : public QObject {
    */
   QVector<int> track_array_indexes_;
 
-  QString track_input_; ///< 关联到序列节点上代表此类轨道的输入端口名称。
+  QString track_input_;  ///< 关联到序列节点上代表此类轨道的输入端口名称。
 
-  rational total_length_; ///< 此轨道列表中所有轨道的总长度（通常是最长轨道的长度）。
+  rational total_length_;  ///< 此轨道列表中所有轨道的总长度（通常是最长轨道的长度）。
 
-  enum Track::Type type_; ///< 此轨道列表管理的轨道类型。
+  enum Track::Type type_;  ///< 此轨道列表管理的轨道类型。
 
  private slots:
   /**

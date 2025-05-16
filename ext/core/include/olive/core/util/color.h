@@ -1,9 +1,9 @@
 #ifndef LIBOLIVECORE_COLOR_H
 #define LIBOLIVECORE_COLOR_H
 
-#include "../render/pixelformat.h" // 引入 PixelFormat 类的定义，用于处理不同像素格式的颜色数据转换
+#include "../render/pixelformat.h"  // 引入 PixelFormat 类的定义，用于处理不同像素格式的颜色数据转换
 
-namespace olive::core { // Olive 核心功能命名空间
+namespace olive::core {  // Olive 核心功能命名空间
 
 // 前向声明 PixelFormat，如果 "../render/pixelformat.h" 中已完整定义则无需再次声明
 // class PixelFormat;
@@ -18,8 +18,8 @@ namespace olive::core { // Olive 核心功能命名空间
  */
 class Color {
  public:
-  using DataType = float; ///< 定义颜色分量的数据类型，此处为 float，表示单精度浮点数。
-  static constexpr unsigned int RGBA = 4; ///< 定义 RGBA 颜色包含的分量数量（红、绿、蓝、透明度）。
+  using DataType = float;                  ///< 定义颜色分量的数据类型，此处为 float，表示单精度浮点数。
+  static constexpr unsigned int RGBA = 4;  ///< 定义 RGBA 颜色包含的分量数量（红、绿、蓝、透明度）。
 
   /**
    * @brief 默认构造函数。
@@ -27,8 +27,8 @@ class Color {
    * 初始化所有颜色分量 (R, G, B, A) 为 0.0。
    */
   Color() {
-    for (float& i : data_) { // 遍历内部数据数组
-      i = 0.0;             // 将每个分量设置为0.0
+    for (float& i : data_) {  // 遍历内部数据数组
+      i = 0.0;                // 将每个分量设置为0.0
     }
   }
 
@@ -40,10 +40,10 @@ class Color {
    * @param a 透明度分量的值，默认为 1.0f (完全不透明)。
    */
   Color(const DataType& r, const DataType& g, const DataType& b, const DataType& a = 1.0f) {
-    data_[0] = r; // 设置红色分量
-    data_[1] = g; // 设置绿色分量
-    data_[2] = b; // 设置蓝色分量
-    data_[3] = a; // 设置透明度分量
+    data_[0] = r;  // 设置红色分量
+    data_[1] = g;  // 设置绿色分量
+    data_[2] = b;  // 设置蓝色分量
+    data_[3] = a;  // 设置透明度分量
   }
 
   /**
@@ -189,56 +189,60 @@ class Color {
   Color& operator+=(const Color& rhs);
   /** @brief 颜色减法赋值。 @param rhs 右操作数 (另一个 Color 对象)。 @return 修改后的 Color 对象引用。 */
   Color& operator-=(const Color& rhs);
-  /** @brief 颜色与标量加法赋值 (所有分量加标量)。 @param rhs 右操作数 (DataType 标量)。 @return 修改后的 Color 对象引用。 */
+  /** @brief 颜色与标量加法赋值 (所有分量加标量)。 @param rhs 右操作数 (DataType 标量)。 @return 修改后的 Color
+   * 对象引用。 */
   Color& operator+=(const DataType& rhs);
-  /** @brief 颜色与标量减法赋值 (所有分量减标量)。 @param rhs 右操作数 (DataType 标量)。 @return 修改后的 Color 对象引用。 */
+  /** @brief 颜色与标量减法赋值 (所有分量减标量)。 @param rhs 右操作数 (DataType 标量)。 @return 修改后的 Color
+   * 对象引用。 */
   Color& operator-=(const DataType& rhs);
-  /** @brief 颜色与标量乘法赋值 (所有分量乘标量)。 @param rhs 右操作数 (DataType 标量)。 @return 修改后的 Color 对象引用。 */
+  /** @brief 颜色与标量乘法赋值 (所有分量乘标量)。 @param rhs 右操作数 (DataType 标量)。 @return 修改后的 Color
+   * 对象引用。 */
   Color& operator*=(const DataType& rhs);
-  /** @brief 颜色与标量除法赋值 (所有分量除以标量)。 @param rhs 右操作数 (DataType 标量)。 @return 修改后的 Color 对象引用。 */
+  /** @brief 颜色与标量除法赋值 (所有分量除以标量)。 @param rhs 右操作数 (DataType 标量)。 @return 修改后的 Color
+   * 对象引用。 */
   Color& operator/=(const DataType& rhs);
 
   // Binary math operators / 二元算术运算符
   /** @brief 颜色加法。 @param rhs 右操作数。 @return 新的 Color 对象结果。 */
   Color operator+(const Color& rhs) const {
-    Color c(*this); // 创建副本
-    c += rhs;       // 使用加法赋值运算符
-    return c;       // 返回结果
+    Color c(*this);  // 创建副本
+    c += rhs;        // 使用加法赋值运算符
+    return c;        // 返回结果
   }
 
   /** @brief 颜色减法。 @param rhs 右操作数。 @return 新的 Color 对象结果。 */
   Color operator-(const Color& rhs) const {
-    Color c(*this); // 创建副本
-    c -= rhs;       // 使用减法赋值运算符
-    return c;       // 返回结果
+    Color c(*this);  // 创建副本
+    c -= rhs;        // 使用减法赋值运算符
+    return c;        // 返回结果
   }
 
   /** @brief 颜色与标量加法。 @param rhs 右操作数。 @return 新的 Color 对象结果。 */
   Color operator+(const DataType& rhs) const {
-    Color c(*this); // 创建副本
-    c += rhs;       // 使用加法赋值运算符
-    return c;       // 返回结果
+    Color c(*this);  // 创建副本
+    c += rhs;        // 使用加法赋值运算符
+    return c;        // 返回结果
   }
 
   /** @brief 颜色与标量减法。 @param rhs 右操作数。 @return 新的 Color 对象结果。 */
   Color operator-(const DataType& rhs) const {
-    Color c(*this); // 创建副本
-    c -= rhs;       // 使用减法赋值运算符
-    return c;       // 返回结果
+    Color c(*this);  // 创建副本
+    c -= rhs;        // 使用减法赋值运算符
+    return c;        // 返回结果
   }
 
   /** @brief 颜色与标量乘法。 @param rhs 右操作数。 @return 新的 Color 对象结果。 */
   Color operator*(const DataType& rhs) const {
-    Color c(*this); // 创建副本
-    c *= rhs;       // 使用乘法赋值运算符
-    return c;       // 返回结果
+    Color c(*this);  // 创建副本
+    c *= rhs;        // 使用乘法赋值运算符
+    return c;        // 返回结果
   }
 
   /** @brief 颜色与标量除法。 @param rhs 右操作数。 @return 新的 Color 对象结果。 */
   Color operator/(const DataType& rhs) const {
-    Color c(*this); // 创建副本
-    c /= rhs;       // 使用除法赋值运算符
-    return c;       // 返回结果
+    Color c(*this);  // 创建副本
+    c /= rhs;        // 使用除法赋值运算符
+    return c;        // 返回结果
   }
 
  private:

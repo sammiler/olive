@@ -1,10 +1,10 @@
-#ifndef NODEPANEL_H // 防止头文件被重复包含的宏
-#define NODEPANEL_H // 定义 NODEPANEL_H 宏
+#ifndef NODEPANEL_H  // 防止头文件被重复包含的宏
+#define NODEPANEL_H  // 定义 NODEPANEL_H 宏
 
-#include "panel/panel.h"              // 包含 PanelWidget 基类的定义
-#include "widget/nodeview/nodewidget.h" // 包含 NodeWidget 控件的定义 (NodeWidget 内部通常包含 NodeView)
+#include "panel/panel.h"                 // 包含 PanelWidget 基类的定义
+#include "widget/nodeview/nodewidget.h"  // 包含 NodeWidget 控件的定义 (NodeWidget 内部通常包含 NodeView)
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
 /**
  * @brief NodePanel 类是一个 PanelWidget 的包装器，用于封装和管理一个 NodeWidget (节点编辑器控件)。
@@ -13,12 +13,12 @@ namespace olive { // olive 项目的命名空间
  * 修改和组织节点，以构建视频处理流程。
  * 它通常会包含缩放、平移、选择、复制、粘贴、删除节点等功能。
  */
-class NodePanel : public PanelWidget { // NodePanel 继承自 PanelWidget
-  Q_OBJECT // 声明此类使用 Qt 的元对象系统
+class NodePanel : public PanelWidget {  // NodePanel 继承自 PanelWidget
+ Q_OBJECT                               // 声明此类使用 Qt 的元对象系统
 
- public:
-  // 构造函数
-  NodePanel();
+     public :
+     // 构造函数
+     NodePanel();
 
   /**
    * @brief 获取内部封装的 NodeWidget 控件的指针。
@@ -116,7 +116,7 @@ class NodePanel : public PanelWidget { // NodePanel 继承自 PanelWidget
    */
   void RenameSelected() override { node_widget_->view()->LabelSelectedNodes(); }
 
- public slots: // Qt 公有槽函数
+ public slots:  // Qt 公有槽函数
   /**
    * @brief 以编程方式选择指定的节点 (及其在上下文中的配对)。
    * @param p 包含要选择的 Node::ContextPair 的 QVector。
@@ -124,7 +124,7 @@ class NodePanel : public PanelWidget { // NodePanel 继承自 PanelWidget
    */
   void Select(const QVector<Node::ContextPair> &p) { node_widget_->view()->Select(p, true); }
 
- signals: // Qt 信号声明
+ signals:  // Qt 信号声明
   /**
    * @brief 当有节点被选中时发出的信号。
    * @param nodes 被选中的节点列表。
@@ -163,10 +163,10 @@ class NodePanel : public PanelWidget { // NodePanel 继承自 PanelWidget
   /**
    * @brief 重写基类的 Retranslate 方法，用于在语言更改时更新此面板的标题。
    */
-  void Retranslate() override { SetTitle(tr("Node Editor")); } // 设置面板标题为 "Node Editor" (可翻译)
+  void Retranslate() override { SetTitle(tr("Node Editor")); }  // 设置面板标题为 "Node Editor" (可翻译)
 
-  NodeWidget *node_widget_; // 指向内部的 NodeWidget 控件的指针
-                            // NodeWidget 负责实际的节点图显示和交互。
+  NodeWidget *node_widget_;  // 指向内部的 NodeWidget 控件的指针
+                             // NodeWidget 负责实际的节点图显示和交互。
 };
 
 }  // namespace olive

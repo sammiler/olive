@@ -1,12 +1,12 @@
 #ifndef FILEFIELD_H
 #define FILEFIELD_H
 
-#include <QLineEdit>     // Qt 单行文本输入框控件
-#include <QPushButton>   // Qt 按钮控件
-#include <QWidget>       // Qt 控件基类 (作为 FileField 的基类)
+#include <QLineEdit>    // Qt 单行文本输入框控件
+#include <QPushButton>  // Qt 按钮控件
+#include <QWidget>      // Qt 控件基类 (作为 FileField 的基类)
 
 // 前向声明 Qt 类
-class QString; // Qt 字符串类
+class QString;  // Qt 字符串类
 
 namespace olive {
 
@@ -18,14 +18,14 @@ namespace olive {
  * 当路径改变时，会发出 FilenameChanged 信号。
  */
 class FileField : public QWidget {
-  Q_OBJECT // Qt 元对象系统宏，用于支持信号和槽机制
+ Q_OBJECT  // Qt 元对象系统宏，用于支持信号和槽机制
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit FileField(QWidget* parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit FileField(QWidget* parent = nullptr);
 
   /**
    * @brief 获取当前在行编辑框中显示的文件名（或目录路径）。
@@ -52,26 +52,26 @@ class FileField : public QWidget {
    */
   void SetDirectoryMode(bool e) { directory_mode_ = e; }
 
-  signals:
-   /**
-    * @brief 当行编辑框中的文件名（或目录路径）发生改变时发出此信号。
-    * @param filename 新的文件名/路径字符串。
-    */
-   void FilenameChanged(const QString& filename);
+ signals:
+  /**
+   * @brief 当行编辑框中的文件名（或目录路径）发生改变时发出此信号。
+   * @param filename 新的文件名/路径字符串。
+   */
+  void FilenameChanged(const QString& filename);
 
-private:
+ private:
   QLineEdit* line_edit_;     ///< 用于显示和编辑文件/目录路径的单行文本输入框。
   QPushButton* browse_btn_;  ///< “浏览...”按钮，用于打开文件或目录选择对话框。
   bool directory_mode_;      ///< 标记控件当前是否处于目录选择模式 (true) 或文件选择模式 (false)。
 
-private slots:
- /**
-  * @brief “浏览...”按钮点击事件的槽函数。
-  *
-  * 此函数会根据 directory_mode_ 的状态打开相应的文件或目录选择对话框，
-  * 并将用户选择的路径设置到行编辑框中。
-  */
- void BrowseBtnClicked();
+ private slots:
+  /**
+   * @brief “浏览...”按钮点击事件的槽函数。
+   *
+   * 此函数会根据 directory_mode_ 的状态打开相应的文件或目录选择对话框，
+   * 并将用户选择的路径设置到行编辑框中。
+   */
+  void BrowseBtnClicked();
 
   /**
    * @brief 行编辑框文本改变事件的槽函数。

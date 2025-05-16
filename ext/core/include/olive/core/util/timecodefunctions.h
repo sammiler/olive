@@ -1,12 +1,12 @@
 #ifndef LIBOLIVECORE_TIMECODEFUNCTIONS_H
 #define LIBOLIVECORE_TIMECODEFUNCTIONS_H
 
-#include <string> // 引入 std::string 用于时间码字符串表示
-#include <cstdint> // 引入 int64_t 等固定宽度整数类型
+#include <cstdint>  // 引入 int64_t 等固定宽度整数类型
+#include <string>   // 引入 std::string 用于时间码字符串表示
 
-#include "rational.h" // 引入 rational 类，用于精确表示时间值和时间基准
+#include "rational.h"  // 引入 rational 类，用于精确表示时间值和时间基准
 
-namespace olive::core { // Olive 核心功能命名空间
+namespace olive::core {  // Olive 核心功能命名空间
 
 // 前向声明 rational 类，如果 "rational.h" 中已完整定义则无需再次声明
 // class rational;
@@ -27,20 +27,20 @@ class Timecode {
    * @brief 定义时间码的显示格式。
    */
   enum Display {
-    kTimecodeDropFrame,   ///< 丢帧时间码格式 (例如 NTSC 视频常用的 29.97fps)。
-    kTimecodeNonDropFrame,///< 非丢帧时间码格式。
-    kTimecodeSeconds,     ///< 以纯秒数显示 (例如 "10.5s")。
-    kFrames,              ///< 以帧数显示。
-    kMilliseconds         ///< 以毫秒数显示。
+    kTimecodeDropFrame,     ///< 丢帧时间码格式 (例如 NTSC 视频常用的 29.97fps)。
+    kTimecodeNonDropFrame,  ///< 非丢帧时间码格式。
+    kTimecodeSeconds,       ///< 以纯秒数显示 (例如 "10.5s")。
+    kFrames,                ///< 以帧数显示。
+    kMilliseconds           ///< 以毫秒数显示。
   };
 
   /**
    * @brief 定义时间转换时的取整方式。
    */
   enum Rounding {
-    kCeil,  ///< 向上取整 (取不小于目标值的最小整数)。
-    kFloor, ///< 向下取整 (取不大于目标值的最大整数)。
-    kRound  ///< 四舍五入到最近的整数。
+    kCeil,   ///< 向上取整 (取不小于目标值的最小整数)。
+    kFloor,  ///< 向下取整 (取不大于目标值的最大整数)。
+    kRound   ///< 四舍五入到最近的整数。
   };
 
   /**

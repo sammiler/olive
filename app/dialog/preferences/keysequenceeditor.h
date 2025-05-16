@@ -65,7 +65,7 @@ class KeySequenceEditor : public QKeySequenceEdit {
    */
   QString export_shortcut();
 
-protected:
+ protected:
   /**
    * @brief 重写 QKeySequenceEdit 的按键按下事件处理函数。
    * @param e QKeyEvent 事件对象指针。
@@ -78,7 +78,7 @@ protected:
    */
   void keyReleaseEvent(QKeyEvent *e) override;
 
-private:
+ private:
   /**
    * @brief 指向关联的 QAction 的内部引用。
    */

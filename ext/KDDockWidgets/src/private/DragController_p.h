@@ -3,25 +3,25 @@
 
 #include "kddockwidgets/docks_export.h" // 导入导出宏定义
 
-#include "TitleBar_p.h"           // 标题栏私有类头文件
+#include "TitleBar_p.h" // 标题栏私有类头文件
 #include "WindowBeingDragged_p.h" // 正在被拖拽窗口的私有类头文件
 
-#include <QPoint>    // Qt 点坐标类
+#include <QPoint> // Qt 点坐标类
 #include <QMimeData> // Qt Mime 数据类
-#include <QTimer>    // Qt 定时器类
+#include <QTimer> // Qt 定时器类
 
 #include <memory> // C++ 标准库智能指针
 
 namespace KDDockWidgets {
 
 // 前向声明
-class StateBase;                  // 状态基类
-class StateNone;                  // 无操作状态类
-class StateInternalMDIDragging;   // MDI 内部拖拽状态类
-class DropArea;                   // 放置区域类
-class Draggable;                  // 可拖拽对象接口类
-class FallbackMouseGrabber;       // 备用鼠标捕获器类
-class MinimalStateMachine;        // 最小状态机类
+class StateBase; // 状态基类
+class StateNone; // 无操作状态类
+class StateInternalMDIDragging; // MDI 内部拖拽状态类
+class DropArea; // 放置区域类
+class Draggable; // 可拖拽对象接口类
+class FallbackMouseGrabber; // 备用鼠标捕获器类
+class MinimalStateMachine; // 最小状态机类
 
 /**
  * @brief 状态机的单个状态基类。
@@ -129,9 +129,9 @@ public:
      * @brief 定义拖拽控制器的不同状态。
      */
     enum State {
-        State_None = 0,     ///< 无拖拽操作状态。
-        State_PreDrag,      ///< 预拖拽状态，鼠标已按下但尚未达到拖拽阈值。
-        State_Dragging      ///< 正在拖拽状态。
+        State_None = 0, ///< 无拖拽操作状态。
+        State_PreDrag, ///< 预拖拽状态，鼠标已按下但尚未达到拖拽阈值。
+        State_Dragging ///< 正在拖拽状态。
     };
     Q_ENUM(State) ///< 将 State 枚举注册到 Qt 元对象系统。
 
@@ -284,16 +284,16 @@ private:
     Draggable *draggableForQObject(QObject *o) const;
 
     QPoint m_pressPos; ///< 鼠标按下的初始位置。
-    QPoint m_offset;   ///< 拖拽开始时鼠标指针相对于被拖拽对象左上角的偏移量。
+    QPoint m_offset; ///< 拖拽开始时鼠标指针相对于被拖拽对象左上角的偏移量。
 
-    Draggable::List m_draggables;      ///< 已注册的可拖拽对象列表。
-    Draggable *m_draggable = nullptr;  ///< 当前正在被处理的可拖拽对象。
+    Draggable::List m_draggables; ///< 已注册的可拖拽对象列表。
+    Draggable *m_draggable = nullptr; ///< 当前正在被处理的可拖拽对象。
     QPointer<WidgetType> m_draggableGuard; ///< 用于监视可拖拽对象是否被销毁的 QPointer。
     std::unique_ptr<WindowBeingDragged> m_windowBeingDragged; ///< 指向正在被拖拽窗口对象的智能指针。
     DropArea *m_currentDropArea = nullptr; ///< 当前鼠标光标下的放置区域。
-    bool m_nonClientDrag = false;          ///< 标记是否为非客户区拖拽。
+    bool m_nonClientDrag = false; ///< 标记是否为非客户区拖拽。
     FallbackMouseGrabber *m_fallbackMouseGrabber = nullptr; ///< 备用鼠标捕获器实例。
-    StateNone *m_stateNone = nullptr;                       ///< “无操作”状态的实例。
+    StateNone *m_stateNone = nullptr; ///< “无操作”状态的实例。
     StateInternalMDIDragging *m_stateDraggingMDI = nullptr; ///< “MDI 内部拖拽”状态的实例。
 };
 

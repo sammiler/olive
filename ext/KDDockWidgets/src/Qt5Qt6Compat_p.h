@@ -2,7 +2,7 @@
 #define KDDOCKWIDGETS_QT5QT6_COMPAT_P_H
 
 #include <QMouseEvent> // 包含 Qt 鼠标事件类
-#include <QDropEvent>  // 包含 Qt 拖放事件中的放置事件类
+#include <QDropEvent> // 包含 Qt 拖放事件中的放置事件类
 
 
 namespace KDDockWidgets::Qt5Qt6Compat { // KDDockWidgets 内部用于 Qt5/Qt6 兼容性的命名空间
@@ -20,8 +20,8 @@ namespace KDDockWidgets::Qt5Qt6Compat { // KDDockWidgets 内部用于 Qt5/Qt6 �
 
 // 类型别名，在 Qt 6 中这些类型通常是标准或已明确定义的。
 using QEnterEvent = QEnterEvent; ///< QEnterEvent 类型在 Qt 6 中保持不变。
-using qintptr = ::qintptr;       ///< qintptr 类型在 Qt 6 中通常是标准定义的整数指针类型。
-using qhashtype = size_t;        ///< qHash 函数返回值的类型，在 Qt 6 中通常是 size_t。
+using qintptr = ::qintptr; ///< qintptr 类型在 Qt 6 中通常是标准定义的整数指针类型。
+using qhashtype = size_t; ///< qHash 函数返回值的类型，在 Qt 6 中通常是 size_t。
 
 /**
  * @brief (Qt 6) 从 QDropEvent 获取事件发生的位置。
@@ -55,8 +55,8 @@ inline QPoint eventGlobalPos(QMouseEvent *ev)
 
 // 类型别名，用于兼容 Qt 5
 using QEnterEvent = QEvent; ///< 在 Qt 5 中，QEnterEvent 可能不直接存在或用法不同，有时用 QEvent::Enter 代替，这里直接用 QEvent 作为一种通用兼容方式 (具体场景需确认)。
-using qintptr = long;       ///< qintptr 类型在 Qt 5 的某些配置或平台上可能是 long。
-using qhashtype = uint;     ///< qHash 函数返回值的类型，在 Qt 5 中通常是 uint。
+using qintptr = long; ///< qintptr 类型在 Qt 5 的某些配置或平台上可能是 long。
+using qhashtype = uint; ///< qHash 函数返回值的类型，在 Qt 5 中通常是 uint。
 
 /**
  * @brief (Qt 5) 从 QDropEvent 获取事件发生的位置。

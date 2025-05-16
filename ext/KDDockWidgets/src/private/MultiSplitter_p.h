@@ -1,10 +1,10 @@
 #ifndef KDDOCKWIDGETS_MULTISPLITTER_P_H
 #define KDDOCKWIDGETS_MULTISPLITTER_P_H
 
-#include "LayoutWidget_p.h"             // 包含父类 LayoutWidget 的私有头文件
+#include "LayoutWidget_p.h" // 包含父类 LayoutWidget 的私有头文件
 #include "kddockwidgets/KDDockWidgets.h" // KDDockWidgets 公共头文件，包含枚举和基本类型
-#include "kddockwidgets/QWidgetAdapter.h"  // QWidget 和 QQuickItem 的适配器类
-#include "kddockwidgets/docks_export.h"    // 导入导出宏定义
+#include "kddockwidgets/QWidgetAdapter.h" // QWidget 和 QQuickItem 的适配器类
+#include "kddockwidgets/docks_export.h" // 导入导出宏定义
 
 // 前向声明，用于测试目的
 class TestDocks;

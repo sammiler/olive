@@ -1,15 +1,15 @@
 #ifndef LIBOLIVECORE_STRINGUTILS_H
 #define LIBOLIVECORE_STRINGUTILS_H
 
-#include <algorithm> // 引入 STL 算法库，例如 std::find_if 用于 trim 函数
-#include <regex>     // 引入 C++ 正则表达式库
-#include <string>    // 引入 std::string 类
-#include <vector>    // 引入 std::vector 容器
-#include <cctype>    // 引入 isspace 等字符分类函数
-#include <cstdarg>   // 引入可变参数宏 (va_list, va_start, va_end) 用于 format 函数
-#include <cstdio>    // 引入 C 风格 IO 函数 (例如 vsnprintf) 用于 format 函数
+#include <algorithm>  // 引入 STL 算法库，例如 std::find_if 用于 trim 函数
+#include <cctype>     // 引入 isspace 等字符分类函数
+#include <cstdarg>    // 引入可变参数宏 (va_list, va_start, va_end) 用于 format 函数
+#include <cstdio>     // 引入 C 风格 IO 函数 (例如 vsnprintf) 用于 format 函数
+#include <regex>      // 引入 C++ 正则表达式库
+#include <string>     // 引入 std::string 类
+#include <vector>     // 引入 std::vector 容器
 
-namespace olive::core { // Olive 核心功能命名空间
+namespace olive::core {  // Olive 核心功能命名空间
 
 /**
  * @brief 提供字符串处理相关的静态工具函数。
@@ -71,13 +71,13 @@ class StringUtils {
    */
   template <typename T>
   static std::string to_string_leftpad(T val, size_t padding, char c = '0') {
-    std::string s = std::to_string(val); // 将数字转换为字符串
+    std::string s = std::to_string(val);  // 将数字转换为字符串
 
-    if (s.size() < padding) { // 如果字符串长度小于期望的填充长度
-      s.insert(0, padding - s.size(), c); // 在字符串开头插入所需数量的填充字符 c
+    if (s.size() < padding) {              // 如果字符串长度小于期望的填充长度
+      s.insert(0, padding - s.size(), c);  // 在字符串开头插入所需数量的填充字符 c
     }
 
-    return s; // 返回处理后的字符串
+    return s;  // 返回处理后的字符串
   }
 
   /**
@@ -116,8 +116,8 @@ class StringUtils {
    * @param s 要修剪的 std::string 引用。
    */
   static inline void trim(std::string &s) {
-    rtrim(s); // 先移除尾部空白
-    ltrim(s); // 再移除头部空白
+    rtrim(s);  // 先移除尾部空白
+    ltrim(s);  // 再移除头部空白
   }
 
   /**
@@ -126,8 +126,8 @@ class StringUtils {
    * @return 返回移除了头部空白的新 std::string。
    */
   static inline std::string ltrimmed(std::string s) {
-    ltrim(s); // 对副本进行原地修剪
-    return s; // 返回修剪后的副本
+    ltrim(s);  // 对副本进行原地修剪
+    return s;  // 返回修剪后的副本
   }
 
   /**
@@ -136,8 +136,8 @@ class StringUtils {
    * @return 返回移除了尾部空白的新 std::string。
    */
   static inline std::string rtrimmed(std::string s) {
-    rtrim(s); // 对副本进行原地修剪
-    return s; // 返回修剪后的副本
+    rtrim(s);  // 对副本进行原地修剪
+    return s;  // 返回修剪后的副本
   }
 
   /**
@@ -146,8 +146,8 @@ class StringUtils {
    * @return 返回移除了两端空白的新 std::string。
    */
   static inline std::string trimmed(std::string s) {
-    trim(s);  // 对副本进行原地修剪
-    return s; // 返回修剪后的副本
+    trim(s);   // 对副本进行原地修剪
+    return s;  // 返回修剪后的副本
   }
 };
 

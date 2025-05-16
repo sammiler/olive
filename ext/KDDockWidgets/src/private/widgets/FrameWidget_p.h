@@ -5,15 +5,15 @@
 
 #include "../Frame_p.h" // 包含 Frame 私有头文件 (FrameWidget 的基类)
 
-QT_BEGIN_NAMESPACE   // Qt 命名空间开始
-class QTabBar;       // 前向声明 QTabBar 类，用于显示标签页
-QT_END_NAMESPACE     // Qt 命名空间结束
+QT_BEGIN_NAMESPACE // Qt 命名空间开始
+    class QTabBar; // 前向声明 QTabBar 类，用于显示标签页
+QT_END_NAMESPACE // Qt 命名空间结束
 
-class TestDocks;     // 前向声明 TestDocks 类，可能用于单元测试
+    class TestDocks; // 前向声明 TestDocks 类，可能用于单元测试
 
 namespace KDDockWidgets {
 
-class TabWidget;    // 前向声明 TabWidget 类 (可能是 KDDockWidgets 内部的标签页部件)
+class TabWidget; // 前向声明 TabWidget 类 (可能是 KDDockWidgets 内部的标签页部件)
 
 /**
  * @brief FrameWidget 类是 Frame 类的图形用户界面 (GUI) 对应实现。
@@ -25,8 +25,8 @@ class TabWidget;    // 前向声明 TabWidget 类 (可能是 KDDockWidgets 内�
  */
 class DOCKS_EXPORT FrameWidget : public Frame
 {
-    Q_OBJECT // 启用 Qt 元对象系统特性，如信号和槽
-public:
+Q_OBJECT // 启用 Qt 元对象系统特性，如信号和槽
+    public :
     /**
      * @brief 构造一个 FrameWidget 对象。
      * @param parent 父 QWidget，默认为 nullptr。

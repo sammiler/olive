@@ -1,17 +1,17 @@
-#ifndef FOOTAGEDESCRIPTION_H // 防止头文件被多次包含的宏定义开始
+#ifndef FOOTAGEDESCRIPTION_H  // 防止头文件被多次包含的宏定义开始
 #define FOOTAGEDESCRIPTION_H
 
-#include <utility> // 引入 std::move 等工具
+#include <utility>  // 引入 std::move 等工具
 
-#include "node/output/track/track.h" // 引入 Track::Type 枚举定义
-#include "render/subtitleparams.h"   // 字幕流参数定义
-#include "render/videoparams.h"      // 视频流参数定义 (AudioParams 可能也在此或类似文件中)
+#include "node/output/track/track.h"  // 引入 Track::Type 枚举定义
+#include "render/subtitleparams.h"    // 字幕流参数定义
+#include "render/videoparams.h"       // 视频流参数定义 (AudioParams 可能也在此或类似文件中)
 
 // 可能需要的前向声明
 // class QString; // 假设
 // class Q_ASSERT; // Qt 断言宏
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
 /**
  * @brief 描述一个媒体素材（Footage）的类。
@@ -33,8 +33,8 @@ class FootageDescription {
    * @return 如果有效则返回 true，否则返回 false。
    */
   [[nodiscard]] bool IsValid() const {
-    return !decoder_.isEmpty() && // 解码器ID不能为空
-           (!video_streams_.isEmpty() || !audio_streams_.isEmpty() || !subtitle_streams_.isEmpty()); // 至少有一个流
+    return !decoder_.isEmpty() &&  // 解码器ID不能为空
+           (!video_streams_.isEmpty() || !audio_streams_.isEmpty() || !subtitle_streams_.isEmpty());  // 至少有一个流
   }
 
   /**
@@ -49,8 +49,8 @@ class FootageDescription {
    * @param video_params 要添加的 VideoParams 对象。
    */
   void AddVideoStream(const VideoParams& video_params) {
-    Q_ASSERT(!HasStreamIndex(video_params.stream_index())); // 断言：流索引不应重复
-    video_streams_.append(video_params); // 添加到视频流列表
+    Q_ASSERT(!HasStreamIndex(video_params.stream_index()));  // 断言：流索引不应重复
+    video_streams_.append(video_params);                     // 添加到视频流列表
   }
 
   /**
@@ -58,8 +58,8 @@ class FootageDescription {
    * @param audio_params 要添加的 AudioParams 对象。
    */
   void AddAudioStream(const AudioParams& audio_params) {
-    Q_ASSERT(!HasStreamIndex(audio_params.stream_index())); // 断言：流索引不应重复
-    audio_streams_.append(audio_params); // 添加到音频流列表
+    Q_ASSERT(!HasStreamIndex(audio_params.stream_index()));  // 断言：流索引不应重复
+    audio_streams_.append(audio_params);                     // 添加到音频流列表
   }
 
   /**
@@ -67,8 +67,8 @@ class FootageDescription {
    * @param sub_params 要添加的 SubtitleParams 对象。
    */
   void AddSubtitleStream(const SubtitleParams& sub_params) {
-    Q_ASSERT(!HasStreamIndex(sub_params.stream_index())); // 断言：流索引不应重复
-    subtitle_streams_.append(sub_params); // 添加到字幕流列表
+    Q_ASSERT(!HasStreamIndex(sub_params.stream_index()));  // 断言：流索引不应重复
+    subtitle_streams_.append(sub_params);                  // 添加到字幕流列表
   }
 
   /**
@@ -94,8 +94,8 @@ class FootageDescription {
    * @return 如果是视频流则返回 true，否则返回 false。
    */
   [[nodiscard]] bool StreamIsVideo(int index) const {
-    foreach (const VideoParams& vp, video_streams_) { // 遍历所有视频流
-      if (vp.stream_index() == index) { // 检查原始索引是否匹配
+    foreach (const VideoParams& vp, video_streams_) {  // 遍历所有视频流
+      if (vp.stream_index() == index) {                // 检查原始索引是否匹配
         return true;
       }
     }
@@ -108,8 +108,8 @@ class FootageDescription {
    * @return 如果是音频流则返回 true，否则返回 false。
    */
   [[nodiscard]] bool StreamIsAudio(int index) const {
-    foreach (const AudioParams& ap, audio_streams_) { // 遍历所有音频流
-      if (ap.stream_index() == index) { // 检查原始索引是否匹配
+    foreach (const AudioParams& ap, audio_streams_) {  // 遍历所有音频流
+      if (ap.stream_index() == index) {                // 检查原始索引是否匹配
         return true;
       }
     }
@@ -122,8 +122,8 @@ class FootageDescription {
    * @return 如果是字幕流则返回 true，否则返回 false。
    */
   [[nodiscard]] bool StreamIsSubtitle(int index) const {
-    foreach (const SubtitleParams& sp, subtitle_streams_) { // 遍历所有字幕流
-      if (sp.stream_index() == index) { // 检查原始索引是否匹配
+    foreach (const SubtitleParams& sp, subtitle_streams_) {  // 遍历所有字幕流
+      if (sp.stream_index() == index) {                      // 检查原始索引是否匹配
         return true;
       }
     }
@@ -181,15 +181,15 @@ class FootageDescription {
 
  private:
   // 定义素材元数据文件的版本号，用于处理文件格式的向后兼容性。
-  static constexpr unsigned kFootageMetaVersion = 6; ///< 素材元数据版本号。
+  static constexpr unsigned kFootageMetaVersion = 6;  ///< 素材元数据版本号。
 
-  QString decoder_; ///< 解码器名称/ID。
+  QString decoder_;  ///< 解码器名称/ID。
 
-  QVector<VideoParams> video_streams_; ///< 存储所有视频流参数的列表。
-  QVector<AudioParams> audio_streams_; ///< 存储所有音频流参数的列表。
-  QVector<SubtitleParams> subtitle_streams_; ///< 存储所有字幕流参数的列表。
+  QVector<VideoParams> video_streams_;        ///< 存储所有视频流参数的列表。
+  QVector<AudioParams> audio_streams_;        ///< 存储所有音频流参数的列表。
+  QVector<SubtitleParams> subtitle_streams_;  ///< 存储所有字幕流参数的列表。
 
-  int total_stream_count_; ///< 此素材包含的总流数量。
+  int total_stream_count_;  ///< 此素材包含的总流数量。
 };
 
 }  // namespace olive

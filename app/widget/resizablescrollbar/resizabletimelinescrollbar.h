@@ -1,15 +1,14 @@
 #ifndef RESIZABLETIMELINESCROLLBAR_H
 #define RESIZABLETIMELINESCROLLBAR_H
 
-#include <QScrollBar>    // Qt 滚动条控件基类 (ResizableScrollBar 的基类)
-#include <QPaintEvent>   // Qt 绘制事件类 (用于 paintEvent)
-#include <QWidget>       // Qt 控件基类 (ResizableScrollBar 的基类 QScrollBar 的基类 QAbstractSlider 的基类 QWidget)
+#include <QPaintEvent>  // Qt 绘制事件类 (用于 paintEvent)
+#include <QScrollBar>   // Qt 滚动条控件基类 (ResizableScrollBar 的基类)
+#include <QWidget>      // Qt 控件基类 (ResizableScrollBar 的基类 QScrollBar 的基类 QAbstractSlider 的基类 QWidget)
 
-
-#include "resizablescrollbar.h"                // 可调整大小的滚动条基类
-#include "timeline/timelinemarker.h"           // 时间轴标记列表类 (TimelineMarkerList)
-#include "timeline/timelineworkarea.h"         // 时间轴工作区类
-#include "widget/timebased/timescaledobject.h" // 基于时间缩放的对象接口
+#include "resizablescrollbar.h"                 // 可调整大小的滚动条基类
+#include "timeline/timelinemarker.h"            // 时间轴标记列表类 (TimelineMarkerList)
+#include "timeline/timelineworkarea.h"          // 时间轴工作区类
+#include "widget/timebased/timescaledobject.h"  // 基于时间缩放的对象接口
 
 // 前向声明项目内部类 (根据用户要求，不添加)
 // class TimelineMarkerList; // 已包含 timeline/timelinemarker.h
@@ -26,14 +25,14 @@ namespace olive {
  * 并在其表面上绘制这些标记以及工作区的范围，为用户提供时间轴的概览和导航辅助。
  */
 class ResizableTimelineScrollBar : public ResizableScrollBar, public TimeScaledObject {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit ResizableTimelineScrollBar(QWidget* parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit ResizableTimelineScrollBar(QWidget* parent = nullptr);
   /**
    * @brief 构造函数，允许指定滚动条的方向。
    * @param orientation 滚动条的方向 (Qt::Horizontal 或 Qt::Vertical)。
@@ -74,11 +73,11 @@ class ResizableTimelineScrollBar : public ResizableScrollBar, public TimeScaledO
   void paintEvent(QPaintEvent* event) override;
 
  private:
-  TimelineMarkerList* markers_; ///< 指向关联的时间轴标记列表对象的指针。
+  TimelineMarkerList* markers_;  ///< 指向关联的时间轴标记列表对象的指针。
 
   TimelineWorkArea* workarea_;  ///< 指向关联的时间轴工作区对象的指针。
 
-  double scale_;                ///< 当前的时间缩放比例。
+  double scale_;  ///< 当前的时间缩放比例。
 };
 
 }  // namespace olive

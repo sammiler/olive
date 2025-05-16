@@ -3,16 +3,16 @@
 
 #include "kddockwidgets/docks_export.h" // 导入导出宏定义
 
-#include "Logging_p.h"                   // KDDockWidgets 内部日志相关的私有头文件
-#include "kddockwidgets/LayoutSaver.h"     // 布局保存与恢复相关的公共接口头文件
-#include "kddockwidgets/QWidgetAdapter.h"  // QWidget 和 QQuickItem 的适配器类
+#include "Logging_p.h" // KDDockWidgets 内部日志相关的私有头文件
+#include "kddockwidgets/LayoutSaver.h" // 布局保存与恢复相关的公共接口头文件
+#include "kddockwidgets/QWidgetAdapter.h" // QWidget 和 QQuickItem 的适配器类
 
-#include <QHash>                  // Qt 哈希表容器
-#include <QPointer>               // Qt QObject 指针的弱引用
-#include <QScopedValueRollback>   // Qt RAII 类，用于在作用域结束时自动恢复某个值
+#include <QHash> // Qt 哈希表容器
+#include <QPointer> // Qt QObject 指针的弱引用
+#include <QScopedValueRollback> // Qt RAII 类，用于在作用域结束时自动恢复某个值
 
-#include <memory>                 // C++ 标准库智能指针 (例如 std::unique_ptr, std::shared_ptr)
-#include <vector>                 // C++ 标准库动态数组
+#include <memory> // C++ 标准库智能指针 (例如 std::unique_ptr, std::shared_ptr)
+#include <vector> // C++ 标准库动态数组
 
 // 前向声明内部布局引擎相关的类
 namespace Layouting {
@@ -52,9 +52,9 @@ struct ItemRef
      */
     [[nodiscard]] bool isInMainWindow() const;
 
-    Layouting::Item *const item;               ///< 指向被引用的 Layouting::Item 对象的常量指针。
-    const QPointer<Layouting::Item> guard;     ///< 用于监视 item 是否被销毁的 QPointer。
-    const QMetaObject::Connection connection;  ///< 与此 Item 关联的 Qt 信号槽连接。
+    Layouting::Item *const item; ///< 指向被引用的 Layouting::Item 对象的常量指针。
+    const QPointer<Layouting::Item> guard; ///< 用于监视 item 是否被销毁的 QPointer。
+    const QMetaObject::Connection connection; ///< 与此 Item 关联的 Qt 信号槽连接。
 
 private:
     Q_DISABLE_COPY(ItemRef) ///< 禁止拷贝构造函数和拷贝赋值操作符。
@@ -63,7 +63,7 @@ private:
 
 // 前向声明
 class DockWidgetBase; // 停靠小部件基类
-class Frame;          // 框架类 (容纳 DockWidgetBase)
+class Frame; // 框架类 (容纳 DockWidgetBase)
 
 /**
  * @internal

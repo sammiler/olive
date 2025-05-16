@@ -8,8 +8,8 @@
 #include <QLineEdit>     // 引入 QLineEdit 类，用于创建单行文本输入框控件
 #include <QRadioButton>  // 引入 QRadioButton 类，用于创建单选按钮控件
 
-#include "node/project.h"             // 引入项目类定义
-#include "widget/path/pathwidget.h"   // 引入自定义的路径选择控件
+#include "node/project.h"            // 引入项目类定义
+#include "widget/path/pathwidget.h"  // 引入自定义的路径选择控件
 
 namespace olive {
 

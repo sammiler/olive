@@ -1,15 +1,15 @@
-#ifndef TIMELINEVIEWGHOSTITEM_H // 防止头文件被多次包含的宏定义
+#ifndef TIMELINEVIEWGHOSTITEM_H  // 防止头文件被多次包含的宏定义
 #define TIMELINEVIEWGHOSTITEM_H
 
-#include <QVariant> // 引入 QVariant 类，用于存储不同类型的数据
+#include <QVariant>  // 引入 QVariant 类，用于存储不同类型的数据
 
-#include "node/block/clip/clip.h"           // 引入 ClipBlock 类的定义
-#include "node/block/transition/transition.h" // 引入 TransitionBlock 类的定义
-#include "node/output/track/track.h"        // 引入 Track 类及其嵌套类型 (如 Track::Reference) 的定义
-#include "node/project/footage/footage.h"   // 引入 Footage 相关类的定义 (如 ViewerOutput，虽然此处未直接使用，但 AttachedFootage 结构体中用到)
-#include "timeline/timelinecommon.h"        // 引入时间轴相关的通用定义 (如 rational, Timeline::MovementMode)
+#include "node/block/clip/clip.h"              // 引入 ClipBlock 类的定义
+#include "node/block/transition/transition.h"  // 引入 TransitionBlock 类的定义
+#include "node/output/track/track.h"           // 引入 Track 类及其嵌套类型 (如 Track::Reference) 的定义
+#include "node/project/footage/footage.h"  // 引入 Footage 相关类的定义 (如 ViewerOutput，虽然此处未直接使用，但 AttachedFootage 结构体中用到)
+#include "timeline/timelinecommon.h"  // 引入时间轴相关的通用定义 (如 rational, Timeline::MovementMode)
 
-namespace olive { // olive 命名空间开始
+namespace olive {  // olive 命名空间开始
 
 /**
  * @brief TimelineViewGhostItem 类表示用户在应用更改之前所做更改的图形化预览。
@@ -25,20 +25,20 @@ class TimelineViewGhostItem {
    * 这允许幽灵项携带关于其来源或特殊状态的上下文信息。
    */
   enum DataType {
-    kAttachedBlock,        ///< 幽灵项关联到一个已存在的 Block (例如，正在被拖动的剪辑)
-    kReferenceBlock,       ///< 幽灵项引用另一个 Block (可能用于显示相对位置或限制)
-    kAttachedFootage,      ///< 幽灵项关联到一个素材 (Footage) (例如，从媒体池拖动新素材时)
-    kGhostIsSliding,       ///< 标记此幽灵项代表一个正在进行的滑动 (slide) 编辑操作
-    kTrimIsARollEdit,      ///< 标记此幽灵项代表一个滚动 (roll) 编辑修剪操作
-    kTrimShouldBeIgnored   ///< 标记此幽灵项的修剪操作应被忽略 (可能用于特定工具逻辑)
+    kAttachedBlock,       ///< 幽灵项关联到一个已存在的 Block (例如，正在被拖动的剪辑)
+    kReferenceBlock,      ///< 幽灵项引用另一个 Block (可能用于显示相对位置或限制)
+    kAttachedFootage,     ///< 幽灵项关联到一个素材 (Footage) (例如，从媒体池拖动新素材时)
+    kGhostIsSliding,      ///< 标记此幽灵项代表一个正在进行的滑动 (slide) 编辑操作
+    kTrimIsARollEdit,     ///< 标记此幽灵项代表一个滚动 (roll) 编辑修剪操作
+    kTrimShouldBeIgnored  ///< 标记此幽灵项的修剪操作应被忽略 (可能用于特定工具逻辑)
   };
 
   /**
    * @brief AttachedFootage 结构体用于存储附加到幽灵项的素材信息。
    */
   struct AttachedFootage {
-    ViewerOutput* footage{}; ///< 指向素材的 ViewerOutput 节点的指针，默认为 nullptr。
-    QString output;          ///< 可能表示素材的特定输出流或标识符。
+    ViewerOutput* footage{};  ///< 指向素材的 ViewerOutput 节点的指针，默认为 nullptr。
+    QString output;           ///< 可能表示素材的特定输出流或标识符。
   };
 
   /**
@@ -57,24 +57,24 @@ class TimelineViewGhostItem {
    * @return 指向新创建的 TimelineViewGhostItem 对象的指针。
    */
   static TimelineViewGhostItem* FromBlock(Block* block) {
-    auto* ghost = new TimelineViewGhostItem(); // 创建新的幽灵项实例
+    auto* ghost = new TimelineViewGhostItem();  // 创建新的幽灵项实例
 
-    ghost->SetIn(block->in()); // 设置幽灵项的入点为 Block 的入点
-    ghost->SetOut(block->out()); // 设置幽灵项的出点为 Block 的出点
-    if (dynamic_cast<ClipBlock*>(block)) { // 如果 Block 是一个 ClipBlock
-      ghost->SetMediaIn(dynamic_cast<ClipBlock*>(block)->media_in()); // 设置幽灵项的媒体入点
+    ghost->SetIn(block->in());                                         // 设置幽灵项的入点为 Block 的入点
+    ghost->SetOut(block->out());                                       // 设置幽灵项的出点为 Block 的出点
+    if (dynamic_cast<ClipBlock*>(block)) {                             // 如果 Block 是一个 ClipBlock
+      ghost->SetMediaIn(dynamic_cast<ClipBlock*>(block)->media_in());  // 设置幽灵项的媒体入点
     }
-    ghost->SetTrack(block->track()->ToReference()); // 设置幽灵项的轨道引用
-    ghost->SetData(kAttachedBlock, QtUtils::PtrToValue(block)); // 将原始 Block 作为附加数据存储
+    ghost->SetTrack(block->track()->ToReference());              // 设置幽灵项的轨道引用
+    ghost->SetData(kAttachedBlock, QtUtils::PtrToValue(block));  // 将原始 Block 作为附加数据存储
 
     // 根据 Block 类型设置是否可以有零长度的属性
     if (dynamic_cast<ClipBlock*>(block)) {
-      ghost->can_have_zero_length_ = false; // 剪辑块通常不能为零长度
+      ghost->can_have_zero_length_ = false;  // 剪辑块通常不能为零长度
     } else if (dynamic_cast<TransitionBlock*>(block)) {
-      ghost->can_have_zero_length_ = false; // 转场块通常也不能为零长度
+      ghost->can_have_zero_length_ = false;  // 转场块通常也不能为零长度
     }
 
-    return ghost; // 返回创建的幽灵项
+    return ghost;  // 返回创建的幽灵项
   }
 
   /**
@@ -214,7 +214,8 @@ class TimelineViewGhostItem {
    * @return 调整后的轨道引用 (Track::Reference)。
    */
   [[nodiscard]] Track::Reference GetAdjustedTrack() const {
-    return Track::Reference(track_.type(), track_.index() + track_adj_); // 基于原始轨道类型和调整后的索引创建新的轨道引用
+    return Track::Reference(track_.type(),
+                            track_.index() + track_adj_);  // 基于原始轨道类型和调整后的索引创建新的轨道引用
   }
 
   /**
@@ -276,28 +277,28 @@ class TimelineViewGhostItem {
    */
   void SetInvisible(bool e) { invisible_ = e; }
 
- protected: // 受保护成员 (在此类中为空)
- private: // 私有成员变量
-  rational in_;         ///< 幽灵项的原始入点时间。
-  rational out_;        ///< 幽灵项的原始出点时间。
-  rational media_in_;   ///< 幽灵项的原始媒体入点时间（主要用于 ClipBlock）。
+ protected:            // 受保护成员 (在此类中为空)
+ private:              // 私有成员变量
+  rational in_;        ///< 幽灵项的原始入点时间。
+  rational out_;       ///< 幽灵项的原始出点时间。
+  rational media_in_;  ///< 幽灵项的原始媒体入点时间（主要用于 ClipBlock）。
 
-  rational in_adj_;     ///< 入点时间的调整量。
-  rational out_adj_;    ///< 出点时间的调整量。
-  rational media_in_adj_; ///< 媒体入点时间的调整量。
+  rational in_adj_;        ///< 入点时间的调整量。
+  rational out_adj_;       ///< 出点时间的调整量。
+  rational media_in_adj_;  ///< 媒体入点时间的调整量。
 
-  int track_adj_;       ///< 轨道索引的调整量。
+  int track_adj_;  ///< 轨道索引的调整量。
 
-  Timeline::MovementMode mode_; ///< 当前幽灵项的移动或修剪模式。
+  Timeline::MovementMode mode_;  ///< 当前幽灵项的移动或修剪模式。
 
-  bool can_have_zero_length_; ///< 标记此幽灵项是否允许具有零长度。
-  bool can_move_tracks_;      ///< 标记此幽灵项是否允许在轨道间移动。
+  bool can_have_zero_length_;  ///< 标记此幽灵项是否允许具有零长度。
+  bool can_move_tracks_;       ///< 标记此幽灵项是否允许在轨道间移动。
 
-  Track::Reference track_;    ///< 幽灵项的原始轨道引用。
+  Track::Reference track_;  ///< 幽灵项的原始轨道引用。
 
-  QHash<int, QVariant> data_; ///< 用于存储与此幽灵项相关的附加数据 (例如关联的 Block 指针)。
+  QHash<int, QVariant> data_;  ///< 用于存储与此幽灵项相关的附加数据 (例如关联的 Block 指针)。
 
-  bool invisible_;            ///< 标记此幽灵项是否应在视图中绘制。
+  bool invisible_;  ///< 标记此幽灵项是否应在视图中绘制。
 };
 
 }  // namespace olive

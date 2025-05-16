@@ -1,21 +1,21 @@
-#ifndef RENDERTEXTURE_H // 防止头文件被重复包含的宏
-#define RENDERTEXTURE_H // 定义 RENDERTEXTURE_H 宏
+#ifndef RENDERTEXTURE_H  // 防止头文件被重复包含的宏
+#define RENDERTEXTURE_H  // 定义 RENDERTEXTURE_H 宏
 
-#include <QVariant> // Qt 通用数据类型 QVariant (用于存储原生纹理句柄)
-#include <memory>   // 标准库内存管理头文件 (用于 std::shared_ptr, std::make_shared)
-#include <utility>  // 标准库 utility 头文件 (用于 std::move)
+#include <QVariant>  // Qt 通用数据类型 QVariant (用于存储原生纹理句柄)
+#include <memory>    // 标准库内存管理头文件 (用于 std::shared_ptr, std::make_shared)
+#include <utility>   // 标准库 utility 头文件 (用于 std::move)
 
-#include "render/videoparams.h" // 包含 VideoParams (视频参数) 和 PixelFormat 的定义
+#include "render/videoparams.h"  // 包含 VideoParams (视频参数) 和 PixelFormat 的定义
 
 // 假设 AcceleratedJob, Renderer, QVector2D, rational 等类型
 // 已通过其他方式被间接包含。
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
-class AcceleratedJob; // 向前声明 AcceleratedJob 类
-class Renderer;       // 向前声明 Renderer 类
+class AcceleratedJob;  // 向前声明 AcceleratedJob 类
+class Renderer;        // 向前声明 Renderer 类
 
-class Texture; // 向前声明 Texture 类自身
+class Texture;  // 向前声明 Texture 类自身
 // 类型别名：TexturePtr 是一个指向 Texture 对象的共享指针 (std::shared_ptr<Texture>)
 using TexturePtr = std::shared_ptr<Texture>;
 
@@ -57,8 +57,8 @@ class Texture {
    * @param j 描述如何生成纹理数据的 AcceleratedJob 对象。
    */
   template <typename T>
-  Texture(const VideoParams& p, const T& j) : Texture(p) { // 委托给第一个构造函数初始化 renderer_ 和 params_
-    job_ = new T(j); // 创建并存储 Job 对象 (注意：这里是裸指针，需要管理其生命周期)
+  Texture(const VideoParams& p, const T& j) : Texture(p) {  // 委托给第一个构造函数初始化 renderer_ 和 params_
+    job_ = new T(j);  // 创建并存储 Job 对象 (注意：这里是裸指针，需要管理其生命周期)
   }
 
   /**
@@ -95,7 +95,7 @@ class Texture {
    */
   template <typename T>
   static TexturePtr Job(const VideoParams& p, const T& j) {
-    return std::make_shared<Texture>(p, j); // 使用 std::make_shared 创建共享指针
+    return std::make_shared<Texture>(p, j);  // 使用 std::make_shared 创建共享指针
   }
 
   /**
@@ -109,7 +109,7 @@ class Texture {
    */
   template <typename T>
   TexturePtr toJob(const T& job) {
-    return Texture::Job(params_, job); // 使用当前纹理的参数和新的 Job 创建
+    return Texture::Job(params_, job);  // 使用当前纹理的参数和新的 Job 创建
   }
 
   /**
@@ -136,7 +136,7 @@ class Texture {
 
   // --- 便捷的参数访问方法 (从 params_ 获取) ---
   [[nodiscard]] int width() const { return params_.effective_width(); }    // 有效宽度
-  [[nodiscard]] int height() const { return params_.effective_height(); }   // 有效高度
+  [[nodiscard]] int height() const { return params_.effective_height(); }  // 有效高度
 
   /**
    * @brief 获取考虑了像素宽高比的“虚拟”分辨率 (用于正确显示非方形像素)。
@@ -146,10 +146,10 @@ class Texture {
     return {static_cast<float>(params_.square_pixel_width()), static_cast<float>(params_.height())};
   }
 
-  [[nodiscard]] PixelFormat format() const { return params_.format(); } // 像素格式
-  [[nodiscard]] int channel_count() const { return params_.channel_count(); } // 通道数量
-  [[nodiscard]] int divider() const { return params_.divider(); } // (可能用于平面格式的除数)
-  [[nodiscard]] const rational& pixel_aspect_ratio() const { return params_.pixel_aspect_ratio(); } // 像素宽高比
+  [[nodiscard]] PixelFormat format() const { return params_.format(); }        // 像素格式
+  [[nodiscard]] int channel_count() const { return params_.channel_count(); }  // 通道数量
+  [[nodiscard]] int divider() const { return params_.divider(); }              // (可能用于平面格式的除数)
+  [[nodiscard]] const rational& pixel_aspect_ratio() const { return params_.pixel_aspect_ratio(); }  // 像素宽高比
 
   /**
    * @brief 获取与此纹理关联的渲染器后端 (如果它是一个真实纹理)。
@@ -169,16 +169,16 @@ class Texture {
   [[nodiscard]] AcceleratedJob* job() const { return job_; }
 
  private:
-  Renderer* renderer_; // 指向渲染器后端的指针 (如果为真实纹理)
+  Renderer* renderer_;  // 指向渲染器后端的指针 (如果为真实纹理)
 
-  VideoParams params_; // 纹理的视频参数
+  VideoParams params_;  // 纹理的视频参数
 
-  QVariant id_; // 原生纹理句柄 (例如 OpenGL 中的 GLuint)，存储在 QVariant 中
+  QVariant id_;  // 原生纹理句柄 (例如 OpenGL 中的 GLuint)，存储在 QVariant 中
 
-  AcceleratedJob* job_; // (可选) 指向描述如何生成此纹理数据的 AcceleratedJob 的指针。
-                        // 注意：这里是裸指针，其生命周期需要被仔细管理。
-                        // 如果 Texture 对象拥有这个 job_，则需要在析构函数中 delete它。
-                        // 如果不拥有，则需要确保 job_ 在 Texture 析构前保持有效或被正确处理。
+  AcceleratedJob* job_;  // (可选) 指向描述如何生成此纹理数据的 AcceleratedJob 的指针。
+                         // 注意：这里是裸指针，其生命周期需要被仔细管理。
+                         // 如果 Texture 对象拥有这个 job_，则需要在析构函数中 delete它。
+                         // 如果不拥有，则需要确保 job_ 在 Texture 析构前保持有效或被正确处理。
 };
 
 }  // namespace olive

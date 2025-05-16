@@ -9,21 +9,21 @@
 
 namespace olive {
 
-class ViewerOutput; // 前向声明 ViewerOutput 类，用于显示输出
+class ViewerOutput;  // 前向声明 ViewerOutput 类，用于显示输出
 
 /**
  * @brief 代表媒体块（通常是视频或音频片段）的节点。
  * 继承自 Block 类，是时间线上的基本构成单元。
  */
 class ClipBlock : public Block {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief ClipBlock 构造函数。
-   */
-  ClipBlock();
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief ClipBlock 构造函数。
+      */
+     ClipBlock();
 
-  NODE_DEFAULT_FUNCTIONS(ClipBlock) // 节点默认功能宏，可能包含克隆、类型信息等标准实现
+  NODE_DEFAULT_FUNCTIONS(ClipBlock)  // 节点默认功能宏，可能包含克隆、类型信息等标准实现
 
   /**
    * @brief 获取此 ClipBlock 的名称。
@@ -57,10 +57,10 @@ class ClipBlock : public Block {
    * @return Track::Type 枚举，表示轨道类型（如视频、音频等），如果片段不在轨道上则返回 Track::kNone。
    */
   [[nodiscard]] Track::Type GetTrackType() const {
-    if (track()) { // 检查是否存在关联的轨道
-      return track()->type(); // 返回轨道的类型
+    if (track()) {             // 检查是否存在关联的轨道
+      return track()->type();  // 返回轨道的类型
     } else {
-      return Track::kNone; // 没有轨道则返回 kNone
+      return Track::kNone;  // 没有轨道则返回 kNone
     }
   }
 
@@ -209,10 +209,10 @@ class ClipBlock : public Block {
    * @return 指向 FrameHashCache 对象的指针，如果无连接或无缓存则为 nullptr。
    */
   [[nodiscard]] FrameHashCache *connected_video_cache() const {
-    if (Node *n = GetConnectedOutput(kBufferIn)) { // 检查是否存在通过 kBufferIn 连接的输出节点
-      return n->video_frame_cache(); // 返回连接节点的视频帧缓存
+    if (Node *n = GetConnectedOutput(kBufferIn)) {  // 检查是否存在通过 kBufferIn 连接的输出节点
+      return n->video_frame_cache();                // 返回连接节点的视频帧缓存
     } else {
-      return nullptr; // 无连接则返回 nullptr
+      return nullptr;  // 无连接则返回 nullptr
     }
   }
 
@@ -221,10 +221,10 @@ class ClipBlock : public Block {
    * @return 指向 AudioPlaybackCache 对象的指针，如果无连接或无缓存则为 nullptr。
    */
   [[nodiscard]] AudioPlaybackCache *connected_audio_cache() const {
-    if (Node *n = GetConnectedOutput(kBufferIn)) { // 检查是否存在通过 kBufferIn 连接的输出节点
-      return n->audio_playback_cache(); // 返回连接节点的音频播放缓存
+    if (Node *n = GetConnectedOutput(kBufferIn)) {  // 检查是否存在通过 kBufferIn 连接的输出节点
+      return n->audio_playback_cache();             // 返回连接节点的音频播放缓存
     } else {
-      return nullptr; // 无连接则返回 nullptr
+      return nullptr;  // 无连接则返回 nullptr
     }
   }
 
@@ -233,10 +233,10 @@ class ClipBlock : public Block {
    * @return 指向 FrameHashCache 对象的指针（用于缩略图），如果无连接或无缓存则为 nullptr。
    */
   FrameHashCache *thumbnails() {
-    if (Node *n = GetConnectedOutput(kBufferIn)) { // 检查是否存在通过 kBufferIn 连接的输出节点
-      return n->thumbnail_cache(); // 返回连接节点的缩略图缓存
+    if (Node *n = GetConnectedOutput(kBufferIn)) {  // 检查是否存在通过 kBufferIn 连接的输出节点
+      return n->thumbnail_cache();                  // 返回连接节点的缩略图缓存
     } else {
-      return nullptr; // 无连接则返回 nullptr
+      return nullptr;  // 无连接则返回 nullptr
     }
   }
 
@@ -245,10 +245,10 @@ class ClipBlock : public Block {
    * @return 指向 AudioWaveformCache 对象的指针，如果无连接或无缓存则为 nullptr。
    */
   AudioWaveformCache *waveform() {
-    if (Node *n = GetConnectedOutput(kBufferIn)) { // 检查是否存在通过 kBufferIn 连接的输出节点
-      return n->waveform_cache(); // 返回连接节点的波形缓存
+    if (Node *n = GetConnectedOutput(kBufferIn)) {  // 检查是否存在通过 kBufferIn 连接的输出节点
+      return n->waveform_cache();                   // 返回连接节点的波形缓存
     } else {
-      return nullptr; // 无连接则返回 nullptr
+      return nullptr;  // 无连接则返回 nullptr
     }
   }
 
@@ -309,14 +309,14 @@ class ClipBlock : public Block {
   MultiCamNode *FindMulticam();
 
   // --- 静态常量，用作节点输入参数的键名 ---
-  static const QString kBufferIn;                ///< "BufferIn" - 缓冲输入端口的键名，通常用于连接媒体源。
-  static const QString kMediaInInput;            ///< "MediaIn" - 媒体入点参数的键名。
-  static const QString kSpeedInput;              ///< "Speed" - 播放速度参数的键名。
-  static const QString kReverseInput;            ///< "Reverse" - 反向播放参数的键名。
-  static const QString kMaintainAudioPitchInput; ///< "MaintainAudioPitch" - 保持音频音调参数的键名。
-  static const QString kLoopModeInput;           ///< "LoopMode" - 循环模式参数的键名。
+  static const QString kBufferIn;                 ///< "BufferIn" - 缓冲输入端口的键名，通常用于连接媒体源。
+  static const QString kMediaInInput;             ///< "MediaIn" - 媒体入点参数的键名。
+  static const QString kSpeedInput;               ///< "Speed" - 播放速度参数的键名。
+  static const QString kReverseInput;             ///< "Reverse" - 反向播放参数的键名。
+  static const QString kMaintainAudioPitchInput;  ///< "MaintainAudioPitch" - 保持音频音调参数的键名。
+  static const QString kLoopModeInput;            ///< "LoopMode" - 循环模式参数的键名。
 
-  static const QString kAutoCacheInput;          ///< "AutoCache" - 自动缓存参数的键名。
+  static const QString kAutoCacheInput;  ///< "AutoCache" - 自动缓存参数的键名。
 
  protected:
   /**
@@ -407,15 +407,15 @@ class ClipBlock : public Block {
   bool GetAdjustedThumbnailRange(TimeRange *r) const;
 
   // --- 私有成员变量 ---
-  QVector<Block *> block_links_; ///<存储与其他 Block 链接的列表。
+  QVector<Block *> block_links_;  ///< 存储与其他 Block 链接的列表。
 
-  TransitionBlock *in_transition_;  ///< 指向入点转场效果的指针。
-  TransitionBlock *out_transition_; ///< 指向出点转场效果的指针。
+  TransitionBlock *in_transition_;   ///< 指向入点转场效果的指针。
+  TransitionBlock *out_transition_;  ///< 指向出点转场效果的指针。
 
   ViewerOutput *connected_viewer_;  ///< 指向当前连接的查看器输出对象。
 
  private:
-  rational last_media_in_; ///< 上一次记录的媒体入点时间，可能用于检测变化。
+  rational last_media_in_;  ///< 上一次记录的媒体入点时间，可能用于检测变化。
 };
 
 }  // namespace olive

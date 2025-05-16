@@ -1,8 +1,8 @@
-#ifndef SEQUENCE_H // 防止头文件被多次包含的宏定义开始
+#ifndef SEQUENCE_H  // 防止头文件被多次包含的宏定义开始
 #define SEQUENCE_H
 
-#include "node/output/track/tracklist.h" // 引入 TrackList 定义，序列管理多个轨道列表
-#include "node/output/viewer/viewer.h"   // 引入基类 ViewerOutput 的定义
+#include "node/output/track/tracklist.h"  // 引入 TrackList 定义，序列管理多个轨道列表
+#include "node/output/viewer/viewer.h"    // 引入基类 ViewerOutput 的定义
 
 // 可能需要的前向声明
 // class MultiUndoCommand; // 假设
@@ -11,7 +11,7 @@
 // struct InvalidateCacheOptions; // 假设
 // class rational; // 假设
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
 /**
  * @brief 代表主要的时间线对象，是一个由已编辑剪辑（片段）组成的图，构成一个完整的编辑成果。
@@ -19,15 +19,15 @@ namespace olive { // Olive 编辑器的命名空间
  * 它内部管理着多个轨道列表（如视频轨道列表、音频轨道列表等）。
  */
 class Sequence : public ViewerOutput {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief Sequence 构造函数。
-   *  通常会在这里初始化轨道列表等。
-   */
-  Sequence();
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief Sequence 构造函数。
+      *  通常会在这里初始化轨道列表等。
+      */
+     Sequence();
 
-  NODE_DEFAULT_FUNCTIONS(Sequence) // 节点默认功能宏，可能包含克隆、类型信息等标准实现
+  NODE_DEFAULT_FUNCTIONS(Sequence)  // 节点默认功能宏，可能包含克隆、类型信息等标准实现
 
   /** @brief 获取此序列节点的名称 (例如 "序列")，支持国际化。 */
   [[nodiscard]] QString Name() const override { return tr("Sequence"); }
@@ -97,7 +97,7 @@ class Sequence : public ViewerOutput {
 
   // 用于格式化轨道输入端口名称的字符串，例如 "VideoTracks%1", "AudioTracks%1"
   // %1 会被轨道的元素索引替换。
-  static const QString kTrackInputFormat; ///< 例如 "VideoTracks%1", "AudioTracks%1" 等格式化字符串。
+  static const QString kTrackInputFormat;  ///< 例如 "VideoTracks%1", "AudioTracks%1" 等格式化字符串。
 
  protected:
   /**
@@ -124,7 +124,7 @@ class Sequence : public ViewerOutput {
    */
   [[nodiscard]] rational VerifyLengthInternal(Track::Type type) const override;
 
- signals: // Qt 信号声明区域
+ signals:  // Qt 信号声明区域
   /**
    * @brief 当有新轨道添加到此序列时发射此信号。
    *  注意：这可能是通过 TrackList 发射的信号中继而来。
@@ -148,11 +148,11 @@ class Sequence : public ViewerOutput {
  private:
   // 存储不同类型轨道列表的向量。
   // 向量的索引通常对应 Track::Type 枚举值 (例如 track_lists_[Track::kVideo] 是视频轨道列表)。
-  QVector<TrackList *> track_lists_; ///< 管理不同类型 (视频、音频、字幕) 轨道的列表。
+  QVector<TrackList *> track_lists_;  ///< 管理不同类型 (视频、音频、字幕) 轨道的列表。
 
   // 所有轨道的一个扁平化列表的缓存，方便快速访问所有轨道而不区分类型。
   // 这个缓存通常在轨道列表发生变化时通过 UpdateTrackCache() 更新。
-  QVector<Track *> track_cache_; ///< 所有轨道的扁平化列表缓存。
+  QVector<Track *> track_cache_;  ///< 所有轨道的扁平化列表缓存。
 
  private slots:
   /**

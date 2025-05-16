@@ -1,14 +1,14 @@
 #ifndef LIBOLIVECORE_TIMERANGE_H
 #define LIBOLIVECORE_TIMERANGE_H
 
-#include <list>       // 引入 std::list (虽然在此文件中 TimeRange::Split 返回它，但 TimeRangeList 使用 std::vector)
-#include <vector>     // 引入 std::vector，用作 TimeRangeList 内部的存储容器
-#include <initializer_list> // 引入 std::initializer_list，用于 TimeRangeList 的构造
-#include <algorithm>  // 引入 STL 算法，例如用于 TimeRangeList::util_remove
+#include <algorithm>         // 引入 STL 算法，例如用于 TimeRangeList::util_remove
+#include <initializer_list>  // 引入 std::initializer_list，用于 TimeRangeList 的构造
+#include <list>    // 引入 std::list (虽然在此文件中 TimeRange::Split 返回它，但 TimeRangeList 使用 std::vector)
+#include <vector>  // 引入 std::vector，用作 TimeRangeList 内部的存储容器
 
-#include "rational.h" // 引入 rational 类，用于精确表示时间点和长度
+#include "rational.h"  // 引入 rational 类，用于精确表示时间点和长度
 
-namespace olive::core { // Olive 核心功能命名空间
+namespace olive::core {  // Olive 核心功能命名空间
 
 /**
  * @brief 表示一个时间范围，由入点 (in) 和出点 (out) 定义。
@@ -39,7 +39,7 @@ class TimeRange {
    * @brief 拷贝构造函数。
    * @param r 要拷贝的另一个 TimeRange 对象。
    */
-  TimeRange(const TimeRange& r) : TimeRange(r.in(), r.out()) {} // 委托给 (in, out) 构造函数
+  TimeRange(const TimeRange& r) : TimeRange(r.in(), r.out()) {}  // 委托给 (in, out) 构造函数
 
   /**
    * @brief 赋值运算符。
@@ -47,7 +47,7 @@ class TimeRange {
    * @return 返回对当前对象的引用。
    */
   TimeRange& operator=(const TimeRange& r) {
-    set_range(r.in(), r.out()); // 使用 set_range 来确保 normalize 被调用
+    set_range(r.in(), r.out());  // 使用 set_range 来确保 normalize 被调用
     return *this;
   }
 
@@ -215,9 +215,9 @@ class TimeRange {
    */
   void normalize();
 
-  rational in_;     ///< 时间范围的入点。
-  rational out_;    ///< 时间范围的出点。
-  rational length_; ///< 时间范围的长度 (out_ - in_)。
+  rational in_;      ///< 时间范围的入点。
+  rational out_;     ///< 时间范围的出点。
+  rational length_;  ///< 时间范围的长度 (out_ - in_)。
 };
 
 /**
@@ -281,22 +281,22 @@ class TimeRangeList {
    */
   template <typename T>
   static void util_remove(std::vector<T>* list, const TimeRange& remove) {
-    std::vector<T> additions; // 存储因分割而产生的新范围
+    std::vector<T> additions;  // 存储因分割而产生的新范围
 
-    for (auto it = list->begin(); it != list->end();) { // 遍历列表
-      T& compare = *it; // 当前比较的范围
+    for (auto it = list->begin(); it != list->end();) {  // 遍历列表
+      T& compare = *it;                                  // 当前比较的范围
 
-      if (remove.Contains(compare)) { // 情况1: 当前范围完全被移除范围包含
-        it = list->erase(it); // 移除当前范围，迭代器指向下一个元素
+      if (remove.Contains(compare)) {  // 情况1: 当前范围完全被移除范围包含
+        it = list->erase(it);          // 移除当前范围，迭代器指向下一个元素
       } else {
-        if (compare.Contains(remove, false, false)) { // 情况2: 移除范围在当前范围内 (不含边界)
+        if (compare.Contains(remove, false, false)) {  // 情况2: 移除范围在当前范围内 (不含边界)
           // 移除范围在当前元素内部，需要将当前元素分割成两部分
-          T new_range = compare;          // 创建新范围作为后半部分
-          new_range.set_in(remove.out()); // 新范围的入点是移除范围的出点
-          compare.set_out(remove.in());   // 当前范围（前半部分）的出点是移除范围的入点
+          T new_range = compare;           // 创建新范围作为后半部分
+          new_range.set_in(remove.out());  // 新范围的入点是移除范围的出点
+          compare.set_out(remove.in());    // 当前范围（前半部分）的出点是移除范围的入点
 
-          additions.push_back(new_range); // 将新创建的后半部分添加到待添加列表
-          break; // 假设一个移除范围最多只分割一个现有范围
+          additions.push_back(new_range);  // 将新创建的后半部分添加到待添加列表
+          break;                           // 假设一个移除范围最多只分割一个现有范围
         } else {
           // 情况3和4: 部分重叠
           if (compare.in() < remove.in() && compare.out() > remove.in()) {
@@ -306,7 +306,7 @@ class TimeRangeList {
             // 当前范围的入点与移除范围的出点重叠，裁切当前范围的入点
             compare.set_in(remove.out());
           }
-          it++; // 继续下一个元素
+          it++;  // 继续下一个元素
         }
       }
     }
@@ -332,12 +332,12 @@ class TimeRangeList {
    * [[nodiscard]] 属性提示编译器，此函数的返回值不应被忽略。
    */
   [[nodiscard]] bool contains(const rational& r) const {
-    for (const TimeRange& range : array_) { // 遍历列表中的每个范围
-      if (range.Contains(r)) { // 如果当前范围包含该时间点
+    for (const TimeRange& range : array_) {  // 遍历列表中的每个范围
+      if (range.Contains(r)) {               // 如果当前范围包含该时间点
         return true;
       }
     }
-    return false; // 列表中没有范围包含该时间点
+    return false;  // 列表中没有范围包含该时间点
   }
 
   /**
@@ -349,12 +349,12 @@ class TimeRangeList {
    * [[nodiscard]] 属性提示编译器，此函数的返回值不应被忽略。
    */
   [[nodiscard]] bool OverlapsWith(const TimeRange& r, bool in_inclusive = true, bool out_inclusive = true) const {
-    for (const TimeRange& range : array_) { // 遍历列表中的每个范围
-      if (range.OverlapsWith(r, in_inclusive, out_inclusive)) { // 如果当前范围与r重叠
+    for (const TimeRange& range : array_) {                      // 遍历列表中的每个范围
+      if (range.OverlapsWith(r, in_inclusive, out_inclusive)) {  // 如果当前范围与r重叠
         return true;
       }
     }
-    return false; // 列表中没有范围与r重叠
+    return false;  // 列表中没有范围与r重叠
   }
 
   /**
@@ -416,9 +416,11 @@ class TimeRangeList {
 
   /** @brief 获取列表中的第一个时间范围。调用前应确保列表不为空。 @return 第一个 TimeRange 的常量引用。 [[nodiscard]] */
   [[nodiscard]] const TimeRange& first() const { return array_.front(); }
-  /** @brief 获取列表中的最后一个时间范围。调用前应确保列表不为空。 @return 最后一个 TimeRange 的常量引用。 [[nodiscard]] */
+  /** @brief 获取列表中的最后一个时间范围。调用前应确保列表不为空。 @return 最后一个 TimeRange 的常量引用。
+   * [[nodiscard]] */
   [[nodiscard]] const TimeRange& last() const { return array_.back(); }
-  /** @brief 获取列表中指定索引处的时间范围。 @param index 索引。 @return 指定索引处 TimeRange 的常量引用。 [[nodiscard]] */
+  /** @brief 获取列表中指定索引处的时间范围。 @param index 索引。 @return 指定索引处 TimeRange 的常量引用。
+   * [[nodiscard]] */
   [[nodiscard]] const TimeRange& at(int index) const { return array_.at(index); }
 
   /**
@@ -436,7 +438,7 @@ class TimeRangeList {
   bool operator==(const TimeRangeList& rhs) const { return array_ == rhs.array_; }
 
  private:
-  std::vector<TimeRange> array_; ///< 内部使用 std::vector 存储 TimeRange 对象。
+  std::vector<TimeRange> array_;  ///< 内部使用 std::vector 存储 TimeRange 对象。
 };
 
 /**
@@ -491,11 +493,11 @@ class TimeRangeListFrameIterator {
    * [[nodiscard]] 属性提示编译器，此函数的返回值不应被忽略。
    */
   [[nodiscard]] std::vector<rational> ToVector() const {
-    TimeRangeListFrameIterator copy(list_, timebase_); // 创建迭代器副本
+    TimeRangeListFrameIterator copy(list_, timebase_);  // 创建迭代器副本
     std::vector<rational> times;
     rational r;
-    while (copy.GetNext(&r)) { // 迭代副本
-      times.push_back(r);     // 将每个帧时间添加到向量
+    while (copy.GetNext(&r)) {  // 迭代副本
+      times.push_back(r);       // 将每个帧时间添加到向量
     }
     return times;
   }
@@ -513,7 +515,7 @@ class TimeRangeListFrameIterator {
    *
    * 之后调用 GetNext() 将从第一个帧开始。
    */
-  void reset() { *this = TimeRangeListFrameIterator(); } // 重新赋一个默认构造的迭代器
+  void reset() { *this = TimeRangeListFrameIterator(); }  // 重新赋一个默认构造的迭代器
 
   /**
    * @brief 向迭代器内部的 TimeRangeList 中插入一个新的时间范围。
@@ -555,17 +557,17 @@ class TimeRangeListFrameIterator {
    */
   void UpdateIndexIfNecessary();
 
-  TimeRangeList list_; ///< 迭代器所基于的时间范围列表。
+  TimeRangeList list_;  ///< 迭代器所基于的时间范围列表。
 
-  rational timebase_; ///< 帧的时间基准。
+  rational timebase_;  ///< 帧的时间基准。
 
-  rational current_; ///< 当前迭代到的时间点。
+  rational current_;  ///< 当前迭代到的时间点。
 
-  int range_index_; ///< 当前正在处理的 list_ 中 TimeRange 的索引。
-  int size_;        ///< 缓存的总帧数。
-  int frame_index_; ///< 当前已迭代的帧的计数器。
+  int range_index_;  ///< 当前正在处理的 list_ 中 TimeRange 的索引。
+  int size_;         ///< 缓存的总帧数。
+  int frame_index_;  ///< 当前已迭代的帧的计数器。
 
-  bool custom_range_; ///< 标记是否使用了自定义范围进行迭代。
+  bool custom_range_;  ///< 标记是否使用了自定义范围进行迭代。
 };
 
 }  // namespace olive::core

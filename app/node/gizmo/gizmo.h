@@ -1,12 +1,12 @@
-#ifndef NODEGIZMO_H // 防止头文件被多次包含的宏定义开始
+#ifndef NODEGIZMO_H  // 防止头文件被多次包含的宏定义开始
 #define NODEGIZMO_H
 
-#include <QObject>  // Qt 对象模型基类
-#include <QPainter> // Qt 绘图类，用于绘制 Gizmo
+#include <QObject>   // Qt 对象模型基类
+#include <QPainter>  // Qt 绘图类，用于绘制 Gizmo
 
-#include "node/globals.h" // 引入 NodeGlobals 定义，Gizmo 绘制和行为可能需要全局信息
+#include "node/globals.h"  // 引入 NodeGlobals 定义，Gizmo 绘制和行为可能需要全局信息
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
 /**
  * @brief 代表节点 Gizmo (图形交互控件) 的抽象基类。
@@ -15,13 +15,13 @@ namespace olive { // Olive 编辑器的命名空间
  * 此基类提供了 Gizmo 的基本属性（如可见性）和绘制接口。
  */
 class NodeGizmo : public QObject {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief NodeGizmo 构造函数。
-   * @param parent 父 QObject 对象，默认为 nullptr。
-   */
-  explicit NodeGizmo(QObject *parent = nullptr);
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief NodeGizmo 构造函数。
+      * @param parent 父 QObject 对象，默认为 nullptr。
+      */
+     explicit NodeGizmo(QObject *parent = nullptr);
   /**
    * @brief NodeGizmo 析构函数。
    */
@@ -57,12 +57,12 @@ class NodeGizmo : public QObject {
    */
   void SetVisible(bool e) { visible_ = e; }
 
-  signals: // Qt 信号声明区域 (此基类中未定义具体信号)
+ signals:  // Qt 信号声明区域 (此基类中未定义具体信号)
 
-  private:
-  NodeGlobals globals_; ///< 存储与 Gizmo 相关的全局节点参数。
+ private:
+  NodeGlobals globals_;  ///< 存储与 Gizmo 相关的全局节点参数。
 
-  bool visible_; ///< 标记此 Gizmo 是否可见。
+  bool visible_;  ///< 标记此 Gizmo 是否可见。
 };
 
 }  // namespace olive

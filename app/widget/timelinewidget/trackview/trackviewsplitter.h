@@ -1,13 +1,13 @@
-#ifndef TRACKVIEWSPLITTER_H // 防止头文件被多次包含的宏定义
+#ifndef TRACKVIEWSPLITTER_H  // 防止头文件被多次包含的宏定义
 #define TRACKVIEWSPLITTER_H
 
-#include <QSplitter> // 引入 QSplitter 类，是 TrackViewSplitter 和 TrackViewSplitterHandle 的基类或相关类
+#include <QSplitter>  // 引入 QSplitter 类，是 TrackViewSplitter 和 TrackViewSplitterHandle 的基类或相关类
 
-#include "common/define.h" // 引入项目通用的定义，可能包含宏、枚举或类型别名
+#include "common/define.h"  // 引入项目通用的定义，可能包含宏、枚举或类型别名
 
-namespace olive { // olive 命名空间开始
+namespace olive {  // olive 命名空间开始
 
-class TrackViewSplitter; // 前向声明 TrackViewSplitter 类，因为 TrackViewSplitterHandle 的构造函数需要它
+class TrackViewSplitter;  // 前向声明 TrackViewSplitter 类，因为 TrackViewSplitterHandle 的构造函数需要它
 
 /**
  * @brief TrackViewSplitterHandle 类是 QSplitterHandle 的一个自定义子类。
@@ -16,17 +16,17 @@ class TrackViewSplitter; // 前向声明 TrackViewSplitter 类，因为 TrackVie
  * 这个类重写了鼠标事件和绘制事件，以实现特定的交互和视觉效果。
  */
 class TrackViewSplitterHandle : public QSplitterHandle {
-  Q_OBJECT // Q_OBJECT 宏，用于启用 Qt 的元对象特性
+ Q_OBJECT  // Q_OBJECT 宏，用于启用 Qt 的元对象特性
 
- public:
-  /**
-   * @brief 构造一个 TrackViewSplitterHandle 对象。
-   * @param orientation 分割条的方向 (Qt::Orientation)，例如 Qt::Horizontal 或 Qt::Vertical。
-   * @param parent 指向其所属的 QSplitter (在此场景下是 TrackViewSplitter) 的指针。
-   */
-  TrackViewSplitterHandle(Qt::Orientation orientation, QSplitter *parent);
+     public :
+     /**
+      * @brief 构造一个 TrackViewSplitterHandle 对象。
+      * @param orientation 分割条的方向 (Qt::Orientation)，例如 Qt::Horizontal 或 Qt::Vertical。
+      * @param parent 指向其所属的 QSplitter (在此场景下是 TrackViewSplitter) 的指针。
+      */
+     TrackViewSplitterHandle(Qt::Orientation orientation, QSplitter *parent);
 
- protected: // 受保护方法，通常是事件处理器
+ protected:  // 受保护方法，通常是事件处理器
   /**
    * @brief 重写 QWidget::mousePressEvent()，处理鼠标按下事件。
    *
@@ -57,10 +57,10 @@ class TrackViewSplitterHandle : public QSplitterHandle {
    */
   void paintEvent(QPaintEvent *e) override;
 
- private: // 私有成员变量
-  int drag_y_{}; ///< 存储拖动开始时的鼠标 Y 坐标，或拖动过程中的相对 Y 坐标。
+ private:         // 私有成员变量
+  int drag_y_{};  ///< 存储拖动开始时的鼠标 Y 坐标，或拖动过程中的相对 Y 坐标。
 
-  bool dragging_; ///< 标记当前是否正在拖动此分割条句柄。
+  bool dragging_;  ///< 标记当前是否正在拖动此分割条句柄。
 };
 
 /**
@@ -70,15 +70,15 @@ class TrackViewSplitterHandle : public QSplitterHandle {
  * 这个类管理一组垂直排列的 QWidget (通常是 TrackViewItem)，并允许用户调整它们之间的高度。
  */
 class TrackViewSplitter : public QSplitter {
-  Q_OBJECT // Q_OBJECT 宏，用于启用 Qt 的元对象特性，如信号和槽
+ Q_OBJECT  // Q_OBJECT 宏，用于启用 Qt 的元对象特性，如信号和槽
 
- public:
-  /**
-   * @brief 构造一个 TrackViewSplitter 对象。
-   * @param vertical_alignment 子控件在垂直方向上的对齐方式 (Qt::Alignment)。
-   * @param parent 父 QWidget 对象，默认为 nullptr。
-   */
-  explicit TrackViewSplitter(Qt::Alignment vertical_alignment, QWidget *parent = nullptr);
+     public :
+     /**
+      * @brief 构造一个 TrackViewSplitter 对象。
+      * @param vertical_alignment 子控件在垂直方向上的对齐方式 (Qt::Alignment)。
+      * @param parent 父 QWidget 对象，默认为 nullptr。
+      */
+     explicit TrackViewSplitter(Qt::Alignment vertical_alignment, QWidget *parent = nullptr);
 
   /**
    * @brief 处理来自 TrackViewSplitterHandle 的拖动事件。
@@ -114,7 +114,7 @@ class TrackViewSplitter : public QSplitter {
    */
   void SetSpacerHeight(int height);
 
- public slots: // 公共槽函数
+ public slots:  // 公共槽函数
   /**
    * @brief 设置指定索引位置的轨道（子控件）的高度。
    * @param index 目标轨道的索引。
@@ -122,7 +122,7 @@ class TrackViewSplitter : public QSplitter {
    */
   void SetTrackHeight(int index, int h);
 
- signals: // 信号
+ signals:  // 信号
   /**
    * @brief 当某个轨道的视图项高度发生变化时发出此信号。
    * @param index 发生高度变化的轨道的索引。
@@ -130,17 +130,17 @@ class TrackViewSplitter : public QSplitter {
    */
   void TrackHeightChanged(int index, int height);
 
- protected: // 受保护方法
+ protected:  // 受保护方法
   /**
    * @brief 重写 QSplitter::createHandle()，用于创建自定义的分割条句柄。
    * @return 指向新创建的 QSplitterHandle (在此情况下是 TrackViewSplitterHandle) 对象的指针。
    */
   QSplitterHandle *createHandle() override;
 
- private: // 私有成员变量
-  Qt::Alignment alignment_; ///< 存储子控件在垂直方向上的对齐方式。
+ private:                    // 私有成员变量
+  Qt::Alignment alignment_;  ///< 存储子控件在垂直方向上的对齐方式。
 
-  int spacer_height_; ///< 分割条底部空白区域的高度。
+  int spacer_height_;  ///< 分割条底部空白区域的高度。
 };
 
 }  // namespace olive

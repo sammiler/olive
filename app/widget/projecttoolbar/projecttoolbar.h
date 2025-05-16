@@ -1,11 +1,11 @@
 #ifndef PROJECTTOOLBAR_H
 #define PROJECTTOOLBAR_H
 
-#include <QLineEdit>     // Qt 单行文本输入框控件 (用于搜索框)
-#include <QPushButton>   // Qt 按钮控件
-#include <QWidget>       // Qt 控件基类
+#include <QLineEdit>    // Qt 单行文本输入框控件 (用于搜索框)
+#include <QPushButton>  // Qt 按钮控件
+#include <QWidget>      // Qt 控件基类
 
-#include "common/define.h" // 项目通用定义
+#include "common/define.h"  // 项目通用定义
 
 // 前向声明 Qt 类 (根据用户要求，不添加)
 // class QEvent;
@@ -21,22 +21,22 @@ namespace olive {
  * 此对象的信号可以连接到应用程序中的各种功能，以提供更好的用户体验。
  */
 class ProjectToolbar : public QWidget {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父控件指针。
-   */
-  explicit ProjectToolbar(QWidget* parent);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父控件指针。
+      */
+     explicit ProjectToolbar(QWidget* parent);
 
   /**
    * @brief ViewType 枚举定义了项目浏览器支持的视图模式。
    */
   enum ViewType {
-    TreeView, ///< 树状视图模式。
-    ListView, ///< 列表视图模式。
-    IconView  ///< 图标视图模式。
+    TreeView,  ///< 树状视图模式。
+    ListView,  ///< 列表视图模式。
+    IconView   ///< 图标视图模式。
   };
 
  public slots:
@@ -98,15 +98,15 @@ class ProjectToolbar : public QWidget {
    */
   void UpdateIcons();
 
-  QPushButton* new_button_;  ///< “新建项目”按钮。
-  QPushButton* open_button_; ///< “打开项目”按钮。
-  QPushButton* save_button_; ///< “保存项目”按钮。
+  QPushButton* new_button_;   ///< “新建项目”按钮。
+  QPushButton* open_button_;  ///< “打开项目”按钮。
+  QPushButton* save_button_;  ///< “保存项目”按钮。
 
-  QLineEdit* search_field_; ///< 用于输入搜索文本的单行编辑框。
+  QLineEdit* search_field_;  ///< 用于输入搜索文本的单行编辑框。
 
-  QPushButton* tree_button_; ///< 用于切换到树状视图模式的按钮。
-  QPushButton* list_button_; ///< 用于切换到列表视图模式的按钮。
-  QPushButton* icon_button_; ///< 用于切换到图标视图模式的按钮。
+  QPushButton* tree_button_;  ///< 用于切换到树状视图模式的按钮。
+  QPushButton* list_button_;  ///< 用于切换到列表视图模式的按钮。
+  QPushButton* icon_button_;  ///< 用于切换到图标视图模式的按钮。
 
  private slots:
   /**

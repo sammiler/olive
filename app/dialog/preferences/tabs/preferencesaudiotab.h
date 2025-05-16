@@ -1,12 +1,12 @@
 #ifndef PREFERENCESAUDIOTAB_H
 #define PREFERENCESAUDIOTAB_H
 
-#include <QComboBox>      // 引入 QComboBox 类，用于创建下拉列表框
-#include <QPushButton>    // 引入 QPushButton 类，用于创建按钮
+#include <QComboBox>    // 引入 QComboBox 类，用于创建下拉列表框
+#include <QPushButton>  // 引入 QPushButton 类，用于创建按钮
 
-#include "dialog/configbase/configdialogbase.h" // 引入配置对话框基类相关定义
-#include "dialog/export/exportaudiotab.h"     // 引入导出音频选项卡相关定义，可能用于复用某些音频设置UI
-#include "dialog/export/exportformatcombobox.h" // 引入导出格式组合框相关定义
+#include "dialog/configbase/configdialogbase.h"  // 引入配置对话框基类相关定义
+#include "dialog/export/exportaudiotab.h"        // 引入导出音频选项卡相关定义，可能用于复用某些音频设置UI
+#include "dialog/export/exportformatcombobox.h"  // 引入导出格式组合框相关定义
 
 namespace olive {
 

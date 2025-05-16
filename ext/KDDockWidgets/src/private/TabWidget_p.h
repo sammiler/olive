@@ -1,21 +1,21 @@
 #ifndef KD_TAB_WIDGET_P_H
 #define KD_TAB_WIDGET_P_H
 
-#include "kddockwidgets/docks_export.h"    // 导入导出宏定义
-#include "kddockwidgets/DockWidgetBase.h"  // 停靠小部件基类
+#include "kddockwidgets/docks_export.h" // 导入导出宏定义
+#include "kddockwidgets/DockWidgetBase.h" // 停靠小部件基类
 
-#include "Draggable_p.h"                   // Draggable 私有头文件 (可拖拽对象接口)
-#include "Frame_p.h"                       // Frame 私有头文件 (停靠小部件的容器)
+#include "Draggable_p.h" // Draggable 私有头文件 (可拖拽对象接口)
+#include "Frame_p.h" // Frame 私有头文件 (停靠小部件的容器)
 
 #include <QVector> // Qt 动态数组容器
 
-#include <memory>  // C++ 标准库智能指针
+#include <memory> // C++ 标准库智能指针
 
 namespace KDDockWidgets {
 
 // 前向声明
 class DockWidgetBase; // 停靠小部件基类
-class TabWidget;      // 标签页小部件类 (在此文件中稍后定义)
+class TabWidget; // 标签页小部件类 (在此文件中稍后定义)
 
 /**
  * @brief 一个 QTabBar 派生类（或类似功能的类），用于 KDDockWidgets::TabWidget。

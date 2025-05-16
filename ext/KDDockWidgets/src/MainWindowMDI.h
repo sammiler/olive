@@ -9,10 +9,10 @@
 #define KD_MAINWINDOW_MDI_H
 
 #ifdef KDDOCKWIDGETS_QTWIDGETS // 条件编译：如果 KDDockWidgets 是为 Qt Widgets 构建的
-#include "MainWindow.h"        // 包含标准的 MainWindow 类 (QtWidgets 版本)
+#include "MainWindow.h" // 包含标准的 MainWindow 类 (QtWidgets 版本)
 #else // 否则 (即为 QtQuick 构建)
 #include "private/quick/MainWindowQuick_p.h" // 包含 QtQuick 版本的 MainWindow 私有头文件 (或其基类)
-                                             // 注意：MDIMainWindowBase 的定义可能依赖于此选择
+// 注意：MDIMainWindowBase 的定义可能依赖于此选择
 #endif
 
 namespace KDDockWidgets {
@@ -28,8 +28,8 @@ namespace KDDockWidgets {
  */
 class DOCKS_EXPORT MainWindowMDI : public KDDockWidgets::MDIMainWindowBase // MDIMainWindowBase 是实际的基类
 {
-    Q_OBJECT // Q_OBJECT 宏，用于启用 Qt 元对象系统特性，如信号和槽
-public:
+Q_OBJECT // Q_OBJECT 宏，用于启用 Qt 元对象系统特性，如信号和槽
+    public :
     /**
      * @brief 构造函数。详细信息请参见基类的文档。
      * @param uniqueName 强制性的名称，在所有 MainWindow 实例之间应该是唯一的。

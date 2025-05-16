@@ -1,24 +1,24 @@
 #ifndef PROJECTEXPLORER_H
 #define PROJECTEXPLORER_H
 
-#include <QSortFilterProxyModel> // Qt 排序和过滤代理模型类
-#include <QStackedWidget>      // Qt 堆叠控件，用于切换不同的视图模式
-#include <QTimer>            // Qt 定时器类 (虽然在此头文件未直接使用，但可能在 .cpp 或相关类中使用)
-#include <QTreeView>         // Qt 树形视图控件基类 (ProjectExplorerTreeView 的基类)
-#include <QAbstractItemView> // Qt 抽象项目视图基类 (AddView 参数)
-#include <QModelIndex>       // Qt 模型索引类
-#include <QList>             // Qt 列表容器
-#include <QVector>           // Qt 动态数组容器
-#include <QWidget>           // Qt 控件基类
+#include <QAbstractItemView>      // Qt 抽象项目视图基类 (AddView 参数)
+#include <QList>                  // Qt 列表容器
+#include <QModelIndex>            // Qt 模型索引类
+#include <QSortFilterProxyModel>  // Qt 排序和过滤代理模型类
+#include <QStackedWidget>         // Qt 堆叠控件，用于切换不同的视图模式
+#include <QTimer>                 // Qt 定时器类 (虽然在此头文件未直接使用，但可能在 .cpp 或相关类中使用)
+#include <QTreeView>              // Qt 树形视图控件基类 (ProjectExplorerTreeView 的基类)
+#include <QVector>                // Qt 动态数组容器
+#include <QWidget>                // Qt 控件基类
 
-#include "node/project.h"     // 项目类定义 (包含 Project, Folder, Node, Block 等)
-#include "projectviewmodel.h" // 项目视图模型类
+#include "node/project.h"                                      // 项目类定义 (包含 Project, Folder, Node, Block 等)
+#include "projectviewmodel.h"                                  // 项目视图模型类
+#include "undo/undostack.h"                                    // 撤销栈 (MultiUndoCommand 可能需要)
 #include "widget/projectexplorer/projectexplorericonview.h"    // 项目浏览器图标视图
 #include "widget/projectexplorer/projectexplorerlistview.h"    // 项目浏览器列表视图
 #include "widget/projectexplorer/projectexplorernavigation.h"  // 项目浏览器导航栏
 #include "widget/projectexplorer/projectexplorertreeview.h"    // 项目浏览器树形视图
-#include "widget/projecttoolbar/projecttoolbar.h"            // 项目工具栏 (包含 ViewType 枚举)
-#include "undo/undostack.h"                                  // 撤销栈 (MultiUndoCommand 可能需要)
+#include "widget/projecttoolbar/projecttoolbar.h"              // 项目工具栏 (包含 ViewType 枚举)
 
 // 前向声明 Qt 类 (根据用户要求，不添加)
 // class QAction;
@@ -46,14 +46,14 @@ namespace olive {
  * 此控件包含三种视图：树视图、列表视图和图标视图。这些视图可以随时切换。
  */
 class ProjectExplorer : public QWidget {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父控件指针。
-   */
-  explicit ProjectExplorer(QWidget* parent);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父控件指针。
+      */
+     explicit ProjectExplorer(QWidget* parent);
 
   /**
    * @brief 获取当前活动的视图类型（树状、列表或图标）。
@@ -247,20 +247,20 @@ class ProjectExplorer : public QWidget {
    */
   [[nodiscard]] QAbstractItemView* CurrentView() const;
 
-  QStackedWidget* stacked_widget_; ///< 用于在不同视图模式（树状、列表、图标）之间切换的堆叠控件。
+  QStackedWidget* stacked_widget_;  ///< 用于在不同视图模式（树状、列表、图标）之间切换的堆叠控件。
 
-  ProjectExplorerNavigation* nav_bar_; ///< 项目浏览器顶部的导航栏，显示当前路径并允许导航。
+  ProjectExplorerNavigation* nav_bar_;  ///< 项目浏览器顶部的导航栏，显示当前路径并允许导航。
 
-  ProjectExplorerIconView* icon_view_; ///< 图标视图模式。
-  ProjectExplorerListView* list_view_; ///< 列表视图模式。
-  ProjectExplorerTreeView* tree_view_; ///< 树状视图模式。
+  ProjectExplorerIconView* icon_view_;  ///< 图标视图模式。
+  ProjectExplorerListView* list_view_;  ///< 列表视图模式。
+  ProjectExplorerTreeView* tree_view_;  ///< 树状视图模式。
 
-  ProjectToolbar::ViewType view_type_; ///< 当前活动的视图类型。
+  ProjectToolbar::ViewType view_type_;  ///< 当前活动的视图类型。
 
-  QSortFilterProxyModel sort_model_; ///< 排序和过滤代理模型，应用于视图以支持排序和搜索。
-  ProjectViewModel model_;           ///< 项目数据模型，为所有视图提供数据。
+  QSortFilterProxyModel sort_model_;  ///< 排序和过滤代理模型，应用于视图以支持排序和搜索。
+  ProjectViewModel model_;            ///< 项目数据模型，为所有视图提供数据。
 
-  QVector<Node*> context_menu_items_; ///< 存储当前上下文菜单操作相关的项目项。
+  QVector<Node*> context_menu_items_;  ///< 存储当前上下文菜单操作相关的项目项。
 
  private slots:
   /**

@@ -1,14 +1,14 @@
 #ifndef PREFERENCESDISKTAB_H
 #define PREFERENCESDISKTAB_H
 
-#include <QCheckBox>   // 引入 QCheckBox 类，用于创建复选框控件
-#include <QLineEdit>   // 引入 QLineEdit 类，用于创建单行文本输入框控件
-#include <QPushButton> // 引入 QPushButton 类，用于创建按钮控件
+#include <QCheckBox>    // 引入 QCheckBox 类，用于创建复选框控件
+#include <QLineEdit>    // 引入 QLineEdit 类，用于创建单行文本输入框控件
+#include <QPushButton>  // 引入 QPushButton 类，用于创建按钮控件
 
-#include "dialog/configbase/configdialogbase.h" // 引入配置对话框基类相关定义
-#include "render/diskmanager.h"                 // 引入磁盘管理器相关定义，可能用于管理磁盘缓存文件夹
-#include "widget/path/pathwidget.h"             // 引入路径选择控件
-#include "widget/slider/floatslider.h"          // 引入浮点数滑块控件
+#include "dialog/configbase/configdialogbase.h"  // 引入配置对话框基类相关定义
+#include "render/diskmanager.h"                  // 引入磁盘管理器相关定义，可能用于管理磁盘缓存文件夹
+#include "widget/path/pathwidget.h"              // 引入路径选择控件
+#include "widget/slider/floatslider.h"           // 引入浮点数滑块控件
 
 namespace olive {
 
@@ -45,7 +45,7 @@ class PreferencesDiskTab : public ConfigDialogBaseTab {
    */
   void Accept(MultiUndoCommand* command) override;
 
-private:
+ private:
   /**
    * @brief 指向磁盘缓存位置路径选择控件的指针。
    *

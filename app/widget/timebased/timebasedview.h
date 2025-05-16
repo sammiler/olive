@@ -1,17 +1,17 @@
-#ifndef TIMELINEVIEWBASE_H // 防止头文件被多次包含的宏定义
+#ifndef TIMELINEVIEWBASE_H  // 防止头文件被多次包含的宏定义
 #define TIMELINEVIEWBASE_H
 
-#include <QGraphicsView> // 引入 QGraphicsView 类，用于显示 QGraphicsScene 中的内容
-#include <vector>        // 引入 std::vector，用于存储动态数组
+#include <QGraphicsView>  // 引入 QGraphicsView 类，用于显示 QGraphicsScene 中的内容
+#include <vector>         // 引入 std::vector，用于存储动态数组
 
-#include "core.h"                                          // 引入核心定义或类型，具体内容需查看该文件
-#include "timescaledobject.h"                              // 引入 TimeScaledObject 类，提供时间缩放相关功能
-#include "widget/handmovableview/handmovableview.h"        // 引入 HandMovableView 类，提供视图的手动拖动功能
+#include "core.h"                                    // 引入核心定义或类型，具体内容需查看该文件
+#include "timescaledobject.h"                        // 引入 TimeScaledObject 类，提供时间缩放相关功能
+#include "widget/handmovableview/handmovableview.h"  // 引入 HandMovableView 类，提供视图的手动拖动功能
 
 namespace olive {
 
-class TimeBasedWidget; // 前向声明 TimeBasedWidget 类
-class ViewerOutput;    // 前向声明 ViewerOutput 类 (从成员变量 viewer_ 推断)
+class TimeBasedWidget;  // 前向声明 TimeBasedWidget 类
+class ViewerOutput;     // 前向声明 ViewerOutput 类 (从成员变量 viewer_ 推断)
 
 /**
  * @brief TimeBasedView 类是一个基于时间轴的视图控件。
@@ -21,14 +21,14 @@ class ViewerOutput;    // 前向声明 ViewerOutput 类 (从成员变量 viewer_
  * 它管理一个 QGraphicsScene，并处理播放头、吸附、缩放等交互。
  */
 class TimeBasedView : public HandMovableView, public TimeScaledObject {
-  Q_OBJECT // Q_OBJECT 宏，用于启用 Qt 的元对象特性，如信号和槽
+ Q_OBJECT  // Q_OBJECT 宏，用于启用 Qt 的元对象特性，如信号和槽
 
- public:
-  /**
-   * @brief 构造一个 TimeBasedView 对象。
-   * @param parent 父 QWidget 对象，默认为 nullptr。
-   */
-  explicit TimeBasedView(QWidget *parent = nullptr);
+     public :
+     /**
+      * @brief 构造一个 TimeBasedView 对象。
+      * @param parent 父 QWidget 对象，默认为 nullptr。
+      */
+     explicit TimeBasedView(QWidget *parent = nullptr);
 
   /**
    * @brief 启用吸附功能。

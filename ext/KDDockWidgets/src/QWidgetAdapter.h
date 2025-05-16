@@ -34,9 +34,9 @@ inline bool isMinimized(QWindow *window)
 
 #ifdef KDDOCKWIDGETS_QTWIDGETS // 条件编译：如果定义了 KDDOCKWIDGETS_QTWIDGETS (即使用 Qt Widgets)
 
-#include "private/multisplitter/Widget_qwidget.h"       // MultiSplitter 模块中 QWidget 的包装器私有头文件
+#include "private/multisplitter/Widget_qwidget.h" // MultiSplitter 模块中 QWidget 的包装器私有头文件
 #include "private/widgets/QWidgetAdapter_widgets_p.h" // QWidgetAdapter 的 QtWidgets 特定私有实现头文件
-#include <QMainWindow>                                  // Qt 主窗口类
+#include <QMainWindow> // Qt 主窗口类
 
 namespace KDDockWidgets {
 // 前向声明 QtWidgets 版本的特定类
@@ -47,15 +47,15 @@ class DockWidget;
 typedef QWidget QWidgetOrQuick; ///< QWidgetOrQuick 在此上下文中代表 QWidget。
 typedef QMainWindow QMainWindowOrQuick; ///< QMainWindowOrQuick 在此上下文中代表 QMainWindow。
 typedef Layouting::Widget_qwidget LayoutGuestWidgetBase; ///< 布局系统中的客户小部件基类，对应 QWidget 的包装。
-typedef KDDockWidgets::MainWindow MainWindowType;       ///< MainWindowType 代表 QtWidgets 版本的 MainWindow。
-typedef KDDockWidgets::MainWindow MDIMainWindowBase;    ///< MDIMainWindowBase 代表 QtWidgets 版本的 MDI 主窗口基类 (通常是 MainWindow 本身，根据 MDI 选项配置)。
-typedef KDDockWidgets::DockWidget DockWidgetType;       ///< DockWidgetType 代表 QtWidgets 版本的 DockWidget。
-typedef QWidget WidgetType;                             ///< WidgetType 代表通用的 UI 元素类型，在此为 QWidget。
+typedef KDDockWidgets::MainWindow MainWindowType; ///< MainWindowType 代表 QtWidgets 版本的 MainWindow。
+typedef KDDockWidgets::MainWindow MDIMainWindowBase; ///< MDIMainWindowBase 代表 QtWidgets 版本的 MDI 主窗口基类 (通常是 MainWindow 本身，根据 MDI 选项配置)。
+typedef KDDockWidgets::DockWidget DockWidgetType; ///< DockWidgetType 代表 QtWidgets 版本的 DockWidget。
+typedef QWidget WidgetType; ///< WidgetType 代表通用的 UI 元素类型，在此为 QWidget。
 } // namespace KDDockWidgets
 
 #else // 如果定义了 KDDOCKWIDGETS_QTQUICK (即使用 Qt Quick)
 
-#include "private/multisplitter/Widget_quick.h"     // MultiSplitter 模块中 QQuickItem 的包装器私有头文件
+#include "private/multisplitter/Widget_quick.h" // MultiSplitter 模块中 QQuickItem 的包装器私有头文件
 #include "private/quick/QWidgetAdapter_quick_p.h" // QWidgetAdapter 的 QtQuick 特定私有实现头文件
 // QQuickItem 通常在 QWidgetAdapter_quick_p.h 或其包含的文件中引入
 
@@ -68,10 +68,10 @@ class DockWidgetQuick;
 typedef KDDockWidgets::QWidgetAdapter QWidgetOrQuick; ///< QWidgetOrQuick 在此上下文中代表 QWidgetAdapter (QQuickItem 的包装)。
 typedef QWidgetOrQuick QMainWindowOrQuick; ///< QMainWindowOrQuick 在此上下文中也代表 QWidgetAdapter (包装 QQuickWindow 或作为主窗口的 QQuickItem)。
 typedef Layouting::Widget_quick LayoutGuestWidgetBase; ///< 布局系统中的客户小部件基类，对应 QQuickItem 的包装。
-typedef KDDockWidgets::MainWindowQuick MainWindowType;    ///< MainWindowType 代表 QtQuick 版本的 MainWindowQuick。
+typedef KDDockWidgets::MainWindowQuick MainWindowType; ///< MainWindowType 代表 QtQuick 版本的 MainWindowQuick。
 typedef KDDockWidgets::MainWindowQuick MDIMainWindowBase; ///< MDIMainWindowBase 代表 QtQuick 版本的 MDI 主窗口基类。
-typedef KDDockWidgets::DockWidgetQuick DockWidgetType;    ///< DockWidgetType 代表 QtQuick 版本的 DockWidgetQuick。
-typedef QQuickItem WidgetType;                          ///< WidgetType 代表通用的 UI 元素类型，在此为 QQuickItem。
+typedef KDDockWidgets::DockWidgetQuick DockWidgetType; ///< DockWidgetType 代表 QtQuick 版本的 DockWidgetQuick。
+typedef QQuickItem WidgetType; ///< WidgetType 代表通用的 UI 元素类型，在此为 QQuickItem。
 } // namespace KDDockWidgets
 
 #endif // KDDOCKWIDGETS_QTWIDGETS
@@ -88,16 +88,16 @@ namespace KDDockWidgets {
  */
 class LayoutGuestWidget : public KDDockWidgets::QWidgetAdapter, public LayoutGuestWidgetBase
 {
-    Q_OBJECT // Q_OBJECT 宏，用于启用 Qt 元对象系统特性
-public:
+Q_OBJECT // Q_OBJECT 宏，用于启用 Qt 元对象系统特性
+    public :
     /**
      * @brief 构造函数。
      * @param parent 指向实际的 QWidget 或 QQuickItem (通过 QWidgetOrQuick 传递)。
      * QWidgetAdapter 和 LayoutGuestWidgetBase 都会使用这个 parent。
      */
     explicit LayoutGuestWidget(QWidgetOrQuick *parent)
-        : QWidgetAdapter(parent) // 初始化 QWidgetAdapter 基类
-        , LayoutGuestWidgetBase(this) // 初始化 LayoutGuestWidgetBase 基类，将自身作为参数
+    : QWidgetAdapter(parent) // 初始化 QWidgetAdapter 基类
+    , LayoutGuestWidgetBase(this) // 初始化 LayoutGuestWidgetBase 基类，将自身作为参数
     {
     }
 

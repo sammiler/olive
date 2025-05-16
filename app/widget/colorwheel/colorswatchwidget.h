@@ -1,14 +1,14 @@
 #ifndef COLORSWATCHWIDGET_H
 #define COLORSWATCHWIDGET_H
 
-#include <QOpenGLWidget> // Qt OpenGL 控件基类 (虽然这里继承的是 QWidget，但可能与颜色渲染的上下文有关)
-                         // 修正：实际继承的是 QWidget，QOpenGLWidget 不是必需的，除非子类用它。
+#include <QOpenGLWidget>  // Qt OpenGL 控件基类 (虽然这里继承的是 QWidget，但可能与颜色渲染的上下文有关)
+                          // 修正：实际继承的是 QWidget，QOpenGLWidget 不是必需的，除非子类用它。
 
-#include "render/colorprocessor.h" // 引入色彩处理器类
+#include "render/colorprocessor.h"  // 引入色彩处理器类
 
 // 前向声明 Qt 类
 class QMouseEvent;
-class QPaintEvent; // QPaintEvent 通常在 QWidget 子类中使用
+class QPaintEvent;  // QPaintEvent 通常在 QWidget 子类中使用
 class QPoint;
 
 namespace olive {
@@ -21,15 +21,15 @@ namespace olive {
  * 派生类需要实现纯虚函数 GetColorFromScreenPos() 来定义
  * 如何从屏幕坐标获取具体的颜色值。
  */
-class ColorSwatchWidget : public QWidget { // 注意：这里继承的是 QWidget，不是 QOpenGLWidget
-  Q_OBJECT // Qt 元对象系统宏，用于支持信号和槽机制
+class ColorSwatchWidget : public QWidget {  // 注意：这里继承的是 QWidget，不是 QOpenGLWidget
+ Q_OBJECT                                   // Qt 元对象系统宏，用于支持信号和槽机制
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit ColorSwatchWidget(QWidget* parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit ColorSwatchWidget(QWidget* parent = nullptr);
 
   /**
    * @brief 获取当前选定的颜色。
@@ -129,10 +129,11 @@ class ColorSwatchWidget : public QWidget { // 注意：这里继承的是 QWidge
    */
   void SetSelectedColorInternal(const Color& c, bool external);
 
-  Color selected_color_; ///< 当前选定的颜色。
+  Color selected_color_;  ///< 当前选定的颜色。
 
-  ColorProcessorPtr to_linear_processor_;    ///< 指向将输入颜色转换为线性色彩空间的色彩处理器的智能指针。
-  ColorProcessorPtr to_display_processor_;   ///< 指向将线性颜色（或参考颜色）转换为最终显示色彩空间的色彩处理器的智能指针。
+  ColorProcessorPtr to_linear_processor_;  ///< 指向将输入颜色转换为线性色彩空间的色彩处理器的智能指针。
+  ColorProcessorPtr
+      to_display_processor_;  ///< 指向将线性颜色（或参考颜色）转换为最终显示色彩空间的色彩处理器的智能指针。
 };
 
 }  // namespace olive

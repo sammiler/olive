@@ -1,7 +1,7 @@
 #ifndef MASKDISTORTNODE_H
 #define MASKDISTORTNODE_H
 
-#include "node/generator/polygon/polygon.h" // 引入基类 PolygonGenerator 的定义
+#include "node/generator/polygon/polygon.h"  // 引入基类 PolygonGenerator 的定义
 
 namespace olive {
 
@@ -11,14 +11,14 @@ namespace olive {
  * 它继承自 PolygonGenerator，表明其核心是一个多边形生成器。
  */
 class MaskDistortNode : public PolygonGenerator {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief MaskDistortNode 构造函数。
-   */
-  MaskDistortNode();
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief MaskDistortNode 构造函数。
+      */
+     MaskDistortNode();
 
-  NODE_DEFAULT_FUNCTIONS(MaskDistortNode) // 节点默认功能宏，可能包含克隆、类型信息等标准实现
+  NODE_DEFAULT_FUNCTIONS(MaskDistortNode)  // 节点默认功能宏，可能包含克隆、类型信息等标准实现
 
   /**
    * @brief 获取此节点的名称。
@@ -34,7 +34,8 @@ class MaskDistortNode : public PolygonGenerator {
 
   /**
    * @brief 获取此节点所属的分类 ID 列表。
-   * @return CategoryID 的 QVector，表示此节点属于 "扭曲" (kCategoryDistort) 分类（蒙版常用于影响图像区域，有时归于此类）。
+   * @return CategoryID 的 QVector，表示此节点属于 "扭曲" (kCategoryDistort)
+   * 分类（蒙版常用于影响图像区域，有时归于此类）。
    */
   [[nodiscard]] QVector<CategoryID> Category() const override { return {kCategoryDistort}; }
 
@@ -66,8 +67,8 @@ class MaskDistortNode : public PolygonGenerator {
   void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
 
   // --- 静态常量，用作节点输入参数的键名 ---
-  static const QString kInvertInput;  ///< "Invert" - 是否反转蒙版效果的布尔参数键名。
-  static const QString kFeatherInput; ///< "Feather" - 蒙版边缘羽化量的参数键名。
+  static const QString kInvertInput;   ///< "Invert" - 是否反转蒙版效果的布尔参数键名。
+  static const QString kFeatherInput;  ///< "Feather" - 蒙版边缘羽化量的参数键名。
 };
 
 }  // namespace olive

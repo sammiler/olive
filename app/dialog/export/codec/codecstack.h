@@ -1,8 +1,8 @@
 #ifndef CODECSTACK_H
 #define CODECSTACK_H
 
-#include <QStackedWidget> // QStackedWidget 基类，用于管理多个页面并只显示一个
-#include <QWidget>        // 为了 QWidget* parent 和 addWidget 的参数
+#include <QStackedWidget>  // QStackedWidget 基类，用于管理多个页面并只显示一个
+#include <QWidget>         // 为了 QWidget* parent 和 addWidget 的参数
 
 // 假设这个类会与 CodecSection 或类似的类交互，但头文件中没有直接包含
 // #include "codecsection.h"
@@ -36,26 +36,26 @@ class CodecStack : public QStackedWidget {
    * 可能在添加 widget 后会进行一些额外的初始化或连接操作。
    * @param widget 指向要添加的 QWidget (通常是 CodecSection 的派生类) 的指针。
    */
-  void addWidget(QWidget *widget); // Qt 5 中 addWidget 不是虚函数，所以这里不是 override
+  void addWidget(QWidget *widget);  // Qt 5 中 addWidget 不是虚函数，所以这里不是 override
 
-  signals:
-   // 此处可以定义当 CodecStack 的状态（例如当前显示的页面）发生有意义的变化时发出的信号。
-   // 例如：
-   // /**
-   //  * @brief 当 CodecStack 中显示的当前编解码器设置页面发生变化时发出此信号。
-   //  * @param new_codec_section_widget 指向新显示的编解码器设置页面的指针。
-   //  */
-   // void currentCodecSectionChanged(QWidget* new_codec_section_widget);
+ signals:
+  // 此处可以定义当 CodecStack 的状态（例如当前显示的页面）发生有意义的变化时发出的信号。
+  // 例如：
+  // /**
+  //  * @brief 当 CodecStack 中显示的当前编解码器设置页面发生变化时发出此信号。
+  //  * @param new_codec_section_widget 指向新显示的编解码器设置页面的指针。
+  //  */
+  // void currentCodecSectionChanged(QWidget* new_codec_section_widget);
 
-  private slots:
-   /**
-    * @brief 当 QStackedWidget 的当前显示页面索引发生变化时调用的槽函数。
-    *
-    * 此槽通常连接到 QStackedWidget::currentChanged(int index) 信号。
-    * 它可以用于在页面切换时执行一些操作，例如更新相关的UI元素或数据模型。
-    * @param index 新显示的页面在堆叠控件中的索引。
-    */
-   void OnChange(int index);
+ private slots:
+  /**
+   * @brief 当 QStackedWidget 的当前显示页面索引发生变化时调用的槽函数。
+   *
+   * 此槽通常连接到 QStackedWidget::currentChanged(int index) 信号。
+   * 它可以用于在页面切换时执行一些操作，例如更新相关的UI元素或数据模型。
+   * @param index 新显示的页面在堆叠控件中的索引。
+   */
+  void OnChange(int index);
 };
 
 }  // namespace olive

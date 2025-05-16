@@ -1,7 +1,7 @@
 #ifndef FLIPDISTORTNODE_H
 #define FLIPDISTORTNODE_H
 
-#include "node/node.h" // 引入基类 Node 的定义
+#include "node/node.h"  // 引入基类 Node 的定义
 
 namespace olive {
 
@@ -10,14 +10,14 @@ namespace olive {
  * 该节点可以将图像进行水平翻转、垂直翻转或同时进行两种翻转。
  */
 class FlipDistortNode : public Node {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief FlipDistortNode 构造函数。
-   */
-  FlipDistortNode();
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief FlipDistortNode 构造函数。
+      */
+     FlipDistortNode();
 
-  NODE_DEFAULT_FUNCTIONS(FlipDistortNode) // 节点默认功能宏，可能包含克隆、类型信息等标准实现
+  NODE_DEFAULT_FUNCTIONS(FlipDistortNode)  // 节点默认功能宏，可能包含克隆、类型信息等标准实现
 
   /**
    * @brief 获取此节点的名称。
@@ -60,9 +60,9 @@ class FlipDistortNode : public Node {
   void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
 
   // --- 静态常量，用作节点输入参数的键名 ---
-  static const QString kTextureInput;    ///< "Texture" - 输入纹理（图像）的参数键名。
-  static const QString kHorizontalInput; ///< "Horizontal" - 是否进行水平翻转的布尔参数键名。
-  static const QString kVerticalInput;   ///< "Vertical" - 是否进行垂直翻转的布尔参数键名。
+  static const QString kTextureInput;     ///< "Texture" - 输入纹理（图像）的参数键名。
+  static const QString kHorizontalInput;  ///< "Horizontal" - 是否进行水平翻转的布尔参数键名。
+  static const QString kVerticalInput;    ///< "Vertical" - 是否进行垂直翻转的布尔参数键名。
 };
 
 }  // namespace olive

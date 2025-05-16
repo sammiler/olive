@@ -1,7 +1,7 @@
-#ifndef PROJECTSERIALIZER230220_H // 防止头文件被多次包含的宏定义开始
+#ifndef PROJECTSERIALIZER230220_H  // 防止头文件被多次包含的宏定义开始
 #define PROJECTSERIALIZER230220_H
 
-#include "serializer.h" // 引入基类 ProjectSerializer 的定义 (文件名可能是 "projectserializer.h")
+#include "serializer.h"  // 引入基类 ProjectSerializer 的定义 (文件名可能是 "projectserializer.h")
 
 // 可能需要的前向声明
 // class Project; // 假设
@@ -13,7 +13,7 @@
 // class Node; // 假设
 // class SerializedData; // 假设
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
 /**
  * @brief 特定版本的项目序列化器，版本号为 230220。
@@ -54,7 +54,7 @@ class ProjectSerializer230220 : public ProjectSerializer {
    * @brief 返回此序列化器支持的项目文件版本号。
    * @return uint 版本号，固定为 230220。
    */
-  [[nodiscard]] uint Version() const override { return 230220; } // 此序列化器处理版本 230220
+  [[nodiscard]] uint Version() const override { return 230220; }  // 此序列化器处理版本 230220
 
  private:
   /**

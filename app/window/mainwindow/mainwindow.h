@@ -4,27 +4,27 @@
 #include <kddockwidgets/Config.h>      // 引入 KDDockWidgets 的配置头文件
 #include <kddockwidgets/MainWindow.h>  // 引入 KDDockWidgets 的 MainWindow 基类
 
-#include "mainwindowlayoutinfo.h"           // 引入主窗口布局信息的定义
-#include "node/project.h"                   // 引入项目类的定义
-#include "panel/audiomonitor/audiomonitor.h" // 引入音频监视器面板
-#include "panel/curve/curve.h"               // 引入曲线编辑器面板
-#include "panel/footageviewer/footageviewer.h" // 引入素材查看器面板
-#include "panel/history/historypanel.h"      // 引入历史记录面板
-#include "panel/multicam/multicampanel.h"    // 引入多机位编辑面板
-#include "panel/node/node.h"                 // 引入节点编辑器面板
-#include "panel/panelmanager.h"              // 引入面板管理器 (虽然在此文件中未直接使用，但可能是上下文依赖)
-#include "panel/param/param.h"               // 引入参数编辑器面板
-#include "panel/pixelsampler/pixelsamplerpanel.h" // 引入像素采样器面板
-#include "panel/project/project.h"           // 引入项目浏览器面板
-#include "panel/scope/scope.h"               // 引入示波器面板 (如波形图、矢量示波器)
-#include "panel/sequenceviewer/sequenceviewer.h" // 引入序列查看器面板
-#include "panel/table/table.h"               // 引入表格视图面板 (可能用于显示元数据等)
-#include "panel/taskmanager/taskmanager.h"   // 引入任务管理器面板
-#include "panel/timeline/timeline.h"         // 引入时间轴面板
-#include "panel/tool/tool.h"                 // 引入工具栏面板
+#include "mainwindowlayoutinfo.h"                  // 引入主窗口布局信息的定义
+#include "node/project.h"                          // 引入项目类的定义
+#include "panel/audiomonitor/audiomonitor.h"       // 引入音频监视器面板
+#include "panel/curve/curve.h"                     // 引入曲线编辑器面板
+#include "panel/footageviewer/footageviewer.h"     // 引入素材查看器面板
+#include "panel/history/historypanel.h"            // 引入历史记录面板
+#include "panel/multicam/multicampanel.h"          // 引入多机位编辑面板
+#include "panel/node/node.h"                       // 引入节点编辑器面板
+#include "panel/panelmanager.h"                    // 引入面板管理器 (虽然在此文件中未直接使用，但可能是上下文依赖)
+#include "panel/param/param.h"                     // 引入参数编辑器面板
+#include "panel/pixelsampler/pixelsamplerpanel.h"  // 引入像素采样器面板
+#include "panel/project/project.h"                 // 引入项目浏览器面板
+#include "panel/scope/scope.h"                     // 引入示波器面板 (如波形图、矢量示波器)
+#include "panel/sequenceviewer/sequenceviewer.h"   // 引入序列查看器面板
+#include "panel/table/table.h"                     // 引入表格视图面板 (可能用于显示元数据等)
+#include "panel/taskmanager/taskmanager.h"         // 引入任务管理器面板
+#include "panel/timeline/timeline.h"               // 引入时间轴面板
+#include "panel/tool/tool.h"                       // 引入工具栏面板
 
 #ifdef Q_OS_WINDOWS
-#include <shobjidl.h> // 在 Windows 平台上引入 Shell 对象接口定义，用于任务栏进度条等功能
+#include <shobjidl.h>  // 在 Windows 平台上引入 Shell 对象接口定义，用于任务栏进度条等功能
 #endif
 
 // 前向声明 MainWindowLayoutInfo, Project, Sequence, Folder, ViewerOutput, Footage, Block, PanelWidget
@@ -49,13 +49,13 @@ namespace olive {
  * 并处理项目加载、序列管理、UI布局保存/加载、全屏模式以及与操作系统的交互（如任务栏进度）。
  */
 class MainWindow : public KDDockWidgets::MainWindow {
-  Q_OBJECT // 声明此类使用 Qt 的元对象系统（信号和槽）
- public:
-  /**
-   * @brief 显式构造函数。
-   * @param parent 父 QWidget 对象，默认为 nullptr。
-   */
-  explicit MainWindow(QWidget *parent = nullptr);
+ Q_OBJECT  // 声明此类使用 Qt 的元对象系统（信号和槽）
+     public :
+     /**
+      * @brief 显式构造函数。
+      * @param parent 父 QWidget 对象，默认为 nullptr。
+      */
+     explicit MainWindow(QWidget *parent = nullptr);
 
   /**
    * @brief 析构函数。
@@ -272,7 +272,7 @@ class MainWindow : public KDDockWidgets::MainWindow {
    */
   static void SelectFootageForProjectPanel(const QVector<Footage *> &e, ProjectPanel *p);
 
-  QByteArray premaximized_state_; ///< 存储面板最大化之前的停靠布局状态。
+  QByteArray premaximized_state_;  ///< 存储面板最大化之前的停靠布局状态。
 
   // Standard panels / 标准面板实例指针
   ProjectPanel *project_panel_;                 ///< 主项目浏览器面板。
@@ -298,8 +298,8 @@ class MainWindow : public KDDockWidgets::MainWindow {
   ITaskbarList3 *taskbar_interface_;  ///< 指向 Windows ITaskbarList3 COM 接口的指针，用于控制任务栏进度条。
 #endif
 
-  bool first_show_; ///< 标记主窗口是否是第一次显示。
-  Project *project_; ///< 指向当前活动的项目对象的指针。
+  bool first_show_;   ///< 标记主窗口是否是第一次显示。
+  Project *project_;  ///< 指向当前活动的项目对象的指针。
 
  private slots:
   /**

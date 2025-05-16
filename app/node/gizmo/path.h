@@ -1,12 +1,12 @@
-#ifndef PATHGIZMO_H // 防止头文件被多次包含的宏定义开始
+#ifndef PATHGIZMO_H  // 防止头文件被多次包含的宏定义开始
 #define PATHGIZMO_H
 
-#include <QPainterPath> // Qt 的 QPainterPath 类，用于表示和操作复杂的2D路径
+#include <QPainterPath>  // Qt 的 QPainterPath 类，用于表示和操作复杂的2D路径
 
-#include "draggable.h" // 引入基类 DraggableGizmo (或类似可拖动 Gizmo 基类) 的定义
-                       // 假设 "draggable.h" 是正确的基类头文件名，通常可能是 "draggablegizmo.h"
+#include "draggable.h"  // 引入基类 DraggableGizmo (或类似可拖动 Gizmo 基类) 的定义
+                        // 假设 "draggable.h" 是正确的基类头文件名，通常可能是 "draggablegizmo.h"
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
 /**
  * @brief 代表一个路径 Gizmo (图形交互控件)。
@@ -14,13 +14,13 @@ namespace olive { // Olive 编辑器的命名空间
  * 它继承自 DraggableGizmo，意味着整个路径本身可能支持拖动操作（例如，整体平移多边形）。
  */
 class PathGizmo : public DraggableGizmo {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief PathGizmo 构造函数。
-   * @param parent 父 QObject 对象，默认为 nullptr。
-   */
-  explicit PathGizmo(QObject *parent = nullptr);
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief PathGizmo 构造函数。
+      * @param parent 父 QObject 对象，默认为 nullptr。
+      */
+     explicit PathGizmo(QObject *parent = nullptr);
 
   /**
    * @brief 获取此路径 Gizmo 代表的路径几何信息。
@@ -40,8 +40,8 @@ class PathGizmo : public DraggableGizmo {
    */
   void Draw(QPainter *p) const override;
 
-private:
-  QPainterPath path_; ///< 存储路径的几何数据。QPainterPath 可以包含直线、曲线（如贝塞尔曲线）、子路径等。
+ private:
+  QPainterPath path_;  ///< 存储路径的几何数据。QPainterPath 可以包含直线、曲线（如贝塞尔曲线）、子路径等。
 };
 
 }  // namespace olive

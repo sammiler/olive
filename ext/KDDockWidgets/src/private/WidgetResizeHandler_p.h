@@ -1,15 +1,15 @@
 #ifndef KD_WIDGET_RESIZE_HANDLER_P_H
 #define KD_WIDGET_RESIZE_HANDLER_P_H
 
-#include "kddockwidgets/KDDockWidgets.h"   // KDDockWidgets 公共头文件，包含枚举和基本类型
-#include "kddockwidgets/QWidgetAdapter.h"  // QWidget 和 QQuickItem 的适配器类
-#include "kddockwidgets/Qt5Qt6Compat_p.h"  // Qt5/Qt6 兼容性私有头文件
-#include "kddockwidgets/docks_export.h"    // 导入导出宏定义
+#include "kddockwidgets/KDDockWidgets.h" // KDDockWidgets 公共头文件，包含枚举和基本类型
+#include "kddockwidgets/QWidgetAdapter.h" // QWidget 和 QQuickItem 的适配器类
+#include "kddockwidgets/Qt5Qt6Compat_p.h" // Qt5/Qt6 兼容性私有头文件
+#include "kddockwidgets/docks_export.h" // 导入导出宏定义
 #include "kddockwidgets/private/FloatingWindow_p.h" // FloatingWindow 私有头文件 (WidgetResizeHandler 可能直接操作浮动窗口)
 
-#include <QPoint>                   // Qt 点坐标类
-#include <QPointer>                 // Qt QObject 指针的弱引用
-#include <QDebug>                   // Qt 调试输出类
+#include <QPoint> // Qt 点坐标类
+#include <QPointer> // Qt QObject 指针的弱引用
+#include <QDebug> // Qt 调试输出类
 #include <QAbstractNativeEventFilter> // Qt 抽象原生事件过滤器基类
 
 QT_BEGIN_NAMESPACE
@@ -37,11 +37,11 @@ public:
      * @brief 定义了可以由 WidgetResizeHandler 处理或利用的原生窗口特性。
      */
     enum Feature {
-        Feature_None = 0,                   ///< 无特性。
-        Feature_NativeShadow = 1,           ///< 利用原生窗口阴影（如果平台支持）。
-        Feature_NativeResize = 2,           ///< 利用原生窗口大小调整机制（例如，Windows Aero Snap 的边缘吸附调整）。
-        Feature_NativeDrag = 4,             ///< 利用原生窗口拖拽机制（例如，通过标题栏区域）。
-        Feature_NativeMaximize = 8,         ///< 利用原生窗口最大化机制。
+        Feature_None = 0, ///< 无特性。
+        Feature_NativeShadow = 1, ///< 利用原生窗口阴影（如果平台支持）。
+        Feature_NativeResize = 2, ///< 利用原生窗口大小调整机制（例如，Windows Aero Snap 的边缘吸附调整）。
+        Feature_NativeDrag = 4, ///< 利用原生窗口拖拽机制（例如，通过标题栏区域）。
+        Feature_NativeMaximize = 8, ///< 利用原生窗口最大化机制。
         Feature_All = Feature_NativeShadow | Feature_NativeResize | Feature_NativeDrag | Feature_NativeMaximize ///< 所有原生特性。
     };
     Q_DECLARE_FLAGS(Features, Feature) ///< 将 Feature 枚举声明为可用于 QFlags 的类型。
@@ -136,8 +136,8 @@ public:
      * @brief 定义事件过滤器的模式。
      */
     enum class EventFilterMode {
-        Local = 1,  ///< 事件过滤器仅安装在正在调整大小的小部件上，这是浮动窗口的默认模式。
-        Global = 2  ///< 事件过滤器是应用程序范围的，例如用于嵌入式 MDI 窗口。
+        Local = 1, ///< 事件过滤器仅安装在正在调整大小的小部件上，这是浮动窗口的默认模式。
+        Global = 2 ///< 事件过滤器是应用程序范围的，例如用于嵌入式 MDI 窗口。
     };
 
     /**
@@ -145,7 +145,7 @@ public:
      */
     enum class WindowMode {
         TopLevel = 1, ///< 用于调整顶层窗口（如 FloatingWindow）的大小。
-        MDI = 2       ///< 用于调整 MDI (多文档界面) "窗口"（通常是 Frame）的大小。
+        MDI = 2 ///< 用于调整 MDI (多文档界面) "窗口"（通常是 Frame）的大小。
     };
 
     /**
@@ -283,11 +283,11 @@ private:
 
     QWidgetOrQuick *mTarget = nullptr; ///< 指向正在被调整大小的目标小部件。
     CursorPosition mCursorPos = CursorPosition_Undefined; ///< 当前鼠标位置对应的调整大小区域。
-    QPoint mNewPosition;               ///< 在调整大小过程中，用于存储新的位置或尺寸的临时点。
+    QPoint mNewPosition; ///< 在调整大小过程中，用于存储新的位置或尺寸的临时点。
     bool m_resizingInProgress = false; ///< 标记当前是否正在进行调整大小操作。
     const bool m_usesGlobalEventFilter; ///< 标记此处理器是否使用全局事件过滤器。
     const bool m_isTopLevelWindowResizer; ///< 标记此处理器是否用于顶层窗口。
-    int m_resizeGap = 10;              ///< 调整子小部件大小时的边缘间隙。
+    int m_resizeGap = 10; ///< 调整子小部件大小时的边缘间隙。
     CursorPositions mAllowedResizeSides = CursorPosition_All; ///< 允许用户通过鼠标调整大小的边。
 };
 

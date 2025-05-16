@@ -1,11 +1,11 @@
 #ifndef RESIZABLESCROLLBAR_H
 #define RESIZABLESCROLLBAR_H
 
-#include <QScrollBar>    // Qt 滚动条控件基类
-#include <QMouseEvent>   // Qt 鼠标事件类
-#include <QRect>         // Qt 矩形类
+#include <QMouseEvent>  // Qt 鼠标事件类
+#include <QRect>        // Qt 矩形类
+#include <QScrollBar>   // Qt 滚动条控件基类
 
-#include "common/define.h" // 项目通用定义
+#include "common/define.h"  // 项目通用定义
 
 // 前向声明 Qt 类 (根据用户要求，不添加)
 // class QWidget; // QScrollBar 的基类 QAbstractSlider 的基类 QWidget
@@ -19,14 +19,14 @@ namespace olive {
  * 它通过发出信号来通知外部有关调整大小操作的开始、过程和结束。
  */
 class ResizableScrollBar : public QScrollBar {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit ResizableScrollBar(QWidget* parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit ResizableScrollBar(QWidget* parent = nullptr);
   /**
    * @brief 构造函数，允许指定滚动条的方向。
    * @param orientation 滚动条的方向 (Qt::Horizontal 或 Qt::Vertical)。
@@ -85,7 +85,7 @@ class ResizableScrollBar : public QScrollBar {
    */
   QRect GetScrollBarRect();
 
-  static const int kHandleWidth; ///< 定义调整大小手柄的宽度/厚度（像素）。
+  static const int kHandleWidth;  ///< 定义调整大小手柄的宽度/厚度（像素）。
 
   /**
    * @brief MouseHandleState 枚举定义了鼠标当前在哪一个调整大小手柄上（或不在任何手柄上）。
@@ -114,11 +114,11 @@ class ResizableScrollBar : public QScrollBar {
    */
   int GetActiveBarSize();
 
-  MouseHandleState mouse_handle_state_; ///< 存储当前鼠标相对于调整大小手柄的状态。
+  MouseHandleState mouse_handle_state_;  ///< 存储当前鼠标相对于调整大小手柄的状态。
 
-  bool dragging_{}; ///< 标记当前是否正在拖动调整大小手柄。初始化为 false。
+  bool dragging_{};  ///< 标记当前是否正在拖动调整大小手柄。初始化为 false。
 
-  int drag_start_point_{}; ///< 开始拖动调整大小时，鼠标在主轴方向上的初始位置。初始化为 0。
+  int drag_start_point_{};  ///< 开始拖动调整大小时，鼠标在主轴方向上的初始位置。初始化为 0。
 };
 
 }  // namespace olive

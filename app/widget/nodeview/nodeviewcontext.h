@@ -1,17 +1,17 @@
 #ifndef NODEVIEWCONTEXT_H
 #define NODEVIEWCONTEXT_H
 
-#include <QGraphicsRectItem>   // Qt 图形矩形项基类
-#include <QGraphicsTextItem>   // Qt 图形文本项基类 (虽然未直接使用，但可能在实现中用于显示标签)
-#include <QMap>                // Qt 映射容器 (用于 item_map_)
-#include <QObject>             // Qt 对象模型基类 (NodeViewContext 的父类之一)
-#include <QVector>             // Qt 动态数组容器 (用于 edges_)
+#include <QGraphicsRectItem>  // Qt 图形矩形项基类
+#include <QGraphicsTextItem>  // Qt 图形文本项基类 (虽然未直接使用，但可能在实现中用于显示标签)
+#include <QMap>               // Qt 映射容器 (用于 item_map_)
+#include <QObject>            // Qt 对象模型基类 (NodeViewContext 的父类之一)
+#include <QVector>            // Qt 动态数组容器 (用于 edges_)
 
-#include "node/node.h"        // 节点基类定义
-#include "node/nodeundo.h"    // 节点相关的撤销命令 (例如 NodeViewDeleteCommand)
-#include "nodeviewcommon.h"   // 节点视图通用定义 (例如 FlowDirection)
-#include "nodeviewedge.h"     // 节点视图中的连接线项
-#include "nodeviewitem.h"     // 节点视图中的单个节点图形项 (NodeViewContext 管理这些项)
+#include "node/node.h"       // 节点基类定义
+#include "node/nodeundo.h"   // 节点相关的撤销命令 (例如 NodeViewDeleteCommand)
+#include "nodeviewcommon.h"  // 节点视图通用定义 (例如 FlowDirection)
+#include "nodeviewedge.h"    // 节点视图中的连接线项
+#include "nodeviewitem.h"    // 节点视图中的单个节点图形项 (NodeViewContext 管理这些项)
 
 // 前向声明 Qt 类 (根据用户要求，不添加)
 // class QPainter;
@@ -38,15 +38,15 @@ namespace olive {
  * 此类继承自 QObject 以支持信号和槽，并继承自 QGraphicsRectItem 以便在 QGraphicsScene 中绘制为一个矩形。
  */
 class NodeViewContext : public QObject, public QGraphicsRectItem {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param context 此图形上下文所代表的实际 Node 对象（例如一个 NodeGroup）。
-   * @param item 父 QGraphicsItem 指针，默认为 nullptr。
-   */
-  explicit NodeViewContext(Node *context, QGraphicsItem *item = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param context 此图形上下文所代表的实际 Node 对象（例如一个 NodeGroup）。
+      * @param item 父 QGraphicsItem 指针，默认为 nullptr。
+      */
+     explicit NodeViewContext(Node *context, QGraphicsItem *item = nullptr);
 
   /**
    * @brief 析构函数。
@@ -195,19 +195,19 @@ class NodeViewContext : public QObject, public QGraphicsRectItem {
    */
   void AddEdgeInternal(Node *output, const NodeInput &input, NodeViewItem *from, NodeViewItem *to);
 
-  Node *context_; ///< 此图形上下文所代表的实际 Node 对象（通常是 NodeGroup）。
+  Node *context_;  ///< 此图形上下文所代表的实际 Node 对象（通常是 NodeGroup）。
 
-  QString lbl_; ///< 可能用于显示在上下文矩形上的标签文本（例如组名）。
+  QString lbl_;  ///< 可能用于显示在上下文矩形上的标签文本（例如组名）。
 
-  NodeViewCommon::FlowDirection flow_dir_; ///< 此上下文中子项的布局流向。
+  NodeViewCommon::FlowDirection flow_dir_;  ///< 此上下文中子项的布局流向。
 
-  bool curved_edges_{}; ///< 标记此上下文中的连接线是否应绘制为曲线。默认为 false。
+  bool curved_edges_{};  ///< 标记此上下文中的连接线是否应绘制为曲线。默认为 false。
 
-  int last_titlebar_height_{}; ///< 上一次计算的标题栏高度，可能用于布局。
+  int last_titlebar_height_{};  ///< 上一次计算的标题栏高度，可能用于布局。
 
-  QMap<Node *, NodeViewItem *> item_map_; ///< 存储此上下文中包含的 Node 与其对应的 NodeViewItem 的映射。
+  QMap<Node *, NodeViewItem *> item_map_;  ///< 存储此上下文中包含的 Node 与其对应的 NodeViewItem 的映射。
 
-  QVector<NodeViewEdge *> edges_; ///< 存储此上下文中所有连接线的列表。
+  QVector<NodeViewEdge *> edges_;  ///< 存储此上下文中所有连接线的列表。
 
  private slots:
   /**

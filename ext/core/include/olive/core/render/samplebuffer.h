@@ -1,13 +1,13 @@
 #ifndef LIBOLIVECORE_SAMPLEBUFFER_H
 #define LIBOLIVECORE_SAMPLEBUFFER_H
 
-#include <memory> // 引入智能指针等内存管理工具 (虽然在此文件中未直接使用，但可能是大型项目的一部分)
-#include <vector> // 引入 std::vector，用于存储每个声道的采样数据
+#include <memory>  // 引入智能指针等内存管理工具 (虽然在此文件中未直接使用，但可能是大型项目的一部分)
+#include <vector>  // 引入 std::vector，用于存储每个声道的采样数据
 
-#include "../util/rational.h" // 引入 rational 类，用于精确表示时间长度
-#include "audioparams.h"      // 引入 AudioParams 类的定义，SampleBuffer 与音频参数紧密相关
+#include "../util/rational.h"  // 引入 rational 类，用于精确表示时间长度
+#include "audioparams.h"       // 引入 AudioParams 类的定义，SampleBuffer 与音频参数紧密相关
 
-namespace olive::core { // Olive 核心功能命名空间
+namespace olive::core {  // Olive 核心功能命名空间
 
 /**
  * @brief 存储音频采样的缓冲区。
@@ -104,9 +104,9 @@ class SampleBuffer {
    * @return 返回一个 std::vector<float*>，其中每个元素指向对应声道数据的开头。
    */
   std::vector<float*> to_raw_ptrs() {
-    std::vector<float*> r(data_.size()); // 创建一个大小与声道数相同的指针向量
+    std::vector<float*> r(data_.size());  // 创建一个大小与声道数相同的指针向量
     for (size_t i = 0; i < r.size(); i++) {
-      r[i] = data_[i].data(); // 将每个声道的 data() 指针存入向量
+      r[i] = data_[i].data();  // 将每个声道的 data() 指针存入向量
     }
     return r;
   }
@@ -226,9 +226,9 @@ class SampleBuffer {
    */
   void clamp_channel(int channel);
 
-  AudioParams audio_params_; ///< 存储此缓冲区的音频参数（采样率、格式、声道布局等）。
+  AudioParams audio_params_;  ///< 存储此缓冲区的音频参数（采样率、格式、声道布局等）。
 
-  size_t sample_count_per_channel_; ///< 每个声道的采样数量。
+  size_t sample_count_per_channel_;  ///< 每个声道的采样数量。
 
   /**
    * @brief 存储实际音频数据的二维向量。

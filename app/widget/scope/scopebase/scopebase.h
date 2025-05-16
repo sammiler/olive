@@ -1,14 +1,14 @@
 #ifndef SCOPEBASE_H
 #define SCOPEBASE_H
 
-#include "codec/frame.h"                         // 帧数据结构 (虽然未直接使用 Frame，但 TexturePtr 可能与帧数据相关)
-#include "render/colorprocessor.h"               // 色彩处理器类 (ColorProcessorPtr)
-#include "widget/manageddisplay/manageddisplay.h"// 受管显示控件基类 (ScopeBase 的父类)
-#include "render/texture.h"                      // 纹理类 (TexturePtr)
-#include "render/shadercode.h"                   // 着色器代码封装类
-#include <QVariant>                              // Qt 通用数据类型 (用于 pipeline_)
-#include <QWidget>                               // Qt 控件基类 (ManagedDisplayWidget 的基类)
-#include <QShowEvent>                            // Qt 显示事件类
+#include <QShowEvent>                              // Qt 显示事件类
+#include <QVariant>                                // Qt 通用数据类型 (用于 pipeline_)
+#include <QWidget>                                 // Qt 控件基类 (ManagedDisplayWidget 的基类)
+#include "codec/frame.h"                           // 帧数据结构 (虽然未直接使用 Frame，但 TexturePtr 可能与帧数据相关)
+#include "render/colorprocessor.h"                 // 色彩处理器类 (ColorProcessorPtr)
+#include "render/shadercode.h"                     // 着色器代码封装类
+#include "render/texture.h"                        // 纹理类 (TexturePtr)
+#include "widget/manageddisplay/manageddisplay.h"  // 受管显示控件基类 (ScopeBase 的父类)
 
 // 前向声明 Qt 类 (根据用户要求，不添加)
 // class QOpenGLContext; // ManagedDisplayWidget 可能使用
@@ -23,14 +23,14 @@ namespace olive {
  * 它接收视频帧作为输入纹理，并管理其显示和更新。
  */
 class ScopeBase : public ManagedDisplayWidget {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit ScopeBase(QWidget* parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit ScopeBase(QWidget* parent = nullptr);
 
   /**
    * @brief 使用宏定义的默认析构函数。
@@ -48,7 +48,7 @@ class ScopeBase : public ManagedDisplayWidget {
    */
   void SetBuffer(TexturePtr frame);
 
- protected slots: // 这些是重写 ManagedDisplayWidget 的虚函数槽
+ protected slots:  // 这些是重写 ManagedDisplayWidget 的虚函数槽
   /**
    * @brief 重写的 OpenGL 初始化槽函数。
    *
@@ -96,14 +96,14 @@ class ScopeBase : public ManagedDisplayWidget {
   virtual void DrawScope(TexturePtr managed_tex, QVariant pipeline);
 
  private:
-  QVariant pipeline_; ///< 存储主渲染管线（通常是编译后的着色器程序）的句柄或相关数据。
+  QVariant pipeline_;  ///< 存储主渲染管线（通常是编译后的着色器程序）的句柄或相关数据。
 
-  TexturePtr texture_; ///< 指向原始输入视频帧纹理的智能指针。
+  TexturePtr texture_;  ///< 指向原始输入视频帧纹理的智能指针。
 
-  TexturePtr managed_tex_; ///< 指向经过色彩管理（如果需要）处理后的视频帧纹理的智能指针。
-                           ///< 这是实际传递给 DrawScope 进行分析和显示的纹理。
+  TexturePtr managed_tex_;  ///< 指向经过色彩管理（如果需要）处理后的视频帧纹理的智能指针。
+                            ///< 这是实际传递给 DrawScope 进行分析和显示的纹理。
 
-  bool managed_tex_up_to_date_; ///< 标记 managed_tex_ 是否已根据最新的 texture_ 和色彩管理设置更新。
+  bool managed_tex_up_to_date_;  ///< 标记 managed_tex_ 是否已根据最新的 texture_ 和色彩管理设置更新。
 };
 
 }  // namespace olive

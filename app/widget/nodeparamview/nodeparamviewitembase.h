@@ -1,10 +1,10 @@
 #ifndef NODEPARAMVIEWITEMBASE_H
 #define NODEPARAMVIEWITEMBASE_H
 
-#include <QDockWidget> // Qt 可停靠控件基类
+#include <QDockWidget>  // Qt 可停靠控件基类
 
-#include "node/node.h"                         // 节点基类 (用于 GetTitleBarTextFromNode)
-#include "nodeparamviewitemtitlebar.h"         // 节点参数视图项的自定义标题栏
+#include "node/node.h"                  // 节点基类 (用于 GetTitleBarTextFromNode)
+#include "nodeparamviewitemtitlebar.h"  // 节点参数视图项的自定义标题栏
 
 // 前向声明 Qt 类 (根据用户要求，不添加)
 // class QWidget;
@@ -24,23 +24,23 @@ namespace olive {
  * 它还处理高亮、展开/折叠状态以及相关的用户交互和信号。
  */
 class NodeParamViewItemBase : public QDockWidget {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit NodeParamViewItemBase(QWidget *parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit NodeParamViewItemBase(QWidget *parent = nullptr);
 
   /**
    * @brief 设置此项的高亮状态。
    * @param e 如果为 true，则高亮显示此项；否则取消高亮。
    */
   void SetHighlighted(bool e) {
-    highlighted_ = e; // 更新高亮状态标志
+    highlighted_ = e;  // 更新高亮状态标志
 
-    update(); // 请求重绘以反映高亮变化
+    update();  // 请求重绘以反映高亮变化
   }
 
   /**
@@ -157,13 +157,13 @@ class NodeParamViewItemBase : public QDockWidget {
   virtual void Retranslate() {}
 
  private:
-  NodeParamViewItemTitleBar *title_bar_; ///< 指向自定义标题栏控件的指针。
+  NodeParamViewItemTitleBar *title_bar_;  ///< 指向自定义标题栏控件的指针。
 
-  QWidget *body_{}; ///< 指向作为此项主体内容的 QWidget 的指针。初始化为 nullptr。
+  QWidget *body_{};  ///< 指向作为此项主体内容的 QWidget 的指针。初始化为 nullptr。
 
-  QWidget *hidden_body_; ///< 可能用于在折叠时临时存放 body_ 控件，或者是一个占位符。
+  QWidget *hidden_body_;  ///< 可能用于在折叠时临时存放 body_ 控件，或者是一个占位符。
 
-  bool highlighted_; ///< 标记此项当前是否处于高亮状态。
+  bool highlighted_;  ///< 标记此项当前是否处于高亮状态。
 };
 
 }  // namespace olive

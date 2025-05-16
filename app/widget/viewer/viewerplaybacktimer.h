@@ -12,7 +12,7 @@ namespace olive {
  * 用于管理和计算查看器的播放时间。
  */
 class ViewerPlaybackTimer {
-public:
+ public:
   /**
    * @brief 启动计时器。
    * @param start_timestamp 播放开始的时间戳。
@@ -28,7 +28,7 @@ public:
    */
   [[nodiscard]] int64_t GetTimestampNow() const;
 
-private:
+ private:
   /**
    * @brief 计时器启动时的毫秒数（基于 QTime::elapsed()）。
    */

@@ -1,16 +1,16 @@
 #ifndef KD_DOCKREGISTRY_P_H
 #define KD_DOCKREGISTRY_P_H
 
-#include "kddockwidgets/DockWidgetBase.h"   // 包含停靠部件基类的公共头文件
+#include "kddockwidgets/DockWidgetBase.h" // 包含停靠部件基类的公共头文件
 #include "kddockwidgets/MainWindowBase.h" // 包含主窗口基类的公共头文件
 
-#include "kddockwidgets/private/Frame_p.h"  // 包含 Frame 私有头文件
+#include "kddockwidgets/private/Frame_p.h" // 包含 Frame 私有头文件
 
-#include <QVector>   // 包含 QVector 类
-#include <QObject>   // 包含 QObject 基类
-#include <QPointer>  // 包含 QPointer 类，用于安全地跟踪 QObject 对象
+#include <QVector> // 包含 QVector 类
+#include <QObject> // 包含 QObject 基类
+#include <QPointer> // 包含 QPointer 类，用于安全地跟踪 QObject 对象
 #include <QStringList> // 包含 QStringList 类
-#include <QHash>       // 包含 QHash 类
+#include <QHash> // 包含 QHash 类
 
 // 前向声明 Qt 命名空间内的类
 QT_BEGIN_NAMESPACE
@@ -60,9 +60,9 @@ public:
      * @brief 枚举类，定义通过名称查找停靠部件时的行为标志。
      */
     enum class DockByNameFlag {
-        None = 0,             ///< 无特殊标志，如果找不到则返回 nullptr。
+        None = 0, ///< 无特殊标志，如果找不到则返回 nullptr。
         ConsultRemapping = 1, ///< 查找时考虑 ID 重映射（用于布局恢复）。
-        CreateIfNotFound = 2  ///< 如果找不到停靠部件，则尝试通过用户提供的部件工厂创建它。
+        CreateIfNotFound = 2 ///< 如果找不到停靠部件，则尝试通过用户提供的部件工厂创建它。
     };
     Q_DECLARE_FLAGS(DockByNameFlags, DockByNameFlag) // 为 DockByNameFlag 声明一个 Qt 标志类型 DockByNameFlags
 
@@ -507,12 +507,12 @@ private:
      */
     void setFocusedDockWidget(DockWidgetBase *dw);
 
-    bool m_isProcessingAppQuitEvent = false;      ///< 标记当前是否正在处理应用程序退出事件。
-    DockWidgetBase::List m_dockWidgets;           ///< 存储所有已注册的停靠部件的列表。
-    MainWindowBase::List m_mainWindows;           ///< 存储所有已注册的主窗口的列表。
-    QList<Frame *> m_frames;                      ///< 存储所有已注册的框架的列表。
-    QVector<FloatingWindow *> m_floatingWindows;  ///< 存储所有已注册的浮动窗口的向量。
-    QVector<LayoutWidget *> m_layouts;            ///< 存储所有已注册的布局部件的向量。
+    bool m_isProcessingAppQuitEvent = false; ///< 标记当前是否正在处理应用程序退出事件。
+    DockWidgetBase::List m_dockWidgets; ///< 存储所有已注册的停靠部件的列表。
+    MainWindowBase::List m_mainWindows; ///< 存储所有已注册的主窗口的列表。
+    QList<Frame *> m_frames; ///< 存储所有已注册的框架的列表。
+    QVector<FloatingWindow *> m_floatingWindows; ///< 存储所有已注册的浮动窗口的向量。
+    QVector<LayoutWidget *> m_layouts; ///< 存储所有已注册的布局部件的向量。
     QPointer<DockWidgetBase> m_focusedDockWidget; ///< 使用 QPointer 安全地跟踪当前拥有焦点的停靠部件。
 
     /**

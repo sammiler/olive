@@ -1,13 +1,13 @@
-#ifndef FRAMEMANAGER_H // 防止头文件被重复包含的宏
-#define FRAMEMANAGER_H // 定义 FRAMEMANAGER_H 宏
+#ifndef FRAMEMANAGER_H  // 防止头文件被重复包含的宏
+#define FRAMEMANAGER_H  // 定义 FRAMEMANAGER_H 宏
 
-#include <QMutex>  // Qt 互斥锁类，用于线程同步
-#include <QObject> // Qt 对象模型基类
-#include <QTimer>  // Qt 定时器类
+#include <QMutex>   // Qt 互斥锁类，用于线程同步
+#include <QObject>  // Qt 对象模型基类
+#include <QTimer>   // Qt 定时器类
 
 // 假设 std::map 和 std::list 已通过标准库头文件被包含。
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
 /**
  * @brief FrameManager 类是一个单例对象，负责管理视频帧数据缓冲区的内存分配和回收。
@@ -19,12 +19,13 @@ namespace olive { // olive 项目的命名空间
  *
  * 所有分配和释放操作都设计为线程安全的。
  */
-class FrameManager : public QObject { // FrameManager 继承自 QObject
-  Q_OBJECT // 声明此类使用 Qt 的元对象系统
+class FrameManager : public QObject {  // FrameManager 继承自 QObject
+ Q_OBJECT                              // 声明此类使用 Qt 的元对象系统
 
- public:
-  // (静态) 创建 FrameManager 的单例实例
-  static void CreateInstance();
+     public :
+     // (静态) 创建 FrameManager 的单例实例
+     static void
+     CreateInstance();
 
   // (静态) 销毁 FrameManager 的单例实例
   static void DestroyInstance();
@@ -78,7 +79,7 @@ class FrameManager : public QObject { // FrameManager 继承自 QObject
    */
   void DeallocateToPool(int size, char* buffer);
 
-  static FrameManager* instance_; // FrameManager 的静态单例实例指针
+  static FrameManager* instance_;  // FrameManager 的静态单例实例指针
 
   // 定义帧缓冲区在内存池中保持的最长生命周期 (可能是毫秒或其他时间单位)
   // 用于垃圾回收。
@@ -86,19 +87,19 @@ class FrameManager : public QObject { // FrameManager 继承自 QObject
 
   // 内部结构体，用于在内存池中存储缓冲区及其相关信息
   struct Buffer {
-    qint64 time; // 缓冲区被归还到池中的时间戳 (或最后使用时间)
-    char* data;  // 指向实际内存块的指针
+    qint64 time;  // 缓冲区被归还到池中的时间戳 (或最后使用时间)
+    char* data;   // 指向实际内存块的指针
   };
 
   // 内存池，使用 std::map 将缓冲区大小映射到一个 Buffer 列表。
   // 键是缓冲区大小 (int)，值是包含该大小的所有空闲缓冲区的 std::list<Buffer>。
   std::map<int, std::list<Buffer> > pool_;
 
-  QMutex mutex_; // 互斥锁，用于保护对内存池 `pool_` 的线程安全访问
+  QMutex mutex_;  // 互斥锁，用于保护对内存池 `pool_` 的线程安全访问
 
-  QTimer clear_timer_; // 定时器，用于定期触发垃圾回收操作
+  QTimer clear_timer_;  // 定时器，用于定期触发垃圾回收操作
 
- private slots: // Qt 私有槽函数
+ private slots:  // Qt 私有槽函数
   /**
    * @brief 执行垃圾回收的槽函数。
    * 定期检查内存池中是否有超过生命周期的空闲缓冲区，并释放它们。

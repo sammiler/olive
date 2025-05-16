@@ -1,10 +1,10 @@
 #ifndef TRANSFORMDISTORTNODE_H
 #define TRANSFORMDISTORTNODE_H
 
-#include "node/generator/matrix/matrix.h" // 引入基类 MatrixGenerator，表明此节点生成一个变换矩阵
-#include "node/gizmo/point.h"             // 引入点 Gizmo (交互控件)
-#include "node/gizmo/polygon.h"           // 引入多边形 Gizmo
-#include "node/gizmo/screen.h"            // 引入屏幕 Gizmo (可能用于旋转等)
+#include "node/generator/matrix/matrix.h"  // 引入基类 MatrixGenerator，表明此节点生成一个变换矩阵
+#include "node/gizmo/point.h"              // 引入点 Gizmo (交互控件)
+#include "node/gizmo/polygon.h"            // 引入多边形 Gizmo
+#include "node/gizmo/screen.h"             // 引入屏幕 Gizmo (可能用于旋转等)
 
 namespace olive {
 
@@ -14,14 +14,14 @@ namespace olive {
  * 它继承自 MatrixGenerator，核心是生成一个 4x4 的变换矩阵。
  */
 class TransformDistortNode : public MatrixGenerator {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief TransformDistortNode 构造函数。
-   */
-  TransformDistortNode();
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief TransformDistortNode 构造函数。
+      */
+     TransformDistortNode();
 
-  NODE_DEFAULT_FUNCTIONS(TransformDistortNode) // 节点默认功能宏，可能包含克隆、类型信息等标准实现
+  NODE_DEFAULT_FUNCTIONS(TransformDistortNode)  // 节点默认功能宏，可能包含克隆、类型信息等标准实现
 
   /**
    * @brief 获取此节点的名称。
@@ -117,10 +117,10 @@ class TransformDistortNode : public MatrixGenerator {
   QTransform GizmoTransformation(const NodeValueRow &row, const NodeGlobals &globals) const override;
 
   // --- 静态常量，用作节点输入参数的键名 ---
-  static const QString kParentInput;          ///< "ParentMatrix" - 父级变换矩阵的输入参数键名（用于层级变换）。
-  static const QString kTextureInput;         ///< "Texture" - 输入纹理（图像）的参数键名。
-  static const QString kAutoscaleInput;       ///< "Autoscale" - 自动缩放类型的参数键名。
-  static const QString kInterpolationInput;   ///< "Interpolation" - 图像插值方式（如双线性、最近邻）的参数键名。
+  static const QString kParentInput;         ///< "ParentMatrix" - 父级变换矩阵的输入参数键名（用于层级变换）。
+  static const QString kTextureInput;        ///< "Texture" - 输入纹理（图像）的参数键名。
+  static const QString kAutoscaleInput;      ///< "Autoscale" - 自动缩放类型的参数键名。
+  static const QString kInterpolationInput;  ///< "Interpolation" - 图像插值方式（如双线性、最近邻）的参数键名。
 
  protected slots:
   /**
@@ -182,7 +182,7 @@ class TransformDistortNode : public MatrixGenerator {
    * @brief 定义 Gizmo 旋转方向的枚举。
    */
   enum RotationDirection {
-    kDirectionNone,     ///< 无方向或未确定
+    kDirectionNone,      ///< 无方向或未确定
     kDirectionPositive,  ///< 正方向 (通常为顺时针)
     kDirectionNegative   ///< 负方向 (通常为逆时针)
   };
@@ -201,20 +201,20 @@ class TransformDistortNode : public MatrixGenerator {
    * @brief 定义 Gizmo 缩放操作的类型。
    */
   enum GizmoScaleType {
-    kGizmoScaleXOnly, ///< 仅在 X 轴方向缩放
-    kGizmoScaleYOnly, ///< 仅在 Y 轴方向缩放
-    kGizmoScaleBoth   ///< 在 X 和 Y 轴方向同时缩放（可能等比或不等比）
+    kGizmoScaleXOnly,  ///< 仅在 X 轴方向缩放
+    kGizmoScaleYOnly,  ///< 仅在 Y 轴方向缩放
+    kGizmoScaleBoth    ///< 在 X 和 Y 轴方向同时缩放（可能等比或不等比）
   };
 
-  GizmoScaleType gizmo_scale_axes_; ///< 当前 Gizmo 缩放操作的类型。
-  QVector2D gizmo_scale_anchor_;    ///< Gizmo 缩放操作的锚点（通常是与拖动点相对的角点或边）。
+  GizmoScaleType gizmo_scale_axes_;  ///< 当前 Gizmo 缩放操作的类型。
+  QVector2D gizmo_scale_anchor_;     ///< Gizmo 缩放操作的锚点（通常是与拖动点相对的角点或边）。
 
   // --- Gizmo 屏幕对象存储 ---
   // static const int kGizmoScaleCount = 8; // 假设 kGizmoScaleCount 在 .cpp 文件中定义，表示缩放/边框控制点数量
-  PointGizmo *point_gizmo_[/*kGizmoScaleCount*/8]{}; ///< 指向各个缩放/边框控制点 Gizmo (PointGizmo) 的指针数组。
-  PointGizmo *anchor_gizmo_;                         ///< 指向锚点 Gizmo (PointGizmo) 的指针。
-  PolygonGizmo *poly_gizmo_;                         ///< 指向代表整个可交互边界框的 Gizmo (PolygonGizmo) 的指针。
-  ScreenGizmo *rotation_gizmo_;                      ///< 指向用于旋转操作的 Gizmo (ScreenGizmo) 的指针。
+  PointGizmo *point_gizmo_[/*kGizmoScaleCount*/ 8]{};  ///< 指向各个缩放/边框控制点 Gizmo (PointGizmo) 的指针数组。
+  PointGizmo *anchor_gizmo_;                           ///< 指向锚点 Gizmo (PointGizmo) 的指针。
+  PolygonGizmo *poly_gizmo_;                           ///< 指向代表整个可交互边界框的 Gizmo (PolygonGizmo) 的指针。
+  ScreenGizmo *rotation_gizmo_;                        ///< 指向用于旋转操作的 Gizmo (ScreenGizmo) 的指针。
 };
 
 }  // namespace olive

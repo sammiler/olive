@@ -1,11 +1,11 @@
 #ifndef PIXELFORMATCOMBOBOX_H
 #define PIXELFORMATCOMBOBOX_H
 
-#include <QComboBox> // Qt 组合框控件基类
-#include <QWidget>   // Qt 控件基类 (QComboBox 的基类)
-#include <QVariant>  // Qt 通用数据类型类 (用于 addItem 的 userData)
+#include <QComboBox>  // Qt 组合框控件基类
+#include <QVariant>   // Qt 通用数据类型类 (用于 addItem 的 userData)
+#include <QWidget>    // Qt 控件基类 (QComboBox 的基类)
 
-#include "render/videoparams.h" // 视频参数定义 (包含 PixelFormat 枚举和 GetFormatName)
+#include "render/videoparams.h"  // 视频参数定义 (包含 PixelFormat 枚举和 GetFormatName)
 
 namespace olive {
 
@@ -16,17 +16,18 @@ namespace olive {
  * 可以选择只显示浮点类型的像素格式。
  */
 class PixelFormatComboBox : public QComboBox {
-  Q_OBJECT // Qt 元对象系统宏 (虽然此类中没有显式定义信号或槽，但基类 QComboBox 有)
+ Q_OBJECT  // Qt 元对象系统宏 (虽然此类中没有显式定义信号或槽，但基类 QComboBox 有)
 
- public:
-  /**
-   * @brief 构造函数。
-   *
-   * 初始化组合框，并根据 float_only 参数填充支持的像素格式。
-   * @param float_only 如果为 true，则只添加浮点类型的像素格式；否则添加所有支持的格式。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit PixelFormatComboBox(bool float_only, QWidget* parent = nullptr) : QComboBox(parent) {
+     public :
+     /**
+      * @brief 构造函数。
+      *
+      * 初始化组合框，并根据 float_only 参数填充支持的像素格式。
+      * @param float_only 如果为 true，则只添加浮点类型的像素格式；否则添加所有支持的格式。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit PixelFormatComboBox(bool float_only, QWidget* parent = nullptr)
+     : QComboBox(parent) {
     // 设置预览格式
     // 遍历 PixelFormat 枚举中定义的所有格式
     for (int i = 0; i < PixelFormat::COUNT; i++) {
@@ -62,8 +63,8 @@ class PixelFormatComboBox : public QComboBox {
     for (int i = 0; i < this->count(); i++) {
       // 如果当前项的用户数据（即像素格式的枚举整数值）与给定的 fmt 匹配
       if (this->itemData(i).toInt() == static_cast<int>(fmt)) {
-        this->setCurrentIndex(i); // 设置此项为当前选中项
-        break;                    // 找到匹配项后即可退出循环
+        this->setCurrentIndex(i);  // 设置此项为当前选中项
+        break;                     // 找到匹配项后即可退出循环
       }
     }
   }

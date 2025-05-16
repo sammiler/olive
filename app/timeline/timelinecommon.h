@@ -1,11 +1,11 @@
 #ifndef TIMELINECOMMON_H
 #define TIMELINECOMMON_H
 
-#include <olive/core/core.h> // 引入 Olive 核心库的头文件，提供基础数据结构和功能
+#include <olive/core/core.h>  // 引入 Olive 核心库的头文件，提供基础数据结构和功能
 
-#include "common/define.h" // 引入项目内通用的定义文件
+#include "common/define.h"  // 引入项目内通用的定义文件
 
-using namespace olive::core; // 使用 olive::core 命名空间，方便直接访问其成员
+using namespace olive::core;  // 使用 olive::core 命名空间，方便直接访问其成员
 
 namespace olive {
 
@@ -20,15 +20,15 @@ class Track;
  * 这个类本身通常不被实例化，而是提供一组静态定义，用于描述时间轴的各种状态和操作模式。
  */
 class Timeline {
-public:
+ public:
   /**
    * @brief 定义时间轴上元素的操作模式。
    */
   enum MovementMode {
-    kNone,     // 无操作模式
-    kMove,     // 移动模式，用于移动整个区块
-    kTrimIn,   // 裁切入点模式，用于调整区块的开始时间
-    kTrimOut   // 裁切出点模式，用于调整区块的结束时间
+    kNone,    // 无操作模式
+    kMove,    // 移动模式，用于移动整个区块
+    kTrimIn,  // 裁切入点模式，用于调整区块的开始时间
+    kTrimOut  // 裁切出点模式，用于调整区块的结束时间
   };
 
   /**
@@ -44,8 +44,8 @@ public:
    * @brief 定义时间轴上音频波形的显示模式。
    */
   enum WaveformMode {
-    kWaveformsDisabled, // 禁用波形显示
-    kWaveformsEnabled   // 启用波形显示
+    kWaveformsDisabled,  // 禁用波形显示
+    kWaveformsEnabled    // 启用波形显示
   };
 
   /**

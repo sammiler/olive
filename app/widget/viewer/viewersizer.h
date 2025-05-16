@@ -1,13 +1,13 @@
 #ifndef VIEWERSIZER_H
 #define VIEWERSIZER_H
 
-#include <olive/core/core.h> // 包含 olive 核心库的头文件
-#include <QScrollBar>        // 包含 QScrollBar 类的头文件
-#include <QWidget>           // 包含 QWidget 类的头文件
+#include <olive/core/core.h>  // 包含 olive 核心库的头文件
+#include <QScrollBar>         // 包含 QScrollBar 类的头文件
+#include <QWidget>            // 包含 QWidget 类的头文件
 
 namespace olive {
 
-using namespace core; // 使用 core 命名空间
+using namespace core;  // 使用 core 命名空间
 
 /**
  * @brief 一个容器小部件，用于强制子小部件的宽高比。
@@ -19,13 +19,13 @@ using namespace core; // 使用 core 命名空间
  * 则小部件将被隐藏，直到提供有效的尺寸。
  */
 class ViewerSizer : public QWidget {
-  Q_OBJECT // Q_OBJECT宏，用于支持 Qt 的元对象系统（信号、槽等）
- public:
-  /**
-   * @brief ViewerSizer 的显式构造函数。
-   * @param parent 父 QWidget 指针，默认为 nullptr。
-   */
-  explicit ViewerSizer(QWidget* parent = nullptr);
+ Q_OBJECT  // Q_OBJECT宏，用于支持 Qt 的元对象系统（信号、槽等）
+     public :
+     /**
+      * @brief ViewerSizer 的显式构造函数。
+      * @param parent 父 QWidget 指针，默认为 nullptr。
+      */
+     explicit ViewerSizer(QWidget* parent = nullptr);
 
   /**
    * @brief 设置由此小部件调整的子小部件。

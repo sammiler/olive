@@ -1,11 +1,11 @@
 #ifndef OIIODECODER_H
 #define OIIODECODER_H
 
-#include <OpenImageIO/imagebuf.h> // OIIO 图像缓冲区相关
-#include <OpenImageIO/imageio.h> // OIIO 图像输入输出核心
+#include <OpenImageIO/imagebuf.h>  // OIIO 图像缓冲区相关
+#include <OpenImageIO/imageio.h>   // OIIO 图像输入输出核心
 
-#include "codec/decoder.h"      // 基类 Decoder
-#include "common/define.h"      // 包含 olive::PixelFormat, olive::Frame 等
+#include "codec/decoder.h"  // 基类 Decoder
+#include "common/define.h"  // 包含 olive::PixelFormat, olive::Frame 等
 
 // #include <memory> // 为了 std::unique_ptr (如果未通过其他头文件包含)
 // #include <QStringList> // 为了 QStringList (如果未通过其他头文件包含)

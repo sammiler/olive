@@ -1,11 +1,11 @@
 #ifndef COMMANDLINEPARSER_H
 #define COMMANDLINEPARSER_H
 
+#include <QString>  // 为了 QString
 #include <QStringList>
 #include <QVector>
-#include <QString> // 为了 QString
 
-#include "common/define.h" // 包含 DISABLE_COPY_MOVE 宏
+#include "common/define.h"  // 包含 DISABLE_COPY_MOVE 宏
 
 // 命名空间 olive 通常在外部，但此类没有明确指定命名空间，按原样处理
 // namespace olive { (如果此类应在olive命名空间内)
@@ -123,7 +123,8 @@ class CommandLineParser {
    * @param name 参数的名称，用于帮助信息。
    * @param description 参数的描述，用于帮助信息。
    * @param required 此位置参数是否必需，默认为 false。
-   * @return const PositionalArgument* 指向内部创建的 PositionalArgument 对象的指针，用于后续查询参数值。调用者不拥有此指针。
+   * @return const PositionalArgument* 指向内部创建的 PositionalArgument
+   * 对象的指针，用于后续查询参数值。调用者不拥有此指针。
    */
   const PositionalArgument* AddPositionalArgument(const QString& name, const QString& description,
                                                   bool required = false);
@@ -147,12 +148,12 @@ class CommandLineParser {
    * @brief 内部结构体，用于存储已知的命令行选项及其属性。
    */
   struct KnownOption {
-    QStringList args;        ///< @brief 触发此选项的参数字符串列表 (例如 {"-f", "--file"})。
-    QString description;     ///< @brief 选项的描述文本。
-    Option* option;          ///< @brief 指向关联的 Option 对象的指针，用于存储状态和值。
-    bool takes_arg;          ///< @brief 此选项是否接受一个参数值。
-    QString arg_placeholder; ///< @brief 如果 takes_arg 为 true，此为参数值的占位符名称。
-    bool hidden;             ///< @brief 此选项是否在帮助信息中隐藏。
+    QStringList args;         ///< @brief 触发此选项的参数字符串列表 (例如 {"-f", "--file"})。
+    QString description;      ///< @brief 选项的描述文本。
+    Option* option;           ///< @brief 指向关联的 Option 对象的指针，用于存储状态和值。
+    bool takes_arg;           ///< @brief 此选项是否接受一个参数值。
+    QString arg_placeholder;  ///< @brief 如果 takes_arg 为 true，此为参数值的占位符名称。
+    bool hidden;              ///< @brief 此选项是否在帮助信息中隐藏。
   };
 
   /**

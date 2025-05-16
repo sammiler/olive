@@ -5,13 +5,13 @@
 #include <QTreeWidget>  // 引入 QTreeWidget 类，用于创建树形列表控件
 #include <QWidget>      // 引入 QWidget 类，所有用户界面对象的基类
 
-#include "presetmanager.h"  // 引入预设管理器模板类
-#include "sequencepreset.h" // 引入序列预设类定义
+#include "presetmanager.h"   // 引入预设管理器模板类
+#include "sequencepreset.h"  // 引入序列预设类定义
 
 namespace olive {
 
 // 前向声明，避免不必要的头文件包含
-class SequencePreset; // 具体预设类型
+class SequencePreset;  // 具体预设类型
 
 /**
  * @class SequenceDialogPresetTab

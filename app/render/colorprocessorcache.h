@@ -1,12 +1,12 @@
-#ifndef COLORPROCESSORCACHE_H // 防止头文件被重复包含的宏
-#define COLORPROCESSORCACHE_H // 定义 COLORPROCESSORCACHE_H 宏
+#ifndef COLORPROCESSORCACHE_H  // 防止头文件被重复包含的宏
+#define COLORPROCESSORCACHE_H  // 定义 COLORPROCESSORCACHE_H 宏
 
-#include "render/colorprocessor.h" // 包含 ColorProcessor 和 ColorProcessorPtr (std::shared_ptr<ColorProcessor>) 的定义
+#include "render/colorprocessor.h"  // 包含 ColorProcessor 和 ColorProcessorPtr (std::shared_ptr<ColorProcessor>) 的定义
 
 // 假设 QHash 已通过 <QHash> 包含，这通常是 Qt 项目的常见做法，
 // 或者通过 "render/colorprocessor.h" 间接包含。
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
 /**
  * @brief ColorProcessorCache 类型定义为一个从 QString 到 ColorProcessorPtr 的 QHash。
@@ -25,6 +25,6 @@ using ColorProcessorCache = QHash<QString, ColorProcessorPtr>;
 // 其中键是字符串 (通常是颜色转换的唯一ID)，
 // 值是指向 ColorProcessor 对象的共享指针。
 
-} // namespace olive
+}  // namespace olive
 
 #endif  // COLORPROCESSORCACHE_H

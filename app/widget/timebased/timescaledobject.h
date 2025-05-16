@@ -1,12 +1,12 @@
-#ifndef TIMELINESCALEDOBJECT_H // 防止头文件被多次包含的宏定义
+#ifndef TIMELINESCALEDOBJECT_H  // 防止头文件被多次包含的宏定义
 #define TIMELINESCALEDOBJECT_H
 
-#include <olive/core/core.h> // 引入 Olive 核心库中的 core.h，可能包含 rational 等基本类型定义
-#include <QWidget>           // 引入 QWidget 类，是所有用户界面对象的基类
+#include <olive/core/core.h>  // 引入 Olive 核心库中的 core.h，可能包含 rational 等基本类型定义
+#include <QWidget>            // 引入 QWidget 类，是所有用户界面对象的基类
 
-#include "node/block/block.h" // 引入 Block 类定义，具体用途需查看该文件
+#include "node/block/block.h"  // 引入 Block 类定义，具体用途需查看该文件
 
-namespace olive { // olive 命名空间开始
+namespace olive {  // olive 命名空间开始
 
 /**
  * @brief TimeScaledObject 类为使用时间和缩放的对象提供基础功能。
@@ -124,7 +124,7 @@ class TimeScaledObject {
    */
   [[nodiscard]] rational SceneToTimeNoGrid(const double& x) const;
 
- protected: // 受保护成员
+ protected:  // 受保护成员
   /**
    * @brief 当时间基准发生变化时调用的虚函数。
    *
@@ -153,16 +153,16 @@ class TimeScaledObject {
    */
   void SetMinimumScale(const double& min);
 
- private: // 私有成员
-  rational timebase_; ///< 当前的时间基准。
+ private:              // 私有成员
+  rational timebase_;  ///< 当前的时间基准。
 
-  double timebase_dbl_{}; ///< 时间基准的 double 类型缓存值。
+  double timebase_dbl_{};  ///< 时间基准的 double 类型缓存值。
 
-  double scale_; ///< 当前的（水平）缩放比例。
+  double scale_;  ///< 当前的（水平）缩放比例。
 
-  double min_scale_; ///< 允许的最小缩放比例。
+  double min_scale_;  ///< 允许的最小缩放比例。
 
-  double max_scale_; ///< 允许的最大缩放比例。
+  double max_scale_;  ///< 允许的最大缩放比例。
 
   /**
    * @brief 用于 CalculateScaleFromDimensions 计算中的内边距常量。
@@ -177,13 +177,13 @@ class TimeScaledObject {
  * 这个类可以作为所有需要在时间轴上显示并支持缩放的自定义控件的基类。
  */
 class TimelineScaledWidget : public QWidget, public TimeScaledObject {
-  Q_OBJECT // Q_OBJECT 宏，用于启用 Qt 的元对象特性
- public:
-  /**
-   * @brief 构造一个 TimelineScaledWidget 对象。
-   * @param parent 父 QWidget 对象，默认为 nullptr。
-   */
-  explicit TimelineScaledWidget(QWidget* parent = nullptr);
+ Q_OBJECT  // Q_OBJECT 宏，用于启用 Qt 的元对象特性
+     public :
+     /**
+      * @brief 构造一个 TimelineScaledWidget 对象。
+      * @param parent 父 QWidget 对象，默认为 nullptr。
+      */
+     explicit TimelineScaledWidget(QWidget* parent = nullptr);
 };
 
 }  // namespace olive

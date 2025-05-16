@@ -8,12 +8,12 @@
 #ifndef KD_MAINWINDOW_BASE_H
 #define KD_MAINWINDOW_BASE_H
 
-#include "docks_export.h"          // 导入导出宏定义，用于库的符号可见性
-#include "KDDockWidgets.h"         // KDDockWidgets 公共头文件，包含核心枚举和类型定义
-#include "QWidgetAdapter.h"        // QWidget 和 QQuickItem 的适配器类
-#include "LayoutSaver.h"           // 布局保存与恢复相关的类
+#include "docks_export.h" // 导入导出宏定义，用于库的符号可见性
+#include "KDDockWidgets.h" // KDDockWidgets 公共头文件，包含核心枚举和类型定义
+#include "QWidgetAdapter.h" // QWidget 和 QQuickItem 的适配器类
+#include "LayoutSaver.h" // 布局保存与恢复相关的类
 
-#include <QVector>  // Qt 动态数组容器
+#include <QVector> // Qt 动态数组容器
 #include <QMargins> // Qt 边距类
 
 // 前向声明，用于测试目的
@@ -22,14 +22,14 @@ class TestDocks;
 namespace KDDockWidgets {
 
 // 前向声明 KDDockWidgets 内部或公共类
-class DockWidgetBase;           // 停靠小部件基类
-class Frame;                    // 框架类 (容纳 DockWidgetBase)
-class DropArea;                 // 放置区域类
-class MDILayoutWidget;          // MDI (多文档界面) 布局小部件类
-class MultiSplitter;            // 多重分割器类
-class LayoutWidget;             // 布局小部件基类
+class DockWidgetBase; // 停靠小部件基类
+class Frame; // 框架类 (容纳 DockWidgetBase)
+class DropArea; // 放置区域类
+class MDILayoutWidget; // MDI (多文档界面) 布局小部件类
+class MultiSplitter; // 多重分割器类
+class LayoutWidget; // 布局小部件基类
 class DropAreaWithCentralFrame; // 带有中央框架的放置区域类
-class SideBar;                  // 侧边栏类
+class SideBar; // 侧边栏类
 
 /**
  * @brief MainWindow 的基类。MainWindow 和 MainWindowBase 被拆分为两个类，
@@ -44,11 +44,11 @@ class DOCKS_EXPORT MainWindowBase : public QMainWindowOrQuick
 class DOCKS_EXPORT MainWindowBase : public QMainWindow // Pyside bug 解决方法：直接继承自 QMainWindow
 #endif
 {
-    Q_OBJECT // Q_OBJECT 宏，用于启用 Qt 元对象系统特性，如信号和槽
+Q_OBJECT // Q_OBJECT 宏，用于启用 Qt 元对象系统特性，如信号和槽
 
-    // Q_PROPERTY 宏，向 Qt 元对象系统暴露属性
-    /// @brief Q_PROPERTY，表示此主窗口的亲和性列表 (只读)。
-    Q_PROPERTY(QStringList affinities READ affinities CONSTANT)
+// Q_PROPERTY 宏，向 Qt 元对象系统暴露属性
+/// @brief Q_PROPERTY，表示此主窗口的亲和性列表 (只读)。
+Q_PROPERTY(QStringList affinities READ affinities CONSTANT)
     /// @brief Q_PROPERTY，表示此主窗口的唯一名称 (只读)。
     Q_PROPERTY(QString uniqueName READ uniqueName CONSTANT)
     /// @brief Q_PROPERTY，表示此主窗口的选项 (只读)。
@@ -58,7 +58,7 @@ class DOCKS_EXPORT MainWindowBase : public QMainWindow // Pyside bug 解决方�
     /// @brief Q_PROPERTY，表示侧边栏覆盖层与主窗口边缘的间距。可读写。
     Q_PROPERTY(int overlayMargin READ overlayMargin WRITE setOverlayMargin NOTIFY overlayMarginChanged)
 
-public:
+        public :
     /// @brief MainWindowBase 指针的 QVector 类型定义，方便使用。
     typedef QVector<MainWindowBase *> List;
 
@@ -375,12 +375,12 @@ Q_SIGNALS: // 信号部分
     void overlayMarginChanged(int margin);
 
 private:
-    class Private;   ///< PIMPL (Private Implementation) 设计模式的私有实现类前向声明。
+    class Private; ///< PIMPL (Private Implementation) 设计模式的私有实现类前向声明。
     Private *const d; ///< 指向私有实现类的常量指针。
 
     // 声明友元类，允许它们访问私有成员
-    friend class ::TestDocks;   // 测试类
-    friend class LayoutSaver;   // 布局保存器类
+    friend class ::TestDocks; // 测试类
+    friend class LayoutSaver; // 布局保存器类
 
     /**
      * @brief 从保存的布局数据中反序列化主窗口的状态。

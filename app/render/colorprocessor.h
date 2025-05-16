@@ -1,18 +1,18 @@
-#ifndef COLORPROCESSOR_H // 防止头文件被重复包含的宏
-#define COLORPROCESSOR_H // 定义 COLORPROCESSOR_H 宏
+#ifndef COLORPROCESSOR_H  // 防止头文件被重复包含的宏
+#define COLORPROCESSOR_H  // 定义 COLORPROCESSOR_H 宏
 
-#include "codec/frame.h"         // 包含 Frame (或 FramePtr) 相关的定义
-#include "common/ocioutils.h"    // 包含 OpenColorIO (OCIO) 工具类或相关定义的头文件
-                                 // (可能包含 OCIO::ConstProcessorRcPtr, OCIO::ConstCPUProcessorRcPtr 等)
-#include "render/colortransform.h" // 包含 ColorTransform 结构体或类的定义
+#include "codec/frame.h"            // 包含 Frame (或 FramePtr) 相关的定义
+#include "common/ocioutils.h"       // 包含 OpenColorIO (OCIO) 工具类或相关定义的头文件
+                                    // (可能包含 OCIO::ConstProcessorRcPtr, OCIO::ConstCPUProcessorRcPtr 等)
+#include "render/colortransform.h"  // 包含 ColorTransform 结构体或类的定义
 
 // 假设 Color (olive::core::Color) 和 std::shared_ptr 已通过其他方式被间接包含。
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
-class ColorManager; // 向前声明 ColorManager 类 (色彩配置管理器)
+class ColorManager;  // 向前声明 ColorManager 类 (色彩配置管理器)
 
-class ColorProcessor; // 向前声明 ColorProcessor 类自身
+class ColorProcessor;  // 向前声明 ColorProcessor 类自身
 // 类型别名：ColorProcessorPtr 是一个指向 ColorProcessor 对象的共享指针 (std::shared_ptr)
 using ColorProcessorPtr = std::shared_ptr<ColorProcessor>;
 
@@ -51,7 +51,7 @@ class ColorProcessor {
   explicit ColorProcessor(OCIO::ConstProcessorRcPtr processor);
 
   // 禁用拷贝构造和移动构造/赋值，因为 ColorProcessor 可能管理底层 OCIO 资源，不宜直接拷贝或移动。
-  DISABLE_COPY_MOVE(ColorProcessor) // 这是一个宏，通常用于删除拷贝和移动构造/赋值函数
+  DISABLE_COPY_MOVE(ColorProcessor)  // 这是一个宏，通常用于删除拷贝和移动构造/赋值函数
 
   /**
    * @brief (静态工厂方法) 创建一个新的 ColorProcessor 实例 (通过共享指针)。
@@ -101,10 +101,10 @@ class ColorProcessor {
   [[nodiscard]] const char* id() const { return processor_->getCacheID(); }
 
  private:
-  OCIO::ConstProcessorRcPtr processor_; // 指向 OCIO (GPU) 处理器的常量引用计数智能指针
+  OCIO::ConstProcessorRcPtr processor_;  // 指向 OCIO (GPU) 处理器的常量引用计数智能指针
 
-  OCIO::ConstCPUProcessorRcPtr cpu_processor_; // 指向 OCIO CPU 处理器的常量引用计数智能指针
-                                             // (用于在CPU上处理帧数据或单个颜色)
+  OCIO::ConstCPUProcessorRcPtr cpu_processor_;  // 指向 OCIO CPU 处理器的常量引用计数智能指针
+                                                // (用于在CPU上处理帧数据或单个颜色)
 };
 
 // 类型别名：ColorProcessorChain 代表一个 ColorProcessorPtr 的 QVector。

@@ -12,14 +12,14 @@ namespace olive {
  * 来转换和格式化浮点数值的功能。
  */
 class FloatSlider : public DecimalSliderBase {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit FloatSlider(QWidget* parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit FloatSlider(QWidget* parent = nullptr);
 
   /**
    * @brief DisplayType 枚举定义了浮点数值可以如何被解释和显示。
@@ -141,7 +141,7 @@ class FloatSlider : public DecimalSliderBase {
   void ValueChanged(double value);
 
  private:
-  DisplayType display_type_; ///< 存储当前滑块值的显示类型。
+  DisplayType display_type_;  ///< 存储当前滑块值的显示类型。
 };
 
 }  // namespace olive

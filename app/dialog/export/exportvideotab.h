@@ -1,29 +1,29 @@
 #ifndef EXPORTVIDEOTAB_H
 #define EXPORTVIDEOTAB_H
 
-#include <QCheckBox>     // 复选框控件
-#include <QComboBox>     // 下拉选择框控件
-#include <QWidget>       // QWidget 基类
-#include <QString>       // Qt 字符串类
-#include <QStringList>   // Qt 字符串列表 (可能在 .cpp 中使用)
-#include <QStackedWidget> // 为了 codec_stack_ (虽然 CodecStack 已经继承了它)
-#include <QVariant>      // 为了 currentData().toInt()
+#include <QCheckBox>       // 复选框控件
+#include <QComboBox>       // 下拉选择框控件
+#include <QStackedWidget>  // 为了 codec_stack_ (虽然 CodecStack 已经继承了它)
+#include <QString>         // Qt 字符串类
+#include <QStringList>     // Qt 字符串列表 (可能在 .cpp 中使用)
+#include <QVariant>        // 为了 currentData().toInt()
+#include <QWidget>         // QWidget 基类
 
 // Olive 内部头文件
-#include "common/define.h"        // 包含 olive::rational, ColorManager, ExportCodec::Codec, VideoParams::ColorRange 等
-#include "common/qtutils.h"       // 包含 QtUtils::SetComboBoxData
-#include "codec/exportformat.h"   // 包含 ExportFormat::Format
-#include "codec/encoder.h"        // 包含 EncodingParams (虽然此文件在导出对话框主类中也可能被包含)
-#include "dialog/export/codec/av1section.h"       // AV1 编码器设置区域
-#include "dialog/export/codec/cineformsection.h"  // CineForm 编码器设置区域
-#include "dialog/export/codec/codecstack.h"       // 用于管理不同编解码器设置区域的堆叠控件
-#include "dialog/export/codec/h264section.h"      // H.264/H.265 编码器设置区域
-#include "dialog/export/codec/imagesection.h"     // 图像(序列)导出设置区域
-#include "dialog/export/codec/codecsection.h"     // 编解码器设置区域的基类
-#include "node/color/colormanager/colormanager.h" // 颜色管理器
-#include "widget/colorwheel/colorspacechooser.h"  // 颜色空间选择器控件
-#include "widget/slider/integerslider.h"        // 整数滑块控件
-#include "widget/standardcombos/standardcombos.h" // 包含标准化的下拉框，如 FrameRateComboBox 等
+#include "codec/encoder.h"       // 包含 EncodingParams (虽然此文件在导出对话框主类中也可能被包含)
+#include "codec/exportformat.h"  // 包含 ExportFormat::Format
+#include "common/define.h"       // 包含 olive::rational, ColorManager, ExportCodec::Codec, VideoParams::ColorRange 等
+#include "common/qtutils.h"      // 包含 QtUtils::SetComboBoxData
+#include "dialog/export/codec/av1section.h"        // AV1 编码器设置区域
+#include "dialog/export/codec/cineformsection.h"   // CineForm 编码器设置区域
+#include "dialog/export/codec/codecsection.h"      // 编解码器设置区域的基类
+#include "dialog/export/codec/codecstack.h"        // 用于管理不同编解码器设置区域的堆叠控件
+#include "dialog/export/codec/h264section.h"       // H.264/H.265 编码器设置区域
+#include "dialog/export/codec/imagesection.h"      // 图像(序列)导出设置区域
+#include "node/color/colormanager/colormanager.h"  // 颜色管理器
+#include "widget/colorwheel/colorspacechooser.h"   // 颜色空间选择器控件
+#include "widget/slider/integerslider.h"           // 整数滑块控件
+#include "widget/standardcombos/standardcombos.h"  // 包含标准化的下拉框，如 FrameRateComboBox 等
 
 // 前向声明 (如果需要)
 // namespace olive {
@@ -91,7 +91,7 @@ class ExportVideoTab : public QWidget {
    * @brief 设置“图像序列”选项的状态。
    * @param e 如果为 true，则设置为导出图像序列；否则取消。
    */
-  void SetImageSequence(bool e) const; // 通常 setter 不会是 const
+  void SetImageSequence(bool e) const;  // 通常 setter 不会是 const
 
   /**
    * @brief 获取当导出为单帧静态图像时，选定的图像的时间点。
@@ -111,7 +111,9 @@ class ExportVideoTab : public QWidget {
    * @brief 设置视频编解码器下拉框的当前选中项。
    * @param c 要选中的 ExportCodec::Codec 枚举值。
    */
-  void SetSelectedCodec(ExportCodec::Codec c) const { QtUtils::SetComboBoxData(codec_combobox(), static_cast<int>(c)); } // 确保传入int
+  void SetSelectedCodec(ExportCodec::Codec c) const {
+    QtUtils::SetComboBoxData(codec_combobox(), static_cast<int>(c));
+  }  // 确保传入int
 
   /**
    * @brief 获取指向视频编解码器选择下拉框的指针。
@@ -155,7 +157,7 @@ class ExportVideoTab : public QWidget {
    */
   void SetSelectedFrameRate(const rational& fr) {
     frame_rate_combobox_->SetFrameRate(fr);
-    UpdateFrameRate(fr); // 内部更新逻辑
+    UpdateFrameRate(fr);  // 内部更新逻辑
   }
 
   /**
@@ -254,7 +256,7 @@ class ExportVideoTab : public QWidget {
    * @brief 当导出单帧图像时，用户在 `ImageSection` 中选择的时间点发生变化时调用的槽函数。
    * @param time 新选中的时间点。
    */
-  void SetTime(const rational& time); // 应该连接到 ImageSection::TimeChanged 信号
+  void SetTime(const rational& time);  // 应该连接到 ImageSection::TimeChanged 信号
 
  signals:
   /**
@@ -267,7 +269,7 @@ class ExportVideoTab : public QWidget {
    * @brief 当“图像序列”复选框的状态发生变化时发出此信号。
    * @param e 复选框新的选中状态。
    */
-  void ImageSequenceCheckBoxChanged(bool e); // 通常连接到 ImageSection 中的信号或复选框的 toggled() 信号
+  void ImageSequenceCheckBoxChanged(bool e);  // 通常连接到 ImageSection 中的信号或复选框的 toggled() 信号
 
   /**
    * @brief 当导出单帧图像的时间点选择发生变化时发出此信号 (通常由 ImageSection 发出并中继)。
@@ -308,7 +310,7 @@ class ExportVideoTab : public QWidget {
   /** @brief 指向 H.264 编码设置区域的指针。 */
   H264Section* h264_section_{};
   /** @brief 指向 H.265 (HEVC) 编码设置区域的指针 (继承自 H264Section)。 */
-  H264Section* h265_section_{}; // 类型是 H264Section，但逻辑上用于 H.265
+  H264Section* h265_section_{};  // 类型是 H264Section，但逻辑上用于 H.265
   /** @brief 指向 AV1 编码设置区域的指针。 */
   AV1Section* av1_section_{};
   /** @brief 指向 CineForm 编码设置区域的指针。 */

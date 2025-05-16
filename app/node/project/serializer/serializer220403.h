@@ -1,7 +1,7 @@
-#ifndef SERIALIZER220403_H // 防止头文件被多次包含的宏定义开始
+#ifndef SERIALIZER220403_H  // 防止头文件被多次包含的宏定义开始
 #define SERIALIZER220403_H
 
-#include "serializer.h" // 引入基类 ProjectSerializer 的定义 (文件名可能是 "projectserializer.h")
+#include "serializer.h"  // 引入基类 ProjectSerializer 的定义 (文件名可能是 "projectserializer.h")
 
 // 可能需要的前向声明 (与 ProjectSerializer211228.h 类似，并可能新增)
 // class Project;
@@ -22,7 +22,7 @@
 // class QVariant; // 新增
 // class NodeKeyframe; // 新增
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
 /**
  * @brief 特定版本的项目序列化器，版本号为 220403。
@@ -53,7 +53,7 @@ class ProjectSerializer220403 : public ProjectSerializer {
    * @brief 返回此序列化器支持的项目文件版本号。
    * @return uint 版本号，固定为 220403。
    */
-  [[nodiscard]] uint Version() const override { return 220403; } // 此序列化器处理版本 220403
+  [[nodiscard]] uint Version() const override { return 220403; }  // 此序列化器处理版本 220403
 
  private:
   /**
@@ -63,8 +63,8 @@ class ProjectSerializer220403 : public ProjectSerializer {
   struct XMLNodeData {
     /** @brief 存储一个待建立的节点连接的信息。 */
     struct SerializedConnection {
-      NodeInput input;      ///< 目标节点的输入参数。
-      quintptr output_node{}; ///< 源节点的指针占位符。
+      NodeInput input;         ///< 目标节点的输入参数。
+      quintptr output_node{};  ///< 源节点的指针占位符。
     };
 
     /** @brief 存储一个媒体块（Block）与其链接对象之间的链接信息。 */
@@ -75,24 +75,24 @@ class ProjectSerializer220403 : public ProjectSerializer {
 
     /** @brief 存储节点组（NodeGroup）的输入与其内部节点输入之间的链接信息，包含更多自定义属性。 */
     struct GroupLink {
-      NodeGroup *group{};         ///< 指向节点组的指针。
-      QString passthrough_id;     ///< 节点组输入直通的外部 ID。
-      quintptr input_node{};      ///< 节点组内部目标节点的指针占位符。
-      QString input_id;           ///< 节点组内部目标节点输入参数的ID。
-      int input_element{};      ///< 节点组内部目标节点输入参数的元素索引。
-      QString custom_name;        ///< 节点组输入直通的自定义名称。
-      InputFlags custom_flags;    ///< 节点组输入直通的自定义标志。
-      NodeValue::Type data_type;  ///< 节点组输入直通的数据类型。
-      QVariant default_val;       ///< 节点组输入直通的默认值。
-      QHash<QString, QVariant> custom_properties; ///< 节点组输入直通的其他自定义属性。
+      NodeGroup *group{};                          ///< 指向节点组的指针。
+      QString passthrough_id;                      ///< 节点组输入直通的外部 ID。
+      quintptr input_node{};                       ///< 节点组内部目标节点的指针占位符。
+      QString input_id;                            ///< 节点组内部目标节点输入参数的ID。
+      int input_element{};                         ///< 节点组内部目标节点输入参数的元素索引。
+      QString custom_name;                         ///< 节点组输入直通的自定义名称。
+      InputFlags custom_flags;                     ///< 节点组输入直通的自定义标志。
+      NodeValue::Type data_type;                   ///< 节点组输入直通的数据类型。
+      QVariant default_val;                        ///< 节点组输入直通的默认值。
+      QHash<QString, QVariant> custom_properties;  ///< 节点组输入直通的其他自定义属性。
     };
 
-    QHash<quintptr, Node *> node_ptrs;              ///< 节点指针占位符到实际 Node 指针的映射。
-    QList<SerializedConnection> desired_connections;///< 待建立的节点连接列表。
-    QList<BlockLink> block_links;                   ///< 待建立的媒体块链接列表。
-    QVector<GroupLink> group_input_links;           ///< 待建立的节点组输入链接列表。
-    QHash<NodeGroup *, quintptr> group_output_links;///< 节点组输出链接信息。
-    QHash<Node *, QUuid> node_uuids;                ///< 存储已加载节点的 Node 指针到其 UUID 的映射。
+    QHash<quintptr, Node *> node_ptrs;                ///< 节点指针占位符到实际 Node 指针的映射。
+    QList<SerializedConnection> desired_connections;  ///< 待建立的节点连接列表。
+    QList<BlockLink> block_links;                     ///< 待建立的媒体块链接列表。
+    QVector<GroupLink> group_input_links;             ///< 待建立的节点组输入链接列表。
+    QHash<NodeGroup *, quintptr> group_output_links;  ///< 节点组输出链接信息。
+    QHash<Node *, QUuid> node_uuids;                  ///< 存储已加载节点的 Node 指针到其 UUID 的映射。
   };
 
   /**
@@ -174,7 +174,7 @@ class ProjectSerializer220403 : public ProjectSerializer {
    * @param reader XML 读取器。
    * @param viewer 指向 ViewerOutput 对象的指针。
    */
-  void LoadTimelinePoints(QXmlStreamReader *reader, ViewerOutput *viewer) const; // 注意：参数名从 points 改为 viewer
+  void LoadTimelinePoints(QXmlStreamReader *reader, ViewerOutput *viewer) const;  // 注意：参数名从 points 改为 viewer
 
   /**
    * @brief (私有静态成员函数) 从 XML 读取器加载单个时间线标记 (TimelineMarker) 的数据。

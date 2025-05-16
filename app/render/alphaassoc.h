@@ -1,7 +1,7 @@
-#ifndef ALPHAASSOC_H // 防止头文件被重复包含的宏
-#define ALPHAASSOC_H // 定义 ALPHAASSOC_H 宏
+#ifndef ALPHAASSOC_H  // 防止头文件被重复包含的宏
+#define ALPHAASSOC_H  // 定义 ALPHAASSOC_H 宏
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
 /**
  * @brief AlphaAssociated 枚举定义了Alpha通道的不同关联类型。
@@ -19,11 +19,11 @@ namespace olive { // olive 项目的命名空间
  * 正确处理Alpha关联类型对于实现准确的图像混合和合成至关重要。
  */
 enum AlphaAssociated {
-  kAlphaNone,         // 无Alpha通道或Alpha应被忽略 (图像不透明)
-  kAlphaUnassociated, // 非关联Alpha (直通Alpha / unpremultiplied alpha)
-  kAlphaAssociated    // 关联Alpha (预乘Alpha / premultiplied alpha)
+  kAlphaNone,          // 无Alpha通道或Alpha应被忽略 (图像不透明)
+  kAlphaUnassociated,  // 非关联Alpha (直通Alpha / unpremultiplied alpha)
+  kAlphaAssociated     // 关联Alpha (预乘Alpha / premultiplied alpha)
 };
 
-} // namespace olive
+}  // namespace olive
 
 #endif  // ALPHAASSOC_H

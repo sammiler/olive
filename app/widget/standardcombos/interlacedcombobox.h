@@ -1,10 +1,10 @@
 #ifndef INTERLACEDCOMBOBOX_H
 #define INTERLACEDCOMBOBOX_H
 
-#include <QComboBox> // Qt 组合框控件基类
-#include <QWidget>   // Qt 控件基类 (QComboBox 的基类)
+#include <QComboBox>  // Qt 组合框控件基类
+#include <QWidget>    // Qt 控件基类 (QComboBox 的基类)
 
-#include "render/videoparams.h" // 视频参数定义 (包含 VideoParams::Interlacing 枚举)
+#include "render/videoparams.h"  // 视频参数定义 (包含 VideoParams::Interlacing 枚举)
 
 namespace olive {
 
@@ -15,21 +15,22 @@ namespace olive {
  * 这些选项的顺序必须与 VideoParams::Interlacing 枚举中的定义相匹配。
  */
 class InterlacedComboBox : public QComboBox {
-  Q_OBJECT // Qt 元对象系统宏 (虽然此类中没有显式定义信号或槽，但基类 QComboBox 有)
+ Q_OBJECT  // Qt 元对象系统宏 (虽然此类中没有显式定义信号或槽，但基类 QComboBox 有)
 
- public:
-  /**
-   * @brief 构造函数。
-   *
-   * 初始化组合框，并添加代表不同隔行扫描模式的选项。
-   * 选项的文本是可翻译的，其顺序对应 VideoParams::Interlacing 枚举。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit InterlacedComboBox(QWidget* parent = nullptr) : QComboBox(parent) {
+     public :
+     /**
+      * @brief 构造函数。
+      *
+      * 初始化组合框，并添加代表不同隔行扫描模式的选项。
+      * 选项的文本是可翻译的，其顺序对应 VideoParams::Interlacing 枚举。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit InterlacedComboBox(QWidget* parent = nullptr)
+     : QComboBox(parent) {
     // 添加的这些项必须与 VideoParams 中的 Interlacing 枚举顺序匹配
-    this->addItem(tr("None (Progressive)")); // 添加“无（逐行扫描）”选项
-    this->addItem(tr("Top-Field First"));    // 添加“顶场优先”选项
-    this->addItem(tr("Bottom-Field First")); // 添加“底场优先”选项
+    this->addItem(tr("None (Progressive)"));  // 添加“无（逐行扫描）”选项
+    this->addItem(tr("Top-Field First"));     // 添加“顶场优先”选项
+    this->addItem(tr("Bottom-Field First"));  // 添加“底场优先”选项
   }
 
   /**

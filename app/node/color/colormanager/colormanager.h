@@ -1,23 +1,20 @@
 #ifndef COLORSERVICE_H
 #define COLORSERVICE_H
 
-#include <QMutex>       // Qt 互斥锁，可能用于保护共享资源（如此头文件中未直接使用，可能在 .cpp 文件中）
-#include <memory>       // C++11 智能指针库
+#include <QMutex>  // Qt 互斥锁，可能用于保护共享资源（如此头文件中未直接使用，可能在 .cpp 文件中）
+#include <memory>  // C++11 智能指针库
 
-#include "codec/frame.h"             // 可能包含帧数据结构，色彩管理会作用于帧数据
-#include "node/node.h"               // 基类 Node，ColorManager 可能作为一种服务节点或与之交互
-#include "render/colorprocessor.h"   // 可能包含颜色处理相关的接口或类
+#include "codec/frame.h"            // 可能包含帧数据结构，色彩管理会作用于帧数据
+#include "node/node.h"              // 基类 Node，ColorManager 可能作为一种服务节点或与之交互
+#include "render/colorprocessor.h"  // 可能包含颜色处理相关的接口或类
 
-
-class Config; // 假设 OCIO::Config 的声明，实际可能在 OCIO 的头文件中
-using ConstConfigRcPtr = std::shared_ptr<const Config>; // 模拟 OCIO 的引用计数常量配置指针类型
-
+class Config;                                            // 假设 OCIO::Config 的声明，实际可能在 OCIO 的头文件中
+using ConstConfigRcPtr = std::shared_ptr<const Config>;  // 模拟 OCIO 的引用计数常量配置指针类型
 
 // 前向声明 Project 类
 namespace olive {
 class Project;
 }
-
 
 namespace olive {
 
@@ -26,13 +23,13 @@ namespace olive {
  * 通常使用 OpenColorIO (OCIO) 配置来实现色彩空间转换、显示映射等。
  */
 class ColorManager : public QObject {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief ColorManager 构造函数。
-   * @param project 指向当前项目的指针，色彩管理设置通常与项目关联。
-   */
-  explicit ColorManager(Project* project);
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief ColorManager 构造函数。
+      * @param project 指向当前项目的指针，色彩管理设置通常与项目关联。
+      */
+     explicit ColorManager(Project* project);
 
   /**
    * @brief 初始化色彩管理器。
@@ -76,7 +73,8 @@ class ColorManager : public QObject {
    * @brief 设置要使用的 OCIO 配置文件名，并尝试加载该配置。
    * @param filename OCIO 配置文件的路径。此操作会触发 ConfigChanged 信号。
    */
-  void SetConfigFilename(const QString& filename) const; // const 标记可能意味着它修改的是可变成员，或者通过信号间接触发非 const 操作
+  void SetConfigFilename(
+      const QString& filename) const;  // const 标记可能意味着它修改的是可变成员，或者通过信号间接触发非 const 操作
 
   /**
    * @brief 列出当前 OCIO 配置中可用的显示设备名称。
@@ -127,7 +125,7 @@ class ColorManager : public QObject {
    * @brief 设置项目的默认输入色彩空间。
    * @param s 要设置的色彩空间名称。会触发 DefaultInputChanged 信号。
    */
-  void SetDefaultInputColorSpace(const QString& s) const; // const 标记原因同 SetConfigFilename
+  void SetDefaultInputColorSpace(const QString& s) const;  // const 标记原因同 SetConfigFilename
 
   /**
    * @brief 获取项目的参考/工作色彩空间。
@@ -179,7 +177,7 @@ class ColorManager : public QObject {
    */
   void UpdateConfigFromFilename();
 
- signals: // Qt 信号声明区域
+ signals:  // Qt 信号声明区域
   /**
    * @brief 当 OCIO 配置文件发生改变时发射此信号。
    * @param s 新的配置文件路径或标识。
@@ -199,9 +197,9 @@ class ColorManager : public QObject {
   void DefaultInputChanged(const QString& s);
 
  private:
-  OCIO::ConstConfigRcPtr config_; ///< 当前项目加载的 OCIO 配置对象的智能指针。
+  OCIO::ConstConfigRcPtr config_;  ///< 当前项目加载的 OCIO 配置对象的智能指针。
 
-  static OCIO::ConstConfigRcPtr default_config_; ///< 静态成员，存储全局默认的 OCIO 配置。
+  static OCIO::ConstConfigRcPtr default_config_;  ///< 静态成员，存储全局默认的 OCIO 配置。
 };
 
 }  // namespace olive

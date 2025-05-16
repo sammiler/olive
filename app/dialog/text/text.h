@@ -1,12 +1,12 @@
-#ifndef RICHTEXTDIALOG_H // 文件保护宏，通常与文件名一致，但这里是 RICHTEXTDIALOG_H
+#ifndef RICHTEXTDIALOG_H  // 文件保护宏，通常与文件名一致，但这里是 RICHTEXTDIALOG_H
 #define RICHTEXTDIALOG_H
 
 #include <QDialog>        // 引入 QDialog 类，对话框窗口的基类
 #include <QFontComboBox>  // 引入 QFontComboBox 类，用于选择字体 (虽然在此文件中未直接使用，但可能在 .cpp 文件或相关UI中使用)
-#include <QPlainTextEdit> // 引入 QPlainTextEdit 类，用于多行纯文本编辑
+#include <QPlainTextEdit>  // 引入 QPlainTextEdit 类，用于多行纯文本编辑
 
-#include "common/define.h"             // 引入项目通用定义
-#include "widget/slider/floatslider.h" // 引入浮点数滑块控件 (虽然在此文件中未直接使用)
+#include "common/define.h"              // 引入项目通用定义
+#include "widget/slider/floatslider.h"  // 引入浮点数滑块控件 (虽然在此文件中未直接使用)
 
 namespace olive {
 
@@ -36,7 +36,7 @@ class TextDialog : public QDialog {
    */
   [[nodiscard]] QString text() const { return text_edit_->toPlainText(); }
 
-private:
+ private:
   /**
    * @brief 指向纯文本编辑控件的指针。
    */

@@ -1,14 +1,14 @@
-#ifndef TIMEINPUT_H // 防止头文件被多次包含的宏定义开始
+#ifndef TIMEINPUT_H  // 防止头文件被多次包含的宏定义开始
 #define TIMEINPUT_H
 
-#include "node/node.h" // 引入基类 Node 的定义
+#include "node/node.h"  // 引入基类 Node 的定义
 
 // 可能需要的前向声明
 // struct NodeValueRow; // 假设
 // struct NodeGlobals; // 假设
 // class NodeValueTable; // 假设
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
 /**
  * @brief 代表一个“时间输入”节点。
@@ -16,14 +16,14 @@ namespace olive { // Olive 编辑器的命名空间
  * 它可以用于驱动动画、基于时间的效果，或者在节点图中将时间数据传递给其他节点。
  */
 class TimeInput : public Node {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief TimeInput 构造函数。
-   */
-  TimeInput();
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief TimeInput 构造函数。
+      */
+     TimeInput();
 
-  NODE_DEFAULT_FUNCTIONS(TimeInput) // 节点默认功能宏，可能包含克隆、类型信息等标准实现
+  NODE_DEFAULT_FUNCTIONS(TimeInput)  // 节点默认功能宏，可能包含克隆、类型信息等标准实现
 
   /**
    * @brief 获取此时间输入节点的名称。

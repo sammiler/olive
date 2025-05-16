@@ -1,21 +1,20 @@
 #ifndef COLORDIALOG_H
 #define COLORDIALOG_H
 
-#include <QDialog> // QDialog 基类
-#include <QString> // Qt 字符串类
-#include <QWidget> // 为了 QWidget* parent 参数
+#include <QDialog>  // QDialog 基类
+#include <QString>  // Qt 字符串类
+#include <QWidget>  // 为了 QWidget* parent 参数
 
 // Olive 内部头文件
-#include "node/color/colormanager/colormanager.h" // 包含 ColorManager, ColorProcessorPtr
-#include "render/managedcolor.h"                 // 包含 ManagedColor, Color (假设Color在此或其包含文件)
-#include "render/colortransform.h"               // 包含 ColorTransform (如果它是一个独立的类/结构体)
-#include "widget/colorwheel/colorgradientwidget.h" // 颜色渐变控件
-#include "widget/colorwheel/colorspacechooser.h"   // 颜色空间选择器控件
-#include "widget/colorwheel/colorswatchchooser.h"  // 颜色样本选择器控件
-#include "widget/colorwheel/colorvalueswidget.h"   // 颜色值输入/显示控件
-#include "widget/colorwheel/colorwheelwidget.h"    // 色轮控件
-#include "common/define.h"                       // 可能包含 Color, ColorProcessorPtr (如果未在其他地方定义)
-
+#include "common/define.h"                          // 可能包含 Color, ColorProcessorPtr (如果未在其他地方定义)
+#include "node/color/colormanager/colormanager.h"   // 包含 ColorManager, ColorProcessorPtr
+#include "render/colortransform.h"                  // 包含 ColorTransform (如果它是一个独立的类/结构体)
+#include "render/managedcolor.h"                    // 包含 ManagedColor, Color (假设Color在此或其包含文件)
+#include "widget/colorwheel/colorgradientwidget.h"  // 颜色渐变控件
+#include "widget/colorwheel/colorspacechooser.h"    // 颜色空间选择器控件
+#include "widget/colorwheel/colorswatchchooser.h"   // 颜色样本选择器控件
+#include "widget/colorwheel/colorvalueswidget.h"    // 颜色值输入/显示控件
+#include "widget/colorwheel/colorwheelwidget.h"     // 色轮控件
 
 namespace olive {
 
@@ -32,7 +31,8 @@ class ColorDialog : public QDialog {
   /**
    * @brief ColorDialog 构造函数。
    *
-   * @param color_manager 指向 ColorManager 实例的指针，用于所有颜色管理操作。此指针必须有效且在对话框生命周期内保持有效。
+   * @param color_manager 指向 ColorManager
+   * 实例的指针，用于所有颜色管理操作。此指针必须有效且在对话框生命周期内保持有效。
    * @param start 初始选中的颜色。此颜色应位于 `color_manager` 的参考颜色空间中 (通常是场景线性空间)。
    * 默认为白色 (1.0f, 1.0f, 1.0f)。
    * @param parent 父 QWidget 对象指针。默认为 nullptr。

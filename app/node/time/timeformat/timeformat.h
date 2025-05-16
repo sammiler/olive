@@ -1,7 +1,7 @@
-#ifndef TIMEFORMAT_H // 防止头文件被多次包含的宏定义开始
+#ifndef TIMEFORMAT_H  // 防止头文件被多次包含的宏定义开始
 #define TIMEFORMAT_H
 
-#include "node/node.h" // 引入基类 Node 的定义
+#include "node/node.h"  // 引入基类 Node 的定义
 
 // 可能需要的前向声明
 // struct NodeValueRow; // 假设
@@ -9,7 +9,7 @@
 // class NodeValueTable; // 假设
 // class rational; // 如果 kTimeInput 的类型是 rational
 
-namespace olive { // Olive 编辑器的命名空间
+namespace olive {  // Olive 编辑器的命名空间
 
 /**
  * @brief 代表一个“时间格式化”节点。
@@ -18,15 +18,15 @@ namespace olive { // Olive 编辑器的命名空间
  * 例如，可以将时间转换为 "HH:MM:SS:FF" (时:分:秒:帧) 或其他自定义格式。
  */
 class TimeFormatNode : public Node {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief TimeFormatNode 构造函数。
-   *  通常会在这里初始化时间格式化相关的输入参数。
-   */
-  TimeFormatNode();
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief TimeFormatNode 构造函数。
+      *  通常会在这里初始化时间格式化相关的输入参数。
+      */
+     TimeFormatNode();
 
-  NODE_DEFAULT_FUNCTIONS(TimeFormatNode) // 节点默认功能宏，可能包含克隆、类型信息等标准实现
+  NODE_DEFAULT_FUNCTIONS(TimeFormatNode)  // 节点默认功能宏，可能包含克隆、类型信息等标准实现
 
   /**
    * @brief 获取此时间格式化节点的名称。
@@ -63,9 +63,10 @@ class TimeFormatNode : public Node {
   void Value(const NodeValueRow &value, const NodeGlobals &globals, NodeValueTable *table) const override;
 
   // --- 静态常量，用作节点输入参数的键名 ---
-  static const QString kTimeInput;      ///< "Time" - 输入要格式化的时间值的参数键名。
-  static const QString kFormatInput;    ///< "Format" - 时间格式化字符串的参数键名 (例如 "hh:mm:ss.zzz" 或 "%Y-%M-%DT%h:%m:%s")。
-  static const QString kLocalTimeInput; ///< "LocalTime" - 是否将输入时间解释为本地时间并据此格式化的布尔参数键名。
+  static const QString kTimeInput;  ///< "Time" - 输入要格式化的时间值的参数键名。
+  static const QString
+      kFormatInput;  ///< "Format" - 时间格式化字符串的参数键名 (例如 "hh:mm:ss.zzz" 或 "%Y-%M-%DT%h:%m:%s")。
+  static const QString kLocalTimeInput;  ///< "LocalTime" - 是否将输入时间解释为本地时间并据此格式化的布尔参数键名。
 };
 
 }  // namespace olive

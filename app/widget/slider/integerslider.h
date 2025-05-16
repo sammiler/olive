@@ -1,7 +1,7 @@
 #ifndef INTEGERSLIDER_H
 #define INTEGERSLIDER_H
 
-#include "base/numericsliderbase.h" // 数值滑块基类
+#include "base/numericsliderbase.h"  // 数值滑块基类
 
 namespace olive {
 
@@ -12,14 +12,14 @@ namespace olive {
  * 包括值与字符串之间的转换、拖拽调整逻辑以及特定类型的信号。
  */
 class IntegerSlider : public NumericSliderBase {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit IntegerSlider(QWidget* parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit IntegerSlider(QWidget* parent = nullptr);
 
   /**
    * @brief 获取滑块当前的整数值。

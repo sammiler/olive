@@ -1,17 +1,17 @@
 #ifndef EXPORTFORMATCOMBOBOX_H
 #define EXPORTFORMATCOMBOBOX_H
 
-#include <QComboBox>     // QComboBox 基类
-#include <QWidgetAction> // 用于在 QMenu 中嵌入 QWidget (可能用于创建标题项)
-#include <QWidget>       // 为了 QWidget* parent 参数
-#include <QIcon>         // 为了 CreateHeader 的 icon 参数
-#include <QString>       // 为了 CreateHeader 的 title 参数
-#include <QAction>       // 为了 HandleIndexChange 的参数
+#include <QAction>        // 为了 HandleIndexChange 的参数
+#include <QComboBox>      // QComboBox 基类
+#include <QIcon>          // 为了 CreateHeader 的 icon 参数
+#include <QString>        // 为了 CreateHeader 的 title 参数
+#include <QWidget>        // 为了 QWidget* parent 参数
+#include <QWidgetAction>  // 用于在 QMenu 中嵌入 QWidget (可能用于创建标题项)
 
 // Olive 内部头文件
-#include "codec/exportformat.h" // 包含 ExportFormat::Format 枚举
-#include "node/output/track/track.h" // 包含 Track::Type 枚举 (用于 PopulateType)
-#include "widget/menu/menu.h"   // 包含自定义的 Menu 类 (custom_menu_)
+#include "codec/exportformat.h"       // 包含 ExportFormat::Format 枚举
+#include "node/output/track/track.h"  // 包含 Track::Type 枚举 (用于 PopulateType)
+#include "widget/menu/menu.h"         // 包含自定义的 Menu 类 (custom_menu_)
 // #include "common/define.h" // 如果需要 common/define.h 中的内容
 
 namespace olive {
@@ -100,7 +100,8 @@ class ExportFormatComboBox : public QComboBox {
    * @brief 创建一个用作菜单中分组标题的 QWidgetAction。
    * @param icon 标题的图标。
    * @param title 标题的文本。
-   * @return QWidgetAction* 指向新创建的 QWidgetAction 对象的指针。调用者可能需要管理其生命周期，或者它会被添加到菜单中由菜单管理。
+   * @return QWidgetAction* 指向新创建的 QWidgetAction
+   * 对象的指针。调用者可能需要管理其生命周期，或者它会被添加到菜单中由菜单管理。
    */
   QWidgetAction *CreateHeader(const QIcon &icon, const QString &title);
 

@@ -1,12 +1,12 @@
 #ifndef STREAMPROPERTIES_H
 #define STREAMPROPERTIES_H
 
-#include <QWidget> // QWidget 基类
+#include <QWidget>  // QWidget 基类
 
 // Olive 内部头文件
-#include "common/define.h"    // 可能包含一些通用定义
+#include "common/define.h"  // 可能包含一些通用定义
 // 假设 undocommand.h 声明了 MultiUndoCommand 类
-#include "undo/undocommand.h" // 包含 MultiUndoCommand，用于 Accept 方法
+#include "undo/undocommand.h"  // 包含 MultiUndoCommand，用于 Accept 方法
 
 // 前向声明 (如果需要)
 // namespace olive {
@@ -26,7 +26,7 @@ namespace olive {
  */
 class StreamProperties : public QWidget {
   // Q_OBJECT // 如果此类或其派生类需要信号槽机制，则应添加此宏
-public:
+ public:
   /**
    * @brief 构造一个新的 StreamProperties 对象。
    * @param parent 父 QWidget 对象指针，默认为 nullptr。

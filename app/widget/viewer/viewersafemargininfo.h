@@ -1,9 +1,9 @@
 #ifndef VIEWERSAFEMARGININFO_H
 #define VIEWERSAFEMARGININFO_H
 
-#include <QtMath> // 包含 Qt 数学函数，例如 qFuzzyCompare
+#include <QtMath>  // 包含 Qt 数学函数，例如 qFuzzyCompare
 
-#include "common/define.h" // 包含项目通用定义
+#include "common/define.h"  // 包含项目通用定义
 
 namespace olive {
 

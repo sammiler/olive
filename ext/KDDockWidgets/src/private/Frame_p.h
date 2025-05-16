@@ -1,15 +1,15 @@
 #ifndef KD_FRAME_P_H
 #define KD_FRAME_P_H
 
-#include "kddockwidgets/docks_export.h"      // 导入导出宏定义
-#include "kddockwidgets/QWidgetAdapter.h"  // QWidget 和 QQuickItem 的适配器类
-#include "kddockwidgets/FocusScope.h"      // 焦点范围管理类
-#include "kddockwidgets/DockWidgetBase.h"  // 停靠小部件基类
-#include "kddockwidgets/LayoutSaver.h"     // 布局保存与恢复相关的类
-#include "multisplitter/Widget.h"          // MultiSplitter 中的小部件基类 (LayoutGuestWidget)
+#include "kddockwidgets/docks_export.h" // 导入导出宏定义
+#include "kddockwidgets/QWidgetAdapter.h" // QWidget 和 QQuickItem 的适配器类
+#include "kddockwidgets/FocusScope.h" // 焦点范围管理类
+#include "kddockwidgets/DockWidgetBase.h" // 停靠小部件基类
+#include "kddockwidgets/LayoutSaver.h" // 布局保存与恢复相关的类
+#include "multisplitter/Widget.h" // MultiSplitter 中的小部件基类 (LayoutGuestWidget)
 
 #include <QVector> // Qt 动态数组容器
-#include <QDebug>  // Qt 调试输出类
+#include <QDebug> // Qt 调试输出类
 #include <QPointer> // Qt QObject 指针的弱引用，用于安全地跟踪对象生命周期
 
 // 前向声明，用于测试目的
@@ -18,13 +18,13 @@ class TestDocks;
 namespace KDDockWidgets {
 
 // 前向声明 KDDockWidgets 内部类
-class TitleBar;             // 标题栏类
-class TabWidget;            // 标签页小部件类
-class DockWidgetBase;       // 停靠小部件基类
-class FloatingWindow;       // 浮动窗口类
-class MainWindowBase;       // 主窗口基类
-class MDILayoutWidget;      // MDI (多文档界面) 布局小部件类
-class WidgetResizeHandler;  // 小部件大小调整处理器类
+class TitleBar; // 标题栏类
+class TabWidget; // 标签页小部件类
+class DockWidgetBase; // 停靠小部件基类
+class FloatingWindow; // 浮动窗口类
+class MainWindowBase; // 主窗口基类
+class MDILayoutWidget; // MDI (多文档界面) 布局小部件类
+class WidgetResizeHandler; // 小部件大小调整处理器类
 
 /**
  * @brief 一个包装 DockWidget 的小部件，为其添加了 QTabWidget 和 TitleBar。
@@ -39,7 +39,7 @@ class WidgetResizeHandler;  // 小部件大小调整处理器类
  */
 class DOCKS_EXPORT Frame
     : public LayoutGuestWidget, // 继承自 LayoutGuestWidget，表示可以被 MultiSplitter 管理
-      public FocusScope       // 继承自 FocusScope，用于管理内部焦点
+      public FocusScope // 继承自 FocusScope，用于管理内部焦点
 {
     Q_OBJECT
     /// @brief Q_PROPERTY 宏，暴露 titleBar 属性给 Qt 元对象系统，表示此框架的标题栏。
@@ -672,6 +672,7 @@ protected:
 private:
     /// @brief 标记是否在构造函数中，由 UBSAN 指出需要早期初始化。
     bool m_inCtor = true;
+
 protected:
     /// @brief 标记是否在析构函数中。
     bool m_inDtor = false;
@@ -685,7 +686,7 @@ private:
     Q_DISABLE_COPY(Frame) ///< 禁止拷贝构造函数和拷贝赋值操作符。
     // 声明友元类，允许它们访问此类的私有成员
     friend class ::TestDocks; // 测试类
-    friend class TabWidget;   // 标签页小部件类
+    friend class TabWidget; // 标签页小部件类
 
     /**
      * @brief 安排延迟删除此框架。

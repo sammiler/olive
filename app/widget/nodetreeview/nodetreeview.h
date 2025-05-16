@@ -1,13 +1,13 @@
 #ifndef NODETREEVIEW_H
 #define NODETREEVIEW_H
 
-#include <QTreeWidget> // Qt 树形控件基类
-#include <QVector>     // Qt 动态数组容器
-#include <QHash>       // Qt 哈希表容器
-#include <QColor>      // Qt 颜色类
+#include <QColor>       // Qt 颜色类
+#include <QHash>        // Qt 哈希表容器
+#include <QTreeWidget>  // Qt 树形控件基类
+#include <QVector>      // Qt 动态数组容器
 
-#include "node/node.h"  // 节点基类定义
-#include "node/param.h" // 节点参数相关定义 (包含 NodeKeyframeTrackReference, NodeInput)
+#include "node/node.h"   // 节点基类定义
+#include "node/param.h"  // 节点参数相关定义 (包含 NodeKeyframeTrackReference, NodeInput)
 
 // 前向声明 Qt 类 (根据用户要求，不添加)
 // class QWidget;
@@ -26,14 +26,14 @@ namespace olive {
  * 以及自定义某些显示属性（如轨道颜色）。
  */
 class NodeTreeView : public QTreeWidget {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit NodeTreeView(QWidget* parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit NodeTreeView(QWidget* parent = nullptr);
 
   /**
    * @brief 检查指定的节点当前是否处于启用状态。
@@ -175,23 +175,27 @@ class NodeTreeView : public QTreeWidget {
   };
 
   // 自定义 QTreeWidgetItem 数据角色的常量定义
-  static const int kItemType = Qt::UserRole; ///< 用于存储项类型 (ItemType) 的角色。
-  static const int kItemInputReference = Qt::UserRole + 1; ///< 用于存储 NodeKeyframeTrackReference (如果项是输入参数) 的角色。
-  static const int kItemNodePointer = Qt::UserRole + 1;    ///< 用于存储 Node* (如果项是节点) 的角色 (与 kItemInputReference 值相同，使用时需根据 kItemType 区分)。
+  static const int kItemType = Qt::UserRole;  ///< 用于存储项类型 (ItemType) 的角色。
+  static const int kItemInputReference =
+      Qt::UserRole + 1;  ///< 用于存储 NodeKeyframeTrackReference (如果项是输入参数) 的角色。
+  static const int kItemNodePointer =
+      Qt::UserRole +
+      1;  ///< 用于存储 Node* (如果项是节点) 的角色 (与 kItemInputReference 值相同，使用时需根据 kItemType 区分)。
 
-  QVector<Node*> nodes_; ///< 当前在视图中显示或管理的节点列表。
+  QVector<Node*> nodes_;  ///< 当前在视图中显示或管理的节点列表。
 
-  QVector<Node*> disabled_nodes_; ///< 存储被用户禁用的节点列表。
-  QVector<NodeKeyframeTrackReference> disabled_inputs_; ///< 存储被用户禁用的输入参数轨道列表。
+  QVector<Node*> disabled_nodes_;                        ///< 存储被用户禁用的节点列表。
+  QVector<NodeKeyframeTrackReference> disabled_inputs_;  ///< 存储被用户禁用的输入参数轨道列表。
 
-  QHash<NodeKeyframeTrackReference, QTreeWidgetItem*> item_map_; ///< 存储从 NodeKeyframeTrackReference 到对应 QTreeWidgetItem 的映射，用于快速查找。
+  QHash<NodeKeyframeTrackReference, QTreeWidgetItem*>
+      item_map_;  ///< 存储从 NodeKeyframeTrackReference 到对应 QTreeWidgetItem 的映射，用于快速查找。
 
-  bool only_show_keyframable_; ///< 标记是否仅显示可设置关键帧的参数。
-  bool show_keyframe_tracks_as_rows_; ///< 标记是否将参数的各个轨道（分量）显示为单独的行。
+  bool only_show_keyframable_;         ///< 标记是否仅显示可设置关键帧的参数。
+  bool show_keyframe_tracks_as_rows_;  ///< 标记是否将参数的各个轨道（分量）显示为单独的行。
 
-  QHash<NodeKeyframeTrackReference, QColor> keyframe_colors_; ///< 存储每个轨道的自定义显示颜色。
+  QHash<NodeKeyframeTrackReference, QColor> keyframe_colors_;  ///< 存储每个轨道的自定义显示颜色。
 
-  bool checkboxes_enabled_; ///< 标记是否启用项旁边的复选框。
+  bool checkboxes_enabled_;  ///< 标记是否启用项旁边的复选框。
 
  private slots:
   /**

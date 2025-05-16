@@ -6,12 +6,12 @@
 #include <QMouseEvent>     // Qt 鼠标事件类
 #include <QOpenGLContext>  // Qt OpenGL 上下文类
 #ifdef USE_QOPENGLWINDOW
-#include <QOpenGLWindow>   // Qt OpenGL 窗口类 (如果 USE_QOPENGLWINDOW 被定义)
+#include <QOpenGLWindow>  // Qt OpenGL 窗口类 (如果 USE_QOPENGLWINDOW 被定义)
 #else
-#include <QOpenGLWidget>   // Qt OpenGL 控件类 (如果 USE_QOPENGLWINDOW 未定义或被注释掉)
+#include <QOpenGLWidget>  // Qt OpenGL 控件类 (如果 USE_QOPENGLWINDOW 未定义或被注释掉)
 #endif
 
-#include "node/color/colormanager/colormanager.h" // 色彩管理器类
+#include "node/color/colormanager/colormanager.h"  // 色彩管理器类
 #include "render/renderer.h"                       // 渲染器基类
 #include "widget/menu/menu.h"                      // 自定义菜单基类
 
@@ -35,18 +35,18 @@ namespace olive {
  */
 class ManagedDisplayWidgetOpenGL
 #ifdef USE_QOPENGLWINDOW
-    : public QOpenGLWindow // 如果定义了 USE_QOPENGLWINDOW，则继承自 QOpenGLWindow
+    : public QOpenGLWindow  // 如果定义了 USE_QOPENGLWINDOW，则继承自 QOpenGLWindow
 #else
-    : public QOpenGLWidget // 否则，继承自 QOpenGLWidget
+    : public QOpenGLWidget  // 否则，继承自 QOpenGLWidget
 #endif
 {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief 默认构造函数。
-   */
-  ManagedDisplayWidgetOpenGL() = default;
+     public :
+     /**
+      * @brief 默认构造函数。
+      */
+     ManagedDisplayWidgetOpenGL() = default;
 
   /**
    * @brief 析构函数。
@@ -54,8 +54,8 @@ class ManagedDisplayWidgetOpenGL
    * 在析构时，如果 OpenGL 上下文存在，则断开连接并发出 OnDestroy 信号。
    */
   ~ManagedDisplayWidgetOpenGL() override {
-    if (context()) { // 检查 OpenGL 上下文是否存在
-      DestroyListener(); // 调用销毁监听器
+    if (context()) {      // 检查 OpenGL 上下文是否存在
+      DestroyListener();  // 调用销毁监听器
       // 断开 aboutToBeDestroyed 信号与 DestroyListener 槽的连接
       disconnect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &ManagedDisplayWidgetOpenGL::DestroyListener);
     }
@@ -86,13 +86,13 @@ class ManagedDisplayWidgetOpenGL
     connect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &ManagedDisplayWidgetOpenGL::DestroyListener,
             Qt::DirectConnection);
 
-    emit OnInit(); // 发出初始化完成信号
+    emit OnInit();  // 发出初始化完成信号
   }
 
   /**
    * @brief OpenGL 绘制函数，在需要重绘时调用。
    */
-  void paintGL() override { emit OnPaint(); } // 发出绘制信号
+  void paintGL() override { emit OnPaint(); }  // 发出绘制信号
 
  private slots:
   /**
@@ -101,21 +101,21 @@ class ManagedDisplayWidgetOpenGL
    * 确保在正确的上下文中发出 OnDestroy 信号。
    */
   void DestroyListener() {
-    makeCurrent(); // 将当前 OpenGL 上下文设置为此控件/窗口的上下文
+    makeCurrent();  // 将当前 OpenGL 上下文设置为此控件/窗口的上下文
 
-    emit OnDestroy(); // 发出销毁信号
+    emit OnDestroy();  // 发出销毁信号
 
-    doneCurrent(); // 释放当前 OpenGL 上下文
+    doneCurrent();  // 释放当前 OpenGL 上下文
   }
 };
 
 // 宏定义，用于简化派生类中 OpenGL 资源清理的析构函数实现
 #define MANAGEDDISPLAYWIDGET_DEFAULT_DESTRUCTOR_INNER \
-  makeCurrent(); /* 设置当前 OpenGL 上下文 */        \
-  OnDestroy();   /* 调用虚函数执行清理 */            \
+  makeCurrent(); /* 设置当前 OpenGL 上下文 */         \
+  OnDestroy();   /* 调用虚函数执行清理 */             \
   doneCurrent()  /* 释放上下文 */
 #define MANAGEDDISPLAYWIDGET_DEFAULT_DESTRUCTOR(x) \
-  virtual ~x() override { MANAGEDDISPLAYWIDGET_DEFAULT_DESTRUCTOR_INNER; } // 定义一个虚析构函数并使用上述宏
+  virtual ~x() override { MANAGEDDISPLAYWIDGET_DEFAULT_DESTRUCTOR_INNER; }  // 定义一个虚析构函数并使用上述宏
 
 /**
  * @brief ManagedDisplayWidget 类是一个用于显示渲染结果并集成色彩管理的 QWidget。
@@ -125,14 +125,14 @@ class ManagedDisplayWidgetOpenGL
  * 派生类需要实现 OnPaint() 方法来定义具体的渲染逻辑。
  */
 class ManagedDisplayWidget : public QWidget {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit ManagedDisplayWidget(QWidget* parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit ManagedDisplayWidget(QWidget* parent = nullptr);
 
   /**
    * @brief 析构函数。
@@ -349,31 +349,31 @@ class ManagedDisplayWidget : public QWidget {
    * @brief 主要的绘图表面抽象。
    */
 #ifdef USE_QOPENGLWINDOW
-  QWindow* inner_widget_; ///< 指向内部 QWindow 的指针 (如果 USE_QOPENGLWINDOW 被定义)。
+  QWindow* inner_widget_;  ///< 指向内部 QWindow 的指针 (如果 USE_QOPENGLWINDOW 被定义)。
 #else
-  QWidget* inner_widget_; ///< 指向内部 QOpenGLWidget (或其基类 QWidget) 的指针。
+  QWidget* inner_widget_;  ///< 指向内部 QOpenGLWidget (或其基类 QWidget) 的指针。
 #endif
-  QWidget* wrapper_;      ///< 如果 inner_widget_ 是 QWindow，则此 wrapper_ 是用于将其嵌入 QWidget 布局的容器。
+  QWidget* wrapper_;  ///< 如果 inner_widget_ 是 QWindow，则此 wrapper_ 是用于将其嵌入 QWidget 布局的容器。
 
   /**
    * @brief 渲染器抽象。
    */
-  Renderer* attached_renderer_; ///< 指向附加的渲染器对象的指针。
+  Renderer* attached_renderer_;  ///< 指向附加的渲染器对象的指针。
 
   /**
    * @brief 连接的色彩管理器。
    */
-  ColorManager* color_manager_; ///< 指向当前连接的色彩管理器对象的指针。
+  ColorManager* color_manager_;  ///< 指向当前连接的色彩管理器对象的指针。
 
   /**
    * @brief 色彩管理服务。
    */
-  ColorProcessorPtr color_service_; ///< 指向当前活动的色彩处理器对象的智能指针。
+  ColorProcessorPtr color_service_;  ///< 指向当前活动的色彩处理器对象的智能指针。
 
   /**
    * @brief 内部存储的色彩变换设置。
    */
-  ColorTransform color_transform_; ///< 当前应用的色彩变换 (显示、视图、外观等)。
+  ColorTransform color_transform_;  ///< 当前应用的色彩变换 (显示、视图、外观等)。
 
  private slots:
   /**

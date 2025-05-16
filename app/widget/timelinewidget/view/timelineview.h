@@ -1,24 +1,25 @@
-#ifndef TIMELINEVIEW_H // 防止头文件被多次包含的宏定义
+#ifndef TIMELINEVIEW_H  // 防止头文件被多次包含的宏定义
 #define TIMELINEVIEW_H
 
-#include <QDragEnterEvent> // 引入 QDragEnterEvent 类，用于处理拖动进入事件
-#include <QDragLeaveEvent> // 引入 QDragLeaveEvent 类，用于处理拖动离开事件
-#include <QDragMoveEvent>  // 引入 QDragMoveEvent 类，用于处理拖动移动事件
-#include <QDropEvent>      // 引入 QDropEvent 类，用于处理拖放事件
-#include <QGraphicsView>   // 引入 QGraphicsView 类，是显示 QGraphicsScene 内容的控件基类
+#include <QDragEnterEvent>  // 引入 QDragEnterEvent 类，用于处理拖动进入事件
+#include <QDragLeaveEvent>  // 引入 QDragLeaveEvent 类，用于处理拖动离开事件
+#include <QDragMoveEvent>   // 引入 QDragMoveEvent 类，用于处理拖动移动事件
+#include <QDropEvent>       // 引入 QDropEvent 类，用于处理拖放事件
+#include <QGraphicsView>    // 引入 QGraphicsView 类，是显示 QGraphicsScene 内容的控件基类
 
-#include "node/block/clip/clip.h" // 引入 ClipBlock 类的定义
-#include "timelineviewghostitem.h" // 引入 TimelineViewGhostItem 类的定义，用于显示拖动时的预览项
-#include "timelineviewmouseevent.h" // 引入 TimelineViewMouseEvent 类的定义，封装时间轴视图的鼠标事件
-#include "widget/timebased/timebasedview.h" // 引入 TimeBasedView 类的定义，是 TimelineView 的基类
+#include "node/block/clip/clip.h"            // 引入 ClipBlock 类的定义
+#include "timelineviewghostitem.h"           // 引入 TimelineViewGhostItem 类的定义，用于显示拖动时的预览项
+#include "timelineviewmouseevent.h"          // 引入 TimelineViewMouseEvent 类的定义，封装时间轴视图的鼠标事件
+#include "widget/timebased/timebasedview.h"  // 引入 TimeBasedView 类的定义，是 TimelineView 的基类
 
 // 根据代码上下文，以下类型应由已包含的头文件或其传递包含的头文件提供定义：
-// - Qt::Alignment, QWidget, QPoint, QPointF, QRectF, QPainter, QMouseEvent, Qt::MouseButton, Qt::KeyboardModifiers: 标准Qt类型
+// - Qt::Alignment, QWidget, QPoint, QPointF, QRectF, QPainter, QMouseEvent, Qt::MouseButton, Qt::KeyboardModifiers:
+// 标准Qt类型
 // - olive::TrackList, olive::TimelineCoordinate, olive::Block, olive::rational, olive::Track::Reference,
 //   olive::TimeRangeList, olive::Tool::Item, olive::FrameHashCache, olive::TimelineMarker: 项目特定类型
 // 此处严格按照用户提供的代码，不添加额外的 #include 或前向声明。
 
-namespace olive { // olive 命名空间开始
+namespace olive {  // olive 命名空间开始
 
 /**
  * @brief TimelineView 类是一个用于查看和与序列 (Sequences) 交互的控件。
@@ -27,15 +28,15 @@ namespace olive { // olive 命名空间开始
  * 它继承自 TimeBasedView，提供了时间轴相关的显示和交互基础。
  */
 class TimelineView : public TimeBasedView {
-  Q_OBJECT // Q_OBJECT 宏，用于启用 Qt 的元对象特性，如信号和槽
+ Q_OBJECT  // Q_OBJECT 宏，用于启用 Qt 的元对象特性，如信号和槽
 
- public:
-  /**
-   * @brief 构造一个 TimelineView 对象。
-   * @param vertical_alignment 子项在垂直方向上的对齐方式，默认为 Qt::AlignTop (顶部对齐)。
-   * @param parent 父 QWidget 对象，默认为 nullptr。
-   */
-  explicit TimelineView(Qt::Alignment vertical_alignment = Qt::AlignTop, QWidget *parent = nullptr);
+     public :
+     /**
+      * @brief 构造一个 TimelineView 对象。
+      * @param vertical_alignment 子项在垂直方向上的对齐方式，默认为 Qt::AlignTop (顶部对齐)。
+      * @param parent 父 QWidget 对象，默认为 nullptr。
+      */
+     explicit TimelineView(Qt::Alignment vertical_alignment = Qt::AlignTop, QWidget *parent = nullptr);
 
   /**
    * @brief 获取指定轨道索引的 Y 轴场景坐标。
@@ -132,7 +133,7 @@ class TimelineView : public TimeBasedView {
    */
   [[nodiscard]] QVector<Block *> GetItemsAtSceneRect(const QRectF &rect) const;
 
- signals: // 信号
+ signals:  // 信号
   /**
    * @brief 当在视图中按下鼠标按钮时发出此信号。
    * @param event 指向 TimelineViewMouseEvent 对象的指针，包含事件信息。
@@ -175,7 +176,7 @@ class TimelineView : public TimeBasedView {
    */
   void DragDropped(TimelineViewMouseEvent *event);
 
- protected: // 受保护的重写方法
+ protected:  // 受保护的重写方法
   /**
    * @brief 重写 QWidget::mousePressEvent()，处理原始鼠标按下事件。
    * @param event 指向 QMouseEvent 对象的指针。
@@ -243,7 +244,7 @@ class TimelineView : public TimeBasedView {
    */
   void SceneRectUpdateEvent(QRectF &rect) override;
 
- private: // 私有方法
+ private:  // 私有方法
   /**
    * @brief 获取连接的轨道的类型。
    * @return 轨道的类型 (Track::Type)。
@@ -307,9 +308,9 @@ class TimelineView : public TimeBasedView {
    * @param height Block 在视图中的高度。
    */
   void DrawBlock(QPainter *painter, bool foreground, Block *block, qreal top, qreal height) {
-    auto *cb = dynamic_cast<ClipBlock *>(block); // 尝试将 Block 动态转换为 ClipBlock
+    auto *cb = dynamic_cast<ClipBlock *>(block);  // 尝试将 Block 动态转换为 ClipBlock
     return DrawBlock(painter, foreground, block, top, height, block->in(), block->out(),
-                     cb ? cb->media_in() : rational(0)); // 如果是 ClipBlock，使用其媒体入点，否则使用0
+                     cb ? cb->media_in() : rational(0));  // 如果是 ClipBlock，使用其媒体入点，否则使用0
   }
 
   /**
@@ -354,25 +355,25 @@ class TimelineView : public TimeBasedView {
   static void DrawThumbnail(QPainter *painter, const FrameHashCache *thumbs, const rational &time, int x,
                             const QRect &preview_rect, QRect *thumb_rect);
 
-  QHash<Track::Reference, TimeRangeList> *selections_; ///< 指向当前选择信息哈希表的指针。
+  QHash<Track::Reference, TimeRangeList> *selections_;  ///< 指向当前选择信息哈希表的指针。
 
-  QVector<TimelineViewGhostItem *> *ghosts_; ///< 指向当前幽灵项（拖动预览）列表的指针。
+  QVector<TimelineViewGhostItem *> *ghosts_;  ///< 指向当前幽灵项（拖动预览）列表的指针。
 
-  bool show_beam_cursor_; ///< 标记是否显示光束光标。
+  bool show_beam_cursor_;  ///< 标记是否显示光束光标。
 
-  TimelineCoordinate cursor_coord_; ///< 当前光束光标的时间轴坐标。
+  TimelineCoordinate cursor_coord_;  ///< 当前光束光标的时间轴坐标。
 
-  TrackList *connected_track_list_; ///< 指向已连接的 TrackList 对象的指针。
+  TrackList *connected_track_list_;  ///< 指向已连接的 TrackList 对象的指针。
 
-  ClipBlock *transition_overlay_out_; ///< 指向用于转场叠加层显示的“出点侧”剪辑块的指针。
-  ClipBlock *transition_overlay_in_;  ///< 指向用于转场叠加层显示的“入点侧”剪辑块的指针。
+  ClipBlock *transition_overlay_out_;  ///< 指向用于转场叠加层显示的“出点侧”剪辑块的指针。
+  ClipBlock *transition_overlay_in_;   ///< 指向用于转场叠加层显示的“入点侧”剪辑块的指针。
 
-  QMap<TimelineMarker *, QRectF> clip_marker_rects_; ///< 存储剪辑标记点及其在场景中矩形区域的映射。
+  QMap<TimelineMarker *, QRectF> clip_marker_rects_;  ///< 存储剪辑标记点及其在场景中矩形区域的映射。
 
-  bool recording_overlay_{};      ///< 标记录制叠加层是否启用，默认为 false。
-  TimelineCoordinate recording_coord_; ///< 录制叠加层的时间轴坐标。
+  bool recording_overlay_{};            ///< 标记录制叠加层是否启用，默认为 false。
+  TimelineCoordinate recording_coord_;  ///< 录制叠加层的时间轴坐标。
 
- private slots: // 私有槽函数
+ private slots:  // 私有槽函数
   /**
    * @brief 当连接的 TrackList 发生变化（例如添加/删除轨道）时调用的槽函数。
    *

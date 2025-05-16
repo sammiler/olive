@@ -1,11 +1,12 @@
 #ifndef PROJECTEXPLORERICONVIEW_H
 #define PROJECTEXPLORERICONVIEW_H
 
-#include "projectexplorericonviewitemdelegate.h" // 项目浏览器图标视图的项委托类
-#include "projectexplorerlistviewbase.h"       // 项目浏览器列表视图的基类 (可能包含通用选择和模型处理逻辑)
+#include "projectexplorericonviewitemdelegate.h"  // 项目浏览器图标视图的项委托类
+#include "projectexplorerlistviewbase.h"          // 项目浏览器列表视图的基类 (可能包含通用选择和模型处理逻辑)
 
 // 前向声明 Qt 类 (根据用户要求，不添加)
-// class QWidget; // ProjectExplorerListViewBase 的基类 QAbstractItemView 的基类 QAbstractScrollArea 的基类 QFrame 的基类 QWidget
+// class QWidget; // ProjectExplorerListViewBase 的基类 QAbstractItemView 的基类 QAbstractScrollArea 的基类 QFrame
+// 的基类 QWidget
 
 namespace olive {
 
@@ -17,17 +18,17 @@ namespace olive {
  * 这个视图允许用户以可视化的图标网格形式浏览项目内容。
  */
 class ProjectExplorerIconView : public ProjectExplorerListViewBase {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父控件指针。
-   */
-  explicit ProjectExplorerIconView(QWidget* parent);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父控件指针。
+      */
+     explicit ProjectExplorerIconView(QWidget* parent);
 
-private:
-  ProjectExplorerIconViewItemDelegate delegate_; ///< 用于自定义此视图中项目项（图标）绘制方式的委托。
+ private:
+  ProjectExplorerIconViewItemDelegate delegate_;  ///< 用于自定义此视图中项目项（图标）绘制方式的委托。
   ///< 委托负责渲染每个图标，包括其文本标签和可能的缩略图。
 };
 

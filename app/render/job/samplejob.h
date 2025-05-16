@@ -1,12 +1,12 @@
-#ifndef SAMPLEJOB_H // 防止头文件被重复包含的宏
-#define SAMPLEJOB_H // 定义 SAMPLEJOB_H 宏
+#ifndef SAMPLEJOB_H  // 防止头文件被重复包含的宏
+#define SAMPLEJOB_H  // 定义 SAMPLEJOB_H 宏
 
-#include "acceleratedjob.h" // 包含 AcceleratedJob 基类的定义
-                           // 也可能间接包含 NodeValue, SampleBuffer, TimeRange (通过 AcceleratedJob 或其他常用头文件)
+#include "acceleratedjob.h"  // 包含 AcceleratedJob 基类的定义
+                             // 也可能间接包含 NodeValue, SampleBuffer, TimeRange (通过 AcceleratedJob 或其他常用头文件)
 // 为了明确，SampleJob 使用 SampleBuffer 和 TimeRange，这些通常定义在与 value.h 或 render/texture.h 相关的地方。
 // AcceleratedJob 本身可能不直接包含它们，但使用 AcceleratedJob 的上下文通常会确保这些类型可用。
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
 /**
  * @brief SampleJob 类代表一个处理音频样本 (Audio Samples) 的加速任务。
@@ -22,7 +22,7 @@ namespace olive { // olive 项目的命名空间
  * 可能会创建一个 SampleJob。渲染器 (例如 NodeTraverser 的 ProcessSamples 方法，
  * 或具体节点的 ProcessSamples 方法) 会使用这个 Job 中的音频数据和时间信息来进行处理。
  */
-class SampleJob : public AcceleratedJob { // SampleJob 继承自 AcceleratedJob
+class SampleJob : public AcceleratedJob {  // SampleJob 继承自 AcceleratedJob
  public:
   // 默认构造函数
   SampleJob() = default;
@@ -33,8 +33,8 @@ class SampleJob : public AcceleratedJob { // SampleJob 继承自 AcceleratedJob
    * @param value 包含音频样本数据的 NodeValue (其类型应为 NodeValue::kSamples)。
    */
   SampleJob(const TimeRange &time, const NodeValue &value) {
-    samples_ = value.toSamples(); // 从 NodeValue 中提取 SampleBuffer
-    time_ = time;                 // 设置时间范围
+    samples_ = value.toSamples();  // 从 NodeValue 中提取 SampleBuffer
+    time_ = time;                  // 设置时间范围
   }
 
   /**
@@ -44,7 +44,7 @@ class SampleJob : public AcceleratedJob { // SampleJob 继承自 AcceleratedJob
    * @param row 包含输入参数的 NodeValueRow。
    */
   SampleJob(const TimeRange &time, const QString &from, const NodeValueRow &row) {
-    samples_ = row[from].toSamples(); // 从 NodeValueRow 的指定输入中提取 SampleBuffer
+    samples_ = row[from].toSamples();  // 从 NodeValueRow 的指定输入中提取 SampleBuffer
     time_ = time;                      // 设置时间范围
     // 注意: AcceleratedJob 的 value_map_ 仍可通过 Insert(row) 等方法填充其他参数
   }
@@ -68,9 +68,9 @@ class SampleJob : public AcceleratedJob { // SampleJob 继承自 AcceleratedJob
   [[nodiscard]] const TimeRange &time() const { return time_; }
 
  private:
-  SampleBuffer samples_; // 存储音频样本数据
+  SampleBuffer samples_;  // 存储音频样本数据
 
-  TimeRange time_;       // 音频样本对应的时间范围
+  TimeRange time_;  // 音频样本对应的时间范围
 };
 
 }  // namespace olive

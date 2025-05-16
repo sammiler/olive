@@ -2,17 +2,17 @@
 #define KD_LAYOUTSAVER_P_H
 
 #include "kddockwidgets/KDDockWidgets.h" // KDDockWidgets 公共头文件，包含枚举和基本类型
-#include "kddockwidgets/LayoutSaver.h"     // LayoutSaver 公共接口头文件
-#include "kddockwidgets/QWidgetAdapter.h"  // QWidget 和 QQuickItem 的适配器类
+#include "kddockwidgets/LayoutSaver.h" // LayoutSaver 公共接口头文件
+#include "kddockwidgets/QWidgetAdapter.h" // QWidget 和 QQuickItem 的适配器类
 
-#include <QDebug>           // Qt 调试输出类
-#include <QGuiApplication>  // Qt GUI 应用程序类，用于访问屏幕信息等
-#include <QJsonDocument>    // Qt JSON 文档处理类
-#include <QRect>            // Qt 矩形类
-#include <QScreen>          // Qt 屏幕信息类
-#include <QSettings>        // Qt 设置存储类 (尽管这里主要用 JSON，但可能用于某些配置)
+#include <QDebug> // Qt 调试输出类
+#include <QGuiApplication> // Qt GUI 应用程序类，用于访问屏幕信息等
+#include <QJsonDocument> // Qt JSON 文档处理类
+#include <QRect> // Qt 矩形类
+#include <QScreen> // Qt 屏幕信息类
+#include <QSettings> // Qt 设置存储类 (尽管这里主要用 JSON，但可能用于某些配置)
 
-#include <memory>           // C++ 标准库智能指针
+#include <memory> // C++ 标准库智能指针
 
 /**
  * @brief 每当序列化格式发生变化时，增加此版本号，以便仍然可以加载旧的布局。
@@ -27,7 +27,7 @@ namespace KDDockWidgets {
 
 // 前向声明
 class FloatingWindow; // 浮动窗口类
-class DockRegistry;   // 停靠小部件注册表类
+class DockRegistry; // 停靠小部件注册表类
 
 /**
  * @brief KDDockWidgets::RestoreOption 的一个更细粒度的版本。
@@ -35,9 +35,9 @@ class DockRegistry;   // 停靠小部件注册表类
  * 一旦这些选项得到验证，我们可能会将更多选项公开，目前它们是内部的。
  */
 enum class InternalRestoreOption {
-    None = 0,                            ///< 无特殊选项。
-    SkipMainWindowGeometry = 1,          ///< 恢复时不要重新定位主窗口的几何形状。
-    RelativeFloatingWindowGeometry = 2   ///< 浮动窗口相对于新的主窗口大小进行重新定位。
+    None = 0, ///< 无特殊选项。
+    SkipMainWindowGeometry = 1, ///< 恢复时不要重新定位主窗口的几何形状。
+    RelativeFloatingWindowGeometry = 2 ///< 浮动窗口相对于新的主窗口大小进行重新定位。
 };
 Q_DECLARE_FLAGS(InternalRestoreOptions, InternalRestoreOption) // 将 InternalRestoreOption 声明为可用于 QFlags 的枚举
 
@@ -55,9 +55,9 @@ typename T::List fromVariantList(const QVariantList &listV)
 
     result.reserve(listV.size()); // 预分配空间以提高效率
     for (const QVariant &v : listV) {
-        T t;                       // 创建目标类型的临时对象
+        T t; // 创建目标类型的临时对象
         t.fromVariantMap(v.toMap()); // 从 QVariantMap 初始化对象
-        result.push_back(t);       // 添加到结果列表
+        result.push_back(t); // 添加到结果列表
     }
 
     return result; // 返回转换后的列表
@@ -100,10 +100,10 @@ struct LayoutSaver::Placeholder
      */
     void fromVariantMap(const QVariantMap &map);
 
-    bool isFloatingWindow {};      ///< 标记此占位符是否代表一个浮动窗口中的位置。
-    int indexOfFloatingWindow {};  ///< 如果 isFloatingWindow 为 true，则表示浮动窗口在其列表中的索引。
-    int itemIndex {};              ///< 占位符在其父布局项中的索引。
-    QString mainWindowUniqueName;  ///< 如果占位符位于主窗口内，则表示主窗口的唯一名称。
+    bool isFloatingWindow {}; ///< 标记此占位符是否代表一个浮动窗口中的位置。
+    int indexOfFloatingWindow {}; ///< 如果 isFloatingWindow 为 true，则表示浮动窗口在其列表中的索引。
+    int itemIndex {}; ///< 占位符在其父布局项中的索引。
+    QString mainWindowUniqueName; ///< 如果占位符位于主窗口内，则表示主窗口的唯一名称。
 };
 
 /**
@@ -156,11 +156,11 @@ struct LayoutSaver::ScalingInfo
      */
     void applyFactorsTo(QRect &rect) const;
 
-    QString mainWindowName;         ///< 主窗口的名称。
-    QRect savedMainWindowGeometry;  ///< 保存布局时主窗口的几何形状。
-    QRect realMainWindowGeometry;   ///< 恢复布局时主窗口的实际几何形状。
-    double heightFactor = -1.0;    ///< 高度缩放因子。
-    double widthFactor = -1.0;     ///< 宽度缩放因子。
+    QString mainWindowName; ///< 主窗口的名称。
+    QRect savedMainWindowGeometry; ///< 保存布局时主窗口的几何形状。
+    QRect realMainWindowGeometry; ///< 恢复布局时主窗口的实际几何形状。
+    double heightFactor = -1.0; ///< 高度缩放因子。
+    double widthFactor = -1.0; ///< 宽度缩放因子。
     bool mainWindowChangedScreen = false; ///< 标记主窗口是否在不同的屏幕上恢复。
 };
 
@@ -169,9 +169,9 @@ struct LayoutSaver::ScalingInfo
  */
 struct LayoutSaver::Position
 {
-    QRect lastFloatingGeometry;  ///< 最后一次作为浮动窗口时的几何形状。
-    int tabIndex {};             ///< 在其父框架的标签页小部件中的索引。
-    bool wasFloating {};         ///< 标记此小部件在保存时是否处于浮动状态。
+    QRect lastFloatingGeometry; ///< 最后一次作为浮动窗口时的几何形状。
+    int tabIndex {}; ///< 在其父框架的标签页小部件中的索引。
+    bool wasFloating {}; ///< 标记此小部件在保存时是否处于浮动状态。
     LayoutSaver::Placeholder::List placeholders; ///< 与此位置关联的占位符列表。
     QHash<SideBarLocation, QRect> lastOverlayedGeometries; ///< 在各个侧边栏最后一次作为覆盖层时的几何形状。
 
@@ -253,8 +253,8 @@ struct DOCKS_EXPORT LayoutSaver::DockWidget
      */
     void fromVariantMap(const QVariantMap &map);
 
-    QString uniqueName;            ///< 停靠小部件的唯一名称。
-    QStringList affinities;        ///< 停靠小部件的亲和性列表。
+    QString uniqueName; ///< 停靠小部件的唯一名称。
+    QStringList affinities; ///< 停靠小部件的亲和性列表。
     LayoutSaver::Position lastPosition; ///< 停靠小部件的最后位置信息。
 
 private:
@@ -332,12 +332,12 @@ struct LayoutSaver::Frame
      */
     void fromVariantMap(const QVariantMap &map);
 
-    bool isNull = true;          ///< 标记此框架是否为空（例如，在某些布局中可能存在空占位）。
-    QString objectName;          ///< 框架的 Qt 对象名称。
-    QRect geometry;              ///< 框架的几何形状。
+    bool isNull = true; ///< 标记此框架是否为空（例如，在某些布局中可能存在空占位）。
+    QString objectName; ///< 框架的 Qt 对象名称。
+    QRect geometry; ///< 框架的几何形状。
     QFlags<FrameOption>::Int options {}; ///< 框架的选项 (FrameOption 的整数表示)。
-    int currentTabIndex {};      ///< 当前激活的标签页索引。
-    QString id;                  ///< 用于关联目的的内部 ID。
+    int currentTabIndex {}; ///< 当前激活的标签页索引。
+    QString id; ///< 用于关联目的的内部 ID。
 
     /// @brief 可能为空（如果不在主窗口中）。用于在恢复时避免为持久的中央框架创建新框架，
     /// 因为持久的中央框架在恢复时永远不会被删除。
@@ -436,14 +436,14 @@ struct LayoutSaver::FloatingWindow
     void fromVariantMap(const QVariantMap &map);
 
     LayoutSaver::MultiSplitter multiSplitterLayout; ///< 此浮动窗口内部的 MultiSplitter 布局信息。
-    QStringList affinities;        ///< 浮动窗口的亲和性列表。
-    int parentIndex = -1;          ///< 父主窗口在其列表中的索引（如果适用）。
-    QRect geometry;                ///< 浮动窗口的几何形状。
-    QRect normalGeometry;          ///< 浮动窗口在最大化/最小化之前的正常几何形状。
-    int screenIndex {};            ///< 浮动窗口所在的屏幕索引。
-    int flags = -1;                ///< 浮动窗口的标志 (FloatingWindowFlags 的整数表示)。
-    QSize screenSize;              ///< 用于相对尺寸恢复的屏幕尺寸。
-    bool isVisible = true;         ///< 标记浮动窗口是否可见。
+    QStringList affinities; ///< 浮动窗口的亲和性列表。
+    int parentIndex = -1; ///< 父主窗口在其列表中的索引（如果适用）。
+    QRect geometry; ///< 浮动窗口的几何形状。
+    QRect normalGeometry; ///< 浮动窗口在最大化/最小化之前的正常几何形状。
+    int screenIndex {}; ///< 浮动窗口所在的屏幕索引。
+    int flags = -1; ///< 浮动窗口的标志 (FloatingWindowFlags 的整数表示)。
+    QSize screenSize; ///< 用于相对尺寸恢复的屏幕尺寸。
+    bool isVisible = true; ///< 标记浮动窗口是否可见。
 
     /// @brief 在恢复期间创建的 KDDockWidgets::FloatingWindow 实例。
     KDDockWidgets::FloatingWindow *floatingWindowInstance = nullptr;
@@ -484,16 +484,16 @@ public:
     QHash<SideBarLocation, QStringList> dockWidgetsPerSideBar; ///< 每个侧边栏位置对应的停靠小部件名称列表。
     KDDockWidgets::MainWindowOptions options; ///< 主窗口的选项。
     LayoutSaver::MultiSplitter multiSplitterLayout; ///< 主窗口内部的 MultiSplitter 布局信息。
-    QString uniqueName;            ///< 主窗口的唯一名称。
-    QStringList affinities;        ///< 主窗口的亲和性列表。
-    QRect geometry;                ///< 主窗口的几何形状。
-    QRect normalGeometry;          ///< 主窗口在最大化/最小化之前的正常几何形状。
-    int screenIndex {};            ///< 主窗口所在的屏幕索引。
-    QSize screenSize;              ///< 用于相对尺寸恢复的屏幕尺寸。
-    bool isVisible {};             ///< 标记主窗口是否可见。
+    QString uniqueName; ///< 主窗口的唯一名称。
+    QStringList affinities; ///< 主窗口的亲和性列表。
+    QRect geometry; ///< 主窗口的几何形状。
+    QRect normalGeometry; ///< 主窗口在最大化/最小化之前的正常几何形状。
+    int screenIndex {}; ///< 主窗口所在的屏幕索引。
+    QSize screenSize; ///< 用于相对尺寸恢复的屏幕尺寸。
+    bool isVisible {}; ///< 标记主窗口是否可见。
     Qt::WindowState windowState = Qt::WindowNoState; ///< 窗口状态。
 
-    ScalingInfo scalingInfo;       ///< 主窗口的缩放信息。
+    ScalingInfo scalingInfo; ///< 主窗口的缩放信息。
 };
 
 /**
@@ -516,10 +516,10 @@ struct LayoutSaver::ScreenInfo
      */
     void fromVariantMap(const QVariantMap &map);
 
-    int index {};                  ///< 屏幕的索引。
-    QRect geometry;                ///< 屏幕的几何形状。
-    QString name;                  ///< 屏幕的名称。
-    double devicePixelRatio {};    ///< 屏幕的设备像素比。
+    int index {}; ///< 屏幕的索引。
+    QRect geometry; ///< 屏幕的几何形状。
+    QString name; ///< 屏幕的名称。
+    double devicePixelRatio {}; ///< 屏幕的设备像素比。
 };
 
 /**
@@ -630,11 +630,11 @@ public:
     [[nodiscard]] bool containsDockWidget(const QString &uniqueName) const;
 
     int serializationVersion = KDDOCKWIDGETS_SERIALIZATION_VERSION; ///< 布局序列化版本号。
-    LayoutSaver::MainWindow::List mainWindows;          ///< 主窗口状态列表。
-    LayoutSaver::FloatingWindow::List floatingWindows;  ///< 浮动窗口状态列表。
-    LayoutSaver::DockWidget::List closedDockWidgets;    ///< 已关闭的停靠小部件状态列表。
-    LayoutSaver::DockWidget::List allDockWidgets;       ///< 所有已知的停靠小部件状态列表。
-    ScreenInfo::List screenInfo;                        ///< 屏幕信息列表。
+    LayoutSaver::MainWindow::List mainWindows; ///< 主窗口状态列表。
+    LayoutSaver::FloatingWindow::List floatingWindows; ///< 浮动窗口状态列表。
+    LayoutSaver::DockWidget::List closedDockWidgets; ///< 已关闭的停靠小部件状态列表。
+    LayoutSaver::DockWidget::List allDockWidgets; ///< 所有已知的停靠小部件状态列表。
+    ScreenInfo::List screenInfo; ///< 屏幕信息列表。
 
 private:
     Q_DISABLE_COPY(Layout) ///< 禁止拷贝构造函数和拷贝赋值操作符。
@@ -651,7 +651,7 @@ public:
      */
     struct RAIIIsRestoring
     {
-        RAIIIsRestoring();  ///< 构造时标记恢复正在进行。
+        RAIIIsRestoring(); ///< 构造时标记恢复正在进行。
         ~RAIIIsRestoring(); ///< 析构时标记恢复已结束。
         Q_DISABLE_COPY(RAIIIsRestoring) ///< 禁止拷贝。
     };
@@ -702,9 +702,9 @@ public:
      */
     [[nodiscard]] static std::unique_ptr<QSettings> settings();
 
-    DockRegistry *const m_dockRegistry;           ///< 指向停靠小部件注册表的指针。
+    DockRegistry *const m_dockRegistry; ///< 指向停靠小部件注册表的指针。
     InternalRestoreOptions m_restoreOptions = {}; ///< 内部恢复选项。
-    QStringList m_affinityNames;                  ///< 当前恢复操作的亲和性名称过滤器。
+    QStringList m_affinityNames; ///< 当前恢复操作的亲和性名称过滤器。
 
     /// @brief 静态布尔值，标记恢复过程是否正在进行。
     static bool s_restoreInProgress;

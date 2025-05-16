@@ -1,10 +1,10 @@
 #ifndef KD_SIDEBAR_P_H
 #define KD_SIDEBAR_P_H
 
-#include "kddockwidgets/docks_export.h"    // 导入导出宏定义
+#include "kddockwidgets/docks_export.h" // 导入导出宏定义
 
 #include "kddockwidgets/KDDockWidgets.h" // KDDockWidgets 公共头文件，包含枚举和基本类型
-#include "kddockwidgets/QWidgetAdapter.h"  // QWidget 和 QQuickItem 的适配器类
+#include "kddockwidgets/QWidgetAdapter.h" // QWidget 和 QQuickItem 的适配器类
 
 #include <QVector> // Qt 动态数组容器，用于存储停靠小部件列表
 
@@ -154,10 +154,10 @@ private:
      */
     void updateSize();
 
-    MainWindowBase *const m_mainWindow;     ///< 指向此侧边栏所属的主窗口的常量指针。
+    MainWindowBase *const m_mainWindow; ///< 指向此侧边栏所属的主窗口的常量指针。
     QVector<DockWidgetBase *> m_dockWidgets; ///< 存储此侧边栏中所有停靠小部件的列表。
-    const SideBarLocation m_location;       ///< 此侧边栏在主窗口中的位置 (只读)。
-    const Qt::Orientation m_orientation;    ///< 此侧边栏的朝向 (垂直或水平，只读)。
+    const SideBarLocation m_location; ///< 此侧边栏在主窗口中的位置 (只读)。
+    const Qt::Orientation m_orientation; ///< 此侧边栏的朝向 (垂直或水平，只读)。
 };
 
 } // namespace KDDockWidgets

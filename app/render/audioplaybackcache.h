@@ -1,13 +1,13 @@
-#ifndef AUDIOPLAYBACKCACHE_H // 防止头文件被重复包含的宏
-#define AUDIOPLAYBACKCACHE_H // 定义 AUDIOPLAYBACKCACHE_H 宏
+#ifndef AUDIOPLAYBACKCACHE_H  // 防止头文件被重复包含的宏
+#define AUDIOPLAYBACKCACHE_H  // 定义 AUDIOPLAYBACKCACHE_H 宏
 
-#include "audio/audiovisualwaveform.h" // 包含与音频/视觉波形相关的定义 (可能间接包含 SampleBuffer, AudioParams, TimeRange 等)
-#include "render/playbackcache.h"    // 包含 PlaybackCache 基类的定义
+#include "audio/audiovisualwaveform.h"  // 包含与音频/视觉波形相关的定义 (可能间接包含 SampleBuffer, AudioParams, TimeRange 等)
+#include "render/playbackcache.h"  // 包含 PlaybackCache 基类的定义
 
 // 假设 SampleBuffer, AudioParams, TimeRange, TimeRangeList, rational 等类型
 // 已通过上述 include 或其他方式被间接包含。
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
 /**
  * @brief AudioPlaybackCache 类是一个用于存储和播放在 Olive 中已缓存音频的完整集成系统。
@@ -31,15 +31,15 @@ namespace olive { // olive 项目的命名空间
  * 表现得像一个连续的文件。
  * (注意：描述中提及的 CreatePlaybackDevice() 未在此头文件声明，可能在基类或 .cpp 文件中实现)
  */
-class AudioPlaybackCache : public PlaybackCache { // AudioPlaybackCache 继承自 PlaybackCache
-  Q_OBJECT // 声明此类使用 Qt 的元对象系统
+class AudioPlaybackCache : public PlaybackCache {  // AudioPlaybackCache 继承自 PlaybackCache
+ Q_OBJECT                                          // 声明此类使用 Qt 的元对象系统
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父对象指针，默认为 nullptr。
-   */
-  explicit AudioPlaybackCache(QObject *parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父对象指针，默认为 nullptr。
+      */
+     explicit AudioPlaybackCache(QObject *parent = nullptr);
 
   // 析构函数
   ~AudioPlaybackCache() override;
@@ -95,7 +95,7 @@ class AudioPlaybackCache : public PlaybackCache { // AudioPlaybackCache 继承�
   // 每个通道的默认音频段大小 (可能是样本数或字节数，具体单位需看实现)
   static const qint64 kDefaultSegmentSizePerChannel;
 
-  AudioParams params_; // 当前缓存使用的音频参数
+  AudioParams params_;  // 当前缓存使用的音频参数
 };
 
 }  // namespace olive

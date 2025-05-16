@@ -1,12 +1,12 @@
-#ifndef NODEEDGEITEM_H // 文件名是 nodeedgeitem.h，宏定义是 NODEEDGEITEM_H，一致
+#ifndef NODEEDGEITEM_H  // 文件名是 nodeedgeitem.h，宏定义是 NODEEDGEITEM_H，一致
 #define NODEEDGEITEM_H
 
-#include <QGraphicsPathItem> // Qt 图形路径项基类，用于绘制复杂的2D图形路径
-#include <QPalette>          // Qt 调色板类，用于颜色和样式信息
+#include <QGraphicsPathItem>  // Qt 图形路径项基类，用于绘制复杂的2D图形路径
+#include <QPalette>           // Qt 调色板类，用于颜色和样式信息
 
-#include "node/node.h"        // 节点基类定义 (output_ 成员)
-#include "node/param.h"       // 节点参数相关定义 (包含 NodeInput)
-#include "nodeviewcommon.h"   // 节点视图通用定义 (可能包含 FlowDirection 等，虽然在此头文件未直接使用)
+#include "node/node.h"       // 节点基类定义 (output_ 成员)
+#include "node/param.h"      // 节点参数相关定义 (包含 NodeInput)
+#include "nodeviewcommon.h"  // 节点视图通用定义 (可能包含 FlowDirection 等，虽然在此头文件未直接使用)
 
 // 前向声明 Qt 类 (根据用户要求，不添加)
 // class QPainter;
@@ -17,7 +17,7 @@
 
 namespace olive {
 
-class NodeViewItem; // 前向声明 NodeViewItem 类，因为它是边的起点和终点项类型
+class NodeViewItem;  // 前向声明 NodeViewItem 类，因为它是边的起点和终点项类型
 
 /**
  * @brief NodeViewEdge 类是 NodeEdge（节点间逻辑连接）在 NodeView 中的图形表示。
@@ -166,23 +166,23 @@ class NodeViewEdge : public QGraphicsPathItem {
    */
   void UpdateCurve();
 
-  Node* output_{}; ///< 指向连接的输出端所属的 Node 对象。初始化为 nullptr。
+  Node* output_{};  ///< 指向连接的输出端所属的 Node 对象。初始化为 nullptr。
 
-  NodeInput input_; ///< 描述连接的目标输入端点。
+  NodeInput input_;  ///< 描述连接的目标输入端点。
 
-  int element_{}; ///< 如果目标输入是多维的（例如向量），则表示连接到哪个元素/分量。初始化为0。
+  int element_{};  ///< 如果目标输入是多维的（例如向量），则表示连接到哪个元素/分量。初始化为0。
 
-  NodeViewItem* from_item_; ///< 指向连接的起始节点图形项。
-  NodeViewItem* to_item_;   ///< 指向连接的目标节点图形项。
+  NodeViewItem* from_item_;  ///< 指向连接的起始节点图形项。
+  NodeViewItem* to_item_;    ///< 指向连接的目标节点图形项。
 
-  int edge_width_{}; ///< 边的绘制宽度。初始化为0。
+  int edge_width_{};  ///< 边的绘制宽度。初始化为0。
 
-  bool connected_{}; ///< 标记此边当前是否处于有效连接状态。初始化为 false。
-  bool highlighted_{}; ///< 标记此边当前是否处于高亮状态。初始化为 false。
-  bool curved_{};      ///< 标记此边是否应绘制为曲线。初始化为 false。
+  bool connected_{};    ///< 标记此边当前是否处于有效连接状态。初始化为 false。
+  bool highlighted_{};  ///< 标记此边当前是否处于高亮状态。初始化为 false。
+  bool curved_{};       ///< 标记此边是否应绘制为曲线。初始化为 false。
 
-  QPointF cached_start_; ///< 缓存的边起点坐标，用于优化重绘。
-  QPointF cached_end_;   ///< 缓存的边终点坐标，用于优化重绘。
+  QPointF cached_start_;  ///< 缓存的边起点坐标，用于优化重绘。
+  QPointF cached_end_;    ///< 缓存的边终点坐标，用于优化重绘。
 };
 
 }  // namespace olive

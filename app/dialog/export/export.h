@@ -1,32 +1,32 @@
 #ifndef EXPORTDIALOG_H
 #define EXPORTDIALOG_H
 
-#include <QComboBox>          // 下拉选择框控件
-#include <QDialog>            // QDialog 基类
-#include <QDialogButtonBox>   // 标准对话框按钮盒 (可能在 .cpp 中用于按钮)
-#include <QLineEdit>          // 单行文本输入框，用于文件名
-#include <QProgressBar>       // 进度条 (可能在 .cpp 中用于显示导出进度)
-#include <QTabWidget>         // 选项卡控件 (preferences_tabs_)
-#include <QCheckBox>          // 复选框控件
-#include <QWidget>            // 为了 QWidget* parent 参数
-#include <QString>            // Qt 字符串类
-#include <QStringList>        // Qt 字符串列表
-#include <QEvent>             // 为了 eventFilter
-#include <vector>             // 为了 std::vector<EncodingParams>
+#include <QCheckBox>         // 复选框控件
+#include <QComboBox>         // 下拉选择框控件
+#include <QDialog>           // QDialog 基类
+#include <QDialogButtonBox>  // 标准对话框按钮盒 (可能在 .cpp 中用于按钮)
+#include <QEvent>            // 为了 eventFilter
+#include <QLineEdit>         // 单行文本输入框，用于文件名
+#include <QProgressBar>      // 进度条 (可能在 .cpp 中用于显示导出进度)
+#include <QString>           // Qt 字符串类
+#include <QStringList>       // Qt 字符串列表
+#include <QTabWidget>        // 选项卡控件 (preferences_tabs_)
+#include <QWidget>           // 为了 QWidget* parent 参数
+#include <vector>            // 为了 std::vector<EncodingParams>
 
 // Olive 内部头文件
-#include "codec/exportcodec.h"  // 包含 ExportCodec 枚举
-#include "codec/exportformat.h" // 包含 ExportFormat 枚举
-#include "codec/encoder.h"      // 包含 EncodingParams 类 (此文件也定义了 EncodingParams)
-#include "dialog/export/exportformatcombobox.h" // 自定义格式选择下拉框
-#include "dialog/export/exportaudiotab.h"       // 音频导出设置选项卡
-#include "dialog/export/exportsubtitlestab.h"   // 字幕导出设置选项卡
-#include "dialog/export/exportvideotab.h"       // 视频导出设置选项卡
-#include "task/export/export.h" // 包含 ExportTask 类 (虽然此处是 Export.h，通常代表导出任务类)
-#include "widget/nodeparamview/nodeparamviewwidgetbridge.h" // (用途需参照 .cpp)
-#include "widget/viewer/viewer.h" // 包含 ViewerOutput, ViewerWidget
-#include "common/define.h"      // 包含 olive::rational, ColorManager 等核心类型
-#include "node/color/colormanager/colormanager.h" // 包含 ColorManager (如果未被 define.h 或 viewer.h 包含)
+#include "codec/encoder.h"                         // 包含 EncodingParams 类 (此文件也定义了 EncodingParams)
+#include "codec/exportcodec.h"                     // 包含 ExportCodec 枚举
+#include "codec/exportformat.h"                    // 包含 ExportFormat 枚举
+#include "common/define.h"                         // 包含 olive::rational, ColorManager 等核心类型
+#include "dialog/export/exportaudiotab.h"          // 音频导出设置选项卡
+#include "dialog/export/exportformatcombobox.h"    // 自定义格式选择下拉框
+#include "dialog/export/exportsubtitlestab.h"      // 字幕导出设置选项卡
+#include "dialog/export/exportvideotab.h"          // 视频导出设置选项卡
+#include "node/color/colormanager/colormanager.h"  // 包含 ColorManager (如果未被 define.h 或 viewer.h 包含)
+#include "task/export/export.h"                    // 包含 ExportTask 类 (虽然此处是 Export.h，通常代表导出任务类)
+#include "widget/nodeparamview/nodeparamviewwidgetbridge.h"  // (用途需参照 .cpp)
+#include "widget/viewer/viewer.h"                            // 包含 ViewerOutput, ViewerWidget
 
 // 前向声明 (如果需要)
 // class ViewerOutput;
@@ -65,7 +65,7 @@ class ExportDialog : public QDialog {
    * @param parent 父 QWidget 对象指针，默认为 nullptr。
    */
   explicit ExportDialog(ViewerOutput* viewer_node, QWidget* parent = nullptr)
-      : ExportDialog(viewer_node, false, parent) {} // 委托构造
+      : ExportDialog(viewer_node, false, parent) {}  // 委托构造
 
   // ~ExportDialog() override; // 默认析构函数通常足够
 
@@ -174,16 +174,16 @@ class ExportDialog : public QDialog {
    * @brief 定义导出范围选择的枚举。
    */
   enum RangeSelection {
-    kRangeEntireSequence, ///< @brief 导出整个序列。
-    kRangeInToOut         ///< @brief 仅导出标记的入点到出点之间的范围。
+    kRangeEntireSequence,  ///< @brief 导出整个序列。
+    kRangeInToOut          ///< @brief 仅导出标记的入点到出点之间的范围。
   };
 
   /**
    * @brief 定义预设下拉框中特殊项目的枚举。
    */
   enum AutoPreset {
-    kPresetDefault = -1,  ///< @brief 代表“默认设置”或“当前设置”（非特定预设）。
-    kPresetLastUsed = -2, ///< @brief 代表“上次使用的设置”。
+    kPresetDefault = -1,   ///< @brief 代表“默认设置”或“当前设置”（非特定预设）。
+    kPresetLastUsed = -2,  ///< @brief 代表“上次使用的设置”。
   };
 
   /**
@@ -312,7 +312,7 @@ class ExportDialog : public QDialog {
    * @brief 当导出任务完成（成功或失败）时调用的槽函数。
    * 可能会更新UI，例如显示完成消息或错误提示。
    */
-  void ExportFinished(); // 通常连接到 ExportTask 的完成信号
+  void ExportFinished();  // 通常连接到 ExportTask 的完成信号
 
   /**
    * @brief 当视频选项卡中的“图像序列”复选框状态改变时调用的槽函数。

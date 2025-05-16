@@ -1,17 +1,17 @@
-#ifndef RENDERTICKET_H // 防止头文件被重复包含的宏
-#define RENDERTICKET_H // 定义 RENDERTICKET_H 宏
+#ifndef RENDERTICKET_H  // 防止头文件被重复包含的宏
+#define RENDERTICKET_H  // 定义 RENDERTICKET_H 宏
 
-#include <QDateTime>     // Qt 日期时间类 (虽然未直接使用，但可能与任务时间戳或超时相关)
-#include <QMutex>        // Qt 互斥锁类
-#include <QWaitCondition> // Qt 等待条件变量类
+#include <QDateTime>       // Qt 日期时间类 (虽然未直接使用，但可能与任务时间戳或超时相关)
+#include <QMutex>          // Qt 互斥锁类
+#include <QWaitCondition>  // Qt 等待条件变量类
 
-#include "codec/frame.h"           // 包含 Frame (或 FramePtr) 相关的定义 (RenderTicket 可能返回帧)
-#include "common/cancelableobject.h" // 包含 CancelableObject 基类的定义 (RenderTicket 可以被取消)
-#include "node/output/viewer/viewer.h" // ViewerOutput 定义 (可能与票据关联的上下文相关)
+#include "codec/frame.h"                // 包含 Frame (或 FramePtr) 相关的定义 (RenderTicket 可能返回帧)
+#include "common/cancelableobject.h"    // 包含 CancelableObject 基类的定义 (RenderTicket 可以被取消)
+#include "node/output/viewer/viewer.h"  // ViewerOutput 定义 (可能与票据关联的上下文相关)
 
 // 假设 QObject, QVariant, std::shared_ptr 已通过其他方式被间接包含。
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
 /**
  * @brief RenderTicket 类代表一个异步渲染操作的“票据”或句柄。
@@ -26,12 +26,12 @@ namespace olive { // olive 项目的命名空间
  * RenderTicket 内部使用互斥锁和等待条件变量来确保线程安全，并实现阻塞等待。
  * 它也维护了任务的完成次数和结果。
  */
-class RenderTicket : public QObject, public CancelableObject { // RenderTicket 继承自 QObject 和 CancelableObject
-  Q_OBJECT // 声明此类使用 Qt 的元对象系统
+class RenderTicket : public QObject, public CancelableObject {  // RenderTicket 继承自 QObject 和 CancelableObject
+ Q_OBJECT                                                       // 声明此类使用 Qt 的元对象系统
 
- public:
-  // 构造函数，初始化状态
-  RenderTicket();
+     public :
+     // 构造函数，初始化状态
+     RenderTicket();
 
   /**
    * @brief 获取票据当前的状态 (是否正在运行)。
@@ -113,7 +113,7 @@ class RenderTicket : public QObject, public CancelableObject { // RenderTicket �
    */
   void Finish(QVariant result);
 
- signals: // Qt 信号声明
+ signals:  // Qt 信号声明
   /**
    * @brief 当通过任何方式 (无论是被取消还是带有结果) 调用了 finish 时发出的信号。
    */
@@ -127,17 +127,17 @@ class RenderTicket : public QObject, public CancelableObject { // RenderTicket �
    */
   void FinishInternal(bool has_result, QVariant result);
 
-  bool is_running_; // 标记任务是否正在运行
+  bool is_running_;  // 标记任务是否正在运行
 
-  QVariant result_; // 存储任务的结果
+  QVariant result_;  // 存储任务的结果
 
-  bool has_result_; // 标记是否有有效的结果
+  bool has_result_;  // 标记是否有有效的结果
 
-  int finish_count_; // 记录任务完成的次数
+  int finish_count_;  // 记录任务完成的次数
 
-  QMutex lock_; // 互斥锁，用于保护对票据状态的并发访问
+  QMutex lock_;  // 互斥锁，用于保护对票据状态的并发访问
 
-  QWaitCondition wait_; // 等待条件变量，用于实现 WaitForFinished 的阻塞等待
+  QWaitCondition wait_;  // 等待条件变量，用于实现 WaitForFinished 的阻塞等待
 };
 
 // 类型别名：RenderTicketPtr 是一个指向 RenderTicket 对象的共享指针 (std::shared_ptr)
@@ -152,15 +152,15 @@ using RenderTicketPtr = std::shared_ptr<RenderTicket>;
  *
  * 这对于在UI线程中异步地处理渲染结果非常有用，可以避免UI卡顿。
  */
-class RenderTicketWatcher : public QObject { // RenderTicketWatcher 继承自 QObject
-  Q_OBJECT // 声明此类使用 Qt 的元对象系统
+class RenderTicketWatcher : public QObject {  // RenderTicketWatcher 继承自 QObject
+ Q_OBJECT                                     // 声明此类使用 Qt 的元对象系统
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父对象指针，默认为 nullptr。
-   */
-  explicit RenderTicketWatcher(QObject* parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父对象指针，默认为 nullptr。
+      */
+     explicit RenderTicketWatcher(QObject* parent = nullptr);
 
   /**
    * @brief 获取当前正在观察的 RenderTicket。
@@ -205,7 +205,7 @@ class RenderTicketWatcher : public QObject { // RenderTicketWatcher 继承自 QO
    */
   void Cancel();
 
- signals: // Qt 信号声明
+ signals:  // Qt 信号声明
   /**
    * @brief 当被观察的 RenderTicket 完成时发出的信号。
    * @param watcher 指向发出此信号的 RenderTicketWatcher 实例的指针。
@@ -214,9 +214,9 @@ class RenderTicketWatcher : public QObject { // RenderTicketWatcher 继承自 QO
   void Finished(RenderTicketWatcher* watcher);
 
  private:
-  RenderTicketPtr ticket_; // 指向当前正在观察的 RenderTicket 的共享指针
+  RenderTicketPtr ticket_;  // 指向当前正在观察的 RenderTicket 的共享指针
 
- private slots: // Qt 私有槽函数
+ private slots:  // Qt 私有槽函数
   /**
    * @brief 当被观察的 RenderTicket 发出 Finished 信号时调用的槽函数。
    * 此槽函数会进一步发出 RenderTicketWatcher 自身的 Finished 信号。

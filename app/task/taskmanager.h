@@ -1,11 +1,11 @@
 #ifndef TASKMANAGER_H
 #define TASKMANAGER_H
 
-#include <QUndoCommand> // 引入 QUndoCommand 类，用于撤销/重做操作，但在此文件中似乎未直接使用，可能是上下文依赖或未来用途
-#include <QVector>      // 引入 QVector 类，一种动态数组容器
-#include <QtConcurrent/QtConcurrent> // 引入 QtConcurrent 模块，用于简化多线程编程
+#include <QUndoCommand>  // 引入 QUndoCommand 类，用于撤销/重做操作，但在此文件中似乎未直接使用，可能是上下文依赖或未来用途
+#include <QVector>       // 引入 QVector 类，一种动态数组容器
+#include <QtConcurrent/QtConcurrent>  // 引入 QtConcurrent 模块，用于简化多线程编程
 
-#include "task/task.h" // 引入 Task 类的定义，TaskManager 管理的对象类型
+#include "task/task.h"  // 引入 Task 类的定义，TaskManager 管理的对象类型
 
 namespace olive {
 

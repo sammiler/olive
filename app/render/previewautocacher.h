@@ -1,25 +1,25 @@
-#ifndef AUTOCACHER_H // 防止头文件被重复包含的宏
-#define AUTOCACHER_H // 定义 AUTOCACHER_H 宏
+#ifndef AUTOCACHER_H  // 防止头文件被重复包含的宏
+#define AUTOCACHER_H  // 定义 AUTOCACHER_H 宏
 
-#include <QtConcurrent/QtConcurrent> // Qt 并发编程模块 (可能用于后台任务执行)
-#include <utility>                   // 标准库 utility 头文件，提供 std::move
+#include <QtConcurrent/QtConcurrent>  // Qt 并发编程模块 (可能用于后台任务执行)
+#include <utility>                    // 标准库 utility 头文件，提供 std::move
 
-#include "config/config.h"                          // 应用程序配置相关 (可能包含缓存范围等设置)
-#include "node/color/colormanager/colormanager.h" // 色彩管理器定义
-#include "node/group/group.h"                       // 节点组 (NodeGroup) 定义
-#include "node/node.h"                              // 节点基类定义
-#include "node/output/viewer/viewer.h"              // ViewerOutput 接口或基类定义
-#include "node/project.h"                           // Project 类定义
-#include "render/projectcopier.h"                   // 项目拷贝器定义 (用于在单独线程中安全地拷贝项目数据进行渲染)
-#include "render/renderjobtracker.h"                // 渲染任务跟踪器定义
-#include "render/renderticket.h"                    // 渲染票据 (RenderTicket) 定义，用于跟踪渲染任务
+#include "config/config.h"                         // 应用程序配置相关 (可能包含缓存范围等设置)
+#include "node/color/colormanager/colormanager.h"  // 色彩管理器定义
+#include "node/group/group.h"                      // 节点组 (NodeGroup) 定义
+#include "node/node.h"                             // 节点基类定义
+#include "node/output/viewer/viewer.h"             // ViewerOutput 接口或基类定义
+#include "node/project.h"                          // Project 类定义
+#include "render/projectcopier.h"                  // 项目拷贝器定义 (用于在单独线程中安全地拷贝项目数据进行渲染)
+#include "render/renderjobtracker.h"               // 渲染任务跟踪器定义
+#include "render/renderticket.h"                   // 渲染票据 (RenderTicket) 定义，用于跟踪渲染任务
 
 // 假设 TimeRange, TimeRangeList, rational, PlaybackCache, ColorProcessorPtr, MultiCamNode
 // 等类型已通过上述 include 或其他方式被间接包含。
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
-class MultiCamNode; // 向前声明 MultiCamNode 类
+class MultiCamNode;  // 向前声明 MultiCamNode 类
 
 /**
  * @brief PreviewAutoCacher 类是一个管理器，用于在后台动态地缓存序列内容。
@@ -38,15 +38,15 @@ class MultiCamNode; // 向前声明 MultiCamNode 类
  *
  * (注意：文件名是 AutoCacher.h，而类名是 PreviewAutoCacher，这可能是一个历史遗留问题或特定命名约定)
  */
-class PreviewAutoCacher : public QObject { // PreviewAutoCacher 继承自 QObject
-  Q_OBJECT // 声明此类使用 Qt 的元对象系统
+class PreviewAutoCacher : public QObject {  // PreviewAutoCacher 继承自 QObject
+ Q_OBJECT                                   // 声明此类使用 Qt 的元对象系统
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父对象指针，默认为 nullptr。
-   */
-  explicit PreviewAutoCacher(QObject *parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父对象指针，默认为 nullptr。
+      */
+     explicit PreviewAutoCacher(QObject *parent = nullptr);
 
   // 析构函数，可能需要清理正在运行的任务或释放资源。
   ~PreviewAutoCacher() override;
@@ -146,7 +146,7 @@ class PreviewAutoCacher : public QObject { // PreviewAutoCacher 继承自 QObjec
    */
   void SetIgnoreCacheRequests(bool e) { ignore_cache_requests_ = e; }
 
- public slots: // Qt 公有槽函数
+ public slots:  // Qt 公有槽函数
   /**
    * @brief 设置用于预览显示的颜色处理器。
    * 渲染的帧在最终显示前会通过这个处理器进行颜色转换 (例如，到显示器的色彩空间)。
@@ -154,7 +154,7 @@ class PreviewAutoCacher : public QObject { // PreviewAutoCacher 继承自 QObjec
    */
   void SetDisplayColorProcessor(ColorProcessorPtr processor) { display_color_processor_ = std::move(processor); }
 
- signals: // Qt 信号声明
+ signals:  // Qt 信号声明
   /**
    * @brief (可能用于) 停止所有与缓存代理 (Cache Proxy) 相关的任务。
    * “缓存代理”可能是指一个在后台代表主缓存进行操作的辅助缓存或进程。
@@ -198,75 +198,75 @@ class PreviewAutoCacher : public QObject { // PreviewAutoCacher 继承自 QObjec
   // 当节点的音频缓存因节点图变化而失效时的处理函数
   void AudioInvalidatedFromNode(ViewerOutput *context, PlaybackCache *cache, const olive::TimeRange &range);
 
-  Project *project_; // 指向当前活动的项目
+  Project *project_;  // 指向当前活动的项目
 
-  ProjectCopier *copier_; // 项目拷贝器，用于在渲染线程中安全地访问项目数据
+  ProjectCopier *copier_;  // 项目拷贝器，用于在渲染线程中安全地访问项目数据
 
-  TimeRange cache_range_; // 当前根据播放头计算出的自动缓存范围
+  TimeRange cache_range_;  // 当前根据播放头计算出的自动缓存范围
 
-  bool use_custom_range_;          // 标记是否正在使用自定义的强制缓存范围
-  TimeRange custom_autocache_range_; // 存储自定义的强制缓存范围
+  bool use_custom_range_;             // 标记是否正在使用自定义的强制缓存范围
+  TimeRange custom_autocache_range_;  // 存储自定义的强制缓存范围
 
-  bool pause_renders_;    // 标记是否暂停所有渲染
-  bool pause_thumbnails_; // 标记是否暂停缩略图生成
+  bool pause_renders_;     // 标记是否暂停所有渲染
+  bool pause_thumbnails_;  // 标记是否暂停缩略图生成
 
-  RenderTicketPtr single_frame_render_; // 当前正在进行的单帧渲染任务的票据
+  RenderTicketPtr single_frame_render_;  // 当前正在进行的单帧渲染任务的票据
   // 存储视频即时透传 (immediate passthrough) 的渲染票据，键是观察者，值是相关的票据列表
   // (可能用于处理一些不直接写入主缓存，但需要即时结果的情况)
   QMap<RenderTicketWatcher *, QVector<RenderTicketPtr> > video_immediate_passthroughs_;
 
-  QTimer delayed_requeue_timer_; // 延迟重新排队计时器 (可能用于避免过于频繁的重新排队)
+  QTimer delayed_requeue_timer_;  // 延迟重新排队计时器 (可能用于避免过于频繁的重新排队)
 
-  JobTime last_conform_task_; // 上一个音频对齐 (conform) 任务的时间信息 (可能)
+  JobTime last_conform_task_;  // 上一个音频对齐 (conform) 任务的时间信息 (可能)
 
-  QVector<RenderTicketWatcher *> running_video_tasks_; // 当前正在运行的视频渲染任务的观察者列表
-  QVector<RenderTicketWatcher *> running_audio_tasks_; // 当前正在运行的音频渲染任务的观察者列表
+  QVector<RenderTicketWatcher *> running_video_tasks_;  // 当前正在运行的视频渲染任务的观察者列表
+  QVector<RenderTicketWatcher *> running_audio_tasks_;  // 当前正在运行的音频渲染任务的观察者列表
 
-  ColorManager *copied_color_manager_{}; // 从主项目拷贝过来的色彩管理器副本，供渲染线程使用
+  ColorManager *copied_color_manager_{};  // 从主项目拷贝过来的色彩管理器副本，供渲染线程使用
 
   // 内部结构体，用于存储待处理的视频渲染作业信息
   struct VideoJob {
-    Node *node;             // 要渲染的源节点
-    ViewerOutput *context;  // 渲染上下文 (例如序列节点)
-    PlaybackCache *cache;   // 目标缓存
-    TimeRange range;        // 要渲染的时间范围
-    TimeRangeListFrameIterator iterator; // 用于迭代时间范围内的帧
+    Node *node;                           // 要渲染的源节点
+    ViewerOutput *context;                // 渲染上下文 (例如序列节点)
+    PlaybackCache *cache;                 // 目标缓存
+    TimeRange range;                      // 要渲染的时间范围
+    TimeRangeListFrameIterator iterator;  // 用于迭代时间范围内的帧
   };
 
   // 内部结构体，用于存储与特定视频缓存相关的附加数据
   struct VideoCacheData {
-    RenderJobTracker job_tracker; // 此缓存的渲染任务跟踪器
+    RenderJobTracker job_tracker;  // 此缓存的渲染任务跟踪器
   };
 
   // 内部结构体，用于存储待处理的音频渲染作业信息
   struct AudioJob {
-    Node *node;            // 源节点
-    ViewerOutput *context; // 渲染上下文
-    PlaybackCache *cache;  // 目标缓存
-    TimeRange range;       // 要渲染的时间范围
+    Node *node;             // 源节点
+    ViewerOutput *context;  // 渲染上下文
+    PlaybackCache *cache;   // 目标缓存
+    TimeRange range;        // 要渲染的时间范围
   };
 
   // 内部结构体，用于存储与特定音频缓存相关的附加数据
   struct AudioCacheData {
-    RenderJobTracker job_tracker; // 此缓存的渲染任务跟踪器
-    TimeRangeList needs_conform;  // 需要进行音频对齐 (conform) 的时间范围列表
+    RenderJobTracker job_tracker;  // 此缓存的渲染任务跟踪器
+    TimeRangeList needs_conform;   // 需要进行音频对齐 (conform) 的时间范围列表
   };
 
-  std::list<VideoJob> pending_video_jobs_; // 待处理的视频渲染作业队列
-  std::list<AudioJob> pending_audio_jobs_; // 待处理的音频渲染作业队列
+  std::list<VideoJob> pending_video_jobs_;  // 待处理的视频渲染作业队列
+  std::list<AudioJob> pending_audio_jobs_;  // 待处理的音频渲染作业队列
 
   // 将 PlaybackCache 指针映射到其对应的 VideoCacheData
   QHash<PlaybackCache *, VideoCacheData> video_cache_data_;
   // 将 PlaybackCache 指针映射到其对应的 AudioCacheData
   QHash<PlaybackCache *, AudioCacheData> audio_cache_data_;
 
-  ColorProcessorPtr display_color_processor_; // 用于最终显示的颜色处理器
+  ColorProcessorPtr display_color_processor_;  // 用于最终显示的颜色处理器
 
-  MultiCamNode *multicam_; // 指向当前活动的多机位节点 (如果存在)
+  MultiCamNode *multicam_;  // 指向当前活动的多机位节点 (如果存在)
 
-  bool ignore_cache_requests_; // 标记是否忽略来自缓存系统的请求
+  bool ignore_cache_requests_;  // 标记是否忽略来自缓存系统的请求
 
- private slots: // Qt 私有槽函数
+ private slots:  // Qt 私有槽函数
   /**
    * @brief 当节点图报告某个视频缓存范围因缓存系统自身原因 (例如磁盘空间不足、文件删除) 而失效时的处理函数。
    */

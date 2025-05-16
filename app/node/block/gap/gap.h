@@ -1,7 +1,7 @@
 #ifndef GAPBLOCK_H
 #define GAPBLOCK_H
 
-#include "node/block/block.h" // 引入基类 Block 的定义
+#include "node/block/block.h"  // 引入基类 Block 的定义
 
 namespace olive {
 
@@ -10,14 +10,14 @@ namespace olive {
  * 这通常用于在时间线上创建空白区域或间隙。
  */
 class GapBlock : public Block {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief GapBlock 构造函数。
-   */
-  GapBlock();
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief GapBlock 构造函数。
+      */
+     GapBlock();
 
-  NODE_DEFAULT_FUNCTIONS(GapBlock) // 节点默认功能宏，可能包含克隆、类型信息等标准实现
+  NODE_DEFAULT_FUNCTIONS(GapBlock)  // 节点默认功能宏，可能包含克隆、类型信息等标准实现
 
   /**
    * @brief 获取此 GapBlock 的名称。

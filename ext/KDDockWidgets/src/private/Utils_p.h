@@ -1,28 +1,28 @@
 #ifndef KD_UTILS_P_H
 #define KD_UTILS_P_H
 
-#include "Config.h"                       // KDDockWidgets 配置类
-#include "Frame_p.h"                     // Frame 私有头文件 (停靠小部件的容器)
-#include "kddockwidgets/QWidgetAdapter.h"  // QWidget 和 QQuickItem 的适配器类
+#include "Config.h" // KDDockWidgets 配置类
+#include "Frame_p.h" // Frame 私有头文件 (停靠小部件的容器)
+#include "kddockwidgets/QWidgetAdapter.h" // QWidget 和 QQuickItem 的适配器类
 
-#include <QScreen>   // Qt 屏幕信息类
-#include <QWindow>   // Qt 窗口基类
+#include <QScreen> // Qt 屏幕信息类
+#include <QWindow> // Qt 窗口基类
 #include <QMouseEvent> // Qt 鼠标事件类
 
-#ifdef KDDOCKWIDGETS_QTQUICK         // 条件编译：如果 KDDockWidgets 是为 QtQuick 构建的
+#ifdef KDDOCKWIDGETS_QTQUICK // 条件编译：如果 KDDockWidgets 是为 QtQuick 构建的
 #include "private/quick/TitleBarQuick_p.h" // QtQuick 版本的 TitleBar 私有头文件
 
-#include <QQuickItem>     // QtQuick 项目基类
-#include <QQuickView>     // QtQuick 视图类 (尽管这里可能未使用，但常与 QQuickWindow 一起出现)
+#include <QQuickItem> // QtQuick 项目基类
+#include <QQuickView> // QtQuick 视图类 (尽管这里可能未使用，但常与 QQuickWindow 一起出现)
 #include <QGuiApplication> // Qt GUI 应用程序类 (用于 QtQuick 和通用 GUI 功能)
-#else                                // 否则 (即为 QtWidgets 构建)
-#include <QApplication>    // Qt Widgets 应用程序类
+#else // 否则 (即为 QtWidgets 构建)
+#include <QApplication> // Qt Widgets 应用程序类
 #include <QAbstractButton> // Qt 抽象按钮基类
-#include <QLineEdit>       // Qt 单行文本编辑器控件
+#include <QLineEdit> // Qt 单行文本编辑器控件
 #endif
 
-#ifdef QT_X11EXTRAS_LIB              // 条件编译：如果链接了 QtX11Extras 模块 (通常用于 Linux/X11)
-#include <QtX11Extras/QX11Info>      // Qt X11 平台特定信息类
+#ifdef QT_X11EXTRAS_LIB // 条件编译：如果链接了 QtX11Extras 模块 (通常用于 Linux/X11)
+#include <QtX11Extras/QX11Info> // Qt X11 平台特定信息类
 #endif
 
 QT_BEGIN_NAMESPACE
@@ -258,9 +258,9 @@ inline QMouseEvent *mouseEvent(QEvent *e)
     case QEvent::MouseButtonDblClick:
     case QEvent::MouseButtonRelease:
     case QEvent::MouseMove:
-    case QEvent::NonClientAreaMouseButtonPress:    // 非客户区鼠标按下
-    case QEvent::NonClientAreaMouseButtonRelease:  // 非客户区鼠标释放
-    case QEvent::NonClientAreaMouseMove:           // 非客户区鼠标移动
+    case QEvent::NonClientAreaMouseButtonPress: // 非客户区鼠标按下
+    case QEvent::NonClientAreaMouseButtonRelease: // 非客户区鼠标释放
+    case QEvent::NonClientAreaMouseMove: // 非客户区鼠标移动
     case QEvent::NonClientAreaMouseButtonDblClick: // 非客户区鼠标双击
         return dynamic_cast<QMouseEvent *>(e); // 尝试动态转换为 QMouseEvent
     default:

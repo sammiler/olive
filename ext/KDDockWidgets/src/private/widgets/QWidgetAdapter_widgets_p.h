@@ -103,7 +103,7 @@ inline void setTopLevelGeometry(QRect geometry, const QWidget *widget)
         return;
 
     if (QWidget *topLevel = widget->window()) // 获取顶层窗口
-        topLevel->setGeometry(geometry);      // 设置其几何区域
+        topLevel->setGeometry(geometry); // 设置其几何区域
 }
 
 } // namespace Private
@@ -119,8 +119,8 @@ class FloatingWindow; // 前向声明 FloatingWindow 类
  */
 class DOCKS_EXPORT QWidgetAdapter : public QWidget
 {
-    Q_OBJECT // 启用 Qt 元对象系统特性
-public:
+Q_OBJECT // 启用 Qt 元对象系统特性
+    public :
     /**
      * @brief 构造一个 QWidgetAdapter 对象。
      * @param parent 父 QWidget，默认为 nullptr。

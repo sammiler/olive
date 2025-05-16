@@ -1,11 +1,11 @@
 #ifndef PATHWIDGET_H
 #define PATHWIDGET_H
 
-#include <QLineEdit>     // Qt 单行文本输入框控件
-#include <QPushButton>   // Qt 按钮控件
-#include <QWidget>       // Qt 控件基类 (作为 PathWidget 的基类)
+#include <QLineEdit>    // Qt 单行文本输入框控件
+#include <QPushButton>  // Qt 按钮控件
+#include <QWidget>      // Qt 控件基类 (作为 PathWidget 的基类)
 
-#include "common/define.h" // 项目通用定义
+#include "common/define.h"  // 项目通用定义
 
 // 前向声明 Qt 类 (根据用户要求，不添加)
 // class QString;
@@ -20,15 +20,15 @@ namespace olive {
  * 当路径文本框的内容改变时，会触发相应的处理。
  */
 class PathWidget : public QWidget {
-  Q_OBJECT // Qt 元对象系统宏
+ Q_OBJECT  // Qt 元对象系统宏
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param path 控件初始化时显示的默认路径字符串。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit PathWidget(const QString& path, QWidget* parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param path 控件初始化时显示的默认路径字符串。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit PathWidget(const QString& path, QWidget* parent = nullptr);
 
   /**
    * @brief 获取当前在路径编辑框中显示的文本。
@@ -37,14 +37,14 @@ class PathWidget : public QWidget {
    */
   [[nodiscard]] QString text() const { return path_edit_->text(); }
 
-private slots:
- /**
-  * @brief “浏览...”按钮点击事件的槽函数。
-  *
-  * 此函数会打开一个文件或目录选择对话框（具体行为可能在 .cpp 文件中定义，
-  * 例如，是否区分文件和目录模式），并将用户选择的路径设置到路径编辑框中。
-  */
- void BrowseClicked();
+ private slots:
+  /**
+   * @brief “浏览...”按钮点击事件的槽函数。
+   *
+   * 此函数会打开一个文件或目录选择对话框（具体行为可能在 .cpp 文件中定义，
+   * 例如，是否区分文件和目录模式），并将用户选择的路径设置到路径编辑框中。
+   */
+  void BrowseClicked();
 
   /**
    * @brief 路径编辑框 (QLineEdit) 文本内容发生改变时的槽函数。
@@ -54,7 +54,7 @@ private slots:
    */
   void LineEditChanged();
 
-private:
+ private:
   QLineEdit* path_edit_;     ///< 用于显示和编辑文件或目录路径的单行文本输入框。
   QPushButton* browse_btn_;  ///< “浏览...”按钮，用于触发文件或目录选择对话框。
 };

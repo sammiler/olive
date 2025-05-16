@@ -5,15 +5,13 @@
 #include <QComboBox>  // 引入 QComboBox 类，用于创建下拉列表框控件
 #include <QDialog>    // 引入 QDialog 类，对话框窗口的基类
 
-#include "node/block/clip/clip.h"       // 引入片段块 (ClipBlock) 定义
-#include "node/block/gap/gap.h"         // 引入间隙块 (GapBlock) 定义 (虽然未直接使用，但可能与片段操作相关)
-#include "undo/undocommand.h"           // 引入撤销命令基类 (虽然未直接使用，但修改操作通常应可撤销)
-#include "widget/slider/floatslider.h"  // 引入浮点数滑块控件
-#include "widget/slider/rationalslider.h" // 引入有理数滑块控件
+#include "node/block/clip/clip.h"          // 引入片段块 (ClipBlock) 定义
+#include "node/block/gap/gap.h"            // 引入间隙块 (GapBlock) 定义 (虽然未直接使用，但可能与片段操作相关)
+#include "undo/undocommand.h"              // 引入撤销命令基类 (虽然未直接使用，但修改操作通常应可撤销)
+#include "widget/slider/floatslider.h"     // 引入浮点数滑块控件
+#include "widget/slider/rationalslider.h"  // 引入有理数滑块控件
 
 namespace olive {
-
-
 
 /**
  * @class SpeedDurationDialog

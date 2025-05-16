@@ -1,17 +1,17 @@
-#ifndef SUBTITLEPARAMS_H // 防止头文件被重复包含的宏
-#define SUBTITLEPARAMS_H // 定义 SUBTITLEPARAMS_H 宏
+#ifndef SUBTITLEPARAMS_H  // 防止头文件被重复包含的宏
+#define SUBTITLEPARAMS_H  // 定义 SUBTITLEPARAMS_H 宏
 
-#include <olive/core/core.h> // 包含 Olive 核心定义 (可能包含 TimeRange, rational)
-#include <QRect>             // Qt 矩形类 (虽然在此文件中未直接使用，但字幕渲染时可能需要)
-#include <QString>           // Qt 字符串类
-#include <QXmlStreamReader>  // Qt XML 流读取器 (用于从XML加载字幕)
-#include <QXmlStreamWriter>  // Qt XML 流写入器 (用于将字幕保存到XML)
-#include <utility>           // 标准库 utility 头文件，提供 std::move
-#include <vector>            // 标准库 vector 容器 (SubtitleParams 继承自它)
+#include <olive/core/core.h>  // 包含 Olive 核心定义 (可能包含 TimeRange, rational)
+#include <QRect>              // Qt 矩形类 (虽然在此文件中未直接使用，但字幕渲染时可能需要)
+#include <QString>            // Qt 字符串类
+#include <QXmlStreamReader>   // Qt XML 流读取器 (用于从XML加载字幕)
+#include <QXmlStreamWriter>   // Qt XML 流写入器 (用于将字幕保存到XML)
+#include <utility>            // 标准库 utility 头文件，提供 std::move
+#include <vector>             // 标准库 vector 容器 (SubtitleParams 继承自它)
 
-using namespace olive::core; // 使用 olive::core 命名空间中的类型 (如 TimeRange, rational)
+using namespace olive::core;  // 使用 olive::core 命名空间中的类型 (如 TimeRange, rational)
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
 /**
  * @brief Subtitle 类代表一个单独的字幕条目。
@@ -28,7 +28,9 @@ class Subtitle {
    * @param time 字幕显示的时间范围 (TimeRange)。
    * @param text 字幕的文本内容 (QString)。
    */
-  Subtitle(const TimeRange &time, QString text) : range_(time), text_(std::move(text)) // 使用 std::move 提高效率
+  Subtitle(const TimeRange &time, QString text)
+      : range_(time),
+        text_(std::move(text))  // 使用 std::move 提高效率
   {}
 
   /**
@@ -54,8 +56,8 @@ class Subtitle {
   void set_text(const QString &t) { text_ = t; }
 
  private:
-  TimeRange range_; // 字幕显示的时间范围
-  QString text_;    // 字幕的文本内容
+  TimeRange range_;  // 字幕显示的时间范围
+  QString text_;     // 字幕的文本内容
 };
 
 /**
@@ -66,12 +68,12 @@ class Subtitle {
  * 这个类用于管理整个字幕轨道或字幕文件中的所有字幕条目。
  * 它还提供了加载和保存字幕数据到 XML 的功能，以及生成 ASS (Advanced SubStation Alpha) 字幕文件头的方法。
  */
-class SubtitleParams : public std::vector<Subtitle> { // SubtitleParams 继承自 std::vector<Subtitle>
+class SubtitleParams : public std::vector<Subtitle> {  // SubtitleParams 继承自 std::vector<Subtitle>
  public:
   // 构造函数，初始化流索引为0，启用状态为true
   SubtitleParams() {
-    stream_index_ = 0;    // 默认流索引为0
-    enabled_ = true;      // 默认启用字幕
+    stream_index_ = 0;  // 默认流索引为0
+    enabled_ = true;    // 默认启用字幕
   }
 
   /**
@@ -97,7 +99,7 @@ class SubtitleParams : public std::vector<Subtitle> { // SubtitleParams 继承�
    * @brief 检查当前的字幕参数集合是否有效 (即是否包含任何字幕条目)。
    * @return 如果字幕列表不为空，则返回 true；否则返回 false。
    */
-  [[nodiscard]] bool is_valid() const { return !this->empty(); } // 使用 std::vector::empty()
+  [[nodiscard]] bool is_valid() const { return !this->empty(); }  // 使用 std::vector::empty()
 
   /**
    * @brief 获取整个字幕序列的总时长。
@@ -105,11 +107,11 @@ class SubtitleParams : public std::vector<Subtitle> { // SubtitleParams 继承�
    * @return 返回 rational 类型的总时长。如果列表为空，则返回0。
    */
   [[nodiscard]] rational duration() const {
-    if (this->empty()) { // 如果列表为空
-      return rational(0); // 返回时长0
+    if (this->empty()) {   // 如果列表为空
+      return rational(0);  // 返回时长0
     } else {
       // 返回最后一个字幕条目的结束时间作为总时长
-      return back().time().out(); // back() 获取最后一个元素
+      return back().time().out();  // back() 获取最后一个元素
     }
   }
 
@@ -137,8 +139,8 @@ class SubtitleParams : public std::vector<Subtitle> { // SubtitleParams 继承�
   void set_enabled(bool e) { enabled_ = e; }
 
  private:
-  int stream_index_; // 字幕流的索引 (例如，在多字幕轨道的视频文件中)
-  bool enabled_;     // 标记此字幕轨道是否启用
+  int stream_index_;  // 字幕流的索引 (例如，在多字幕轨道的视频文件中)
+  bool enabled_;      // 标记此字幕轨道是否启用
 };
 
 }  // namespace olive

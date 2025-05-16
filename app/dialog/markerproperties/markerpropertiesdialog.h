@@ -1,12 +1,12 @@
 #ifndef MARKERPROPERTIESDIALOG_H
 #define MARKERPROPERTIESDIALOG_H
 
-#include <QDialog>     // QDialog 基类
-#include <QLineEdit>   // 单行文本输入框基类
-#include <QFocusEvent> // 为了 LineEditWithFocusSignal::focusInEvent 参数
-#include <QWidget>     // 为了 QWidget* parent 参数
-#include <QString>     // Qt 字符串类
-#include <vector>      // 为了 std::vector<TimelineMarker*>
+#include <QDialog>      // QDialog 基类
+#include <QFocusEvent>  // 为了 LineEditWithFocusSignal::focusInEvent 参数
+#include <QLineEdit>    // 单行文本输入框基类
+#include <QString>      // Qt 字符串类
+#include <QWidget>      // 为了 QWidget* parent 参数
+#include <vector>       // 为了 std::vector<TimelineMarker*>
 
 // Olive 内部头文件
 // 假设 timelinemarker.h 声明了 TimelineMarker 类和 rational 类型 (如果未被其他头文件包含)
@@ -41,8 +41,8 @@ class LineEditWithFocusSignal : public QLineEdit {
    * @param e 指向 QFocusEvent 对象的指针，包含焦点事件信息。
    */
   void focusInEvent(QFocusEvent *e) override {
-    QLineEdit::focusInEvent(e); // 调用基类的事件处理
-    emit Focused();             // 发出获得焦点信号
+    QLineEdit::focusInEvent(e);  // 调用基类的事件处理
+    emit Focused();              // 发出获得焦点信号
   }
 
  signals:

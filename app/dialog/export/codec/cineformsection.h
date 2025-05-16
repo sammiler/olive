@@ -1,8 +1,8 @@
 #ifndef CINEFORMSECTION_H
 #define CINEFORMSECTION_H
 
-#include <QComboBox> // 下拉选择框控件，用于质量选择
-#include <QWidget>   // 为了 QWidget* parent 参数
+#include <QComboBox>  // 下拉选择框控件，用于质量选择
+#include <QWidget>    // 为了 QWidget* parent 参数
 
 // 假设 codecsection.h 声明了 CodecSection 基类和 EncodingParams 类
 #include "codecsection.h"
@@ -42,7 +42,7 @@ class CineformSection : public CodecSection {
    */
   void SetOpts(const EncodingParams *p) override;
 
-private:
+ private:
   /**
    * @brief 指向 QComboBox 控件的指针，用于让用户选择 CineForm 编码的质量级别。
    * （例如：低、中、高、电影级等）

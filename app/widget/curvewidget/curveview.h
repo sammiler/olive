@@ -1,7 +1,7 @@
 #ifndef CURVEVIEW_H
 #define CURVEVIEW_H
 
-#include "node/keyframe.h"                   // 关键帧数据结构
+#include "node/keyframe.h"                     // 关键帧数据结构
 #include "widget/keyframeview/keyframeview.h"  // 关键帧视图基类
 #include "widget/slider/floatslider.h"         // 浮点数滑块控件 (可能用于显示/编辑关键帧值)
 
@@ -29,14 +29,14 @@ namespace olive {
  * 支持连接多个输入轨道 (NodeKeyframeTrackReference)，并为每个轨道显示其关键帧和曲线。
  */
 class CurveView : public KeyframeView {
-  Q_OBJECT // Qt 元对象系统宏，用于支持信号和槽机制
+ Q_OBJECT  // Qt 元对象系统宏，用于支持信号和槽机制
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit CurveView(QWidget *parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit CurveView(QWidget *parent = nullptr);
 
   /**
    * @brief 连接一个节点关键帧轨道到视图中进行显示和编辑。
@@ -247,32 +247,34 @@ class CurveView : public KeyframeView {
    */
   QPointF GetScaledCursorPos(const QPointF &cursor_pos);
 
-  QHash<NodeKeyframeTrackReference, QColor> keyframe_colors_; ///< 存储每个轨道的显示颜色。
-  QHash<NodeKeyframeTrackReference, KeyframeViewInputConnection *> track_connections_; ///< 存储已连接轨道及其对应的连接对象。
+  QHash<NodeKeyframeTrackReference, QColor> keyframe_colors_;  ///< 存储每个轨道的显示颜色。
+  QHash<NodeKeyframeTrackReference, KeyframeViewInputConnection *>
+      track_connections_;  ///< 存储已连接轨道及其对应的连接对象。
 
-  int text_padding_; ///< 绘制文本时的内边距。
+  int text_padding_;  ///< 绘制文本时的内边距。
 
-  int minimum_grid_space_; ///< 网格线的最小间距。
+  int minimum_grid_space_;  ///< 网格线的最小间距。
 
-  QVector<NodeKeyframeTrackReference> connected_inputs_; ///< 存储所有已连接输入轨道的引用列表。
+  QVector<NodeKeyframeTrackReference> connected_inputs_;  ///< 存储所有已连接输入轨道的引用列表。
 
   /**
    * @brief BezierPoint 结构体用于表示和管理可交互的贝塞尔控制点。
    */
   struct BezierPoint {
-    QRectF rect;                 ///< 控制点在视图中的包围矩形，用于拾取。
-    NodeKeyframe *keyframe{};    ///< 此控制点所属的关键帧。
-    NodeKeyframe::BezierType type; ///< 控制点的类型（入控制柄或出控制柄）。
+    QRectF rect;                    ///< 控制点在视图中的包围矩形，用于拾取。
+    NodeKeyframe *keyframe{};       ///< 此控制点所属的关键帧。
+    NodeKeyframe::BezierType type;  ///< 控制点的类型（入控制柄或出控制柄）。
   };
 
-  QVector<BezierPoint> bezier_pts_;         ///< 存储当前视图中所有可见的贝塞尔控制点。
-  const BezierPoint *dragging_bezier_pt_; ///< 指向当前正在被拖动的贝塞尔控制点的指针。
+  QVector<BezierPoint> bezier_pts_;        ///< 存储当前视图中所有可见的贝塞尔控制点。
+  const BezierPoint *dragging_bezier_pt_;  ///< 指向当前正在被拖动的贝塞尔控制点的指针。
 
-  QPointF dragging_bezier_point_start_;          ///< 拖动贝塞尔控制点开始时的原始位置。
-  QPointF dragging_bezier_point_opposing_start_; ///< 拖动贝塞尔控制点时，其对应（另一侧）控制点的起始位置（用于对称调整等）。
-  QPointF drag_start_;                           ///< 拖动操作开始时的鼠标位置。
+  QPointF dragging_bezier_point_start_;  ///< 拖动贝塞尔控制点开始时的原始位置。
+  QPointF
+      dragging_bezier_point_opposing_start_;  ///< 拖动贝塞尔控制点时，其对应（另一侧）控制点的起始位置（用于对称调整等）。
+  QPointF drag_start_;                        ///< 拖动操作开始时的鼠标位置。
 
-  QVector<QVariant> drag_keyframe_values_; ///< 在拖动关键帧时，存储这些关键帧的原始值，用于计算相对变化。
+  QVector<QVariant> drag_keyframe_values_;  ///< 在拖动关键帧时，存储这些关键帧的原始值，用于计算相对变化。
 };
 
 }  // namespace olive

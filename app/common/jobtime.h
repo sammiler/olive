@@ -1,9 +1,9 @@
 #ifndef JOBTIME_H
 #define JOBTIME_H
 
-#include <stdint.h> // 为了 uint64_t
-#include <QDebug>   // 为了 QDebug 流操作符重载
-#include <QMetaType> // 为了 Q_DECLARE_METATYPE
+#include <stdint.h>   // 为了 uint64_t
+#include <QDebug>     // 为了 QDebug 流操作符重载
+#include <QMetaType>  // 为了 Q_DECLARE_METATYPE
 
 namespace olive {
 
@@ -94,7 +94,7 @@ class JobTime {
  * @param jt 要输出的 JobTime 对象。
  * @return QDebug& 对 QDebug 流对象的引用，以便链式操作。
  */
-QDebug operator<<(QDebug debug, const olive::JobTime &jt); // 通常在 .cpp 文件中实现
+QDebug operator<<(QDebug debug, const olive::JobTime &jt);  // 通常在 .cpp 文件中实现
 
 /**
  * @brief 将 olive::JobTime 类型注册到 Qt 元对象系统。

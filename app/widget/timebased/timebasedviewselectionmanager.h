@@ -1,25 +1,24 @@
-#ifndef TIMEBASEDVIEWSELECTIONMANAGER_H // 防止头文件被多次包含的宏定义
+#ifndef TIMEBASEDVIEWSELECTIONMANAGER_H  // 防止头文件被多次包含的宏定义
 #define TIMEBASEDVIEWSELECTIONMANAGER_H
 
-#include <QGraphicsView> // 引入 QGraphicsView 类，用于显示 QGraphicsScene 中的内容
-#include <QMouseEvent>   // 引入 QMouseEvent 类，用于处理鼠标事件
-#include <QRubberBand>   // 引入 QRubberBand 类，用于创建橡皮筋选择框
-#include <QToolTip>      // 引入 QToolTip 类，用于显示工具提示
+#include <QGraphicsView>  // 引入 QGraphicsView 类，用于显示 QGraphicsScene 中的内容
+#include <QMouseEvent>    // 引入 QMouseEvent 类，用于处理鼠标事件
+#include <QRubberBand>    // 引入 QRubberBand 类，用于创建橡皮筋选择框
+#include <QToolTip>       // 引入 QToolTip 类，用于显示工具提示
 
-#include "common/qtutils.h"    // 引入 Qt 工具类，可能包含一些辅助函数
-#include "timebasedview.h"     // 引入 TimeBasedView 类，是此选择管理器所服务的视图
-#include "timebasedwidget.h"   // 引入 TimeBasedWidget 类，可能用于吸附等功能
-#include "widget/timetarget/timetarget.h" // 引入 TimeTargetObject 类，用于时间目标转换
+#include "common/qtutils.h"                // 引入 Qt 工具类，可能包含一些辅助函数
+#include "timebasedview.h"                 // 引入 TimeBasedView 类，是此选择管理器所服务的视图
+#include "timebasedwidget.h"               // 引入 TimeBasedWidget 类，可能用于吸附等功能
+#include "widget/timetarget/timetarget.h"  // 引入 TimeTargetObject 类，用于时间目标转换
 
 // 前向声明 (如果需要)
 namespace olive {
-class UndoCommand; // 从 SetTimeCommand 的继承关系推断
-class MultiUndoCommand; // 从 DragStop 参数推断
-class Node; // 从 time_targets_ 和 GetParentOfType 推断
-class Project; // 从 SetTimeCommand::GetRelevantProject 推断
-class TimelineMarker; // 从模板特化推断
-}
-
+class UndoCommand;       // 从 SetTimeCommand 的继承关系推断
+class MultiUndoCommand;  // 从 DragStop 参数推断
+class Node;              // 从 time_targets_ 和 GetParentOfType 推断
+class Project;           // 从 SetTimeCommand::GetRelevantProject 推断
+class TimelineMarker;    // 从模板特化推断
+}  // namespace olive
 
 namespace olive {
 
@@ -62,7 +61,7 @@ class TimeBasedViewSelectionManager {
   void DeclareDrawnObject(T *object, const QRectF &rect) {
     // 将视图坐标的矩形转换为非缩放的场景坐标
     QRectF r(view_->UnscalePoint(rect.topLeft()), view_->UnscalePoint(rect.bottomRight()));
-    drawn_objects_.push_back({object, r}); // 存储对象及其非缩放的场景矩形
+    drawn_objects_.push_back({object, r});  // 存储对象及其非缩放的场景矩形
   }
 
   /**
@@ -71,14 +70,14 @@ class TimeBasedViewSelectionManager {
    * @return 如果对象成功被选择（之前未被选择），则返回 true；否则返回 false。
    */
   bool Select(T *key) {
-    Q_ASSERT(key); // 断言确保 key 不为 nullptr
+    Q_ASSERT(key);  // 断言确保 key 不为 nullptr
 
-    if (!IsSelected(key)) { // 如果对象尚未被选择
-      selected_.push_back(key); // 将对象添加到已选择列表
+    if (!IsSelected(key)) {      // 如果对象尚未被选择
+      selected_.push_back(key);  // 将对象添加到已选择列表
       return true;
     }
 
-    return false; // 对象已被选择
+    return false;  // 对象已被选择
   }
 
   /**
@@ -87,13 +86,13 @@ class TimeBasedViewSelectionManager {
    * @return 如果对象成功被取消选择（之前已被选择），则返回 true；否则返回 false。
    */
   bool Deselect(T *key) {
-    Q_ASSERT(key); // 断言确保 key 不为 nullptr
+    Q_ASSERT(key);  // 断言确保 key 不为 nullptr
 
-    auto it = std::find(selected_.cbegin(), selected_.cend(), key); // 查找对象
-    if (it == selected_.cend()) { // 如果未找到
+    auto it = std::find(selected_.cbegin(), selected_.cend(), key);  // 查找对象
+    if (it == selected_.cend()) {                                    // 如果未找到
       return false;
     } else {
-      selected_.erase(it); // 从已选择列表中移除
+      selected_.erase(it);  // 从已选择列表中移除
       return true;
     }
   }
@@ -134,12 +133,12 @@ class TimeBasedViewSelectionManager {
     QPointF unscaled = view_->UnscalePoint(scene_pt);
     // 反向迭代，因为后绘制的对象在顶层
     for (auto it = drawn_objects_.crbegin(); it != drawn_objects_.crend(); it++) {
-      const DrawnObject &kp = *it; // kp 是 QPair<T*, QRectF>
-      if (kp.second.contains(unscaled)) { // 检查点是否在对象的非缩放矩形内
-        return kp.first; // 返回找到的对象
+      const DrawnObject &kp = *it;         // kp 是 QPair<T*, QRectF>
+      if (kp.second.contains(unscaled)) {  // 检查点是否在对象的非缩放矩形内
+        return kp.first;                   // 返回找到的对象
       }
     }
-    return nullptr; // 未找到对象
+    return nullptr;  // 未找到对象
   }
 
   /**
@@ -159,31 +158,31 @@ class TimeBasedViewSelectionManager {
    * @return 如果光标下有对象并且该对象被选中（或保持选中），则返回指向该对象的指针；否则返回 nullptr。
    */
   T *MousePress(QMouseEvent *event) {
-    T *key_under_cursor = nullptr; // 光标下的对象指针
+    T *key_under_cursor = nullptr;  // 光标下的对象指针
 
-    if (event->button() == Qt::LeftButton || event->button() == Qt::RightButton) { // 只处理左键或右键按下
-      key_under_cursor = GetObjectAtPoint(event->pos()); // 获取光标下的对象
+    if (event->button() == Qt::LeftButton || event->button() == Qt::RightButton) {  // 只处理左键或右键按下
+      key_under_cursor = GetObjectAtPoint(event->pos());                            // 获取光标下的对象
 
-      bool holding_shift = event->modifiers() & Qt::ShiftModifier; // 检查是否按下了 Shift 键
+      bool holding_shift = event->modifiers() & Qt::ShiftModifier;  // 检查是否按下了 Shift 键
 
-      if (!key_under_cursor || !IsSelected(key_under_cursor)) { // 如果光标下没有对象，或者对象未被选中
-        if (!holding_shift) { // 如果没有按住 Shift
+      if (!key_under_cursor || !IsSelected(key_under_cursor)) {  // 如果光标下没有对象，或者对象未被选中
+        if (!holding_shift) {                                    // 如果没有按住 Shift
           // 清除当前选择
           ClearSelection();
         }
         // 将光标下的对象（如果存在）添加到选择中
         if (key_under_cursor) {
           Select(key_under_cursor);
-          view_->SelectionManagerSelectEvent(key_under_cursor); // 通知视图对象被选中
+          view_->SelectionManagerSelectEvent(key_under_cursor);  // 通知视图对象被选中
         }
-      } else if (holding_shift) { // 如果对象已被选中且按住了 Shift
+      } else if (holding_shift) {  // 如果对象已被选中且按住了 Shift
         // 取消选择此对象，但不做其他操作
         Deselect(key_under_cursor);
-        view_->SelectionManagerDeselectEvent(key_under_cursor); // 通知视图对象被取消选择
-        key_under_cursor = nullptr; // 返回 nullptr，因为对象已被取消选择
+        view_->SelectionManagerDeselectEvent(key_under_cursor);  // 通知视图对象被取消选择
+        key_under_cursor = nullptr;                              // 返回 nullptr，因为对象已被取消选择
       }
     }
-    return key_under_cursor; // 返回最终在光标下且被选中的对象（或 nullptr）
+    return key_under_cursor;  // 返回最终在光标下且被选中的对象（或 nullptr）
   }
 
   /**
@@ -201,48 +200,48 @@ class TimeBasedViewSelectionManager {
    * @param target 可选的时间目标对象 (TimeTargetObject*)，用于时间转换。
    */
   void DragStart(T *initial_item, QMouseEvent *event, TimeTargetObject *target = nullptr) {
-    if (event->button() != Qt::LeftButton) { // 只响应左键拖动
+    if (event->button() != Qt::LeftButton) {  // 只响应左键拖动
       return;
     }
 
-    time_target_ = target; // 存储时间目标对象
+    time_target_ = target;  // 存储时间目标对象
 
-    initial_drag_item_ = initial_item; // 存储初始拖动项
+    initial_drag_item_ = initial_item;  // 存储初始拖动项
 
-    dragging_.resize(selected_.size()); // 调整拖动时间点向量的大小
+    dragging_.resize(selected_.size());  // 调整拖动时间点向量的大小
 
     // 根据对象类型（特别是 TimelineMarker）调整吸附点向量的大小
-    if constexpr (std::is_same_v<T, TimelineMarker>) { // TimelineMarker 有入点和出点
+    if constexpr (std::is_same_v<T, TimelineMarker>) {  // TimelineMarker 有入点和出点
       snap_points_.resize(selected_.size() * 2);
     } else {
       snap_points_.resize(selected_.size());
     }
 
-    if (target) { // 如果提供了时间目标对象
-      time_targets_.resize(snap_points_.size()); // 调整时间目标节点向量的大小
+    if (target) {                                 // 如果提供了时间目标对象
+      time_targets_.resize(snap_points_.size());  // 调整时间目标节点向量的大小
       // 初始化时间目标节点为 nullptr
       memset(time_targets_.data(), 0, time_targets_.size() * sizeof(Node *));
     } else {
-      time_targets_.clear(); // 清空时间目标节点向量
+      time_targets_.clear();  // 清空时间目标节点向量
     }
 
     // 记录每个选中对象的初始拖动时间和吸附点
     for (size_t i = 0; i < selected_.size(); i++) {
       T *obj = selected_.at(i);
 
-      if constexpr (std::is_same_v<T, TimelineMarker>) { // 特殊处理 TimelineMarker
-        dragging_[i] = obj->time().in(); // 记录入点时间
-        snap_points_[i] = obj->time().in(); // 入点作为吸附点
-        snap_points_[i + selected_.size()] = obj->time().out(); // 出点作为吸附点
+      if constexpr (std::is_same_v<T, TimelineMarker>) {         // 特殊处理 TimelineMarker
+        dragging_[i] = obj->time().in();                         // 记录入点时间
+        snap_points_[i] = obj->time().in();                      // 入点作为吸附点
+        snap_points_[i + selected_.size()] = obj->time().out();  // 出点作为吸附点
 
-        if (target) { // 如果有时间目标，获取父节点
+        if (target) {  // 如果有时间目标，获取父节点
           time_targets_[i] = time_targets_[i + selected_.size()] = QtUtils::GetParentOfType<Node>(obj);
         }
-      } else { // 其他类型对象
-        dragging_[i] = obj->time(); // 记录对象时间
-        snap_points_[i] = obj->time(); // 对象时间作为吸附点
+      } else {                          // 其他类型对象
+        dragging_[i] = obj->time();     // 记录对象时间
+        snap_points_[i] = obj->time();  // 对象时间作为吸附点
 
-        if (target) { // 如果有时间目标，获取父节点
+        if (target) {  // 如果有时间目标，获取父节点
           time_targets_[i] = QtUtils::GetParentOfType<Node>(obj);
         }
       }
@@ -256,11 +255,11 @@ class TimeBasedViewSelectionManager {
    * @param movement 指向表示时间移动量的 rational 对象的指针，此值可能会被吸附逻辑修改。
    */
   void SnapPoints(rational *movement) {
-    std::vector<rational> copy = snap_points_; // 复制吸附点用于计算
+    std::vector<rational> copy = snap_points_;  // 复制吸附点用于计算
 
-    if (time_target_) { // 如果存在时间目标对象，进行时间转换
+    if (time_target_) {  // 如果存在时间目标对象，进行时间转换
       for (size_t i = 0; i < copy.size(); i++) {
-        if (Node *parent = time_targets_[i]) { // 如果该吸附点有关联的父节点
+        if (Node *parent = time_targets_[i]) {  // 如果该吸附点有关联的父节点
           // 将吸附点从其父节点的时间上下文转换到目标时间上下文
           copy[i] = time_target_->GetAdjustedTime(parent, time_target_->GetTimeTarget(), copy[i],
                                                   Node::kTransformTowardsOutput);
@@ -279,8 +278,8 @@ class TimeBasedViewSelectionManager {
    * @brief 取消吸附状态，隐藏吸附提示。
    */
   void Unsnap() {
-    if (view_->GetSnapService()) { // 如果视图有吸附服务
-      view_->GetSnapService()->HideSnaps(); // 隐藏吸附提示线
+    if (view_->GetSnapService()) {           // 如果视图有吸附服务
+      view_->GetSnapService()->HideSnaps();  // 隐藏吸附提示线
     }
   }
 
@@ -297,58 +296,58 @@ class TimeBasedViewSelectionManager {
     rational time_diff =
         view_->SceneToTimeNoGrid(view_->mapToScene(local_pos).x() - view_->ScalePoint(drag_mouse_start_).x());
 
-    rational presnap_time_diff = time_diff; // 保存吸附前的时间差
-    SnapPoints(&time_diff); // 对时间差进行吸附处理
+    rational presnap_time_diff = time_diff;  // 保存吸附前的时间差
+    SnapPoints(&time_diff);                  // 对时间差进行吸附处理
 
     // 验证吸附结果的有效性
     if (Core::instance()->snapping() && view_->GetSnapService()) {
       for (size_t i = 0; i < selected_.size(); i++) {
-        rational proposed_time = dragging_.at(i) + time_diff; // 计算提议的新时间
-        T *sel = selected_.at(i); // 获取当前选中的对象
+        rational proposed_time = dragging_.at(i) + time_diff;  // 计算提议的新时间
+        T *sel = selected_.at(i);                              // 获取当前选中的对象
 
-        if (sel->has_sibling_at_time(proposed_time)) { // 如果提议的时间点已有同级对象
+        if (sel->has_sibling_at_time(proposed_time)) {  // 如果提议的时间点已有同级对象
           // 取消吸附，恢复到吸附前的时间差
           time_diff = presnap_time_diff;
           if (view_->GetSnapService()) {
-            view_->GetSnapService()->HideSnaps(); // 隐藏吸附提示
+            view_->GetSnapService()->HideSnaps();  // 隐藏吸附提示
           }
-          break; // 停止进一步验证
+          break;  // 停止进一步验证
         }
       }
     }
 
     // 验证移动的有效性（例如，防止重叠或移出边界）
     for (size_t i = 0; i < selected_.size(); i++) {
-      rational proposed_time = dragging_.at(i) + time_diff; // 计算提议的新时间
-      T *sel = selected_.at(i); // 获取当前选中的对象
+      rational proposed_time = dragging_.at(i) + time_diff;  // 计算提议的新时间
+      T *sel = selected_.at(i);                              // 获取当前选中的对象
 
       // 使用一个微小的时间间隔 (1ms) 来避免精确的碰撞判断问题
       rational adj(1, 1000);
-      if (dragging_.at(i) < proposed_time) { // 如果是从左向右拖动
-        adj = -adj; // 调整值为负，用于向左微调
+      if (dragging_.at(i) < proposed_time) {  // 如果是从左向右拖动
+        adj = -adj;                           // 调整值为负，用于向左微调
       }
 
-      bool loop; // 循环标记，用于处理多次调整的情况
+      bool loop;  // 循环标记，用于处理多次调整的情况
       do {
         loop = false;
         // 检查提议的时间点是否有同级对象，如果有，则微调提议的时间
         while (sel->has_sibling_at_time(proposed_time)) {
-          proposed_time += adj; // 微调
-          Unsnap(); // 取消吸附状态，因为微调可能导致不再吸附
+          proposed_time += adj;  // 微调
+          Unsnap();              // 取消吸附状态，因为微调可能导致不再吸附
         }
 
-        if (proposed_time < rational(0)) { // 如果提议的时间小于0
-          proposed_time = rational(0); // 将提议的时间设置为0
-          Unsnap(); // 取消吸附
+        if (proposed_time < rational(0)) {  // 如果提议的时间小于0
+          proposed_time = rational(0);      // 将提议的时间设置为0
+          Unsnap();                         // 取消吸附
 
           // 将时间设置为0后，可能再次与0位置的同级对象冲突，
           // 因此需要重新检查。为避免负的 adj 导致再次小于0，强制 adj 为正。
           adj = rational::qAbs(adj);
-          loop = true; // 需要再次循环检查
+          loop = true;  // 需要再次循环检查
         }
       } while (loop);
 
-      time_diff = proposed_time - dragging_.at(i); // 更新最终的时间差
+      time_diff = proposed_time - dragging_.at(i);  // 更新最终的时间差
     }
 
     // 应用计算出的时间差来移动所有选中的对象
@@ -357,25 +356,25 @@ class TimeBasedViewSelectionManager {
     }
 
     // 显示关于当前拖动项的工具提示信息
-    rational display_time; // 用于显示的时间
+    rational display_time;  // 用于显示的时间
 
-    if constexpr (std::is_same_v<T, TimelineMarker>) { // 对 TimelineMarker 特殊处理
-      display_time = initial_drag_item_->time().in(); // 获取入点时间
+    if constexpr (std::is_same_v<T, TimelineMarker>) {  // 对 TimelineMarker 特殊处理
+      display_time = initial_drag_item_->time().in();   // 获取入点时间
     } else {
-      display_time = initial_drag_item_->time(); // 获取对象时间
+      display_time = initial_drag_item_->time();  // 获取对象时间
     }
 
     // 将时间转换为时间码字符串
     QString tip = QString::fromStdString(
         Timecode::time_to_timecode(display_time, timebase_, Core::instance()->GetTimecodeDisplay(), false));
 
-    last_used_tip_format_ = tip_format; // 保存上一次使用的提示格式
-    if (!tip_format.isEmpty()) { // 如果提供了格式字符串
-      tip = tip_format.arg(tip); // 应用格式
+    last_used_tip_format_ = tip_format;  // 保存上一次使用的提示格式
+    if (!tip_format.isEmpty()) {         // 如果提供了格式字符串
+      tip = tip_format.arg(tip);         // 应用格式
     }
 
-    QToolTip::hideText(); // 隐藏旧的工具提示
-    QToolTip::showText(QCursor::pos(), tip); // 在当前光标位置显示新的工具提示
+    QToolTip::hideText();                     // 隐藏旧的工具提示
+    QToolTip::showText(QCursor::pos(), tip);  // 在当前光标位置显示新的工具提示
   }
 
   /**
@@ -385,12 +384,12 @@ class TimeBasedViewSelectionManager {
    * @param command 指向 MultiUndoCommand 对象的指针，用于聚合多个撤销命令。
    */
   void DragStop(MultiUndoCommand *command) {
-    QToolTip::hideText(); // 隐藏工具提示
+    QToolTip::hideText();  // 隐藏工具提示
 
     // 为每个被拖动的选中对象创建一个 SetTimeCommand，并添加到聚合命令中
     for (size_t i = 0; i < selected_.size(); i++) {
-      rational current_time; // 当前时间
-      if constexpr (std::is_same_v<T, TimelineMarker>) { // TimelineMarker 的特殊处理
+      rational current_time;                              // 当前时间
+      if constexpr (std::is_same_v<T, TimelineMarker>) {  // TimelineMarker 的特殊处理
         current_time = selected_.at(i)->time().in();
       } else {
         current_time = selected_.at(i)->time();
@@ -399,8 +398,8 @@ class TimeBasedViewSelectionManager {
       command->add_child(new SetTimeCommand(selected_.at(i), current_time, dragging_.at(i)));
     }
 
-    dragging_.clear(); // 清空拖动状态数据
-    Unsnap(); // 取消吸附状态
+    dragging_.clear();  // 清空拖动状态数据
+    Unsnap();           // 取消吸附状态
   }
 
   /**
@@ -408,7 +407,7 @@ class TimeBasedViewSelectionManager {
    * @param event QMouseEvent 指针，包含鼠标事件参数。
    */
   void RubberBandStart(QMouseEvent *event) {
-    if (event->button() == Qt::LeftButton || event->button() == Qt::RightButton) { // 只响应左键或右键
+    if (event->button() == Qt::LeftButton || event->button() == Qt::RightButton) {  // 只响应左键或右键
       // 记录橡皮筋开始时的非缩放场景坐标
       rubberband_scene_start_ = view_->UnscalePoint(view_->mapToScene(event->pos()));
 
@@ -416,9 +415,9 @@ class TimeBasedViewSelectionManager {
       rubberband_ = new QRubberBand(QRubberBand::Rectangle, view_);
       // 设置橡皮筋的初始几何形状（一个点）
       rubberband_->setGeometry(QRect(event->pos().x(), event->pos().y(), 0, 0));
-      rubberband_->show(); // 显示橡皮筋
+      rubberband_->show();  // 显示橡皮筋
 
-      rubberband_preselected_ = selected_; // 保存开始橡皮筋选择前的已选对象
+      rubberband_preselected_ = selected_;  // 保存开始橡皮筋选择前的已选对象
     }
   }
 
@@ -429,20 +428,20 @@ class TimeBasedViewSelectionManager {
    * @param pos 鼠标在视图中的当前本地坐标 (QPoint)。
    */
   void RubberBandMove(const QPoint &pos) {
-    if (IsRubberBanding()) { // 如果正在进行橡皮筋选择
+    if (IsRubberBanding()) {  // 如果正在进行橡皮筋选择
       // 计算橡皮筋在视图坐标系中的矩形，并规范化（确保左上角坐标小于右下角）
       QRectF band_rect = QRectF(view_->mapFromScene(view_->ScalePoint(rubberband_scene_start_)), pos).normalized();
-      rubberband_->setGeometry(band_rect.toRect()); // 更新橡皮筋的几何形状
+      rubberband_->setGeometry(band_rect.toRect());  // 更新橡皮筋的几何形状
 
       // 计算橡皮筋在非缩放场景坐标系中的矩形
       QPointF current_unscaled_scene_pos = view_->UnscalePoint(view_->mapToScene(pos));
       QRectF scene_rect = QRectF(rubberband_scene_start_, current_unscaled_scene_pos).normalized();
 
-      selected_ = rubberband_preselected_; // 恢复到橡皮筋选择开始前的选择状态
+      selected_ = rubberband_preselected_;  // 恢复到橡皮筋选择开始前的选择状态
       // 遍历所有已绘制的对象
       foreach (const DrawnObject &kp, drawn_objects_) {
-        if (scene_rect.intersects(kp.second)) { // 如果对象的非缩放场景矩形与橡皮筋矩形相交
-          Select(kp.first); // 选择该对象
+        if (scene_rect.intersects(kp.second)) {  // 如果对象的非缩放场景矩形与橡皮筋矩形相交
+          Select(kp.first);                      // 选择该对象
         }
       }
     }
@@ -454,9 +453,9 @@ class TimeBasedViewSelectionManager {
    * 删除橡皮筋对象。
    */
   void RubberBandStop() {
-    if (IsRubberBanding()) { // 如果正在进行橡皮筋选择
-      delete rubberband_;    // 删除 QRubberBand 对象
-      rubberband_ = nullptr; // 将指针置空
+    if (IsRubberBanding()) {  // 如果正在进行橡皮筋选择
+      delete rubberband_;     // 删除 QRubberBand 对象
+      rubberband_ = nullptr;  // 将指针置空
     }
   }
 
@@ -473,13 +472,13 @@ class TimeBasedViewSelectionManager {
    * 可以调用此方法来确保选择和显示保持最新。
    */
   void ForceDragUpdate() {
-    if (IsRubberBanding() || IsDragging()) { // 如果正在进行橡皮筋选择或拖动
+    if (IsRubberBanding() || IsDragging()) {  // 如果正在进行橡皮筋选择或拖动
       // 获取当前全局光标位置，并转换为视图的本地坐标
       QPoint local_pos = view_->viewport()->mapFromGlobal(QCursor::pos());
       if (IsRubberBanding()) {
-        RubberBandMove(local_pos); // 更新橡皮筋选择
+        RubberBandMove(local_pos);  // 更新橡皮筋选择
       } else {
-        DragMove(local_pos, last_used_tip_format_); // 更新拖动
+        DragMove(local_pos, last_used_tip_format_);  // 更新拖动
       }
     }
   }
@@ -500,7 +499,7 @@ class TimeBasedViewSelectionManager {
     SetTimeCommand(T *key, const rational &time) {
       key_ = key;
       new_time_ = time;
-      old_time_ = key_->time(); // 保存旧的时间值以供撤销
+      old_time_ = key_->time();  // 保存旧的时间值以供撤销
     }
 
     /**

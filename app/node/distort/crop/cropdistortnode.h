@@ -1,7 +1,7 @@
 #ifndef CROPDISTORTNODE_H
 #define CROPDISTORTNODE_H
 
-#include <QVector2D> // Qt 二维向量类
+#include <QVector2D>  // Qt 二维向量类
 
 #include "node/gizmo/point.h"    // 引入点 Gizmo (交互控件) 的定义
 #include "node/gizmo/polygon.h"  // 引入多边形 Gizmo 的定义
@@ -15,14 +15,14 @@ namespace olive {
  * 用户可以通过调整上下左右边界来裁剪图像的边缘，也可以选择羽化边缘。
  */
 class CropDistortNode : public Node {
-  Q_OBJECT // Qt 对象宏，用于支持信号和槽机制以及元对象系统
- public:
-  /**
-   * @brief CropDistortNode 构造函数。
-   */
-  CropDistortNode();
+ Q_OBJECT  // Qt 对象宏，用于支持信号和槽机制以及元对象系统
+     public :
+     /**
+      * @brief CropDistortNode 构造函数。
+      */
+     CropDistortNode();
 
-  NODE_DEFAULT_FUNCTIONS(CropDistortNode) // 节点默认功能宏，可能包含克隆、类型信息等标准实现
+  NODE_DEFAULT_FUNCTIONS(CropDistortNode)  // 节点默认功能宏，可能包含克隆、类型信息等标准实现
 
   /**
    * @brief 获取此节点的名称。
@@ -38,7 +38,8 @@ class CropDistortNode : public Node {
 
   /**
    * @brief 获取此节点所属的分类 ID 列表。
-   * @return CategoryID 的 QVector，表示此节点属于 "扭曲" (kCategoryDistort) 分类（尽管裁剪更像是变换，但有时归类于此）。
+   * @return CategoryID 的 QVector，表示此节点属于 "扭曲" (kCategoryDistort)
+   * 分类（尽管裁剪更像是变换，但有时归类于此）。
    */
   [[nodiscard]] QVector<CategoryID> Category() const override { return {kCategoryDistort}; }
 
@@ -77,12 +78,12 @@ class CropDistortNode : public Node {
   void UpdateGizmoPositions(const NodeValueRow &row, const NodeGlobals &globals) override;
 
   // --- 静态常量，用作节点输入参数的键名 ---
-  static const QString kTextureInput; ///< "Texture" - 输入纹理（图像）的参数键名。
-  static const QString kLeftInput;    ///< "Left" - 左边界裁剪量的参数键名。
-  static const QString kTopInput;     ///< "Top" - 上边界裁剪量的参数键名。
-  static const QString kRightInput;   ///< "Right" - 右边界裁剪量的参数键名。
-  static const QString kBottomInput;  ///< "Bottom" - 下边界裁剪量的参数键名。
-  static const QString kFeatherInput; ///< "Feather" - 边缘羽化量的参数键名。
+  static const QString kTextureInput;  ///< "Texture" - 输入纹理（图像）的参数键名。
+  static const QString kLeftInput;     ///< "Left" - 左边界裁剪量的参数键名。
+  static const QString kTopInput;      ///< "Top" - 上边界裁剪量的参数键名。
+  static const QString kRightInput;    ///< "Right" - 右边界裁剪量的参数键名。
+  static const QString kBottomInput;   ///< "Bottom" - 下边界裁剪量的参数键名。
+  static const QString kFeatherInput;  ///< "Feather" - 边缘羽化量的参数键名。
 
  protected slots:
   /**
@@ -102,10 +103,11 @@ class CropDistortNode : public Node {
 
   // --- Gizmo 相关私有成员变量 ---
   // static const int kGizmoScaleCount = 8; // 假设 kGizmoScaleCount 在 .cpp 文件中定义，表示 Gizmo 句柄数量
-  PointGizmo *point_gizmo_[/*kGizmoScaleCount*/8]{}; ///< 指向各个 Gizmo 控制点 (PointGizmo) 的指针数组。数组大小可能在.cpp中定义或硬编码。
-                                                   ///< 通常裁剪框有8个控制点（四角+四边中点）。
-  PolygonGizmo *poly_gizmo_;                         ///< 指向代表整个裁剪区域的 Gizmo (PolygonGizmo) 的指针。
-  QVector2D temp_resolution_;                        ///< 临时存储图像分辨率的变量，可能用于 Gizmo 计算。
+  PointGizmo *point_gizmo_[/*kGizmoScaleCount*/ 8]{};  ///< 指向各个 Gizmo 控制点 (PointGizmo)
+                                                       ///< 的指针数组。数组大小可能在.cpp中定义或硬编码。
+                                                       ///< 通常裁剪框有8个控制点（四角+四边中点）。
+  PolygonGizmo *poly_gizmo_;                           ///< 指向代表整个裁剪区域的 Gizmo (PolygonGizmo) 的指针。
+  QVector2D temp_resolution_;                          ///< 临时存储图像分辨率的变量，可能用于 Gizmo 计算。
 };
 
 }  // namespace olive

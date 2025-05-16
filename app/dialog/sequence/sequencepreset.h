@@ -1,8 +1,8 @@
-#ifndef SEQUENCEPARAM_H // 文件保护宏，应与文件名一致，但这里是 SEQUENCEPARAM_H
+#ifndef SEQUENCEPARAM_H  // 文件保护宏，应与文件名一致，但这里是 SEQUENCEPARAM_H
 #define SEQUENCEPARAM_H
 
-#include <olive/core/core.h> // 引入 Olive 核心库定义，可能包含 rational 等类型
-#include <QXmlStreamWriter>  // 引入 Qt XML 流写入器
+#include <olive/core/core.h>  // 引入 Olive 核心库定义，可能包含 rational 等类型
+#include <QXmlStreamWriter>   // 引入 Qt XML 流写入器
 
 #include "common/xmlutils.h"                // 引入 XML 处理工具函数
 #include "dialog/sequence/presetmanager.h"  // 引入预设管理器基类定义 (Preset)
@@ -53,7 +53,7 @@ class SequencePreset : public Preset {
         preview_divider_(preview_divider),
         preview_format_(preview_format),
         preview_autocache_(preview_autocache) {
-    SetName(name); // 调用基类的 SetName 方法设置预设名称
+    SetName(name);  // 调用基类的 SetName 方法设置预设名称
   }
 
   /**
@@ -64,7 +64,7 @@ class SequencePreset : public Preset {
    */
   void Load(QXmlStreamReader* reader) override {
     // 循环读取当前元素下的所有子元素
-    while (XMLReadNextStartElement(reader)) { // XMLReadNextStartElement 是一个辅助函数
+    while (XMLReadNextStartElement(reader)) {  // XMLReadNextStartElement 是一个辅助函数
       if (reader->name() == QStringLiteral("name")) {
         SetName(reader->readElementText());
       } else if (reader->name() == QStringLiteral("width")) {
@@ -91,7 +91,7 @@ class SequencePreset : public Preset {
       } else if (reader->name() == QStringLiteral("autocache")) {
         preview_autocache_ = reader->readElementText().toInt();
       } else {
-        reader->skipCurrentElement(); // 跳过不认识的元素
+        reader->skipCurrentElement();  // 跳过不认识的元素
       }
     }
   }
@@ -152,16 +152,16 @@ class SequencePreset : public Preset {
  private:
   // 私有成员变量，存储序列的各项参数
 
-  int width_{};                                  ///< 视频宽度
-  int height_{};                                 ///< 视频高度
-  rational frame_rate_;                          ///< 视频帧率
-  rational pixel_aspect_;                        ///< 像素宽高比
-  VideoParams::Interlacing interlacing_;         ///< 隔行扫描模式
-  int sample_rate_{};                            ///< 音频采样率
-  uint64_t channel_layout_{};                    ///< 音频声道布局
-  int preview_divider_{};                        ///< 预览分辨率除数
-  PixelFormat preview_format_;                   ///< 预览像素格式
-  bool preview_autocache_{};                     ///< 是否启用预览自动缓存
+  int width_{};                           ///< 视频宽度
+  int height_{};                          ///< 视频高度
+  rational frame_rate_;                   ///< 视频帧率
+  rational pixel_aspect_;                 ///< 像素宽高比
+  VideoParams::Interlacing interlacing_;  ///< 隔行扫描模式
+  int sample_rate_{};                     ///< 音频采样率
+  uint64_t channel_layout_{};             ///< 音频声道布局
+  int preview_divider_{};                 ///< 预览分辨率除数
+  PixelFormat preview_format_;            ///< 预览像素格式
+  bool preview_autocache_{};              ///< 是否启用预览自动缓存
 };
 
 }  // namespace olive

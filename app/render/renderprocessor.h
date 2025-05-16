@@ -1,18 +1,18 @@
-#ifndef RENDERPROCESSOR_H // 防止头文件被重复包含的宏
-#define RENDERPROCESSOR_H // 定义 RENDERPROCESSOR_H 宏
+#ifndef RENDERPROCESSOR_H  // 防止头文件被重复包含的宏
+#define RENDERPROCESSOR_H  // 定义 RENDERPROCESSOR_H 宏
 
-#include "node/block/clip/clip.h" // 包含 ClipBlock (片段块) 相关的定义
-#include "node/traverser.h"       // 包含 NodeTraverser 基类的定义
-#include "render/renderer.h"      // 包含 Renderer (渲染器抽象基类) 的定义
-#include "rendercache.h"          // 包含 DecoderCache 和 ShaderCache 的类型别名定义
-#include "renderticket.h"         // 包含 RenderTicket (渲染票据) 的定义
+#include "node/block/clip/clip.h"  // 包含 ClipBlock (片段块) 相关的定义
+#include "node/traverser.h"        // 包含 NodeTraverser 基类的定义
+#include "render/renderer.h"       // 包含 Renderer (渲染器抽象基类) 的定义
+#include "rendercache.h"           // 包含 DecoderCache 和 ShaderCache 的类型别名定义
+#include "renderticket.h"          // 包含 RenderTicket (渲染票据) 的定义
 
 // 假设 AudioVisualWaveform, TexturePtr, FootageJob, ShaderJob, SampleJob,
 // ColorTransformJob, GenerateJob, CacheJob, VideoParams, AudioParams,
 // TimeRange, rational, NodeValueDatabase, DecoderPtr, Decoder::CodecStream
 // 等类型已通过上述 include 或其他方式被间接包含。
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
 /**
  * @brief RenderProcessor 类是 NodeTraverser 的一个具体实现，负责实际执行渲染任务。
@@ -28,7 +28,7 @@ namespace olive { // olive 项目的命名空间
  * RenderProcessor 还负责与解码器缓存 (DecoderCache) 和着色器缓存 (ShaderCache) 交互，
  * 以获取或存储解码器实例和编译好的着色器程序。
  */
-class RenderProcessor : public NodeTraverser { // RenderProcessor 继承自 NodeTraverser
+class RenderProcessor : public NodeTraverser {  // RenderProcessor 继承自 NodeTraverser
  public:
   /**
    * @brief (重写 NodeTraverser::GenerateDatabase) 为指定节点在给定时间范围内生成值数据库。
@@ -51,10 +51,10 @@ class RenderProcessor : public NodeTraverser { // RenderProcessor 继承自 Node
 
   // 结构体，用于存储已渲染的波形数据及其元数据
   struct RenderedWaveform {
-    const ClipBlock *block{};     // (可选) 与此波形关联的 ClipBlock (片段)
-    AudioVisualWaveform waveform; // 实际的音频/视觉波形数据
-    TimeRange range;              // 波形对应的时间范围
-    bool silence{};               // 标记此范围是否为静音
+    const ClipBlock *block{};      // (可选) 与此波形关联的 ClipBlock (片段)
+    AudioVisualWaveform waveform;  // 实际的音频/视觉波形数据
+    TimeRange range;               // 波形对应的时间范围
+    bool silence{};                // 标记此范围是否为静音
   };
 
  protected:
@@ -128,12 +128,12 @@ class RenderProcessor : public NodeTraverser { // RenderProcessor 继承自 Node
    */
   DecoderPtr ResolveDecoderFromInput(const QString &decoder_id, const Decoder::CodecStream &stream);
 
-  RenderTicketPtr ticket_; // 当前正在处理的渲染票据
+  RenderTicketPtr ticket_;  // 当前正在处理的渲染票据
 
-  Renderer *render_ctx_; // 指向实际执行渲染操作的 Renderer 实例 (例如 OpenGLRenderer)
+  Renderer *render_ctx_;  // 指向实际执行渲染操作的 Renderer 实例 (例如 OpenGLRenderer)
 
-  DecoderCache *decoder_cache_; // 指向共享的解码器缓存
-  ShaderCache *shader_cache_;   // 指向共享的着色器缓存
+  DecoderCache *decoder_cache_;  // 指向共享的解码器缓存
+  ShaderCache *shader_cache_;    // 指向共享的着色器缓存
 };
 
 }  // namespace olive

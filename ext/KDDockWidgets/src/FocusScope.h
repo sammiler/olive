@@ -8,8 +8,8 @@
 #ifndef KD_DOCKWIDGETS_FOCUSSCOPE_H
 #define KD_DOCKWIDGETS_FOCUSSCOPE_H
 
-#include "docks_export.h"         // 导入导出宏定义
-#include "QWidgetAdapter.h"       // QWidget 和 QQuickItem 的适配器类
+#include "docks_export.h" // 导入导出宏定义
+#include "QWidgetAdapter.h" // QWidget 和 QQuickItem 的适配器类
 
 namespace KDDockWidgets {
 
@@ -83,7 +83,7 @@ protected:
     virtual void focusedWidgetChangedCallback() = 0;
 
 private:
-    class Private;   ///< PIMPL (Private Implementation) 设计模式的私有实现类前向声明。
+    class Private; ///< PIMPL (Private Implementation) 设计模式的私有实现类前向声明。
     Private *const d; ///< 指向私有实现类的常量指针。
 };
 } // namespace KDDockWidgets

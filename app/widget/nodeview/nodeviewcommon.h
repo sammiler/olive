@@ -1,9 +1,9 @@
 #ifndef NODEVIEWCOMMON_H
 #define NODEVIEWCOMMON_H
 
-#include <QtGlobal> // 包含 Qt 全局定义，例如 Qt::Orientation
+#include <QtGlobal>  // 包含 Qt 全局定义，例如 Qt::Orientation
 
-#include "common/define.h" // 项目通用定义
+#include "common/define.h"  // 项目通用定义
 
 namespace olive {
 
@@ -18,11 +18,11 @@ class NodeViewCommon {
    * @brief FlowDirection 枚举定义了节点图中节点连接的流向（布局方向）。
    */
   enum FlowDirection {
-    kInvalidDirection = -1, ///< 无效或未定义的流向。
-    kTopToBottom,           ///< 从上到下。
-    kBottomToTop,           ///< 从下到上。
-    kLeftToRight,           ///< 从左到右。
-    kRightToLeft            ///< 从右到左。
+    kInvalidDirection = -1,  ///< 无效或未定义的流向。
+    kTopToBottom,            ///< 从上到下。
+    kBottomToTop,            ///< 从下到上。
+    kLeftToRight,            ///< 从左到右。
+    kRightToLeft             ///< 从右到左。
   };
 
   /**
@@ -33,10 +33,10 @@ class NodeViewCommon {
    * 对于 kInvalidDirection，行为是返回 Qt::Horizontal（基于 else 分支）。
    */
   static Qt::Orientation GetFlowOrientation(FlowDirection dir) {
-    if (dir == kTopToBottom || dir == kBottomToTop) { // 检查是否为垂直流向
-      return Qt::Vertical; // 返回垂直方向
+    if (dir == kTopToBottom || dir == kBottomToTop) {  // 检查是否为垂直流向
+      return Qt::Vertical;                             // 返回垂直方向
     } else {
-      return Qt::Horizontal; // 否则返回水平方向
+      return Qt::Horizontal;  // 否则返回水平方向
     }
   }
 
@@ -61,10 +61,10 @@ class NodeViewCommon {
    * @return 如果两个方向相反（例如，左到右与右到左，或上到下与下到上），则返回 true；否则返回 false。
    */
   static bool DirectionsAreOpposing(FlowDirection a, FlowDirection b) {
-    return ((a == NodeViewCommon::kLeftToRight && b == NodeViewCommon::kRightToLeft) ||   // 左->右 与 右->左
-            (a == NodeViewCommon::kRightToLeft && b == NodeViewCommon::kLeftToRight) ||   // 右->左 与 左->右
-            (a == NodeViewCommon::kTopToBottom && b == NodeViewCommon::kBottomToTop) ||   // 上->下 与 下->上
-            (a == NodeViewCommon::kBottomToTop && b == NodeViewCommon::kTopToBottom));  // 下->上 与 上->下
+    return ((a == NodeViewCommon::kLeftToRight && b == NodeViewCommon::kRightToLeft) ||  // 左->右 与 右->左
+            (a == NodeViewCommon::kRightToLeft && b == NodeViewCommon::kLeftToRight) ||  // 右->左 与 左->右
+            (a == NodeViewCommon::kTopToBottom && b == NodeViewCommon::kBottomToTop) ||  // 上->下 与 下->上
+            (a == NodeViewCommon::kBottomToTop && b == NodeViewCommon::kTopToBottom));   // 下->上 与 上->下
   }
 };
 

@@ -1,23 +1,23 @@
 #pragma once // 确保该头文件在一次编译中仅被包含一次
 
-#include "kddockwidgets/docks_export.h"      // 包含导出宏定义，用于库的导出和导入
+#include "kddockwidgets/docks_export.h" // 包含导出宏定义，用于库的导出和导入
 #include "kddockwidgets/KDDockWidgets.h" // 包含 KDDockWidgets 库的主头文件
 
-#include <QObject>   // 包含 QObject 类，Qt 对象模型的基础
-#include <QVector>   // 包含 QVector 类，动态数组
-#include <QRect>     // 包含 QRect 类，用于表示矩形区域
-#include <QVariant>  // 包含 QVariant 类，可以存储多种不同类型的数据
-#include <QDebug>    // 包含 QDebug 类，用于调试输出
+#include <QObject> // 包含 QObject 类，Qt 对象模型的基础
+#include <QVector> // 包含 QVector 类，动态数组
+#include <QRect> // 包含 QRect 类，用于表示矩形区域
+#include <QVariant> // 包含 QVariant 类，可以存储多种不同类型的数据
+#include <QDebug> // 包含 QDebug 类，用于调试输出
 
 #include <memory> // 包含智能指针相关的头文件
 
 class TestMultiSplitter; // 前向声明 TestMultiSplitter 类，用于测试
 
 namespace Layouting { // 布局相关的命名空间
-Q_NAMESPACE         // 声明此命名空间也用于 Qt 元对象系统
+Q_NAMESPACE // 声明此命名空间也用于 Qt 元对象系统
 
-// 前向声明
-class ItemContainer;
+    // 前向声明
+    class ItemContainer;
 class ItemBoxContainer;
 class Item;
 class Separator;
@@ -29,7 +29,7 @@ struct LengthOnSide;
  */
 enum Side {
     Side1, ///< 第一个侧边或方向
-    Side2  ///< 第二个侧边或方向
+    Side2 ///< 第二个侧边或方向
 };
 Q_ENUM_NS(Side) // 将 Side 枚举注册到元对象系统
 
@@ -38,16 +38,16 @@ Q_ENUM_NS(Side) // 将 Side 枚举注册到元对象系统
  */
 enum class GrowthStrategy {
     BothSidesEqually, ///< 在两侧平均增长
-    Side1Only,        ///< 仅在第一个侧边增长
-    Side2Only         ///< 仅在第二个侧边增长
+    Side1Only, ///< 仅在第一个侧边增长
+    Side2Only ///< 仅在第二个侧边增长
 };
 
 /**
  * @brief 枚举，定义分隔符的选项。
  */
 enum class SeparatorOption {
-    None = 0,       ///< 无特殊选项
-    LazyResize = 1  ///< 延迟调整大小，可能用于性能优化，仅在必要时调整
+    None = 0, ///< 无特殊选项
+    LazyResize = 1 ///< 延迟调整大小，可能用于性能优化，仅在必要时调整
 };
 Q_DECLARE_FLAGS(SeparatorOptions, SeparatorOption) // 为 SeparatorOption 声明一个标志类型 SeparatorOptions
 
@@ -55,9 +55,9 @@ Q_DECLARE_FLAGS(SeparatorOptions, SeparatorOption) // 为 SeparatorOption 声明
  * @brief 枚举，定义容器在调整大小时其子项的调整策略。
  */
 enum class ChildrenResizeStrategy {
-    Percentage,         ///< 子项保持其在容器中所占的百分比进行调整
+    Percentage, ///< 子项保持其在容器中所占的百分比进行调整
     Side1SeparatorMove, ///< 调整大小时，优先移动第一个侧边的分隔符（即调整第一个侧边的子项大小）
-    Side2SeparatorMove  ///< 调整大小时，优先移动第二个侧边的分隔符（即调整第二个侧边的子项大小）
+    Side2SeparatorMove ///< 调整大小时，优先移动第二个侧边的分隔符（即调整第二个侧边的子项大小）
 };
 Q_ENUM_NS(ChildrenResizeStrategy) // 将 ChildrenResizeStrategy 枚举注册到元对象系统
 
@@ -65,7 +65,7 @@ Q_ENUM_NS(ChildrenResizeStrategy) // 将 ChildrenResizeStrategy 枚举注册到�
  * @brief 枚举，定义当一个项目需要收缩空间时，其邻居项目的收缩策略。
  */
 enum class NeighbourSqueezeStrategy {
-    AllNeighbours,          ///< 收缩压力平均分配给所有邻居，不仅仅是直接邻居
+    AllNeighbours, ///< 收缩压力平均分配给所有邻居，不仅仅是直接邻居
     ImmediateNeighboursFirst ///< 直接邻居首先承担尽可能多的收缩压力，然后才轮到更远的邻居
 };
 Q_ENUM_NS(NeighbourSqueezeStrategy) // 将 NeighbourSqueezeStrategy 枚举注册到元对象系统
@@ -74,14 +74,14 @@ Q_ENUM_NS(NeighbourSqueezeStrategy) // 将 NeighbourSqueezeStrategy 枚举注册
  * @brief 枚举，定义布局中项目可能接触到的边界位置。
  */
 enum LayoutBorderLocation {
-    LayoutBorderLocation_None = 0,                                                                                ///< 不接触任何边界
-    LayoutBorderLocation_North = 1,                                                                               ///< 接触北部（上）边界
-    LayoutBorderLocation_East = 2,                                                                                ///< 接触东部（右）边界
-    LayoutBorderLocation_West = 4,                                                                                ///< 接触西部（左）边界
-    LayoutBorderLocation_South = 8,                                                                               ///< 接触南部（下）边界
+    LayoutBorderLocation_None = 0, ///< 不接触任何边界
+    LayoutBorderLocation_North = 1, ///< 接触北部（上）边界
+    LayoutBorderLocation_East = 2, ///< 接触东部（右）边界
+    LayoutBorderLocation_West = 4, ///< 接触西部（左）边界
+    LayoutBorderLocation_South = 8, ///< 接触南部（下）边界
     LayoutBorderLocation_All = LayoutBorderLocation_North | LayoutBorderLocation_East | LayoutBorderLocation_West | LayoutBorderLocation_South, ///< 接触所有边界
-    LayoutBorderLocation_Verticals = LayoutBorderLocation_West | LayoutBorderLocation_East,                       ///< 接触垂直边界（左和右）
-    LayoutBorderLocation_Horizontals = LayoutBorderLocation_North | LayoutBorderLocation_South,                   ///< 接触水平边界（上和下）
+    LayoutBorderLocation_Verticals = LayoutBorderLocation_West | LayoutBorderLocation_East, ///< 接触垂直边界（左和右）
+    LayoutBorderLocation_Horizontals = LayoutBorderLocation_North | LayoutBorderLocation_South, ///< 接触水平边界（上和下）
 };
 Q_DECLARE_FLAGS(LayoutBorderLocations, LayoutBorderLocation) // 为 LayoutBorderLocation 声明一个标志类型 LayoutBorderLocations
 
@@ -384,11 +384,11 @@ struct SizingInfo
     void fromVariantMap(const QVariantMap &);
 
     typedef QVector<SizingInfo> List; ///< SizingInfo 对象的向量类型定义。
-    QRect geometry;                     ///< 项的几何区域 (位置和尺寸)。
-    QSize minSize;                      ///< 项的最小尺寸。
-    QSize maxSizeHint;                  ///< 项的最大尺寸提示。
+    QRect geometry; ///< 项的几何区域 (位置和尺寸)。
+    QSize minSize; ///< 项的最小尺寸。
+    QSize maxSizeHint; ///< 项的最大尺寸提示。
     double percentageWithinParent = 0.0; ///< 项在其父容器中所占的百分比。
-    bool isBeingInserted = false;        ///< 标记项当前是否处于被插入过程。
+    bool isBeingInserted = false; ///< 标记项当前是否处于被插入过程。
 };
 
 /**
@@ -461,9 +461,9 @@ public:
      */
     [[nodiscard]] virtual int visibleCount_recursive() const;
 
-    static QSize hardcodedMinimumSize;    ///< 静态成员，所有 Widget 的硬编码最小尺寸，无论其自身的最小尺寸如何。
-    static QSize hardcodedMaximumSize;    ///< 静态成员，所有 Widget 的硬编码最大尺寸。
-    static int separatorThickness;      ///< 静态成员，分隔条的厚度。
+    static QSize hardcodedMinimumSize; ///< 静态成员，所有 Widget 的硬编码最小尺寸，无论其自身的最小尺寸如何。
+    static QSize hardcodedMaximumSize; ///< 静态成员，所有 Widget 的硬编码最大尺寸。
+    static int separatorThickness; ///< 静态成员，分隔条的厚度。
 
     /** @brief 获取项的 x 坐标。*/
     [[nodiscard]] int x() const;
@@ -626,10 +626,10 @@ public:
 
 Q_SIGNALS:
     void geometryChanged(); ///< 当项的几何区域改变时发射。
-    void xChanged();        ///< 当项的 x 坐标改变时发射。
-    void yChanged();        ///< 当项的 y 坐标改变时发射。
-    void widthChanged();    ///< 当项的宽度改变时发射。
-    void heightChanged();   ///< 当项的高度改变时发射。
+    void xChanged(); ///< 当项的 x 坐标改变时发射。
+    void yChanged(); ///< 当项的 y 坐标改变时发射。
+    void widthChanged(); ///< 当项的宽度改变时发射。
+    void heightChanged(); ///< 当项的高度改变时发射。
     /**
      * @brief 当项的可见性状态改变时发射。
      * @param thisItem 指向状态改变的 Item 的指针。
@@ -689,8 +689,8 @@ protected:
     /** @brief 设置项是否正处于被插入的过程中。*/
     void setBeingInserted(bool);
 
-    SizingInfo m_sizingInfo;      ///< 存储项的尺寸和几何信息。
-    const bool m_isContainer;     ///< 标记此项是否为容器。
+    SizingInfo m_sizingInfo; ///< 存储项的尺寸和几何信息。
+    const bool m_isContainer; ///< 标记此项是否为容器。
     ItemContainer *m_parent = nullptr; ///< 指向父容器的指针。
     bool m_isSettingGuest = false; ///< 标记是否正在设置 guest 部件，用于避免重入。
 
@@ -699,19 +699,19 @@ private Q_SLOTS:
     void onWidgetLayoutRequested();
 
 private:
-    friend class ItemContainer;     ///< ItemContainer 是友元类。
-    friend class ItemBoxContainer;  ///< ItemBoxContainer 是友元类。
+    friend class ItemContainer; ///< ItemContainer 是友元类。
+    friend class ItemBoxContainer; ///< ItemBoxContainer 是友元类。
     friend class ItemFreeContainer; ///< ItemFreeContainer 是友元类。
     /** @brief 事件过滤器，用于监听 "guest" Widget 的事件。*/
     bool eventFilter(QObject *widget, QEvent *event) override;
-    int m_refCount = 0;             ///< 引用计数。
+    int m_refCount = 0; ///< 引用计数。
     /** @brief 更新 QObject 的对象名称，通常用于调试。*/
     void updateObjectName();
     /** @brief 当 "guest" Widget 被销毁时调用的槽函数。*/
     void onWidgetDestroyed();
-    bool m_isVisible = false;       ///< 项的当前可见性状态。
+    bool m_isVisible = false; ///< 项的当前可见性状态。
     Widget *m_hostWidget = nullptr; ///< 指向宿主 Widget 的指针。
-    Widget *m_guest = nullptr;      ///< 指向 "guest" Widget 的指针。
+    Widget *m_guest = nullptr; ///< 指向 "guest" Widget 的指针。
 };
 
 /**

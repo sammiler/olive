@@ -1,7 +1,7 @@
 #ifndef GITHASH_H
 #define GITHASH_H
 
-#include <QString> // 引入 QString 类，用于存储版本字符串
+#include <QString>  // 引入 QString 类，用于存储版本字符串
 
 namespace olive {
 

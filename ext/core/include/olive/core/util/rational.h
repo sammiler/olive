@@ -5,19 +5,19 @@
 // extern "C" 确保C++编译器以C语言的方式处理这个头文件中的声明，
 // 这对于链接C库 (如 FFmpeg) 是必需的。
 extern "C" {
-#include <libavutil/rational.h> // FFmpeg 中用于表示有理数的结构 AVRational
+#include <libavutil/rational.h>  // FFmpeg 中用于表示有理数的结构 AVRational
 }
 
-#include <iostream> // 引入 iostream 用于 std::ostream 的友元函数 operator<<
-#include <string>   // 引入 std::string 用于 toString 和 fromString
-#include <stdexcept> // 引入 stdexcept 用于 fromString 中的异常处理 (虽然在此文件中未直接看到，但 std::stoi 可能抛出)
-#include <limits>   // 引入 std::numeric_limits，可能用于 RATIONAL_MIN/MAX 的定义或内部实现
+#include <iostream>   // 引入 iostream 用于 std::ostream 的友元函数 operator<<
+#include <limits>     // 引入 std::numeric_limits，可能用于 RATIONAL_MIN/MAX 的定义或内部实现
+#include <stdexcept>  // 引入 stdexcept 用于 fromString 中的异常处理 (虽然在此文件中未直接看到，但 std::stoi 可能抛出)
+#include <string>     // 引入 std::string 用于 toString 和 fromString
 
-#ifdef USE_OTIO // 仅当启用了 OpenTimelineIO 支持时编译以下部分
-#include <opentime/rationalTime.h> // 引入 OpenTimelineIO 中的 RationalTime 类
+#ifdef USE_OTIO                     // 仅当启用了 OpenTimelineIO 支持时编译以下部分
+#include <opentime/rationalTime.h>  // 引入 OpenTimelineIO 中的 RationalTime 类
 #endif
 
-namespace olive::core { // Olive 核心功能命名空间
+namespace olive::core {  // Olive 核心功能命名空间
 
 /**
  * @brief 表示有理数（分数）的类，用于精确计算。
@@ -34,8 +34,8 @@ class rational {
    * @param numerator 分子，默认为0。
    */
   explicit rational(const int &numerator = 0) {
-    r_.num = numerator; // 设置分子
-    r_.den = 1;         // 设置分母为1
+    r_.num = numerator;  // 设置分子
+    r_.den = 1;          // 设置分母为1
   }
 
   /**
@@ -49,8 +49,8 @@ class rational {
     r_.num = numerator;
     r_.den = denominator;
 
-    fix_signs(); // 修正符号，通常确保分母为正
-    reduce();    // 将分数约简到最简形式
+    fix_signs();  // 修正符号，通常确保分母为正
+    reduce();     // 将分数约简到最简形式
   }
 
   /**
@@ -65,7 +65,7 @@ class rational {
    */
   explicit rational(const AVRational &r) {
     r_ = r;
-    fix_signs(); // 构造后修正符号
+    fix_signs();  // 构造后修正符号
   }
 
   /**
@@ -74,7 +74,7 @@ class rational {
    * @return 返回 r 的绝对值。
    */
   static rational qAbs(const rational &r) {
-    if (r >= rational(0)) { // 如果 r 大于或等于 0
+    if (r >= rational(0)) {  // 如果 r 大于或等于 0
       return r;
     }
     return -r;  // 返回 r 的相反数 (需要 rational 支持一元负号运算符)
@@ -144,7 +144,9 @@ class rational {
   /** @brief 一元正号运算符。 @return 当前对象的常量引用。 */
   const rational &operator+() const { return *this; }
   /** @brief 一元负号运算符（取反）。 @return 一个新的 rational 对象，其值为当前对象的相反数。 */
-  rational operator-() const { return rational(-r_.num, r_.den); } // 修正：通常相反数是 (-num, den) 或 (num, -den) 后规范化
+  rational operator-() const {
+    return rational(-r_.num, r_.den);
+  }  // 修正：通常相反数是 (-num, den) 或 (num, -den) 后规范化
   /** @brief 逻辑非运算符。 @return 如果分子为0，则返回 true；否则返回 false。 */
   bool operator!() const { return !r_.num; }
 
@@ -162,7 +164,7 @@ class rational {
    */
   [[nodiscard]] AVRational toAVRational() const;
 
-#ifdef USE_OTIO // 仅当启用了 OpenTimelineIO 支持时编译以下部分
+#ifdef USE_OTIO  // 仅当启用了 OpenTimelineIO 支持时编译以下部分
   /**
    * @brief 静态工厂方法，从 OpenTimelineIO 的 RationalTime 对象创建 rational 对象。
    *
@@ -245,7 +247,7 @@ class rational {
    * @return 返回输出流的引用。
    */
   friend std::ostream &operator<<(std::ostream &out, const rational &value) {
-    out << value.r_.num << '/' << value.r_.den; // 以 "num/den" 格式输出
+    out << value.r_.num << '/' << value.r_.den;  // 以 "num/den" 格式输出
     return out;
   }
 
@@ -266,7 +268,7 @@ class rational {
    */
   void reduce();
 
-  AVRational r_{}; ///< 内部存储，使用 FFmpeg 的 AVRational 结构体 {int num, int den}。
+  AVRational r_{};  ///< 内部存储，使用 FFmpeg 的 AVRational 结构体 {int num, int den}。
 };
 
 /**

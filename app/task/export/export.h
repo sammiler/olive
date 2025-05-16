@@ -1,14 +1,14 @@
-#ifndef EXPORTTASK_H // 防止头文件被重复包含的预处理器指令
-#define EXPORTTASK_H // 定义 EXPORTTASK_H 宏
+#ifndef EXPORTTASK_H  // 防止头文件被重复包含的预处理器指令
+#define EXPORTTASK_H  // 定义 EXPORTTASK_H 宏
 
-#include "codec/encoder.h"                 // 包含了编码器相关的定义
-#include "node/output/viewer/viewer.h"     // 包含了查看器输出节点相关的定义
-#include "render/colorprocessor.h"         // 包含了色彩处理器相关的定义
-#include "render/projectcopier.h"          // 包含了项目复制器相关的定义
-#include "task/render/render.h"            // 包含了渲染任务基类的定义
-#include "task/task.h"                     // 包含了任务基类的定义
+#include "codec/encoder.h"              // 包含了编码器相关的定义
+#include "node/output/viewer/viewer.h"  // 包含了查看器输出节点相关的定义
+#include "render/colorprocessor.h"      // 包含了色彩处理器相关的定义
+#include "render/projectcopier.h"       // 包含了项目复制器相关的定义
+#include "task/render/render.h"         // 包含了渲染任务基类的定义
+#include "task/task.h"                  // 包含了任务基类的定义
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
 /**
  * @brief ExportTask 类定义，继承自 RenderTask 类。
@@ -18,15 +18,15 @@ namespace olive { // olive 项目的命名空间
  * 它还支持字幕的编码。
  */
 class ExportTask : public RenderTask {
-  Q_OBJECT // Qt 对象的宏，用于启用信号和槽机制等 Qt 特性
- public:
-  /**
-   * @brief ExportTask 的构造函数。
-   * @param viewer_node 指向 ViewerOutput 节点的指针，导出任务将从此节点获取要渲染的帧。
-   * @param color_manager 指向 ColorManager 的指针，用于处理导出过程中的色彩空间转换。
-   * @param params 编码参数，定义了输出文件的格式、编解码器、码率等设置。
-   */
-  ExportTask(ViewerOutput *viewer_node, ColorManager *color_manager, const EncodingParams &params);
+ Q_OBJECT  // Qt 对象的宏，用于启用信号和槽机制等 Qt 特性
+     public :
+     /**
+      * @brief ExportTask 的构造函数。
+      * @param viewer_node 指向 ViewerOutput 节点的指针，导出任务将从此节点获取要渲染的帧。
+      * @param color_manager 指向 ColorManager 的指针，用于处理导出过程中的色彩空间转换。
+      * @param params 编码参数，定义了输出文件的格式、编解码器、码率等设置。
+      */
+     ExportTask(ViewerOutput *viewer_node, ColorManager *color_manager, const EncodingParams &params);
 
  protected:
   /**
@@ -86,29 +86,30 @@ class ExportTask : public RenderTask {
    */
   bool WriteAudioLoop(const TimeRange &time, const SampleBuffer &samples);
 
-  ProjectCopier *copier_; ///< @brief 指向 ProjectCopier 对象的指针，可能用于在导出前复制项目相关数据。
+  ProjectCopier *copier_;  ///< @brief 指向 ProjectCopier 对象的指针，可能用于在导出前复制项目相关数据。
 
-  QHash<rational, FramePtr> time_map_; ///< @brief 用于存储已渲染视频帧的哈希表，键为帧的时间戳，值为帧数据。
+  QHash<rational, FramePtr> time_map_;  ///< @brief 用于存储已渲染视频帧的哈希表，键为帧的时间戳，值为帧数据。
 
-  QHash<TimeRange, SampleBuffer> audio_map_; ///< @brief 用于存储已渲染音频样本的哈希表，键为音频的时间范围，值为音频数据。
+  QHash<TimeRange, SampleBuffer>
+      audio_map_;  ///< @brief 用于存储已渲染音频样本的哈希表，键为音频的时间范围，值为音频数据。
 
-  ColorManager *color_manager_; ///< @brief 指向色彩管理器对象的指针，用于色彩空间转换。
+  ColorManager *color_manager_;  ///< @brief 指向色彩管理器对象的指针，用于色彩空间转换。
 
-  EncodingParams params_; ///< @brief 存储导出任务所使用的编码参数。
+  EncodingParams params_;  ///< @brief 存储导出任务所使用的编码参数。
 
-  std::shared_ptr<Encoder> encoder_; ///< @brief 指向主编码器（视频和音频）的智能指针。
+  std::shared_ptr<Encoder> encoder_;  ///< @brief 指向主编码器（视频和音频）的智能指针。
 
-  std::shared_ptr<Encoder> subtitle_encoder_; ///< @brief 指向字幕编码器的智能指针。
+  std::shared_ptr<Encoder> subtitle_encoder_;  ///< @brief 指向字幕编码器的智能指针。
 
-  ColorProcessorPtr color_processor_; ///< @brief 指向色彩处理器对象的智能指针，用于对视频帧应用色彩变换。
+  ColorProcessorPtr color_processor_;  ///< @brief 指向色彩处理器对象的智能指针，用于对视频帧应用色彩变换。
 
-  int64_t frame_time_{}; ///< @brief 当前处理的视频帧的时间戳（以内部时间单位表示）。
+  int64_t frame_time_{};  ///< @brief 当前处理的视频帧的时间戳（以内部时间单位表示）。
 
-  rational audio_time_; ///< @brief 当前处理的音频数据的时间点（以有理数表示）。
+  rational audio_time_;  ///< @brief 当前处理的音频数据的时间点（以有理数表示）。
 
-  TimeRange export_range_; ///< @brief 定义了要导出的时间范围。
+  TimeRange export_range_;  ///< @brief 定义了要导出的时间范围。
 };
 
-}  // namespace olive // 结束 olive 命名空间
+}  // namespace olive
 
 #endif  // EXPORTTASK_H // 结束预处理器指令 #ifndef EXPORTTASK_H

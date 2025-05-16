@@ -1,12 +1,12 @@
-#ifndef PROJECT_PANEL_H // 防止头文件被重复包含的宏
-#define PROJECT_PANEL_H // 定义 PROJECT_PANEL_H 宏
+#ifndef PROJECT_PANEL_H  // 防止头文件被重复包含的宏
+#define PROJECT_PANEL_H  // 定义 PROJECT_PANEL_H 宏
 
-#include "footagemanagementpanel.h"         // 包含 FootageManagementPanel 接口的定义
-#include "node/project.h"                   // 包含 Project 类的定义
-#include "panel/panel.h"                    // 包含 PanelWidget 基类的定义
-#include "widget/projectexplorer/projectexplorer.h" // 包含 ProjectExplorer 控件的定义
+#include "footagemanagementpanel.h"                  // 包含 FootageManagementPanel 接口的定义
+#include "node/project.h"                            // 包含 Project 类的定义
+#include "panel/panel.h"                             // 包含 PanelWidget 基类的定义
+#include "widget/projectexplorer/projectexplorer.h"  // 包含 ProjectExplorer 控件的定义
 
-namespace olive { // olive 项目的命名空间
+namespace olive {  // olive 项目的命名空间
 
 /**
  * @brief ProjectPanel 类是一个 PanelWidget 的包装器，用于封装和管理一个项目浏览器 (ProjectExplorer)
@@ -16,15 +16,17 @@ namespace olive { // olive 项目的命名空间
  * 用户可以在这里查看项目结构、创建新项目项、组织内容到文件夹、以及对项目项执行各种操作。
  * 它实现了 FootageManagementPanel 接口，表明它可以提供当前选定的素材信息。
  */
-class ProjectPanel : public PanelWidget, public FootageManagementPanel { // ProjectPanel 继承自 PanelWidget 并实现 FootageManagementPanel 接口
-  Q_OBJECT // 声明此类使用 Qt 的元对象系统
+class ProjectPanel
+    : public PanelWidget,
+      public FootageManagementPanel {  // ProjectPanel 继承自 PanelWidget 并实现 FootageManagementPanel 接口
+ Q_OBJECT                              // 声明此类使用 Qt 的元对象系统
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param unique_name 面板的唯一名称，可能用于窗口布局保存和恢复。
-   */
-  explicit ProjectPanel(const QString &unique_name);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param unique_name 面板的唯一名称，可能用于窗口布局保存和恢复。
+      */
+     explicit ProjectPanel(const QString &unique_name);
 
   /**
    * @brief 获取此面板当前关联的项目。
@@ -106,7 +108,7 @@ class ProjectPanel : public PanelWidget, public FootageManagementPanel { // Proj
    */
   void RenameSelected() override;
 
- public slots: // Qt 公有槽函数
+ public slots:  // Qt 公有槽函数
   /**
    * @brief “编辑”指定的项目项。
    * 具体的编辑行为取决于项目项的类型 (例如，打开序列到时间轴，打开素材到查看器)。
@@ -114,7 +116,7 @@ class ProjectPanel : public PanelWidget, public FootageManagementPanel { // Proj
    */
   void Edit(Node *item);
 
- signals: // Qt 信号声明
+ signals:  // Qt 信号声明
   /**
    * @brief 当项目名称发生改变时发出的信号。
    */
@@ -132,10 +134,10 @@ class ProjectPanel : public PanelWidget, public FootageManagementPanel { // Proj
    */
   void Retranslate() override;
 
-  ProjectExplorer *explorer_; // 指向内部的项目浏览器控件的指针
-                              // ProjectExplorer 负责显示项目内容并处理用户交互。
+  ProjectExplorer *explorer_;  // 指向内部的项目浏览器控件的指针
+                               // ProjectExplorer 负责显示项目内容并处理用户交互。
 
- private slots: // Qt 私有槽函数
+ private slots:  // Qt 私有槽函数
   /**
    * @brief (静态槽函数) 当项目浏览器中的某个项被双击时的处理槽函数。
    * @param item 被双击的 Node 指针。

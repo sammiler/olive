@@ -1,12 +1,12 @@
 #ifndef COLORWHEELWIDGET_H
 #define COLORWHEELWIDGET_H
 
-#include <QOpenGLWidget> // Qt OpenGL 控件基类 - 注意：实际基类是 ColorSwatchWidget -> QWidget
-#include <QPixmap>       // Qt 图像类，用于缓存渲染结果
-#include <QPoint>        // Qt 二维点类
-#include <QWidget>       // Qt 控件基类
+#include <QOpenGLWidget>  // Qt OpenGL 控件基类 - 注意：实际基类是 ColorSwatchWidget -> QWidget
+#include <QPixmap>        // Qt 图像类，用于缓存渲染结果
+#include <QPoint>         // Qt 二维点类
+#include <QWidget>        // Qt 控件基类
 
-#include "colorswatchwidget.h" // 引入颜色样本控件基类
+#include "colorswatchwidget.h"  // 引入颜色样本控件基类
 
 // 前向声明 Qt 类
 class QResizeEvent;
@@ -22,14 +22,14 @@ namespace olive {
  * 它使用 HSL/HSV 颜色模型（通常是色相/饱和度在轮上，亮度/值可能由其他控件控制或固定）。
  */
 class ColorWheelWidget : public ColorSwatchWidget {
-  Q_OBJECT // Qt 元对象系统宏，用于支持信号和槽机制
+ Q_OBJECT  // Qt 元对象系统宏，用于支持信号和槽机制
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit ColorWheelWidget(QWidget* parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit ColorWheelWidget(QWidget* parent = nullptr);
 
  signals:
   /**
@@ -100,9 +100,9 @@ class ColorWheelWidget : public ColorSwatchWidget {
    * 存储直角三角形的对边、邻边和斜边长度。
    */
   struct Triangle {
-    qreal opposite;   ///< 对边长度。
-    qreal adjacent;   ///< 邻边长度。
-    qreal hypotenuse; ///< 斜边长度。
+    qreal opposite;    ///< 对边长度。
+    qreal adjacent;    ///< 邻边长度。
+    qreal hypotenuse;  ///< 斜边长度。
   };
 
   /**
@@ -142,11 +142,11 @@ class ColorWheelWidget : public ColorSwatchWidget {
    */
   [[nodiscard]] QPoint GetCoordsFromColor(const Color& c) const;
 
-  QPixmap cached_wheel_; ///< 缓存的色轮图像，用于优化重绘性能。
+  QPixmap cached_wheel_;  ///< 缓存的色轮图像，用于优化重绘性能。
 
-  float val_; ///< 可能代表颜色的亮度 (Value) 或亮度 (Lightness)，通常与色轮结合使用以确定最终颜色。
+  float val_;  ///< 可能代表颜色的亮度 (Value) 或亮度 (Lightness)，通常与色轮结合使用以确定最终颜色。
 
-  bool force_redraw_; ///< 标记是否需要强制重绘色轮（例如，在尺寸改变后）。
+  bool force_redraw_;  ///< 标记是否需要强制重绘色轮（例如，在尺寸改变后）。
 };
 
 }  // namespace olive

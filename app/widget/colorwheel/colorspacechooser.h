@@ -4,7 +4,7 @@
 #include <QComboBox>  // Qt 组合框控件
 #include <QGroupBox>  // Qt 分组框控件
 
-#include "node/color/colormanager/colormanager.h" // 色彩管理器类
+#include "node/color/colormanager/colormanager.h"  // 色彩管理器类
 
 // 前向声明 Qt 类
 class QWidget;
@@ -20,18 +20,18 @@ namespace olive {
  * 这些选项通常由 ColorManager 提供，并且当选项改变时会发出相应的信号。
  */
 class ColorSpaceChooser : public QGroupBox {
-  Q_OBJECT // Qt 元对象系统宏，用于支持信号和槽机制
+ Q_OBJECT  // Qt 元对象系统宏，用于支持信号和槽机制
 
- public:
-  /**
-   * @brief 构造函数。
-   * @param color_manager 指向色彩管理器的指针，用于获取可用的色彩空间、显示、视图和外观。
-   * @param enable_input_field 布尔值，指示是否启用输入色彩空间选择字段。默认为 true。
-   * @param enable_display_fields 布尔值，指示是否启用显示设备、视图和外观选择字段。默认为 true。
-   * @param parent 父控件指针，默认为 nullptr。
-   */
-  explicit ColorSpaceChooser(ColorManager* color_manager, bool enable_input_field = true,
-                             bool enable_display_fields = true, QWidget* parent = nullptr);
+     public :
+     /**
+      * @brief 构造函数。
+      * @param color_manager 指向色彩管理器的指针，用于获取可用的色彩空间、显示、视图和外观。
+      * @param enable_input_field 布尔值，指示是否启用输入色彩空间选择字段。默认为 true。
+      * @param enable_display_fields 布尔值，指示是否启用显示设备、视图和外观选择字段。默认为 true。
+      * @param parent 父控件指针，默认为 nullptr。
+      */
+     explicit ColorSpaceChooser(ColorManager* color_manager, bool enable_input_field = true,
+                                bool enable_display_fields = true, QWidget* parent = nullptr);
 
   /**
    * @brief 获取当前选定的输入色彩空间名称。
@@ -87,12 +87,12 @@ class ColorSpaceChooser : public QGroupBox {
   void UpdateViews(const QString& display);
 
  private:
-  ColorManager* color_manager_; ///< 指向色彩管理器的指针，用于查询和应用色彩空间信息。
+  ColorManager* color_manager_;  ///< 指向色彩管理器的指针，用于查询和应用色彩空间信息。
 
-  QComboBox* input_combobox_;   ///< 用于选择输入色彩空间的组合框。
-  QComboBox* display_combobox_; ///< 用于选择显示设备的组合框。
-  QComboBox* view_combobox_;    ///< 用于选择视图转换的组合框。
-  QComboBox* look_combobox_;    ///< 用于选择外观 (look) 的组合框。
+  QComboBox* input_combobox_;    ///< 用于选择输入色彩空间的组合框。
+  QComboBox* display_combobox_;  ///< 用于选择显示设备的组合框。
+  QComboBox* view_combobox_;     ///< 用于选择视图转换的组合框。
+  QComboBox* look_combobox_;     ///< 用于选择外观 (look) 的组合框。
 
  private slots:
   /**

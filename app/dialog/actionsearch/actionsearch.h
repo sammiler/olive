@@ -2,17 +2,16 @@
 #define ACTIONSEARCH_H
 
 #include <QDialog>      // QDialog 基类
+#include <QEvent>       // 为了 QEvent* 在 ActionSearchEntry::event
 #include <QLineEdit>    // 单行文本输入框基类
 #include <QListWidget>  // 列表控件基类
 #include <QMenu>        // 菜单类
 #include <QMenuBar>     // 菜单栏类
-#include <QWidget>      // QWidget 基类 (用于 parent 参数)
-#include <QStringList>  // Qt 字符串列表 (虽然未直接在参数或成员中使用，但可能在 .cpp 中使用)
-#include <QEvent>       // 为了 QEvent* 在 ActionSearchEntry::event
 #include <QMouseEvent>  // 为了 QMouseEvent* 在 ActionSearchList::mouseDoubleClickEvent
+#include <QStringList>  // Qt 字符串列表 (虽然未直接在参数或成员中使用，但可能在 .cpp 中使用)
+#include <QWidget>      // QWidget 基类 (用于 parent 参数)
 
-
-#include "common/define.h" // 可能包含一些通用定义
+#include "common/define.h"  // 可能包含一些通用定义
 
 namespace olive {
 
@@ -126,7 +125,7 @@ class ActionSearchList : public QListWidget {
    * 当列表项被双击时，此方法会发出 dbl_click() 信号。
    * @param event 指向 QMouseEvent 对象的指针，包含鼠标事件信息。
    */
-  void mouseDoubleClickEvent(QMouseEvent* event) override; // event 参数已添加
+  void mouseDoubleClickEvent(QMouseEvent* event) override;  // event 参数已添加
 
  signals:
   /**

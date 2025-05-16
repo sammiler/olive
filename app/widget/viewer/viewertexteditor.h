@@ -1,14 +1,14 @@
 #ifndef VIEWERTEXTEDITOR_H
 #define VIEWERTEXTEDITOR_H
 
-#include <QApplication>    // 包含 QApplication 类的头文件
-#include <QDebug>          // 包含 QDebug 类的头文件，用于调试输出
-#include <QFontComboBox>   // 包含 QFontComboBox 类的头文件，用于字体选择
-#include <QPushButton>     // 包含 QPushButton 类的头文件
-#include <QTextEdit>       // 包含 QTextEdit 类的头文件，富文本编辑器
+#include <QApplication>   // 包含 QApplication 类的头文件
+#include <QDebug>         // 包含 QDebug 类的头文件，用于调试输出
+#include <QFontComboBox>  // 包含 QFontComboBox 类的头文件，用于字体选择
+#include <QPushButton>    // 包含 QPushButton 类的头文件
+#include <QTextEdit>      // 包含 QTextEdit 类的头文件，富文本编辑器
 
-#include "widget/slider/floatslider.h"   // 包含浮点数滑块控件
-#include "widget/slider/integerslider.h" // 包含整数滑块控件
+#include "widget/slider/floatslider.h"    // 包含浮点数滑块控件
+#include "widget/slider/integerslider.h"  // 包含整数滑块控件
 
 namespace olive {
 
@@ -17,13 +17,13 @@ namespace olive {
  * 提供用于格式化文本的各种控件，如字体选择、样式、大小、对齐方式等。
  */
 class ViewerTextEditorToolBar : public QWidget {
-  Q_OBJECT // Q_OBJECT宏，用于支持 Qt 的元对象系统（信号、槽等）
- public:
-  /**
-   * @brief ViewerTextEditorToolBar 的显式构造函数。
-   * @param parent 父 QWidget 指针，默认为 nullptr。
-   */
-  explicit ViewerTextEditorToolBar(QWidget *parent = nullptr);
+ Q_OBJECT  // Q_OBJECT宏，用于支持 Qt 的元对象系统（信号、槽等）
+     public :
+     /**
+      * @brief ViewerTextEditorToolBar 的显式构造函数。
+      * @param parent 父 QWidget 指针，默认为 nullptr。
+      */
+     explicit ViewerTextEditorToolBar(QWidget *parent = nullptr);
 
   /**
    * @brief 获取当前选择的字体家族名称。
@@ -44,10 +44,10 @@ class ViewerTextEditorToolBar : public QWidget {
    * @param s 要设置的字体家族名称。
    */
   void SetFontFamily(const QString &s) {
-    font_combo_->blockSignals(true); // 暂时阻塞信号，避免不必要的信号发射
-    font_combo_->setCurrentFont(s);  // 设置当前字体
-    UpdateFontStyleList(s);          // 更新字体样式列表
-    font_combo_->blockSignals(false); // 解除信号阻塞
+    font_combo_->blockSignals(true);   // 暂时阻塞信号，避免不必要的信号发射
+    font_combo_->setCurrentFont(s);    // 设置当前字体
+    UpdateFontStyleList(s);            // 更新字体样式列表
+    font_combo_->blockSignals(false);  // 解除信号阻塞
   }
 
   /**
@@ -55,9 +55,9 @@ class ViewerTextEditorToolBar : public QWidget {
    * @param style 要设置的字体样式名称。
    */
   void SetStyle(const QString &style) {
-    style_combo_->blockSignals(true);    // 暂时阻塞信号
-    style_combo_->setCurrentText(style); // 设置当前文本（样式）
-    style_combo_->blockSignals(false);   // 解除信号阻塞
+    style_combo_->blockSignals(true);     // 暂时阻塞信号
+    style_combo_->setCurrentText(style);  // 设置当前文本（样式）
+    style_combo_->blockSignals(false);    // 解除信号阻塞
   }
 
   /**
@@ -326,14 +326,14 @@ class ViewerTextEditorToolBar : public QWidget {
  * 继承自 QTextEdit，提供富文本编辑功能，并与 ViewerTextEditorToolBar 联动。
  */
 class ViewerTextEditor : public QTextEdit {
-  Q_OBJECT // Q_OBJECT宏
- public:
-  /**
-   * @brief ViewerTextEditor 的显式构造函数。
-   * @param scale 缩放比例。
-   * @param parent 父 QWidget 指针，默认为 nullptr。
-   */
-  explicit ViewerTextEditor(double scale, QWidget *parent = nullptr);
+ Q_OBJECT  // Q_OBJECT宏
+     public :
+     /**
+      * @brief ViewerTextEditor 的显式构造函数。
+      * @param scale 缩放比例。
+      * @param parent 父 QWidget 指针，默认为 nullptr。
+      */
+     explicit ViewerTextEditor(double scale, QWidget *parent = nullptr);
 
   /**
    * @brief 连接工具栏。
