@@ -24,6 +24,7 @@ set(Q_HEADERS
         ${CMAKE_SOURCE_DIR}/app/dialog/autorecovery/autorecoverydialog.h
         ${CMAKE_SOURCE_DIR}/app/dialog/color/colordialog.h
         ${CMAKE_SOURCE_DIR}/app/dialog/configbase/configdialogbase.h
+        ${CMAKE_SOURCE_DIR}/app/dialog/configbase/configdialogbasetab.h
         ${CMAKE_SOURCE_DIR}/app/dialog/diskcache/diskcachedialog.h
         ${CMAKE_SOURCE_DIR}/app/dialog/export/codec/av1section.h
         ${CMAKE_SOURCE_DIR}/app/dialog/export/codec/cineformsection.h
@@ -39,6 +40,8 @@ set(Q_HEADERS
         ${CMAKE_SOURCE_DIR}/app/dialog/export/exportsubtitlestab.h
         ${CMAKE_SOURCE_DIR}/app/dialog/export/exportvideotab.h
         ${CMAKE_SOURCE_DIR}/app/dialog/footageproperties/footageproperties.h
+        ${CMAKE_SOURCE_DIR}/app/dialog/footageproperties/streamproperties/audiostreamproperties.h
+        ${CMAKE_SOURCE_DIR}/app/dialog/footageproperties/streamproperties/streamproperties.h
         ${CMAKE_SOURCE_DIR}/app/dialog/footageproperties/streamproperties/videostreamproperties.h
         ${CMAKE_SOURCE_DIR}/app/dialog/footagerelink/footagerelinkdialog.h
         ${CMAKE_SOURCE_DIR}/app/dialog/keyframeproperties/keyframeproperties.h
@@ -111,7 +114,10 @@ set(Q_HEADERS
         ${CMAKE_SOURCE_DIR}/app/node/input/value/valuenode.h
         ${CMAKE_SOURCE_DIR}/app/node/keyframe.h
         ${CMAKE_SOURCE_DIR}/app/node/keying/chromakey/chromakey.h
+        ${CMAKE_SOURCE_DIR}/app/node/keying/colordifferencekey/colordifferencekey.h
+        ${CMAKE_SOURCE_DIR}/app/node/keying/despill/despill.h
         ${CMAKE_SOURCE_DIR}/app/node/math/math/math.h
+        ${CMAKE_SOURCE_DIR}/app/node/math/math/mathbase.h
         ${CMAKE_SOURCE_DIR}/app/node/math/merge/merge.h
         ${CMAKE_SOURCE_DIR}/app/node/math/trigonometry/trigonometry.h
         ${CMAKE_SOURCE_DIR}/app/node/node.h
@@ -123,6 +129,7 @@ set(Q_HEADERS
         ${CMAKE_SOURCE_DIR}/app/node/project/footage/footage.h
         ${CMAKE_SOURCE_DIR}/app/node/project/sequence/sequence.h
         ${CMAKE_SOURCE_DIR}/app/node/time/timeformat/timeformat.h
+        ${CMAKE_SOURCE_DIR}/app/node/time/timeoffset/timeoffsetnode.h
         ${CMAKE_SOURCE_DIR}/app/node/time/timeremap/timeremap.h
         ${CMAKE_SOURCE_DIR}/app/panel/audiomonitor/audiomonitor.h
         ${CMAKE_SOURCE_DIR}/app/panel/curve/curve.h
@@ -194,12 +201,14 @@ set(Q_HEADERS
         ${CMAKE_SOURCE_DIR}/app/widget/curvewidget/curveview.h
         ${CMAKE_SOURCE_DIR}/app/widget/curvewidget/curvewidget.h
         ${CMAKE_SOURCE_DIR}/app/widget/filefield/filefield.h
+        ${CMAKE_SOURCE_DIR}/app/widget/flowlayout/flowlayout.h
         ${CMAKE_SOURCE_DIR}/app/widget/focusablelineedit/focusablelineedit.h
         ${CMAKE_SOURCE_DIR}/app/widget/handmovableview/handmovableview.h
         ${CMAKE_SOURCE_DIR}/app/widget/history/historywidget.h
         ${CMAKE_SOURCE_DIR}/app/widget/keyframeview/keyframeview.h
         ${CMAKE_SOURCE_DIR}/app/widget/keyframeview/keyframeviewinputconnection.h
         ${CMAKE_SOURCE_DIR}/app/widget/manageddisplay/manageddisplay.h
+        ${CMAKE_SOURCE_DIR}/app/widget/menu/menu.h
         ${CMAKE_SOURCE_DIR}/app/widget/menu/menushared.h
         ${CMAKE_SOURCE_DIR}/app/widget/multicam/multicamdisplay.h
         ${CMAKE_SOURCE_DIR}/app/widget/multicam/multicamwidget.h
@@ -216,11 +225,14 @@ set(Q_HEADERS
         ${CMAKE_SOURCE_DIR}/app/widget/nodeparamview/nodeparamviewtextedit.h
         ${CMAKE_SOURCE_DIR}/app/widget/nodeparamview/nodeparamviewwidgetbridge.h
         ${CMAKE_SOURCE_DIR}/app/widget/nodetableview/nodetableview.h
+        ${CMAKE_SOURCE_DIR}/app/widget/nodetableview/nodetablewidget.h
         ${CMAKE_SOURCE_DIR}/app/widget/nodetreeview/nodetreeview.h
         ${CMAKE_SOURCE_DIR}/app/widget/nodevaluetree/nodevaluetree.h
         ${CMAKE_SOURCE_DIR}/app/widget/nodeview/nodeview.h
         ${CMAKE_SOURCE_DIR}/app/widget/nodeview/nodeviewcontext.h
+        ${CMAKE_SOURCE_DIR}/app/widget/nodeview/nodeviewedge.h
         ${CMAKE_SOURCE_DIR}/app/widget/nodeview/nodeviewitem.h
+        ${CMAKE_SOURCE_DIR}/app/widget/nodeview/nodeviewitemconnector.h
         ${CMAKE_SOURCE_DIR}/app/widget/nodeview/nodeviewminimap.h
         ${CMAKE_SOURCE_DIR}/app/widget/nodeview/nodeviewscene.h
         ${CMAKE_SOURCE_DIR}/app/widget/nodeview/nodeviewtoolbar.h
@@ -231,8 +243,10 @@ set(Q_HEADERS
         ${CMAKE_SOURCE_DIR}/app/widget/playbackcontrols/playbackcontrols.h
         ${CMAKE_SOURCE_DIR}/app/widget/projectexplorer/projectexplorer.h
         ${CMAKE_SOURCE_DIR}/app/widget/projectexplorer/projectexplorericonview.h
+        ${CMAKE_SOURCE_DIR}/app/widget/projectexplorer/projectexplorericonviewitemdelegate.h
         ${CMAKE_SOURCE_DIR}/app/widget/projectexplorer/projectexplorerlistview.h
         ${CMAKE_SOURCE_DIR}/app/widget/projectexplorer/projectexplorerlistviewbase.h
+        ${CMAKE_SOURCE_DIR}/app/widget/projectexplorer/projectexplorerlistviewitemdelegate.h
         ${CMAKE_SOURCE_DIR}/app/widget/projectexplorer/projectexplorernavigation.h
         ${CMAKE_SOURCE_DIR}/app/widget/projectexplorer/projectexplorertreeview.h
         ${CMAKE_SOURCE_DIR}/app/widget/projectexplorer/projectviewmodel.h
@@ -240,7 +254,9 @@ set(Q_HEADERS
         ${CMAKE_SOURCE_DIR}/app/widget/resizablescrollbar/resizablescrollbar.h
         ${CMAKE_SOURCE_DIR}/app/widget/resizablescrollbar/resizabletimelinescrollbar.h
         ${CMAKE_SOURCE_DIR}/app/widget/scope/histogram/histogram.h
+        ${CMAKE_SOURCE_DIR}/app/widget/scope/scopebase/scopebase.h
         ${CMAKE_SOURCE_DIR}/app/widget/scope/waveform/waveform.h
+        ${CMAKE_SOURCE_DIR}/app/widget/slider/base/decimalsliderbase.h
         ${CMAKE_SOURCE_DIR}/app/widget/slider/base/numericsliderbase.h
         ${CMAKE_SOURCE_DIR}/app/widget/slider/base/sliderbase.h
         ${CMAKE_SOURCE_DIR}/app/widget/slider/base/sliderlabel.h
@@ -263,6 +279,7 @@ set(Q_HEADERS
         ${CMAKE_SOURCE_DIR}/app/widget/timebased/timebasedview.h
         ${CMAKE_SOURCE_DIR}/app/widget/timebased/timebasedwidget.h
         ${CMAKE_SOURCE_DIR}/app/widget/timebased/timescaledobject.h
+        ${CMAKE_SOURCE_DIR}/app/widget/timelinewidget/timelineandtrackview.h
         ${CMAKE_SOURCE_DIR}/app/widget/timelinewidget/timelinewidget.h
         ${CMAKE_SOURCE_DIR}/app/widget/timelinewidget/trackview/trackview.h
         ${CMAKE_SOURCE_DIR}/app/widget/timelinewidget/trackview/trackviewitem.h
@@ -277,6 +294,7 @@ set(Q_HEADERS
         ${CMAKE_SOURCE_DIR}/app/widget/viewer/viewerdisplay.h
         ${CMAKE_SOURCE_DIR}/app/widget/viewer/viewersizer.h
         ${CMAKE_SOURCE_DIR}/app/widget/viewer/viewertexteditor.h
+        ${CMAKE_SOURCE_DIR}/app/widget/viewer/viewerwindow.h
         ${CMAKE_SOURCE_DIR}/app/window/mainwindow/mainmenu.h
         ${CMAKE_SOURCE_DIR}/app/window/mainwindow/mainstatusbar.h
         ${CMAKE_SOURCE_DIR}/app/window/mainwindow/mainwindow.h
