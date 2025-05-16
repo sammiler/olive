@@ -1,77 +1,99 @@
 /**
  * @file
- * @brief The MainWindow base-class that's shared between QtWidgets and QtQuick stack.
+ * @brief MainWindow (主窗口) 的基类，在 QtWidgets 和 QtQuick 技术栈之间共享。
  *
- * @author Sérgio Martins \<sergio.martins@kdab.com\>
+ * @author Sérgio Martins <sergio.martins@kdab.com>
  */
 
 #ifndef KD_MAINWINDOW_BASE_H
 #define KD_MAINWINDOW_BASE_H
 
-#include "docks_export.h"
-#include "KDDockWidgets.h"
-#include "QWidgetAdapter.h"
-#include "LayoutSaver.h"
+#include "docks_export.h"          // 导入导出宏定义，用于库的符号可见性
+#include "KDDockWidgets.h"         // KDDockWidgets 公共头文件，包含核心枚举和类型定义
+#include "QWidgetAdapter.h"        // QWidget 和 QQuickItem 的适配器类
+#include "LayoutSaver.h"           // 布局保存与恢复相关的类
 
-#include <QVector>
-#include <QMargins>
+#include <QVector>  // Qt 动态数组容器
+#include <QMargins> // Qt 边距类
 
+// 前向声明，用于测试目的
 class TestDocks;
 
 namespace KDDockWidgets {
 
-class DockWidgetBase;
-class Frame;
-class DropArea;
-class MDILayoutWidget;
-class MultiSplitter;
-class LayoutWidget;
-class DropAreaWithCentralFrame;
-class SideBar;
+// 前向声明 KDDockWidgets 内部或公共类
+class DockWidgetBase;           // 停靠小部件基类
+class Frame;                    // 框架类 (容纳 DockWidgetBase)
+class DropArea;                 // 放置区域类
+class MDILayoutWidget;          // MDI (多文档界面) 布局小部件类
+class MultiSplitter;            // 多重分割器类
+class LayoutWidget;             // 布局小部件基类
+class DropAreaWithCentralFrame; // 带有中央框架的放置区域类
+class SideBar;                  // 侧边栏类
 
 /**
- * @brief The MainWindow base-class. MainWindow and MainWindowBase are only
- * split in two so we can share some code with the QtQuick implementation,
- * which also derives from MainWindowBase.
+ * @brief MainWindow 的基类。MainWindow 和 MainWindowBase 被拆分为两个类，
+ * 以便与 QtQuick 实现共享一些代码，QtQuick 实现也派生自 MainWindowBase。
  *
- * Do not use instantiate directly in user code. Use MainWindow instead.
+ * 用户代码中不应直接实例化此类。请改用 MainWindow (用于 QtWidgets) 或相应的 QtQuick 主窗口类。
  */
-#ifndef PYTHON_BINDINGS // Pyside bug: https://bugreports.qt.io/projects/PYSIDE/issues/PYSIDE-1327
+#ifndef PYTHON_BINDINGS // 条件编译：处理 Pyside 的一个 BUG (PYSIDE-1327)，如果不是为 Python 绑定编译
+// QMainWindowOrQuick 是一个类型别名或宏，根据构建目标 (QtWidgets 或 QtQuick) 解析为 QMainWindow 或 QQuickWindow/QQuickItem
 class DOCKS_EXPORT MainWindowBase : public QMainWindowOrQuick
-#else
-class DOCKS_EXPORT MainWindowBase : public QMainWindow
+#else // 如果是为 Python 绑定编译 (PYSIDE)
+class DOCKS_EXPORT MainWindowBase : public QMainWindow // Pyside bug 解决方法：直接继承自 QMainWindow
 #endif
 {
-    Q_OBJECT
+    Q_OBJECT // Q_OBJECT 宏，用于启用 Qt 元对象系统特性，如信号和槽
+
+    // Q_PROPERTY 宏，向 Qt 元对象系统暴露属性
+    /// @brief Q_PROPERTY，表示此主窗口的亲和性列表 (只读)。
     Q_PROPERTY(QStringList affinities READ affinities CONSTANT)
+    /// @brief Q_PROPERTY，表示此主窗口的唯一名称 (只读)。
     Q_PROPERTY(QString uniqueName READ uniqueName CONSTANT)
+    /// @brief Q_PROPERTY，表示此主窗口的选项 (只读)。
     Q_PROPERTY(KDDockWidgets::MainWindowOptions options READ options CONSTANT)
+    /// @brief Q_PROPERTY，表示此主窗口是否处于 MDI (多文档界面) 模式 (只读)。
     Q_PROPERTY(bool isMDI READ isMDI CONSTANT)
+    /// @brief Q_PROPERTY，表示侧边栏覆盖层与主窗口边缘的间距。可读写。
     Q_PROPERTY(int overlayMargin READ overlayMargin WRITE setOverlayMargin NOTIFY overlayMarginChanged)
+
 public:
+    /// @brief MainWindowBase 指针的 QVector 类型定义，方便使用。
     typedef QVector<MainWindowBase *> List;
+
+    /**
+     * @brief 构造函数。
+     * @param uniqueName 强制性的名称，在所有 MainWindow 实例之间应该是唯一的。
+     * 此名称不会对用户可见，仅在内部用于保存/恢复布局。
+     * @param options 可选的 MainWindowOptions，用于配置主窗口特性，默认为 MainWindowOption_HasCentralFrame。
+     * @param parent 父 WidgetType (QWidget* 或 QQuickItem*) 对象，默认为 nullptr。
+     * @param flags 窗口标志，默认为 Qt::WindowFlags()。
+     */
     explicit MainWindowBase(const QString &uniqueName, MainWindowOptions options = MainWindowOption_HasCentralFrame,
                             WidgetType *parent = nullptr, Qt::WindowFlags flags = Qt::WindowFlags());
 
+    /**
+     * @brief 析构函数。
+     */
     ~MainWindowBase() override;
 
     /**
-     * @brief Docks a DockWidget into the central frame, tabbed.
-     * @warning Requires that the MainWindow was constructed with MainWindowOption_HasCentralFrame option.
-     * @param dockwidget The dockwidget to dock.
+     * @brief 将一个 DockWidget 作为标签页停靠到中央框架中。
+     * @warning 要求主窗口构造时使用了 MainWindowOption_HasCentralFrame 选项。
+     * @param dockwidget 要停靠的停靠小部件。
      *
      * @sa DockWidgetBase::addDockWidgetAsTab()
      */
     Q_INVOKABLE void addDockWidgetAsTab(KDDockWidgets::DockWidgetBase *dockwidget);
 
     /**
-     * @brief Docks a DockWidget into this main window.
-     * @param dockWidget The dock widget to add into this MainWindow
-     * @param location the location where to dock
-     * @param relativeTo In case we're docking in relation to another dock widget
-     * @param initialOption Allows to specify an InitialOption. Which is useful to add the dock widget
-     * as hidden, recording only a placeholder in the tab. So it's restored to tabbed when eventually
-     * shown.
+     * @brief 将一个 DockWidget 停靠到此主窗口中。
+     * @param dw 要添加到此主窗口的停靠小部件。
+     * @param location 停靠的位置。
+     * @param relativeTo 如果是相对于另一个停靠小部件进行停靠，则指定该参照小部件。如果为 nullptr，则相对于主窗口。
+     * @param initialOption 允许指定一些初始选项，例如将停靠小部件添加为隐藏状态，
+     * 仅在标签页中记录一个占位符。这样，当它最终显示时，会恢复为标签化状态。
      */
     Q_INVOKABLE void addDockWidget(KDDockWidgets::DockWidgetBase *dw,
                                    KDDockWidgets::Location location,
@@ -79,181 +101,299 @@ public:
                                    KDDockWidgets::InitialOption initialOption = {}) const;
 
     /**
-     * @brief Sets a persistent central widget. It can't be detached.
+     * @brief 设置一个持久的中央小部件。它不能被分离。
      *
-     * Requires passing MainWindowOption_HasCentralWidget in the CTOR.
-     * This is similar to the central frame concept of MainWindowOption_HasCentralFrame,
-     * with the difference that it won't show a tabs.
+     * 要求在构造函数中传递 MainWindowOption_HasCentralWidget。
+     * 这类似于 MainWindowOption_HasCentralFrame 的中央框架概念，
+     * 不同之处在于它不会显示标签页。
      *
-     * @param widget The QWidget (or QQuickItem if built with QtQuick support) that you
-     * want to set.
+     * @param widget 您想要设置的 QWidget (或 QQuickItem，如果使用 QtQuick 支持构建)。
      *
-     * Example: kddockwidgets_example --central-widget
+     * 示例: kddockwidgets_example --central-widget
      */
     Q_INVOKABLE void setPersistentCentralWidget(KDDockWidgets::QWidgetOrQuick *widget);
+    /**
+     * @brief 获取持久的中央小部件。
+     * @return 指向持久中央小部件的 QWidgetOrQuick 指针，如果未设置则为 nullptr。
+     */
     [[nodiscard]] QWidgetOrQuick *persistentCentralWidget() const;
 
     /**
-     * @brief Returns the unique name that was passed via constructor.
-     *        Used internally by the save/restore mechanism.
-     * @internal
+     * @brief 返回通过构造函数传递的唯一名称。
+     * 由保存/恢复机制内部使用。
+     * @internal 内部使用。
+     * @return 唯一名称字符串。
      */
     [[nodiscard]] QString uniqueName() const;
 
 
-    /// @brief Returns the main window options that were passed via constructor.
+    /**
+     * @brief 返回通过构造函数传递的主窗口选项。
+     * @return MainWindowOptions 枚举值的组合。
+     */
     [[nodiscard]] MainWindowOptions options() const;
 
-    ///@internal
-    ///@brief returns the drop area.
+    /**
+     * @internal
+     * @brief 返回放置区域 (DropArea)。
+     * @return 指向 DropAreaWithCentralFrame 对象的指针。
+     */
     [[nodiscard]] DropAreaWithCentralFrame *dropArea() const;
 
-    ///@internal
-    ///@brief returns the MultiSplitter.
+    /**
+     * @internal
+     * @brief 返回多重分割器 (MultiSplitter)。
+     * @return 指向 MultiSplitter 对象的指针。
+     */
     [[nodiscard]] MultiSplitter *multiSplitter() const;
 
-    ///@internal
-    ///@brief returns the MultiSplitter.
+    /**
+     * @internal
+     * @brief 返回布局小部件 (LayoutWidget)。
+     * @return 指向 LayoutWidget 对象的指针。
+     */
     [[nodiscard]] LayoutWidget *layoutWidget() const;
 
-    ///@internal
-    ///@brief Returns the MDI layout. Or nullptr if this isn't a MDI main window
+    /**
+     * @internal
+     * @brief 返回 MDI 布局。如果这不是一个 MDI 主窗口，则返回 nullptr。
+     * @return 指向 MDILayoutWidget 的指针，或者 nullptr。
+     */
     [[nodiscard]] MDILayoutWidget *mdiLayoutWidget() const;
 
     /**
-     * @brief Sets the affinities names. Dock widgets can only dock into main windows of the same affinity.
+     * @brief 设置亲和性名称。停靠小部件只能停靠到具有相同亲和性的主窗口中。
      *
-     * By default the affinity is empty and a dock widget can dock into any main window. Usually you
-     * won't ever need to call this function, unless you have requirements where certain dock widgets
-     * can only dock into certain main windows. @sa DockWidgetBase::setAffinities().
+     * 默认情况下，亲和性为空，停靠小部件可以停靠到任何主窗口中。通常您不需要调用此函数，
+     * 除非您有某些停靠小部件只能停靠到某些特定主窗口的需求。
+     * @sa DockWidgetBase::setAffinities()。
      *
-     * Note: Call this function right after creating your main window, before docking any dock widgets
-     * into a main window and before restoring any layout.
+     * 注意：在创建主窗口后，停靠任何停靠小部件之前以及恢复任何布局之前立即调用此函数。
+     * 注意：目前只能调用此函数一次，以保持代码简单并避免边缘情况。
+     * 只有在出现需要多次更改亲和性的良好用例时，才会更改此行为。
      *
-     * Note: Currently you can only call this function once, to keep the code simple and avoid
-     * edge cases. This will only be changed if a good use case comes up that requires changing
-     * affinities multiple times.
-     *
-     * @p name The affinity names.
+     * @param names 亲和性名称列表。
      */
     void setAffinities(const QStringList &names);
 
     /**
-     * @brief Returns the list of affinity names. Empty by default.
+     * @brief 返回亲和性名称列表。默认为空。
+     * @return 亲和性名称的 QStringList。
      */
     [[nodiscard]] QStringList affinities() const;
 
-    /// @brief layouts all the widgets so they have an equal size within their parent container
-    ///
-    /// Note that the layout is a tree of nested horizontal and vertical container layouts. The
-    /// nodes closer to the root will have more space.
-    ///
-    /// min/max constraints will still be honoured.
+    /**
+     * @brief 平均分配所有小部件的尺寸，使其在其父容器内大小相等。
+     *
+     * 注意，布局是一个嵌套的水平和垂直容器布局树。
+     * 越靠近根节点的节点将获得更多空间。
+     *
+     * 最小/最大尺寸约束仍将被遵守。
+     */
     Q_INVOKABLE void layoutEqually() const;
 
-    /// @brief like layoutEqually() but starts with the container that has @p dockWidget.
-    /// While layoutEqually() starts from the root of the layout tree this function starts on a
-    /// sub-tree.
+    /**
+     * @brief 类似于 layoutEqually()，但从包含 @p dockWidget 的容器开始。
+     * layoutEqually() 从布局树的根开始，而此函数从子树开始。
+     * @param dockWidget 作为子树起点的停靠小部件。
+     */
     Q_INVOKABLE void layoutParentContainerEqually(KDDockWidgets::DockWidgetBase *dockWidget) const;
 
-    ///@brief Moves the dock widget into one of the MainWindow's sidebar.
-    /// Means the dock widget is removed from the layout, and the sidebar shows a button that if pressed
-    /// will toggle the dock widget's visibility as an overlay over the layout. This is the auto-hide
-    /// functionality.
-    ///
-    /// The chosen side bar will depend on some heuristics, mostly proximity.
-    Q_INVOKABLE void moveToSideBar(KDDockWidgets::DockWidgetBase *);
+    /**
+     * @brief 将停靠小部件移动到主窗口的某个侧边栏。
+     * 这意味着停靠小部件将从当前布局中移除，侧边栏会显示一个按钮，
+     * 如果按下该按钮，将以覆盖层形式切换停靠小部件的可见性。这就是自动隐藏功能。
+     *
+     * 选择哪个侧边栏将取决于一些启发式方法，主要是邻近度。
+     * @param dw 要移动到侧边栏的 DockWidgetBase 对象。
+     */
+    Q_INVOKABLE void moveToSideBar(KDDockWidgets::DockWidgetBase *dw);
 
-    /// @brief overload that allows to specify which sidebar to use, instead of using heuristics.
-    Q_INVOKABLE void moveToSideBar(KDDockWidgets::DockWidgetBase *, KDDockWidgets::SideBarLocation);
+    /**
+     * @brief (重载) 允许指定使用哪个侧边栏，而不是使用启发式方法。
+     * @param dw 要移动到侧边栏的 DockWidgetBase 对象。
+     * @param location 目标侧边栏的位置。
+     */
+    Q_INVOKABLE void moveToSideBar(KDDockWidgets::DockWidgetBase *dw, KDDockWidgets::SideBarLocation location);
 
-    /// @brief Removes the dock widget from the sidebar and docks it into the main window again
-    Q_INVOKABLE void restoreFromSideBar(KDDockWidgets::DockWidgetBase *);
+    /**
+     * @brief 将停靠小部件从侧边栏移除并再次停靠回主窗口。
+     * @param dw 要从侧边栏恢复的 DockWidgetBase 对象。
+     */
+    Q_INVOKABLE void restoreFromSideBar(KDDockWidgets::DockWidgetBase *dw);
 
-    ///@brief Shows the dock widget overlayed on top of the main window, placed next to the sidebar
-    Q_INVOKABLE void overlayOnSideBar(KDDockWidgets::DockWidgetBase *);
+    /**
+     * @brief 将停靠小部件作为覆盖层显示在主窗口之上，放置在侧边栏旁边。
+     * @param dw 要作为覆盖层显示的 DockWidgetBase 对象。
+     */
+    Q_INVOKABLE void overlayOnSideBar(KDDockWidgets::DockWidgetBase *dw);
 
-    ///@brief Shows or hides an overlay. It's assumed the dock widget is already in a side-bar.
-    Q_INVOKABLE void toggleOverlayOnSideBar(KDDockWidgets::DockWidgetBase *);
+    /**
+     * @brief 显示或隐藏一个覆盖层。假定停靠小部件已经在侧边栏中。
+     * @param dw 要切换覆盖层状态的 DockWidgetBase 对象。
+     */
+    Q_INVOKABLE void toggleOverlayOnSideBar(KDDockWidgets::DockWidgetBase *dw);
 
-    /// @brief closes any overlayed dock widget. The sidebar still displays them as button.
+    /**
+     * @brief 关闭任何覆盖显示的停靠小部件。侧边栏仍将其显示为按钮。
+     * @param deleteFrame 如果为 true (默认)，则在关闭覆盖层时删除其关联的 Frame。
+     */
     Q_INVOKABLE void clearSideBarOverlay(bool deleteFrame = true);
 
-    /// @brief Returns the sidebar this dockwidget is in. nullptr if not in any.
+    /**
+     * @brief 返回此停靠小部件所在的侧边栏。如果不在任何侧边栏中，则返回 nullptr。
+     * @param dw 要查询的 DockWidgetBase 对象。
+     * @return 指向 SideBar 对象的指针，或 nullptr。
+     */
     Q_INVOKABLE KDDockWidgets::SideBar *
-    sideBarForDockWidget(const KDDockWidgets::DockWidgetBase *) const;
+    sideBarForDockWidget(const KDDockWidgets::DockWidgetBase *dw) const;
 
-    /// @brief Returns whether the specified sidebar is visible
-    Q_INVOKABLE [[nodiscard]] bool sideBarIsVisible(KDDockWidgets::SideBarLocation) const;
+    /**
+     * @brief 返回指定的侧边栏是否可见。
+     * @param location 要检查的侧边栏位置。
+     * @return 如果侧边栏可见，则返回 true；否则返回 false。
+     */
+    Q_INVOKABLE [[nodiscard]] bool sideBarIsVisible(KDDockWidgets::SideBarLocation location) const;
 
-    /// @brief returns the dock widget which is currently overlayed. nullptr if none.
-    /// This is only relevant when using the auto-hide and side-bar feature.
+    /**
+     * @brief 返回当前覆盖显示的停靠小部件。如果没有，则返回 nullptr。
+     * 仅在使用自动隐藏和侧边栏功能时才有意义。
+     * @return 指向当前覆盖显示的 DockWidgetBase 的指针，或 nullptr。
+     */
     [[nodiscard]] DockWidgetBase *overlayedDockWidget() const;
 
-    /// @brief Returns whether any side bar is visible
+    /**
+     * @brief 返回是否有任何侧边栏是可见的。
+     * @return 如果至少有一个侧边栏可见，则返回 true。
+     */
     [[nodiscard]] bool anySideBarIsVisible() const;
 
-    /// @brief Returns whether this main window is using an MDI layout.
-    /// In other words, returns true if MainWindowOption_MDI was passed in the ctor.
+    /**
+     * @brief 返回此主窗口是否使用 MDI 布局。
+     * 换句话说，如果在构造函数中传递了 MainWindowOption_MDI，则返回 true。
+     * @return 如果是 MDI 模式，则返回 true。
+     */
     [[nodiscard]] bool isMDI() const;
 
-    /// @brief Closes all dock widgets which are docked into this main window
-    /// This is convenience to calling DockWidget::close() individually
-    /// If force is true, then the individual dock widgets can't stop the process
-    /// Returns false if there's at least one dock widget which rejected closing. Returns true
-    /// if all dock widgets were closed (0 or more)
+    /**
+     * @brief 关闭所有停靠在此主窗口中的停靠小部件。
+     * 这是单独调用 DockWidget::close() 的便利方法。
+     * 如果 force 为 true，则各个停靠小部件无法阻止此过程。
+     * @param force 如果为 true，则强制关闭。
+     * @return 如果至少有一个停靠小部件拒绝关闭，则返回 false。如果所有停靠小部件都已关闭（0个或多个），则返回 true。
+     */
     Q_INVOKABLE bool closeDockWidgets(bool force = false);
 
-    /// @brief Returns the window geometry
-    /// This is usually the same as MainWindowBase::geometry()
-    /// But fixes the following special cases:
-    /// - QWidgets: Our MainWindow is embedded in another widget
-    /// - QtQuick: Our MainWindow is QQuickItem
+    /**
+     * @brief 返回窗口的几何形状。
+     * 通常与 MainWindowBase::geometry() 相同。
+     * 但修复了以下特殊情况：
+     * - QWidgets: 我们的 MainWindow 嵌入在另一个小部件中。
+     * - QtQuick: 我们的 MainWindow 是 QQuickItem。
+     * @return 窗口的全局几何 QRect。
+     */
     [[nodiscard]] QRect windowGeometry() const;
 
-    /// @brief Returns the margin used by overlay docks. Default: 1
+    /**
+     * @brief 返回覆盖停靠小部件使用的边距。默认值：1。
+     * @return 边距大小（像素）。
+     */
     [[nodiscard]] int overlayMargin() const;
 
-    /// @brief Sets the margin used by overlay docks.
-    /// Does not modify currently overlayed docks
+    /**
+     * @brief 设置覆盖停靠小部件使用的边距。
+     * 不会修改当前已覆盖显示的停靠小部件。
+     * @param margin 新的边距大小（像素）。
+     */
     void setOverlayMargin(int margin);
 
 protected:
 #ifdef KDDOCKWIDGETS_QTWIDGETS
-    void onCloseEvent(QCloseEvent *);
+    /**
+     * @brief 处理关闭事件 (QWidget 虚函数重写)。
+     * @param event 关闭事件对象。
+     */
+    void onCloseEvent(QCloseEvent *event);
 #else
-    // QtQuick uses a different base class. This will be fixed in the wip/2.0 branch.
-    void onCloseEvent(QCloseEvent *) override;
+    // QtQuick 使用不同的基类。这将在 wip/2.0 分支中修复。
+    /**
+     * @brief 处理关闭事件 (重写)。
+     * @param event 关闭事件对象。
+     */
+    void onCloseEvent(QCloseEvent *event) override;
 #endif
 
+    /**
+     * @brief 设置主窗口的唯一名称。
+     * @param uniqueName 新的唯一名称。
+     */
     void setUniqueName(const QString &uniqueName);
-    void onResized(QResizeEvent *); // Because QtQuick doesn't have resizeEvent()
+    /**
+     * @brief 当窗口大小调整时的回调函数（因为 QtQuick 没有 resizeEvent()）。
+     * @param event 大小调整事件对象 (对于 QtWidgets)。
+     */
+    void onResized(QResizeEvent *event);
+    /**
+     * @brief (纯虚函数) 返回中央小部件区域的内容边距。
+     * @return QMargins 对象。
+     */
     [[nodiscard]] virtual QMargins centerWidgetMargins() const = 0;
-    [[nodiscard]] virtual SideBar *sideBar(SideBarLocation) const = 0;
+    /**
+     * @brief (纯虚函数) 返回指定位置的侧边栏。
+     * @param location 侧边栏位置。
+     * @return 指向 SideBar 对象的指针。
+     */
+    [[nodiscard]] virtual SideBar *sideBar(SideBarLocation location) const = 0;
+    /**
+     * @brief (虚函数) 获取中央区域的几何形状。
+     * 默认实现返回一个空 QRect。
+     * @return 中央区域的 QRect。
+     */
     [[nodiscard]] virtual QRect centralAreaGeometry() const
     {
         return {};
     }
 
-Q_SIGNALS:
+Q_SIGNALS: // 信号部分
+    /**
+     * @brief 当唯一名称改变时发射此信号。
+     */
     void uniqueNameChanged();
 
-    /// @brief emitted when the number of docked frames changes
-    /// Note that we're using the "Frame" nomenculature instead of "DockWidget" here, as DockWidgets
-    /// can be tabbed together, in which case this signal isn't emitted.
-    void frameCountChanged(int);
+    /**
+     * @brief 当停靠的框架数量改变时发射此信号。
+     * 注意，这里使用 "Frame" 而不是 "DockWidget" 的术语，因为 DockWidget
+     * 可以组合成标签页，在这种情况下此信号不会发射。
+     * @param count 新的框架数量。
+     */
+    void frameCountChanged(int count);
 
-    void overlayMarginChanged(int);
+    /**
+     * @brief 当覆盖层边距改变时发射此信号。
+     * @param margin 新的边距值。
+     */
+    void overlayMarginChanged(int margin);
 
 private:
-    class Private;
-    Private *const d;
+    class Private;   ///< PIMPL (Private Implementation) 设计模式的私有实现类前向声明。
+    Private *const d; ///< 指向私有实现类的常量指针。
 
-    friend class ::TestDocks;
-    friend class LayoutSaver;
-    bool deserialize(const LayoutSaver::MainWindow &);
+    // 声明友元类，允许它们访问私有成员
+    friend class ::TestDocks;   // 测试类
+    friend class LayoutSaver;   // 布局保存器类
+
+    /**
+     * @brief 从保存的布局数据中反序列化主窗口的状态。
+     * @param data 包含主窗口布局信息的 LayoutSaver::MainWindow 对象。
+     * @return 如果反序列化成功则返回 true，否则返回 false。
+     */
+    bool deserialize(const LayoutSaver::MainWindow &data);
+    /**
+     * @brief 将当前主窗口的状态序列化为布局数据。
+     * @return 包含主窗口布局信息的 LayoutSaver::MainWindow 对象。
+     */
     [[nodiscard]] LayoutSaver::MainWindow serialize() const;
 };
-}
+} // namespace KDDockWidgets
 
-#endif
+#endif // KD_MAINWINDOW_BASE_H
