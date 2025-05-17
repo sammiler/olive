@@ -294,7 +294,6 @@ endif ()
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 list(APPEND OLIVE_INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/ext)
-
 add_subdirectory(ext)
 add_subdirectory(app)
 

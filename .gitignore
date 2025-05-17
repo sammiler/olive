@@ -110,3 +110,6 @@ conan_release/
 vcpkg_installed/
 .idea
 qt5.natvis
+.syncfiles
+.clion
+.vscode/cpp.code-snippets
