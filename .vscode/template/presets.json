@@ -35,20 +35,10 @@
           }
         },
         {
-          "description": "Valgrind",
-          "type": "test",
-          "option": {
-            "TESTS_VALGRIND": false
-          },
-          "args": {
-            "apply_to_build_types": ["debug"]
-          }
-        },
-        {
           "description": "Standard Unit-Tests",
           "type": "test",
           "option": {
-            "BUILD_TESTS": false
+            "BUILD_TESTS": true
           },
           "args": {
             "apply_to_build_types": ["debug", "release"]

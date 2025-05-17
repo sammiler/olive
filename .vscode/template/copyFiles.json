@@ -6,6 +6,10 @@
     {
       "name": "qt5.natvis",
       "dst": "."
+    },
+    {
+      "name": ".clang-tidy",
+      "dst": "."
     }
   ]
 }
