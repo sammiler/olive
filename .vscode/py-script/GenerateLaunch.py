@@ -4,6 +4,7 @@ import pathlib
 import platform
 import sys
 
+#TODO 最好修改为Append模式，并处理空文件的情况
 class BaseGenerator:
     def __init__(self, dir):
         self.root_dir = dir

@@ -7,7 +7,7 @@
           "type": "build",
           "target": "clang-format",
           "option": {
-            "ENABLE_CLANG_FORMAT": false
+            "ENABLE_CLANG_FORMAT": true
           }
         },
         {
@@ -15,7 +15,7 @@
           "type": "build",
           "target": "clang-format-check",
           "option": {
-            "ENABLE_CLANG_FORMAT_CHECK": false
+            "ENABLE_CLANG_FORMAT_CHECK": true
           }
         },
         {
