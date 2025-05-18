@@ -35,7 +35,7 @@ class FileCopier:
     def copy_files(self):
         root_dir = self.root_finder.find_root(self.template_dir)
 
-        template_json_path = self.template_dir / "template.json"
+        template_json_path = self.template_dir / "copyFiles.json"
         if not template_json_path.exists():
             raise FileNotFoundError(f"未找到{template_json_path}")
 
