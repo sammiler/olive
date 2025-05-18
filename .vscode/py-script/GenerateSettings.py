@@ -92,7 +92,8 @@ class SettingsGenerator(BaseGenerator):
             ("files.associations", OrderedDict([
                 ("*.qrc", "xml"),
                 ("**/APP/ts/**/*.ts", "xml"),
-                ("*.ui", "xml")
+                ("*.ui", "xml"),
+                ("*.clang-tidy","yaml")
             ])),
             # 只有 Windows 才需要这个特定的键，所以我们有条件地添加它
             # 或者，如果希望非Windows时该键不存在，则不在模板中定义它，
