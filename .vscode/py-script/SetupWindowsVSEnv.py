@@ -38,7 +38,7 @@ def load_config():
                 {
                     "name": "clang-cl",
                     "description":  "Clang编译器",
-                    "path": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\Llvm\\x64\bin\\clang-cl.exe"
+                    "path": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\Llvm\\x64\\bin\\clang-cl.exe"
                 }
             ],
             "manual_entries": [
