@@ -113,3 +113,4 @@ qt5.natvis
 .syncfiles
 .clion
 .vscode/cpp.code-snippets
+.vscode/template/vs_env.json
