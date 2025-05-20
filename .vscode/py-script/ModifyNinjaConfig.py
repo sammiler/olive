@@ -13,20 +13,21 @@ SLEEP_DURATION_SECONDS = 1 # 为文件稳定操作设置的延时
 
 # --- 日志记录函数 ---
 def log_message_to_file(log_file, message_prefix, event_type, file_path_affected, additional_info=""):
-    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    log_entry = f"[{timestamp}] {message_prefix}: Event='{event_type}', Path='{file_path_affected}'"
-    if additional_info:
-        log_entry += f", Info='{additional_info}'"
-    log_entry += "\n"
+    return
+    # timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    # log_entry = f"[{timestamp}] {message_prefix}: Event='{event_type}', Path='{file_path_affected}'"
+    # if additional_info:
+    #     log_entry += f", Info='{additional_info}'"
+    # log_entry += "\n"
     
-    print(log_entry.strip()) # 总是打印到 stdout/stderr，方便直接查看
+    # print(log_entry.strip()) # 总是打印到 stdout/stderr，方便直接查看
 
-    try:
-        with open(log_file, "a", encoding="utf-8") as f:
-            f.write(log_entry)
-    except Exception as e_log:
-        # 如果写入主日志失败，尝试打印一个更紧急的错误
-        print(f"[{timestamp}] VERY CRITICAL: Logging to {log_file} FAILED: {e_log}. Original message: {log_entry.strip()}")
+    # try:
+    #     with open(log_file, "a", encoding="utf-8") as f:
+    #         f.write(log_entry)
+    # except Exception as e_log:
+    #     # 如果写入主日志失败，尝试打印一个更紧急的错误
+    #     print(f"[{timestamp}] VERY CRITICAL: Logging to {log_file} FAILED: {e_log}. Original message: {log_entry.strip()}")
 
 def log_event(event_type, file_path_affected, additional_info=""):
     log_message_to_file(LOG_FILE_NAME, "EVENT", event_type, file_path_affected, additional_info)
