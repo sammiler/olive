@@ -72,8 +72,8 @@
         "CMAKE_C_FLAGS": "/EHsc /W3 /Zi /FS /MDd /D_ITERATOR_DEBUG_LEVEL=2 "
       },
       "rel_flag": {
-        "CMAKE_CXX_FLAGS": "/EHsc /W3 /MP6 /O2 /FS /MD",
-        "CMAKE_C_FLAGS": "/EHsc /W3 /MP6 /O2 /FS /MD"
+        "CMAKE_CXX_FLAGS": "/EHsc /W3 /O2 /FS /MD",
+        "CMAKE_C_FLAGS": "/EHsc /W3  /O2 /FS /MD"
       },
       "toolchain": "C:/vcpkg/scripts/buildsystems/vcpkg.cmake",
       "triplet": "x64-win-llvm"

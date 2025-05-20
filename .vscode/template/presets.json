@@ -52,9 +52,9 @@
       "os": "Windows",
       "description": "Windows下envPath需要包含CMake所需要的环境",
       "generator": "Ninja",
-      "CMAKE_CXX_STANDARD": "17",
-      "C_COMPILER": "clang-cl",
-      "CXX_COMPILER": "clang-cl",
+      "CMAKE_CXX_STANDARD": "20",
+      "C_COMPILER": "C:\\Tools\\clang-cl.bat",
+      "CXX_COMPILER": "C:\\Tools\\clang-cl.bat",
       "LINK": "lld-link",
       "RC": "rc",
       "MT": "mt",
@@ -72,8 +72,8 @@
         "CMAKE_C_FLAGS": "/EHsc /W3 /Zi /FS /MDd /D_ITERATOR_DEBUG_LEVEL=2 "
       },
       "rel_flag": {
-        "CMAKE_CXX_FLAGS": "/EHsc /W3 /MP6 /O2 /FS /MD",
-        "CMAKE_C_FLAGS": "/EHsc /W3 /MP6 /O2 /FS /MD"
+        "CMAKE_CXX_FLAGS": "/EHsc /W3  /O2 /FS /MD",
+        "CMAKE_C_FLAGS": "/EHsc /W3  /O2 /FS /MD"
       },
       "toolchain": "C:/vcpkg/scripts/buildsystems/vcpkg.cmake",
       "triplet": "x64-win-llvm"

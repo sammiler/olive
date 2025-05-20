@@ -58,7 +58,6 @@ if (MSVC)
     set(OLIVE_COMPILE_OPTIONS
             /wd4267
             /wd4244
-            /external:anglebrackets
             /external:W0
     )
     if (USE_WERROR)
