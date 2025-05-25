@@ -247,7 +247,7 @@ def main():
                     targets = sel_build_obj.get("targets", [])
                     target_choice_idx, sel_target_name = display_menu_and_get_choice(targets, f"请为 {sel_build_name} 选择目标:")
                     if target_choice_idx > 0 and sel_target_name:
-                        final_command = f"cmake --build --preset {sel_build_name} --target {sel_target_name}"
+                        final_command = f"cmake.bat --build --preset {sel_build_name} --target {sel_target_name}"
             if final_command:
                 command_parts = shlex.split(final_command)
                 subprocess.run(command_parts, check=True,env=global_env)
@@ -258,8 +258,8 @@ def main():
         if chosen_presets_list: # For workflow, build, test, package direct selection
             choice_idx, selected_preset_name = display_menu_and_get_choice(chosen_presets_list, prompt_msg)
             if choice_idx > 0 and selected_preset_name:
-                if selected_action_key == "workflow": final_command = f"cmake --workflow --preset {selected_preset_name}"
-                elif selected_action_key == "build": final_command = f"cmake --build --preset {selected_preset_name}"
+                if selected_action_key == "workflow": final_command = f"cmake.bat --workflow --preset {selected_preset_name}"
+                elif selected_action_key == "build": final_command = f"cmake.bat --build --preset {selected_preset_name}"
                 elif selected_action_key == "test": final_command = f"ctest --preset {selected_preset_name}"
                 elif selected_action_key == "package": final_command = f"cpack --preset {selected_preset_name}"
 
