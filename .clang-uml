@@ -26,9 +26,10 @@ diagrams:
         - "app/undo"
         - "app/widget"
         - "app/window"
-    # 添加 mermaid 配置
-    mermaid:
-      before:
-        - 'direction LR'
-      # 使用单引号包围整个 cmd 字符串，内部的双引号就不需要转义了
-      cmd: 'mmdc -i "uml_docs/{{ diagram.name }}.mmd" -o "uml_docs/{{ diagram.name }}.svg"'
+
+
+  kddockwidgets_class:
+    type: "class" # Generate a class diagram
+    glob: # Files to parse for KDDockWidgets classes
+      - "ext/KDDockWidgets/src/**/*.h"
+      - "ext/KDDockWidgets/src/**/*.cpp"
