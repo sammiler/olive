@@ -48,19 +48,19 @@ diagrams:
         - "hide members"       
 
   olive_class:
-  type: "class"
+    type: "class"
 
-  glob:
-    - "app/**/*.h"
-    - "app/**/*.cpp"
-  include:
-    relationships:
-      - inheritance 
-    namespaces:
-      - "Olive" 
+    glob:
+      - "app/**/*.h"
+      - "app/**/*.cpp"
+    include:
+      relationships:
+        - inheritance 
+      namespaces:
+        - "Olive" 
 
-  plantuml:
-    before:
-      - "title KDDockWidgets 继承关系图 (使用 compile_commands.json, 隐藏成员)"
-      - "hide empty members"
-      - "hide members"      
+    plantuml:
+      before:
+        - "title KDDockWidgets 继承关系图 (使用 compile_commands.json, 隐藏成员)"
+        - "hide empty members"
+        - "hide members"      
