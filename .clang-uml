@@ -57,10 +57,10 @@ diagrams:
       relationships:
         - inheritance 
       namespaces:
-        - "Olive" 
+        - "olive" 
 
     plantuml:
       before:
-        - "title KDDockWidgets 继承关系图 (使用 compile_commands.json, 隐藏成员)"
+        - "title Olive 继承关系图 (使用 compile_commands.json, 隐藏成员)"
         - "hide empty members"
         - "hide members"      
