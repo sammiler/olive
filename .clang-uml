@@ -29,7 +29,38 @@ diagrams:
 
 
   kddockwidgets_class:
-    type: "class" # Generate a class diagram
-    glob: # Files to parse for KDDockWidgets classes
+    type: "class"
+
+    glob:
       - "ext/KDDockWidgets/src/**/*.h"
       - "ext/KDDockWidgets/src/**/*.cpp"
+    include:
+      relationships:
+        - inheritance 
+      namespaces:
+        - "KDDockWidgets" 
+        - "KDAB"
+
+    plantuml:
+      before:
+        - "title KDDockWidgets 继承关系图 (使用 compile_commands.json, 隐藏成员)"
+        - "hide empty members"
+        - "hide members"       
+
+  olive_class:
+  type: "class"
+
+  glob:
+    - "app/**/*.h"
+    - "app/**/*.cpp"
+  include:
+    relationships:
+      - inheritance 
+    namespaces:
+      - "Olive" 
+
+  plantuml:
+    before:
+      - "title KDDockWidgets 继承关系图 (使用 compile_commands.json, 隐藏成员)"
+      - "hide empty members"
+      - "hide members"      
